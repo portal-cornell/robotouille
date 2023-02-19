@@ -1,17 +1,4 @@
-import pddlgym
-import overcooked_factory
-
-# print("Literals")
-# print(obs.literals)
-# literal = next(iter(obs.literals))
-# print(literal)
-# print(type(literal))
-# print("Objects")
-# #print(obs.objects)
-# print(type(obs.objects))
-# print("Goal")
-# #print(obs.goal)
-# print(type(obs.goal))
+import pddlgym_interface
 
 def print_states(obs):
     print("Here is the current state:")
@@ -37,7 +24,7 @@ def create_action(env, obs):
                 action = str(valid_actions[int(action)])
             except:
                 pass
-            action = overcooked_factory.str_to_literal(action)
+            action = pddlgym_interface.str_to_literal(action)
             assert action in valid_actions
             break
         except ValueError:
@@ -47,22 +34,23 @@ def create_action(env, obs):
             print(f"Your action [{action}] is invalid. Please choose from the list of valid actions.")
     return action
 
-env = pddlgym.make("PDDLEnvOvercooked-v0")
-obs, debug_info = env.reset()
-#env.render(mode='human')
-done = False
-step = 0
+if __name__ == "__main__":
+    env = pddlgym_interface.create_overcooked_env()
+    obs, debug_info = env.reset()
+    env.render(mode='human')
+    done = False
+    step = 0
 
-while not done and step <= 1000:
-    print('\n' * 10)
-    if step % 10 == 0:
-        print(f"You have made {step} steps. You have {1000-step} steps remaining.")
-    print_states(obs)
-    print('\n')
-    print_actions(env, obs)
-    action = create_action(env, obs)
-    print(action)
-    obs, reward, done, debug_info = env.step(action)
-    #env.render(mode='human')
+    while not done and step <= 1000:
+        print('\n' * 10)
+        if step % 10 == 0:
+            print(f"You have made {step} steps. You have {1000-step} steps remaining.")
+        print_states(obs)
+        print('\n')
+        print_actions(env, obs)
+        action = create_action(env, obs)
+        print(action)
+        obs, reward, done, debug_info = env.step(action)
+        env.render(mode='human')
 
-    step += 1
+        step += 1
