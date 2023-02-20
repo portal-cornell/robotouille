@@ -1,7 +1,8 @@
 import pddlgym
 import os
 import shutil
-from overcooked_renderer import OvercookedRenderer
+import numpy as np
+from renderer.renderer import OvercookedRenderer
 
 CURRENT_DIR_PATH = os.path.dirname(os.path.abspath(__file__))
 ENVIRONMENT_DIR_PATH = os.path.join(CURRENT_DIR_PATH, "environments")
@@ -81,7 +82,8 @@ def create_overcooked_env():
     # Register the environment
     env_name = 'overcooked'
     is_test_env = False
-    kwargs = {'render': OvercookedRenderer().render,
+    grid_size = np.array([6, 6])
+    kwargs = {'render': OvercookedRenderer(grid_size=grid_size).render,
             'operators_as_actions': True, 
             'dynamic_action_space': True,
             "raise_error_on_invalid_action": False
