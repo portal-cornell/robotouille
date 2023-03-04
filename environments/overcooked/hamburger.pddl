@@ -51,5 +51,6 @@
         (clear bun1)
         (clear bun2)
     )
-    (:goal (and (iscut lettuce) (atop bun2 lettuce) (iscooked patty) (atop lettuce patty) (atop patty bun1)))
+    ;(:goal (and (iscut lettuce) (atop bun2 lettuce) (iscooked patty) (atop lettuce patty) (atop patty bun1)))
+    (:goal (and (iscut lettuce) (at bun2 table3) (iscooked patty) (at lettuce table3) (at patty table3) (at bun1 table3)))
 )

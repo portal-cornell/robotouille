@@ -7,7 +7,7 @@ ASSETS_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."
 BACKGROUND_COLOR = (219,219,238)
 LINE_COLOR = (153,178,208)
 
-FOOD_OFFSET = 0.5
+STATION_FOOD_OFFSET = 0.5
 
 LAYOUT = [
     [None,      None,       None,       None,       None,       None    ],
@@ -89,7 +89,7 @@ def draw_food_image(canvas, food_name, obs, position, pix_square_size):
             food_image_name = "bottombun" if food_id[-1] == "1" else "topbun"
         # Draw a number by food item
         pass
-    draw_image(canvas, f"{food_image_name}.png", position, pix_square_size)
+    draw_image(canvas, f"{food_image_name}.png", position + pix_square_size * 0.25, pix_square_size * 0.5)
         
 def draw_stations(canvas, obs, pix_square_size):
     """
@@ -145,7 +145,7 @@ def draw_food(canvas, obs, pix_square_size):
             stack_number[food] = 1
             food_station = literal.variables[1].name
             pos = get_station_position(food_station)
-            pos[1] -= FOOD_OFFSET # place the food slightly above the station
+            pos[1] -= STATION_FOOD_OFFSET # place the food slightly above the station
             draw_food_image(canvas, food, obs, pos * pix_square_size, pix_square_size)
         if literal.predicate == 'atop':
             stack = (literal.variables[0].name, literal.variables[1].name)
@@ -164,7 +164,7 @@ def draw_food(canvas, obs, pix_square_size):
                     if literal.predicate == "at" and literal.variables[0].name == food_below:
                         station_pos = get_station_position(literal.variables[1].name)
                         break
-                station_pos[1] -= (FOOD_OFFSET * stack_number[food_above])
+                station_pos[1] -= STATION_FOOD_OFFSET + 0.1 * (stack_number[food_above] - 1)
                 draw_food_image(canvas, food_above, obs, station_pos * pix_square_size, pix_square_size)
             else:
                 i += 1
