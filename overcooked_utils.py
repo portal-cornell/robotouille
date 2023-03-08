@@ -1,4 +1,5 @@
 import pddlgym_interface
+import overcooked_exceptions
 
 def print_states(obs):
     print("Here is the current state:")
@@ -13,13 +14,14 @@ def print_actions(env, obs):
     for i, action in enumerate(actions):
         print(f"{i}) {action}")
 
-def create_action(env, obs):
+def create_action_repl(env, obs):
     action = ""
     valid_actions = list(env.action_space.all_ground_literals(obs))
     valid_actions = sorted(valid_actions, key=lambda x: str(x))
     while True:
         try:
             action = input()
+            if action == "noop": return action
             try:
                 action = str(valid_actions[int(action)])
             except:
@@ -34,23 +36,17 @@ def create_action(env, obs):
             print(f"Your action [{action}] is invalid. Please choose from the list of valid actions.")
     return action
 
-if __name__ == "__main__":
-    env = pddlgym_interface.create_overcooked_env()
-    obs, debug_info = env.reset()
-    env.render(mode='human')
-    done = False
-    step = 0
+def create_action(env, obs, action):
+    if action == "noop": return action
+    valid_actions = list(env.action_space.all_ground_literals(obs))
+    try:
+        action = pddlgym_interface.str_to_literal(action)
+        assert action in valid_actions
+    except ValueError:
+        raise overcooked_exceptions.OvercookedMalformedActionException(f"Your action [{action}] is malformatted.")
+    except AssertionError:
+        raise overcooked_exceptions.OvercookedInvalidActionException(f"Your action [{action}] is invalid.")
+    return action
 
-    while not done and step <= 1000:
-        print('\n' * 10)
-        if step % 10 == 0:
-            print(f"You have made {step} steps. You have {1000-step} steps remaining.")
-        print_states(obs)
-        print('\n')
-        print_actions(env, obs)
-        action = create_action(env, obs)
-        print(action)
-        obs, reward, done, debug_info = env.step(action)
-        env.render(mode='human')
-
-        step += 1
+def create_overcooked_env():
+    return pddlgym_interface.create_overcooked_env()

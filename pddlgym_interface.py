@@ -3,6 +3,7 @@ import os
 import shutil
 import numpy as np
 from renderer.renderer import OvercookedRenderer
+from overcooked_wrapper import OvercookedWrapper
 
 CURRENT_DIR_PATH = os.path.dirname(os.path.abspath(__file__))
 ENVIRONMENT_DIR_PATH = os.path.join(CURRENT_DIR_PATH, "environments")
@@ -88,7 +89,8 @@ def create_overcooked_env():
             'dynamic_action_space': True,
             "raise_error_on_invalid_action": False
           }
-    return create_pddl_env(env_name, is_test_env, kwargs)
+    pddl_env = create_pddl_env(env_name, is_test_env, kwargs)
+    return OvercookedWrapper(pddl_env)
 
 def parse(literal_str):
     """
