@@ -1,3 +1,9 @@
+import sys
+
+# Hack to resolve import issue
+if "/home/yuki/Documents/llm-to-code/overcooked_sim" not in sys.path:
+   sys.path.append("/home/yuki/Documents/llm-to-code/overcooked_sim")
+
 import pddlgym_interface
 import overcooked_exceptions
 
