@@ -7,7 +7,7 @@ ASSETS_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."
 BACKGROUND_COLOR = (219,219,238)
 LINE_COLOR = (153,178,208)
 
-STATION_FOOD_OFFSET = 0.5
+STATION_FOOD_OFFSET = 0.25
 
 LAYOUT = [
     [None,      None,       None,       None,       None,       None    ],
@@ -83,13 +83,7 @@ def draw_food_image(canvas, food_name, obs, position, pix_square_size):
         food_id += food_image_name[-1]
         food_image_name = food_image_name[:-1]
 
-    # Bun hack TODO: fix this and reflect in environment
-    if food_id:
-        if food_image_name == "bun":
-            food_image_name = "bottombun" if food_id[-1] == "1" else "topbun"
-        # Draw a number by food item
-        pass
-    draw_image(canvas, f"{food_image_name}.png", position + pix_square_size * 0.25, pix_square_size * 0.5)
+    draw_image(canvas, f"{food_image_name}.png", position + pix_square_size * 0.125, pix_square_size * 0.75)
         
 def draw_stations(canvas, obs, pix_square_size):
     """

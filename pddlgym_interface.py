@@ -2,8 +2,7 @@ import pddlgym
 import os
 import shutil
 import numpy as np
-from renderer.renderer import OvercookedRenderer
-from overcooked_wrapper import OvercookedWrapper
+from overcooked_exceptions import OvercookedEnvironmentDoesNotExistException
 
 CURRENT_DIR_PATH = os.path.dirname(os.path.abspath(__file__))
 ENVIRONMENT_DIR_PATH = os.path.join(CURRENT_DIR_PATH, "environments")
@@ -41,56 +40,52 @@ def add_problem_files(env_name):
     """
     problem_dir_path = os.path.join(ENVIRONMENT_DIR_PATH, env_name)
     pddl_problem_dir_path = os.path.join(PDDL_DIR_PATH, env_name)
+    if os.path.exists(pddl_problem_dir_path):
+        shutil.rmtree(pddl_problem_dir_path)
     shutil.copytree(problem_dir_path, pddl_problem_dir_path)
     new_problem_dir_path = os.path.join(PDDL_DIR_PATH, env_name)
     return new_problem_dir_path
 
-def create_pddl_env(env_name, is_test_env, kwargs):
+def create_pddl_env(env_name, is_test_env, render_fn, problem_filename):
     """
     Creates and returns a PDDLGym environment.
+
+    PDDLGym requires a domain file and problem files to be in the PDDL directory. We
+    temporarily copy the necessary files to that directory and delete them after the
+    environment has been created.
 
     Args:
         env_name : str
             Name of the environment
         is_test_env : bool
             Whether the environment is a test environment
-        kwargs : dict
-            Keyword arguments to pass to the environment
-        domain_file_name : str
-            Name of the domain file
-        problem_file_name : str
-            Name of the problem file
+        render_fn : function
+            Function to render the environment
+        problem_filename : str
+            Name of the problem file to generate the environment for
     
     Returns:
         env : pddlgym.PDDLEnv
     """
+    kwargs = {
+        'render': render_fn,
+        'operators_as_actions': True, 
+        'dynamic_action_space': True,
+        "raise_error_on_invalid_action": False
+        }
     pddlgym.register_pddl_env(env_name, is_test_env, kwargs)
     domain_file_path = add_domain_file(env_name)
     problem_dir_path = add_problem_files(env_name)
     env = pddlgym.make(f"PDDLEnv{env_name.capitalize()}-v0")
     os.remove(domain_file_path)
+    # Get the index of the problem file path
+    try:
+        env_index = os.listdir(problem_dir_path).index(problem_filename)
+    except:
+        raise OvercookedEnvironmentDoesNotExistException(f"Environment {problem_filename} does not exist.")
     shutil.rmtree(problem_dir_path)
+    env.fix_problem_index(env_index)
     return env
-
-
-def create_overcooked_env():
-    """
-    Creates and returns an Overcooked environment.
-
-    Returns:
-        env : pddlgym.PDDLEnv
-    """
-    # Register the environment
-    env_name = 'overcooked'
-    is_test_env = False
-    grid_size = np.array([6, 6])
-    kwargs = {'render': OvercookedRenderer(grid_size=grid_size).render,
-            'operators_as_actions': True, 
-            'dynamic_action_space': True,
-            "raise_error_on_invalid_action": False
-          }
-    pddl_env = create_pddl_env(env_name, is_test_env, kwargs)
-    return OvercookedWrapper(pddl_env)
 
 def parse(literal_str):
     """

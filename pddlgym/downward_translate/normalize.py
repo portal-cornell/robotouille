@@ -375,7 +375,7 @@ def condition_to_rule_body(parameters, condition):
             for par in condition.parameters:
                 result.append(par.get_atom())
             condition = condition.parts[0]
-        if isinstance(condition, pddl.Conjunction):
+        if isinstance(condition, pddl.Conjunction) or isinstance(condition, pddl.Disjunction):
             parts = condition.parts
         else:
             parts = (condition,)
@@ -385,6 +385,7 @@ def condition_to_rule_body(parameters, condition):
                 # it is not initially true and doesn't occur in the
                 # head of any rule.
                 return [pddl.Atom("@always-false", [])]
+            assert isinstance(part, pddl.Literal), f"Condition not normalized: {part.parts} {type(part)} {type(part.parts)}"
             assert isinstance(part, pddl.Literal), "Condition not normalized: %r" % part
             if not part.negated:
                 result.append(part)

@@ -1,6 +1,6 @@
 import overcooked_utils
 
-env = overcooked_utils.create_overcooked_env()
+env = overcooked_utils.create_overcooked_env("hamburger")
 obs, info = env.reset()
 env.render(mode='human')
 done = False

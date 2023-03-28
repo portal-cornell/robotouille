@@ -1,5 +1,8 @@
 import pddlgym_interface
 import overcooked_exceptions
+from renderer.renderer import OvercookedRenderer
+from overcooked_wrapper import OvercookedWrapper
+from environments.env_generator import builder
 
 def print_states(obs):
     print("Here is the current state:")
@@ -48,5 +51,12 @@ def create_action(env, obs, action):
         raise overcooked_exceptions.OvercookedInvalidActionException(f"Your action [{action}] is invalid.")
     return action
 
-def create_overcooked_env():
-    return pddlgym_interface.create_overcooked_env()
+def create_overcooked_env(problem_filename):
+    env_name = "overcooked"
+    is_test_env = False
+    # TODO: Get the rendering elements from the loaded JSON from builder.load_environment()
+    import numpy as np
+    grid_size = np.array([6, 6])
+    render_fn = OvercookedRenderer(grid_size=grid_size).render
+    pddl_env = pddlgym_interface.create_pddl_env(env_name, is_test_env, render_fn, f"{problem_filename}.pddl")
+    return OvercookedWrapper(pddl_env)

@@ -6,8 +6,6 @@ from .canvas import make_canvas
 class OvercookedRenderer:
 
     def __init__(self, grid_size=np.array([5,5]), window_size=np.array([512,512]), render_fps=4):
-        self._target_location = np.array([2, 2], dtype=int)
-        self._agent_location = np.array([3, 3], dtype=int)
         self.grid_size = grid_size
         self.window_size = window_size
         self.render_fps = render_fps
