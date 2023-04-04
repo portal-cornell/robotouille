@@ -51,12 +51,35 @@ def create_action(env, obs, action):
         raise overcooked_exceptions.OvercookedInvalidActionException(f"Your action [{action}] is invalid.")
     return action
 
+def _parse_renderer_layout(environment_json):
+    """
+    Parses and returns renderer layout from the environment json.
+
+    Args:
+        environment_json (dict): The environment json.
+    
+    Returns:
+        grid_size (tuple): The size of the grid.
+    """
+    # Update environment names with unique versions
+    width, height = environment_json["width"], environment_json["height"]
+    layout = [[None for _ in range(width)] for _ in range(height)]
+    _, updated_environment_json = builder.build_objects(environment_json)
+    stations = updated_environment_json["stations"]
+    for station in stations:
+        x, y = station["x"], height - station["y"] - 1
+        layout[y][x] = station["name"]
+    return layout
+
 def create_overcooked_env(problem_filename):
     env_name = "overcooked"
     is_test_env = False
-    # TODO: Get the rendering elements from the loaded JSON from builder.load_environment()
-    import numpy as np
-    grid_size = np.array([6, 6])
-    render_fn = OvercookedRenderer(grid_size=grid_size).render
+    json_filename = f"{problem_filename}.json"
+    environment_json = builder.load_environment(json_filename)
+    layout = _parse_renderer_layout(environment_json)
+    render_fn = OvercookedRenderer(layout=layout).render
+    problem_string = builder.build_problem(environment_json)
+    builder.write_problem_file(problem_string, f"{problem_filename}.pddl")
     pddl_env = pddlgym_interface.create_pddl_env(env_name, is_test_env, render_fn, f"{problem_filename}.pddl")
+    builder.delete_problem_file(f"{problem_filename}.pddl")
     return OvercookedWrapper(pddl_env)

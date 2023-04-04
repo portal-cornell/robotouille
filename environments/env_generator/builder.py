@@ -2,8 +2,10 @@ import argparse
 import json
 from enum import Enum
 import os
+import copy
 
 EXAMPLES_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), "examples")
+PROBLEM_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", "overcooked")
 
 class Item(Enum):
     BOTTOMBUN = "bottombun"
@@ -85,11 +87,11 @@ def build_objects(environment_dict):
             and the typed enums added.
     """
     objects_str = ""
-    updated_environment_dict = environment_dict.copy()
+    updated_environment_dict = copy.deepcopy(environment_dict)
     for field in ENTITY_FIELDS:
         object_type = field[:-1]
         seen = {}
-        for i, entity in enumerate([entity["name"] for entity in environment_dict[field]]):
+        for i, entity in enumerate([entity["name"] for entity in updated_environment_dict[field]]):
             updated_environment_dict[field][i]["typed_enum"] = str_to_typed_enum(entity)
             seen[entity] = seen.get(entity, 0) + 1
             entity_with_id = f"{entity}{seen[entity]}"
@@ -118,10 +120,7 @@ def build_identity_predicates(environment_dict):
             typed_enum = entity['typed_enum']
             name = entity['name']
             identity_predicates_str += f"    (is{typed_enum.value} {name})\n"
-            if typed_enum == Item.TOPBUN or typed_enum == Item.BOTTOMBUN:
-                # TODO: Replace with istopbun isbottombun once verified can reproduce original example
-                identity_predicates_str += f"    (isbun {name})\n"
-            elif typed_enum == Item.LETTUCE or typed_enum == Item.CUTLETTUCE:
+            if typed_enum == Item.LETTUCE or typed_enum == Item.CUTLETTUCE:
                 identity_predicates_str += f"    (iscuttable {name})\n"
             elif typed_enum == Item.PATTY or typed_enum == Item.COOKEDPATTY:
                 identity_predicates_str += f"    (iscookable {name})\n"
@@ -284,18 +283,43 @@ def build_problem(environment_dict):
     problem = "(define (problem overcooked)\n"
     problem += "(:domain overcooked)\n"
     problem += "(:objects\n"
-    objects_str, environment_dict = build_objects(environment_dict)
+    objects_str, new_environment_dict = build_objects(environment_dict)
     problem += objects_str
     problem += ")\n"
     problem += "(:init\n"
-    problem += build_identity_predicates(environment_dict)
-    problem += build_location_predicates(environment_dict)
-    problem += build_stacking_predicates(environment_dict)
+    problem += build_identity_predicates(new_environment_dict)
+    problem += build_location_predicates(new_environment_dict)
+    problem += build_stacking_predicates(new_environment_dict)
     problem += ")\n"
     problem += "(:goal\n"
-    problem += build_goal(environment_dict)
+    problem += build_goal(new_environment_dict)
     problem += ")\n"
     return problem
+
+def write_problem_file(problem, filename):
+    """
+    Writes a PDDL problem string to a file.
+
+    Args:
+        problem : str
+            PDDL problem string.
+        filename : str
+            Name of the PDDL problem file.
+    """
+    path = os.path.join(PROBLEM_DIR, filename)
+    with open(path, "w") as f:
+        f.write(problem)
+
+def delete_problem_file(filename):
+    """
+    Deletes a PDDL problem file.
+
+    Args:
+        filename : str
+            Name of the PDDL problem file.
+    """
+    path = os.path.join(PROBLEM_DIR, filename)
+    os.remove(path)
 
 if __name__ == "__main__":
     # take in json name and create file in examples
@@ -306,4 +330,3 @@ if __name__ == "__main__":
     json_filename = args.json_filename
     environment_dict = load_environment(json_filename)
     problem = build_problem(environment_dict)
-    print(problem)

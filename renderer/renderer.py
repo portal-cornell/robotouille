@@ -1,12 +1,13 @@
 import pygame
 import numpy as np
 
-from .canvas import make_canvas
+from .canvas import OvercookedCanvas
 
 class OvercookedRenderer:
 
-    def __init__(self, grid_size=np.array([5,5]), window_size=np.array([512,512]), render_fps=4):
-        self.grid_size = grid_size
+    def __init__(self, layout=[], window_size=np.array([512,512]), render_fps=4):
+        self.canvas = OvercookedCanvas(layout)
+        # self.surface = pygame.Surface(window_size)
         self.window_size = window_size
         self.render_fps = render_fps
         self.window = None
@@ -23,7 +24,7 @@ class OvercookedRenderer:
     
     def _render_frame(self, obs, render_mode):
         self._init_setup(render_mode)
-        canvas = make_canvas(self.grid_size, self.window_size, obs)
+        canvas = self.canvas.make_canvas(pygame.Surface(self.window_size), obs)
         if render_mode == "human":
             # The following line copies our drawings from `canvas` to the visible window
             self.window.blit(canvas, canvas.get_rect())
