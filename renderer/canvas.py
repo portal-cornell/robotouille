@@ -117,10 +117,10 @@ class OvercookedCanvas:
             pix_square_size : np.array
                 (width, height) of the grid square
         """
+        clamped_pix_square_size = np.ceil(pix_square_size) # Necessary to avoid 1 pixel gaps from decimals
         for row in range(len(self.layout)):
             for col in range(len(self.layout[0])):
-                self._draw_image(canvas, "floorkitchen.png", np.array([col, row]) * pix_square_size, pix_square_size)
-                print(f"position at ({col}, {row}) is {np.array([col, row]) * pix_square_size})")
+                self._draw_image(canvas, "floorkitchen.png", np.array([col, row]) * clamped_pix_square_size, clamped_pix_square_size)
 
     def _draw_stations(self, canvas, obs, pix_square_size):
         """
