@@ -14,7 +14,15 @@
             "id": "A"
         }
     ],
-    "items": [],
+    "items": [
+        {
+            "name": "patty",
+            "x": 2,
+            "y": 1,
+            "stack-level": 0,
+            "predicates": ["iscookable"]
+        }
+    ],
     "players": [
         {
             "name": "robot",
@@ -25,8 +33,8 @@
     ],
     "goal": [
         {
-            "predicate": "loc",
-            "args": ["robot", "table"],
+            "predicate": "on",
+            "args": ["patty", "table"],
             "ids": [1, "A"]
         }
     ]

@@ -8,13 +8,20 @@
             "y": 1
         },
         {
-            "name": "table",
+            "name": "board",
             "x": 2,
-            "y": 1,
-            "id": "A"
+            "y": 1
         }
     ],
-    "items": [],
+    "items": [
+        {
+            "name": "lettuce",
+            "x": 2,
+            "y": 1,
+            "stack-level": 0,
+            "predicates": ["iscuttable"]
+        }
+    ],
     "players": [
         {
             "name": "robot",
@@ -25,9 +32,9 @@
     ],
     "goal": [
         {
-            "predicate": "loc",
-            "args": ["robot", "table"],
-            "ids": [1, "A"]
+            "predicate": "iscut",
+            "args": ["lettuce"],
+            "ids": [1]
         }
     ]
 }

@@ -3,24 +3,18 @@
     "height": 3,
     "stations": [
         {
-            "name": "table",
+            "name": "stove",
             "x": 0,
             "y": 1
         }
     ],
     "items": [
         {
-            "name": "bottombun",
-            "x": 0,
-            "y": 1,
-            "stack-level": 0
-        },
-        {
             "name": "patty",
             "x": 0,
-            "y": 0,
+            "y": 1,
             "stack-level": 0,
-            "predicates": ["iscookable", "iscooked"]
+            "predicates": ["iscookable"]
         }
     ],
     "players": [
@@ -33,8 +27,13 @@
     ],
     "goal": [
         {
-            "predicate": "atop",
-            "args": ["patty", "bottombun"],
+            "predicate": "iscooked",
+            "args": ["patty"],
+            "ids": [1]
+        },
+        {
+            "predicate": "has",
+            "args": ["robot", "patty"],
             "ids": [1, 1]
         }
     ]

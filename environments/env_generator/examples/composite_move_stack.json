@@ -10,11 +10,24 @@
         {
             "name": "table",
             "x": 2,
-            "y": 1,
-            "id": "A"
+            "y": 1
         }
     ],
-    "items": [],
+    "items": [
+        {
+            "name": "bottombun",
+            "x": 2,
+            "y": 1,
+            "stack-level": 0
+        },
+        {
+            "name": "patty",
+            "x": 0,
+            "y": 0,
+            "stack-level": 0,
+            "predicates": ["iscookable", "iscooked"]
+        }
+    ],
     "players": [
         {
             "name": "robot",
@@ -25,9 +38,9 @@
     ],
     "goal": [
         {
-            "predicate": "loc",
-            "args": ["robot", "table"],
-            "ids": [1, "A"]
+            "predicate": "atop",
+            "args": ["patty", "bottombun"],
+            "ids": [1, 1]
         }
     ]
 }

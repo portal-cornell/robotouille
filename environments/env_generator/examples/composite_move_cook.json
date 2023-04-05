@@ -8,13 +8,20 @@
             "y": 1
         },
         {
-            "name": "table",
+            "name": "stove",
             "x": 2,
-            "y": 1,
-            "id": "A"
+            "y": 1
         }
     ],
-    "items": [],
+    "items": [
+        {
+            "name": "patty",
+            "x": 2,
+            "y": 1,
+            "stack-level": 0,
+            "predicates": ["iscookable"]
+        }
+    ],
     "players": [
         {
             "name": "robot",
@@ -25,9 +32,9 @@
     ],
     "goal": [
         {
-            "predicate": "loc",
-            "args": ["robot", "table"],
-            "ids": [1, "A"]
+            "predicate": "iscooked",
+            "args": ["patty"],
+            "ids": [1]
         }
     ]
 }
