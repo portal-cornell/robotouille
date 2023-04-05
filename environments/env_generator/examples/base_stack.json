@@ -1,0 +1,46 @@
+{
+    "width": 3,
+    "height": 3,
+    "stations": [
+        {
+            "name": "table",
+            "x": 0,
+            "y": 1
+        }
+    ],
+    "items": [
+        {
+            "name": "bottombun",
+            "x": 0,
+            "y": 1,
+            "stack-level": 0
+        },
+        {
+            "name": "patty",
+            "x": 0,
+            "y": 0,
+            "stack-level": 0,
+            "predicates": ["iscookable", "iscooked"]
+        }
+    ],
+    "players": [
+        {
+            "name": "robot",
+            "x": 0,
+            "y": 0,
+            "direction": [0, 1]
+        }
+    ],
+    "goal": [
+        {
+            "predicate": "atop",
+            "args": ["patty", "bottombun"],
+            "ids": [1, 1]
+        },
+        {
+            "predicate": "iscooked",
+            "args": ["patty"],
+            "ids": [1]
+        }
+    ]
+}

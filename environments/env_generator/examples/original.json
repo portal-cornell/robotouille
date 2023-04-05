@@ -38,13 +38,15 @@
             "name": "patty",
             "x": 0,
             "y": 3,
-            "stack-level": 0
+            "stack-level": 0,
+            "predicates": ["iscookable"]
         },
         {
             "name": "lettuce",
             "x": 1,
             "y": 4,
-            "stack-level": 0
+            "stack-level": 0,
+            "predicates": ["iscuttable"]
         },
         {
             "name": "bottombun",

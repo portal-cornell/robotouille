@@ -54,8 +54,13 @@ def expand_state(partial_state, objects, literals_to_string = False):
     # Create all possible literals
     expanded_state = []
     for predicate_string in PREDICATE_STRINGS:
-        types = [pddlgym.structs.Type(arg) for arg in re.findall(r":([a-z]+)", predicate_string)]
-        for args in itertools.product(*[objs[arg] for arg in re.findall(r":([a-z]+)", predicate_string)]):
+        type_names = re.findall(r":([a-z]+)", predicate_string)
+        types = [pddlgym.structs.Type(arg) for arg in type_names]
+        combination_list = [objs.get(arg) for arg in type_names]
+        if None in combination_list:
+            # This predicate is not applicable to this state
+            continue
+        for args in itertools.product(*[objs[arg] for arg in type_names]):
             predicate_name = re.findall(r"([a-z]+)", predicate_string)[0]
             predicate = pddlgym.structs.Predicate(predicate_name, len(args), types)
             expanded_state.append(pddlgym.structs.Literal(predicate, list(args)))

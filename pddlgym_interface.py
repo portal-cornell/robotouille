@@ -72,7 +72,7 @@ def create_pddl_env(env_name, is_test_env, render_fn, problem_filename):
     os.remove(domain_file_path)
     # Get the index of the problem file path
     try:
-        env_index = os.listdir(problem_dir_path).index(problem_filename)
+        env_index = sorted(os.listdir(problem_dir_path)).index(problem_filename)
     except:
         raise OvercookedEnvironmentDoesNotExistException(f"Environment {problem_filename} does not exist.")
     shutil.rmtree(problem_dir_path)

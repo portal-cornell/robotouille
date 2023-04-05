@@ -9,8 +9,6 @@ PROBLEM_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", "o
 
 class Item(Enum):
     BOTTOMBUN = "bottombun"
-    COOKEDPATTY = "cookedpatty"
-    CUTLETTUCE = "cutlettuce"
     LETTUCE = "lettuce"
     PATTY = "patty"
     TOPBUN = "topbun"
@@ -113,10 +111,8 @@ def build_identity_predicates(environment_dict):
             typed_enum = entity['typed_enum']
             name = entity['name']
             identity_predicates_str += f"    (is{typed_enum.value} {name})\n"
-            if typed_enum == Item.LETTUCE or typed_enum == Item.CUTLETTUCE:
-                identity_predicates_str += f"    (iscuttable {name})\n"
-            elif typed_enum == Item.PATTY or typed_enum == Item.COOKEDPATTY:
-                identity_predicates_str += f"    (iscookable {name})\n"
+            for predicate in entity.get("predicates", []):
+                identity_predicates_str += f"    ({predicate} {name})\n"
     return identity_predicates_str
 
 def build_station_location_predicates(environment_dict):
@@ -241,15 +237,11 @@ def build_goal(environment_dict):
     Returns:
         goal (str): PDDL goal string.
     """
-    # goal = "(or\n"
-    # goal += ")\n"
     # TODO: Make this more general
+    # Right now we set this to a goal impossible to satisfy due to the complexity
+    # of specifying all possible goals states for a task.
     goal =  "   (and\n"
-    goal += "       (iscut lettuce1)\n"
-    goal += "       (atop topbun1 lettuce1)\n"
-    goal += "       (iscooked patty1)\n"
-    goal += "       (atop lettuce1 patty1)\n"
-    goal += "       (atop patty1 bottombun1)\n"
+    goal += "       (not (isrobot robot1))\n"
     goal += "   )\n"
     return goal
 
