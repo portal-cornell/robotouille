@@ -25,27 +25,25 @@ class Station(Enum):
 
 ENTITY_FIELDS = ["stations", "items", "players"]
 
-def str_to_typed_enum(str):
+def str_to_typed_enum(s):
     """
     Attempts to convert a string into any of the typed enums.
 
     Args:
-        str : str
-            String to convert.
+        s (str): String to convert.
     
     Raises:
         ValueError: If the string cannot be converted into any of the typed enums.
     
     Returns:
-        typed_enum: Enum
-            Enum of the string.
+        typed_enum (Enum): Enum of the string.
     """
     for typed_enum in [Item, Player, Station]:
         try:
-            return typed_enum(str)
+            return typed_enum(s)
         except ValueError:
             pass
-    raise ValueError(f"Could not convert {str} into any of the typed enums.")
+    raise ValueError(f"Could not convert {s} into any of the typed enums.")
     
 def load_environment(json_filename):
     """
@@ -55,12 +53,10 @@ def load_environment(json_filename):
     These will be sorted in the (x, y) order from left to right, bottom to top order.
 
     Args:
-        json_filename : str
-            Name of the JSON file in the examples folder
+        json_filename (str): Name of the JSON file in the examples folder
     
     Returns:
-        environment: Dict
-            JSON containing the initial stations, items, and player location.
+        environment (dict): JSON containing the initial stations, items, and player location.
     """
     # Get json file based on current file directory
     with open(os.path.join(EXAMPLES_DIR, json_filename), "r") as f:
@@ -76,15 +72,13 @@ def build_objects(environment_dict):
     Builds a PDDL objects string from an environment dictionary.
 
     Args:
-        environment_dict : Dict
-            Dictionary containing the initial stations, items, and player location.
+        environment_dict (dict): Dictionary containing the initial stations, items, 
+            and player location.
     
     Returns:
-        objects_str: str
-            PDDL objects string.
-        updated_environment_dict: List[str, Enum]
-            The original environment dictionary with the names updated to include the IDs
-            and the typed enums added.
+        objects_str (str): PDDL objects string.
+        updated_environment_dict (List[str, Enum]): The original environment dictionary with the 
+            names updated to include the IDs and the typed enums added.
     """
     objects_str = ""
     updated_environment_dict = copy.deepcopy(environment_dict)
@@ -107,12 +101,11 @@ def build_identity_predicates(environment_dict):
     predicate will be added in this function.
 
     Args:
-        environment_dict : Dict
-            Dictionary containing the initial stations, items, and player location.
+        environment_dict (dict): Dictionary containing the initial stations, items, 
+            and player location.
     
     Returns:
-        identity_predicates_str: str
-            PDDL identity predicates string.
+        identity_predicates_str (str): PDDL identity predicates string.
     """
     identity_predicates_str = ""
     for field in ENTITY_FIELDS:
@@ -133,12 +126,11 @@ def build_station_location_predicates(environment_dict):
     These include the (empty), (vacant), (loc) and (at) predicates.
 
     Args:
-        environment_dict : Dict
-            Dictionary containing the initial stations, items, and player location.
+        environment_dict (dict): Dictionary containing the initial stations, items, 
+            and player location.
     
     Returns:
-        predicates_str: str
-            PDDL station location predicates string.
+        predicates_str (str): PDDL station location predicates string.
     """
     predicates_str = ""
     for station in environment_dict["stations"]:
@@ -164,12 +156,11 @@ def build_player_location_predicates(environment_dict):
     These include the (nothing) and (has) predicates.
 
     Args:
-        environment_dict : Dict
-            Dictionary containing the initial stations, items, and player location.
+        environment_dict (dict): Dictionary containing the initial stations, items, 
+            and player location.
     
     Returns:
-        predicates_str: str
-            PDDL player location predicates string.
+        predicates_str (str): PDDL player location predicates string.
     """
     predicates_str = ""
     for player in environment_dict["players"]:
@@ -195,12 +186,10 @@ def build_location_predicates(environment_dict):
     Note that the (clear), (on) and (atop) predicates are added in the build_stacking_predicates function. 
 
     Args:
-        environment_dict : Dict
-            Dictionary containing the initial stations, items, and player location.
+        environment_dict (dict): Dictionary containing the initial stations, items, and player location.
     
     Returns:
-        location_predicates_str: str
-            PDDL location predicates string.
+        location_predicates_str (str): PDDL location predicates string.
     """
     location_predicates_str = ""
     location_predicates_str += build_station_location_predicates(environment_dict)
@@ -214,12 +203,10 @@ def build_stacking_predicates(environment_dict):
     These include the (clear), (on) and (atop) predicates.
 
     Args:
-        environment_dict : Dict
-            Dictionary containing the initial stations, items, and player location.
+        environment_dict (dict): Dictionary containing the initial stations, items, and player location.
     
     Returns:
-        stacking_predicates_str: str
-            PDDL stacking predicates string.
+        stacking_predicates_str (str): PDDL stacking predicates string.
     """
     stacking_predicates_str = ""
     stacks = {}
@@ -249,12 +236,10 @@ def build_goal(environment_dict):
     patties, the goal will accommodate for either patty being used.
 
     Args:
-        environment_dict : Dict
-            Dictionary containing the initial stations, items, and player location.
+        environment_dict (dict): Dictionary containing the initial stations, items, and player location.
     
     Returns:
-        goal: str
-            PDDL goal string.
+        goal (str): PDDL goal string.
     """
     # goal = "(or\n"
     # goal += ")\n"
@@ -273,12 +258,10 @@ def build_problem(environment_dict):
     Builds a PDDL problem string from an environment dictionary.
 
     Args:
-        environment_dict : Dict
-            Dictionary containing the initial stations, items, and player location.
+        environment_dict (dict): Dictionary containing the initial stations, items, and player location.
     
     Returns:
-        problem: str
-            PDDL problem string.
+        problem (str): PDDL problem string.
     """
     problem = "(define (problem overcooked)\n"
     problem += "(:domain overcooked)\n"
@@ -301,10 +284,8 @@ def write_problem_file(problem, filename):
     Writes a PDDL problem string to a file.
 
     Args:
-        problem : str
-            PDDL problem string.
-        filename : str
-            Name of the PDDL problem file.
+        problem (str): PDDL problem string.
+        filename (str): Name of the PDDL problem file.
     """
     path = os.path.join(PROBLEM_DIR, filename)
     with open(path, "w") as f:
@@ -315,14 +296,13 @@ def delete_problem_file(filename):
     Deletes a PDDL problem file.
 
     Args:
-        filename : str
-            Name of the PDDL problem file.
+        filename (str): Name of the PDDL problem file.
     """
     path = os.path.join(PROBLEM_DIR, filename)
     os.remove(path)
 
 if __name__ == "__main__":
-    # take in json name and create file in examples
+    # Prints PDDL problem string to terminal
     parser = argparse.ArgumentParser()
     parser.add_argument("json_filename", help="JSON file to convert to PDDL")
     args = parser.parse_args()
@@ -330,3 +310,4 @@ if __name__ == "__main__":
     json_filename = args.json_filename
     environment_dict = load_environment(json_filename)
     problem = build_problem(environment_dict)
+    print(problem)

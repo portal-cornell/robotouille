@@ -13,12 +13,10 @@ def add_domain_file(env_name):
     Adds a domain file to the PDDL directory.
 
     Args:
-        env_name : str
-            Name of the environment
+        env_name (str): Name of the environment
     
     Returns:
-        domain_file_path : str
-            Path to the domain file in the PDDL directory
+        domain_file_path (str): Path to the domain file in the PDDL directory
     """
     domain_file_name = f"{env_name}.pddl"
     domain_file_path = os.path.join(ENVIRONMENT_DIR_PATH, domain_file_name)
@@ -31,12 +29,10 @@ def add_problem_files(env_name):
     Add problem files to the PDDL directory.
 
     Args:
-        env_name : str
-            Name of the environment
+        env_name (str): Name of the environment
     
     Returns:
-        problem_dir_path : str
-            Path to the problem files in the PDDL directory
+        problem_dir_path (str): Path to the problem files in the PDDL directory
     """
     problem_dir_path = os.path.join(ENVIRONMENT_DIR_PATH, env_name)
     pddl_problem_dir_path = os.path.join(PDDL_DIR_PATH, env_name)
@@ -55,17 +51,13 @@ def create_pddl_env(env_name, is_test_env, render_fn, problem_filename):
     environment has been created.
 
     Args:
-        env_name : str
-            Name of the environment
-        is_test_env : bool
-            Whether the environment is a test environment
-        render_fn : function
-            Function to render the environment
-        problem_filename : str
-            Name of the problem file to generate the environment for
+        env_name (str): Name of the environment
+        is_test_env (bool): Whether the environment is a test environment
+        render_fn (function): Function to render the environment
+        problem_filename (str): Name of the problem file to generate the environment for
     
     Returns:
-        env : pddlgym.PDDLEnv
+        env (pddlgym.PDDLEnv): PDDLGym environment
     """
     kwargs = {
         'render': render_fn,
@@ -92,19 +84,15 @@ def parse(literal_str):
     Parses a string representation of a literal into a Literal object.
 
     Args:
-    literal_str : str
-        String representation of a literal. 
-        Examples:
-        - at(chef:player,stove:station)
-        - A(B:1,C:2,D:3,...) where A is the predicate name, B-D are the arguments, and 1-3 are the types
+        literal_str (str): String representation of a literal. 
+            Examples:
+            - at(chef:player,stove:station)
+            - A(B:1,C:2,D:3,...) where A is the predicate name, B-D are the arguments, and 1-3 are the types
     
     Returns:
-        predicate : str
-            Predicate name
-        args : list of str
-            List of arguments
-        types : list of Type strings
-            List of argument types
+        predicate (str): Predicate name
+        args (List[str]): List of arguments
+        types (List[Type strings]): List of argument types
     """
     # Split the string into the predicate name and the arguments
     predicate_name, args_str = literal_str.split("(")
@@ -124,11 +112,14 @@ def str_to_literal(literal_str):
     """
     Converts a string representation of a literal to a Literal object.
 
-    literal_str : str
-        String representation of a literal. 
-        Examples:
-        - at(chef:player,stove:station)
-        - A(B:1,C:2,D:3,...) where A is the predicate name, B-D are the arguments, and 1-3 are the types
+    Args:
+        literal_str (str): String representation of a literal. 
+            Examples:
+            - at(chef:player,stove:station)
+            - A(B:1,C:2,D:3,...) where A is the predicate name, B-D are the arguments, and 1-3 are the types
+    
+    Returns:
+        literal (pddlgym.structs.Literal): Literal object
     """
     predicate_name, args, types = parse(literal_str)
     predicate = pddlgym.structs.Predicate(predicate_name, len(args), types)
