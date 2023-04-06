@@ -319,8 +319,6 @@ print_solutions([H|T]) :- write(H), nl, print_solutions(T).
         timeout_str = "gtimeout" if sys.platform == 'darwin' else "timeout"
         cmd_str = "{} {} swipl {}".format(timeout_str, self._timeout, tmp_name)
         output = subprocess.getoutput(cmd_str)
-        print(cmd_str)
-        print(output)
         if "ERROR" in output or "Warning" in output:
             import ipdb; ipdb.set_trace()
             raise Exception("Prolog terminated with an error: \n{}".format(output))
