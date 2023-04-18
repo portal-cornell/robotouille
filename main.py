@@ -3,8 +3,6 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--environment_name", help="The name of the environment to create.", default="original")
-# optional argument
-
 args = parser.parse_args()
 
 env = overcooked_utils.create_overcooked_env(args.environment_name)

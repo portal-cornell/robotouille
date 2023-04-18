@@ -3,6 +3,7 @@ import overcooked_exceptions
 from renderer.renderer import OvercookedRenderer
 from overcooked_wrapper import OvercookedWrapper
 from environments.env_generator import builder
+from environments.env_generator import procedural_generator
 
 def print_states(obs):
     """
@@ -111,7 +112,7 @@ def _parse_renderer_layout(environment_json):
         environment_json (dict): The environment json.
     
     Returns:
-        grid_size (tuple): The size of the grid.
+        layout (list): A 2D list of station names representing where stations are in the environment.
     """
     # Update environment names with unique versions
     width, height = environment_json["width"], environment_json["height"]
@@ -119,7 +120,7 @@ def _parse_renderer_layout(environment_json):
     _, updated_environment_json = builder.build_objects(environment_json)
     stations = updated_environment_json["stations"]
     for station in stations:
-        x, y = station["x"], height - station["y"] - 1
+        x, y = station["x"], height - station["y"] - 1 # Origin is in the bottom left corner
         layout[y][x] = station["name"]
     return layout
 
@@ -140,6 +141,7 @@ def create_overcooked_env(problem_filename):
     is_test_env = False
     json_filename = f"{problem_filename}.json"
     environment_json = builder.load_environment(json_filename)
+    environment_json = procedural_generator.randomize_environment(environment_json, seed=1, noisy_randomization=False)
     layout = _parse_renderer_layout(environment_json)
     render_fn = OvercookedRenderer(layout=layout).render
     problem_string = builder.build_problem(environment_json)
