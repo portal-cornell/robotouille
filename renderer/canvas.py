@@ -132,11 +132,8 @@ class OvercookedCanvas:
         held_food_name = None
         for literal in obs:
             if literal.predicate == "loc":
-                print(literal)
                 player_station = literal.variables[1].name
                 pos = self._get_station_position(player_station)
-                print(player_station)
-                print(self.layout)
                 pos[1] += 1 # place the player below the station
                 player_pos = pos
                 self._draw_image(surface, "robot.png", pos * self.pix_square_size, self.pix_square_size)

@@ -124,7 +124,29 @@ def _parse_renderer_layout(environment_json):
         layout[y][x] = station["name"]
     return layout
 
-def create_overcooked_env(problem_filename):
+def _procedurally_generate(environment_json, seed, noisy_randomization):
+    """
+    Attempts to procedurally generated environment until success and returns the environment.
+
+    Args:
+        environment_json (dict): The environment json.
+        seed (int): The seed to be used for randomization.
+        noisy_randomization (bool): Whether or not to use noisy randomization.
+    
+    Returns:
+        env (OvercookedWrapper): The Overcooked environment.
+    """
+    generated_environment_json = None
+    while generated_environment_json is None:
+        try:
+            generated_environment_json = procedural_generator.randomize_environment(environment_json, seed, noisy_randomization)
+            print(f"Successfully created environment with seed {seed}.")
+        except:
+            print(f"Encountered error when creating environment with seed {seed}.")
+            seed += 1
+    return generated_environment_json
+
+def create_overcooked_env(problem_filename, seed=None, noisy_randomization=False):
     """
     Creates and returns an Overcooked environment.
 
@@ -133,6 +155,8 @@ def create_overcooked_env(problem_filename):
 
     Args:
         problem_filename (str): The name of the problem file (without extension).
+        seed (int): The seed to be used for randomization or None for the pre-created environment.
+        noisy_randomization (bool): Whether or not to use noisy randomization.
     
     Returns:
         env (OvercookedWrapper): The Overcooked environment.
@@ -141,7 +165,8 @@ def create_overcooked_env(problem_filename):
     is_test_env = False
     json_filename = f"{problem_filename}.json"
     environment_json = builder.load_environment(json_filename)
-    environment_json = procedural_generator.randomize_environment(environment_json, seed=1234, noisy_randomization=True)
+    if seed is not None:
+        environment_json = _procedurally_generate(environment_json, seed, noisy_randomization)
     layout = _parse_renderer_layout(environment_json)
     render_fn = OvercookedRenderer(layout=layout).render
     problem_string = builder.build_problem(environment_json)

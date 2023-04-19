@@ -5,7 +5,9 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--environment_name", help="The name of the environment to create.", default="original")
 args = parser.parse_args()
 
-env = overcooked_utils.create_overcooked_env(args.environment_name)
+seed = 0
+noisy_randomization = True
+env = overcooked_utils.create_overcooked_env(args.environment_name, seed, noisy_randomization)
 obs, info = env.reset()
 env.render(mode='human')
 done = False

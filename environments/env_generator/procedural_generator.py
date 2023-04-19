@@ -374,14 +374,14 @@ def _randomly_add_objects(environment_json, stations, items, players):
     """
     new_environment_json = deepcopy(environment_json)
     new_environment_json = _randomly_add_stations(new_environment_json, stations, players)
-    print("Added stations")
-    print(new_environment_json["stations"])
+    # print("Added stations")
+    # print(new_environment_json["stations"])
     new_environment_json = _randomly_add_players(new_environment_json, players)
-    print("Added players")
-    print(new_environment_json["players"])
+    # print("Added players")
+    # print(new_environment_json["players"])
     new_environment_json = _randomly_add_items(new_environment_json, items)
-    print("Added items")
-    print(new_environment_json["items"])
+    # print("Added items")
+    # print(new_environment_json["items"])
     return new_environment_json
 
 def _apply_lambdas(iterables, lambdas):
