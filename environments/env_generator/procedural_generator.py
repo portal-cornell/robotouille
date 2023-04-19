@@ -25,7 +25,7 @@ def _generate_random_objects(width, height):
         players (list): A list of players to add to the environment.
     """
     num_stations = random.randrange(0, width * height)
-    num_items = random.randrange(0, num_stations)
+    num_items = random.randrange(0, num_stations+1)
     # print(f"Generating {num_stations} stations and {num_items} items.")
     station_names = [enum.value for enum in random.choices(list(Station), k=num_stations)]
     stations = [{"name": name, "x": random.randrange(0, width), "y": random.randrange(0, height)} for name in station_names]
@@ -193,12 +193,34 @@ def _randomly_add_stations(environment_json, stations, players):
     for station in stations:
         position_conflict = lambda other: other["x"] == station["x"] and other["y"] == station["y"]
         conflicting_candidate = list(filter(position_conflict, updated_environment_json["stations"] + player)) # Empty or one element
-        if station.get(FORCE_ADD_TAG_NAME) and conflicting_candidate: # TODO: This will force add to other force adds
-            # Replace conflicting stations with FORCE_ADD stations which are necessary to add
-            conflicting_station_index = updated_environment_json["stations"].index(conflicting_candidate[0])
-            station["x"], station["y"] = conflicting_candidate[0]["x"], conflicting_candidate[0]["y"]
-            updated_environment_json["stations"][conflicting_station_index] = station
-            print(f"BAD Replacement: {station['name']} at ({station['x']}, {station['y']})")
+        if station.get(FORCE_ADD_TAG_NAME): # TODO: This will force add to other force adds
+            force_added = False # Flag to check if the station has been force added
+            if conflicting_candidate and not conflicting_candidate[0].get(FORCE_ADD_TAG_NAME):
+                # Replace conflicting station if not a FORCE_ADD station
+                conflicting_station_index = updated_environment_json["stations"].index(conflicting_candidate[0])
+                station["x"], station["y"] = conflicting_candidate[0]["x"], conflicting_candidate[0]["y"]
+                updated_environment_json["stations"][conflicting_station_index] = station
+                force_added = True
+                #print(f"Replacement: {station['name']} at ({station['x']}, {station['y']})")
+            elif not conflicting_candidate:
+                environment_json_copy = deepcopy(updated_environment_json)
+                environment_json_copy["stations"].append(station)
+                reachable = _are_stations_reachable(environment_json_copy)
+                if reachable:
+                    # All stations are reachable
+                    updated_environment_json["stations"].append(station)
+                    force_added = True
+                    #print(f"Added FORCE_ADD station {station['name']} at ({station['x']}, {station['y']})")
+            
+            if not force_added:
+                # Force add failed, so try to replace a station
+                replaceable_stations = list(filter(lambda s: s.get(FORCE_ADD_TAG_NAME) is None, updated_environment_json["stations"]))
+                assert replaceable_stations, "No replaceable stations found"
+                replaceable_station = random.choice(replaceable_stations)
+                replaceable_station_idx = updated_environment_json["stations"].index(replaceable_station)
+                station["x"], station["y"] = replaceable_station["x"], replaceable_station["y"]
+                updated_environment_json["stations"][replaceable_station_idx] = station
+                #print(f"Fail replacement: {station['name']} at ({station['x']}, {station['y']})")
         elif not conflicting_candidate:
             # Station does not occupy the same position as another station
             environment_json_copy = deepcopy(updated_environment_json)
@@ -208,15 +230,6 @@ def _randomly_add_stations(environment_json, stations, players):
                 # All stations are reachable
                 updated_environment_json["stations"].append(station)
                 #print(f"Added station {station['name']} at ({station['x']}, {station['y']})")
-            elif station.get(FORCE_ADD_TAG_NAME):
-                # Find a random station to replace
-                replaceable_stations = list(filter(lambda s: s.get(FORCE_ADD_TAG_NAME) is None, updated_environment_json["stations"]))
-                assert replaceable_stations, "No replaceable stations found"
-                replaceable_station = random.choice(replaceable_stations)
-                replaceable_station_idx = updated_environment_json["stations"].index(replaceable_station)
-                station["x"], station["y"] = replaceable_station["x"], replaceable_station["y"]
-                updated_environment_json["stations"][replaceable_station_idx] = station
-                #print(f"Fail replacement: {station['name']} at ({station['x']}, {station['y']})")
     return updated_environment_json
 
 def _randomly_add_items(environment_json, items):
