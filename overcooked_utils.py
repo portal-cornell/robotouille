@@ -141,7 +141,7 @@ def create_overcooked_env(problem_filename):
     is_test_env = False
     json_filename = f"{problem_filename}.json"
     environment_json = builder.load_environment(json_filename)
-    environment_json = procedural_generator.randomize_environment(environment_json, seed=1, noisy_randomization=False)
+    environment_json = procedural_generator.randomize_environment(environment_json, seed=0, noisy_randomization=True)
     layout = _parse_renderer_layout(environment_json)
     render_fn = OvercookedRenderer(layout=layout).render
     problem_string = builder.build_problem(environment_json)

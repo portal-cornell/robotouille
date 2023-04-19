@@ -1,9 +1,11 @@
 import random
+import itertools
 
 from .object_enums import Item, Station
 from copy import deepcopy
 
 FORCE_ADD_TAG_NAME = "force_add"
+FROZEN_TAG_NAME = "frozen"
 
 def _generate_random_objects(width, height):
     """
@@ -161,7 +163,7 @@ def _are_stations_reachable(environment_json):
             empty_cell_pos = _find_empty_cell(layout)
     return False
 
-def _randomly_add_stations(environment_json, stations):
+def _randomly_add_stations(environment_json, stations, players):
     """
     Returns an environment JSON with randomly placed stations in the environment.
 
@@ -175,24 +177,29 @@ def _randomly_add_stations(environment_json, stations):
     a replaceable station will be chosen to be replaced with the FORCE_ADD
     station.
 
+    If a station is being placed in the location of a player that has a FROZEN tag,
+    then the location will be repicked.
+
     Args:
         environment_json (dict): The environment JSON to add stations to.
         stations (list): A list of stations to attempt adding to the environment.
+        players (list): A list of players in the environment.
     
     Returns:
         updated_environment_json (dict): The updated environment JSON with the randomly added stations.
     """
     updated_environment_json = deepcopy(environment_json)
+    player = list(filter(lambda player: player.get(FROZEN_TAG_NAME), players))
     for station in stations:
         position_conflict = lambda other: other["x"] == station["x"] and other["y"] == station["y"]
-        conflicting_station = list(filter(position_conflict, updated_environment_json["stations"])) # Empty or one element
-        if station.get(FORCE_ADD_TAG_NAME) and conflicting_station:
+        conflicting_candidate = list(filter(position_conflict, updated_environment_json["stations"] + player)) # Empty or one element
+        if station.get(FORCE_ADD_TAG_NAME) and conflicting_candidate: # TODO: This will force add to other force adds
             # Replace conflicting stations with FORCE_ADD stations which are necessary to add
-            conflicting_station_index = updated_environment_json["stations"].index(conflicting_station[0])
-            station["x"], station["y"] = conflicting_station[0]["x"], conflicting_station[0]["y"]
+            conflicting_station_index = updated_environment_json["stations"].index(conflicting_candidate[0])
+            station["x"], station["y"] = conflicting_candidate[0]["x"], conflicting_candidate[0]["y"]
             updated_environment_json["stations"][conflicting_station_index] = station
-            #print(f"Replacement: {station['name']} at ({station['x']}, {station['y']})")
-        elif not conflicting_station:
+            print(f"BAD Replacement: {station['name']} at ({station['x']}, {station['y']})")
+        elif not conflicting_candidate:
             # Station does not occupy the same position as another station
             environment_json_copy = deepcopy(updated_environment_json)
             environment_json_copy["stations"].append(station)
@@ -239,20 +246,28 @@ def _randomly_add_items(environment_json, items):
         position_match = lambda other: other["x"] == item["x"] and other["y"] == item["y"]
         matched_candidate = list(filter(position_match, item_loc_candidates)) # Empty or one element
         conflicting_item = list(filter(position_match, updated_environment_json["items"])) # Empty or one element
-        if item.get(FORCE_ADD_TAG_NAME):
-            if matched_candidate and conflicting_item and not conflicting_item[0].get(FORCE_ADD_TAG_NAME):
+        if matched_candidate and not conflicting_item and (item.get(FROZEN_TAG_NAME) or matched_candidate[0].get(FROZEN_TAG_NAME) is None):
+            # Directly add item to environment
+            updated_environment_json["items"].append(item)
+            #print("Added item {} at ({}, {})".format(item["name"], item["x"], item["y"]))
+        elif item.get(FORCE_ADD_TAG_NAME):
+            if item.get(FROZEN_TAG_NAME):
+                # Add item to environment immediately if it is frozen
+                updated_environment_json["items"].append(item)
+                #print("Added frozen item {} at ({}, {})".format(item["name"], item["x"], item["y"]))
+            elif matched_candidate and conflicting_item and not conflicting_item[0].get(FORCE_ADD_TAG_NAME):
                 # Replace conflicting items with FORCE_ADD items which are necessary to add. Exclude conflicting items that were forced added.
                 conflicting_item_index = updated_environment_json["items"].index(conflicting_item[0])
                 item["x"], item["y"] = conflicting_item[0]["x"], conflicting_item[0]["y"]
                 updated_environment_json["items"][conflicting_item_index] = item
-                # print("Replacement: {} at ({}, {})".format(item["name"], item["x"], item["y"]))
+                #print("Replacement: {} at ({}, {})".format(item["name"], item["x"], item["y"]))
             else:
                 # Replace an item from a candidate (or place on an empty station)
                 added = False
                 for candidate in item_loc_candidates:
                     occupied_item_lambd = lambda item: item["x"] == candidate["x"] and item["y"] == candidate["y"]
                     occupied_item = list(filter(occupied_item_lambd, updated_environment_json["items"]))
-                    if len(occupied_item) == 0:
+                    if len(occupied_item) == 0 and candidate.get(FROZEN_TAG_NAME) is None:
                         # Place the item on the candidate
                         item["x"], item["y"] = candidate["x"], candidate["y"]
                         updated_environment_json["items"].append(item)
@@ -266,13 +281,9 @@ def _randomly_add_items(environment_json, items):
                         added = True
                         break
                 assert added, "Item force add failed"
-                # print("Fail item add: {} at ({}, {}) {}".format(item["name"], item["x"], item["y"], "[FORCE]" if item.get(FORCE_ADD_TAG_NAME) else ""))
-        elif matched_candidate and not conflicting_item:
-            # Directly add item to environment
-            updated_environment_json["items"].append(item)
-            # print("Added item {} at ({}, {})".format(item["name"], item["x"], item["y"]))
-    # TODO: Add and option to allow for randomizing stacked items. For now, ensure no stacks.
-    set_stacklevel = lambda obj: obj.update({"stack-level": 0})
+                #print("Fail item add: {} at ({}, {}) {}".format(item["name"], item["x"], item["y"], "[FORCE]" if item.get(FORCE_ADD_TAG_NAME) else ""))
+    # TODO: Add and option to allow for randomizing stacked items. For now, ensure no stacks (unless frozen)
+    set_stacklevel = lambda obj: not obj.get(FROZEN_TAG_NAME) and obj.update({"stack-level": 0})
     updated_environment_json["items"] = _apply_lambdas(updated_environment_json["items"], [set_stacklevel])
     return updated_environment_json
 
@@ -349,7 +360,7 @@ def _randomly_add_objects(environment_json, stations, items, players):
         new_environment_json (dict): The environment JSON with the randomly added objects.
     """
     new_environment_json = deepcopy(environment_json)
-    new_environment_json = _randomly_add_stations(new_environment_json, stations)
+    new_environment_json = _randomly_add_stations(new_environment_json, stations, players)
     print("Added stations")
     print(new_environment_json["stations"])
     new_environment_json = _randomly_add_players(new_environment_json, players)
@@ -379,6 +390,121 @@ def _apply_lambdas(iterables, lambdas):
             lambd(iterable)
     return iterables_copy
 
+def _group_objects(environment_json):
+    """
+    Returns a list of grouped objects in the current environment.
+
+    This function groups objects in the environment JSON by their starting position in the environment_json. The possible
+    groups include
+        - Station ["station"]
+        - Station with item(s) on it ["station", "station_items"]
+        - Station with a player by it ["station", "player"]
+        - Station with a player by it holding an item ["station", "player", "player_item"]
+        - Station with item(s) on it with a player by it ["station", "station_items", "player"]
+        - Station with item(s) on it with a player by it holding another item ["station", "station_items", "player", "player_item"]
+    where the dictionary will use the keys in the lists above.
+
+    Args:
+        environment_json (dict): The environment JSON with objects to group.
+    
+    Returns:
+        grouped_objects (list): A list of grouped objects.
+    """
+    grouped_objects = []
+    position_checks = lambda positions, obj: any([obj["x"] == pos[0] and obj["y"] == pos[1] for pos in positions])
+    for station in environment_json["stations"]:
+        group = {"station": station}
+        x, y = station["x"], station["y"]
+        station_positions = [(x, y + 1), (x, y - 1), (x + 1, y), (x - 1, y)]
+        station_positions_check = lambda obj: position_checks(station_positions, obj)
+        adjacent_players = list(filter(station_positions_check, environment_json["players"]))
+        group["player"] = adjacent_players[0] if len(adjacent_players) != 0 else None
+        station_items = list(filter(lambda obj: position_checks([(x, y)], obj), environment_json["items"]))
+        group["station_items"] = station_items if len(station_items) != 0 else None
+        if group.get("player"):
+            player_pos = (group["player"]["x"], group["player"]["y"])
+            player_item = list(filter(lambda obj: position_checks([player_pos], obj), environment_json["items"]))
+            group["player_item"] = player_item[0] if len(player_item) != 0 else None
+        grouped_objects.append(group)
+    return grouped_objects
+
+def _randomize_and_freeze_objects(environment_json):
+    """
+    Returns stations, items, and players in the current environment with random locations and a frozen tag.
+
+    This function randomizes the positions of grouped objects (see _group_objects) in the environment JSON 
+    (and direction for player).
+
+    As objects' positions are determined, frozen tags are added to them. This prevents the objects from being modified when
+    adding other objects later (for example, a station that was empty before will remain empty).
+
+    WARNING: This function is not guaranteed to halt. This function assumes that the environment provided is a JSON example
+    which contains small enough items such that this function is likely to eventually terminate.
+
+    Args:
+        environment_json (dict): The environment JSON with objects to group, randomize and add FROZEN tag.
+    
+    Returns:
+        stations (list): A list of stations with random positions and FROZEN tags.
+        items (list): A list of items with random positions and FROZEN tags.
+        players (list): A list of players with random positions and directions and FROZEN tags.
+    """
+    new_environment_json = deepcopy(environment_json)
+    groups = _group_objects(new_environment_json)
+    width, height = environment_json["width"], environment_json["height"]
+    bounds_check = lambda pos: pos[0] >= 0 and pos[0] < width and pos[1] >= 0 and pos[1] < height
+    reachable_state, filled_positions = False, False
+    while not reachable_state or not filled_positions:
+        new_environment_json["stations"], new_environment_json["items"], new_environment_json["players"] = [], [], []
+        possible_positions = list(itertools.product(range(width), range(height)))
+        random.shuffle(possible_positions)
+        for group in groups:
+            station = group["station"] # Each group MUST have a station
+            x, y = possible_positions.pop() # This is safe because there are always more positions than groups
+            station_positions = [(x, y)]
+            if group.get("player"):
+                # Check for adjacent spots too
+                station_positions += [(x, y + 1), (x, y - 1), (x + 1, y), (x - 1, y)]
+            valid_station_positions = list(filter(bounds_check, station_positions))
+            stations, players = new_environment_json["stations"], new_environment_json["players"]
+            conflict_check = lambda pos: not any([pos[0] == obj["x"] and pos[1] == obj["y"] for obj in stations + players])
+            valid_station_positions = list(filter(conflict_check, valid_station_positions))
+            if len(valid_station_positions) == 0 or (x, y) not in valid_station_positions:
+                # No valid positions for station, so we need to try again
+                break
+            if group.get("player") and len(valid_station_positions) == 1:
+                # No adjacent spots available for player, so we need to try again
+                break
+
+            # Add the group to the environment (and freeze them)
+            station["x"], station["y"] = x, y
+            station[FROZEN_TAG_NAME] = True
+            station[FORCE_ADD_TAG_NAME] = True
+            new_environment_json["stations"].append(station)
+            if group.get("station_items"):
+                items = group["station_items"]
+                for item in items:
+                    item["x"], item["y"] = x, y
+                    item[FROZEN_TAG_NAME] = True
+                    item[FORCE_ADD_TAG_NAME] = True
+                    new_environment_json["items"].append(item)
+            if group.get("player"):
+                player = group["player"]
+                player["x"], player["y"] = random.choice(valid_station_positions[1:]) # Choose a random adjacent spot
+                player["direction"] = [x - player["x"], y - player["y"]]
+                player[FROZEN_TAG_NAME] = True
+                player[FORCE_ADD_TAG_NAME] = True
+                new_environment_json["players"].append(player)
+                if group.get("player_item"):
+                    item = group["player_item"]
+                    item["x"], item["y"] = player["x"], player["y"]
+                    item[FROZEN_TAG_NAME] = True
+                    item[FORCE_ADD_TAG_NAME] = True
+                    new_environment_json["items"].append(item)
+        filled_positions = len(new_environment_json["stations"]) == len(groups)
+        reachable_state = _are_stations_reachable(new_environment_json)
+    return new_environment_json["stations"], new_environment_json["items"], new_environment_json["players"]
+
 def _randomize_and_tag_objects(environment_json):
     """
     Returns stations, items, and players in the current environment with random locations and tags.
@@ -388,7 +514,7 @@ def _randomize_and_tag_objects(environment_json):
     into the environment.
 
     Args:
-        environment_json (dict): The environment JSON with objects to randomize and FORCE_ADD tag.
+        environment_json (dict): The environment JSON with objects to randomize and add FORCE_ADD tags to.
     
     Returns:
         stations (list): A list of stations with random positions and FORCE_ADD tags.
@@ -439,7 +565,11 @@ def randomize_environment(environment_json, seed, noisy_randomization=False):
     stations, items, players = _generate_random_objects(width, height)
     if noisy_randomization:
         # Move existing objects in groups
-        pass
+        existing_stations, existing_items, existing_players = _randomize_and_freeze_objects(environment_json)
+        # Add frozen objects first to avoid conflicts
+        stations = existing_stations + stations
+        items = existing_items + items
+        players = existing_players + players
     else:
         # Prepare existing objects (from environment_json) to be randomly moved
         existing_stations, existing_items, existing_players = _randomize_and_tag_objects(environment_json)
