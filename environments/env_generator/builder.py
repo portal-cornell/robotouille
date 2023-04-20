@@ -1,57 +1,26 @@
 import argparse
 import json
-from enum import Enum
 import os
 import copy
+from .object_enums import Item, Player, Station, str_to_typed_enum
 
 EXAMPLES_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), "examples")
 PROBLEM_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", "overcooked")
 
-class Item(Enum):
-    BOTTOMBUN = "bottombun"
-    LETTUCE = "lettuce"
-    PATTY = "patty"
-    TOPBUN = "topbun"
-
-class Player(Enum):
-    ROBOT = "robot"
-
-class Station(Enum):
-    BOARD = "board"
-    STOVE = "stove"
-    TABLE = "table"
-
 ENTITY_FIELDS = ["stations", "items", "players"]
 
-def str_to_typed_enum(s):
-    """
-    Attempts to convert a string into any of the typed enums.
-
-    Args:
-        s (str): String to convert.
-    
-    Raises:
-        ValueError: If the string cannot be converted into any of the typed enums.
-    
-    Returns:
-        typed_enum (Enum): Enum of the string.
-    """
-    for typed_enum in [Item, Player, Station]:
-        try:
-            return typed_enum(s)
-        except ValueError:
-            pass
-    raise ValueError(f"Could not convert {s} into any of the typed enums.")
-    
-def load_environment(json_filename):
+def load_environment(json_filename, seed=None):
     """
     Loads an Overcooked environment from a JSON file in the examples folder.
 
     The JSON file should contain the initial stations, items, and player location.
     These will be sorted in the (x, y) order from left to right, bottom to top order.
 
+    If a seed is provided, the environment will be randomized based on the seed.
+
     Args:
         json_filename (str): Name of the JSON file in the examples folder
+        seed (int): Seed for the environment.
     
     Returns:
         environment (dict): JSON containing the initial stations, items, and player location.
