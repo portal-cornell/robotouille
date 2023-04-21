@@ -1,0 +1,106 @@
+{
+    "width": 5,
+    "height": 5,
+    "stations": [
+        {
+            "name": "table",
+            "x": 0,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 1,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 2,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 3,
+            "y": 1
+        }
+    ],
+    "items": [
+        {
+            "name": "patty",
+            "x": 0,
+            "y": 1,
+            "stack-level": 0,
+            "predicates": ["iscooked", "iscookable"]
+        },
+        {
+            "name": "patty",
+            "x": 0,
+            "y": 1,
+            "stack-level": 1,
+            "predicates": ["iscooked", "iscookable"]
+        },
+        {
+            "name": "topbun",
+            "x": 1,
+            "y": 1,
+            "stack-level": 0
+        },
+        {
+            "name": "topbun",
+            "x": 1,
+            "y": 1,
+            "stack-level": 1
+        },
+        {
+            "name": "bottombun",
+            "x": 2,
+            "y": 1,
+            "stack-level": 0
+        },
+        {
+            "name": "bottombun",
+            "x": 3,
+            "y": 1,
+            "stack-level": 0
+        }
+    ],
+    "players": [
+        {
+            "name": "robot",
+            "x": 0,
+            "y": 0,
+            "direction": [0, 1]
+        }
+    ],
+    "goal": [
+        {
+            "predicate": "atop",
+            "args": ["topbun", "patty"],
+            "ids": [1, 1]
+        },
+        {
+            "predicate": "atop",
+            "args": ["patty", "bottombun"],
+            "ids": [1, 1]
+        },
+        {
+            "predicate": "on",
+            "args": ["bottombun", "table"],
+            "ids": [1, 1]
+        },
+        {
+            "predicate": "atop",
+            "args": ["topbun", "patty"],
+            "ids": [2, 2]
+        },
+        {
+            "predicate": "atop",
+            "args": ["patty", "bottombun"],
+            "ids": [2, 2]
+        },
+        {
+            "predicate": "on",
+            "args": ["bottombun", "table"],
+            "ids": [2, 2]
+        }
+    ]
+}

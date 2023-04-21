@@ -3,14 +3,16 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (define (domain overcooked)
-    (:requirements :strips :typing)
+    (:requirements :strips :typing :disjunctive-preconditions)
     (:types station player item)
     (:predicates
         ; Identity Predicates
         (istable ?s - station)
         (isstove ?s - station)
         (isboard ?s - station)
-        (isbun ?i - item)
+        (isrobot ?p - player)
+        (istopbun ?i - item)
+        (isbottombun ?i - item)
         (islettuce ?i - item)
         (iscuttable ?i - item)
         (iscut ?i - item)

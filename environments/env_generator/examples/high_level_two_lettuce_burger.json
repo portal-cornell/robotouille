@@ -1,0 +1,170 @@
+{
+    "width": 6,
+    "height": 6,
+    "stations": [
+        {
+            "name": "table",
+            "x": 0,
+            "y": 1
+        },
+        {
+            "name": "stove",
+            "x": 1,
+            "y": 1
+        },
+        {
+            "name": "board",
+            "x": 2,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 3,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 4,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 0,
+            "y": 3
+        },
+        {
+            "name": "stove",
+            "x": 1,
+            "y": 3
+        },
+        {
+            "name": "board",
+            "x": 2,
+            "y": 3
+        },
+        {
+            "name": "table",
+            "x": 3,
+            "y": 3
+        },
+        {
+            "name": "table",
+            "x": 4,
+            "y": 3
+        }
+    ],
+    "items": [
+        {
+            "name": "patty",
+            "x": 0,
+            "y": 1,
+            "stack-level": 0,
+            "predicates": ["iscookable"]
+        },
+        {
+            "name": "lettuce",
+            "x": 2,
+            "y": 1,
+            "stack-level": 0,
+            "predicates": ["iscuttable"]
+        },
+        {
+            "name": "bottombun",
+            "x": 3,
+            "y": 1,
+            "stack-level": 0
+        },
+        {
+            "name": "topbun",
+            "x": 4,
+            "y": 1,
+            "stack-level": 0
+        },
+        {
+            "name": "patty",
+            "x": 0,
+            "y": 3,
+            "stack-level": 0,
+            "predicates": ["iscookable"]
+        },
+        {
+            "name": "lettuce",
+            "x": 2,
+            "y": 3,
+            "stack-level": 0,
+            "predicates": ["iscuttable"]
+        },
+        {
+            "name": "bottombun",
+            "x": 3,
+            "y": 3,
+            "stack-level": 0
+        },
+        {
+            "name": "topbun",
+            "x": 4,
+            "y": 3,
+            "stack-level": 0
+        }
+    ],
+    "players": [
+        {
+            "name": "robot",
+            "x": 0,
+            "y": 0,
+            "direction": [0, 1]
+        }
+    ],
+    "goal": [
+        {
+            "predicate": "iscut",
+            "args": ["lettuce"],
+            "ids": [1]
+        },
+        {
+            "predicate": "iscooked",
+            "args": ["patty"],
+            "ids": [1]
+        },
+        {
+            "predicate": "atop",
+            "args": ["topbun", "lettuce"],
+            "ids": [1, 1]
+        },
+        {
+            "predicate": "atop",
+            "args": ["lettuce", "patty"],
+            "ids": [1, 1]
+        },
+        {
+            "predicate": "atop",
+            "args": ["patty", "bottombun"],
+            "ids": [1, 1]
+        },
+        {
+            "predicate": "iscut",
+            "args": ["lettuce"],
+            "ids": [2]
+        },
+        {
+            "predicate": "iscooked",
+            "args": ["patty"],
+            "ids": [2]
+        },
+        {
+            "predicate": "atop",
+            "args": ["topbun", "lettuce"],
+            "ids": [2, 2]
+        },
+        {
+            "predicate": "atop",
+            "args": ["lettuce", "patty"],
+            "ids": [2, 2]
+        },
+        {
+            "predicate": "atop",
+            "args": ["patty", "bottombun"],
+            "ids": [2, 2]
+        }
+    ]
+}

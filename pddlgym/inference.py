@@ -4,7 +4,7 @@
 from collections import defaultdict
 from copy import deepcopy
 from pddlgym.prolog_interface import PrologInterface
-from pddlgym.structs import Literal, LiteralConjunction, ground_literal
+from pddlgym.structs import Literal, LiteralConjunction, LiteralDisjunction, ground_literal
 from pddlgym.utils import get_object_combinations
 import functools
 
@@ -46,6 +46,8 @@ def check_goal(state, goal):
         return True
     if isinstance(goal, LiteralConjunction):
         return all(check_goal(state, lit) for lit in goal.literals)
+    if isinstance(goal, LiteralDisjunction):
+        return any(check_goal(state, lit) for lit in goal.literals)
     prolog_interface = PrologInterface(state.literals, goal,
         max_assignment_count=2,
         allow_redundant_variables=True)

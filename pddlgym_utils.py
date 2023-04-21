@@ -38,18 +38,13 @@ def expand_state(partial_state, objects, literals_to_string = False):
     returns all the possible literals including those that are false.
     
     Args:
-        partial_state : frozenset[Literal]
-            List of true literals provided by PDDLGym
-        objects : frozenset[TypedEntity]
-            List of objects provided by PDDLGym
-        literals_to_string : bool
-            Whether to convert the literals to strings
+        partial_state (frozenset[Literal]): List of true literals provided by PDDLGym
+        objects (frozenset[TypedEntity]): List of objects provided by PDDLGym
+        literals_to_string (bool): Whether to convert the literals to strings
     
     Returns:
-        expanded_truths : np.array
-            Array of 0s and 1s where 1 indicates the literal is true
-        expanded_state : np.array or None
-            Array of literals corresponding to the expanded truths.
+        expanded_truths (np.array): Array of 0s and 1s where 1 indicates the literal is true
+        expanded_state (np.array or None): Array of literals corresponding to the expanded truths.
     """
     # Group objects
     objs = {}
@@ -59,8 +54,13 @@ def expand_state(partial_state, objects, literals_to_string = False):
     # Create all possible literals
     expanded_state = []
     for predicate_string in PREDICATE_STRINGS:
-        types = [pddlgym.structs.Type(arg) for arg in re.findall(r":([a-z]+)", predicate_string)]
-        for args in itertools.product(*[objs[arg] for arg in re.findall(r":([a-z]+)", predicate_string)]):
+        type_names = re.findall(r":([a-z]+)", predicate_string)
+        types = [pddlgym.structs.Type(arg) for arg in type_names]
+        combination_list = [objs.get(arg) for arg in type_names]
+        if None in combination_list:
+            # This predicate is not applicable to this state
+            continue
+        for args in itertools.product(*[objs[arg] for arg in type_names]):
             predicate_name = re.findall(r"([a-z]+)", predicate_string)[0]
             predicate = pddlgym.structs.Predicate(predicate_name, len(args), types)
             expanded_state.append(pddlgym.structs.Literal(predicate, list(args)))
@@ -91,18 +91,13 @@ def create_toggle_array(expanded_truths, expanded_state, partial_state, literals
     array which is aligned with the expanded_state array.
 
     Args:
-        expanded_truths : np.array
-            Array of 0s and 1s where 1 indicates the literal is true from time step t.
-        expanded_state : np.array
-            Array of literals corresponding to the expanded truths from time step t.
-        partial_state : frozenset[Literal]
-            List of true literals provided by PDDLGym from time step t+1.
-        literals_to_string : bool
-            Whether to convert the literals to strings
+        expanded_truths (np.array): Array of 0s and 1s where 1 indicates the literal is true from time step t.
+        expanded_state (np.array): Array of literals corresponding to the expanded truths from time step t.
+        partial_state (frozenset[Literal]): List of true literals provided by PDDLGym from time step t+1.
+        literals_to_string (bool): Whether to convert the literals to strings
     
     Returns:
-        toggle_array : np.array
-            Array of 0s and 1s where 1 indicates the literal changed from time step t to t+1.
+        toggle_array (np.array): Array of 0s and 1s where 1 indicates the literal changed from time step t to t+1.
     """
     toggle_array = np.zeros(len(expanded_state))
     for i, old_literal in enumerate(expanded_state):
@@ -118,4 +113,18 @@ def create_toggle_array(expanded_truths, expanded_state, partial_state, literals
     return toggle_array
 
 def str_to_literal(literal_str):
+    """
+    Wrapper for pddlgym_interface.str_to_literal which converts a string to a PDDLGym Literal type.
+
+    Args:
+        literal_str (str): String representation of a literal.
+    
+    Returns:
+        predicate : str
+            Predicate name
+        args : list of str
+            List of arguments
+        types : list of Type strings
+            List of argument types
+    """
     return pddlgym_interface.str_to_literal(literal_str)

@@ -1,0 +1,35 @@
+{
+    "width": 3,
+    "height": 3,
+    "stations": [
+        {
+            "name": "stove",
+            "x": 0,
+            "y": 1
+        }
+    ],
+    "items": [
+        {
+            "name": "patty",
+            "x": 0,
+            "y": 0,
+            "stack-level": 0,
+            "predicates": ["iscookable"]
+        }
+    ],
+    "players": [
+        {
+            "name": "robot",
+            "x": 0,
+            "y": 0,
+            "direction": [0, 1]
+        }
+    ],
+    "goal": [
+        {
+            "predicate": "iscooked",
+            "args": ["patty"],
+            "ids": [1]
+        }
+    ]
+}

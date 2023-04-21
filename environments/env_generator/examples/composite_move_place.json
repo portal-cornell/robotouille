@@ -1,0 +1,41 @@
+{
+    "width": 3,
+    "height": 3,
+    "stations": [
+        {
+            "name": "table",
+            "x": 0,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 2,
+            "y": 1,
+            "id": "A"
+        }
+    ],
+    "items": [
+        {
+            "name": "patty",
+            "x": 0,
+            "y": 0,
+            "stack-level": 0,
+            "predicates": ["iscookable"]
+        }
+    ],
+    "players": [
+        {
+            "name": "robot",
+            "x": 0,
+            "y": 0,
+            "direction": [0, 1]
+        }
+    ],
+    "goal": [
+        {
+            "predicate": "on",
+            "args": ["patty", "table"],
+            "ids": [1, "A"]
+        }
+    ]
+}
