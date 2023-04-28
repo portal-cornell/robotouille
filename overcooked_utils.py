@@ -141,8 +141,9 @@ def _procedurally_generate(environment_json, seed, noisy_randomization):
         try:
             generated_environment_json = procedural_generator.randomize_environment(environment_json, seed, noisy_randomization)
             print(f"Successfully created environment with seed {seed}.")
-        except:
+        except Exception as e:
             print(f"Encountered error when creating environment with seed {seed}.")
+            print(e)
             seed += 1
     return generated_environment_json
 
@@ -168,7 +169,7 @@ def create_overcooked_env(problem_filename, seed=None, noisy_randomization=False
     if seed is not None:
         environment_json = _procedurally_generate(environment_json, seed, noisy_randomization)
     layout = _parse_renderer_layout(environment_json)
-    render_fn = OvercookedRenderer(layout=layout).render
+    render_fn = OvercookedRenderer(layout=layout, players=environment_json["players"]).render
     problem_string = builder.build_problem(environment_json)
     builder.write_problem_file(problem_string, f"{problem_filename}.pddl")
     pddl_env = pddlgym_interface.create_pddl_env(env_name, is_test_env, render_fn, f"{problem_filename}.pddl")

@@ -52,6 +52,7 @@ def build_objects(environment_dict):
     for field in ENTITY_FIELDS:
         object_type = field[:-1]
         seen = {}
+        updated_environment_dict[field].sort(key=lambda entity: (entity["x"], entity["y"]))
         for i, entity in enumerate([entity["name"] for entity in updated_environment_dict[field]]):
             updated_environment_dict[field][i]["typed_enum"] = str_to_typed_enum(entity)
             seen[entity] = seen.get(entity, 0) + 1

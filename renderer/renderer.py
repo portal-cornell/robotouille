@@ -11,7 +11,7 @@ class OvercookedRenderer:
     provides that function but also setups up the pygame window to allow for rendering.
     """
 
-    def __init__(self, layout=[], window_size=np.array([512,512]), render_fps=4):
+    def __init__(self, layout=[], players=[], window_size=np.array([512,512]), render_fps=4):
         """
         Initializes the renderer.
 
@@ -21,7 +21,7 @@ class OvercookedRenderer:
             render_fps (int): Framerate of the renderer
         """
         # The canvas is responsible for drawing the game state on a pygame surface.
-        self.canvas = OvercookedCanvas(layout)
+        self.canvas = OvercookedCanvas(layout, players[0], window_size)
         # The pygame window size.
         self.window_size = window_size
         # The framerate of the renderer. This isn't too important since the renderer
