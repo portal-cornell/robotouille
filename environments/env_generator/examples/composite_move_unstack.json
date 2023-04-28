@@ -3,29 +3,32 @@
     "height": 3,
     "stations": [
         {
-            "name": "table",
+            "name": "station",
             "x": 0,
-            "y": 1
+            "y": 1,
+            "id": "A"
         },
         {
-            "name": "table",
+            "name": "station",
             "x": 2,
-            "y": 1
+            "y": 1,
+            "id": "B"
         }
     ],
     "items": [
         {
-            "name": "bottombun",
+            "name": "item",
             "x": 2,
             "y": 1,
-            "stack-level": 0
+            "stack-level": 0,
+            "id": "a"
         },
         {
-            "name": "patty",
+            "name": "item",
             "x": 2,
             "y": 1,
             "stack-level": 1,
-            "predicates": ["iscookable", "iscooked"]
+            "id": "b"
         }
     ],
     "players": [
@@ -40,7 +43,7 @@
         {
             "predicate": "has",
             "args": ["robot", "patty"],
-            "ids": [1, 1]
+            "ids": [1, "b"]
         }
     ]
 }
