@@ -141,8 +141,9 @@ def _procedurally_generate(environment_json, seed, noisy_randomization):
         try:
             generated_environment_json = procedural_generator.randomize_environment(environment_json, seed, noisy_randomization)
             print(f"Successfully created environment with seed {seed}.")
-        except ArithmeticError as e:
+        except Exception as e:
             print(f"Encountered error when creating environment with seed {seed}.")
+            print(e)
             seed += 1
     return generated_environment_json
 
