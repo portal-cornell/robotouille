@@ -441,6 +441,35 @@ def _group_objects(environment_json):
         grouped_objects.append(group)
     return grouped_objects
 
+def _update_station_name(station):
+    """
+    Updates the station name to be one of the station types.
+
+    Args:
+        station (dict): The station to update.
+    
+    Side Effects:
+        station["name"] is updated to be one of the station types.
+    """
+    station["name"] = random.choice(list(Station)).value
+
+def _update_item_name(item):
+    """
+    Updates the item name to be one of the item types.
+
+    Args:
+        item (dict): The item to update.
+    
+    Side Effects:
+        item["name"] is updated to be one of the item types.
+    """
+    item_enum = random.choice(list(Item))
+    item["name"] = item_enum.value
+    if item_enum == Item.PATTY:
+        item["predicates"] = ["iscookable"] + random.choice([[], ["iscooked"]])
+    elif item_enum == Item.LETTUCE:
+        item["predicates"] = ["iscuttable"] + random.choice([[], ["iscut"]])
+
 def _randomize_and_freeze_objects(environment_json):
     """
     Returns stations, items, and players in the current environment with random locations and a frozen tag.
@@ -490,6 +519,8 @@ def _randomize_and_freeze_objects(environment_json):
                 break
 
             # Add the group to the environment (and freeze them)
+            if station["name"] == "station":
+                _update_station_name(station)
             station["x"], station["y"] = x, y
             station[FROZEN_TAG_NAME] = True
             station[FORCE_ADD_TAG_NAME] = True
@@ -497,6 +528,8 @@ def _randomize_and_freeze_objects(environment_json):
             if group.get("station_items"):
                 items = group["station_items"]
                 for item in items:
+                    if item["name"] == "item":
+                        _update_item_name(item)
                     item["x"], item["y"] = x, y
                     item[FROZEN_TAG_NAME] = True
                     item[FORCE_ADD_TAG_NAME] = True
@@ -510,6 +543,8 @@ def _randomize_and_freeze_objects(environment_json):
                 new_environment_json["players"].append(player)
                 if group.get("player_item"):
                     item = group["player_item"]
+                    if item["name"] == "item":
+                        _update_item_name(item)
                     item["x"], item["y"] = player["x"], player["y"]
                     item[FROZEN_TAG_NAME] = True
                     item[FORCE_ADD_TAG_NAME] = True
@@ -537,8 +572,8 @@ def _randomize_and_tag_objects(environment_json):
     width, height = environment_json["width"], environment_json["height"]
     randomize_position = lambda obj: obj.update({"x": random.randrange(0, width), "y": random.randrange(0, height)})
     set_mustadd = lambda obj: obj.update({FORCE_ADD_TAG_NAME: True})
-    stations = _apply_lambdas(environment_json["stations"], [randomize_position, set_mustadd])
-    items = _apply_lambdas(environment_json["items"], [randomize_position, set_mustadd])
+    stations = _apply_lambdas(environment_json["stations"], [randomize_position, set_mustadd, _update_station_name])
+    items = _apply_lambdas(environment_json["items"], [randomize_position, set_mustadd, _update_item_name])
     randomize_direction = lambda obj: obj.update({"direction": random.choice([[0,1], [1,0], [0,-1], [-1,0]])})
     players = _apply_lambdas(environment_json["players"], [randomize_position, randomize_direction, set_mustadd])
     return stations, items, players
