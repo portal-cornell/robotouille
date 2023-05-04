@@ -1,8 +1,11 @@
 import sys
 
-# Hack to resolve import issue
-if "/home/yuki/Documents/llm-to-code/overcooked_sim" not in sys.path:
-   sys.path.append("/home/yuki/Documents/llm-to-code/overcooked_sim")
+# # Hack to resolve import issue
+import os
+file_path = os.path.dirname(os.path.realpath(__file__))
+if file_path not in sys.path:
+    # Get file path
+    sys.path.append(file_path)
 
 import pddlgym_interface
 from renderer.renderer import OvercookedRenderer
@@ -77,7 +80,7 @@ def create_overcooked_env(problem_filename, seed=None, noisy_randomization=False
         environment_json = _procedurally_generate(environment_json, seed, noisy_randomization)
     layout = _parse_renderer_layout(environment_json)
     render_fn = OvercookedRenderer(layout=layout, players=environment_json["players"]).render
-    problem_string = builder.build_problem(environment_json)
+    problem_string, environment_json = builder.build_problem(environment_json) # IDs objects in environment
     builder.write_problem_file(problem_string, f"{problem_filename}.pddl")
     pddl_env = pddlgym_interface.create_pddl_env(env_name, is_test_env, render_fn, f"{problem_filename}.pddl")
     builder.delete_problem_file(f"{problem_filename}.pddl")

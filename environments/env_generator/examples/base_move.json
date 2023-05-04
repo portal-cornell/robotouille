@@ -5,14 +5,13 @@
         {
             "name": "station",
             "x": 0,
-            "y": 1,
-            "id": "A"
+            "y": 1
         },
         {
             "name": "station",
             "x": 2,
             "y": 1,
-            "id": "B"
+            "id": "A"
         }
     ],
     "items": [],
@@ -28,7 +27,7 @@
         {
             "predicate": "loc",
             "args": ["robot", "station"],
-            "ids": [1, "B"]
+            "ids": [1, "A"]
         }
     ]
 }

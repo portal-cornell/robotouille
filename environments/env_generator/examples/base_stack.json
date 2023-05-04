@@ -15,14 +15,14 @@
             "x": 0,
             "y": 1,
             "stack-level": 0,
-            "id": "a"
+            "id": "b"
         },
         {
             "name": "item",
             "x": 0,
             "y": 0,
             "stack-level": 0,
-            "id": "b"
+            "id": "a"
         }
     ],
     "players": [
@@ -37,7 +37,7 @@
         {
             "predicate": "atop",
             "args": ["item", "item"],
-            "ids": ["b", "a"]
+            "ids": ["a", "b"]
         }
     ]
 }
