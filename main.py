@@ -8,7 +8,6 @@ args = parser.parse_args()
 
 noisy_randomization = True
 env, json = overcooked_utils.create_overcooked_env(args.environment_name, args.seed, noisy_randomization)
-print(json)
 obs, info = env.reset()
 env.render(mode='human')
 done = False

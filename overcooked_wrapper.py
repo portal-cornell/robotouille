@@ -1,7 +1,7 @@
 import gym
 import pddlgym
-import basic_utils
-import pddlgym_utils
+import overcooked_sim.overcooked_utils as overcooked_utils
+import overcooked_sim.pddlgym_utils as pddlgym_utils
 
 class OvercookedWrapper(gym.Wrapper):
     """
@@ -41,9 +41,9 @@ class OvercookedWrapper(gym.Wrapper):
         print('\n' * 10)
         if self.timesteps % 10 == 0:
             print(f"You have made {self.timesteps} steps.")
-        basic_utils.print_states(self.prev_step[0])
+        overcooked_utils.print_states(self.prev_step[0])
         print('\n')
-        basic_utils.print_actions(self.env, self.prev_step[0])
+        overcooked_utils.print_actions(self.env, self.prev_step[0])
         print(f"True Predicates: {expanded_truths.sum()}")
     
     def _state_update(self):
@@ -175,9 +175,9 @@ class OvercookedWrapper(gym.Wrapper):
         expanded_truths, expanded_states = pddlgym_utils.expand_state(self.prev_step[0].literals, self.prev_step[0].objects)
         if interactive:
             self._interactive_starter_prints(expanded_truths)
-            action = basic_utils.create_action_repl(self.env, self.prev_step[0])
+            action = overcooked_utils.create_action_repl(self.env, self.prev_step[0])
         else:
-            action = basic_utils.create_action(self.env, self.prev_step[0], action)
+            action = overcooked_utils.create_action(self.env, self.prev_step[0], action)
         obs, reward, done, _ = self._handle_action(action)
         obs = self._state_update()
         toggle_array = pddlgym_utils.create_toggle_array(expanded_truths, expanded_states, obs.literals)
