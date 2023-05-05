@@ -1,7 +1,7 @@
 import gym
 import pddlgym
-import overcooked_sim.overcooked_utils as overcooked_utils
-import overcooked_sim.pddlgym_utils as pddlgym_utils
+import overcooked_utils
+import pddlgym_utils
 
 class OvercookedWrapper(gym.Wrapper):
     """
