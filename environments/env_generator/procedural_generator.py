@@ -225,6 +225,7 @@ def _randomly_add_stations(environment_json, stations, players):
             # Station does not occupy the same position as another station
             environment_json_copy = deepcopy(updated_environment_json)
             environment_json_copy["stations"].append(station)
+            environment_json_copy['players'] = players # Consider frozen players' future positions
             reachable = _are_stations_reachable(environment_json_copy)
             if reachable:
                 # All stations are reachable

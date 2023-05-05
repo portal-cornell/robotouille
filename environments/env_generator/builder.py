@@ -224,6 +224,7 @@ def build_problem(environment_dict):
     
     Returns:
         problem (str): PDDL problem string.
+        new_environment_dict (dict): Dictionary containing IDed stations, items, and player location.
     """
     problem = "(define (problem overcooked)\n"
     problem += "(:domain overcooked)\n"
@@ -239,7 +240,7 @@ def build_problem(environment_dict):
     problem += "(:goal\n"
     problem += build_goal(new_environment_dict)
     problem += ")\n"
-    return problem
+    return problem, new_environment_dict
 
 def write_problem_file(problem, filename):
     """

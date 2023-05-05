@@ -159,16 +159,6 @@ class OvercookedCanvas:
         Raises:
             ValueError: If the player cannot reach the station
         """
-        print(layout)
-        print(player_position)
-        print(station_position)
-        """
-        [None,      None,       'table3',   None,       'table6'],
-        [None,      None,       None,       None,       'table5'],
-        ['board1',  None,       None,       None,       'table4'],
-        ['table1',  None,       'stove1',   'board2',   None],
-        [None,      'table2',   None,       None,       None]
-        """
         width, height = len(layout[0]), len(layout)
         obstacle_locations = self._get_station_locations(layout)
         curr_prev = (player_position, player_position) # current position, previous position
