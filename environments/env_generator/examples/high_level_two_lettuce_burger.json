@@ -13,18 +13,23 @@
             "y": 1
         },
         {
-            "name": "board",
+            "name": "table",
             "x": 2,
             "y": 1
         },
         {
-            "name": "table",
+            "name": "board",
             "x": 3,
             "y": 1
         },
         {
             "name": "table",
             "x": 4,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 5,
             "y": 1
         },
         {
@@ -38,18 +43,23 @@
             "y": 3
         },
         {
-            "name": "board",
+            "name": "table",
             "x": 2,
             "y": 3
         },
         {
-            "name": "table",
+            "name": "board",
             "x": 3,
             "y": 3
         },
         {
             "name": "table",
             "x": 4,
+            "y": 3
+        },
+        {
+            "name": "table",
+            "x": 5,
             "y": 3
         }
     ],
@@ -70,13 +80,13 @@
         },
         {
             "name": "bottombun",
-            "x": 3,
+            "x": 4,
             "y": 1,
             "stack-level": 0
         },
         {
             "name": "topbun",
-            "x": 4,
+            "x": 5,
             "y": 1,
             "stack-level": 0
         },
@@ -96,13 +106,13 @@
         },
         {
             "name": "bottombun",
-            "x": 3,
+            "x": 4,
             "y": 3,
             "stack-level": 0
         },
         {
             "name": "topbun",
-            "x": 4,
+            "x": 5,
             "y": 3,
             "stack-level": 0
         }

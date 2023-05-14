@@ -1,6 +1,6 @@
 {
-    "width": 3,
-    "height": 3,
+    "width": 4,
+    "height": 4,
     "stations": [
         {
             "name": "table",
@@ -13,8 +13,13 @@
             "y": 1
         },
         {
-            "name": "board",
+            "name": "table",
             "x": 2,
+            "y": 1
+        },
+        {
+            "name": "board",
+            "x": 3,
             "y": 1
         }
     ],

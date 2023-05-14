@@ -3,7 +3,7 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--environment_name", help="The name of the environment to create.", default="original")
-parser.add_argument("--seed", help="The seed to use for the environment.", default=0, type=int)
+parser.add_argument("--seed", help="The seed to use for the environment.", default=None, type=int)
 args = parser.parse_args()
 
 noisy_randomization = True

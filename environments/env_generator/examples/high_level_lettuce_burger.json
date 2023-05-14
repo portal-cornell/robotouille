@@ -1,6 +1,6 @@
 {
-    "width": 5,
-    "height": 5,
+    "width": 6,
+    "height": 6,
     "stations": [
         {
             "name": "table",
@@ -13,18 +13,23 @@
             "y": 1
         },
         {
-            "name": "board",
+            "name": "table",
             "x": 2,
             "y": 1
         },
         {
-            "name": "table",
+            "name": "board",
             "x": 3,
             "y": 1
         },
         {
             "name": "table",
             "x": 4,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 5,
             "y": 1
         }
     ],
@@ -45,13 +50,13 @@
         },
         {
             "name": "bottombun",
-            "x": 3,
+            "x": 4,
             "y": 1,
             "stack-level": 0
         },
         {
             "name": "topbun",
-            "x": 4,
+            "x": 5,
             "y": 1,
             "stack-level": 0
         }

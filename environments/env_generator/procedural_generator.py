@@ -468,9 +468,9 @@ def _update_item_name(item):
     item_enum = random.choice(list(Item))
     item["name"] = item_enum.value
     if item_enum == Item.PATTY:
-        item["predicates"] = ["iscookable"] + random.choice([[], ["iscooked"]])
+        item["predicates"] = ["iscookable"] # + random.choice([[], ["iscooked"]])
     elif item_enum == Item.LETTUCE:
-        item["predicates"] = ["iscuttable"] + random.choice([[], ["iscut"]])
+        item["predicates"] = ["iscuttable"] # + random.choice([[], ["iscut"]])
 
 def _randomize_and_freeze_objects(environment_json):
     """
