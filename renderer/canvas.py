@@ -275,7 +275,9 @@ class OvercookedCanvas:
                         if literal.predicate == "at" and literal.variables[0].name == food_below:
                             station_pos = self._get_station_position(literal.variables[1].name)
                             break
-                    station_pos[1] -= self.STATION_FOOD_OFFSET + 0.1 * (stack_number[food_above] - 1)
+                    print(food_above)
+                    cheese_offset = -0.05 if "cheese" in food_above or "onion" in food_above else 0
+                    station_pos[1] -= self.STATION_FOOD_OFFSET + 0.1 * (stack_number[food_above] - 1) + cheese_offset
                     self._draw_food_image(surface, food_above, obs, station_pos * self.pix_square_size)
                 else:
                     i += 1

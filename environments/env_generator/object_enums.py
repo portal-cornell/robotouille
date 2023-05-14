@@ -5,6 +5,11 @@ class Item(Enum):
     LETTUCE = "lettuce"
     PATTY = "patty"
     TOPBUN = "topbun"
+    BREAD = "bread"
+    CHEESE = "cheese"
+    TOMATO = "tomato"
+    ONION = "onion"
+    CHICKEN = "chicken"
 
 class Player(Enum):
     ROBOT = "robot"
