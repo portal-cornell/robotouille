@@ -1,4 +1,4 @@
-import overcooked_exceptions
+import robotouille_exceptions
 import pddlgym_interface
 
 def print_states(obs):
@@ -31,7 +31,7 @@ def create_action_repl(env, obs):
     """
     This function outputs a valid action inputted by the user.
 
-    This function is meant to be used with the interactive mode of the Overcooked wrapper.
+    This function is meant to be used with the interactive mode of the Robotouille wrapper.
     The user can either type in a custom defined action (e.g. noop), the entire action 
     literal from PDDLGym (e.g. move(robot1:player,stove1:station,board1:station) ) or the
     number corresponding to the action in the list of valid actions (which are printed
@@ -83,8 +83,8 @@ def create_action(env, obs, action):
         action (str): The action to be validated.
     
     Raises:
-        OvercookedMalformedActionException: If the action is malformatted.
-        OvercookedInvalidActionException: If the action is invalid.
+        RobotouilleMalformedActionException: If the action is malformatted.
+        RobotouilleInvalidActionException: If the action is invalid.
     
     Returns:
         action (pddlgym.Literal): A valid action.
@@ -95,7 +95,7 @@ def create_action(env, obs, action):
         action = pddlgym_interface.str_to_literal(action)
         assert action in valid_actions
     except ValueError:
-        raise overcooked_exceptions.OvercookedMalformedActionException(f"Your action [{action}] is malformatted.")
+        raise robotouille_exceptions.RobotouilleMalformedActionException(f"Your action [{action}] is malformatted.")
     except AssertionError:
-        raise overcooked_exceptions.OvercookedInvalidActionException(f"Your action [{action}] is invalid.")
+        raise robotouille_exceptions.RobotouilleInvalidActionException(f"Your action [{action}] is invalid.")
     return action

@@ -5,13 +5,13 @@ import copy
 from .object_enums import Item, Player, Station, str_to_typed_enum
 
 EXAMPLES_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), "examples")
-PROBLEM_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", "overcooked")
+PROBLEM_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", "robotouille")
 
 ENTITY_FIELDS = ["stations", "items", "players"]
 
 def load_environment(json_filename, seed=None):
     """
-    Loads an Overcooked environment from a JSON file in the examples folder.
+    Loads an Robotouille environment from a JSON file in the examples folder.
 
     The JSON file should contain the initial stations, items, and player location.
     These will be sorted in the (x, y) order from left to right, bottom to top order.
@@ -226,8 +226,8 @@ def build_problem(environment_dict):
         problem (str): PDDL problem string.
         new_environment_dict (dict): Dictionary containing IDed stations, items, and player location.
     """
-    problem = "(define (problem overcooked)\n"
-    problem += "(:domain overcooked)\n"
+    problem = "(define (problem robotouille)\n"
+    problem += "(:domain robotouille)\n"
     problem += "(:objects\n"
     objects_str, new_environment_dict = build_objects(environment_dict)
     problem += objects_str

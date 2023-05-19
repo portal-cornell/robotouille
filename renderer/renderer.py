@@ -1,11 +1,11 @@
 import pygame
 import numpy as np
 
-from .canvas import OvercookedCanvas
+from .canvas import RobotouilleCanvas
 
-class OvercookedRenderer:
+class RobotouilleRenderer:
     """
-    Renderer for Overcooked.
+    Renderer for Robotouille.
 
     It is necessary to provide a render function to PDDLGym environments. This class
     provides that function but also setups up the pygame window to allow for rendering.
@@ -21,7 +21,7 @@ class OvercookedRenderer:
             render_fps (int): Framerate of the renderer
         """
         # The canvas is responsible for drawing the game state on a pygame surface.
-        self.canvas = OvercookedCanvas(layout, players[0], window_size)
+        self.canvas = RobotouilleCanvas(layout, players[0], window_size)
         # The pygame window size.
         self.window_size = window_size
         # The framerate of the renderer. This isn't too important since the renderer
@@ -43,7 +43,7 @@ class OvercookedRenderer:
             pygame.init()
             pygame.display.init()
             self.window = pygame.display.set_mode(self.window_size)
-            pygame.display.set_caption('Overcooked Simulator')
+            pygame.display.set_caption('Robotouille Simulator')
         if self.clock is None and render_mode == "human":
             self.clock = pygame.time.Clock()
     

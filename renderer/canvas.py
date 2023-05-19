@@ -2,7 +2,7 @@ import os
 import pygame
 import numpy as np
 
-class OvercookedCanvas:
+class RobotouilleCanvas:
     """
     This class is responsible for drawing the game state on a pygame surface. Some of
     the rendered information isn't necessarily provided by the game state (e.g. the
@@ -60,7 +60,7 @@ class OvercookedCanvas:
             scale (np.array): (width, height) to scale the image by
         """
         if image_name not in self.asset_directory:
-            self.asset_directory[image_name] = pygame.image.load(os.path.join(OvercookedCanvas.ASSETS_DIRECTORY, image_name))
+            self.asset_directory[image_name] = pygame.image.load(os.path.join(RobotouilleCanvas.ASSETS_DIRECTORY, image_name))
         image = self.asset_directory[image_name]
         image = pygame.transform.scale(image, scale)
         surface.blit(image, position)
@@ -256,7 +256,7 @@ class OvercookedCanvas:
                 stack_number[food] = 1
                 food_station = literal.variables[1].name
                 pos = self._get_station_position(food_station)
-                pos[1] -= OvercookedCanvas.STATION_FOOD_OFFSET # place the food slightly above the station
+                pos[1] -= RobotouilleCanvas.STATION_FOOD_OFFSET # place the food slightly above the station
                 self._draw_food_image(surface, food, obs, pos * self.pix_square_size)
             if literal.predicate == 'atop':
                 stack = (literal.variables[0].name, literal.variables[1].name)

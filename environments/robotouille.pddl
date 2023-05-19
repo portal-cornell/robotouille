@@ -1,8 +1,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;           Overcooked!!!           ;;
+;;           Robotouille!!!          ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(define (domain overcooked)
+(define (domain robotouille)
     (:requirements :strips :typing :disjunctive-preconditions)
     (:types station player item)
     (:predicates
