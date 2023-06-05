@@ -62,7 +62,7 @@ class RobotouilleCanvas:
         if image_name not in self.asset_directory:
             self.asset_directory[image_name] = pygame.image.load(os.path.join(RobotouilleCanvas.ASSETS_DIRECTORY, image_name))
         image = self.asset_directory[image_name]
-        image = pygame.transform.scale(image, scale)
+        image = pygame.transform.smoothscale(image, scale)
         surface.blit(image, position)
 
     def _draw_food_image(self, surface, food_name, obs, position):
