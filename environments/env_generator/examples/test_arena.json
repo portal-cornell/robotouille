@@ -132,8 +132,7 @@
     ],
     "players": [
         {
-            "name": "6
-            robot",
+            "name": "robot",
             "x": 1,
             "y": 0,
             "direction": [-1, 0]
