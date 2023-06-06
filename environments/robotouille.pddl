@@ -1,8 +1,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;           Overcooked!!!           ;;
+;;           Robotouille!!!          ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(define (domain overcooked)
+(define (domain robotouille)
     (:requirements :strips :typing :disjunctive-preconditions)
     (:types station player item)
     (:predicates
@@ -13,12 +13,17 @@
         (isrobot ?p - player)
         (istopbun ?i - item)
         (isbottombun ?i - item)
+        (isbread ?i - item)
         (islettuce ?i - item)
+        (isonion ?i - item)
+        (istomato ?i - item)
         (iscuttable ?i - item)
         (iscut ?i - item)
         (ispatty ?i - item)
+        (ischicken ?i - item)
         (iscookable ?i - item)
         (iscooked ?i - item)
+        (ischeese ?i - item)
         ; State Predicates
         (loc ?p - player ?s - station)
         (at ?i - item ?s - station)

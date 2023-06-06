@@ -1,6 +1,6 @@
 {
-    "width": 4,
-    "height": 4,
+    "width": 3,
+    "height": 3,
     "stations": [
         {
             "name": "table",
@@ -9,18 +9,20 @@
         },
         {
             "name": "stove",
-            "x": 1,
-            "y": 1
+            "x": 2,
+            "y": 1,
+            "id": "A"
         },
         {
             "name": "table",
-            "x": 2,
-            "y": 1
+            "x": 0,
+            "y": 0
         },
         {
-            "name": "board",
-            "x": 3,
-            "y": 1
+            "name": "stove",
+            "x": 2,
+            "y": 0,
+            "id": "A"
         }
     ],
     "items": [
@@ -29,34 +31,31 @@
             "x": 0,
             "y": 1,
             "stack-level": 0,
-            "predicates": ["iscookable"]
+            "predicates": ["iscookable"],
+            "id": "a"
         },
         {
-            "name": "lettuce",
-            "x": 2,
-            "y": 1,
+            "name": "patty",
+            "x": 0,
+            "y": 0,
             "stack-level": 0,
-            "predicates": ["iscuttable"]
+            "predicates": ["iscookable"],
+            "id": "a"
         }
     ],
     "players": [
         {
             "name": "robot",
-            "x": 0,
+            "x": 1,
             "y": 0,
-            "direction": [0, 1]
+            "direction": [-1, 0]
         }
     ],
     "goal": [
         {
-            "predicate": "iscut",
-            "args": ["lettuce"],
-            "ids": [1]
-        },
-        {
             "predicate": "iscooked",
             "args": ["patty"],
-            "ids": [1]
+            "ids": ["a"]
         }
     ]
 }

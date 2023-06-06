@@ -1,6 +1,6 @@
 import pddlgym_interface
-from renderer.renderer import OvercookedRenderer
-from overcooked_wrapper import OvercookedWrapper
+from renderer.renderer import RobotouilleRenderer
+from robotouille_wrapper import RobotouilleWrapper
 from environments.env_generator import builder
 from environments.env_generator import procedural_generator
 
@@ -34,7 +34,7 @@ def _procedurally_generate(environment_json, seed, noisy_randomization):
         noisy_randomization (bool): Whether or not to use noisy randomization.
     
     Returns:
-        env (OvercookedWrapper): The Overcooked environment.
+        env (RobotouilleWrapper): The Robotouille environment.
     """
     generated_environment_json = None
     while generated_environment_json is None:
@@ -47,9 +47,9 @@ def _procedurally_generate(environment_json, seed, noisy_randomization):
             seed += 1
     return generated_environment_json
 
-def create_overcooked_env(problem_filename, seed=None, noisy_randomization=False):
+def create_robotouille_env(problem_filename, seed=None, noisy_randomization=False):
     """
-    Creates and returns an Overcooked environment.
+    Creates and returns an Robotouille environment.
 
     Note this function is used to load pre-created environments. These can be located
     in the environments/env_generator/examples folder.
@@ -60,18 +60,18 @@ def create_overcooked_env(problem_filename, seed=None, noisy_randomization=False
         noisy_randomization (bool): Whether or not to use noisy randomization.
     
     Returns:
-        env (OvercookedWrapper): The Overcooked environment.
+        env (RobotouilleWrapper): The Robotouille environment.
     """
-    env_name = "overcooked"
+    env_name = "robotouille"
     is_test_env = False
     json_filename = f"{problem_filename}.json"
     environment_json = builder.load_environment(json_filename)
     if seed is not None:
         environment_json = _procedurally_generate(environment_json, seed, noisy_randomization)
     layout = _parse_renderer_layout(environment_json)
-    render_fn = OvercookedRenderer(layout=layout, players=environment_json["players"]).render
+    render_fn = RobotouilleRenderer(layout=layout, players=environment_json["players"]).render
     problem_string, environment_json = builder.build_problem(environment_json) # IDs objects in environment
     builder.write_problem_file(problem_string, f"{problem_filename}.pddl")
     pddl_env = pddlgym_interface.create_pddl_env(env_name, is_test_env, render_fn, f"{problem_filename}.pddl")
     builder.delete_problem_file(f"{problem_filename}.pddl")
-    return OvercookedWrapper(pddl_env), environment_json
+    return RobotouilleWrapper(pddl_env), environment_json

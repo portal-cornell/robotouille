@@ -2,7 +2,7 @@ import pddlgym
 import os
 import shutil
 import numpy as np
-from overcooked_exceptions import OvercookedEnvironmentDoesNotExistException
+from robotouille_exceptions import RobotouilleEnvironmentDoesNotExistException
 
 CURRENT_DIR_PATH = os.path.dirname(os.path.abspath(__file__))
 ENVIRONMENT_DIR_PATH = os.path.join(CURRENT_DIR_PATH, "environments")
@@ -74,7 +74,7 @@ def create_pddl_env(env_name, is_test_env, render_fn, problem_filename):
     try:
         env_index = sorted(os.listdir(problem_dir_path)).index(problem_filename)
     except:
-        raise OvercookedEnvironmentDoesNotExistException(f"Environment {problem_filename} does not exist.")
+        raise RobotouilleEnvironmentDoesNotExistException(f"Environment {problem_filename} does not exist.")
     shutil.rmtree(problem_dir_path)
     env.fix_problem_index(env_index)
     return env

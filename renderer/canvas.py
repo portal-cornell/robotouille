@@ -2,7 +2,7 @@ import os
 import pygame
 import numpy as np
 
-class OvercookedCanvas:
+class RobotouilleCanvas:
     """
     This class is responsible for drawing the game state on a pygame surface. Some of
     the rendered information isn't necessarily provided by the game state (e.g. the
@@ -60,9 +60,9 @@ class OvercookedCanvas:
             scale (np.array): (width, height) to scale the image by
         """
         if image_name not in self.asset_directory:
-            self.asset_directory[image_name] = pygame.image.load(os.path.join(OvercookedCanvas.ASSETS_DIRECTORY, image_name))
+            self.asset_directory[image_name] = pygame.image.load(os.path.join(RobotouilleCanvas.ASSETS_DIRECTORY, image_name))
         image = self.asset_directory[image_name]
-        image = pygame.transform.scale(image, scale)
+        image = pygame.transform.smoothscale(image, scale)
         surface.blit(image, position)
 
     def _draw_food_image(self, surface, food_name, obs, position):
@@ -256,7 +256,7 @@ class OvercookedCanvas:
                 stack_number[food] = 1
                 food_station = literal.variables[1].name
                 pos = self._get_station_position(food_station)
-                pos[1] -= OvercookedCanvas.STATION_FOOD_OFFSET # place the food slightly above the station
+                pos[1] -= RobotouilleCanvas.STATION_FOOD_OFFSET # place the food slightly above the station
                 self._draw_food_image(surface, food, obs, pos * self.pix_square_size)
             if literal.predicate == 'atop':
                 stack = (literal.variables[0].name, literal.variables[1].name)
@@ -275,7 +275,9 @@ class OvercookedCanvas:
                         if literal.predicate == "at" and literal.variables[0].name == food_below:
                             station_pos = self._get_station_position(literal.variables[1].name)
                             break
-                    station_pos[1] -= self.STATION_FOOD_OFFSET + 0.1 * (stack_number[food_above] - 1)
+                    print(food_above)
+                    cheese_offset = -0.05 if "cheese" in food_above or "onion" in food_above else 0
+                    station_pos[1] -= self.STATION_FOOD_OFFSET + 0.1 * (stack_number[food_above] - 1) + cheese_offset
                     self._draw_food_image(surface, food_above, obs, station_pos * self.pix_square_size)
                 else:
                     i += 1

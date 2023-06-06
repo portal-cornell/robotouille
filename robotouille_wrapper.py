@@ -1,11 +1,11 @@
 import gym
 import pddlgym
-import overcooked_utils
+import robotouille_utils
 import pddlgym_utils
 
-class OvercookedWrapper(gym.Wrapper):
+class RobotouilleWrapper(gym.Wrapper):
     """
-    This wrapper wraps around the Overcooked environment from PDDLGym.
+    This wrapper wraps around the Robotouille environment from PDDLGym.
 
     This wrapper is necessary because while the PDDL language is powerful, it can be
     cumbersome to implement data-driven state such as cutting X times or cooking something
@@ -15,12 +15,12 @@ class OvercookedWrapper(gym.Wrapper):
     """
     def __init__(self, env):
         """
-        Initialize the Overcooked wrapper.
+        Initialize the Robotouille wrapper.
 
         Args:
             env (PDDLGym Environment): The environment to wrap.
         """
-        super(OvercookedWrapper, self).__init__(env)
+        super(RobotouilleWrapper, self).__init__(env)
         # The PDDLGym environment.
         self.env = env
         # The previous step of the environment.
@@ -41,9 +41,9 @@ class OvercookedWrapper(gym.Wrapper):
         print('\n' * 10)
         if self.timesteps % 10 == 0:
             print(f"You have made {self.timesteps} steps.")
-        overcooked_utils.print_states(self.prev_step[0])
+        robotouille_utils.print_states(self.prev_step[0])
         print('\n')
-        overcooked_utils.print_actions(self.env, self.prev_step[0])
+        robotouille_utils.print_actions(self.env, self.prev_step[0])
         print(f"True Predicates: {expanded_truths.sum()}")
     
     def _state_update(self):
@@ -175,9 +175,9 @@ class OvercookedWrapper(gym.Wrapper):
         expanded_truths, expanded_states = pddlgym_utils.expand_state(self.prev_step[0].literals, self.prev_step[0].objects)
         if interactive:
             self._interactive_starter_prints(expanded_truths)
-            action = overcooked_utils.create_action_repl(self.env, self.prev_step[0])
+            action = robotouille_utils.create_action_repl(self.env, self.prev_step[0])
         else:
-            action = overcooked_utils.create_action(self.env, self.prev_step[0], action)
+            action = robotouille_utils.create_action(self.env, self.prev_step[0], action)
         obs, reward, done, _ = self._handle_action(action)
         obs = self._state_update()
         toggle_array = pddlgym_utils.create_toggle_array(expanded_truths, expanded_states, obs.literals)

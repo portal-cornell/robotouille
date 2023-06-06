@@ -24,13 +24,14 @@ def _generate_random_objects(width, height):
         items (list): A list of items to add to the environment.
         players (list): A list of players to add to the environment.
     """
-    num_stations = random.randrange(0, width * height)
+    num_stations = random.randrange(0, width * height)    
+    stations = [{"x": random.randrange(0, width), "y": random.randrange(0, height)} for _ in range(num_stations)]
+    stations = _apply_lambdas(stations, [_update_station_name])
+    
     num_items = random.randrange(0, num_stations+1)
-    # print(f"Generating {num_stations} stations and {num_items} items.")
-    station_names = [enum.value for enum in random.choices(list(Station), k=num_stations)]
-    stations = [{"name": name, "x": random.randrange(0, width), "y": random.randrange(0, height)} for name in station_names]
-    item_names = [enum.value for enum in random.choices(list(Item), k=num_items)]
-    items = [{"name": name, "x": random.choice(stations)["x"], "y": random.choice(stations)["y"], "stack-level": 0} for name in item_names]
+    items = [{"x": random.choice(stations)["x"], "y": random.choice(stations)["y"], "stack-level": 0} for _ in range(num_items)]
+    items = _apply_lambdas(items, [_update_item_name])
+    
     players = [] # There should only be one player in the environment which is already in the environment JSON
     return stations, items, players
 
@@ -466,10 +467,10 @@ def _update_item_name(item):
     """
     item_enum = random.choice(list(Item))
     item["name"] = item_enum.value
-    if item_enum == Item.PATTY:
-        item["predicates"] = ["iscookable"] + random.choice([[], ["iscooked"]])
-    elif item_enum == Item.LETTUCE:
-        item["predicates"] = ["iscuttable"] + random.choice([[], ["iscut"]])
+    if item_enum in [Item.PATTY, Item.CHICKEN]:
+        item["predicates"] = ["iscookable"] # + random.choice([[], ["iscooked"]])
+    elif item_enum in [Item.LETTUCE, Item.ONION, Item.TOMATO]:
+        item["predicates"] = ["iscuttable"] # + random.choice([[], ["iscut"]])
 
 def _randomize_and_freeze_objects(environment_json):
     """

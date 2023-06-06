@@ -1,5 +1,5 @@
-(define (problem overcooked)
-(:domain overcooked)
+(define (problem robotouille)
+(:domain robotouille)
 (:objects
     table1 - station
     stove1 - station
