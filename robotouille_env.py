@@ -61,6 +61,8 @@ def create_robotouille_env(problem_filename, seed=None, noisy_randomization=Fals
     
     Returns:
         env (RobotouilleWrapper): The Robotouille environment.
+        environment_json (dict): The environment json.
+        renderer (RobotouilleRenderer): The Robotouille renderer.
     """
     env_name = "robotouille"
     is_test_env = False
@@ -69,9 +71,10 @@ def create_robotouille_env(problem_filename, seed=None, noisy_randomization=Fals
     if seed is not None:
         environment_json = _procedurally_generate(environment_json, seed, noisy_randomization)
     layout = _parse_renderer_layout(environment_json)
-    render_fn = RobotouilleRenderer(layout=layout, players=environment_json["players"]).render
+    renderer = RobotouilleRenderer(layout=layout, players=environment_json["players"])
+    render_fn = renderer.render
     problem_string, environment_json = builder.build_problem(environment_json) # IDs objects in environment
     builder.write_problem_file(problem_string, f"{problem_filename}.pddl")
     pddl_env = pddlgym_interface.create_pddl_env(env_name, is_test_env, render_fn, f"{problem_filename}.pddl")
     builder.delete_problem_file(f"{problem_filename}.pddl")
-    return RobotouilleWrapper(pddl_env), environment_json
+    return RobotouilleWrapper(pddl_env), environment_json, renderer

@@ -11,7 +11,7 @@ class RobotouilleRenderer:
     provides that function but also setups up the pygame window to allow for rendering.
     """
 
-    def __init__(self, layout=[], players=[], window_size=np.array([512,512]), render_fps=4):
+    def __init__(self, layout=[], players=[], window_size=np.array([512,512]), render_fps=60):
         """
         Initializes the renderer.
 
@@ -62,6 +62,7 @@ class RobotouilleRenderer:
             np.array: The RGB array of the frame (only if render_mode == "rgb_array")
         """
         self._init_setup(render_mode)
+        # print("events: ", pygame.event.get())
         surface = pygame.Surface(self.window_size)
         self.canvas.draw_to_surface(surface, obs)
         if render_mode == "human":
