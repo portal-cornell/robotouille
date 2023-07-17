@@ -62,7 +62,6 @@ class RobotouilleRenderer:
             np.array: The RGB array of the frame (only if render_mode == "rgb_array")
         """
         self._init_setup(render_mode)
-        # print("events: ", pygame.event.get())
         surface = pygame.Surface(self.window_size)
         self.canvas.draw_to_surface(surface, obs)
         if render_mode == "human":

@@ -138,7 +138,7 @@ class RobotouilleWrapper(gym.Wrapper):
         # TODO: Probably stop cooking if something is stacked on top of meat
         return self.env.step(action)
         
-    def step(self, action=None, interactive=False, control_mode=False):
+    def step(self, action=None, interactive=False):
         """
         This function steps the environment forward.
 

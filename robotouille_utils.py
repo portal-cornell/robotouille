@@ -1,6 +1,5 @@
 import robotouille_exceptions
 import pddlgym_interface
-import pygame
 
 def print_states(obs):
     """
