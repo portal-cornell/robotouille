@@ -11,7 +11,7 @@ class RobotouilleRenderer:
     provides that function but also setups up the pygame window to allow for rendering.
     """
 
-    def __init__(self, layout=[], players=[], window_size=np.array([512,512]), render_fps=4):
+    def __init__(self, layout=[], players=[], window_size=np.array([512,512]), render_fps=60):
         """
         Initializes the renderer.
 
