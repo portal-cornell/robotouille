@@ -47,6 +47,7 @@
             "direction": [0, 1]
         }
     ],
+    "goal_description": "Cook a patty and cut some lettuce",
     "goal": [
         {
             "predicate": "iscut",
@@ -56,7 +57,7 @@
         {
             "predicate": "iscooked",
             "args": ["patty"],
-            "ids": [1]
+            "ids": [2]
         }
     ]
 }
