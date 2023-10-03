@@ -360,9 +360,6 @@ def build_goal(environment_dict):
     Returns:
         goal (str): PDDL goal string.
     """
-    # TODO: Make this more general
-    # Right now we set this to a goal impossible to satisfy due to the complexity
-    # of specifying all possible goals states for a task.
     goal =  "   (or\n"
     unique_preds, combination_preds, combination_dict = create_unique_and_combination_preds(environment_dict)
     combinations, id_order = create_combinations(combination_dict)
@@ -374,7 +371,6 @@ def build_goal(environment_dict):
                 if arg.isdigit(): # Combination ID argument
                     id_idx = id_order.index(arg)
                     filled_combination_preds[i][j] = combination[id_idx]
-        # TODO: Some issue here with the conjunctions not changing each iteration - fixxxx!!!! <3
         goal += create_conjunction(unique_preds + filled_combination_preds)
     goal += "   )\n"
     return goal
