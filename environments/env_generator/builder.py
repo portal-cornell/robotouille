@@ -247,8 +247,8 @@ def create_unique_and_combination_preds(environment_dict):
     Combination predicates are those that contain at least one argument that refers to a specific entity
     of a particular type. This means that at least one argument's ID is a digit. This means that
     any entity of that type can be included in the goal and thus a disjunction must be used to
-    include all possible entities. For example, perhaps to hold any patty or to create a lettuce
-    burger where the ingredients can be any found in the environment. This would be a combination
+    include all possible entities. For example, perhaps the goal is to hold any patty or to create a 
+    lettuce burger where the ingredients can be any found in the environment. This would be a combination
     predicate.
 
     To create all the possible combinations of combination predicates, a dictionary is used to
