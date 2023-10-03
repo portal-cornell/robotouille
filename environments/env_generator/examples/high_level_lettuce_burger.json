@@ -116,6 +116,7 @@
             "direction": [0, 1]
         }
     ],
+    "goal_description": "Make a lettuce burger with lettuce on top of the patty.",
     "goal": [
         {
             "predicate": "iscut",
@@ -125,22 +126,22 @@
         {
             "predicate": "iscooked",
             "args": ["patty"],
-            "ids": [1]
+            "ids": [2]
         },
         {
             "predicate": "atop",
             "args": ["topbun", "lettuce"],
-            "ids": [1, 1]
+            "ids": [3, 1]
         },
         {
             "predicate": "atop",
             "args": ["lettuce", "patty"],
-            "ids": [1, 1]
+            "ids": [1, 2]
         },
         {
             "predicate": "atop",
             "args": ["patty", "bottombun"],
-            "ids": [1, 1]
+            "ids": [2, 4]
         }
     ]
 }

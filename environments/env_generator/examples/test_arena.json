@@ -138,6 +138,7 @@
             "direction": [-1, 0]
         }
     ],
+    "goal_description": "Make a burger with patty, tomato, lettuce in that order, and an onion cheese chicken sandwich (any order).",
     "goal": [
         {
             "predicate": "iscut",
@@ -145,24 +146,74 @@
             "ids": [1]
         },
         {
-            "predicate": "atop",
-            "args": ["topbun", "lettuce"],
-            "ids": [1, 1]
+            "predicate": "iscut",
+            "args": ["tomato"],
+            "ids": [2]
+        },
+        {
+            "predicate": "iscut",
+            "args": ["onion"],
+            "ids": [3]
         },
         {
             "predicate": "iscooked",
             "args": ["patty"],
-            "ids": [1]
+            "ids": [4]
+        },
+        {
+            "predicate": "iscooked",
+            "args": ["chicken"],
+            "ids": [5]
         },
         {
             "predicate": "atop",
-            "args": ["lettuce", "patty"],
-            "ids": [1, 1]
+            "args": ["topbun", "lettuce"],
+            "ids": [6, 1]
+        },
+        {
+            "predicate": "atop",
+            "args": ["lettuce", "tomato"],
+            "ids": [1, 2]
+        },
+        {
+            "predicate": "atop",
+            "args": ["tomato", "patty"],
+            "ids": [2, 4]
         },
         {
             "predicate": "atop",
             "args": ["patty", "bottombun"],
-            "ids": [1, 1]
+            "ids": [4, 7]
+        },
+        {
+            "predicate": "on",
+            "args": ["bread", "table"],
+            "ids": [8, 9]
+        },
+        {
+            "predicate": "at",
+            "args": ["onion", "table"],
+            "ids": [3, 9]
+        },
+        {
+            "predicate": "at",
+            "args": ["cheese", "table"],
+            "ids": [10, 9]
+        },
+        {
+            "predicate": "at",
+            "args": ["chicken", "table"],
+            "ids": [5, 9]
+        },
+        {
+            "predicate": "at",
+            "args": ["bread", "table"],
+            "ids": [11, 9]
+        },
+        {
+            "predicate": "clear",
+            "args": ["bread"],
+            "ids": [11]
         }
     ]
 }

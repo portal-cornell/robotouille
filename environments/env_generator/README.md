@@ -39,15 +39,16 @@ Here we describe the format of the JSON files under `examples`.
         },
         ...
     ],
-    "goal" = (UNUSED) A high-level description of the goal in this environment.
+    "goal description" = A string description of the goal in this environment
+    "goal" = A high-level description of the goal in this environment.
     [
         {
             "predicate" = An existing predicate that is part of this environment's goal
             "args" = A list of arguments to the above predicate of objects in this environment
             "ids" = A list of IDs to distinguish the arguments. These can be integers (to denote uniqueness
-                    among similar objects e.g. patties in different hamburgers) or strings (to directly 
-                    distinguish between similar objects via usage of the "id" fields of objects e.g. the
-                    hamburger must be assemble on a specific table)
+            among similar objects e.g. patties in different hamburgers) or strings (to directly 
+            distinguish between similar objects via usage of the "id" fields of objects e.g. the
+            hamburger must be assembled on a specific table)
         },
         ...
     ]

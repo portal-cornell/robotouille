@@ -34,8 +34,8 @@
     "goal": [
         {
             "predicate": "on",
-            "args": ["patty", "table"],
-            "ids": ["a", "B"]
+            "args": ["item", "station"],
+            "ids": ["a", "A"]
         }
     ]
 }
