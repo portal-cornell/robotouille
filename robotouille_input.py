@@ -20,7 +20,7 @@ def create_action_from_control(env, obs, action, renderer):
     Returns:
         A valid action.
     """
-    if len(action) == 0: return "noop"
+    if len(action) == 0: return
     valid_actions = list(env.action_space.all_ground_literals(obs))
     str_valid_actions = list(map(str, valid_actions))
     action = action[0]
@@ -45,4 +45,5 @@ def create_action_from_control(env, obs, action, renderer):
             elif 'cut' in literal_names:
                 index = literal_names.index('cut')
                 return str_valid_actions[index]
-    return "noop"
+        elif action.key == pygame.K_SPACE:
+            return "noop"

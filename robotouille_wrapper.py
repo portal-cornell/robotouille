@@ -13,12 +13,13 @@ class RobotouilleWrapper(gym.Wrapper):
     observation space with a bunch of predicates to represent time and number of cuts, we
     offload this to the wrapper's metadata.
     """
-    def __init__(self, env):
+    def __init__(self, env, config):
         """
         Initialize the Robotouille wrapper.
 
         Args:
             env (PDDLGym Environment): The environment to wrap.
+            config (dict): A configuration JSON with custom values
         """
         super(RobotouilleWrapper, self).__init__(env)
         # The PDDLGym environment.
@@ -30,6 +31,9 @@ class RobotouilleWrapper(gym.Wrapper):
         self.timesteps = 0
         # The state of the environment (for non-PDDL states like cut and cook)
         self.state = {}
+        # The configuration for this environment.
+        # This is used to specify things such as cooking times and cutting amounts
+        self.config = config
 
     def _interactive_starter_prints(self, expanded_truths):
         """
@@ -62,13 +66,20 @@ class RobotouilleWrapper(gym.Wrapper):
         for item, status_dict in self.state.items():
             for status, state in status_dict.items():
                 if status == "cut":
-                    if state >= 3:
+                    item_name, _ = robotouille_utils.trim_item_ID(item)
+                    # TODO: Might need to trim item name
+                    num_cuts = self.config["num_cuts"]
+                    max_num_cuts = num_cuts.get(item_name, num_cuts["default"])
+                    if state >= max_num_cuts:
                         literal = pddlgym_utils.str_to_literal(f"iscut({item}:item)")
                         state_updates.append(literal)
                 elif status == "cook":
+                    item_name, _ = robotouille_utils.trim_item_ID(item)
+                    cook_time = self.config["cook_time"]
+                    max_cook_time = cook_time.get(item_name, cook_time["default"])
                     if state["cooking"]:
                         state["cook_time"] += 1
-                    if state["cook_time"] >= 3:
+                    if state["cook_time"] >= max_cook_time:
                         literal = pddlgym_utils.str_to_literal(f"iscooked({item}:item)")
                         state_updates.append(literal)
         env_state = self.env.get_state()

@@ -99,3 +99,27 @@ def create_action(env, obs, action):
     except AssertionError:
         raise robotouille_exceptions.RobotouilleInvalidActionException(f"Your action [{action}] is invalid.")
     return action
+
+def trim_item_ID(item):
+    """
+    Returns the item name and item ID separated.
+
+    For example, trim_item_ID("lettuce2") returns "lettuce" and "2".
+
+    Args:
+        item_name (str): The item name.
+    
+    Returns:
+        item_name (str): The item name.
+        item_ID (str): The item ID.
+    """
+    index = None
+    for i, char in enumerate(item):
+        if char.isdigit():
+            index = i
+            break
+    assert index is not None # Item must have an ID
+    item_name = item[:index]
+    item_ID = item[index:]
+    return item_name, item_ID
+

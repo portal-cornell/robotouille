@@ -1,6 +1,16 @@
 {
     "width": 8,
     "height": 8,
+    "config": {
+        "num_cuts": {
+            "lettuce": 5,
+            "default": 3
+        },
+        "cook_time": {
+            "patty": 5,
+            "default": 3
+        }
+    },
     "stations": [
         {
             "name": "table",
