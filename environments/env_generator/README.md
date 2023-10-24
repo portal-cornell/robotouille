@@ -1,3 +1,5 @@
+Please read the following to learn how to create a new environment for Robotouille.
+
 Here we describe the format of the JSON files under `examples`.
 
 ```
