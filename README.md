@@ -59,6 +59,8 @@
 
 Robots will be involved in every part of our lives in the near future so we need to teach them how to perform complex tasks. Humans break apart complex tasks like making hamburgers into smaller subtasks like cutting lettuce and cooking patties. We can teach robots to do the same by showing them how to perform easier tasks subtasks and then combine those subtasks to perform harder tasks. We created Robotouille so we can stress test this idea through an easily customizable cooking environment where the task possibilities are endless!
 
+Check out our paper, [Demo2Code: From Summarizing Demonstrations to Synthesizing Code via Extended Chain-of-Thought](https://portal-cornell.github.io/demo2code-webpage/), to learn how we used Robotouille to teach robots to perform tasks that humans demonstrate to them using Large Language Models (LLMs).
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
