@@ -32,6 +32,23 @@ Here we describe the format of the JSON files under `examples`.
 {
     "width" = The width dimension of the environment (in tiles)
     "height" = The height dimension of the environment (in tiles)
+    "config" = Configurable environment settings
+    {
+        "num_cuts" = The number of cuts that can be made on a single item
+        {
+            "item_name1": <NUM_CUTS>,
+            "item_name2": <NUM_CUTS>,
+            ...,
+            "default: <NUM_CUTS>
+        },
+        "cook_time" = The number of steps it takes to cook an item
+        {
+            "item_name1": <COOK_TIME>,
+            "item_name2": <COOK_TIME>,
+            ...,
+            "default: <COOK_TIME>
+        }
+    }
     "stations" = A list of station objects in the environment
     [
         {
