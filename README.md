@@ -12,7 +12,7 @@
     A customizable multi-task cooking environment!
     <br />
     <br />
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Request Feature</a>
+    <a href="https://github.com/portal-cornell/robotouille/issues">Request Feature</a>
   </p>
 </div>
 
@@ -129,7 +129,7 @@ We appreciate all contributions to Robotouille. Bug fixes are always welcome, bu
 <!-- BUILT WITH -->
 ## Built With
 
-We build atop [PDDLGym](https://github.com/tomsilver/pddlgym) which converts a PDDL domain and problem file into a [Gym](https://www.gymlibrary.dev/index.html) environment. We render and take keyboard input using [PyGame](https://www.pygame.org/docs/), building on the (tutorial)[https://www.gymlibrary.dev/content/environment_creation/] for making custom gym environments.
+We build atop [PDDLGym](https://github.com/tomsilver/pddlgym) which converts a PDDL domain and problem file into a [Gym](https://www.gymlibrary.dev/index.html) environment. We render and take keyboard input using [PyGame](https://www.pygame.org/docs/), building on the [tutorial](https://www.gymlibrary.dev/content/environment_creation/) for making custom gym environments.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

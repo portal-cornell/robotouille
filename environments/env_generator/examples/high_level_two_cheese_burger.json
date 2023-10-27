@@ -229,57 +229,47 @@
             "direction": [0, 1]
         }
     ],
-    "goal_description": "Make two lettuce burgers with lettuce on top of the patties.",
+    "goal_description": "Make two cheese burgers with cheese on top of the patties.",
     "goal": [
-        {
-            "predicate": "iscut",
-            "args": ["lettuce"],
-            "ids": [1]
-        },
         {
             "predicate": "iscooked",
             "args": ["patty"],
-            "ids": [2]
+            "ids": [1]
         },
         {
             "predicate": "atop",
-            "args": ["topbun", "lettuce"],
+            "args": ["topbun", "cheese"],
+            "ids": [2, 3]
+        },
+        {
+            "predicate": "atop",
+            "args": ["cheese", "patty"],
             "ids": [3, 1]
         },
         {
             "predicate": "atop",
-            "args": ["lettuce", "patty"],
-            "ids": [1, 2]
-        },
-        {
-            "predicate": "atop",
             "args": ["patty", "bottombun"],
-            "ids": [2, 4]
-        },
-        {
-            "predicate": "iscut",
-            "args": ["lettuce"],
-            "ids": [5]
+            "ids": [1, 4]
         },
         {
             "predicate": "iscooked",
             "args": ["patty"],
-            "ids": [6]
+            "ids": [5]
         },
         {
             "predicate": "atop",
-            "args": ["topbun", "lettuce"],
+            "args": ["topbun", "cheese"],
+            "ids": [6, 7]
+        },
+        {
+            "predicate": "atop",
+            "args": ["cheese", "patty"],
             "ids": [7, 5]
         },
         {
             "predicate": "atop",
-            "args": ["lettuce", "patty"],
-            "ids": [5, 6]
-        },
-        {
-            "predicate": "atop",
             "args": ["patty", "bottombun"],
-            "ids": [6, 8]
+            "ids": [5, 8]
         }
     ]
 }
