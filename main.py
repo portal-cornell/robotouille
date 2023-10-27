@@ -5,11 +5,11 @@ import pygame
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--environment_name", help="The name of the environment to create.", default="original")
-parser.add_argument("--seed", help="The seed to use for the environment.", default=0, type=int)
+parser.add_argument("--seed", help="The seed to use for the environment.", default=None)
+parser.add_argument("--noisy_randomization", action="store_true", help="Whether to use 'noisy randomization' for procedural generation")
 args = parser.parse_args()
 
-noisy_randomization = True
-env, json, renderer = robotouille_env.create_robotouille_env(args.environment_name, args.seed, noisy_randomization)
+env, json, renderer = robotouille_env.create_robotouille_env(args.environment_name, args.seed, args.noisy_randomization)
 obs, info = env.reset()
 env.render(mode='human')
 done = False
@@ -20,9 +20,11 @@ while not done:
     pygame_events = pygame.event.get()
     # Mouse clicks for movement and pick/place stack/unstack
     mousedown_events = list(filter(lambda e: e.type == pygame.MOUSEBUTTONDOWN, pygame_events))
-    # Keyboard events ('e' button) for cut/cook
+    # Keyboard events ('e' button) for cut/cook ('space' button) for noop
     keydown_events = list(filter(lambda e: e.type == pygame.KEYDOWN, pygame_events))
     action = robotouille_input.create_action_from_control(env, obs, mousedown_events+keydown_events, renderer)
-
+    if not interactive and action is None:
+        # Retry for keyboard input
+        continue
     obs, reward, done, info = env.step(action=action, interactive=interactive)
     env.render(mode='human')

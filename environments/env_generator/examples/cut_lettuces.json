@@ -1,6 +1,16 @@
 {
     "width": 3,
     "height": 3,
+    "config": {
+        "num_cuts": {
+            "lettuce": 3,
+            "default": 3
+        },
+        "cook_time": {
+            "patty": 3,
+            "default": 3
+        }
+    },
     "stations": [
         {
             "name": "table",
@@ -8,7 +18,7 @@
             "y": 1
         },
         {
-            "name": "stove",
+            "name": "board",
             "x": 2,
             "y": 1,
             "id": "A"
@@ -19,28 +29,28 @@
             "y": 0
         },
         {
-            "name": "stove",
+            "name": "board",
             "x": 2,
             "y": 0,
-            "id": "A"
+            "id": "B"
         }
     ],
     "items": [
         {
-            "name": "patty",
+            "name": "lettuce",
             "x": 0,
             "y": 1,
             "stack-level": 0,
-            "predicates": ["iscookable"],
+            "predicates": ["iscuttable"],
             "id": "a"
         },
         {
-            "name": "patty",
+            "name": "lettuce",
             "x": 0,
             "y": 0,
             "stack-level": 0,
-            "predicates": ["iscookable"],
-            "id": "a"
+            "predicates": ["iscuttable"],
+            "id": "b"
         }
     ],
     "players": [
@@ -53,9 +63,14 @@
     ],
     "goal": [
         {
-            "predicate": "iscooked",
-            "args": ["patty"],
+            "predicate": "iscut",
+            "args": ["lettuce"],
             "ids": ["a"]
+        },
+        {
+            "predicate": "iscut",
+            "args": ["lettuce"],
+            "ids": ["b"]
         }
     ]
 }

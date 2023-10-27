@@ -1,6 +1,16 @@
 {
     "width": 3,
     "height": 3,
+    "config": {
+        "num_cuts": {
+            "lettuce": 3,
+            "default": 3
+        },
+        "cook_time": {
+            "patty": 3,
+            "default": 3
+        }
+    },
     "stations": [
         {
             "name": "board",

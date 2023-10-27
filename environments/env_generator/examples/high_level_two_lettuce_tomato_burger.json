@@ -229,7 +229,7 @@
             "direction": [0, 1]
         }
     ],
-    "goal_description": "Make two lettuce burgers with lettuce on top of the patties.",
+    "goal_description": "Make two lettuce tomato burgers with lettuce and tomato on top of the patties.",
     "goal": [
         {
             "predicate": "iscut",
@@ -237,49 +237,69 @@
             "ids": [1]
         },
         {
+            "predicate": "iscut",
+            "args": ["tomato"],
+            "ids": [2]
+        },
+        {
             "predicate": "iscooked",
             "args": ["patty"],
-            "ids": [2]
+            "ids": [3]
         },
         {
             "predicate": "atop",
             "args": ["topbun", "lettuce"],
-            "ids": [3, 1]
+            "ids": [4, 1]
         },
         {
             "predicate": "atop",
-            "args": ["lettuce", "patty"],
+            "args": ["lettuce", "tomato"],
             "ids": [1, 2]
         },
         {
             "predicate": "atop",
+            "args": ["tomato", "patty"],
+            "ids": [2, 3]
+        },
+        {
+            "predicate": "atop",
             "args": ["patty", "bottombun"],
-            "ids": [2, 4]
+            "ids": [3, 5]
         },
         {
             "predicate": "iscut",
             "args": ["lettuce"],
-            "ids": [5]
+            "ids": [6]
+        },
+        {
+            "predicate": "iscut",
+            "args": ["tomato"],
+            "ids": [7]
         },
         {
             "predicate": "iscooked",
             "args": ["patty"],
-            "ids": [6]
+            "ids": [8]
         },
         {
             "predicate": "atop",
             "args": ["topbun", "lettuce"],
-            "ids": [7, 5]
+            "ids": [9, 6]
         },
         {
             "predicate": "atop",
-            "args": ["lettuce", "patty"],
-            "ids": [5, 6]
+            "args": ["lettuce", "tomato"],
+            "ids": [6, 7]
+        },
+        {
+            "predicate": "atop",
+            "args": ["tomato", "patty"],
+            "ids": [7, 8]
         },
         {
             "predicate": "atop",
             "args": ["patty", "bottombun"],
-            "ids": [6, 8]
+            "ids": [8, 10]
         }
     ]
 }

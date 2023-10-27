@@ -363,6 +363,7 @@ def build_goal(environment_dict):
     goal =  "   (or\n"
     unique_preds, combination_preds, combination_dict = create_unique_and_combination_preds(environment_dict)
     combinations, id_order = create_combinations(combination_dict)
+    assert len(combinations) > 0, "Object in goal missing from environment"
     for combination in combinations:
         # Combination predicates with the combination ID arguments filled in
         filled_combination_preds = copy.deepcopy(combination_preds)
@@ -428,14 +429,15 @@ if __name__ == "__main__":
     # Prints PDDL problem string to terminal
     parser = argparse.ArgumentParser()
     parser.add_argument("--json_filename", type=str, default="test_patties.json", help="JSON file to convert to PDDL")
-    parser.add_argument("--seed", type=int, default=0, help="Seed for randomization")
+    parser.add_argument("--seed", default=None, help="Seed for randomization")
+    parser.add_argument("--noisy_randomization", help="Whether to use 'noisy randomization' for proceudral generation", default=True)
     args = parser.parse_args()
 
     environment_dict = load_environment(args.json_filename)
 
     # Since the environment JSON can have wildcard stations / items, we need to run the
     # procedural generation to choose some
-    # TODO: Decoupling the procedural generation from the PDDL generation would be nice
-    environment_dict = randomize_environment(environment_dict, args.seed, noisy_randomization=True)
+    if args.seed is not None:
+        environment_dict = randomize_environment(environment_dict, args.seed, noisy_randomization=args.noisy_randomization)
     problem, problem_dict = build_problem(environment_dict)
     print(problem)
