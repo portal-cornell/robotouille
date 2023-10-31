@@ -3,7 +3,7 @@ from utils.robotouille_input import create_action_from_control
 from robotouille.robotouille_env import create_robotouille_env
 
 
-def simulator(environment_name: str, seed, noisy_randomization):
+def simulator(environment_name: str, seed: int=42, noisy_randomization: bool=False):
     # Your code for robotouille goes here
     env, json, renderer = create_robotouille_env(environment_name, seed, noisy_randomization)
     obs, info = env.reset()
