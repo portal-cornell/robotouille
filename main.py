@@ -1,7 +1,5 @@
-from robotouille import robotouille_env, simulator
-import utils.robotouille_input as robotouille_input
+from robotouille import simulator
 import argparse
-import pygame
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--environment_name", help="The name of the environment to create.", default="original")
