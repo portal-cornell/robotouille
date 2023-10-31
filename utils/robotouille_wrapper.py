@@ -1,7 +1,7 @@
 import gym
 import pddlgym
-import robotouille_utils
-import pddlgym_utils
+import utils.robotouille_utils as robotouille_utils
+import utils.pddlgym_utils as pddlgym_utils
 
 class RobotouilleWrapper(gym.Wrapper):
     """

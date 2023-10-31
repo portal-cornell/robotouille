@@ -1,5 +1,5 @@
-import robotouille_env
-import robotouille_input
+import robotouille.robotouille_env as robotouille_env
+import utils.robotouille_input as robotouille_input
 import argparse
 import pygame
 
