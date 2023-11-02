@@ -82,6 +82,8 @@ class RobotouilleCanvas:
                 food_image_name = "cut" + food_image_name
             if literal.predicate == "iscooked" and literal.variables[0] == food_image_name:
                 food_image_name = "cooked" + food_image_name
+            if literal.predicate == "isfried" and literal.variables[0] == food_image_name:
+                food_image_name = "fried" + food_image_name
         
         # Remove and store ID
         food_id = ""

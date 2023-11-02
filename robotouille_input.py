@@ -9,7 +9,7 @@ def create_action_from_control(env, obs, action, renderer):
         - Click to move the robot to a station.
         - Click at a station to pick up or place down an item.
         - Click at a station to unstack or stack an item.
-        - Press 'e' at a station to begin cooking or to cut an item.
+        - Press 'e' at a station to begin cooking, frying or to cut an item.
     
     Args:
         env: The environment.
@@ -44,6 +44,9 @@ def create_action_from_control(env, obs, action, renderer):
                 return str_valid_actions[index]
             elif 'cut' in literal_names:
                 index = literal_names.index('cut')
+                return str_valid_actions[index]
+            elif 'fry' in literal_names:
+                index = literal_names.index('fry')
                 return str_valid_actions[index]
         elif action.key == pygame.K_SPACE:
             return "noop"

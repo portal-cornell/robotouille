@@ -24,6 +24,10 @@
         (iscookable ?i - item)
         (iscooked ?i - item)
         (ischeese ?i - item)
+        (isfryer ?i - item)
+        (isfryable ?i - item)
+        (isfried ?i - item)
+        (ispotato ?i - item)
         ; State Predicates
         (loc ?p - player ?s - station)
         (at ?i - item ?s - station)
@@ -102,6 +106,21 @@
         )
         :effect (and 
             (iscooked ?i)
+        )
+    )
+
+    ; Make the player fry a fryable item in a fryer
+    (:action fry
+        :parameters (?p - player ?i - item ?s - station)
+        :precondition (and
+            (isfryer ?s)
+            (isfryable ?i)
+            (on ?i ?s)
+            (loc ?p ?s)
+            (clear ?i)
+        )
+        :effect (and 
+            (isfried ?i)
         )
     )
 
