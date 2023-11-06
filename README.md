@@ -74,16 +74,22 @@ It is super easy to get started by trying out an existing environment or creatin
 
 1. Create and activate your virtual environment
    ```sh
-   python3 -m venv venv
-   source venv/bin/activate
+   python3 -m venv <venv-name>
+   source <venv-name>/bin/activate
    ```
-2. Install the required packages
+2. Install Robotouille and its dependencies
    ```sh
-   pip install -r requirements.txt
+   pip install -e .
    ```
 3. Run Robotouille!
    ```sh
    python main.py
+   ```
+   or import the simulator to any code by adding
+   ```python
+   from robotouille import simulator
+   
+   simulator(environment_name, seed, noisy_randomization)
    ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
