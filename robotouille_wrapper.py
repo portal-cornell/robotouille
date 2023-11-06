@@ -73,6 +73,9 @@ class RobotouilleWrapper(gym.Wrapper):
                     if state >= max_num_cuts:
                         literal = pddlgym_utils.str_to_literal(f"iscut({item}:item)")
                         state_updates.append(literal)
+                        if item_name == "onion" or item_name == "potato":
+                            literal = pddlgym_utils.str_to_literal(f"isfryable({item}:item)")
+                            state_updates.append(literal)
                 elif status == "cook":
                     item_name, _ = robotouille_utils.trim_item_ID(item)
                     cook_time = self.config["cook_time"]
@@ -150,7 +153,7 @@ class RobotouilleWrapper(gym.Wrapper):
             else:
                 item_status["cook"]["cooking"] = True
             return self.prev_step
-        elif action_name == "fry":
+        elif action_name == "fry" or action_name == "fry_cut_item":
             item = next(filter(lambda typed_entity: typed_entity.var_type == "item", action.variables))
             item_status = self.state.get(item.name)
             if item_status is None:
@@ -165,6 +168,8 @@ class RobotouilleWrapper(gym.Wrapper):
             item_status = self.state.get(item.name)
             if item_status is not None and item_status.get("cook") is not None:
                 item_status["cook"]["cooking"] = False
+            if item_status is not None and item_status.get("fry") is not None:
+                item_status["fry"]["frying"] = False                
         # TODO: Probably stop cooking if something is stacked on top of meat
         return self.env.step(action)
         

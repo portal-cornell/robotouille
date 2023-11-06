@@ -2,12 +2,8 @@
     "width": 3,
     "height": 3,
     "config": {
-        "num_cuts": {
-            "potato": 3,
-            "default": 3
-        },
         "fry_time": {
-            "potato": 3,
+            "chicken": 3,
             "default": 3
         }
     },
@@ -26,28 +22,23 @@
             "name": "table",
             "x": 0,
             "y": 0
-        },
-        {
-            "name": "board",
-            "x": 2,
-            "y": 0
         }
     ],
     "items": [
         {
-            "name": "potato",
+            "name": "chicken",
             "x": 0,
             "y": 1,
             "stack-level": 0,
-            "predicates": ["iscuttable", "isfryableifcut"],
+            "predicates": ["isfryable"],
             "id": 1
         },
         {
-            "name": "potato",
+            "name": "chicken",
             "x": 0,
             "y": 0,
             "stack-level": 0,
-            "predicates": ["iscuttable", "isfryableifcut"],
+            "predicates": ["isfryable"],
             "id": 2
         }
     ],
@@ -62,12 +53,12 @@
     "goal": [
         {
             "predicate": "isfried",
-            "args": ["potato"],
+            "args": ["chicken"],
             "ids": [1]
         },
         {
             "predicate": "isfried",
-            "args": ["potato"],
+            "args": ["chicken"],
             "ids": [2]
         }
     ]

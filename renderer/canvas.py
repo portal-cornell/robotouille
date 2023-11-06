@@ -76,15 +76,17 @@ class RobotouilleCanvas:
             position (np.array): (x, y) position of the food (with pix_square_size factor accounted for)
         """
         food_image_name = food_name
-        # Check if cut or cooked
-        for literal in obs:
+        # Check if cut or cooked or fried
+        for literal in obs:        
             if literal.predicate == "iscut" and literal.variables[0] == food_image_name:
                 food_image_name = "cut" + food_image_name
             if literal.predicate == "iscooked" and literal.variables[0] == food_image_name:
                 food_image_name = "cooked" + food_image_name
-            if literal.predicate == "isfried" and literal.variables[0] == food_image_name:
-                food_image_name = "fried" + food_image_name
-        
+            if literal.predicate == "isfried":
+                if literal.variables[0] == food_image_name:
+                    food_image_name = "fried" + food_image_name
+                elif literal.variables[0] == food_image_name[3:]:
+                    food_image_name = "fried" + food_image_name[3:]
         # Remove and store ID
         food_id = ""
         while food_image_name[-1].isdigit():
