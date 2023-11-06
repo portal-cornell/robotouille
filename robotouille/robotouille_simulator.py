@@ -24,3 +24,5 @@ def simulator(environment_name: str, seed: int=42, noisy_randomization: bool=Fal
             continue
         obs, reward, done, info = env.step(action=action, interactive=interactive)
         env.render(mode='human')
+        if done:
+            pygame.quit() # Close the environment window
