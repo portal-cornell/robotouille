@@ -73,9 +73,6 @@ class RobotouilleWrapper(gym.Wrapper):
                     if state >= max_num_cuts:
                         literal = pddlgym_utils.str_to_literal(f"iscut({item}:item)")
                         state_updates.append(literal)
-                        if item_name == "onion" or item_name == "potato":
-                            literal = pddlgym_utils.str_to_literal(f"isfryable({item}:item)")
-                            state_updates.append(literal)
                 elif status == "cook":
                     item_name, _ = robotouille_utils.trim_item_ID(item)
                     cook_time = self.config["cook_time"]
@@ -115,6 +112,10 @@ class RobotouilleWrapper(gym.Wrapper):
                 "cook": {
                     "cooking": bool,
                     "cook_time": int
+                },
+                "fry": {
+                    "frying": bool,
+                    "fry_time": int
                 }
         }
         

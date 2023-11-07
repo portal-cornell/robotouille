@@ -125,7 +125,7 @@
         )
     )
 
-    ; Make the player fry an item that is only fyrable if cut, in a fryer
+    ; Make the player fry an item that is only fryable if cut, in a fryer
     (:action fry_cut_item
         :parameters (?p - player ?i - item ?s - station)
         :precondition (and

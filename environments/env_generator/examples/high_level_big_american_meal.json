@@ -10,7 +10,7 @@
         "fry_time": {
             "onion": 3,
             "potato": 3,
-            "chicken":3,
+            "chicken": 3,
             "default": 3
         }
     },
