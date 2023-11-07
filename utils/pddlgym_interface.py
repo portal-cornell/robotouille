@@ -2,11 +2,11 @@ import pddlgym
 import os
 import shutil
 import numpy as np
-from robotouille_exceptions import RobotouilleEnvironmentDoesNotExistException
+from utils.robotouille_exceptions import RobotouilleEnvironmentDoesNotExistException
+import environments
 
-CURRENT_DIR_PATH = os.path.dirname(os.path.abspath(__file__))
-ENVIRONMENT_DIR_PATH = os.path.join(CURRENT_DIR_PATH, "environments")
-PDDL_DIR_PATH = os.path.join(CURRENT_DIR_PATH, "pddlgym", "pddl")
+ENVIRONMENT_DIR_PATH = os.path.dirname(os.path.abspath(environments.__file__))
+PDDL_DIR_PATH = os.path.join(os.path.dirname(os.path.abspath(pddlgym.__file__)), 'pddl')
 
 def add_domain_file(env_name):
     """

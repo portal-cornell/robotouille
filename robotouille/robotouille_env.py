@@ -1,6 +1,6 @@
-import pddlgym_interface
+import utils.pddlgym_interface as pddlgym_interface
 from renderer.renderer import RobotouilleRenderer
-from robotouille_wrapper import RobotouilleWrapper
+from utils.robotouille_wrapper import RobotouilleWrapper
 from environments.env_generator import builder
 from environments.env_generator import procedural_generator
 
