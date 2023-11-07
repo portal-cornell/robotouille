@@ -89,7 +89,7 @@ It is super easy to get started by trying out an existing environment or creatin
    ```python
    from robotouille import simulator
    
-   simulator(environment_name, seed, noisy_randomization)
+   simulator("original")
    ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
