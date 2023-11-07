@@ -82,12 +82,19 @@ class RobotouilleRenderer:
         """
         This function is called by PDDLGym environments to render the game state.
 
+        If close is True, the window and clock are uninitialized as well as pygame
+        and the display. Since pygame doesn't close the window until the script
+        ends, we also hide the window.
+
         Args:
             obs (dict): The game state
             mode (str): Either "human" or "rgb_array"
             close (bool): Whether to close the pygame window
         """
         if close:
+            self.window = None
+            self.clock = None
+            pygame.display.set_mode(self.window_size, flags=pygame.HIDDEN) # Hide the window
             pygame.display.quit()
             pygame.quit()
         else:
