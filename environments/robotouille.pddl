@@ -10,6 +10,7 @@
         (istable ?s - station)
         (isstove ?s - station)
         (isboard ?s - station)
+        (isfryer ?s - station)
         (isrobot ?p - player)
         (istopbun ?i - item)
         (isbottombun ?i - item)
@@ -24,6 +25,10 @@
         (iscookable ?i - item)
         (iscooked ?i - item)
         (ischeese ?i - item)
+        (isfryable ?i - item)
+        (isfryableifcut ?i - item)
+        (isfried ?i - item)
+        (ispotato ?i - item)
         ; State Predicates
         (loc ?p - player ?s - station)
         (at ?i - item ?s - station)
@@ -102,6 +107,37 @@
         )
         :effect (and 
             (iscooked ?i)
+        )
+    )
+
+    ; Make the player fry a fryable item in a fryer
+    (:action fry
+        :parameters (?p - player ?i - item ?s - station)
+        :precondition (and
+            (isfryer ?s)
+            (isfryable ?i)
+            (on ?i ?s)
+            (loc ?p ?s)
+            (clear ?i)
+        )
+        :effect (and 
+            (isfried ?i)
+        )
+    )
+
+    ; Make the player fry an item that is only fryable if cut, in a fryer
+    (:action fry_cut_item
+        :parameters (?p - player ?i - item ?s - station)
+        :precondition (and
+            (isfryer ?s)
+            (isfryableifcut ?i)
+            (iscut ?i)
+            (on ?i ?s)
+            (loc ?p ?s)
+            (clear ?i)
+        )
+        :effect (and 
+            (isfried ?i)
         )
     )
 

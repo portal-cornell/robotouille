@@ -9,7 +9,7 @@ def create_action_from_control(env, obs, action, renderer):
         - Click to move the robot to a station.
         - Click at a station to pick up or place down an item.
         - Click at a station to unstack or stack an item.
-        - Press 'e' at a station to begin cooking or to cut an item.
+        - Press 'e' at a station to begin cooking, frying, or cutting an item.
     
     Args:
         env: The environment.
@@ -33,7 +33,8 @@ def create_action_from_control(env, obs, action, renderer):
         locs = [loc_tuple[2].split(":")[0] if 'station' in loc_tuple[2] else loc_tuple[3].split(":")[0] for loc_tuple in loc_tuples]
         if clicked_station in locs:
             index = locs.index(clicked_station)
-            while 'cook' in str_valid_actions[index] or 'cut' in str_valid_actions[index]:
+            while 'cook(' in str_valid_actions[index] or 'cut(' in str_valid_actions[index] or 'fry(' in str_valid_actions[index] or 'fry_cut_item(' in str_valid_actions[index]:
+                # We look for fry( instead which should be guaranteed to only match the fry action, and not the fryer
                 index = locs.index(clicked_station, index+1)
             return str_valid_actions[index]
     elif action.type == pygame.KEYDOWN:
@@ -44,6 +45,12 @@ def create_action_from_control(env, obs, action, renderer):
                 return str_valid_actions[index]
             elif 'cut' in literal_names:
                 index = literal_names.index('cut')
+                return str_valid_actions[index]
+            elif 'fry' in literal_names:
+                index = literal_names.index('fry')
+                return str_valid_actions[index]
+            elif 'fry_cut_item' in literal_names:
+                index = literal_names.index('fry_cut_item')
                 return str_valid_actions[index]
         elif action.key == pygame.K_SPACE:
             return "noop"

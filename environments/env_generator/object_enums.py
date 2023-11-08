@@ -10,6 +10,7 @@ class Item(Enum):
     TOMATO = "tomato"
     ONION = "onion"
     CHICKEN = "chicken"
+    POTATO = "potato"
 
 class Player(Enum):
     ROBOT = "robot"
@@ -18,6 +19,7 @@ class Station(Enum):
     BOARD = "board"
     STOVE = "stove"
     TABLE = "table"
+    FRYER = "fryer"
 
 def str_to_typed_enum(s):
     """

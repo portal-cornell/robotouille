@@ -82,6 +82,15 @@ class RobotouilleWrapper(gym.Wrapper):
                     if state["cook_time"] >= max_cook_time:
                         literal = pddlgym_utils.str_to_literal(f"iscooked({item}:item)")
                         state_updates.append(literal)
+                elif status == "fry":
+                    item_name, _ = robotouille_utils.trim_item_ID(item)
+                    fry_time = self.config["fry_time"]
+                    max_fry_time = fry_time.get(item_name, fry_time["default"])
+                    if state["frying"]:
+                        state["fry_time"] += 1
+                    if state["fry_time"] >= max_fry_time:
+                        literal = pddlgym_utils.str_to_literal(f"isfried({item}:item)")
+                        state_updates.append(literal)
         env_state = self.env.get_state()
         new_literals = env_state.literals.union(state_updates)
         new_env_state = pddlgym.structs.State(new_literals, env_state.objects, env_state.goal)
@@ -103,6 +112,10 @@ class RobotouilleWrapper(gym.Wrapper):
                 "cook": {
                     "cooking": bool,
                     "cook_time": int
+                },
+                "fry": {
+                    "frying": bool,
+                    "fry_time": int
                 }
         }
         
@@ -141,11 +154,23 @@ class RobotouilleWrapper(gym.Wrapper):
             else:
                 item_status["cook"]["cooking"] = True
             return self.prev_step
+        elif action_name == "fry" or action_name == "fry_cut_item":
+            item = next(filter(lambda typed_entity: typed_entity.var_type == "item", action.variables))
+            item_status = self.state.get(item.name)
+            if item_status is None:
+                self.state[item.name] = {"fry": {"fry_time": -1, "frying": True}}
+            elif item_status.get("fry") is None:
+                item_status["fry"] = {"fry_time": -1, "frying": True}
+            else:
+                item_status["fry"]["frying"] = True
+            return self.prev_step
         elif action_name == "pick-up":
             item = next(filter(lambda typed_entity: typed_entity.var_type == "item", action.variables))
             item_status = self.state.get(item.name)
             if item_status is not None and item_status.get("cook") is not None:
                 item_status["cook"]["cooking"] = False
+            if item_status is not None and item_status.get("fry") is not None:
+                item_status["fry"]["frying"] = False                
         # TODO: Probably stop cooking if something is stacked on top of meat
         return self.env.step(action)
         
