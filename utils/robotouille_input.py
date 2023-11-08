@@ -9,7 +9,7 @@ def create_action_from_control(env, obs, action, renderer):
         - Click to move the robot to a station.
         - Click at a station to pick up or place down an item.
         - Click at a station to unstack or stack an item.
-        - Press 'e' at a station to begin cooking or frying, or to cut an item.
+        - Press 'e' at a station to begin cooking, frying, or cutting an item.
     
     Args:
         env: The environment.

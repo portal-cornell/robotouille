@@ -83,8 +83,7 @@ class RobotouilleCanvas:
             if literal.predicate == "iscooked" and literal.variables[0] == food_image_name:
                 food_image_name = "cooked" + food_image_name
             if literal.predicate == "isfried":
-                # TODO: This needs to change if we want to have both fried potatoes
-                # french fries
+                # TODO: This needs to change if we want to have both fried potatoes and french fries
                 if literal.variables[0] == food_image_name:
                     food_image_name = "fried" + food_image_name
                 elif literal.variables[0] == food_image_name[3:]:
