@@ -50,6 +50,7 @@
         :precondition (and
             (loc ?p ?s1)
             (vacant ?s2)
+            (selected ?p)
         )
         :effect (and
             (loc ?p ?s2)
@@ -67,6 +68,7 @@
             (on ?i ?s)
             (loc ?p ?s)
             (clear ?i)
+            (selected ?p)
         )
         :effect (and 
             (has ?p ?i)
@@ -85,6 +87,7 @@
             (has ?p ?i)
             (loc ?p ?s)
             (empty ?s)
+            (selected ?p)
         )
         :effect (and 
             (nothing ?p)
@@ -105,6 +108,7 @@
             (on ?i ?s)
             (loc ?p ?s)
             (clear ?i)
+            (selected ?p)
         )
         :effect (and 
             (iscooked ?i)
@@ -120,6 +124,7 @@
             (on ?i ?s)
             (loc ?p ?s)
             (clear ?i)
+            (selected ?p)
         )
         :effect (and 
             (isfried ?i)
@@ -136,6 +141,7 @@
             (on ?i ?s)
             (loc ?p ?s)
             (clear ?i)
+            (selected ?p)
         )
         :effect (and 
             (isfried ?i)
@@ -150,6 +156,7 @@
             (clear ?i2)
             (loc ?p ?s)
             (at ?i2 ?s)
+            (selected ?p)
         )
         :effect (and
             (nothing ?p)
@@ -170,6 +177,7 @@
             (on ?i ?s)
             (loc ?p ?s)
             (clear ?i)
+            (selected ?p)
         )
         :effect (and 
             (iscut ?i)
@@ -186,6 +194,7 @@
             (loc ?p ?s)
             (at ?i1 ?s)
             (at ?i2 ?s)
+            (selected ?p)
         )
         :effect (and 
             (has ?p ?i1)
@@ -196,4 +205,19 @@
             (not (at ?i1 ?s))
         )
     )
+
+    ; Change player selection
+    (:action select
+        :parameters (?p1 - player ?p2 - player)
+        :precondition (and 
+            (selected ?p1)
+            (not  (selected ?p2))
+        )
+        :effect (and 
+            (not (selected ?p1))
+            (selected ?p2)
+        )
+    )
+
+    
 )

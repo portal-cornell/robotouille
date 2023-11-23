@@ -334,7 +334,6 @@ class RobotouilleCanvas:
                 self._draw_food_image(surface, food, obs, pos * self.pix_square_size)
             if literal.predicate == "atop":
                 stack = (literal.variables[0].name, literal.variables[1].name)
-                print(type(literal))
                 stack_list.append(stack)
 
         # Add stacked items
