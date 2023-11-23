@@ -279,6 +279,7 @@ class RobotouilleCanvas:
         """
         player_pos = None
         held_food_name = None
+        holding_player_index = None
         for literal in obs:
             if literal.predicate == "loc":
                 player_station = literal.variables[1].name
@@ -300,10 +301,15 @@ class RobotouilleCanvas:
                     self.pix_square_size,
                 )
             if literal.predicate == "has":
+                holding_player_index = int(literal.variables[0].name[5:]) - 1
                 held_food_name = literal.variables[1].name
         if held_food_name:
             self._draw_food_image(
-                surface, held_food_name, obs, player_pos * self.pix_square_size
+                surface,
+                held_food_name,
+                obs,
+                self.players_pose[holding_player_index]["position"]
+                * self.pix_square_size,
             )
 
     def _draw_food(self, surface, obs):
