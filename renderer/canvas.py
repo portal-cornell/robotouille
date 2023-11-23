@@ -28,7 +28,7 @@ class RobotouilleCanvas:
         """
         # The layout of the game
         self.layout = layout
-        # The player's position and direction (assuming one player)
+        # The player's position and direction
         players_pos = [
             (players[i]["x"], len(layout) - players[i]["y"] - 1)
             for i in range(len(players))
@@ -42,6 +42,7 @@ class RobotouilleCanvas:
             }
             for i in range(len(players_pos))
         ]
+
         grid_dimensions = np.array([len(layout[0]), len(layout)])
         # The scaling factor for a grid square
         self.pix_square_size = window_size / grid_dimensions
@@ -164,17 +165,8 @@ class RobotouilleCanvas:
                         self.pix_square_size,
                     )
 
-    def _get_selected_player(self, obs):
-        name = ""
-        for literal in obs:
-            if literal.predicate == "selected":
-                name = literal.variables[0].name
-
-        for i in range(len(self.players_pose)):
-            if name == self.players_pose[i]["name"]:
-                return i
-
-        assert False, "Selected player could not be found"
+    def _get_player_index(self, literal):
+        return int(literal.variables[0].name[5:]) - 1
 
     def _get_station_locations(self, layout):
         """
@@ -291,7 +283,7 @@ class RobotouilleCanvas:
             if literal.predicate == "loc":
                 player_station = literal.variables[1].name
                 station_pos = self._get_station_position(player_station)
-                player_index = self._get_selected_player(obs)
+                player_index = self._get_player_index(literal)
                 player_pos = self.players_pose[player_index]["position"]
                 player_pos, player_direction = self._move_player_to_station(
                     player_pos, tuple(station_pos), self.layout
@@ -342,6 +334,7 @@ class RobotouilleCanvas:
                 self._draw_food_image(surface, food, obs, pos * self.pix_square_size)
             if literal.predicate == "atop":
                 stack = (literal.variables[0].name, literal.variables[1].name)
+                print(type(literal))
                 stack_list.append(stack)
 
         # Add stacked items
