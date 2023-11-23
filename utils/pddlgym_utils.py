@@ -28,20 +28,22 @@ PREDICATE_STRINGS = [
     "clear(?:item)",
     "atop(?:item,?:item)",
     "has(?:player,?:item)",
+    "selected(?:player)",
 ]
 
-def expand_state(partial_state, objects, literals_to_string = False):
+
+def expand_state(partial_state, objects, literals_to_string=False):
     """
     Expands the state provided by PDDLGym to include all possible literals.
 
     PDDLGym provides us with the current literals that are true. This function
     returns all the possible literals including those that are false.
-    
+
     Args:
         partial_state (frozenset[Literal]): List of true literals provided by PDDLGym
         objects (frozenset[TypedEntity]): List of objects provided by PDDLGym
         literals_to_string (bool): Whether to convert the literals to strings
-    
+
     Returns:
         expanded_truths (np.array): Array of 0s and 1s where 1 indicates the literal is true
         expanded_state (np.array or None): Array of literals corresponding to the expanded truths.
@@ -50,7 +52,7 @@ def expand_state(partial_state, objects, literals_to_string = False):
     objs = {}
     for obj in objects:
         objs[obj.var_type] = objs.get(obj.var_type, []) + [obj.name]
-    
+
     # Create all possible literals
     expanded_state = []
     for predicate_string in PREDICATE_STRINGS:
@@ -64,7 +66,9 @@ def expand_state(partial_state, objects, literals_to_string = False):
             predicate_name = re.findall(r"([a-z]+)", predicate_string)[0]
             predicate = pddlgym.structs.Predicate(predicate_name, len(args), types)
             expanded_state.append(pddlgym.structs.Literal(predicate, list(args)))
-            expanded_state[-1] = str(expanded_state[-1]) if literals_to_string else expanded_state[-1]
+            expanded_state[-1] = (
+                str(expanded_state[-1]) if literals_to_string else expanded_state[-1]
+            )
 
     # Create expanded truths
     expanded_truths = np.zeros(len(expanded_state))
@@ -74,7 +78,10 @@ def expand_state(partial_state, objects, literals_to_string = False):
 
     return expanded_truths, expanded_state
 
-def create_toggle_array(expanded_truths, expanded_state, partial_state, literals_to_string = False):
+
+def create_toggle_array(
+    expanded_truths, expanded_state, partial_state, literals_to_string=False
+):
     """
     Creates an array that represents the predicates that changed.
 
@@ -87,7 +94,7 @@ def create_toggle_array(expanded_truths, expanded_state, partial_state, literals
     the literal in the expanded_state is False but found in the partial_state, then
     the literal changed from False to True from time step t to time step t+1.
 
-    Note that to determine the truthy value of the literal, we need the expanded_truths 
+    Note that to determine the truthy value of the literal, we need the expanded_truths
     array which is aligned with the expanded_state array.
 
     Args:
@@ -95,7 +102,7 @@ def create_toggle_array(expanded_truths, expanded_state, partial_state, literals
         expanded_state (np.array): Array of literals corresponding to the expanded truths from time step t.
         partial_state (frozenset[Literal]): List of true literals provided by PDDLGym from time step t+1.
         literals_to_string (bool): Whether to convert the literals to strings
-    
+
     Returns:
         toggle_array (np.array): Array of 0s and 1s where 1 indicates the literal changed from time step t to t+1.
     """
@@ -112,13 +119,14 @@ def create_toggle_array(expanded_truths, expanded_state, partial_state, literals
             toggle_array[i] = 1
     return toggle_array
 
+
 def str_to_literal(literal_str):
     """
     Wrapper for pddlgym_interface.str_to_literal which converts a string to a PDDLGym Literal type.
 
     Args:
         literal_str (str): String representation of a literal.
-    
+
     Returns:
         predicate : str
             Predicate name
