@@ -3,6 +3,7 @@ import numpy as np
 
 from .canvas import RobotouilleCanvas
 
+
 class RobotouilleRenderer:
     """
     Renderer for Robotouille.
@@ -11,7 +12,9 @@ class RobotouilleRenderer:
     provides that function but also setups up the pygame window to allow for rendering.
     """
 
-    def __init__(self, layout=[], players=[], window_size=np.array([512,512]), render_fps=60):
+    def __init__(
+        self, layout=[], players=[], window_size=np.array([512, 512]), render_fps=60
+    ):
         """
         Initializes the renderer.
 
@@ -21,7 +24,7 @@ class RobotouilleRenderer:
             render_fps (int): Framerate of the renderer
         """
         # The canvas is responsible for drawing the game state on a pygame surface.
-        self.canvas = RobotouilleCanvas(layout, players[0], window_size)
+        self.canvas = RobotouilleCanvas(layout, players, window_size)
         # The pygame window size.
         self.window_size = window_size
         # The framerate of the renderer. This isn't too important since the renderer
@@ -31,7 +34,7 @@ class RobotouilleRenderer:
         self.window = None
         # The pygame clock
         self.clock = None
-    
+
     def _init_setup(self, render_mode):
         """
         This function initializes the pygame window and clock if not already initialized.
@@ -43,10 +46,10 @@ class RobotouilleRenderer:
             pygame.init()
             pygame.display.init()
             self.window = pygame.display.set_mode(self.window_size)
-            pygame.display.set_caption('Robotouille Simulator')
+            pygame.display.set_caption("Robotouille Simulator")
         if self.clock is None and render_mode == "human":
             self.clock = pygame.time.Clock()
-    
+
     def _render_frame(self, obs, render_mode):
         """
         This function renders a single frame of the game.
@@ -57,7 +60,7 @@ class RobotouilleRenderer:
         Args:
             obs (dict): The game state
             render_mode (str): Either "human" or "rgb_array"
-        
+
         Returns:
             np.array: The RGB array of the frame (only if render_mode == "rgb_array")
         """
@@ -78,7 +81,7 @@ class RobotouilleRenderer:
                 np.array(pygame.surfarray.pixels3d(surface)), axes=(1, 0, 2)
             )
 
-    def render(self, obs, mode='human', close=False):
+    def render(self, obs, mode="human", close=False):
         """
         This function is called by PDDLGym environments to render the game state.
 
@@ -94,7 +97,9 @@ class RobotouilleRenderer:
         if close:
             self.window = None
             self.clock = None
-            pygame.display.set_mode(self.window_size, flags=pygame.HIDDEN) # Hide the window
+            pygame.display.set_mode(
+                self.window_size, flags=pygame.HIDDEN
+            )  # Hide the window
             pygame.display.quit()
             pygame.quit()
         else:

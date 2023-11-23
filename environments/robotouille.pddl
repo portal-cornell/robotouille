@@ -39,6 +39,7 @@
         (clear ?i - item)
         (atop ?i1 - item ?i2 - item)
         (has ?p - player ?i - item)
+        (selected ?p - player)
     )
 
     ; ACTIONS
