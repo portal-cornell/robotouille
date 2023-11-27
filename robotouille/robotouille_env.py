@@ -71,7 +71,8 @@ def create_robotouille_env(problem_filename, seed=None, noisy_randomization=Fals
     if seed is not None:
         environment_json = _procedurally_generate(environment_json, int(seed), noisy_randomization)
     layout = _parse_renderer_layout(environment_json)
-    renderer = RobotouilleRenderer(layout=layout, players=environment_json["players"])
+    config_filename = "robotouille_config.json"
+    renderer = RobotouilleRenderer(config_filename=config_filename, layout=layout, players=environment_json["players"])
     render_fn = renderer.render
     problem_string, environment_json = builder.build_problem(environment_json) # IDs objects in environment
     builder.write_problem_file(problem_string, f"{problem_filename}.pddl")
