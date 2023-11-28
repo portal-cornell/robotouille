@@ -93,6 +93,7 @@ class RobotouilleCanvas:
         # Get asset by finding the the asset with most matches to current game state. If two or more assets have the same number of matches, the default asset is chosen. 
         max_matches = 0
         chosen_asset = item_config["assets"]["default"]
+
         for asset in item_config["assets"]:
             if asset == "default":
                 continue
@@ -100,11 +101,12 @@ class RobotouilleCanvas:
             for predicate in item_config["assets"][asset]["predicates"]:
                 if predicate in item_predicates:
                     matches += 1
-            if matches > max_matches:
-                max_matches = matches
-                chosen_asset = item_config["assets"][asset]["asset"]
-            elif matches == max_matches:
-                chosen_asset = item_config["assets"]["default"]
+            if all(predicate in item_predicates for predicate in item_config["assets"][asset]["predicates"]):
+                if matches > max_matches:
+                    max_matches = matches
+                    chosen_asset = item_config["assets"][asset]["asset"]
+                elif matches == max_matches:
+                    chosen_asset = item_config["assets"]["default"]
 
         item_image_name = chosen_asset
         x_scale_factor = self.config["item"]["constants"]["X_SCALE_FACTOR"]

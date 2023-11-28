@@ -1,6 +1,6 @@
 {
-    "width": 6,
-    "height": 6,
+    "width": 8,
+    "height": 8,
     "config": {
         "num_cuts": {
             "lettuce": 3,
@@ -9,28 +9,29 @@
         "cook_time": {
             "patty": 3,
             "default": 3
+        },
+        "fry_time": {
+            "onion": 3,
+            "potato": 3,
+            "chicken": 3,
+            "default": 3
         }
     },
     "stations": [
         {
             "name": "board",
-            "x": 0,
-            "y": 0
-        },
-        {
-            "name": "table",
-            "x": 0,
+            "x": 1,
             "y": 1
         },
         {
             "name": "table",
-            "x": 0,
+            "x": 1,
             "y": 2
         },
         {
             "name": "table",
-            "x": 0,
-            "y": 4
+            "x": 1,
+            "y": 3
         },
         {
             "name": "table",
@@ -39,112 +40,146 @@
         },
         {
             "name": "table",
+            "x": 1,
+            "y": 6
+        },
+        {
+            "name": "table",
             "x": 2,
-            "y": 4
+            "y": 6
         },
         {
             "name": "table",
             "x": 3,
-            "y": 4
+            "y": 6
         },
         {
             "name": "table",
             "x": 4,
-            "y": 4
+            "y": 6
         },
         {
             "name": "table",
             "x": 5,
+            "y": 6
+        },
+        {
+            "name": "table",
+            "x": 6,
+            "y": 6
+        },
+        {
+            "name": "table",
+            "x": 6,
             "y": 4
         },
         {
             "name": "table",
-            "x": 5,
+            "x": 6,
+            "y": 3
+        },
+        {
+            "name": "table",
+            "x": 6,
             "y": 2
         },
         {
-            "name": "table",
-            "x": 5,
+            "name": "stove",
+            "x": 6,
             "y": 1
         },
         {
-            "name": "stove",
-            "x": 5,
-            "y": 0
+            "name": "fryer",
+            "x": 4,
+            "y": 1
         }
     ],
     "items": [
         {
             "name": "patty",
-            "x": 0,
-            "y": 1,
+            "x": 1,
+            "y": 2,
             "stack-level": 0,
             "predicates": ["iscookable"]
         },
         {
             "name": "lettuce",
-            "x": 0,
-            "y": 2,
+            "x": 1,
+            "y": 3,
             "stack-level": 0,
             "predicates": ["iscuttable"]
         },
         {
-            "name": "bottombun",
-            "x": 0,
+            "name": "potato",
+            "x": 1,
             "y": 4,
+            "stack-level": 0,
+            "predicates": ["iscuttable", "isfryableifcut"]
+        },
+        {
+            "name": "bottombun",
+            "x": 1,
+            "y": 6,
             "stack-level": 0
         },
         {
             "name": "topbun",
-            "x": 1,
-            "y": 4,
+            "x": 2,
+            "y": 6,
             "stack-level": 0
         },
         {
             "name": "cheese",
-            "x": 2,
-            "y": 4,
-            "stack-level": 0
-        },
-        {
-            "name": "bread",
             "x": 3,
-            "y": 4,
+            "y": 6,
             "stack-level": 0
         },
         {
             "name": "bread",
             "x": 4,
-            "y": 4,
+            "y": 6,
+            "stack-level": 0
+        },
+        {
+            "name": "bread",
+            "x": 5,
+            "y": 6,
             "stack-level": 0
         },
         {
             "name": "chicken",
-            "x": 5,
+            "x": 6,
+            "y": 6,
+            "stack-level": 0,
+            "predicates": ["iscookable", "isfryable"]
+        },
+        {
+            "name": "chicken",
+            "x": 6,
             "y": 4,
             "stack-level": 0,
-            "predicates": ["iscookable"]
+            "predicates": ["iscookable", "isfryable"]
         },
         {
             "name": "tomato",
-            "x": 5,
-            "y": 2,
+            "x": 6,
+            "y": 3,
             "stack-level": 0,
             "predicates": ["iscuttable"]
         },
         {
             "name": "onion",
-            "x": 5,
-            "y": 1,
+            "x": 6,
+            "y": 2,
             "stack-level": 0,
-            "predicates": ["iscuttable"]
+            "predicates": ["iscuttable", "isfryableifcut"]
         }
     ],
     "players": [
         {
             "name": "robot",
-            "x": 1,
-            "y": 0,
+            "x": 2,
+            "y": 1,
             "direction": [-1, 0]
         }
     ],
