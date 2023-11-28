@@ -1,0 +1,52 @@
+{
+    "width": 6,
+    "height": 6,
+    "config": {},
+    "stations": [
+        {
+            "name": "patient",
+            "x": 0,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 4,
+            "y": 3
+        }
+    ],
+    "items": [
+        {
+            "name": "medicine",
+            "x": 4,
+            "y": 3,
+            "stack-level": 0,
+            "predicates": ["isingestable", "ismedicine", "isingested"]
+        }
+    ],
+    "players": [
+        {
+            "name": "robot",
+            "x": 0,
+            "y": 0,
+            "direction": [0, 1]
+        }
+    ],
+    "goal_description": "Treat a patient; place medicine on top of the patient station",
+    "goal": [
+        {
+            "predicate": "istreated",
+            "args": ["patient"],
+            "ids": [1]
+        },
+        {
+            "predicate": "atop",
+            "args": ["medicine", "patient"],
+            "ids": [2, 1]
+        }, 
+        {
+            "predicate": "isingested",
+            "args": ["medicine"],
+            "ids": [2]
+        }
+    ]
+}

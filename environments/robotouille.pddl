@@ -10,8 +10,11 @@
         (istable ?s - station)
         (isstove ?s - station)
         (isboard ?s - station)
-        (isfryer ?s - station)
+        (ispatient ?s - station)
+        (istreatable ?i - station)
+        (istreated ?i - station)    
         (isrobot ?p - player)
+        (isnurse ?p - player)
         (istopbun ?i - item)
         (isbottombun ?i - item)
         (isbread ?i - item)
@@ -23,12 +26,12 @@
         (ispatty ?i - item)
         (ischicken ?i - item)
         (iscookable ?i - item)
+        (isingestable ?i - item)
+        (isingested ?i - item)
         (iscooked ?i - item)
+        (ispulsechecker ?i - item)
         (ischeese ?i - item)
-        (isfryable ?i - item)
-        (isfryableifcut ?i - item)
-        (isfried ?i - item)
-        (ispotato ?i - item)
+        (ismedicine ?i - item)
         ; State Predicates
         (loc ?p - player ?s - station)
         (at ?i - item ?s - station)
@@ -42,7 +45,21 @@
     )
 
     ; ACTIONS
-    
+
+     ; Make the nurse player place a medicine item on top the patient station
+    (:action givemedicine
+        :parameters (?p - player ?i - item ?s - station)
+        :precondition (and
+            (ispatient ?s)
+            (isingestable ?i)
+            (on ?i ?s)
+            (loc ?p ?s)
+            (clear ?i)
+        )
+        :effect (and
+            (istreated ?s)
+        )
+    ) 
     ; Move the player from station 1 to station 2
     (:action move
         :parameters (?p - player ?s1 - station ?s2 - station)
@@ -109,38 +126,7 @@
             (iscooked ?i)
         )
     )
-
-    ; Make the player fry a fryable item in a fryer
-    (:action fry
-        :parameters (?p - player ?i - item ?s - station)
-        :precondition (and
-            (isfryer ?s)
-            (isfryable ?i)
-            (on ?i ?s)
-            (loc ?p ?s)
-            (clear ?i)
-        )
-        :effect (and 
-            (isfried ?i)
-        )
-    )
-
-    ; Make the player fry an item that is only fryable if cut, in a fryer
-    (:action fry_cut_item
-        :parameters (?p - player ?i - item ?s - station)
-        :precondition (and
-            (isfryer ?s)
-            (isfryableifcut ?i)
-            (iscut ?i)
-            (on ?i ?s)
-            (loc ?p ?s)
-            (clear ?i)
-        )
-        :effect (and 
-            (isfried ?i)
-        )
-    )
-
+    
     ; Make the player stack an item on top of another item at a station
     (:action stack
         :parameters (?p - player ?i1 - item ?i2 - item ?s - station)
@@ -158,7 +144,7 @@
             (not (clear ?i2))
             (not (has ?p ?i1))
         )
-    )
+    )    
 
     ; Make the player cut a cuttable item on a cutting board
     (:action cut
