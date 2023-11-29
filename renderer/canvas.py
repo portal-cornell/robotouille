@@ -64,6 +64,66 @@ class RobotouilleCanvas:
         image = pygame.transform.smoothscale(image, scale)
         surface.blit(image, position)
 
+    def _get_item_name(self, item_image_name):
+        """
+        Helper function to get the name of an item without its id
+
+        Args:
+            item_image_name (str): Name of the item
+        
+        Returns:
+            item (str): Updated name of the item without id
+            item_id (str): Id of the item
+        """
+        # Remove and store ID
+        item_id = ""
+        while item_image_name[-1].isdigit():
+            item_id += item_image_name[-1]
+            item_image_name = item_image_name[:-1]
+        
+        return item_image_name, item_id
+
+    def _choose_item_asset(self, item_image_name, obs):
+        """
+        Helper function to chooses the right asset for an item based on the current predicates.
+
+        Args:
+            item_image_name (str): Name of the item
+            obs (List[Literal]): Game state predicates
+        """
+        # Get the name of the item and store its id
+        item_image_name, item_id = self._get_item_name(item_image_name)
+
+        # Get predicates of item in current game state
+        item_predicates = []        
+        for literal in obs:        
+            if literal.variables[0] == item_image_name + item_id:
+                item_predicates.append(literal.predicate)
+        
+        item_config = self.config["item"]["entities"][item_image_name]
+        asset_config = item_config["assets"]
+
+        # Find the the asset with most matches to current game state. If two or 
+        # more assets have the same number of matches, the default asset is used. 
+        max_matches = 0
+        chosen_asset = item_config["assets"]["default"]
+
+        for asset in item_config["assets"]:
+            if asset == "default":
+                continue
+            matches = 0
+            for predicate in asset_config[asset]["predicates"]:
+                if predicate in item_predicates:
+                    matches += 1
+            if all(predicate in item_predicates for predicate in asset_config[asset]["predicates"]):
+                if matches > max_matches:
+                    max_matches = matches
+                    chosen_asset = asset_config[asset]["asset"]
+                elif matches == max_matches:
+                    chosen_asset = asset_config["default"]
+
+        return chosen_asset
+
     def _draw_item_image(self, surface, item_name, obs, position):
         """
         Helper to draw a item image on the canvas.
@@ -74,46 +134,12 @@ class RobotouilleCanvas:
             obs (List[Literal]): Game state predicates
             position (np.array): (x, y) position of the item (with pix_square_size factor accounted for)
         """
-        item_image_name = item_name
-        
-        # Remove and store ID
-        item_id = ""
-        while item_image_name[-1].isdigit():
-            item_id += item_image_name[-1]
-            item_image_name = item_image_name[:-1]
-
-        item_config = self.config["item"]["entities"][item_image_name]
-
-        # Get predicates of item in current game state
-        item_predicates = []        
-        for literal in obs:        
-            if literal.variables[0] == item_image_name + item_id:
-                item_predicates.append(literal.predicate)
-
-        # Get asset by finding the the asset with most matches to current game state. If two or more assets have the same number of matches, the default asset is chosen. 
-        max_matches = 0
-        chosen_asset = item_config["assets"]["default"]
-
-        for asset in item_config["assets"]:
-            if asset == "default":
-                continue
-            matches = 0
-            for predicate in item_config["assets"][asset]["predicates"]:
-                if predicate in item_predicates:
-                    matches += 1
-            if all(predicate in item_predicates for predicate in item_config["assets"][asset]["predicates"]):
-                if matches > max_matches:
-                    max_matches = matches
-                    chosen_asset = item_config["assets"][asset]["asset"]
-                elif matches == max_matches:
-                    chosen_asset = item_config["assets"]["default"]
-
-        item_image_name = chosen_asset
+        item_image_name = self._choose_item_asset(item_name, obs)
         x_scale_factor = self.config["item"]["constants"]["X_SCALE_FACTOR"]
         y_scale_factor = self.config["item"]["constants"]["Y_SCALE_FACTOR"]
 
         self._draw_image(surface, f"{item_image_name}", position + self.pix_square_size * x_scale_factor, self.pix_square_size * y_scale_factor)
-    
+
     def _draw_floor(self, surface):
         """
         Draw the floor on the canvas.
@@ -274,7 +300,7 @@ class RobotouilleCanvas:
         """
         stack_list = [] # In the form (x, y) such that x is stacked on y
         stack_number = {} # Stores the item item and current stack number
-        station_item_offset = self.config["item"]["constants"]["STATION_ITEM_OFFSET"] # place the item slightly above the station
+        station_item_offset = self.config["item"]["constants"]["STATION_ITEM_OFFSET"]
         for literal in obs:
             if literal.predicate == "on":
                 item = literal.variables[0].name
@@ -300,12 +326,9 @@ class RobotouilleCanvas:
                         if literal.predicate == "at" and literal.variables[0].name == item_below:
                             station_pos = self._get_station_position(literal.variables[1].name)
                             break
-                    stack_offset = 0
-                    for item in item_above:
-                        try:
-                            stack_offset = self.config["item"]["entities"][item]["constants"]["STACK_OFFSET"]
-                        except:
-                            pass
+                    item_name, _ = self._get_item_name(item_above)
+                    stack_offset = self.config["item"]["entities"][item_name]["constants"].get("STACK_OFFSET", 0)
+                    # Place the item slightly above the station
                     station_pos[1] -= station_item_offset + 0.1 * (stack_number[item_above] - 1) + stack_offset
                     self._draw_item_image(surface, item_above, obs, station_pos * self.pix_square_size)
                 else:
