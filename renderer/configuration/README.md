@@ -15,7 +15,7 @@ There are four main types of objects in the game. Each object has a set of prope
 
 ### Example Format
 
-Here we describe the format of the JSON files under ```examples```.
+Here we describe the format of the JSON files under ```configuration```.
 
 ```
 {
