@@ -72,7 +72,7 @@ class RobotouilleCanvas:
             item_image_name (str): Name of the item
         
         Returns:
-            item (str): Updated name of the item without id
+            item_image_name (str): Updated name of the item without id
             item_id (str): Id of the item
         """
         # Remove and store ID
@@ -90,6 +90,9 @@ class RobotouilleCanvas:
         Args:
             item_image_name (str): Name of the item
             obs (List[Literal]): Game state predicates
+
+        Returns:
+            chosen_asset (str): Name of the chosen asset
         """
         # Get the name of the item and store its id
         item_image_name, item_id = self._get_item_name(item_image_name)
