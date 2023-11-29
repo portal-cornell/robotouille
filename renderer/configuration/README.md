@@ -44,17 +44,12 @@ Here we describe the format of the JSON files under ```configuration```.
         }
         "entities" = A list of items that can be used in the game
         {
-            "name" = The name of the item
+            "item_name1" = The name of the item
             {
                 "assets" = A list of images for the item
                 {
                     "default" = The default image for the item
                     "item_state1" = The image for an item if certain predicates are true
-                    {
-                        "asset" = The image for the item when the predicates is true
-                        "predicates" = A list of predicates that must be true for the image to be rendered
-                    }
-                    "item_state2" = The image for an item if certain predicates are true
                     {
                         "asset" = The image for the item when the predicates is true
                         "predicates" = A list of predicates that must be true for the image to be rendered
@@ -66,13 +61,14 @@ Here we describe the format of the JSON files under ```configuration```.
                     "STACK_OFFSET" = How much higher or lower the item should be rendered when stacked
                 }
             }
+            ...
         }
     }
     "station" = The configuration for stations in the game
     {
         "entities" = A list of stations that can be used in the game
         {
-            "name" = The name of the station
+            "station_name1" = The name of the station
             {
                 "assets" = A list of images for the station. Currently, only one image is supported
                 {
