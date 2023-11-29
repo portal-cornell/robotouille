@@ -30,7 +30,7 @@ Here we describe the format of the JSON files under ```configuration```.
             "left" = The image of the player facing left
             "right" = The image of the player facing right
         }
-    },
+    }
 
     "floor" = The image for the floor
 
@@ -41,7 +41,7 @@ Here we describe the format of the JSON files under ```configuration```.
             "STATION_ITEM_OFFSET" = How much higher or lower items should be rendered when placed on a station
             "X_SCALE_FACTOR" = How much items should be scaled in the x direction
             "Y_SCALE_FACTOR": How much items should be scaled in the y direction
-        },
+        }
         "entities" = A list of items that can be used in the game
         {
             "name" = The name of the item
@@ -67,7 +67,7 @@ Here we describe the format of the JSON files under ```configuration```.
                 }
             }
         }
-    },
+    }
     "station" = The configuration for stations in the game
     {
         "entities" = A list of stations that can be used in the game
@@ -78,7 +78,7 @@ Here we describe the format of the JSON files under ```configuration```.
                 {
                     "default" = The default image for the station
                 }
-            },
+            }
         }
     }
 }
