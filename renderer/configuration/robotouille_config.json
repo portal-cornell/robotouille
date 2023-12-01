@@ -1,0 +1,153 @@
+{
+    "version": "1.0.0",
+
+    "player": {
+        "robot": {
+            "front": "robot_front.png",
+            "back": "robot_back.png",
+            "left": "robot_left.png",
+            "right": "robot_right.png"
+        }
+    },
+
+    "floor": "floorkitchen.png",
+
+    "item": {
+        "constants": {
+            "STATION_ITEM_OFFSET" : 0.25,
+            "X_SCALE_FACTOR": 0.125,
+            "Y_SCALE_FACTOR": 0.75
+        },
+        "entities": {
+            "bottombun": {
+                "assets": {
+                    "default": "bottombun.png"
+                },
+                "constants": {}
+            },
+            "topbun": {
+                "assets": {
+                    "default": "topbun.png"
+                },
+                "constants": {}
+            },
+            "bread": {
+                "assets": {
+                    "default": "bread.png"
+                },
+                "constants": {}
+            },
+            "cheese": {
+                "assets": {
+                    "default": "cheese.png"
+                },
+                "constants": {
+                    "STACK_OFFSET": -0.05
+                }
+            },
+            "chicken": {
+                "assets": {
+                    "default": "chicken.png",
+                    "cooked": {
+                        "asset": "cookedchicken.png",
+                        "predicates": ["iscooked"]
+                    },
+                    "fried": {
+                        "asset": "friedchicken.png",
+                        "predicates": ["isfried"]
+                    }
+                },
+                "constants": {}
+            },
+            "patty": {
+                "assets": {
+                    "default": "patty.png",
+                    "cooked": {
+                        "asset": "cookedpatty.png",
+                        "predicates": ["iscooked"]
+                    }
+                },
+                "constants": {}
+            },
+            "lettuce": {
+                "assets": {
+                    "default": "lettuce.png",
+                    "cut": {
+                        "asset": "cutlettuce.png",
+                        "predicates": ["iscut"]
+                    }
+                },
+                "constants": {}
+            },
+            "onion": {
+                "assets": {
+                    "default": "onion.png",
+                    "cut": {
+                        "asset": "cutonion.png",
+                        "predicates": ["iscut"]
+                    },
+                    "fried": {
+                        "asset": "friedonion.png",
+                        "predicates": ["iscut", "isfried"]
+                    }
+                },
+                "constants": {
+                    "STACK_OFFSET":-0.05
+                }
+            },
+            "potato": {
+                "assets": {
+                    "default": "potato.png",
+                    "cut": {
+                        "asset": "cutpotato.png",
+                        "predicates": ["iscut"]
+                    },
+                    "fried": {
+                        "asset": "friedpotato.png",
+                        "predicates": ["iscut", "isfried"]
+                    }
+                },
+                "constants": {}
+            },
+            "tomato": {
+                "assets": {
+                    "default": "tomato.png",
+                    "cut": {
+                        "asset": "cuttomato.png",
+                        "predicates": ["iscut"]
+                    }
+                },
+                "constants": {}
+            } 
+        }
+    },
+    "station": {
+        "constants": {},
+        "entities": {
+            "fryer": {
+                "assets": {
+                    "default": "fryer.png"
+                },
+                "constants": {}
+            },
+            "stove": {
+                "assets": {
+                    "default": "stove.png"
+                },
+                "constants": {}
+            },
+            "table": {
+                "assets": {
+                    "default": "table.png"
+                },
+                "constants": {}
+            },
+            "board": {
+                "assets": {
+                    "default": "board.png"
+                },
+                "constants": {}
+            }
+        }
+    }
+}
