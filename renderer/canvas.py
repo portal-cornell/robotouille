@@ -102,7 +102,7 @@ class RobotouilleCanvas:
         max_matches = 0
         asset_config = item_config["assets"]
         chosen_asset = asset_config["default"]
-        for asset in item_config["assets"]:
+        for asset in asset_config:
             if asset == "default":
                 continue
             matches = 0
