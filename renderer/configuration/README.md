@@ -1,8 +1,8 @@
 # Configuration File
 
-Our goal for Robotouille is for it to be configurable so that users are able to use their own assets and customize the predicates to their liking. We have created a simple json for you to configure the game.
+Our goal for Robotouille is for it to be configurable so that users are able to use their own assets and customize the predicates to their liking. We have created a simple json for you to configure the game's assets.
 
-## Configuring the Game
+## Configuring the Game Assets
 
 ### Description
 
@@ -21,9 +21,9 @@ Here we describe the format of the JSON files under ```configuration```.
 {
     "version" = The current version of the configuration file
 
-    "player" = A list of player models that can be used in the game. Currently, robotouille is single-player ONLY. So the name of the player cannot be changed. 
+    "player" = A dictionary of player models that can be used in the game. Currently, Robotouille only supports setting a single set of assets to be used for all players. 
     {
-        "robot" = The name of the player (cannot be changed)
+        "robot" = A dictionary of assets to draw the player model
         {
             "front" = The image for the front of the player
             "back" = The image for the back of the player
@@ -36,17 +36,17 @@ Here we describe the format of the JSON files under ```configuration```.
 
     "item" = The configuration for items in the game
     {
-        "constants" = A list of constants to be applied to all items
+        "constants" = A dictionary of constants to be applied to all items
         {
             "STATION_ITEM_OFFSET" = How much higher or lower items should be rendered when placed on a station
             "X_SCALE_FACTOR" = How much items should be scaled in the x direction
             "Y_SCALE_FACTOR": How much items should be scaled in the y direction
         }
-        "entities" = A list of items that can be used in the game
+        "entities" = A dictionary of items that can be used in the game
         {
             "item_name1" = The name of the item
             {
-                "assets" = A list of images for the item
+                "assets" = A dictionary of images for the item
                 {
                     "default" = The default image for the item
                     "item_state1" = The image for an item if certain predicates are true
@@ -56,7 +56,7 @@ Here we describe the format of the JSON files under ```configuration```.
                     }
                     ...
                 }
-                "constants" = A list of constants to be applied to the item
+                "constants" = A dictionary of constants to be applied to the item
                 {
                     "STACK_OFFSET" = How much higher or lower the item should be rendered when stacked
                 }
@@ -66,11 +66,11 @@ Here we describe the format of the JSON files under ```configuration```.
     }
     "station" = The configuration for stations in the game
     {
-        "entities" = A list of stations that can be used in the game
+        "entities" = A dictionary of stations that can be used in the game
         {
             "station_name1" = The name of the station
             {
-                "assets" = A list of images for the station. Currently, only one image is supported
+                "assets" = A dictionary of images for the station. Currently, only one image is supported
                 {
                     "default" = The default image for the station
                 }
@@ -82,4 +82,4 @@ Here we describe the format of the JSON files under ```configuration```.
 
 ### RobotouilleRenderer and RobotouilleCanvas
 
-The ```RobotouilleRenderer``` class reads the configuration file and creates a ```RobotouilleCanvas```. The configuration file is passed as a string and set as field in ```RobotouilleCanvas``` to be used when drawing images for the player, floor, items, and stations. 
+The ```RobotouilleRenderer``` class sets up the pygame window and reads the configuration file to use in ```RobotouilleCanvas```. ```RobotouilleCanvas``` is responsible for drawing the images onto the window using the information from the configuration file. 

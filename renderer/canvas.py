@@ -1,6 +1,7 @@
 import os
 import pygame
 import numpy as np
+from utils.robotouille_utils import trim_item_ID
 
 class RobotouilleCanvas:
     """
@@ -64,29 +65,20 @@ class RobotouilleCanvas:
         image = pygame.transform.smoothscale(image, scale)
         surface.blit(image, position)
 
-    def _get_item_name(self, item_image_name):
-        """
-        Helper function to get the name of an item without its id
-
-        Args:
-            item_image_name (str): Name of the item
-        
-        Returns:
-            item_image_name (str): Updated name of the item without id
-            item_id (str): Id of the item
-        """
-        # Remove and store ID
-        item_id = ""
-        while item_image_name[-1].isdigit():
-            item_id += item_image_name[-1]
-            item_image_name = item_image_name[:-1]
-        
-        return item_image_name, item_id
-
     def _choose_item_asset(self, item_image_name, obs):
         """
-        Helper function to chooses the right asset for an item based on the current predicates.
+        Helper function to chooses the right asset for an item based on the current predicates on the item.
 
+        In the configuration file, each item has a dictionary of assets. Depending on the predicates on the item, 
+        a different asset may be chosen. This helper takes the current set of predicates in the game state and 
+        chooses the asset with the most matches, and ensures that all predicates for that asset are also true. 
+        This assumes that there is no ambigiuous asset choices (i.e. two assets have the same number of matches). 
+        If more than one asset has the same number of matches (and all predicates are currently true), the default
+        asset is used.
+
+        For example, an onion may have a default state, a fried state, and a cut state. If the onion is currently fried
+        and also cut, but there is no asset for a fried and cut onion, the default asset will be used.
+        
         Args:
             item_image_name (str): Name of the item
             obs (List[Literal]): Game state predicates
@@ -95,7 +87,7 @@ class RobotouilleCanvas:
             chosen_asset (str): Name of the chosen asset
         """
         # Get the name of the item and store its id
-        item_image_name, item_id = self._get_item_name(item_image_name)
+        item_image_name, item_id = trim_item_ID(item_image_name)
 
         # Get predicates of item in current game state
         item_predicates = []        
@@ -104,13 +96,12 @@ class RobotouilleCanvas:
                 item_predicates.append(literal.predicate)
         
         item_config = self.config["item"]["entities"][item_image_name]
-        asset_config = item_config["assets"]
 
         # Find the the asset with most matches to current game state. If two or 
         # more assets have the same number of matches, the default asset is used. 
         max_matches = 0
-        chosen_asset = item_config["assets"]["default"]
-
+        asset_config = item_config["assets"]
+        chosen_asset = asset_config["default"]
         for asset in item_config["assets"]:
             if asset == "default":
                 continue
@@ -310,6 +301,7 @@ class RobotouilleCanvas:
                 stack_number[item] = 1
                 item_station = literal.variables[1].name
                 pos = self._get_station_position(item_station)
+                # Place the item slightly above the station
                 pos[1] -= station_item_offset 
                 self._draw_item_image(surface, item, obs, pos * self.pix_square_size)
             if literal.predicate == 'atop':
@@ -329,9 +321,9 @@ class RobotouilleCanvas:
                         if literal.predicate == "at" and literal.variables[0].name == item_below:
                             station_pos = self._get_station_position(literal.variables[1].name)
                             break
-                    item_name, _ = self._get_item_name(item_above)
+                    item_name, _ = trim_item_ID(item_above)
+                    # Check if item has a stack offset
                     stack_offset = self.config["item"]["entities"][item_name]["constants"].get("STACK_OFFSET", 0)
-                    # Place the item slightly above the station
                     station_pos[1] -= station_item_offset + 0.1 * (stack_number[item_above] - 1) + stack_offset
                     self._draw_item_image(surface, item_above, obs, station_pos * self.pix_square_size)
                 else:
