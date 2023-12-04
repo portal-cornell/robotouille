@@ -97,6 +97,22 @@ class RobotouilleWrapper(gym.Wrapper):
         self.env.set_state(new_env_state)
         return new_env_state
 
+    # @staticmethod
+    # def get_discounted_rewards(trajectories, gamma):
+    #     rews = trajectories["ep_rewards"]
+    #     horizon = rews.shape[1]
+    #     return OvercookedEnv._get_discounted_rewards_with_horizon(
+    #         rews, gamma, horizon
+    #     )
+
+    # @staticmethod
+    # def _get_discounted_rewards_with_horizon(rewards_matrix, gamma, horizon):
+    #     rewards_matrix = np.array(rewards_matrix)
+    #     discount_array = [gamma**i for i in range(horizon)]
+    #     rewards_matrix = rewards_matrix[:, :horizon]
+    #     discounted_rews = np.sum(rewards_matrix * discount_array, axis=1)
+    #     return discounted_rews
+    
     def _handle_action(self, action):
         """
         This function takes an action and performs the step in the environment.
@@ -132,60 +148,99 @@ class RobotouilleWrapper(gym.Wrapper):
             done (bool): Whether or not the episode is done.
             info (dict): A dictionary of metadata about the step.
         """
-        if action == "noop": 
-            return self.prev_step
 
-        reward = 0
+        reward = self.prev_step[1]
+
+        #item = next(filter(lambda typed_entity: typed_entity.var_type == "item", action.variables))
+
+        # # Updating state based on the action
+        # item_status = self.state.get(item.name, {})
+        # if action_name == "cut":
+        #     item_status["cut"] = item_status.get("cut", 0) + 1
+        # elif action_name in ["cook", "fry"]:
+        #     cooking_status = item_status.get(action_name, {"cooking": False, "cook_time": 0, "fry_time": 0})
+        #     cooking_status["cooking"] = True
+        #     item_status[action_name] = cooking_status
+        # elif action_name == "pick-up":
+        #     if "cook" in item_status:
+        #         item_status["cook"]["cooking"] = False
+        #     if "fry" in item_status:
+                # item_status["fry"]["frying"] = False
+        if action == "noop": return self.prev_step
         action_name = action.predicate.name
-        item = next(filter(lambda typed_entity: typed_entity.var_type == "item", action.variables))
-
-        # Updating state based on the action
-        item_status = self.state.get(item.name, {})
         if action_name == "cut":
-            item_status["cut"] = item_status.get("cut", 0) + 1
-        elif action_name in ["cook", "fry"]:
-            cooking_status = item_status.get(action_name, {"cooking": False, "cook_time": 0, "fry_time": 0})
-            cooking_status["cooking"] = True
-            item_status[action_name] = cooking_status
+            item = next(filter(lambda typed_entity: typed_entity.var_type == "item", action.variables))
+            item_status = self.state.get(item.name)
+            if item_status is None:
+                self.state[item.name] = {"cut": 1}
+            elif item_status.get("cut") is None:
+                item_status["cut"] = 1
+            else:
+                item_status["cut"] += 1
+            print("recordiing a cut")
+            reward += 5
+            temp = list(self.prev_step)
+            temp[1] = reward
+            self.prev_step = tuple(temp)
+            return self.prev_step
+        elif action_name == "cook":
+            item = next(filter(lambda typed_entity: typed_entity.var_type == "item", action.variables))
+            item_status = self.state.get(item.name)
+            if item_status is None:
+                self.state[item.name] = {"cook": {"cook_time": -1, "cooking": True}}
+            elif item_status.get("cook") is None:
+                item_status["cook"] = {"cook_time": -1, "cooking": True}
+            else:
+                item_status["cook"]["cooking"] = True
+            return self.prev_step
+        elif action_name == "fry" or action_name == "fry_cut_item":
+            item = next(filter(lambda typed_entity: typed_entity.var_type == "item", action.variables))
+            item_status = self.state.get(item.name)
+            if item_status is None:
+                self.state[item.name] = {"fry": {"fry_time": -1, "frying": True}}
+            elif item_status.get("fry") is None:
+                item_status["fry"] = {"fry_time": -1, "frying": True}
+            else:
+                item_status["fry"]["frying"] = True
+            return self.prev_step
         elif action_name == "pick-up":
-            if "cook" in item_status:
+            item = next(filter(lambda typed_entity: typed_entity.var_type == "item", action.variables))
+            item_status = self.state.get(item.name)
+            if item_status is not None and item_status.get("cook") is not None:
                 item_status["cook"]["cooking"] = False
-            if "fry" in item_status:
-                item_status["fry"]["frying"] = False
+            if item_status is not None and item_status.get("fry") is not None:
+                item_status["fry"]["frying"] = False              
 
-        self.state[item.name] = item_status
+        # self.state[item.name] = item_status
+
 
         # Perform the environment step
-        obs, done, info = self.env.step(action)
+        obs, _, done, info = self.env.step(action)
 
+        print("action name", action_name)
         # Reward calculation
-        if action_name == "cut":
-            reward += 0.1  # Small reward for each cut
-            max_num_cuts = self.config["num_cuts"].get(item.name, self.config["num_cuts"]["default"])
-            if item_status["cut"] >= max_num_cuts:
-                reward += 5  # Larger reward for completing the cutting task
+
 
         if action_name in ["cook", "fry"]:
-            reward += 0.1  # Incremental reward for each step in cooking/frying
+            reward += 0.1  
             max_cook_time = self.config["cook_time"].get(item.name, self.config["cook_time"]["default"])
             if item_status[action_name]["cook_time"] >= max_cook_time:
-                reward += 5  # Reward for completing cooking/frying
+                reward += 5  
 
-        # Penalty for overcooking or burning 
-        # if overcooked_or_burned(item_status):
-        #     reward -= 5
+        # # Penalty for overcooking or burning 
+        # # if overcooked_or_burned(item_status):
+        # #     reward -= 5
 
-        # Efficiency bonus (define efficiency_threshold as needed)
-        efficiency_threshold = 10  # Example value
-        if self.timesteps < efficiency_threshold:
-            reward += 2
+        # efficiency_threshold = 10  
+        # if self.timesteps < efficiency_threshold:
+        #     reward += 2
 
-        # Terminal state rewards/penalties
-        if done:
-            if self.env.goal_achieved():  # You need to implement this method
-                reward += 10  # Large reward for achieving the goal
-            else:
-                reward -= 10  # Penalty for failing to achieve the goal
+        # # Terminal state rewards/penalties
+        # if done:
+        #     if self.env.goal_achieved(): 
+        #         reward += 10  
+        #     else:
+        #         reward -= 10  
 
         # Update the previous step
         self.prev_step = (obs, reward, done, info)
@@ -233,11 +288,12 @@ class RobotouilleWrapper(gym.Wrapper):
         else:
             action = robotouille_utils.create_action(self.env, self.prev_step[0], action)
         obs, reward, done, _ = self._handle_action(action)
+        print("reward from handle action", reward)
         #print(obs)
         obs = self._state_update()
         #print(obs)
         toggle_array = pddlgym_utils.create_toggle_array(expanded_truths, expanded_states, obs.literals)
-        print(toggle_array)
+        # print("toggle_array:", toggle_array)
         if interactive:
             print(f"Predicates Changed: {toggle_array.sum()}")
         info = {
