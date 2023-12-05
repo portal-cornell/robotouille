@@ -13,6 +13,7 @@
     topbun1 - item
     robot1 - player
     robot2 - player
+    robot3 - player
 )
 (:init
     (istable table1)
@@ -29,6 +30,7 @@
     (istopbun topbun1)
     (isrobot robot1)
     (isrobot robot2)
+    (isrobot robot3)
     (at patty1 table1)
     (loc robot1 table1)
     (empty stove1)
@@ -40,9 +42,10 @@
     (empty board1)
     (vacant board1)
     (at topbun1 table4)
-    (vacant table4)
+    (loc robot3 table4)
     (nothing robot1)
     (nothing robot2)
+    (nothing robot3)
     (selected robot1)
     (on patty1 table1)
     (clear patty1)
@@ -52,7 +55,7 @@
     (clear bottombun1)
     (on topbun1 table4)
     (clear topbun1)
-)
+    (cancut robot1)    (canmove robot1)    (canplace robot2)    (canmove robot2)    (cancook robot3)    (canmove robot3))
 (:goal
    (or
        (and

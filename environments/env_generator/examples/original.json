@@ -83,6 +83,10 @@
             "direction": [
                 0,
                 1
+            ],
+            "actions": [
+                "move",
+                "place"
             ]
         },
         {
@@ -92,6 +96,23 @@
             "direction": [
                 0,
                 1
+            ],
+            "actions": [
+                "move",
+                "cut"
+            ]
+        },
+        {
+            "name": "robot",
+            "x": 5,
+            "y": 3,
+            "direction": [
+                0,
+                -1
+            ],
+            "actions": [
+                "move",
+                "cook"
             ]
         }
     ],

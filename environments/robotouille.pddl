@@ -40,6 +40,12 @@
         (atop ?i1 - item ?i2 - item)
         (has ?p - player ?i - item)
         (selected ?p - player)
+        (cancook ?p - player)
+        (cancut ?p - player)
+        (canplace ?p - player)
+        (canmove ?p - player)
+        (canfry ?p - player)
+        (canfrycut ?p - player)
     )
 
     ; ACTIONS
@@ -50,6 +56,7 @@
         :precondition (and
             (loc ?p ?s1)
             (selected ?p)
+            (canmove ?p)
         )
         :effect (and
             (loc ?p ?s2)
@@ -68,6 +75,7 @@
             (loc ?p ?s)
             (clear ?i)
             (selected ?p)
+            (canplace ?p)
         )
         :effect (and 
             (has ?p ?i)
@@ -87,6 +95,7 @@
             (loc ?p ?s)
             (empty ?s)
             (selected ?p)
+            (canplace ?p)
         )
         :effect (and 
             (nothing ?p)
@@ -108,6 +117,7 @@
             (loc ?p ?s)
             (clear ?i)
             (selected ?p)
+            (cancook ?p)
         )
         :effect (and 
             (iscooked ?i)
@@ -124,6 +134,7 @@
             (loc ?p ?s)
             (clear ?i)
             (selected ?p)
+            (canfry ?p)
         )
         :effect (and 
             (isfried ?i)
@@ -141,6 +152,7 @@
             (loc ?p ?s)
             (clear ?i)
             (selected ?p)
+            (canfrycut ?p)
         )
         :effect (and 
             (isfried ?i)
@@ -156,6 +168,7 @@
             (loc ?p ?s)
             (at ?i2 ?s)
             (selected ?p)
+            (canplace ?p)
         )
         :effect (and
             (nothing ?p)
@@ -177,6 +190,7 @@
             (loc ?p ?s)
             (clear ?i)
             (selected ?p)
+            (cancut ?p)
         )
         :effect (and 
             (iscut ?i)
@@ -194,6 +208,7 @@
             (at ?i1 ?s)
             (at ?i2 ?s)
             (selected ?p)
+            (canplace ?p)
         )
         :effect (and 
             (has ?p ?i1)

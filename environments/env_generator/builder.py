@@ -263,6 +263,16 @@ def build_stacking_predicates(environment_dict):
     return stacking_predicates_str
 
 
+def build_action_predicates(environment_dict):
+    predicates_str = ""
+    actions = ["cook", "cut", "place", "move", "fry", "frycut"]
+    for player in environment_dict["players"]:
+        for action in actions:
+            if action in player["actions"]:
+                predicates_str += f"    (can{action} {player['name']})"
+    return predicates_str
+
+
 def create_unique_and_combination_preds(environment_dict):
     """
     Creates lists of unique and combination predicates from an environment dictionary.
@@ -453,6 +463,7 @@ def build_problem(environment_dict):
     problem += build_identity_predicates(new_environment_dict)
     problem += build_location_predicates(new_environment_dict)
     problem += build_stacking_predicates(new_environment_dict)
+    problem += build_action_predicates(new_environment_dict)
     problem += ")\n"
     problem += "(:goal\n"
     problem += build_goal(new_environment_dict)
