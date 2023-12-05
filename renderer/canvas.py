@@ -289,8 +289,8 @@ class RobotouilleCanvas:
             obs (List[Literal]): Game state predicates
         """
         player_pos = None
-        held_food_name = None
-        holding_player_index = None
+        holding_foods = ["" for i in range(len(self.players_pose))]
+
         for literal in obs:
             if literal.predicate == "loc":
                 player_station = literal.variables[1].name
@@ -316,14 +316,16 @@ class RobotouilleCanvas:
                 )
             if literal.predicate == "has":
                 holding_player_index = int(literal.variables[0].name[5:]) - 1
-                held_food_name = literal.variables[1].name
-        if held_food_name:
+                holding_foods[holding_player_index] = literal.variables[1].name
+
+        for i in range(len(holding_foods)):
+            if holding_foods[i] == "":
+                continue
             self._draw_food_image(
                 surface,
-                held_food_name,
+                holding_foods[i],
                 obs,
-                self.players_pose[holding_player_index]["position"]
-                * self.pix_square_size,
+                self.players_pose[i]["position"] * self.pix_square_size,
             )
 
     def _draw_food(self, surface, obs):

@@ -1,6 +1,7 @@
 import pygame
 from utils.robotouille_input import create_action_from_control
 from robotouille.robotouille_env import create_robotouille_env
+from utils.robotouille_input import change_selected_player
 
 
 def simulator(environment_name: str, seed: int = 42, noisy_randomization: bool = False):
@@ -29,5 +30,9 @@ def simulator(environment_name: str, seed: int = 42, noisy_randomization: bool =
             # Retry for keyboard input
             continue
         obs, reward, done, info = env.step(action=action, interactive=interactive)
+        if "select" not in action:
+            action = change_selected_player(env, obs, renderer)
+            obs, reward, done, info = env.step(action=action, interactive=interactive)
+
         env.render(mode="human")
     env.render(close=True)

@@ -49,7 +49,6 @@
         :parameters (?p - player ?s1 - station ?s2 - station)
         :precondition (and
             (loc ?p ?s1)
-            (vacant ?s2)
             (selected ?p)
         )
         :effect (and

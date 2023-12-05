@@ -93,24 +93,6 @@
                 0,
                 1
             ]
-        },
-        {
-            "name": "robot",
-            "x": 5,
-            "y": 3,
-            "direction": [
-                0,
-                -1
-            ]
-        },
-        {
-            "name": "robot",
-            "x": 2,
-            "y": 4,
-            "direction": [
-                -1,
-                0
-            ]
         }
     ],
     "goal_description": "Make a lettuce burger with lettuce on top of the patty.",

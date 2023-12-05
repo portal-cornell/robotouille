@@ -24,6 +24,9 @@ def get_station_move(loc_tuples, clicked_station, str_valid_actions):
 
 
 def get_select_player_move(players_pose, layout_pos, str_valid_actions):
+    """
+    Identifies if a user clicks on a robot to change selection
+    """
     for str_valid_action in str_valid_actions:
         if "select" not in str_valid_action:
             continue
@@ -33,6 +36,33 @@ def get_select_player_move(players_pose, layout_pos, str_valid_actions):
         if (
             players_pose[player_index]["position"][0] == layout_pos[0]
             and players_pose[player_index]["position"][1] == layout_pos[1]
+        ):
+            return str_valid_action
+
+    return "noop"
+
+
+def change_selected_player(env, obs, renderer):
+    valid_actions = list(env.action_space.all_ground_literals(obs))
+    str_valid_actions = list(map(str, valid_actions))
+
+    current_selected_player = -1
+
+    for literal in obs.literals:
+        if literal.predicate == "selected":
+            current_selected_player = int(literal.variables[0].name[5:])
+
+    next_selected_player = (
+        current_selected_player % len(renderer.canvas.players_pose) + 1
+    )
+
+    for str_valid_action in str_valid_actions:
+        if "select" not in str_valid_action:
+            continue
+
+        if (
+            str(next_selected_player) in str_valid_action
+            and str(current_selected_player) in str_valid_action
         ):
             return str_valid_action
 
