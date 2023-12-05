@@ -246,7 +246,14 @@ class RobotouilleCanvas:
                     queue.append((next_position, curr_position))
         assert False, "Player could not be moved to station"
 
-    def _get_player_image_name(self, direction):
+    def _check_selected(self, obs, player_index):
+        for literal in obs:
+            if literal.predicate == "selected":
+                selected_player_index = self._get_player_index(literal)
+                return selected_player_index == player_index
+        pass
+
+    def _get_player_image_name(self, direction, selected):
         """
         Returns the image name of the player given their direction.
 
@@ -259,14 +266,18 @@ class RobotouilleCanvas:
         Raises:
             AssertionError: If the direction is invalid
         """
+
+        selected_string = "_selected" if selected else ""
+
         if direction == (0, 1):
-            return "robot_back.png"
+            return "robot_back" + selected_string + ".png"
         elif direction == (0, -1):
-            return "robot_front.png"
+            return "robot_front" + selected_string + ".png"
         elif direction == (1, 0):
-            return "robot_right.png"
+            return "robot_right" + selected_string + ".png"
         elif direction == (-1, 0):
-            return "robot_left.png"
+            return "robot_left" + selected_string + ".png"
+
         assert False, "Invalid player direction"
 
     def _draw_player(self, surface, obs):
@@ -293,7 +304,10 @@ class RobotouilleCanvas:
                 self.players_pose[player_index]["direction"] = player_direction
                 # pos[1] += 1 # place the player below the station
                 # player_pos = pos
-                robot_image_name = self._get_player_image_name(player_direction)
+                selected = self._check_selected(obs, player_index)
+                robot_image_name = self._get_player_image_name(
+                    player_direction, selected
+                )
                 self._draw_image(
                     surface,
                     robot_image_name,
