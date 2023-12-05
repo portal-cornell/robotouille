@@ -78,19 +78,6 @@
     "players": [
         {
             "name": "robot",
-            "x": 1,
-            "y": 0,
-            "direction": [
-                0,
-                1
-            ],
-            "actions": [
-                "move",
-                "place"
-            ]
-        },
-        {
-            "name": "robot",
             "x": 0,
             "y": 2,
             "direction": [
@@ -100,6 +87,19 @@
             "actions": [
                 "move",
                 "cut"
+            ]
+        },
+        {
+            "name": "robot",
+            "x": 1,
+            "y": 0,
+            "direction": [
+                0,
+                1
+            ],
+            "actions": [
+                "move",
+                "place"
             ]
         },
         {

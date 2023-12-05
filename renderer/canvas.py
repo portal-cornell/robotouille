@@ -185,7 +185,17 @@ class RobotouilleCanvas:
                     station_locations.append((j, i))
         return station_locations
 
-    def _move_player_to_station(self, player_position, station_position, layout):
+    def _get_player_positions(self, player_index):
+        player_positions = []
+        for i in range(len(self.players_pose)):
+            if i != player_index:
+                player_positions.append(self.players_pose[i]["position"])
+
+        return player_positions
+
+    def _move_player_to_station(
+        self, player_index, player_position, station_position, layout
+    ):
         """
         Moves the player from their current position to a position adjacent to a station using BFS.
 
@@ -206,6 +216,7 @@ class RobotouilleCanvas:
         """
         width, height = len(layout[0]), len(layout)
         obstacle_locations = self._get_station_locations(layout)
+        player_positions = self._get_player_positions(player_index)
         curr_prev = (
             player_position,
             player_position,
@@ -230,7 +241,10 @@ class RobotouilleCanvas:
             ):
                 # Out of bounds
                 continue
-            if curr_position in obstacle_locations:
+
+            if (curr_position in obstacle_locations) or (
+                curr_position in player_positions
+            ):
                 # Cannot move through station
                 continue
             if curr_position in visited:
@@ -298,7 +312,7 @@ class RobotouilleCanvas:
                 player_index = self._get_player_index(literal)
                 player_pos = self.players_pose[player_index]["position"]
                 player_pos, player_direction = self._move_player_to_station(
-                    player_pos, tuple(station_pos), self.layout
+                    player_index, player_pos, tuple(station_pos), self.layout
                 )
                 self.players_pose[player_index]["position"] = player_pos
                 self.players_pose[player_index]["direction"] = player_direction

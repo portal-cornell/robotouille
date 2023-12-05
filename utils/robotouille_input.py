@@ -17,10 +17,14 @@ def get_station_move(loc_tuples, clicked_station, str_valid_actions):
             or "cut(" in str_valid_actions[index]
             or "fry(" in str_valid_actions[index]
             or "fry_cut_item(" in str_valid_actions[index]
-        ):
+        ) and clicked_station in locs[(index + 1) :]:
             # We look for fry( instead which should be guaranteed to only match the fry action, and not the fryer
+
             index = locs.index(clicked_station, index + 1)
+
         return str_valid_actions[index]
+
+    return "noop"
 
 
 def get_select_player_move(players_pose, layout_pos, str_valid_actions):
