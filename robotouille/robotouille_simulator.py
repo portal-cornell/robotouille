@@ -1,27 +1,50 @@
 import pygame
 from utils.robotouille_input import create_action_from_control
 from robotouille.robotouille_env import create_robotouille_env
+from stable_baselines3 import PPO  
+from stable_baselines3.common.env_util import make_vec_env
+from robotouille_wrapper import RobotouilleWrapper
 
 
-def simulator(environment_name: str, seed: int=42, noisy_randomization: bool=False):
-    # Your code for robotouille goes here
+
+def simulator(environment_name: str, seed: int = 42, noisy_randomization: bool = False, use_rl: bool = True):
     env, json, renderer = create_robotouille_env(environment_name, seed, noisy_randomization)
-    obs, info = env.reset()
-    env.render(mode='human')
+    config = {
+        "num_cuts": {
+            "default": 5,
+        },
+        "cook_time": {
+            "default": 10,
+        },
+        "fry_time": {
+            "default": 8,
+        }
+    }
+
+    wrapped_env = RobotouilleWrapper(env, config)
+    obs, info = wrapped_env.reset()
+    wrapped_env.render(mode='human')
+
+    if use_rl:
+        vec_env = make_vec_env(lambda: wrapped_env, n_envs=1, seed=seed)
+        agent = PPO("MlpPolicy", vec_env, verbose=1)
+        agent.learn(total_timesteps=10000)
+
     done = False
-    interactive = False # Set to True to interact with the environment through terminal REPL (ignores input)
+    interactive = False
 
     while not done:
-        # Construct action from input
-        pygame_events = pygame.event.get()
-        # Mouse clicks for movement and pick/place stack/unstack
-        mousedown_events = list(filter(lambda e: e.type == pygame.MOUSEBUTTONDOWN, pygame_events))
-        # Keyboard events ('e' button) for cut/cook ('space' button) for noop
-        keydown_events = list(filter(lambda e: e.type == pygame.KEYDOWN, pygame_events))
-        action = create_action_from_control(env, obs, mousedown_events+keydown_events, renderer)
-        if not interactive and action is None:
-            # Retry for keyboard input
-            continue
-        obs, reward, done, info = env.step(action=action, interactive=interactive)
-        env.render(mode='human')
-    env.render(close=True)
+        if use_rl:
+            action, _states = agent.predict(obs, deterministic=True)
+        else:
+            pygame_events = pygame.event.get()
+            mousedown_events = list(filter(lambda e: e.type == pygame.MOUSEBUTTONDOWN, pygame_events))
+            keydown_events = list(filter(lambda e: e.type == pygame.KEYDOWN, pygame_events))
+            action = create_action_from_control(wrapped_env, obs, mousedown_events + keydown_events, renderer)
+            if not interactive and action is None:
+                continue
+
+        obs, reward, done, info = wrapped_env.step(action=action, interactive=interactive)
+        wrapped_env.render(mode='human')
+
+    wrapped_env.render(close=True)
