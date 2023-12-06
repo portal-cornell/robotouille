@@ -3,6 +3,7 @@ import pddlgym
 import utils.robotouille_utils as robotouille_utils
 import utils.pddlgym_utils as pddlgym_utils
 
+
 class RobotouilleWrapper(gym.Wrapper):
     """
     This wrapper wraps around the Robotouille environment from PDDLGym.
@@ -13,6 +14,7 @@ class RobotouilleWrapper(gym.Wrapper):
     observation space with a bunch of predicates to represent time and number of cuts, we
     offload this to the wrapper's metadata.
     """
+
     def __init__(self, env, config):
         """
         Initialize the Robotouille wrapper.
@@ -42,14 +44,14 @@ class RobotouilleWrapper(gym.Wrapper):
         Args:
             expanded_truths (np.array): Array of 0s and 1s where 1 indicates the literal is true
         """
-        print('\n' * 10)
+        print("\n" * 10)
         if self.timesteps % 10 == 0:
             print(f"You have made {self.timesteps} steps.")
         robotouille_utils.print_states(self.prev_step[0])
-        print('\n')
+        print("\n")
         robotouille_utils.print_actions(self.env, self.prev_step[0])
         print(f"True Predicates: {expanded_truths.sum()}")
-    
+
     def _state_update(self):
         """
         This function updates the custom non-PDDL state of the environment.
@@ -93,7 +95,9 @@ class RobotouilleWrapper(gym.Wrapper):
                         state_updates.append(literal)
         env_state = self.env.get_state()
         new_literals = env_state.literals.union(state_updates)
-        new_env_state = pddlgym.structs.State(new_literals, env_state.objects, env_state.goal)
+        new_env_state = pddlgym.structs.State(
+            new_literals, env_state.objects, env_state.goal
+        )
         self.env.set_state(new_env_state)
         return new_env_state
 
@@ -112,7 +116,7 @@ class RobotouilleWrapper(gym.Wrapper):
     #     rewards_matrix = rewards_matrix[:, :horizon]
     #     discounted_rews = np.sum(rewards_matrix * discount_array, axis=1)
     #     return discounted_rews
-    
+
     def _handle_action(self, action):
         """
         This function takes an action and performs the step in the environment.
@@ -121,7 +125,7 @@ class RobotouilleWrapper(gym.Wrapper):
 
         If the action is not noop, we need to update the state of the environment. The schema for state is
         as follows:
-        
+
         {
             "item_name": {
                 "cut": int,
@@ -134,14 +138,14 @@ class RobotouilleWrapper(gym.Wrapper):
                     "fry_time": int
                 }
         }
-        
+
         This function may also update the state of the environment. For example, if an action is pick-up then
         we need to stop cooking the item; however, this is not a PDDL predicate so we need to update the custom
         state.
 
         Args:
             action (str or pddlgym.Literal): The action to take.
-        
+
         Returns:
             obs (PDDLGym State): The new state of the environment.
             reward (float): The reward for the action.
@@ -151,7 +155,7 @@ class RobotouilleWrapper(gym.Wrapper):
 
         reward = self.prev_step[1]
 
-        #item = next(filter(lambda typed_entity: typed_entity.var_type == "item", action.variables))
+        # item = next(filter(lambda typed_entity: typed_entity.var_type == "item", action.variables))
 
         # # Updating state based on the action
         # item_status = self.state.get(item.name, {})
@@ -165,11 +169,17 @@ class RobotouilleWrapper(gym.Wrapper):
         #     if "cook" in item_status:
         #         item_status["cook"]["cooking"] = False
         #     if "fry" in item_status:
-                # item_status["fry"]["frying"] = False
-        if action == "noop": return self.prev_step
+        # item_status["fry"]["frying"] = False
+        if action == "noop":
+            return self.prev_step
         action_name = action.predicate.name
         if action_name == "cut":
-            item = next(filter(lambda typed_entity: typed_entity.var_type == "item", action.variables))
+            item = next(
+                filter(
+                    lambda typed_entity: typed_entity.var_type == "item",
+                    action.variables,
+                )
+            )
             item_status = self.state.get(item.name)
             if item_status is None:
                 self.state[item.name] = {"cut": 1}
@@ -184,7 +194,12 @@ class RobotouilleWrapper(gym.Wrapper):
             self.prev_step = tuple(temp)
             return self.prev_step
         elif action_name == "cook":
-            item = next(filter(lambda typed_entity: typed_entity.var_type == "item", action.variables))
+            item = next(
+                filter(
+                    lambda typed_entity: typed_entity.var_type == "item",
+                    action.variables,
+                )
+            )
             item_status = self.state.get(item.name)
             if item_status is None:
                 self.state[item.name] = {"cook": {"cook_time": -1, "cooking": True}}
@@ -194,7 +209,12 @@ class RobotouilleWrapper(gym.Wrapper):
                 item_status["cook"]["cooking"] = True
             return self.prev_step
         elif action_name == "fry" or action_name == "fry_cut_item":
-            item = next(filter(lambda typed_entity: typed_entity.var_type == "item", action.variables))
+            item = next(
+                filter(
+                    lambda typed_entity: typed_entity.var_type == "item",
+                    action.variables,
+                )
+            )
             item_status = self.state.get(item.name)
             if item_status is None:
                 self.state[item.name] = {"fry": {"fry_time": -1, "frying": True}}
@@ -204,15 +224,19 @@ class RobotouilleWrapper(gym.Wrapper):
                 item_status["fry"]["frying"] = True
             return self.prev_step
         elif action_name == "pick-up":
-            item = next(filter(lambda typed_entity: typed_entity.var_type == "item", action.variables))
+            item = next(
+                filter(
+                    lambda typed_entity: typed_entity.var_type == "item",
+                    action.variables,
+                )
+            )
             item_status = self.state.get(item.name)
             if item_status is not None and item_status.get("cook") is not None:
                 item_status["cook"]["cooking"] = False
             if item_status is not None and item_status.get("fry") is not None:
-                item_status["fry"]["frying"] = False              
+                item_status["fry"]["frying"] = False
 
         # self.state[item.name] = item_status
-
 
         # Perform the environment step
         obs, _, done, info = self.env.step(action)
@@ -220,33 +244,33 @@ class RobotouilleWrapper(gym.Wrapper):
         print("action name", action_name)
         # Reward calculation
 
-
         if action_name in ["cook", "fry"]:
-            reward += 0.1  
-            max_cook_time = self.config["cook_time"].get(item.name, self.config["cook_time"]["default"])
+            reward += 0.1
+            max_cook_time = self.config["cook_time"].get(
+                item.name, self.config["cook_time"]["default"]
+            )
             if item_status[action_name]["cook_time"] >= max_cook_time:
-                reward += 5  
+                reward += 5
 
-        # # Penalty for overcooking or burning 
+        # # Penalty for overcooking or burning
         # # if overcooked_or_burned(item_status):
         # #     reward -= 5
 
-        # efficiency_threshold = 10  
+        # efficiency_threshold = 10
         # if self.timesteps < efficiency_threshold:
         #     reward += 2
 
         # # Terminal state rewards/penalties
         # if done:
-        #     if self.env.goal_achieved(): 
-        #         reward += 10  
+        #     if self.env.goal_achieved():
+        #         reward += 10
         #     else:
-        #         reward -= 10  
+        #         reward -= 10
 
         # Update the previous step
         self.prev_step = (obs, reward, done, info)
         return obs, reward, done, info
 
-        
     def step(self, action=None, interactive=False):
         """
         This function steps the environment forward.
@@ -259,13 +283,13 @@ class RobotouilleWrapper(gym.Wrapper):
         the following:
             - timesteps (int): The number of timesteps that have passed. Currently every action takes
                 1 timestep.
-            - expanded_truths (np.array): Array of 0s and 1s where 1 indicates the literal is true. PDDLGym 
-                only provides us with the predicates that are true, but we also need to know which predicates 
+            - expanded_truths (np.array): Array of 0s and 1s where 1 indicates the literal is true. PDDLGym
+                only provides us with the predicates that are true, but we also need to know which predicates
                 are false. This array includes the true and false predicates as a 1D array of 0s and 1s.
-            - expanded_states (np.array): Array of literals corresponding to the expanded truths. This is a 1D 
+            - expanded_states (np.array): Array of literals corresponding to the expanded truths. This is a 1D
                 array of the same shape as the expanded truths array. This array's indices map a literal to its
                 corresponding truth value in the expanded truths array.
-            - toggle_array (np.array): Array of 0s and 1s where 1 indicates the literal changed from time step t 
+            - toggle_array (np.array): Array of 0s and 1s where 1 indicates the literal changed from time step t
                 to t+1. This array is similar to the expanded truths array and it is useful for quickly determining
                 how many predicates changed.
             - state (dict): The custom non-PDDL state of the environment. See the state_update function for more
@@ -274,42 +298,47 @@ class RobotouilleWrapper(gym.Wrapper):
         Args:
             action (str): The action to take. If None, then it is assumed that interactive is True.
             interactive (bool): Whether or not to use interactive mode.
-        
+
         Returns:
             obs (PDDLGym State): The new state of the environment.
             reward (float): The reward for the action.
             done (bool): Whether or not the episode is done.
             info (dict): A dictionary of metadata about the step.
         """
-        expanded_truths, expanded_states = pddlgym_utils.expand_state(self.prev_step[0].literals, self.prev_step[0].objects)
+        expanded_truths, expanded_states = pddlgym_utils.expand_state(
+            self.prev_step[0].literals, self.prev_step[0].objects
+        )
+
         if interactive:
             self._interactive_starter_prints(expanded_truths)
             action = robotouille_utils.create_action_repl(self.env, self.prev_step[0])
         else:
-            action = robotouille_utils.create_action(self.env, self.prev_step[0], action)
+            action = robotouille_utils.create_action(
+                self.env, self.prev_step[0], action
+            )
         obs, reward, done, _ = self._handle_action(action)
         print("reward from handle action", reward)
-        #print(obs)
+        # print(obs)
         obs = self._state_update()
-        #print(obs)
-        toggle_array = pddlgym_utils.create_toggle_array(expanded_truths, expanded_states, obs.literals)
+        # print(obs)
+        toggle_array = pddlgym_utils.create_toggle_array(
+            expanded_truths, expanded_states, obs.literals
+        )
         # print("toggle_array:", toggle_array)
         if interactive:
             print(f"Predicates Changed: {toggle_array.sum()}")
         info = {
-            'timesteps': self.timesteps, 
-            "expanded_truths": expanded_truths, 
-            "expanded_states": expanded_states, 
+            "timesteps": self.timesteps,
+            "expanded_truths": expanded_truths,
+            "expanded_states": expanded_states,
             "toggle_array": toggle_array,
-            "state": self.state
+            "state": self.state,
         }
+
         self.prev_step = (obs, reward, done, info)
         self.timesteps += 1
         return obs, reward, done, info
 
-
-       
-        
     def reset(self):
         """
         This function resets the environment.
@@ -320,11 +349,11 @@ class RobotouilleWrapper(gym.Wrapper):
         """
         obs, _ = self.env.reset()
         info = {
-            'timesteps': self.timesteps, 
-            "expanded_truths": None, 
-            "expanded_states": None, 
+            "timesteps": self.timesteps,
+            "expanded_truths": None,
+            "expanded_states": None,
             "toggle_array": None,
-            "state": {}
+            "state": {},
         }
         self.prev_step = (obs, 0, False, info)
         self.timesteps = 0
