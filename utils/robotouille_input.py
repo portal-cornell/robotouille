@@ -24,8 +24,6 @@ def get_station_move(loc_tuples, clicked_station, str_valid_actions):
 
         return str_valid_actions[index]
 
-    return "noop"
-
 
 def get_select_player_move(players_pose, layout_pos, str_valid_actions):
     """
@@ -42,8 +40,6 @@ def get_select_player_move(players_pose, layout_pos, str_valid_actions):
             and players_pose[player_index]["position"][1] == layout_pos[1]
         ):
             return str_valid_action
-
-    return "noop"
 
 
 def change_selected_player(env, obs, renderer):
