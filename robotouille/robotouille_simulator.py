@@ -32,7 +32,7 @@ def simulator(
         rl_env = RLWrapper(env, config)
         obs, info = rl_env.reset()
         rl_env.render(mode="human")
-        agent = PPO("MlpPolicy", rl_env.pddl_env, verbose=1)
+        agent = PPO("MlpPolicy", rl_env, verbose=1)
         agent.learn(total_timesteps=10000)
         agent.save("ppo_robotouille")
 
