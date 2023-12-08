@@ -101,175 +101,115 @@ class RobotouilleWrapper(gym.Wrapper):
         self.env.set_state(new_env_state)
         return new_env_state
 
-    # @staticmethod
-    # def get_discounted_rewards(trajectories, gamma):
-    #     rews = trajectories["ep_rewards"]
-    #     horizon = rews.shape[1]
-    #     return OvercookedEnv._get_discounted_rewards_with_horizon(
-    #         rews, gamma, horizon
-    #     )
-
-    # @staticmethod
-    # def _get_discounted_rewards_with_horizon(rewards_matrix, gamma, horizon):
-    #     rewards_matrix = np.array(rewards_matrix)
-    #     discount_array = [gamma**i for i in range(horizon)]
-    #     rewards_matrix = rewards_matrix[:, :horizon]
-    #     discounted_rews = np.sum(rewards_matrix * discount_array, axis=1)
-    #     return discounted_rews
-
     def _handle_action(self, action):
         """
-        This function takes an action and performs the step in the environment.
-
-        The simplest case is when the action is noop. In this case, we simply return the previous step.
-
-        If the action is not noop, we need to update the state of the environment. The schema for state is
-        as follows:
-
-        {
-            "item_name": {
-                "cut": int,
-                "cook": {
-                    "cooking": bool,
-                    "cook_time": int
-                },
-                "fry": {
-                    "frying": bool,
-                    "fry_time": int
-                }
-        }
-
-        This function may also update the state of the environment. For example, if an action is pick-up then
-        we need to stop cooking the item; however, this is not a PDDL predicate so we need to update the custom
-        state.
-
-        Args:
-            action (str or pddlgym.Literal): The action to take.
-
-        Returns:
-            obs (PDDLGym State): The new state of the environment.
-            reward (float): The reward for the action.
-            done (bool): Whether or not the episode is done.
-            info (dict): A dictionary of metadata about the step.
+        Handle an action and update the environment state.
         """
-
-        reward = self.prev_step[1]
-
-        # item = next(filter(lambda typed_entity: typed_entity.var_type == "item", action.variables))
-
-        # # Updating state based on the action
-        # item_status = self.state.get(item.name, {})
-        # if action_name == "cut":
-        #     item_status["cut"] = item_status.get("cut", 0) + 1
-        # elif action_name in ["cook", "fry"]:
-        #     cooking_status = item_status.get(action_name, {"cooking": False, "cook_time": 0, "fry_time": 0})
-        #     cooking_status["cooking"] = True
-        #     item_status[action_name] = cooking_status
-        # elif action_name == "pick-up":
-        #     if "cook" in item_status:
-        #         item_status["cook"]["cooking"] = False
-        #     if "fry" in item_status:
-        # item_status["fry"]["frying"] = False
         if action == "noop":
             return self.prev_step
-        action_name = action.predicate.name
-        if action_name == "cut":
-            item = next(
-                filter(
-                    lambda typed_entity: typed_entity.var_type == "item",
-                    action.variables,
-                )
-            )
-            item_status = self.state.get(item.name)
-            if item_status is None:
-                self.state[item.name] = {"cut": 1}
-            elif item_status.get("cut") is None:
-                item_status["cut"] = 1
-            else:
-                item_status["cut"] += 1
-            print("recordiing a cut")
-            reward += 5
-            temp = list(self.prev_step)
-            temp[1] = reward
-            self.prev_step = tuple(temp)
-            return self.prev_step
-        elif action_name == "cook":
-            item = next(
-                filter(
-                    lambda typed_entity: typed_entity.var_type == "item",
-                    action.variables,
-                )
-            )
-            item_status = self.state.get(item.name)
-            if item_status is None:
-                self.state[item.name] = {"cook": {"cook_time": -1, "cooking": True}}
-            elif item_status.get("cook") is None:
-                item_status["cook"] = {"cook_time": -1, "cooking": True}
-            else:
-                item_status["cook"]["cooking"] = True
-            return self.prev_step
-        elif action_name == "fry" or action_name == "fry_cut_item":
-            item = next(
-                filter(
-                    lambda typed_entity: typed_entity.var_type == "item",
-                    action.variables,
-                )
-            )
-            item_status = self.state.get(item.name)
-            if item_status is None:
-                self.state[item.name] = {"fry": {"fry_time": -1, "frying": True}}
-            elif item_status.get("fry") is None:
-                item_status["fry"] = {"fry_time": -1, "frying": True}
-            else:
-                item_status["fry"]["frying"] = True
-            return self.prev_step
-        elif action_name == "pick-up":
-            item = next(
-                filter(
-                    lambda typed_entity: typed_entity.var_type == "item",
-                    action.variables,
-                )
-            )
-            item_status = self.state.get(item.name)
-            if item_status is not None and item_status.get("cook") is not None:
-                item_status["cook"]["cooking"] = False
-            if item_status is not None and item_status.get("fry") is not None:
-                item_status["fry"]["frying"] = False
 
-        # self.state[item.name] = item_status
+        # Update state based on the action
+        self._update_state_based_on_action(action)
 
         # Perform the environment step
         obs, _, done, info = self.env.step(action)
 
-        print("action name", action_name)
-        # Reward calculation
-
-        if action_name in ["cook", "fry"]:
-            reward += 0.1
-            max_cook_time = self.config["cook_time"].get(
-                item.name, self.config["cook_time"]["default"]
-            )
-            if item_status[action_name]["cook_time"] >= max_cook_time:
-                reward += 5
-
-        # # Penalty for overcooking or burning
-        # # if overcooked_or_burned(item_status):
-        # #     reward -= 5
-
-        # efficiency_threshold = 10
-        # if self.timesteps < efficiency_threshold:
-        #     reward += 2
-
-        # # Terminal state rewards/penalties
-        # if done:
-        #     if self.env.goal_achieved():
-        #         reward += 10
-        #     else:
-        #         reward -= 10
+        # Calculate reward
+        reward = self.handle_reward(action, obs)
 
         # Update the previous step
         self.prev_step = (obs, reward, done, info)
         return obs, reward, done, info
+
+    def _update_state_based_on_action(self, action):
+        """
+        Update the state of the environment based on the action taken.
+        """
+        action_name = action.predicate.name
+        item = next(filter(lambda typed_entity: typed_entity.var_type == "item", action.variables), None)
+
+        if item:
+            item_status = self.state.get(item.name, {})
+            if action_name == "cut":
+                item_status["cut"] = item_status.get("cut", 0) + 1
+            elif action_name in ["cook", "fry"]:
+                cooking_status = item_status.get(action_name, {"cooking": False, "cook_time": 0, "fry_time": 0})
+                cooking_status["cooking"] = True
+                item_status[action_name] = cooking_status
+            elif action_name == "pick-up":
+                if "cook" in item_status:
+                    item_status["cook"]["cooking"] = False
+                if "fry" in item_status:
+                    item_status["fry"]["frying"] = False
+
+            self.state[item.name] = item_status
+
+    def handle_reward(self, action, obs):
+        """
+        Calculate the reward based on the current state and action.
+        """
+        reward = 0
+        action_name = action.predicate.name
+
+        # Reward for specific actions
+        if action_name == "cut":
+            reward += 5
+        elif action_name in ["cook", "fry"]:
+            item = next(filter(lambda typed_entity: typed_entity.var_type == "item", action.variables), None)
+            if item:
+                item_status = self.state.get(item.name, {})
+                max_cook_time = self.config["cook_time"].get(item.name, self.config["cook_time"]["default"])
+                if item_status[action_name]["cook_time"] >= max_cook_time:
+                    reward += 5
+                else:
+                    reward += 0.1
+
+        def _is_burger_assembled_correctly(self, obs):
+        """
+        Check if the burger is assembled correctly: bottom bun, patty, lettuce, top bun.
+        """
+        # Assuming 'obs' contains information about the positions of items
+        # This is a placeholder logic; you need to adapt it to your environment's state representation
+        bottom_bun = self._find_item_state(obs, "bottom_bun")
+        patty = self._find_item_state(obs, "patty")
+        lettuce = self._find_item_state(obs, "lettuce")
+        top_bun = self._find_item_state(obs, "top_bun")
+
+        if bottom_bun and patty and lettuce and top_bun:
+            return bottom_bun["below"] == patty and \
+                   patty["below"] == lettuce and \
+                   lettuce["below"] == top_bun
+        return False
+
+    def _is_burger_assembled_incorrectly(self, obs):
+        """
+        Check if the burger is assembled incorrectly.
+        """
+        # Assuming 'obs' contains information about the positions of items
+        # This is a placeholder logic; you need to adapt it to your environment's state representation
+        bottom_bun = self._find_item_state(obs, "bottom_bun")
+        patty = self._find_item_state(obs, "patty")
+        lettuce = self._find_item_state(obs, "lettuce")
+
+        if bottom_bun and patty and lettuce:
+            return not (bottom_bun["below"] == patty and patty["below"] == lettuce)
+        return False
+
+    def _find_item_state(self, obs, item_name):
+        """
+        Find the state of a specific item in the observation.
+        """
+        # Placeholder for finding the state of an item in the observation
+        # Adapt this to how your environment's state ('obs') represents item positions and states
+        return obs.get(item_name, None)
+
+        # Additional reward logic for task completion
+        if self._is_burger_assembled_correctly(obs):
+            reward += 10  # Positive reward for correct assembly
+        elif self._is_burger_assembled_incorrectly(obs):
+            reward -= 5  # Negative reward for incorrect assembly
+
+        return reward
 
     def step(self, action=None, interactive=False):
         """
