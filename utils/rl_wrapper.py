@@ -33,7 +33,9 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
 
     def step(self, action=None, interactive=False):
         action = str(self.env.unwrap_move(action))
-        return self.pddl_env.step(action, interactive)
+        obs, reward, done, info = self.pddl_env.step(action, interactive)
+        self._wrap_env()
+        return self.env.state, reward, done, False, info
 
     def reset(self, seed=42, options=None):
         obs, _ = self.pddl_env.reset()

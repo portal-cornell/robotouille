@@ -18,9 +18,6 @@ class RLEnv(gym.Env):
         self.valid_actions = valid_actions
         self.all_actions = all_actions
 
-        print(len(valid_actions))
-        print(len(all_actions))
-
     def unwrap_move(self, action):
         action = self.all_actions[action]
         return action if action in self.valid_actions else "noop"
