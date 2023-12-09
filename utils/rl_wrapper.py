@@ -29,6 +29,7 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
                 self.pddl_env.prev_step[0], valid_only=False
             )
         )
+
         self.env = RLEnv(expanded_truths, valid_actions, all_actions)
 
     def step(self, action=None, interactive=False):
