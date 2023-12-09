@@ -165,11 +165,7 @@ class RobotouilleWrapper(gym.Wrapper):
                     reward += 0.1
 
         def _is_burger_assembled_correctly(self, obs):
-        """
-        Check if the burger is assembled correctly: bottom bun, patty, lettuce, top bun.
-        """
-        # Assuming 'obs' contains information about the positions of items
-        # This is a placeholder logic; you need to adapt it to your environment's state representation
+
         bottom_bun = self._find_item_state(obs, "bottom_bun")
         patty = self._find_item_state(obs, "patty")
         lettuce = self._find_item_state(obs, "lettuce")
@@ -182,11 +178,7 @@ class RobotouilleWrapper(gym.Wrapper):
         return False
 
     def _is_burger_assembled_incorrectly(self, obs):
-        """
-        Check if the burger is assembled incorrectly.
-        """
-        # Assuming 'obs' contains information about the positions of items
-        # This is a placeholder logic; you need to adapt it to your environment's state representation
+
         bottom_bun = self._find_item_state(obs, "bottom_bun")
         patty = self._find_item_state(obs, "patty")
         lettuce = self._find_item_state(obs, "lettuce")
@@ -196,11 +188,7 @@ class RobotouilleWrapper(gym.Wrapper):
         return False
 
     def _find_item_state(self, obs, item_name):
-        """
-        Find the state of a specific item in the observation.
-        """
-        # Placeholder for finding the state of an item in the observation
-        # Adapt this to how your environment's state ('obs') represents item positions and states
+
         return obs.get(item_name, None)
 
         # Additional reward logic for task completion
