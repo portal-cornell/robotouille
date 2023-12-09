@@ -316,6 +316,7 @@ class RobotouilleWrapper(gym.Wrapper):
             action = robotouille_utils.create_action(
                 self.env, self.prev_step[0], action
             )
+
         obs, reward, done, _ = self._handle_action(action)
         print("reward from handle action", reward)
         # print(obs)

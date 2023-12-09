@@ -16,8 +16,6 @@ def simulator(
     env, json, renderer = create_robotouille_env(
         environment_name, seed, noisy_randomization
     )
-
-    print("normal env", env)
     obs, info = env.reset()
 
     env.render(mode="human")

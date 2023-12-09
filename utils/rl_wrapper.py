@@ -23,12 +23,19 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
             self.pddl_env.action_space.all_ground_literals(self.pddl_env.prev_step[0])
         )
 
-        self.env = RLEnv(expanded_truths, valid_actions)
+        all_actions = list(
+            self.pddl_env.action_space.all_ground_literals(
+                self.pddl_env.prev_step[0], valid_only=False
+            )
+        )
+
+        self.env = RLEnv(expanded_truths, valid_actions, all_actions)
 
     def step(self, action=None, interactive=False):
-        return super().step(action, interactive)
+        action = str(self.env.unwrap_move(action))
+        return self.pddl_env.step(action, interactive)
 
-    def reset(self):
+    def reset(self, seed=42, options=None):
         obs, _ = self.pddl_env.reset()
         info = {
             "timesteps": self.timesteps,
@@ -42,7 +49,7 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
         self.state = {}
 
         self._wrap_env()
-        return obs, info
+        return self.env.state, info
 
     def render(self, *args, **kwargs):
         self.pddl_env.render()
