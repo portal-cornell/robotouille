@@ -16,12 +16,11 @@ def simulator(
     env, json, renderer = create_robotouille_env(
         environment_name, seed, noisy_randomization
     )
-
-    print("normal env", env)
     obs, info = env.reset()
 
     env.render(mode="human")
     done = False
+    truncated = False
     interactive = False  # Set to True to interact with the environment through terminal REPL (ignores input)
 
     if use_rl:
@@ -32,14 +31,14 @@ def simulator(
         rl_env = RLWrapper(env, config)
         obs, info = rl_env.reset()
         rl_env.render(mode="human")
-        agent = PPO("MlpPolicy", rl_env.pddl_env, verbose=1)
-        agent.learn(total_timesteps=10000)
+        agent = PPO("MlpPolicy", rl_env, verbose=1)
+        agent.learn(total_timesteps=100, reset_num_timesteps=False, progress_bar=True)
         agent.save("ppo_robotouille")
 
-    while not done:
+    while not done and not truncated:
         if use_rl:
             action, _states = agent.predict(obs, deterministic=True)
-            obs, reward, done, info = rl_env.step(action=action)
+            obs, reward, done, truncated, info = rl_env.step(action=action)
             env.render(mode="human")
         else:
             # Construct action from input
