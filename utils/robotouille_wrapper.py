@@ -187,7 +187,6 @@ class RobotouilleWrapper(gym.Wrapper):
                 item_status["cut"] = 1
             else:
                 item_status["cut"] += 1
-            print("recordiing a cut")
             reward += 5
             temp = list(self.prev_step)
             temp[1] = reward
@@ -241,7 +240,6 @@ class RobotouilleWrapper(gym.Wrapper):
         # Perform the environment step
         obs, _, done, info = self.env.step(action)
 
-        print("action name", action_name)
         # Reward calculation
 
         if action_name in ["cook", "fry"]:
@@ -318,10 +316,8 @@ class RobotouilleWrapper(gym.Wrapper):
             )
 
         obs, reward, done, _ = self._handle_action(action)
-        print("reward from handle action", reward)
-        # print(obs)
+        # print("reward from handle action", reward)
         obs = self._state_update()
-        # print(obs)
         toggle_array = pddlgym_utils.create_toggle_array(
             expanded_truths, expanded_states, obs.literals
         )

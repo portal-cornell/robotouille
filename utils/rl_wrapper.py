@@ -13,6 +13,7 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
 
         self.pddl_env = env
         self.env = None
+        self.max_steps = 100
 
     def _wrap_env(self):
         expanded_truths, expanded_states = pddlgym_utils.expand_state(
@@ -28,14 +29,19 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
                 self.pddl_env.prev_step[0], valid_only=False
             )
         )
-
         self.env = RLEnv(expanded_truths, valid_actions, all_actions)
 
     def step(self, action=None, interactive=False):
         action = str(self.env.unwrap_move(action))
         obs, reward, done, info = self.pddl_env.step(action, interactive)
         self._wrap_env()
-        return self.env.state, reward, done, False, info
+        return (
+            self.env.state,
+            reward,
+            done,
+            self.pddl_env.timesteps > self.max_steps,
+            info,
+        )
 
     def reset(self, seed=42, options=None):
         obs, _ = self.pddl_env.reset()
