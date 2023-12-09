@@ -2,6 +2,7 @@ import gym
 import pddlgym
 import utils.robotouille_utils as robotouille_utils
 import utils.pddlgym_utils as pddlgym_utils
+from environments.env_generator.object_enums import Item
 
 
 class RobotouilleWrapper(gym.Wrapper):
@@ -102,9 +103,6 @@ class RobotouilleWrapper(gym.Wrapper):
         return new_env_state
 
     def _handle_action(self, action):
-        """
-        Handle an action and update the environment state.
-        """
         if action == "noop":
             return self.prev_step
 
@@ -117,31 +115,27 @@ class RobotouilleWrapper(gym.Wrapper):
         # Calculate reward
         reward = self.handle_reward(action, obs)
 
-        print("reward", reward)
+        # Accumulate reward
+        accumulated_reward = self.prev_step[1] + reward
+
         # Update the previous step
-        self.prev_step = (obs, reward, done, info)
-        return obs, reward, done, info
+        self.prev_step = (obs, accumulated_reward, done, info)
+        return obs, accumulated_reward, done, info
+
 
     def _update_state_based_on_action(self, action):
         """
         Update the state of the environment based on the action taken.
         """
         action_name = action.predicate.name
-        item = next(
-            filter(
-                lambda typed_entity: typed_entity.var_type == "item", action.variables
-            ),
-            None,
-        )
+        item = next(filter(lambda typed_entity: typed_entity.var_type == "item", action.variables), None)
 
         if item:
             item_status = self.state.get(item.name, {})
             if action_name == "cut":
                 item_status["cut"] = item_status.get("cut", 0) + 1
             elif action_name in ["cook", "fry"]:
-                cooking_status = item_status.get(
-                    action_name, {"cooking": False, "cook_time": 0, "fry_time": 0}
-                )
+                cooking_status = item_status.get(action_name, {"cooking": False, "cook_time": 0, "fry_time": 0})
                 cooking_status["cooking"] = True
                 item_status[action_name] = cooking_status
             elif action_name == "pick-up":
@@ -153,81 +147,101 @@ class RobotouilleWrapper(gym.Wrapper):
             self.state[item.name] = item_status
 
     def handle_reward(self, action, obs):
-        """
-        Calculate the reward based on the current state and action.
-        """
         reward = 0
         action_name = action.predicate.name
 
-        # Reward for specific actions
+        # Reward/Penalty for cutting
         if action_name == "cut":
-            reward += 5
-        elif action_name in ["cook", "fry"]:
-            item = next(
-                filter(
-                    lambda typed_entity: typed_entity.var_type == "item",
-                    action.variables,
-                ),
-                None,
-            )
+            item = next(filter(lambda typed_entity: typed_entity.var_type == "item", action.variables), None)
             if item:
                 item_status = self.state.get(item.name, {})
-                max_cook_time = self.config["cook_time"].get(
-                    item.name, self.config["cook_time"]["default"]
-                )
-                if item_status[action_name]["cook_time"] >= max_cook_time:
-                    reward += 5
-                else:
-                    reward += 0.1
+                num_cuts = item_status.get("cut", 0)
+                reward += 5 if num_cuts == 1 else -0.1
+
+        # Reward/Penalty for cooking and frying
+        elif action_name in ["cook", "fry"]:
+            item = next(filter(lambda typed_entity: typed_entity.var_type == "item", action.variables), None)
+            if item:
+                item_status = self.state.get(item.name, {})
+                if action_name == "fry":
+                    num_fries = item_status.get("fry", {}).get("fry_time", 0)
+                    reward += 5 if num_fries < 1 else -0.1
+                elif action_name == "cook":
+                    num_cooks = item_status.get("cook", {}).get("cook_time", 0)
+                    reward += 5 if num_cooks < 1 else -0.1
+
+        # Partial rewards for partial goals in burger assembly
+        if self._is_burger_partially_correct(obs):
+            print("Currest")
+            #reward += 5
+        elif self._is_burger_assembled_incorrectly(obs):
+            print("wrongs")
+            #reward -= 2
+
+        # # Reward for correct assembly (non-continuous)
+        # if self._is_burger_assembled_correctly(obs) and not self.prev_step[3].get("correctly_assembled", False):
+        #     reward += 10
+        #     self.prev_step[3]["correctly_assembled"] = True
+
+        return reward
+
+    
+    def _is_burger_partially_correct(self, obs):
+        # Check for logical stages of partial assembly
+        bottom_bun = self._find_item_state(obs, Item.BOTTOMBUN)
+        patty = self._find_item_state(obs, Item.PATTY)
+        lettuce = self._find_item_state(obs, Item.LETTUCE)
+
+        # Reward for having patty on bottom bun, regardless of other items
+        if bottom_bun and patty and not lettuce:
+            return True
+
+        return False
 
     def _is_burger_assembled_correctly(self, obs):
-        """
-        Check if the burger is assembled correctly: bottom bun, patty, lettuce, top bun.
-        """
-        # Assuming 'obs' contains information about the positions of items
-        # This is a placeholder logic; you need to adapt it to your environment's state representation
-        bottom_bun = self._find_item_state(obs, "bottom_bun")
-        patty = self._find_item_state(obs, "patty")
-        lettuce = self._find_item_state(obs, "lettuce")
-        top_bun = self._find_item_state(obs, "top_bun")
+        # Check for the correct assembly of the burger
+        bottom_bun = self._find_item_state(obs, Item.BOTTOMBUN)
+        patty = self._find_item_state(obs, Item.PATTY)
+        lettuce = self._find_item_state(obs, Item.LETTUCE)
+        top_bun = self._find_item_state(obs, Item.TOPBUN)
 
-        if bottom_bun and patty and lettuce and top_bun:
-            return (
-                bottom_bun["below"] == patty
-                and patty["below"] == lettuce
-                and lettuce["below"] == top_bun
-            )
-        return False
+        # Correct order: bottom bun, patty, lettuce, top bun
+        print("correct ordering")
+        return bottom_bun and patty and lettuce and top_bun
 
     def _is_burger_assembled_incorrectly(self, obs):
-        """
-        Check if the burger is assembled incorrectly.
-        """
-        # Assuming 'obs' contains information about the positions of items
-        # This is a placeholder logic; you need to adapt it to your environment's state representation
-        bottom_bun = self._find_item_state(obs, "bottom_bun")
-        patty = self._find_item_state(obs, "patty")
-        lettuce = self._find_item_state(obs, "lettuce")
+        # Check for any sequence that deviates from the logical assembly order
+        bottom_bun = self._find_item_state(obs, Item.BOTTOMBUN)
+        patty = self._find_item_state(obs, Item.PATTY)
+        lettuce = self._find_item_state(obs, Item.LETTUCE)
+        top_bun = self._find_item_state(obs, Item.TOPBUN)
 
-        if bottom_bun and patty and lettuce:
-            return not (bottom_bun["below"] == patty and patty["below"] == lettuce)
+        # Incorrect if components are missing or in the wrong order
+        if not bottom_bun or (patty and not bottom_bun["below"] == patty) or \
+        (lettuce and not patty["below"] == lettuce) or (top_bun and not lettuce["below"] == top_bun):
+            print("wrong ordering")
+            return True
+
         return False
 
-    def _find_item_state(self, obs, item_name):
+
+
+
+    def _find_item_state(self, obs, item_enum):
         """
         Find the state of a specific item in the observation.
         """
-        # Placeholder for finding the state of an item in the observation
-        # Adapt this to how your environment's state ('obs') represents item positions and states
-        return obs.get(item_name, None)
+        item_state = {}
+        for literal in obs.literals:
+            if item_enum.value in literal.predicate.name:
+                for arg in literal.variables:
+                    if arg.var_type == "item" and arg.name != item_enum.value:
+                        item_state["below"] = arg.name
 
-        # Additional reward logic for task completion
-        if self._is_burger_assembled_correctly(obs):
-            reward += 10  # Positive reward for correct assembly
-        elif self._is_burger_assembled_incorrectly(obs):
-            reward -= 5  # Negative reward for incorrect assembly
+        print(item_state)
+        return item_state if item_state else None
 
-        return reward
+
 
     def step(self, action=None, interactive=False):
         """
@@ -275,7 +289,10 @@ class RobotouilleWrapper(gym.Wrapper):
                 self.env, self.prev_step[0], action
             )
         obs, reward, done, _ = self._handle_action(action)
+        print("reward from handle action", reward)
+        # print(obs)
         obs = self._state_update()
+        # print(obs)
         toggle_array = pddlgym_utils.create_toggle_array(
             expanded_truths, expanded_states, obs.literals
         )
