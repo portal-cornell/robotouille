@@ -126,21 +126,14 @@ class RobotouilleWrapper(gym.Wrapper):
         Update the state of the environment based on the action taken.
         """
         action_name = action.predicate.name
-        item = next(
-            filter(
-                lambda typed_entity: typed_entity.var_type == "item", action.variables
-            ),
-            None,
-        )
+        item = next(filter(lambda typed_entity: typed_entity.var_type == "item", action.variables), None)
 
         if item:
             item_status = self.state.get(item.name, {})
             if action_name == "cut":
                 item_status["cut"] = item_status.get("cut", 0) + 1
             elif action_name in ["cook", "fry"]:
-                cooking_status = item_status.get(
-                    action_name, {"cooking": False, "cook_time": 0, "fry_time": 0}
-                )
+                cooking_status = item_status.get(action_name, {"cooking": False, "cook_time": 0, "fry_time": 0})
                 cooking_status["cooking"] = True
                 item_status[action_name] = cooking_status
             elif action_name == "pick-up":
@@ -162,24 +155,16 @@ class RobotouilleWrapper(gym.Wrapper):
         if action_name == "cut":
             reward += 5
         elif action_name in ["cook", "fry"]:
-            item = next(
-                filter(
-                    lambda typed_entity: typed_entity.var_type == "item",
-                    action.variables,
-                ),
-                None,
-            )
+            item = next(filter(lambda typed_entity: typed_entity.var_type == "item", action.variables), None)
             if item:
                 item_status = self.state.get(item.name, {})
-                max_cook_time = self.config["cook_time"].get(
-                    item.name, self.config["cook_time"]["default"]
-                )
+                max_cook_time = self.config["cook_time"].get(item.name, self.config["cook_time"]["default"])
                 if item_status[action_name]["cook_time"] >= max_cook_time:
                     reward += 5
                 else:
                     reward += 0.1
 
-    def _is_burger_assembled_correctly(self, obs):
+        def _is_burger_assembled_correctly(self, obs):
         """
         Check if the burger is assembled correctly: bottom bun, patty, lettuce, top bun.
         """
@@ -191,11 +176,9 @@ class RobotouilleWrapper(gym.Wrapper):
         top_bun = self._find_item_state(obs, "top_bun")
 
         if bottom_bun and patty and lettuce and top_bun:
-            return (
-                bottom_bun["below"] == patty
-                and patty["below"] == lettuce
-                and lettuce["below"] == top_bun
-            )
+            return bottom_bun["below"] == patty and \
+                   patty["below"] == lettuce and \
+                   lettuce["below"] == top_bun
         return False
 
     def _is_burger_assembled_incorrectly(self, obs):
@@ -273,10 +256,11 @@ class RobotouilleWrapper(gym.Wrapper):
             action = robotouille_utils.create_action(
                 self.env, self.prev_step[0], action
             )
-
         obs, reward, done, _ = self._handle_action(action)
-        # print("reward from handle action", reward)
+        print("reward from handle action", reward)
+        # print(obs)
         obs = self._state_update()
+        # print(obs)
         toggle_array = pddlgym_utils.create_toggle_array(
             expanded_truths, expanded_states, obs.literals
         )
