@@ -163,19 +163,20 @@ class RobotouilleWrapper(gym.Wrapper):
                     reward += 5
                 else:
                     reward += 0.1
+        return reward
 
-        def _is_burger_assembled_correctly(self, obs):
+    def _is_burger_assembled_correctly(self, obs):
 
-            bottom_bun = self._find_item_state(obs, "bottom_bun")
-            patty = self._find_item_state(obs, "patty")
-            lettuce = self._find_item_state(obs, "lettuce")
-            top_bun = self._find_item_state(obs, "top_bun")
+        bottom_bun = self._find_item_state(obs, "bottom_bun")
+        patty = self._find_item_state(obs, "patty")
+        lettuce = self._find_item_state(obs, "lettuce")
+        top_bun = self._find_item_state(obs, "top_bun")
 
-            if bottom_bun and patty and lettuce and top_bun:
-                return bottom_bun["below"] == patty and \
-                    patty["below"] == lettuce and \
-                    lettuce["below"] == top_bun
-            return False
+        if bottom_bun and patty and lettuce and top_bun:
+            return bottom_bun["below"] == patty and \
+                patty["below"] == lettuce and \
+                lettuce["below"] == top_bun
+        return False
 
     def _is_burger_assembled_incorrectly(self, obs):
 
