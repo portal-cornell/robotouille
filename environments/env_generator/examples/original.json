@@ -3,11 +3,11 @@
     "height": 6,
     "config": {
         "num_cuts": {
-            "lettuce": 3,
+            "lettuce": 5,
             "default": 3
         },
         "cook_time": {
-            "patty": 3,
+            "patty": 10,
             "default": 3
         }
     },
@@ -49,14 +49,18 @@
             "x": 0,
             "y": 3,
             "stack-level": 0,
-            "predicates": ["iscookable"]
+            "predicates": [
+                "iscookable"
+            ]
         },
         {
             "name": "lettuce",
             "x": 1,
             "y": 4,
             "stack-level": 0,
-            "predicates": ["iscuttable"]
+            "predicates": [
+                "iscuttable"
+            ]
         },
         {
             "name": "bottombun",
@@ -76,35 +80,64 @@
             "name": "robot",
             "x": 1,
             "y": 0,
-            "direction": [0, 1]
+            "direction": [
+                0,
+                1
+            ]
         }
     ],
     "goal_description": "Make a lettuce burger with lettuce on top of the patty.",
     "goal": [
         {
             "predicate": "iscut",
-            "args": ["lettuce"],
-            "ids": [1]
+            "args": [
+                "lettuce"
+            ],
+            "ids": [
+                1
+            ]
         },
         {
             "predicate": "atop",
-            "args": ["topbun", "lettuce"],
-            "ids": [2, 1]
+            "args": [
+                "topbun",
+                "lettuce"
+            ],
+            "ids": [
+                2,
+                1
+            ]
         },
         {
             "predicate": "iscooked",
-            "args": ["patty"],
-            "ids": [3]
+            "args": [
+                "patty"
+            ],
+            "ids": [
+                3
+            ]
         },
         {
             "predicate": "atop",
-            "args": ["lettuce", "patty"],
-            "ids": [1, 3]
+            "args": [
+                "lettuce",
+                "patty"
+            ],
+            "ids": [
+                1,
+                3
+            ]
         },
         {
             "predicate": "atop",
-            "args": ["patty", "bottombun"],
-            "ids": [3, 4]
+            "args": [
+                "patty",
+                "bottombun"
+            ],
+            "ids": [
+                3,
+                4
+            ]
         }
     ]
 }

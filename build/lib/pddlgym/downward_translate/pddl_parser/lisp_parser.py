@@ -34,6 +34,8 @@ def parse_list_aux(tokenstream):
     while True:
         try:
             token = next(tokenstream)
+    # add code tracer 
+
         except StopIteration:
             raise ParseError("Missing ')'")
         if token == ")":
