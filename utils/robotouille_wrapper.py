@@ -102,9 +102,6 @@ class RobotouilleWrapper(gym.Wrapper):
         return new_env_state
 
     def _handle_action(self, action):
-        """
-        Handle an action and update the environment state.
-        """
         if action == "noop":
             return self.prev_step
 
@@ -117,9 +114,13 @@ class RobotouilleWrapper(gym.Wrapper):
         # Calculate reward
         reward = self.handle_reward(action, obs)
 
+        # Accumulate reward
+        accumulated_reward = self.prev_step[1] + reward
+
         # Update the previous step
-        self.prev_step = (obs, reward, done, info)
-        return obs, reward, done, info
+        self.prev_step = (obs, accumulated_reward, done, info)
+        return obs, accumulated_reward, done, info
+
 
     def _update_state_based_on_action(self, action):
         """
@@ -145,15 +146,18 @@ class RobotouilleWrapper(gym.Wrapper):
             self.state[item.name] = item_status
 
     def handle_reward(self, action, obs):
-        """
-        Calculate the reward based on the current state and action.
-        """
         reward = 0
         action_name = action.predicate.name
 
-        # Reward for specific actions
         if action_name == "cut":
-            reward += 5
+            item = next(filter(lambda typed_entity: typed_entity.var_type == "item", action.variables), None)
+            if item:
+                item_status = self.state.get(item.name, {})
+                num_cuts = item_status.get("cut", 0)
+                if num_cuts == 1:
+                    reward += 5  # Reward for the first cut
+                else:
+                    reward -= 0.1  # Penalty for subsequent cuts
         elif action_name in ["cook", "fry"]:
             item = next(filter(lambda typed_entity: typed_entity.var_type == "item", action.variables), None)
             if item:
@@ -163,7 +167,15 @@ class RobotouilleWrapper(gym.Wrapper):
                     reward += 5
                 else:
                     reward += 0.1
+
+        # Additional reward logic for task completion
+        if self._is_burger_assembled_correctly(obs):
+            reward += 10  # Positive reward for correct assembly
+        elif self._is_burger_assembled_incorrectly(obs):
+            reward -= 5  # Negative reward for incorrect assembly
+
         return reward
+
 
     def _is_burger_assembled_correctly(self, obs):
 
@@ -192,17 +204,11 @@ class RobotouilleWrapper(gym.Wrapper):
         """
         Find the state of a specific item in the observation.
         """
-        # Placeholder for finding the state of an item in the observation
-        # Adapt this to how your environment's state ('obs') represents item positions and states
-        return obs.get(item_name, None)
+        for literal in obs.literals:
+            if literal.predicate.name == item_name:
+                return literal
+        return None
 
-        # Additional reward logic for task completion
-        if self._is_burger_assembled_correctly(obs):
-            reward += 10  # Positive reward for correct assembly
-        elif self._is_burger_assembled_incorrectly(obs):
-            reward -= 5  # Negative reward for incorrect assembly
-
-        return reward
 
     def step(self, action=None, interactive=False):
         """
