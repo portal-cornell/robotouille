@@ -317,11 +317,9 @@ class RobotouilleWrapper(gym.Wrapper):
         # Partial rewards for partial goals in burger assembly
         print(self._is_burger_partially_correct())
         if self._is_burger_partially_correct():
-            print("Currest")
             reward += 5
         elif self._is_burger_assembled_incorrectly():
-            print("wrongs")
-            reward -= 2
+            reward -= 3
 
         # Reward for correct assembly (non-continuous)
         if self._is_burger_assembled_correctly() and not self.prev_step[3].get("correctly_assembled", False):
@@ -339,12 +337,12 @@ class RobotouilleWrapper(gym.Wrapper):
         state_truth_map = self.map_state_to_truth(info['expanded_truths'])
 
         # Case 1: Patty on bottom bun
-        patty_on_bottom_bun = state_truth_map.get("atop(bottombun1:item,patty1:item)", 0.0)
+        patty_on_bottom_bun = state_truth_map.get("atop(bottombun1:item,patty1:item)", 1.0)
         if patty_on_bottom_bun:
             return True
 
         # Case 2: Lettuce on patty, but no top bun
-        lettuce_on_patty = state_truth_map.get('atop(patty1:item,lettuce1:item)', 0.0)
+        lettuce_on_patty = state_truth_map.get('atop(patty1:item,lettuce1:item)', 1.0)
         top_bun_not_present = not state_truth_map.get('atop(lettuce1:item,topbun1:item)', 1.0)
         if lettuce_on_patty and top_bun_not_present:
             return True
@@ -385,6 +383,7 @@ class RobotouilleWrapper(gym.Wrapper):
             "atop(topbun1:item,patty1:item)", 
             "atop(bottombun1:item,topbun1:item)",
             "atop(patty1:item,topbun1:item)", 
+            "atop(patty1:item,lettuce1:item)",
             "atop(lettuce1:item,patty1:item)"
         ]
         return any(state_truth_map.get(order, False) for order in incorrect_order)
@@ -392,7 +391,6 @@ class RobotouilleWrapper(gym.Wrapper):
 
     def map_state_to_truth(self, expanded_truths):
         if expanded_truths is None or len(expanded_truths) != len(EXPANDED_STATES_STRINGS):
-            print("Error: Mismatch in lengths or None input")  # Debugging 
             return {}
         return {EXPANDED_STATES_STRINGS[i]: truth for i, truth in enumerate(expanded_truths)}
 
