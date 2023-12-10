@@ -2,6 +2,147 @@ import gym
 import pddlgym
 import utils.robotouille_utils as robotouille_utils
 import utils.pddlgym_utils as pddlgym_utils
+from environments.env_generator.object_enums import Item
+
+EXPANDED_STATES_STRINGS = [
+    "istable(table4:station)",
+    "istable(table3:station)",
+    "istable(stove1:station)",
+    "istable(table1:station)",
+    "istable(board1:station)",
+    "istable(table2:station)",
+    "isstove(table4:station)",
+    "isstove(table3:station)",
+    "isstove(stove1:station)",
+    "isstove(table1:station)",
+    "isstove(board1:station)",
+    "isstove(table2:station)",
+    "isboard(table4:station)",
+    "isboard(table3:station)",
+    "isboard(stove1:station)",
+    "isboard(table1:station)",
+    "isboard(board1:station)",
+    "isboard(table2:station)",
+    "isbun(bottombun1:item)",
+    "isbun(topbun1:item)",
+    "isbun(lettuce1:item)",
+    "isbun(patty1:item)",
+    "islettuce(bottombun1:item)",
+    "islettuce(topbun1:item)",
+    "islettuce(lettuce1:item)",
+    "islettuce(patty1:item)",
+    "iscuttable(bottombun1:item)",
+    "iscuttable(topbun1:item)",
+    "iscuttable(lettuce1:item)",
+    "iscuttable(patty1:item)",
+    "iscut(bottombun1:item)",
+    "iscut(topbun1:item)",
+    "iscut(lettuce1:item)",
+    "iscut(patty1:item)",
+    "ispatty(bottombun1:item)",
+    "ispatty(topbun1:item)",
+    "ispatty(lettuce1:item)",
+    "ispatty(patty1:item)",
+    "iscookable(bottombun1:item)",
+    "iscookable(topbun1:item)",
+    "iscookable(lettuce1:item)",
+    "iscookable(patty1:item)",
+    "iscooked(bottombun1:item)",
+    "iscooked(topbun1:item)",
+    "iscooked(lettuce1:item)",
+    "iscooked(patty1:item)",
+    "loc(robot1:player,table4:station)",
+    "loc(robot1:player,table3:station)",
+    "loc(robot1:player,stove1:station)",
+    "loc(robot1:player,table1:station)",
+    "loc(robot1:player,board1:station)",
+    "loc(robot1:player,table2:station)",
+    "at(bottombun1:item,table4:station)",
+    "at(bottombun1:item,table3:station)",
+    "at(bottombun1:item,stove1:station)",
+    "at(bottombun1:item,table1:station)",
+    "at(bottombun1:item,board1:station)",
+    "at(bottombun1:item,table2:station)",
+    "at(topbun1:item,table4:station)",
+    "at(topbun1:item,table3:station)",
+    "at(topbun1:item,stove1:station)",
+    "at(topbun1:item,table1:station)",
+    "at(topbun1:item,board1:station)",
+    "at(topbun1:item,table2:station)",
+    "at(lettuce1:item,table4:station)",
+    "at(lettuce1:item,table3:station)",
+    "at(lettuce1:item,stove1:station)",
+    "at(lettuce1:item,table1:station)",
+    "at(lettuce1:item,board1:station)",
+    "at(lettuce1:item,table2:station)",
+    "at(patty1:item,table4:station)",
+    "at(patty1:item,table3:station)",
+    "at(patty1:item,stove1:station)",
+    "at(patty1:item,table1:station)",
+    "at(patty1:item,board1:station)",
+    "at(patty1:item,table2:station)",
+    "nothing(robot1:player)",
+    "empty(table4:station)",
+    "empty(table3:station)",
+    "empty(stove1:station)",
+    "empty(table1:station)",
+    "empty(board1:station)",
+    "empty(table2:station)",
+    "on(bottombun1:item,table4:station)",
+    "on(bottombun1:item,table3:station)",
+    "on(bottombun1:item,stove1:station)",
+    "on(bottombun1:item,table1:station)",
+    "on(bottombun1:item,board1:station)",
+    "on(bottombun1:item,table2:station)",
+    "on(topbun1:item,table4:station)",
+    "on(topbun1:item,table3:station)",
+    "on(topbun1:item,stove1:station)",
+    "on(topbun1:item,table1:station)",
+    "on(topbun1:item,board1:station)",
+    "on(topbun1:item,table2:station)",
+    "on(lettuce1:item,table4:station)",
+    "on(lettuce1:item,table3:station)",
+    "on(lettuce1:item,stove1:station)",
+    "on(lettuce1:item,table1:station)",
+    "on(lettuce1:item,board1:station)",
+    "on(lettuce1:item,table2:station)",
+    "on(patty1:item,table4:station)",
+    "on(patty1:item,table3:station)",
+    "on(patty1:item,stove1:station)",
+    "on(patty1:item,table1:station)",
+    "on(patty1:item,board1:station)",
+    "on(patty1:item,table2:station)",
+    "vacant(table4:station)",
+    "vacant(table3:station)",
+    "vacant(stove1:station)",
+    "vacant(table1:station)",
+    "vacant(board1:station)",
+    "vacant(table2:station)",
+    "clear(bottombun1:item)",
+    "clear(topbun1:item)",
+    "clear(lettuce1:item)",
+    "clear(patty1:item)",
+    "atop(bottombun1:item,bottombun1:item)",
+    "atop(bottombun1:item,topbun1:item)",
+    "atop(bottombun1:item,lettuce1:item)",
+    "atop(bottombun1:item,patty1:item)",
+    "atop(topbun1:item,bottombun1:item)",
+    "atop(topbun1:item,topbun1:item)",
+    "atop(topbun1:item,lettuce1:item)",
+    "atop(topbun1:item,patty1:item)",
+    "atop(lettuce1:item,bottombun1:item)",
+    "atop(lettuce1:item,topbun1:item)",
+    "atop(lettuce1:item,lettuce1:item)",
+    "atop(lettuce1:item,patty1:item)",
+    "atop(patty1:item,bottombun1:item)",
+    "atop(patty1:item,topbun1:item)",
+    "atop(patty1:item,lettuce1:item)",
+    "atop(patty1:item,patty1:item)",
+    "has(robot1:player,bottombun1:item)",
+    "has(robot1:player,topbun1:item)",
+    "has(robot1:player,lettuce1:item)",
+    "has(robot1:player,patty1:item)"
+]
 
 
 class RobotouilleWrapper(gym.Wrapper):
@@ -36,6 +177,9 @@ class RobotouilleWrapper(gym.Wrapper):
         # The configuration for this environment.
         # This is used to specify things such as cooking times and cutting amounts
         self.config = config
+
+        
+
 
     def _interactive_starter_prints(self, expanded_truths):
         """
@@ -149,65 +293,118 @@ class RobotouilleWrapper(gym.Wrapper):
         reward = 0
         action_name = action.predicate.name
 
+
+        # Reward/Penalty for cutting
         if action_name == "cut":
             item = next(filter(lambda typed_entity: typed_entity.var_type == "item", action.variables), None)
             if item:
                 item_status = self.state.get(item.name, {})
                 num_cuts = item_status.get("cut", 0)
-                if num_cuts == 1:
-                    reward += 5  # Reward for the first cut
-                else:
-                    reward -= 0.1  # Penalty for subsequent cuts
+                reward += 5 if num_cuts == 1 else -0.1
+
+        # Reward/Penalty for cooking and frying
         elif action_name in ["cook", "fry"]:
             item = next(filter(lambda typed_entity: typed_entity.var_type == "item", action.variables), None)
             if item:
                 item_status = self.state.get(item.name, {})
-                max_cook_time = self.config["cook_time"].get(item.name, self.config["cook_time"]["default"])
-                if item_status[action_name]["cook_time"] >= max_cook_time:
-                    reward += 5
-                else:
-                    reward += 0.1
+                if action_name == "fry":
+                    num_fries = item_status.get("fry", {}).get("fry_time", 0)
+                    reward += 5 if num_fries < 1 else -0.1
+                elif action_name == "cook":
+                    num_cooks = item_status.get("cook", {}).get("cook_time", 0)
+                    reward += 5 if num_cooks < 1 else -0.1
 
-        # Additional reward logic for task completion
-        if self._is_burger_assembled_correctly(obs):
-            reward += 10  # Positive reward for correct assembly
-        elif self._is_burger_assembled_incorrectly(obs):
-            reward -= 5  # Negative reward for incorrect assembly
+        # Partial rewards for partial goals in burger assembly
+        print(self._is_burger_partially_correct())
+        if self._is_burger_partially_correct():
+            print("Currest")
+            reward += 5
+        elif self._is_burger_assembled_incorrectly():
+            print("wrongs")
+            reward -= 2
+
+        # Reward for correct assembly (non-continuous)
+        if self._is_burger_assembled_correctly() and not self.prev_step[3].get("correctly_assembled", False):
+             reward += 10
+             self.prev_step[3]["correctly_assembled"] = True
 
         return reward
 
+    
+    def _is_burger_partially_correct(self):
+        info = self.get_latest_info()
+        if not info:
+            return False
 
-    def _is_burger_assembled_correctly(self, obs):
+        state_truth_map = self.map_state_to_truth(info['expanded_truths'])
 
-        bottom_bun = self._find_item_state(obs, "bottom_bun")
-        patty = self._find_item_state(obs, "patty")
-        lettuce = self._find_item_state(obs, "lettuce")
-        top_bun = self._find_item_state(obs, "top_bun")
+        # Case 1: Patty on bottom bun
+        patty_on_bottom_bun = state_truth_map.get("atop(bottombun1:item,patty1:item)", 0.0)
+        if patty_on_bottom_bun:
+            return True
 
-        if bottom_bun and patty and lettuce and top_bun:
-            return bottom_bun["below"] == patty and \
-                patty["below"] == lettuce and \
-                lettuce["below"] == top_bun
+        # Case 2: Lettuce on patty, but no top bun
+        lettuce_on_patty = state_truth_map.get('atop(patty1:item,lettuce1:item)', 0.0)
+        top_bun_not_present = not state_truth_map.get('atop(lettuce1:item,topbun1:item)', 1.0)
+        if lettuce_on_patty and top_bun_not_present:
+            return True
+
+        # Case 3: Bottom bun and patty present, but no lettuce or top bun
+        no_lettuce = not state_truth_map.get('atop(patty1:item,lettuce1:item)', 1.0)
+        no_top_bun = not state_truth_map.get('atop(lettuce1:item,topbun1:item)', 1.0)
+        if patty_on_bottom_bun and no_lettuce and no_top_bun:
+            return True
+
         return False
 
-    def _is_burger_assembled_incorrectly(self, obs):
+    def _is_burger_assembled_correctly(self):
+        info = self.get_latest_info()
+        if not info:
+            return False
 
-        bottom_bun = self._find_item_state(obs, "bottom_bun")
-        patty = self._find_item_state(obs, "patty")
-        lettuce = self._find_item_state(obs, "lettuce")
+        state_truth_map = self.map_state_to_truth(info['expanded_truths'])
+        correct_order = [
+            'atop(table1:station,bottombun1:item)', 
+            'atop(bottombun1:item,patty1:item)', 
+            'atop(patty1:item,lettuce1:item)', 
+            'atop(lettuce1:item,topbun1:item)'
+        ]
+        return all(state_truth_map.get(order, False) for order in correct_order)
 
-        if bottom_bun and patty and lettuce:
-            return not (bottom_bun["below"] == patty and patty["below"] == lettuce)
-        return False
 
-    def _find_item_state(self, obs, item_name):
+
+    def _is_burger_assembled_incorrectly(self):
+        info = self.get_latest_info()
+        if not info:
+            return False
+
+        state_truth_map = self.map_state_to_truth(info['expanded_truths'])
+        incorrect_order = [
+            "atop(lettuce1:item,bottombun1:item)", 
+            "atop(topbun1:item,lettuce1:item)", 
+            "atop(topbun1:item,patty1:item)", 
+            "atop(bottombun1:item,topbun1:item)",
+            "atop(patty1:item,topbun1:item)", 
+            "atop(lettuce1:item,patty1:item)"
+        ]
+        return any(state_truth_map.get(order, False) for order in incorrect_order)
+
+
+    def map_state_to_truth(self, expanded_truths):
+        if expanded_truths is None or len(expanded_truths) != len(EXPANDED_STATES_STRINGS):
+            print("Error: Mismatch in lengths or None input")  # Debugging 
+            return {}
+        return {EXPANDED_STATES_STRINGS[i]: truth for i, truth in enumerate(expanded_truths)}
+
+    def get_latest_info(self):
         """
-        Find the state of a specific item in the observation.
+        Get the latest info dictionary from the environment.
+
+        Returns:
+            dict: The latest info dictionary.
         """
-        for literal in obs.literals:
-            if literal.predicate.name == item_name:
-                return literal
-        return None
+        return self.prev_step[3] if self.prev_step else None
+
 
 
     def step(self, action=None, interactive=False):
