@@ -107,7 +107,11 @@ class RobotouilleWrapper(gym.Wrapper):
             return self.prev_step
 
         # Update state based on the action
-        self._update_state_based_on_action(action)
+        updated = self._update_state_based_on_action(action)
+
+        # If
+        if updated != None:
+            return updated
 
         # Perform the environment step
         obs, _, done, info = self.env.step(action)
@@ -122,29 +126,68 @@ class RobotouilleWrapper(gym.Wrapper):
         self.prev_step = (obs, accumulated_reward, done, info)
         return obs, accumulated_reward, done, info
 
-
     def _update_state_based_on_action(self, action):
         """
         Update the state of the environment based on the action taken.
         """
         action_name = action.predicate.name
-        item = next(filter(lambda typed_entity: typed_entity.var_type == "item", action.variables), None)
-
-        if item:
-            item_status = self.state.get(item.name, {})
-            if action_name == "cut":
-                item_status["cut"] = item_status.get("cut", 0) + 1
-            elif action_name in ["cook", "fry"]:
-                cooking_status = item_status.get(action_name, {"cooking": False, "cook_time": 0, "fry_time": 0})
-                cooking_status["cooking"] = True
-                item_status[action_name] = cooking_status
-            elif action_name == "pick-up":
-                if "cook" in item_status:
-                    item_status["cook"]["cooking"] = False
-                if "fry" in item_status:
-                    item_status["fry"]["frying"] = False
-
-            self.state[item.name] = item_status
+        if action_name == "cut":
+            item = next(
+                filter(
+                    lambda typed_entity: typed_entity.var_type == "item",
+                    action.variables,
+                )
+            )
+            item_status = self.state.get(item.name)
+            if item_status is None:
+                self.state[item.name] = {"cut": 1}
+            elif item_status.get("cut") is None:
+                item_status["cut"] = 1
+            else:
+                item_status["cut"] += 1
+            return self.prev_step
+        elif action_name == "cook":
+            item = next(
+                filter(
+                    lambda typed_entity: typed_entity.var_type == "item",
+                    action.variables,
+                )
+            )
+            item_status = self.state.get(item.name)
+            if item_status is None:
+                self.state[item.name] = {"cook": {"cook_time": -1, "cooking": True}}
+            elif item_status.get("cook") is None:
+                item_status["cook"] = {"cook_time": -1, "cooking": True}
+            else:
+                item_status["cook"]["cooking"] = True
+            return self.prev_step
+        elif action_name == "fry" or action_name == "fry_cut_item":
+            item = next(
+                filter(
+                    lambda typed_entity: typed_entity.var_type == "item",
+                    action.variables,
+                )
+            )
+            item_status = self.state.get(item.name)
+            if item_status is None:
+                self.state[item.name] = {"fry": {"fry_time": -1, "frying": True}}
+            elif item_status.get("fry") is None:
+                item_status["fry"] = {"fry_time": -1, "frying": True}
+            else:
+                item_status["fry"]["frying"] = True
+            return self.prev_step
+        elif action_name == "pick-up":
+            item = next(
+                filter(
+                    lambda typed_entity: typed_entity.var_type == "item",
+                    action.variables,
+                )
+            )
+            item_status = self.state.get(item.name)
+            if item_status is not None and item_status.get("cook") is not None:
+                item_status["cook"]["cooking"] = False
+            if item_status is not None and item_status.get("fry") is not None:
+                item_status["fry"]["frying"] = False
 
     def handle_reward(self, action, obs):
         reward = 0
@@ -152,7 +195,13 @@ class RobotouilleWrapper(gym.Wrapper):
 
         # Reward/Penalty for cutting
         if action_name == "cut":
-            item = next(filter(lambda typed_entity: typed_entity.var_type == "item", action.variables), None)
+            item = next(
+                filter(
+                    lambda typed_entity: typed_entity.var_type == "item",
+                    action.variables,
+                ),
+                None,
+            )
             if item:
                 item_status = self.state.get(item.name, {})
                 num_cuts = item_status.get("cut", 0)
@@ -160,7 +209,13 @@ class RobotouilleWrapper(gym.Wrapper):
 
         # Reward/Penalty for cooking and frying
         elif action_name in ["cook", "fry"]:
-            item = next(filter(lambda typed_entity: typed_entity.var_type == "item", action.variables), None)
+            item = next(
+                filter(
+                    lambda typed_entity: typed_entity.var_type == "item",
+                    action.variables,
+                ),
+                None,
+            )
             if item:
                 item_status = self.state.get(item.name, {})
                 if action_name == "fry":
@@ -173,10 +228,10 @@ class RobotouilleWrapper(gym.Wrapper):
         # Partial rewards for partial goals in burger assembly
         if self._is_burger_partially_correct(obs):
             print("Currest")
-            #reward += 5
+            # reward += 5
         elif self._is_burger_assembled_incorrectly(obs):
             print("wrongs")
-            #reward -= 2
+            # reward -= 2
 
         # # Reward for correct assembly (non-continuous)
         # if self._is_burger_assembled_correctly(obs) and not self.prev_step[3].get("correctly_assembled", False):
@@ -185,7 +240,6 @@ class RobotouilleWrapper(gym.Wrapper):
 
         return reward
 
-    
     def _is_burger_partially_correct(self, obs):
         # Check for logical stages of partial assembly
         bottom_bun = self._find_item_state(obs, Item.BOTTOMBUN)
@@ -217,15 +271,16 @@ class RobotouilleWrapper(gym.Wrapper):
         top_bun = self._find_item_state(obs, Item.TOPBUN)
 
         # Incorrect if components are missing or in the wrong order
-        if not bottom_bun or (patty and not bottom_bun["below"] == patty) or \
-        (lettuce and not patty["below"] == lettuce) or (top_bun and not lettuce["below"] == top_bun):
+        if (
+            not bottom_bun
+            or (patty and not bottom_bun["below"] == patty)
+            or (lettuce and not patty["below"] == lettuce)
+            or (top_bun and not lettuce["below"] == top_bun)
+        ):
             print("wrong ordering")
             return True
 
         return False
-
-
-
 
     def _find_item_state(self, obs, item_enum):
         """
@@ -238,10 +293,7 @@ class RobotouilleWrapper(gym.Wrapper):
                     if arg.var_type == "item" and arg.name != item_enum.value:
                         item_state["below"] = arg.name
 
-        print(item_state)
         return item_state if item_state else None
-
-
 
     def step(self, action=None, interactive=False):
         """
@@ -289,14 +341,10 @@ class RobotouilleWrapper(gym.Wrapper):
                 self.env, self.prev_step[0], action
             )
         obs, reward, done, _ = self._handle_action(action)
-        print("reward from handle action", reward)
-        # print(obs)
         obs = self._state_update()
-        # print(obs)
         toggle_array = pddlgym_utils.create_toggle_array(
             expanded_truths, expanded_states, obs.literals
         )
-        # print("toggle_array:", toggle_array)
         if interactive:
             print(f"Predicates Changed: {toggle_array.sum()}")
         info = {
