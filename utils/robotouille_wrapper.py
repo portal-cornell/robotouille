@@ -236,6 +236,7 @@ class RobotouilleWrapper(gym.Wrapper):
                     num_fries = item_status.get("fry", {}).get("fry_time", 0)
                     reward += 5 if num_fries < 1 else -0.1
                 elif action_name == "cook":
+<<<<<<< HEAD
                     print(item_status)
                     cook_time = item_status.get("cook", {}).get("cook_time", 0)
                     reward += 5 if cook_time < 1 else -0.1
@@ -256,6 +257,22 @@ class RobotouilleWrapper(gym.Wrapper):
                     reward -= 5
         elif action_name == "stack":
             reward += self._handle_stacking_reward(action)
+=======
+                    num_cooks = item_status.get("cook", {}).get("cook_time", 0)
+                    reward += 5 if num_cooks < 1 else -0.1
+
+        # Partial rewards for partial goals in burger assembly
+        print(self._is_burger_partially_correct())
+        if self._is_burger_partially_correct():
+            reward += 5
+        elif self._is_burger_assembled_incorrectly():
+            reward -= 3
+
+        # Reward for correct assembly (non-continuous)
+        if self._is_burger_assembled_correctly() and not self.prev_step[3].get("correctly_assembled", False):
+             reward += 10
+             self.prev_step[3]["correctly_assembled"] = True
+>>>>>>> 3aef3f040ab1e3733705da6c77c760c2d48d6d30
 
         # Reward for continuous cooking
         for item, status_dict in self.state.items():
@@ -270,9 +287,75 @@ class RobotouilleWrapper(gym.Wrapper):
                         reward -= 1
         return reward
 
+<<<<<<< HEAD
     def map_state_to_truth(self, expanded_truths, expanded_states):
         if expanded_truths is None or len(expanded_truths) != len(expanded_states):
             print("Error: Mismatch in lengths or None input")  # Debugging
+=======
+    
+    def _is_burger_partially_correct(self):
+        info = self.get_latest_info()
+        if not info:
+            return False
+
+        state_truth_map = self.map_state_to_truth(info['expanded_truths'])
+
+        # Case 1: Patty on bottom bun
+        patty_on_bottom_bun = state_truth_map.get("atop(bottombun1:item,patty1:item)", 1.0)
+        if patty_on_bottom_bun:
+            return True
+
+        # Case 2: Lettuce on patty, but no top bun
+        lettuce_on_patty = state_truth_map.get('atop(patty1:item,lettuce1:item)', 1.0)
+        top_bun_not_present = not state_truth_map.get('atop(lettuce1:item,topbun1:item)', 1.0)
+        if lettuce_on_patty and top_bun_not_present:
+            return True
+
+        # Case 3: Bottom bun and patty present, but no lettuce or top bun
+        no_lettuce = not state_truth_map.get('atop(patty1:item,lettuce1:item)', 1.0)
+        no_top_bun = not state_truth_map.get('atop(lettuce1:item,topbun1:item)', 1.0)
+        if patty_on_bottom_bun and no_lettuce and no_top_bun:
+            return True
+
+        return False
+
+    def _is_burger_assembled_correctly(self):
+        info = self.get_latest_info()
+        if not info:
+            return False
+
+        state_truth_map = self.map_state_to_truth(info['expanded_truths'])
+        correct_order = [
+            'atop(table1:station,bottombun1:item)', 
+            'atop(bottombun1:item,patty1:item)', 
+            'atop(patty1:item,lettuce1:item)', 
+            'atop(lettuce1:item,topbun1:item)'
+        ]
+        return all(state_truth_map.get(order, False) for order in correct_order)
+
+
+
+    def _is_burger_assembled_incorrectly(self):
+        info = self.get_latest_info()
+        if not info:
+            return False
+
+        state_truth_map = self.map_state_to_truth(info['expanded_truths'])
+        incorrect_order = [
+            "atop(lettuce1:item,bottombun1:item)", 
+            "atop(topbun1:item,lettuce1:item)", 
+            "atop(topbun1:item,patty1:item)", 
+            "atop(bottombun1:item,topbun1:item)",
+            "atop(patty1:item,topbun1:item)", 
+            "atop(patty1:item,lettuce1:item)",
+            "atop(lettuce1:item,patty1:item)"
+        ]
+        return any(state_truth_map.get(order, False) for order in incorrect_order)
+
+
+    def map_state_to_truth(self, expanded_truths):
+        if expanded_truths is None or len(expanded_truths) != len(EXPANDED_STATES_STRINGS):
+>>>>>>> 3aef3f040ab1e3733705da6c77c760c2d48d6d30
             return {}
         return {
             str(expanded_states[i]): truth for i, truth in enumerate(expanded_truths)
