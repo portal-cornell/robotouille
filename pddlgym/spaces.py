@@ -166,6 +166,8 @@ class LiteralActionSpace(LiteralSpace):
     def all_ground_literals(self, state, valid_only=True):
         self._update_objects_from_state(state)
         # assert valid_only, "The point of this class is to avoid the cross product!"
+        if not valid_only:
+            return self._all_ground_literals
         valid_literals = set()
         for ground_action in self._all_ground_literals:
             pos_preconds = self._ground_action_to_pos_preconds[ground_action]

@@ -31,15 +31,26 @@ def simulator(
         rl_env = RLWrapper(env, config)
         obs, info = rl_env.reset()
         rl_env.render(mode="human")
-        agent = PPO("MlpPolicy", rl_env, verbose=1)
-        agent.learn(total_timesteps=100, reset_num_timesteps=False, progress_bar=True)
+        agent = PPO("MlpPolicy", rl_env, verbose=1, n_steps=10000)
+        agent.learn(total_timesteps=10000, reset_num_timesteps=False, progress_bar=True)
         agent.save("ppo_robotouille")
 
     while not done and not truncated:
         if use_rl:
-            action, _states = agent.predict(obs, deterministic=True)
-            obs, reward, done, truncated, info = rl_env.step(action=action)
-            env.render(mode="human")
+            pygame_events = pygame.event.get()
+            keydown_events = list(
+                filter(lambda e: e.type == pygame.KEYDOWN, pygame_events)
+            )
+
+            if len(keydown_events) == 0:
+                continue
+
+            if keydown_events[0].key == pygame.K_SPACE:
+                print("Running RL agent")
+                action, _states = agent.predict(obs, deterministic=True)
+                print(action)
+                obs, reward, done, truncated, info = rl_env.step(action=action)
+                env.render(mode="human")
         else:
             # Construct action from input
             pygame_events = pygame.event.get()

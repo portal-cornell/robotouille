@@ -200,7 +200,7 @@ class RobotouilleWrapper(gym.Wrapper):
         return reward
 
     def _handle_reward(self, action, obs):
-        reward = 0
+        reward = 100
         action_name = action.predicate.name
 
         # Reward/Penalty for cutting
@@ -320,6 +320,16 @@ class RobotouilleWrapper(gym.Wrapper):
             done (bool): Whether or not the episode is done.
             info (dict): A dictionary of metadata about the step.
         """
+
+        valid_actions = list(self.action_space.all_ground_literals(self.prev_step[0]))
+
+        if action not in valid_actions:
+            obs, reward, done, info = self.prev_step
+            self.prev_step = (obs, reward - 100, done, info)
+            return self.prev_step
+        else:
+            action = str(action)
+
         expanded_truths = self.prev_step[3]["expanded_truths"]
         expanded_states = self.prev_step[3]["expanded_states"]
 
@@ -355,9 +365,7 @@ class RobotouilleWrapper(gym.Wrapper):
         self.prev_step = (obs, self.prev_step[1], done, info)
 
         reward = self._handle_reward(action, obs)
-        print("reward", reward)
         reward += self.prev_step[1]
-        print("total", reward)
 
         self.prev_step = (obs, reward, done, info)
         self.timesteps += 1

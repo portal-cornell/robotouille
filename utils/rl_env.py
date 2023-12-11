@@ -8,16 +8,24 @@ import numpy as np
 
 class RLEnv(gym.Env):
     def __init__(self, state, valid_actions, all_actions):
-        self.observation_space = spaces.Box(
-            low=0, high=1, shape=state.shape, dtype=np.float32
-        )
-
         self.action_space = spaces.Discrete(len(all_actions))
 
-        self.state = state
         self.valid_actions = valid_actions
         self.all_actions = all_actions
 
+        actions_truth = []
+
+        for action in all_actions:
+            actions_truth.append(int(action in valid_actions))
+
+        actions_truth = np.isin(np.array(all_actions), np.array(valid_actions)).astype(
+            np.float64
+        )
+
+        self.state = np.concatenate((state, actions_truth))
+        self.observation_space = spaces.Box(
+            low=0, high=1, shape=self.state.shape, dtype=np.float32
+        )
+
     def unwrap_move(self, action):
-        action = self.all_actions[action]
-        return action if action in self.valid_actions else "noop"
+        return self.all_actions[action]
