@@ -4,146 +4,6 @@ import utils.robotouille_utils as robotouille_utils
 import utils.pddlgym_utils as pddlgym_utils
 from environments.env_generator.object_enums import Item
 
-EXPANDED_STATES_STRINGS = [
-    "istable(table4:station)",
-    "istable(table3:station)",
-    "istable(stove1:station)",
-    "istable(table1:station)",
-    "istable(board1:station)",
-    "istable(table2:station)",
-    "isstove(table4:station)",
-    "isstove(table3:station)",
-    "isstove(stove1:station)",
-    "isstove(table1:station)",
-    "isstove(board1:station)",
-    "isstove(table2:station)",
-    "isboard(table4:station)",
-    "isboard(table3:station)",
-    "isboard(stove1:station)",
-    "isboard(table1:station)",
-    "isboard(board1:station)",
-    "isboard(table2:station)",
-    "isbun(bottombun1:item)",
-    "isbun(topbun1:item)",
-    "isbun(lettuce1:item)",
-    "isbun(patty1:item)",
-    "islettuce(bottombun1:item)",
-    "islettuce(topbun1:item)",
-    "islettuce(lettuce1:item)",
-    "islettuce(patty1:item)",
-    "iscuttable(bottombun1:item)",
-    "iscuttable(topbun1:item)",
-    "iscuttable(lettuce1:item)",
-    "iscuttable(patty1:item)",
-    "iscut(bottombun1:item)",
-    "iscut(topbun1:item)",
-    "iscut(lettuce1:item)",
-    "iscut(patty1:item)",
-    "ispatty(bottombun1:item)",
-    "ispatty(topbun1:item)",
-    "ispatty(lettuce1:item)",
-    "ispatty(patty1:item)",
-    "iscookable(bottombun1:item)",
-    "iscookable(topbun1:item)",
-    "iscookable(lettuce1:item)",
-    "iscookable(patty1:item)",
-    "iscooked(bottombun1:item)",
-    "iscooked(topbun1:item)",
-    "iscooked(lettuce1:item)",
-    "iscooked(patty1:item)",
-    "loc(robot1:player,table4:station)",
-    "loc(robot1:player,table3:station)",
-    "loc(robot1:player,stove1:station)",
-    "loc(robot1:player,table1:station)",
-    "loc(robot1:player,board1:station)",
-    "loc(robot1:player,table2:station)",
-    "at(bottombun1:item,table4:station)",
-    "at(bottombun1:item,table3:station)",
-    "at(bottombun1:item,stove1:station)",
-    "at(bottombun1:item,table1:station)",
-    "at(bottombun1:item,board1:station)",
-    "at(bottombun1:item,table2:station)",
-    "at(topbun1:item,table4:station)",
-    "at(topbun1:item,table3:station)",
-    "at(topbun1:item,stove1:station)",
-    "at(topbun1:item,table1:station)",
-    "at(topbun1:item,board1:station)",
-    "at(topbun1:item,table2:station)",
-    "at(lettuce1:item,table4:station)",
-    "at(lettuce1:item,table3:station)",
-    "at(lettuce1:item,stove1:station)",
-    "at(lettuce1:item,table1:station)",
-    "at(lettuce1:item,board1:station)",
-    "at(lettuce1:item,table2:station)",
-    "at(patty1:item,table4:station)",
-    "at(patty1:item,table3:station)",
-    "at(patty1:item,stove1:station)",
-    "at(patty1:item,table1:station)",
-    "at(patty1:item,board1:station)",
-    "at(patty1:item,table2:station)",
-    "nothing(robot1:player)",
-    "empty(table4:station)",
-    "empty(table3:station)",
-    "empty(stove1:station)",
-    "empty(table1:station)",
-    "empty(board1:station)",
-    "empty(table2:station)",
-    "on(bottombun1:item,table4:station)",
-    "on(bottombun1:item,table3:station)",
-    "on(bottombun1:item,stove1:station)",
-    "on(bottombun1:item,table1:station)",
-    "on(bottombun1:item,board1:station)",
-    "on(bottombun1:item,table2:station)",
-    "on(topbun1:item,table4:station)",
-    "on(topbun1:item,table3:station)",
-    "on(topbun1:item,stove1:station)",
-    "on(topbun1:item,table1:station)",
-    "on(topbun1:item,board1:station)",
-    "on(topbun1:item,table2:station)",
-    "on(lettuce1:item,table4:station)",
-    "on(lettuce1:item,table3:station)",
-    "on(lettuce1:item,stove1:station)",
-    "on(lettuce1:item,table1:station)",
-    "on(lettuce1:item,board1:station)",
-    "on(lettuce1:item,table2:station)",
-    "on(patty1:item,table4:station)",
-    "on(patty1:item,table3:station)",
-    "on(patty1:item,stove1:station)",
-    "on(patty1:item,table1:station)",
-    "on(patty1:item,board1:station)",
-    "on(patty1:item,table2:station)",
-    "vacant(table4:station)",
-    "vacant(table3:station)",
-    "vacant(stove1:station)",
-    "vacant(table1:station)",
-    "vacant(board1:station)",
-    "vacant(table2:station)",
-    "clear(bottombun1:item)",
-    "clear(topbun1:item)",
-    "clear(lettuce1:item)",
-    "clear(patty1:item)",
-    "atop(bottombun1:item,bottombun1:item)",
-    "atop(bottombun1:item,topbun1:item)",
-    "atop(bottombun1:item,lettuce1:item)",
-    "atop(bottombun1:item,patty1:item)",
-    "atop(topbun1:item,bottombun1:item)",
-    "atop(topbun1:item,topbun1:item)",
-    "atop(topbun1:item,lettuce1:item)",
-    "atop(topbun1:item,patty1:item)",
-    "atop(lettuce1:item,bottombun1:item)",
-    "atop(lettuce1:item,topbun1:item)",
-    "atop(lettuce1:item,lettuce1:item)",
-    "atop(lettuce1:item,patty1:item)",
-    "atop(patty1:item,bottombun1:item)",
-    "atop(patty1:item,topbun1:item)",
-    "atop(patty1:item,lettuce1:item)",
-    "atop(patty1:item,patty1:item)",
-    "has(robot1:player,bottombun1:item)",
-    "has(robot1:player,topbun1:item)",
-    "has(robot1:player,lettuce1:item)",
-    "has(robot1:player,patty1:item)"
-]
-
 
 class RobotouilleWrapper(gym.Wrapper):
     """
@@ -177,9 +37,6 @@ class RobotouilleWrapper(gym.Wrapper):
         # The configuration for this environment.
         # This is used to specify things such as cooking times and cutting amounts
         self.config = config
-
-        
-
 
     def _interactive_starter_prints(self, expanded_truths):
         """
@@ -248,153 +105,178 @@ class RobotouilleWrapper(gym.Wrapper):
     def _handle_action(self, action):
         if action == "noop":
             return self.prev_step
-
-        # Update state based on the action
-        self._update_state_based_on_action(action)
-
-        # Perform the environment step
-        obs, _, done, info = self.env.step(action)
-
-        # Calculate reward
-        reward = self.handle_reward(action, obs)
-
-        # Accumulate reward
-        accumulated_reward = self.prev_step[1] + reward
-
-        # Update the previous step
-        self.prev_step = (obs, accumulated_reward, done, info)
-        return obs, accumulated_reward, done, info
-
-
-    def _update_state_based_on_action(self, action):
-        """
-        Update the state of the environment based on the action taken.
-        """
         action_name = action.predicate.name
-        item = next(filter(lambda typed_entity: typed_entity.var_type == "item", action.variables), None)
+        if action_name == "cut":
+            item = next(
+                filter(
+                    lambda typed_entity: typed_entity.var_type == "item",
+                    action.variables,
+                )
+            )
+            item_status = self.state.get(item.name)
+            if item_status is None:
+                self.state[item.name] = {"cut": 1}
+            elif item_status.get("cut") is None:
+                item_status["cut"] = 1
+            else:
+                item_status["cut"] += 1
+            return self.prev_step
+        elif action_name == "cook":
+            item = next(
+                filter(
+                    lambda typed_entity: typed_entity.var_type == "item",
+                    action.variables,
+                )
+            )
+            item_status = self.state.get(item.name)
+            if item_status is None:
+                self.state[item.name] = {"cook": {"cook_time": -1, "cooking": True}}
+            elif item_status.get("cook") is None:
+                item_status["cook"] = {"cook_time": -1, "cooking": True}
+            else:
+                item_status["cook"]["cooking"] = True
+            return self.prev_step
+        elif action_name == "fry" or action_name == "fry_cut_item":
+            item = next(
+                filter(
+                    lambda typed_entity: typed_entity.var_type == "item",
+                    action.variables,
+                )
+            )
+            item_status = self.state.get(item.name)
+            if item_status is None:
+                self.state[item.name] = {"fry": {"fry_time": -1, "frying": True}}
+            elif item_status.get("fry") is None:
+                item_status["fry"] = {"fry_time": -1, "frying": True}
+            else:
+                item_status["fry"]["frying"] = True
+            return self.prev_step
+        elif action_name == "pick-up":
+            item = next(
+                filter(
+                    lambda typed_entity: typed_entity.var_type == "item",
+                    action.variables,
+                )
+            )
+            item_status = self.state.get(item.name)
+            if item_status is not None and item_status.get("cook") is not None:
+                item_status["cook"]["cooking"] = False
+            if item_status is not None and item_status.get("fry") is not None:
+                item_status["fry"]["frying"] = False
+        # TODO: Probably stop cooking if something is stacked on top of meat
+        return self.env.step(action)
 
-        if item:
-            item_status = self.state.get(item.name, {})
-            if action_name == "cut":
-                item_status["cut"] = item_status.get("cut", 0) + 1
-            elif action_name in ["cook", "fry"]:
-                cooking_status = item_status.get(action_name, {"cooking": False, "cook_time": 0, "fry_time": 0})
-                cooking_status["cooking"] = True
-                item_status[action_name] = cooking_status
-            elif action_name == "pick-up":
-                if "cook" in item_status:
-                    item_status["cook"]["cooking"] = False
-                if "fry" in item_status:
-                    item_status["fry"]["frying"] = False
+    def _handle_stacking_reward(self, action):
+        # Check that no incorrect stacking occured
+        items = ["patty1", "lettuce1", "topbun1"]
+        correct_order = [
+            "atop(patty1:item,bottombun1:item)",
+            "atop(lettuce1:item,patty1:item)",
+            "atop(topbun1:item,lettuce1:item)",
+        ]
 
-            self.state[item.name] = item_status
+        expanded_truths = self.prev_step[3]["expanded_truths"]
+        expanded_states = self.prev_step[3]["expanded_states"]
+        reward = 0
 
-    def handle_reward(self, action, obs):
+        for truth, state in zip(expanded_truths, expanded_states):
+            if (
+                truth == 1
+                and "atop" == state.predicate
+                and action.variables[1].name == state.variables[0].name
+                and str(state) not in correct_order
+            ):
+                reward -= 2
+
+        state_truth_map = self.map_state_to_truth(expanded_truths, expanded_states)
+
+        for stack, item in zip(correct_order, items):
+            if state_truth_map[stack]:
+                if action.variables[1].name == item:
+                    reward += 5
+            else:
+                break
+
+        return reward
+
+    def _handle_reward(self, action, obs):
         reward = 0
         action_name = action.predicate.name
 
-
         # Reward/Penalty for cutting
         if action_name == "cut":
-            item = next(filter(lambda typed_entity: typed_entity.var_type == "item", action.variables), None)
+            item = next(
+                filter(
+                    lambda typed_entity: typed_entity.var_type == "item",
+                    action.variables,
+                ),
+                None,
+            )
             if item:
+                item_name, _ = robotouille_utils.trim_item_ID(item.name)
+                num_cuts = self.config["num_cuts"]
+                max_num_cuts = num_cuts.get(item_name, num_cuts["default"])
+
                 item_status = self.state.get(item.name, {})
                 num_cuts = item_status.get("cut", 0)
-                reward += 5 if num_cuts == 1 else -0.1
 
+                reward += 5 if num_cuts <= max_num_cuts else -1
         # Reward/Penalty for cooking and frying
         elif action_name in ["cook", "fry"]:
-            item = next(filter(lambda typed_entity: typed_entity.var_type == "item", action.variables), None)
+            item = next(
+                filter(
+                    lambda typed_entity: typed_entity.var_type == "item",
+                    action.variables,
+                ),
+                None,
+            )
             if item:
                 item_status = self.state.get(item.name, {})
                 if action_name == "fry":
                     num_fries = item_status.get("fry", {}).get("fry_time", 0)
                     reward += 5 if num_fries < 1 else -0.1
                 elif action_name == "cook":
-                    num_cooks = item_status.get("cook", {}).get("cook_time", 0)
-                    reward += 5 if num_cooks < 1 else -0.1
+                    print(item_status)
+                    cook_time = item_status.get("cook", {}).get("cook_time", 0)
+                    reward += 5 if cook_time < 1 else -0.1
+        elif action_name == "pick-up":
+            item = next(
+                filter(
+                    lambda typed_entity: typed_entity.var_type == "item",
+                    action.variables,
+                ),
+                None,
+            )
+            item_status = self.state.get(item.name, {})
+            if item_status is not None and item_status.get("cook") is not None:
+                if (
+                    item_status["cook"]["cook_time"] > 0
+                    and "iscooked(" + item.name not in self.prev_step[0]
+                ):
+                    reward -= 5
+        elif action_name == "stack":
+            reward += self._handle_stacking_reward(action)
 
-        # Partial rewards for partial goals in burger assembly
-        print(self._is_burger_partially_correct())
-        if self._is_burger_partially_correct():
-            print("Currest")
-            reward += 5
-        elif self._is_burger_assembled_incorrectly():
-            print("wrongs")
-            reward -= 2
-
-        # Reward for correct assembly (non-continuous)
-        if self._is_burger_assembled_correctly() and not self.prev_step[3].get("correctly_assembled", False):
-             reward += 10
-             self.prev_step[3]["correctly_assembled"] = True
-
+        # Reward for continuous cooking
+        for item, status_dict in self.state.items():
+            for status, state in status_dict.items():
+                if status == "cook":
+                    item_name, _ = robotouille_utils.trim_item_ID(item)
+                    cook_time = self.config["cook_time"]
+                    max_cook_time = cook_time.get(item_name, cook_time["default"])
+                    if state["cooking"] and state["cook_time"] <= max_cook_time:
+                        reward += 1
+                    elif state["cooking"] and state["cook_time"] > max_cook_time:
+                        reward -= 1
         return reward
 
-    
-    def _is_burger_partially_correct(self):
-        info = self.get_latest_info()
-        if not info:
-            return False
-
-        state_truth_map = self.map_state_to_truth(info['expanded_truths'])
-
-        # Case 1: Patty on bottom bun
-        patty_on_bottom_bun = state_truth_map.get("atop(bottombun1:item,patty1:item)", 0.0)
-        if patty_on_bottom_bun:
-            return True
-
-        # Case 2: Lettuce on patty, but no top bun
-        lettuce_on_patty = state_truth_map.get('atop(patty1:item,lettuce1:item)', 0.0)
-        top_bun_not_present = not state_truth_map.get('atop(lettuce1:item,topbun1:item)', 1.0)
-        if lettuce_on_patty and top_bun_not_present:
-            return True
-
-        # Case 3: Bottom bun and patty present, but no lettuce or top bun
-        no_lettuce = not state_truth_map.get('atop(patty1:item,lettuce1:item)', 1.0)
-        no_top_bun = not state_truth_map.get('atop(lettuce1:item,topbun1:item)', 1.0)
-        if patty_on_bottom_bun and no_lettuce and no_top_bun:
-            return True
-
-        return False
-
-    def _is_burger_assembled_correctly(self):
-        info = self.get_latest_info()
-        if not info:
-            return False
-
-        state_truth_map = self.map_state_to_truth(info['expanded_truths'])
-        correct_order = [
-            'atop(table1:station,bottombun1:item)', 
-            'atop(bottombun1:item,patty1:item)', 
-            'atop(patty1:item,lettuce1:item)', 
-            'atop(lettuce1:item,topbun1:item)'
-        ]
-        return all(state_truth_map.get(order, False) for order in correct_order)
-
-
-
-    def _is_burger_assembled_incorrectly(self):
-        info = self.get_latest_info()
-        if not info:
-            return False
-
-        state_truth_map = self.map_state_to_truth(info['expanded_truths'])
-        incorrect_order = [
-            "atop(lettuce1:item,bottombun1:item)", 
-            "atop(topbun1:item,lettuce1:item)", 
-            "atop(topbun1:item,patty1:item)", 
-            "atop(bottombun1:item,topbun1:item)",
-            "atop(patty1:item,topbun1:item)", 
-            "atop(lettuce1:item,patty1:item)"
-        ]
-        return any(state_truth_map.get(order, False) for order in incorrect_order)
-
-
-    def map_state_to_truth(self, expanded_truths):
-        if expanded_truths is None or len(expanded_truths) != len(EXPANDED_STATES_STRINGS):
-            print("Error: Mismatch in lengths or None input")  # Debugging 
+    def map_state_to_truth(self, expanded_truths, expanded_states):
+        if expanded_truths is None or len(expanded_truths) != len(expanded_states):
+            print("Error: Mismatch in lengths or None input")  # Debugging
             return {}
-        return {EXPANDED_STATES_STRINGS[i]: truth for i, truth in enumerate(expanded_truths)}
+        return {
+            str(expanded_states[i]): truth for i, truth in enumerate(expanded_truths)
+        }
 
     def get_latest_info(self):
         """
@@ -404,8 +286,6 @@ class RobotouilleWrapper(gym.Wrapper):
             dict: The latest info dictionary.
         """
         return self.prev_step[3] if self.prev_step else None
-
-
 
     def step(self, action=None, interactive=False):
         """
@@ -441,9 +321,8 @@ class RobotouilleWrapper(gym.Wrapper):
             done (bool): Whether or not the episode is done.
             info (dict): A dictionary of metadata about the step.
         """
-        expanded_truths, expanded_states = pddlgym_utils.expand_state(
-            self.prev_step[0].literals, self.prev_step[0].objects
-        )
+        expanded_truths = self.prev_step[3]["expanded_truths"]
+        expanded_states = self.prev_step[3]["expanded_states"]
 
         if interactive:
             self._interactive_starter_prints(expanded_truths)
@@ -452,17 +331,20 @@ class RobotouilleWrapper(gym.Wrapper):
             action = robotouille_utils.create_action(
                 self.env, self.prev_step[0], action
             )
-        obs, reward, done, _ = self._handle_action(action)
-        print("reward from handle action", reward)
-        # print(obs)
+
+        obs, reward, done, info = self._handle_action(action)
         obs = self._state_update()
-        # print(obs)
+
         toggle_array = pddlgym_utils.create_toggle_array(
             expanded_truths, expanded_states, obs.literals
         )
-        # print("toggle_array:", toggle_array)
         if interactive:
             print(f"Predicates Changed: {toggle_array.sum()}")
+
+        expanded_truths, expanded_states = pddlgym_utils.expand_state(
+            obs.literals, obs.objects
+        )
+
         info = {
             "timesteps": self.timesteps,
             "expanded_truths": expanded_truths,
@@ -471,8 +353,16 @@ class RobotouilleWrapper(gym.Wrapper):
             "state": self.state,
         }
 
+        self.prev_step = (obs, self.prev_step[1], done, info)
+
+        reward = self._handle_reward(action, obs)
+        print("reward", reward)
+        reward += self.prev_step[1]
+        print("total", reward)
+
         self.prev_step = (obs, reward, done, info)
         self.timesteps += 1
+
         return obs, reward, done, info
 
     def reset(self):
@@ -484,10 +374,13 @@ class RobotouilleWrapper(gym.Wrapper):
             info (dict): A dictionary of metadata about the step.
         """
         obs, _ = self.env.reset()
+        expanded_truths, expanded_states = pddlgym_utils.expand_state(
+            obs.literals, obs.objects
+        )
         info = {
             "timesteps": self.timesteps,
-            "expanded_truths": None,
-            "expanded_states": None,
+            "expanded_truths": expanded_truths,
+            "expanded_states": expanded_states,
             "toggle_array": None,
             "state": {},
         }
