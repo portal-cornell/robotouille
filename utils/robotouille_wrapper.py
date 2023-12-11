@@ -236,7 +236,6 @@ class RobotouilleWrapper(gym.Wrapper):
                     num_fries = item_status.get("fry", {}).get("fry_time", 0)
                     reward += 5 if num_fries < 1 else -0.1
                 elif action_name == "cook":
-                    print(item_status)
                     cook_time = item_status.get("cook", {}).get("cook_time", 0)
                     reward += 5 if cook_time < 1 else -0.1
         elif action_name == "pick-up":
