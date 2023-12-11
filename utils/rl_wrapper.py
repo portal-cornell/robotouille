@@ -1,5 +1,6 @@
 from typing import List, Optional, Union
 import gym
+import numpy as np
 import pddlgym
 import utils.robotouille_utils as robotouille_utils
 import utils.pddlgym_utils as pddlgym_utils
@@ -13,7 +14,7 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
 
         self.pddl_env = env
         self.env = None
-        self.max_steps = 20
+        self.max_steps = 100
 
     def _wrap_env(self):
         expanded_truths, expanded_states = pddlgym_utils.expand_state(
@@ -35,6 +36,8 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
     def step(self, action=None, interactive=False, debug=False):
         action = self.env.unwrap_move(action)
 
+        if debug:
+            print(action)
         if action not in self.env.valid_actions:
             obs, reward, done, info = self.pddl_env.prev_step
             reward -= 100
@@ -47,9 +50,7 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
             obs, reward, done, info = self.pddl_env.step(action, interactive)
 
         self._wrap_env()
-        if debug:
-            print(action)
-            print(reward)
+
         return (
             self.env.state,
             reward,

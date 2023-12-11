@@ -13,11 +13,6 @@ class RLEnv(gym.Env):
         self.valid_actions = valid_actions
         self.all_actions = all_actions
 
-        actions_truth = []
-
-        for action in all_actions:
-            actions_truth.append(int(action in valid_actions))
-
         actions_truth = np.isin(np.array(all_actions), np.array(valid_actions)).astype(
             np.float64
         )
