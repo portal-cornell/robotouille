@@ -105,31 +105,6 @@ class RobotouilleWrapper(gym.Wrapper):
     def _handle_action(self, action):
         if action == "noop":
             return self.prev_step
-
-        # Update state based on the action
-        updated = self._update_state_based_on_action(action)
-
-        # If
-        if updated != None:
-            return updated
-
-        # Perform the environment step
-        obs, _, done, info = self.env.step(action)
-
-        # Calculate reward
-        reward = self.handle_reward(action, obs)
-
-        # Accumulate reward
-        accumulated_reward = self.prev_step[1] + reward
-
-        # Update the previous step
-        self.prev_step = (obs, accumulated_reward, done, info)
-        return obs, accumulated_reward, done, info
-
-    def _update_state_based_on_action(self, action):
-        """
-        Update the state of the environment based on the action taken.
-        """
         action_name = action.predicate.name
         if action_name == "cut":
             item = next(
