@@ -32,12 +32,24 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
 
         self.env = RLEnv(expanded_truths, valid_actions, all_actions)
 
-    def step(self, action=None, interactive=False, print_action=False):
+    def step(self, action=None, interactive=False, debug=False):
         action = self.env.unwrap_move(action)
-        if print_action:
-            print(action)
-        obs, reward, done, info = self.pddl_env.step(action, interactive)
+
+        if action not in self.env.valid_actions:
+            obs, reward, done, info = self.pddl_env.prev_step
+            reward -= 100
+            self.pddl_env.prev_step = (obs, reward, done, info)
+            self.pddl_env.timesteps += 1
+
+            info["timesteps"] = self.pddl_env.timesteps
+        else:
+            action = str(action)
+            obs, reward, done, info = self.pddl_env.step(action, interactive)
+
         self._wrap_env()
+        if debug:
+            print(action)
+            print(reward)
         return (
             self.env.state,
             reward,

@@ -321,15 +321,6 @@ class RobotouilleWrapper(gym.Wrapper):
             info (dict): A dictionary of metadata about the step.
         """
 
-        valid_actions = list(self.action_space.all_ground_literals(self.prev_step[0]))
-
-        if action not in valid_actions:
-            obs, reward, done, info = self.prev_step
-            self.prev_step = (obs, reward - 100, done, info)
-            return self.prev_step
-        else:
-            action = str(action)
-
         expanded_truths = self.prev_step[3]["expanded_truths"]
         expanded_states = self.prev_step[3]["expanded_states"]
 
@@ -354,6 +345,8 @@ class RobotouilleWrapper(gym.Wrapper):
             obs.literals, obs.objects
         )
 
+        self.timesteps += 1
+
         info = {
             "timesteps": self.timesteps,
             "expanded_truths": expanded_truths,
@@ -368,7 +361,6 @@ class RobotouilleWrapper(gym.Wrapper):
         reward += self.prev_step[1]
 
         self.prev_step = (obs, reward, done, info)
-        self.timesteps += 1
 
         return obs, reward, done, info
 

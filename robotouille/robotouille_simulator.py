@@ -35,6 +35,8 @@ def simulator(
         agent.learn(total_timesteps=10000, reset_num_timesteps=False, progress_bar=True)
         agent.save("ppo_robotouille")
 
+        obs, info = rl_env.reset()
+
     while not done and not truncated:
         if use_rl:
             pygame_events = pygame.event.get()
@@ -48,7 +50,7 @@ def simulator(
             if keydown_events[0].key == pygame.K_SPACE:
                 action, _states = agent.predict(obs, deterministic=True)
                 obs, reward, done, truncated, info = rl_env.step(
-                    action=action, print_action=True
+                    action=action, debug=True
                 )
                 env.render(mode="human")
         else:
