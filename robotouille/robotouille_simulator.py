@@ -46,10 +46,10 @@ def simulator(
                 continue
 
             if keydown_events[0].key == pygame.K_SPACE:
-                print("Running RL agent")
                 action, _states = agent.predict(obs, deterministic=True)
-                print(action)
-                obs, reward, done, truncated, info = rl_env.step(action=action)
+                obs, reward, done, truncated, info = rl_env.step(
+                    action=action, print_action=True
+                )
                 env.render(mode="human")
         else:
             # Construct action from input

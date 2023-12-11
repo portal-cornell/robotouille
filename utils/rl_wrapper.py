@@ -32,8 +32,10 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
 
         self.env = RLEnv(expanded_truths, valid_actions, all_actions)
 
-    def step(self, action=None, interactive=False):
+    def step(self, action=None, interactive=False, print_action=False):
         action = self.env.unwrap_move(action)
+        if print_action:
+            print(action)
         obs, reward, done, info = self.pddl_env.step(action, interactive)
         self._wrap_env()
         return (
