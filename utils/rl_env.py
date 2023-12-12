@@ -8,7 +8,7 @@ import numpy as np
 
 class RLEnv(gym.Env):
     def __init__(self, state, valid_actions, all_actions):
-        self.action_space = spaces.Discrete(len(all_actions))
+        self.action_space = spaces.Discrete(len(valid_actions))
 
         self.valid_actions = valid_actions
         self.all_actions = all_actions
@@ -23,4 +23,4 @@ class RLEnv(gym.Env):
         )
 
     def unwrap_move(self, action):
-        return self.all_actions[action]
+        return self.valid_actions[action]
