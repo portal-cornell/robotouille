@@ -200,7 +200,7 @@ class RobotouilleWrapper(gym.Wrapper):
         return reward
 
     def _handle_reward(self, action, obs):
-        reward = 100
+        reward = 0
         action_name = action.predicate.name
 
         # Reward/Penalty for cutting
@@ -358,10 +358,11 @@ class RobotouilleWrapper(gym.Wrapper):
         self.prev_step = (obs, self.prev_step[1], done, info)
 
         reward = self._handle_reward(action, obs)
+        # print("reward: ", reward)
         reward += self.prev_step[1]
+        # print("total reward: ", reward)
 
         self.prev_step = (obs, reward, done, info)
-
         return obs, reward, done, info
 
     def reset(self):
