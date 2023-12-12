@@ -1,5 +1,6 @@
 from typing import List, Optional, Union
 import gym
+import numpy as np
 import pddlgym
 import utils.robotouille_utils as robotouille_utils
 import utils.pddlgym_utils as pddlgym_utils
@@ -13,11 +14,11 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
 
         self.pddl_env = env
         self.env = None
-        self.max_steps = 100
+        self.max_steps = 40
 
     def _wrap_env(self):
         expanded_truths, expanded_states = pddlgym_utils.expand_state(
-            self.prev_step[0].literals, self.prev_step[0].objects
+            self.pddl_env.prev_step[0].literals, self.pddl_env.prev_step[0].objects
         )
 
         valid_actions = list(
@@ -32,10 +33,25 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
 
         self.env = RLEnv(expanded_truths, valid_actions, all_actions)
 
-    def step(self, action=None, interactive=False):
-        action = str(self.env.unwrap_move(action))
-        obs, reward, done, info = self.pddl_env.step(action, interactive)
+    def step(self, action=None, interactive=False, debug=False):
+        action = self.env.unwrap_move(action)
+
+        if debug:
+            print(action)
+        if action not in self.env.valid_actions:
+            obs, reward, done, info = self.pddl_env.prev_step
+            reward -= 200000
+            self.pddl_env.prev_step = (obs, reward, done, info)
+            self.pddl_env.timesteps += 1
+
+            info["timesteps"] = self.pddl_env.timesteps
+        else:
+            action = str(action)
+            obs, reward, done, info = self.pddl_env.step(action, interactive)
+            reward += 100
+            self.pddl_env.prev_step = (obs, reward, done, info)
         self._wrap_env()
+
         return (
             self.env.state,
             reward,
@@ -45,18 +61,7 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
         )
 
     def reset(self, seed=42, options=None):
-        obs, _ = self.pddl_env.reset()
-        info = {
-            "timesteps": self.timesteps,
-            "expanded_truths": None,
-            "expanded_states": None,
-            "toggle_array": None,
-            "state": {},
-        }
-        self.prev_step = (obs, 0, False, info)
-        self.timesteps = 0
-        self.state = {}
-
+        obs, info = self.pddl_env.reset()
         self._wrap_env()
         return self.env.state, info
 

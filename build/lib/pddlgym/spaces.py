@@ -20,13 +20,11 @@ TMP_PDDL_DIR = "/dev/shm" if os.path.exists("/dev/shm") else None
 
 
 class LiteralSpace(Space):
-    def __init__(
-        self,
-        predicates,
-        lit_valid_test=lambda state, lit: True,
-        type_hierarchy=None,
-        type_to_parent_types=None,
-    ):
+
+    def __init__(self, predicates,
+                 lit_valid_test=lambda state,lit: True,
+                 type_hierarchy=None,
+                 type_to_parent_types=None):
         self.predicates = sorted(predicates)
         self.num_predicates = len(predicates)
         self._objects = None
@@ -39,7 +37,7 @@ class LiteralSpace(Space):
         self._objects = None
 
     def _update_objects_from_state(self, state):
-        """Given a state, extract the objects and if they have changed,
+        """Given a state, extract the objects and if they have changed, 
         recompute all ground literals
         """
         # Check whether the objects have changed
@@ -67,7 +65,7 @@ class LiteralSpace(Space):
             lit = self._all_ground_literals[idx]
             if self._lit_valid_test(state, lit):
                 break
-        return lit
+        return lit  
 
     def sample(self, state):
         self._update_objects_from_state(state)
@@ -77,9 +75,8 @@ class LiteralSpace(Space):
         self._update_objects_from_state(state)
         if not valid_only:
             return set(self._all_ground_literals)
-        return set(
-            l for l in self._all_ground_literals if self._lit_valid_test(state, l)
-        )
+        return set(l for l in self._all_ground_literals \
+                   if self._lit_valid_test(state, l))
 
     def _compute_all_ground_literals(self, state):
         all_ground_literals = set()
@@ -98,10 +95,8 @@ class LiteralActionSpace(LiteralSpace):
 
     For now, assumes operators_as_actions.
     """
-
-    def __init__(
-        self, domain, predicates, type_hierarchy=None, type_to_parent_types=None
-    ):
+    def __init__(self, domain, predicates,
+                 type_hierarchy=None, type_to_parent_types=None):
         self.domain = domain
         self._initial_state = None
         if not domain.operators_as_actions:
@@ -117,11 +112,9 @@ class LiteralActionSpace(LiteralSpace):
             assert all([isinstance(l, Literal) for l in operator.preconds.literals])
         self._action_predicate_to_operators = action_predicate_to_operators
 
-        super().__init__(
-            predicates,
+        super().__init__(predicates,
             type_hierarchy=type_hierarchy,
-            type_to_parent_types=type_to_parent_types,
-        )
+            type_to_parent_types=type_to_parent_types)
 
     def reset_initial_state(self, initial_state):
         super().reset_initial_state(initial_state)
@@ -178,7 +171,8 @@ class LiteralActionSpace(LiteralSpace):
         return valid_literals
 
     def _compute_all_ground_literals(self, state):
-        """Call FastDownward's instantiator."""
+        """Call FastDownward's instantiator.
+        """
         # Generate temporary files to hand over to instantiator.
         assert state.objects == self._initial_state.objects
         d_desc, domain_fname = tempfile.mkstemp(dir=TMP_PDDL_DIR, text=True)
@@ -187,13 +181,12 @@ class LiteralActionSpace(LiteralSpace):
         with os.fdopen(p_desc, "w") as f:
             PDDLProblemParser.create_pddl_file(
                 file_or_filepath=f,
-                objects=state.objects - set(self.domain.constants),
+                objects=state.objects-set(self.domain.constants),
                 initial_state=self._initial_state.literals,
                 problem_name="myproblem",
                 domain_name=self.domain.domain_name,
                 goal=state.goal,
-                fast_downward_order=True,
-            )
+                fast_downward_order=True)
         # Call instantiator.
         task = downward_open(domain_fname, problem_fname)
         with nostdout():
@@ -220,5 +213,6 @@ class LiteralActionSpace(LiteralSpace):
 
 
 class LiteralSetSpace(LiteralSpace):
+
     def sample(self):
         raise NotImplementedError()
