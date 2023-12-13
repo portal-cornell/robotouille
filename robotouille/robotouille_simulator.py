@@ -33,7 +33,7 @@ def simulator(
         rl_env = RLWrapper(env, config)
         obs, info = rl_env.reset()
         rl_env.render(mode="human")
-        agent = A2C("MlpPolicy", rl_env, verbose=1, n_steps=1024)
+        agent = PPO("MlpPolicy", rl_env, verbose=1, n_steps=1024)
         agent.learn(total_timesteps=10000, reset_num_timesteps=False, progress_bar=True)
         agent.save("ppo_robotouille")
 
@@ -51,6 +51,7 @@ def simulator(
 
             if keydown_events[0].key == pygame.K_SPACE:
                 action, _states = agent.predict(obs)
+                print(action)
                 obs, reward, done, truncated, info = rl_env.step(
                     action=action, debug=True
                 )

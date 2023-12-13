@@ -220,7 +220,7 @@ class RobotouilleWrapper(gym.Wrapper):
                 item_status = self.state.get(item.name, {})
                 num_cuts = item_status.get("cut", 0)
 
-                reward += 5 if num_cuts <= max_num_cuts else -1
+                reward += 10 if num_cuts <= max_num_cuts else 0
         # Reward/Penalty for cooking and frying
         elif action_name in ["cook", "fry"]:
             item = next(
@@ -234,10 +234,10 @@ class RobotouilleWrapper(gym.Wrapper):
                 item_status = self.state.get(item.name, {})
                 if action_name == "fry":
                     num_fries = item_status.get("fry", {}).get("fry_time", 0)
-                    reward += 5 if num_fries < 1 else -0.1
+                    reward += 10 if num_fries < 1 else 0
                 elif action_name == "cook":
                     cook_time = item_status.get("cook", {}).get("cook_time", 0)
-                    reward += 5 if cook_time < 1 else -0.1
+                    reward += 10 if cook_time < 1 else 0
         elif action_name == "pick-up":
             item = next(
                 filter(
@@ -252,9 +252,13 @@ class RobotouilleWrapper(gym.Wrapper):
                     item_status["cook"]["cook_time"] > 0
                     and "iscooked(" + item.name not in self.prev_step[0]
                 ):
-                    reward -= 5
+                    reward -= 10
+            else:
+                reward += 10
         elif action_name == "stack":
             reward += self._handle_stacking_reward(action)
+        elif action_name == "unstack":
+            reward += 10
 
         # Reward for continuous cooking
         for item, status_dict in self.state.items():
@@ -359,8 +363,6 @@ class RobotouilleWrapper(gym.Wrapper):
 
         reward = self._handle_reward(action, obs)
         # print("reward: ", reward)
-        reward += self.prev_step[1]
-        # print("total reward: ", reward)
 
         self.prev_step = (obs, reward, done, info)
         return obs, reward, done, info

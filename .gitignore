@@ -3,3 +3,4 @@
 *-env
 robotouille.egg-info
 /wandb
+*.zip

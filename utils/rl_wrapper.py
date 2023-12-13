@@ -18,6 +18,7 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
         self.pddl_env = env
         self.env = None
         self.max_steps = 40
+        self.episode_reward = 0
         # Configuration dictionary for tracking metrics
         self.metrics_config = {
             "ep_rew_mean": None,  # Mean episode reward
@@ -68,7 +69,7 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
             print(action)
         if action == "invalid":
             obs, reward, done, info = self.pddl_env.prev_step
-            reward -= 300
+            reward = 0
             self.pddl_env.prev_step = (obs, reward, done, info)
             self.pddl_env.timesteps += 1
 
@@ -76,10 +77,12 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
         else:
             action = str(action)
             obs, reward, done, info = self.pddl_env.step(action, interactive)
-            reward += 1000
+            reward = 10
             self.pddl_env.prev_step = (obs, reward, done, info)
-        wandb.log({"reward per step": reward})
         self._wrap_env()
+        self.episode_reward += reward
+        if self.pddl_env.timesteps > self.max_steps:
+            wandb.log({"reward per episode": self.episode_reward})
 
         return (
             self.env.state,
@@ -91,6 +94,7 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
 
     def reset(self, seed=42, options=None):
         obs, info = self.pddl_env.reset()
+        self.episode_reward = 0
         self._wrap_env()
         return self.env.state, info
 

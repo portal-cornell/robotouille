@@ -44,8 +44,8 @@ class RLEnv(gym.Env):
 
         self.state = shortened_action_truths
 
-        print("state ", self.state)
-        print("action", self.shortened_action_truths)
+        # print("state ", self.state)
+        # print("action", self.shortened_action_truths)
 
     def _get_observation_space(self):
         shortened_expanded_truths = []
