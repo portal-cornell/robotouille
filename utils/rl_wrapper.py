@@ -38,9 +38,9 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
 
         if debug:
             print(action)
-        if action not in self.env.valid_actions:
+        if action == "invalid":
             obs, reward, done, info = self.pddl_env.prev_step
-            reward -= 200000
+            reward -= 300
             self.pddl_env.prev_step = (obs, reward, done, info)
             self.pddl_env.timesteps += 1
 
