@@ -76,7 +76,7 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
         else:
             action = str(action)
             obs, reward, done, info = self.pddl_env.step(action, interactive)
-            reward += 100
+            reward += 1000
             self.pddl_env.prev_step = (obs, reward, done, info)
         wandb.log({"reward per step": reward})
         self._wrap_env()

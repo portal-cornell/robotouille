@@ -1,8 +1,9 @@
+import numpy as np
 import pygame
 from utils.rl_wrapper import RLWrapper
 from utils.robotouille_input import create_action_from_control
 from robotouille.robotouille_env import create_robotouille_env
-from stable_baselines3 import PPO
+from stable_baselines3 import A2C, PPO
 from stable_baselines3.common.env_util import make_vec_env
 import wandb
 
@@ -32,7 +33,7 @@ def simulator(
         rl_env = RLWrapper(env, config)
         obs, info = rl_env.reset()
         rl_env.render(mode="human")
-        agent = PPO("MlpPolicy", rl_env, verbose=1, n_steps=1024)
+        agent = A2C("MlpPolicy", rl_env, verbose=1, n_steps=1024)
         agent.learn(total_timesteps=10000, reset_num_timesteps=False, progress_bar=True)
         agent.save("ppo_robotouille")
 

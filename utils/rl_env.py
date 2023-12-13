@@ -25,11 +25,7 @@ class RLEnv(gym.Env):
             shortened_expanded_states,
         ) = self._get_observation_space()
 
-        self.state = np.concatenate(
-            (shortened_expanded_truths, shortened_action_truths)
-        )
-        print(self.state)
-        print(self.state.shape)
+        self.state = shortened_action_truths
         self.observation_space = spaces.MultiBinary(len(self.state))
 
     def step(self, expanded_truths, valid_actions):
@@ -46,9 +42,10 @@ class RLEnv(gym.Env):
             shortened_expanded_states,
         ) = self._get_observation_space()
 
-        self.state = np.concatenate(
-            (shortened_expanded_truths, shortened_action_truths)
-        )
+        self.state = shortened_action_truths
+
+        print("state ", self.state)
+        print("action", self.shortened_action_truths)
 
     def _get_observation_space(self):
         shortened_expanded_truths = []
