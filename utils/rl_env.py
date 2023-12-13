@@ -7,7 +7,7 @@ import numpy as np
 
 
 class RLEnv(gym.Env):
-    def __init__(self, state, valid_actions, all_actions):
+    def __init__(self, expanded_truths, expanded_states, valid_actions, all_actions):
         self.valid_actions = valid_actions
         self.all_actions = all_actions
 
@@ -16,10 +16,52 @@ class RLEnv(gym.Env):
         self.shortened_action_truths = shortened_action_truths
 
         self.action_space = spaces.Discrete(len(self.shortened_action_names))
-        self.state = np.concatenate((state, shortened_action_truths))
-        self.observation_space = spaces.Box(
-            low=0, high=1, shape=self.state.shape, dtype=np.float32
+
+        self.expanded_truths = expanded_truths
+        self.expanded_states = expanded_states
+
+        (
+            shortened_expanded_truths,
+            shortened_expanded_states,
+        ) = self._get_observation_space()
+
+        self.state = np.concatenate(
+            (shortened_expanded_truths, shortened_action_truths)
         )
+        print(self.state)
+        print(self.state.shape)
+        self.observation_space = spaces.MultiBinary(len(self.state))
+
+    def step(self, expanded_truths, valid_actions):
+        self.valid_actions = valid_actions
+
+        shortened_action_names, shortened_action_truths = self._get_action_space()
+        self.shortened_action_names = shortened_action_names
+        self.shortened_action_truths = shortened_action_truths
+
+        self.expanded_truths = expanded_truths
+
+        (
+            shortened_expanded_truths,
+            shortened_expanded_states,
+        ) = self._get_observation_space()
+
+        self.state = np.concatenate(
+            (shortened_expanded_truths, shortened_action_truths)
+        )
+
+    def _get_observation_space(self):
+        shortened_expanded_truths = []
+        shortened_expanded_states = []
+        for truth, state in zip(self.expanded_truths, self.expanded_states):
+            predicate = state.predicate.name
+            if "is" in predicate and "cooked" not in predicate:
+                continue
+
+            shortened_expanded_states.append(state)
+            shortened_expanded_truths.append(truth)
+
+        return shortened_expanded_truths, shortened_expanded_states
 
     def _get_action_space(self):
         actions_truth = np.isin(

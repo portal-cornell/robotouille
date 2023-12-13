@@ -7,6 +7,7 @@ import utils.pddlgym_utils as pddlgym_utils
 import utils.robotouille_wrapper as robotouille_wrapper
 from utils.rl_env import RLEnv
 import wandb
+
 wandb.login()
 
 
@@ -20,9 +21,11 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
         # Configuration dictionary for tracking metrics
         self.metrics_config = {
             "ep_rew_mean": None,  # Mean episode reward
-            "total_timesteps": 0,    # Total number of timesteps
-            "iterations": 0,         # Number of iterations
-            "ep_len_mean": None      # Mean episode length
+            "total_timesteps": 0,  # Total number of timesteps
+            "iterations": 0,  # Number of iterations
+            "ep_len_mean": None,  # Mean episode length
+            "loss": None,  # Loss,
+            "entropy_loss": None,  # Entropy loss
         }
         # Initialize WandB with the metrics config
         wandb.init(project="6756-rl-experiments", config=self.metrics_config)
@@ -35,7 +38,7 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
         # Update the metrics configuration with new values
         self.metrics_config.update(update_dict)
         # Log the updated metrics to WandB
-        wandb.log(self.metrics_config)     
+        wandb.log(self.metrics_config)
 
     def _wrap_env(self):
         expanded_truths, expanded_states = pddlgym_utils.expand_state(
@@ -52,7 +55,11 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
             )
         )
 
-        self.env = RLEnv(expanded_truths, valid_actions, all_actions)
+        if self.env is None:
+            self.env = RLEnv(
+                expanded_truths, expanded_states, valid_actions, all_actions
+            )
+        self.env.step(expanded_truths, valid_actions)
 
     def step(self, action=None, interactive=False, debug=False):
         action = self.env.unwrap_move(action)
@@ -71,7 +78,7 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
             obs, reward, done, info = self.pddl_env.step(action, interactive)
             reward += 100
             self.pddl_env.prev_step = (obs, reward, done, info)
-        wandb.log({'reward per step':reward})    
+        wandb.log({"reward per step": reward})
         self._wrap_env()
 
         return (

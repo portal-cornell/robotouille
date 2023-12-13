@@ -4,6 +4,7 @@ from utils.robotouille_input import create_action_from_control
 from robotouille.robotouille_env import create_robotouille_env
 from stable_baselines3 import PPO
 from stable_baselines3.common.env_util import make_vec_env
+import wandb
 
 
 def simulator(
@@ -48,7 +49,7 @@ def simulator(
                 continue
 
             if keydown_events[0].key == pygame.K_SPACE:
-                action, _states = agent.predict(obs, deterministic=True)
+                action, _states = agent.predict(obs)
                 obs, reward, done, truncated, info = rl_env.step(
                     action=action, debug=True
                 )
