@@ -166,6 +166,25 @@ class RobotouilleWrapper(gym.Wrapper):
         # TODO: Probably stop cooking if something is stacked on top of meat
         return self.env.step(action)
 
+    def _handle_moving_reward(self, action, obs):
+        holding = False
+        literals = obs.literals
+        for literal in literals:
+            if "has" in literal.predicate.name:
+                item_name = literal.variables[1].name
+                holding = True
+
+        if not holding:
+            return 0
+
+        destination = action.variables[2].name
+
+        if "lettuce" in item_name and "board" in destination:
+            return 10
+        elif "patty" in item_name and "stove" in destination:
+            return 10
+        return 0
+
     def _handle_stacking_reward(self, action):
         # Check that no incorrect stacking occured
         items = ["patty1", "lettuce1", "topbun1"]
@@ -186,16 +205,17 @@ class RobotouilleWrapper(gym.Wrapper):
                 and action.variables[1].name == state.variables[0].name
                 and str(state) not in correct_order
             ):
-                reward -= 2
+                reward -= 10
 
         state_truth_map = self.map_state_to_truth(expanded_truths, expanded_states)
 
+        valid_stacking = True
         for stack, item in zip(correct_order, items):
             if state_truth_map[stack]:
                 if action.variables[1].name == item:
-                    reward += 5
+                    reward = 10 if valid_stacking else -10
             else:
-                break
+                valid_stacking = False
 
         return reward
 
@@ -204,6 +224,8 @@ class RobotouilleWrapper(gym.Wrapper):
         action_name = action.predicate.name
 
         # Reward/Penalty for cutting
+        if action_name == "move":
+            reward += self._handle_moving_reward(action, obs)
         if action_name == "cut":
             item = next(
                 filter(
@@ -362,7 +384,7 @@ class RobotouilleWrapper(gym.Wrapper):
         self.prev_step = (obs, self.prev_step[1], done, info)
 
         reward = self._handle_reward(action, obs)
-        # print("reward: ", reward)
+        print("reward: ", reward)
 
         self.prev_step = (obs, reward, done, info)
         return obs, reward, done, info

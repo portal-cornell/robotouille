@@ -13,6 +13,7 @@ def simulator(
     seed: int = 42,
     noisy_randomization: bool = False,
     use_rl: bool = True,
+    load: bool = True,
 ):
     # Your code for robotouille goes here
     env, json, renderer = create_robotouille_env(
@@ -27,18 +28,24 @@ def simulator(
 
     if use_rl:
         config = {
-            "num_cuts": {"lettuce": 5, "default": 3},
-            "cook_time": {"patty": 10, "default": 3},
+            "num_cuts": {"lettuce": 3, "default": 3},
+            "cook_time": {"patty": 3, "default": 3},
         }
+
         rl_env = RLWrapper(env, config)
         obs, info = rl_env.reset()
         rl_env.render(mode="human")
-        agent = PPO("MlpPolicy", rl_env, verbose=1, n_steps=1024)
-        agent.learn(total_timesteps=10000, reset_num_timesteps=False, progress_bar=True)
-        agent.save("ppo_robotouille")
+
+        if load:
+            agent = PPO.load("ppo_100k-rl_10-0")
+        else:
+            agent = PPO("MlpPolicy", rl_env, verbose=1, n_steps=1024)
+            agent.learn(
+                total_timesteps=100000, reset_num_timesteps=False, progress_bar=True
+            )
+            agent.save("ppo_robotouille")
 
         obs, info = rl_env.reset()
-
     while not done and not truncated:
         if use_rl:
             pygame_events = pygame.event.get()
@@ -51,7 +58,6 @@ def simulator(
 
             if keydown_events[0].key == pygame.K_SPACE:
                 action, _states = agent.predict(obs)
-                print(action)
                 obs, reward, done, truncated, info = rl_env.step(
                     action=action, debug=True
                 )
