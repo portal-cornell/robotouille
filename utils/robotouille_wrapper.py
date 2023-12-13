@@ -267,7 +267,29 @@ class RobotouilleWrapper(gym.Wrapper):
                         reward += 1
                     elif state["cooking"] and state["cook_time"] > max_cook_time:
                         reward -= 1
-        return reward
+        # Additional reward for placing an uncooked patty on the stove
+        if action_name == "stack" or action_name == "place":
+            item = action.variables[1].name  
+            location = action.variables[0].name 
+
+            # Check if the item is a patty and it's uncooked
+            if "patty" in item and "iscooked(" + item not in self.prev_step[0]:
+                # Check if the location is the stove
+                if "stove" in location:
+                    reward += 10  
+
+        # Additional reward for placing lettuce on the chopping board
+        if action_name == "stack" or action_name == "place":
+            item = action.variables[1].name  
+            location = action.variables[0].name  
+
+            # Check if the item is lettuce
+            if "lettuce" in item:
+                # Check if the location is the chopping board
+                if "board" in location:
+                    reward += 10 # Assign reward for placing lettuce on the chopping board
+
+            return reward
 
     def map_state_to_truth(self, expanded_truths, expanded_states):
         if expanded_truths is None or len(expanded_truths) != len(expanded_states):
