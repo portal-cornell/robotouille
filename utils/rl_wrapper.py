@@ -64,7 +64,6 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
 
     def step(self, action=None, interactive=False, debug=False):
         action = self.env.unwrap_move(action)
-
         if debug:
             print(action)
         if action == "invalid":
@@ -79,6 +78,8 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
             obs, reward, done, info = self.pddl_env.step(action, interactive)
             reward = 10
             self.pddl_env.prev_step = (obs, reward, done, info)
+
+        wandb.log({"reward per step": reward})
         self._wrap_env()
         self.episode_reward += reward
         if self.pddl_env.timesteps > self.max_steps:
