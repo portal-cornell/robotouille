@@ -13,7 +13,7 @@ def simulator(
     seed: int = 42,
     noisy_randomization: bool = False,
     use_rl: bool = True,
-    load: bool = True,
+    load: bool = False,
 ):
     # Your code for robotouille goes here
     env, json, renderer = create_robotouille_env(
@@ -37,13 +37,13 @@ def simulator(
         rl_env.render(mode="human")
 
         if load:
-            agent = PPO.load("ppo_100k-rl_10-0")
+            agent = PPO.load("ppo_100k-all_10-0")
         else:
             agent = PPO("MlpPolicy", rl_env, verbose=1, n_steps=1024)
             agent.learn(
                 total_timesteps=100000, reset_num_timesteps=False, progress_bar=True
             )
-            agent.save("ppo_robotouille")
+            agent.save("ppo_100k-all_10_-5_iter2")
 
         obs, info = rl_env.reset()
     while not done and not truncated:

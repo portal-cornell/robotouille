@@ -167,6 +167,7 @@ class RobotouilleWrapper(gym.Wrapper):
         return self.env.step(action)
 
     def _handle_moving_reward(self, action, obs):
+        reward = 0
         holding = False
         literals = obs.literals
         for literal in literals:
@@ -177,12 +178,23 @@ class RobotouilleWrapper(gym.Wrapper):
         if not holding:
             return 0
 
-        destination = action.variables[2].name
+        destination = action.variables[2]
 
-        if "lettuce" in item_name and "board" in destination:
-            return 10
-        elif "patty" in item_name and "stove" in destination:
-            return 10
+        item_status = self.state.get(destination.name)
+
+        if ("lettuce" in item_name and "board" in destination.name) or (
+            "patty" in item_name and "stove" in destination.name
+        ):
+            if item_status is None:
+                self.state[destination.name] = {"visited": True}
+                return 10
+            elif item_status.get("visited") is None:
+                item_status["picked-up"] = True
+                return 10
+            elif item_status.get("visited") is False:
+                item_status["picked-up"] = True
+                return 10
+
         return 0
 
     def _handle_stacking_reward(self, action):
@@ -274,13 +286,61 @@ class RobotouilleWrapper(gym.Wrapper):
                     item_status["cook"]["cook_time"] > 0
                     and "iscooked(" + item.name not in self.prev_step[0]
                 ):
-                    reward -= 10
+                    literals = obs.literals
+
+                    cooked = False
+                    for literal in literals:
+                        if "iscooked" == literal.predicate.name:
+                            cooked = True
+
+                    if not cooked:
+                        reward -= 10
             else:
-                reward += 10
+                item_status = self.state.get(item.name)
+                if item_status is None:
+                    self.state[item.name] = {"picked-up": True}
+                    reward += 10
+                elif item_status.get("picked-up") is None:
+                    item_status["picked-up"] = True
+                    reward += 10
+                elif item_status.get("picked-up") is False:
+                    item_status["picked-up"] = True
+                    reward += 10
+        elif action_name == "place":
+            item = action.variables[1].name
+            destination = action.variables[2].name
+            literals = obs.literals
+
+            item_status = self.state.get(item)
+            if item_status is None:
+                self.state[item.name] = {"placed": False}
+            elif item_status.get("placed") is None:
+                item_status["placed"] = False
+
+            if (
+                "lettuce" in item
+                and "board" in destination
+                and not item_status["placed"]
+            ):
+                cut = False
+                for literal in literals:
+                    if "iscut" == literal.predicate.name:
+                        cut = True
+                if not cut:
+                    item_status["placed"] = True
+                    reward += 10
+            elif (
+                "patty" in item and "stove" in destination and not item_status["placed"]
+            ):
+                cooked = False
+                for literal in literals:
+                    if "iscooked" == literal.predicate.name:
+                        cooked = True
+                if not cooked:
+                    item_status["placed"] = True
+                    reward += 10
         elif action_name == "stack":
             reward += self._handle_stacking_reward(action)
-        elif action_name == "unstack":
-            reward += 10
 
         # Reward for continuous cooking
         for item, status_dict in self.state.items():
@@ -293,29 +353,8 @@ class RobotouilleWrapper(gym.Wrapper):
                         reward += 1
                     elif state["cooking"] and state["cook_time"] > max_cook_time:
                         reward -= 1
-        # Additional reward for placing an uncooked patty on the stove
-        if action_name == "stack" or action_name == "place":
-            item = action.variables[1].name  
-            location = action.variables[0].name 
 
-            # Check if the item is a patty and it's uncooked
-            if "patty" in item and "iscooked(" + item not in self.prev_step[0]:
-                # Check if the location is the stove
-                if "stove" in location:
-                    reward += 10  
-
-        # Additional reward for placing lettuce on the chopping board
-        if action_name == "stack" or action_name == "place":
-            item = action.variables[1].name  
-            location = action.variables[0].name  
-
-            # Check if the item is lettuce
-            if "lettuce" in item:
-                # Check if the location is the chopping board
-                if "board" in location:
-                    reward += 10 # Assign reward for placing lettuce on the chopping board
-
-            return reward
+        return reward
 
     def map_state_to_truth(self, expanded_truths, expanded_states):
         if expanded_truths is None or len(expanded_truths) != len(expanded_states):
@@ -406,7 +445,7 @@ class RobotouilleWrapper(gym.Wrapper):
         self.prev_step = (obs, self.prev_step[1], done, info)
 
         reward = self._handle_reward(action, obs)
-        print("reward: ", reward)
+        # print("reward: ", reward)
 
         self.prev_step = (obs, reward, done, info)
         return obs, reward, done, info
