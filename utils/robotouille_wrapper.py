@@ -82,6 +82,8 @@ class RobotouilleWrapper(gym.Wrapper):
                     max_cook_time = cook_time.get(item_name, cook_time["default"])
                     if state["cooking"]:
                         state["cook_time"] += 1
+                        if state["cook_time"] == max_cook_time:
+                            status_dict["picked-up"] = False
                     if state["cook_time"] >= max_cook_time:
                         literal = pddlgym_utils.str_to_literal(f"iscooked({item}:item)")
                         state_updates.append(literal)
@@ -120,6 +122,9 @@ class RobotouilleWrapper(gym.Wrapper):
                 item_status["cut"] = 1
             else:
                 item_status["cut"] += 1
+
+                if item_status["cut"] == 3:
+                    item_status["picked-up"] = False
             return self.prev_step
         elif action_name == "cook":
             item = next(
@@ -217,7 +222,7 @@ class RobotouilleWrapper(gym.Wrapper):
                 and action.variables[1].name == state.variables[0].name
                 and str(state) not in correct_order
             ):
-                reward -= 10
+                reward -= 0
 
         state_truth_map = self.map_state_to_truth(expanded_truths, expanded_states)
 
@@ -225,7 +230,28 @@ class RobotouilleWrapper(gym.Wrapper):
         for stack, item in zip(correct_order, items):
             if state_truth_map[stack]:
                 if action.variables[1].name == item:
-                    reward = 10 if valid_stacking else -10
+                    item_status = self.state.get(item)
+                    if item_status is None:
+                        self.state[item.name] = {"stacked": False}
+                    elif item_status.get("stacked") is None:
+                        item_status["stacked"] = False
+
+                    if not item_status["stacked"]:
+                        if valid_stacking:
+                            if (
+                                item == "patty1"
+                                and not state_truth_map[f"iscooked({item}:item)"]
+                            ) or (
+                                item == "lettuce1"
+                                and not state_truth_map[f"iscut({item}:item)"]
+                            ):
+                                reward -= 0
+                            else:
+                                reward += 10
+                                item_status["stacked"] = True
+                        else:
+                            reward -= 0
+
             else:
                 valid_stacking = False
 
@@ -295,7 +321,7 @@ class RobotouilleWrapper(gym.Wrapper):
 
                     if not cooked:
                         reward -= 10
-            else:
+            if not "bottombun" in item.name:
                 item_status = self.state.get(item.name)
                 if item_status is None:
                     self.state[item.name] = {"picked-up": True}
@@ -313,7 +339,7 @@ class RobotouilleWrapper(gym.Wrapper):
 
             item_status = self.state.get(item)
             if item_status is None:
-                self.state[item.name] = {"placed": False}
+                self.state[item] = {"placed": False}
             elif item_status.get("placed") is None:
                 item_status["placed"] = False
 
@@ -352,7 +378,7 @@ class RobotouilleWrapper(gym.Wrapper):
                     if state["cooking"] and state["cook_time"] <= max_cook_time:
                         reward += 1
                     elif state["cooking"] and state["cook_time"] > max_cook_time:
-                        reward -= 1
+                        reward -= 0
 
         return reward
 

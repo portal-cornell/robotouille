@@ -25,7 +25,8 @@ class RLEnv(gym.Env):
             shortened_expanded_states,
         ) = self._get_observation_space()
 
-        self.state = shortened_action_truths
+        self.state = shortened_expanded_truths + shortened_action_truths
+        print(len(self.state))
         self.observation_space = spaces.MultiBinary(len(self.state))
 
     def step(self, expanded_truths, valid_actions):
@@ -42,21 +43,26 @@ class RLEnv(gym.Env):
             shortened_expanded_states,
         ) = self._get_observation_space()
 
-        self.state = shortened_action_truths
-
+        self.state = shortened_expanded_truths + shortened_action_truths
         # print("state ", self.state)
         # print("action", self.shortened_action_truths)
 
     def _get_observation_space(self):
+        desired_truths = ["iscut", "iscooked"]
+        desired_items = ["lettuce", "patty"]
+
         shortened_expanded_truths = []
         shortened_expanded_states = []
+
         for truth, state in zip(self.expanded_truths, self.expanded_states):
             predicate = state.predicate.name
-            if "is" in predicate and "cooked" not in predicate:
-                continue
+            item = state.variables[0].name
 
-            shortened_expanded_states.append(state)
-            shortened_expanded_truths.append(truth)
+            for i in range(len(desired_items)):
+                if predicate in desired_truths[i] and desired_items[i] in item:
+                    shortened_expanded_truths.append(truth)
+                    shortened_expanded_states.append(state)
+                    break
 
         return shortened_expanded_truths, shortened_expanded_states
 

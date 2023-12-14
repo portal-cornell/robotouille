@@ -37,13 +37,13 @@ def simulator(
         rl_env.render(mode="human")
 
         if load:
-            agent = PPO.load("ppo_100k-all_10-0")
+            agent = PPO.load("ppo_500k-all_2_0_iter1")
         else:
             agent = PPO("MlpPolicy", rl_env, verbose=1, n_steps=1024)
             agent.learn(
                 total_timesteps=100000, reset_num_timesteps=False, progress_bar=True
             )
-            agent.save("ppo_100k-all_10_-5_iter2")
+            agent.save("ppo_100k-new_observations")
 
         obs, info = rl_env.reset()
     while not done and not truncated:
