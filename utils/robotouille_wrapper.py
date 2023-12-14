@@ -257,6 +257,18 @@ class RobotouilleWrapper(gym.Wrapper):
 
         return reward
 
+    def _top_bun_left(self):
+        correct_order = [
+            "atop(patty1:item,bottombun1:item)",
+            "atop(lettuce1:item,patty1:item)",
+        ]
+
+        expanded_truths = self.prev_step[3]["expanded_truths"]
+        expanded_states = self.prev_step[3]["expanded_states"]
+        state_truth_map = self.map_state_to_truth(expanded_truths, expanded_states)
+
+        return all([state_truth_map[stack] for stack in correct_order])
+
     def _handle_reward(self, action, obs):
         reward = 0
         action_name = action.predicate.name
@@ -324,14 +336,19 @@ class RobotouilleWrapper(gym.Wrapper):
             if not "bottombun" in item.name:
                 item_status = self.state.get(item.name)
                 if item_status is None:
-                    self.state[item.name] = {"picked-up": True}
-                    reward += 10
+                    self.state[item.name] = {"picked-up": False}
+                    item_status = self.state.get(item.name)
                 elif item_status.get("picked-up") is None:
-                    item_status["picked-up"] = True
-                    reward += 10
-                elif item_status.get("picked-up") is False:
-                    item_status["picked-up"] = True
-                    reward += 10
+                    item_status["picked-up"] = False
+
+                if item_status.get("picked-up") is False:
+                    if "topbun" in item.name:
+                        if self._top_bun_left():
+                            reward += 10
+                            item_status["picked-up"] = True
+                    else:
+                        reward += 10
+                        item_status["picked-up"] = True
         elif action_name == "place":
             item = action.variables[1].name
             destination = action.variables[2].name
@@ -471,7 +488,7 @@ class RobotouilleWrapper(gym.Wrapper):
         self.prev_step = (obs, self.prev_step[1], done, info)
 
         reward = self._handle_reward(action, obs)
-        # print("reward: ", reward)
+        print("reward: ", reward)
 
         self.prev_step = (obs, reward, done, info)
         return obs, reward, done, info

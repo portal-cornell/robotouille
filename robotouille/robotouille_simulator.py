@@ -12,7 +12,7 @@ def simulator(
     environment_name: str,
     seed: int = 42,
     noisy_randomization: bool = False,
-    use_rl: bool = True,
+    use_rl: bool = False,
     load: bool = False,
 ):
     # Your code for robotouille goes here
