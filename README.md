@@ -144,18 +144,22 @@ To initiate the training process, follow these steps:
 Results:
 
 Goal only
+
 https://github.com/promiseve/hosp_robotouille/assets/43937402/7d08d89c-6582-45b1-b172-da930eb4b577
 
 
 Subtask completion
+
 https://github.com/promiseve/hosp_robotouille/assets/43937402/ebda6fa2-9f64-4bc5-b22d-729c75186e26
 
 
 Valid/Invalid actions
+
 https://github.com/promiseve/hosp_robotouille/assets/43937402/50a2d878-dcfe-442c-95a0-3f6c93131e68
 
 
 Subtask completion with valid/invalid actions
+
 https://github.com/promiseve/hosp_robotouille/assets/43937402/17a96745-6ae6-4e47-b3b5-f0138bfbf62d
 
 
