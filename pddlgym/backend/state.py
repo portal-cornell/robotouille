@@ -59,7 +59,8 @@ class State(object):
         """
         current_predicate = predicate.switch_negation()
         if current_predicate in self.predicates:
-            self.predicates[current_predicate].switch_negation()
+            self.predicates.remove(current_predicate)
+            self.predicates.add(predicate)
     
     def add_special_effect(self, special_effect):
         """
@@ -106,7 +107,7 @@ class State(object):
             new_state = action.perform_action(self.state)
         
         if new_state.check_goal(self.domain.goal):
-            return new_state # eventually change this to end the game with a 'finish' state/ screen
+            return new_state #TODO: eventually change this to end the game with a 'finish' state/ screen
 
         return new_state
 
