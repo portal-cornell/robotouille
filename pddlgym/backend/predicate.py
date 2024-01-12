@@ -13,33 +13,29 @@ class Predicate(object):
     this class for the game to use.
     '''
 
-    def __init__(self, name, params, types, negation=False, time=None):
+    def __init__(self, name, params, types, negation=False):
         """
         Initializes a predicate object.
 
         Args:
             name (str): The name of the predicate.
-            params (list): The parameters of the predicate, represented by a list
-            of objects.
-            types (list): The types of the parameters, represented by a list of
-            strings of object types.
+            params (list[Object]): The parameters of the predicate, represented 
+            by a list of objects.
+            types (list[str]): The types of the parameters, represented by a 
+            list of strings of object types.
             negation (bool): Whether the predicate is negated or not.
-            time (int): If the predicate is a timed predicate, this attribute
-            represents the amount of time the predicate has been true for. If not,
-            this attribute is None.
         """
         self.name = name
         self.params = params
         self.types = types
         self.negation = negation
-        self.time = time
 
         # check if params match types
         if len(params) != len(types):
             raise ValueError("Number of parameters and types do not match.")
         for param in params:
-            tpe = types[params.index(param)]
-            if param.type != tpe:
+            object_type = types[params.index(param)]
+            if param.object_type != object_type:
                 raise ValueError("Type of parameter does not match type.")
 
     def __eq__(self, other):
@@ -53,8 +49,11 @@ class Predicate(object):
             bool: True if the predicates are equal, False otherwise.
         """
         return self.name == other.name and self.params == other.params \
-            and self.types == other.types and self.negation == other.negation \
-                and self.time == other.time
+            and self.types == other.types and self.negation == other.negation
 
-
+    def switch_negation(self):
+        """
+        Switches the negation value of the predicate.
+        """
+        self.negation = not self.negation
 

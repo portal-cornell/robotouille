@@ -2,34 +2,25 @@ class Object(object):
     '''
     This class represents objects in Robotouille.
 
-    An object on Robotouille must be one of four types:
-        - Floor
-        - Item
-        - Player
-        - Station
+    Objects are created by the user in the domain file, and are created using
+    this class for the game to use.
+
+    Each object also has an object_type, which is also defined in the user file. 
+    This will be used for type checking when creating predicates.
     '''
 
-    class ObjectTypes(object):
-        '''
-        This class represents the types of objects in Robotouille.
-        '''
-        FLOOR = "floor"
-        ITEM = "item"
-        PLAYER = "player"
-        STATION = "station"
-
-    def __init__(self, name, tpe):
+    def __init__(self, name, object_type):
         """
         Initializes an object.
 
         Args:
             name (str): The name of the object.
-            tpe (str): The type of the object.
+            object_type (str): The type of the object.
         """
 
         self.name = name
-        self.type = tpe
+        self.object_type = object_type
+        
+        # NO type checking in this class, check if types are valid in the domain class
 
-        # ensure that the type is valid
-        if tpe not in [Object.ObjectTypes.FLOOR, Object.ObjectTypes.ITEM, Object.ObjectTypes.PLAYER, Object.ObjectTypes.STATION]:
-            raise ValueError("Invalid object type.")
+        # use itertools library 

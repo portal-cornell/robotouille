@@ -1,20 +1,26 @@
+from pddlgym.backend import Predicate, RepetitiveEffect
 class State(object):
     '''
     This class represents a state in the Robotouille game.
 
-    A state is a collection of predicates that are true in the state. This class
-    is used to represent the initial state, as well as the current state of the
-    game during gameplay.
+    States are created by the game, and are updated by the game when actions are
+    performed.
     '''
 
-    def __init__(self, predicates):
+    def __init__(self, domain, special_effects=[]):
         """
         Initializes a state object.
 
         Args:
-            predicates (set): The predicates that are true in the state.
+            domain (Domain): The domain of the game.
+            special_effects (list[Special_effects]): The special effects that 
+            are active in the state.
         """
-        pass
+        self.domain = domain
+        self.predicates = domain.predicates
+        for obj in domain.objects:
+            self.predicates.add(Predicate("is", [obj], [obj.object_type]))
+        self.special_effects = special_effects
 
     def __eq__(self, other):
         """
@@ -26,7 +32,9 @@ class State(object):
         Returns:
             bool: True if the states are equal, False otherwise.
         """
-        pass
+        return self.domain == other.domain and \
+            self.predicates == other.predicates and \
+                self.special_effects == other.special_effects
 
     def check_predicate(self, predicate):
         """
@@ -36,10 +44,73 @@ class State(object):
             predicate (Predicate): The predicate to check.
 
         Returns:
-            bool: True if the predicate is true in the state, False otherwise.
+            bool: True if the predicate is in the state with the correct 
+            negation value, False otherwise.
         """
-        pass
+        if predicate in self.predicates:
+            return True
+        
+    def update_predicate(self, predicate):
+        """
+        Updates a predicate in the state.
 
+        Args:
+            predicate (Predicate): The predicate to update.
+        """
+        current_predicate = predicate.switch_negation()
+        if current_predicate in self.predicates:
+            self.predicates[current_predicate].switch_negation()
+    
+    def add_special_effect(self, special_effect):
+        """
+        Adds a special effect to the state.
+
+        Args:
+            special_effect (SpecialEffect): The special effect to add.
+        """
+        if special_effect not in self.special_effects:
+            self.special_effects.append(special_effect)
+        elif type(special_effect) == RepetitiveEffect:
+            current = self.special_effects[self.special_effects.index(special_effect)]
+            current.increment_repetitions()
+
+    def check_goal(self, goal):
+        """
+        Checks if the state satisfies the goal.
+
+        Args:
+            goal (Predicate): The goal to check.
+
+        Returns:
+            bool: True if the state satisfies the goal, False otherwise.
+        """
+        if goal in self.predicates:
+            return True
+
+    def step(self, action):
+        """
+        Steps the state forward by applying the effects of the action.
+
+        Args:
+            action (Action): The action to apply the effects of.
+        
+        Returns:
+            new_state (State): The successor state.
+        """
+        for special_effect in self.special_effects:
+            special_effect.update(self.state)
+            if special_effect.completed:
+                self.special_effects.remove(special_effect)
+        
+        if action.check_if_valid(self.state):
+            new_state = action.perform_action(self.state)
+        
+        if new_state.check_goal(self.domain.goal):
+            return new_state # eventually change this to end the game with a 'finish' state/ screen
+
+        return new_state
+
+            
     def add_predicate(self, predicate):
         """
         Adds a predicate to the state.
@@ -58,15 +129,6 @@ class State(object):
         """
         pass
 
-    def find_predicate(self, predicate):
-        """
-        Finds a predicate in the state.
 
-        Args:
-            predicate (Predicate): The predicate to find.
-
-        Returns:
-            Predicate: The predicate in the state.
-        """
-        pass
+# step(update) function -> just update special effects and apply effects of action if valid, check goal function
     

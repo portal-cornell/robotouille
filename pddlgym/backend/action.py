@@ -4,32 +4,45 @@ class Action(object):
     """
     The action class is used to represent actions in robotouille.
 
-    It has the following attributes:
-    - name: the name of the action
-    - precons: the preconditions of the action, represented as a list of
-    predicates
-    - immediate_effects: the immediate effects of the action, represented as a list of predicates
-    - delayed_effects: the delayed effects of the action, represented by a tuple of (time, list of predicates)
+    Actions are created by the user in the domain file, and are created using
+    this class for the game to use. 
 
-    Special effect: create new object,
-
+    Each action has a list of precondition predicates, which if true, can be 
+    performed on the current state.
     """
 
-    def __init__(self, name, precons, immediate_effects, delayed_effects):
+    def __init__(self, name, precons, immediate_effects, special_effects):
         """
         Initializes an action object.
 
         Args:
             name (str): The name of the action.
-            precons (list): The preconditions of the action, represented by a list
-            of predicates.
-            immediate_effects (list): The immediate effects of the action, represented by a list of predicates.
-            delayed_effects (list): The delayed effects of the action, represented by a tuple of (time, list of predicates)
+            precons (list[Predicate]): The preconditions of the action, 
+            represented by a list of predicates.
+            immediate_effects (list[Predicate]): The immediate effects of the 
+            action, represented by a list of predicates.
+            special_effects (list[SpecialEffect]): The delayed effects of the 
+            action, represented by a list of SpecialEffect objects.
         """
         self.name = name
         self.precons = precons
         self.immediate_effects = immediate_effects
-        self.delayed_effects = delayed_effects
+        self.special_effects = special_effects
+
+    def check_if_valid(self, state):
+        """
+        Checks if the action is valid on the given state.
+
+        Args:
+            state (State): The state to check the action on.
+
+        Returns:
+            bool: True if the action is valid, False otherwise.
+        """
+        for precon in self.precons:
+            if state.check_predicate(precon) == False:
+                return False
+        return True
 
     def perform_action(self, state):
         """
@@ -38,35 +51,22 @@ class Action(object):
         This is used to generate the successor state of the current state, given
         that all preconditions of the action are satisfied.
 
+        First, it asserts that the action is valid in the current state.
+        If valid, the immediate effects are applied to the state, and the 
+        special effects are added to the state.
+
         Args:
             state (State): The state to perform the action on.
 
         Returns:
-            State: The successor state.
+            new_state (State): The successor state.
         """
-        for precon in self.precons:
-            if state.check_predicate(precon) == False:
-                return state
+        assert self.check_if_valid(state)
             
         for effect in self.immediate_effects:
-            state.add_predicate(effect)
-            # state should have a function if a predicate is negated, it is removed automatically,or some way to handle removing predicates
+            state.update_predicate(effect)
 
-        for del_effect in self.delayed_effects:
-            if state.check_predicate(del_effect) == False:
-                for effect in del_effect[1]:
-                    new_predicate = Predicate(effect.name, effect.params, effect.types, effect.negation, 0)
-                    state.add_predicate(new_predicate)
-
-            state_predicate = state.find_predicate(del_effect)
-            if state_predicate.time == del_effect[0]:
-                for effect in del_effect[1]:
-                    state.add_predicate(effect)
-    
-            else:
-                new_predicate = Predicate(state_predicate.name, state_predicate.params, state_predicate.types, state_predicate.negation, state_predicate.time + 1)
-                state.add_predicate(new_predicate)
-                state.remove_predicate(state_predicate)
+        state.add_special_effects(self.special_effects)
 
         return state
 
