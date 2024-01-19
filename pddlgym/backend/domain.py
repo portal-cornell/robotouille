@@ -4,19 +4,44 @@ class Domain(object):
     in the domain file.
     '''
 
-    def __init__(self, name, objects, predicates, actions, goal):
+    def check_types(self, types):
+        """
+        Checks if the types are valid.
+
+        Args:
+            types (list[str]): The types to check.
+
+        Raises:
+            ValueError: If the types are not valid.
+        """
+        for type_ in types:
+            if type_ not in self.object_types:
+                raise ValueError("Type {} is not defined in the domain.".format(type_))
+
+    def __init__(self, name, object_types, predicate_def, action_def):
         """
         Initializes a domain object.
 
         Args:
             name (str): The name of the domain.
-            objects (list[Object]): The objects in the domain.
-            predicates (list[Predicate]): The predicates in the domain.
-            actions (list[Action]): The actions in the domain.
-            goal (Predicate): The goal of the domain.
+            object_types (list[str]): The types in the domain.
+            predicate_def (list[Predicate]): The predicate definitions in the
+            domain.
+            action_def (list[Action]): The action definitions in the domain.
         """
         self.name = name
-        self.objects = objects
-        self.predicates = predicates
-        self.actions = actions
-        self.goal = goal
+        self.object_types = object_types
+        self.predicates = predicate_def
+        self.actions = action_def
+
+        for pred in self.predicates:
+            self.check_types(pred.types)
+
+        for action in self.actions:
+            for precon in action.precons:
+                self.check_types(precon.types)
+            for effect in action.immediate_effects:
+                self.check_types(effect.types)
+            for special_effect in action.special_effects:
+                for effect in special_effect.effects:
+                    self.check_types(effect.types)

@@ -7,21 +7,34 @@ class State(object):
     performed.
     '''
 
-    def __init__(self, domain, special_effects=[]):
+    def __init__(self, domain, objects, predicates, goal, special_effects=set()):
         """
         Initializes a state object.
 
         Args:
             domain (Domain): The domain of the game.
-            special_effects (list[Special_effects]): The special effects that 
+            objects (list[Object]): The objects in the state.
+            predicates (HashSet[Predicate]): The predicates in the state.
+            goal (list[Predicate]): The goal of the game.
+            special_effects (HashSet[Special_effects]): The special effects that 
             are active in the state.
         """
         self.domain = domain
-        self.predicates = domain.predicates
-        for obj in domain.objects:
-            self.predicates.add(Predicate("is", [obj], [obj.object_type]))
+        self.objects = objects
+        for object in self.objects:
+            if object.object_type not in self.domain.object_types:
+                raise ValueError("Type {} is not defined in the domain.".format(object.object_type))
+        self.predicates = predicates
+        for pred in self.predicates:
+            if pred.pred_without_objs() not in self.domain.predicates:
+                raise ValueError("Predicate {} is not defined in the domain.".format(pred.name))
+        self.goal = goal
+        for goal in self.goal:
+            if goal.name not in self.domain.predicates:
+                raise ValueError("Predicate {} is not defined in the domain.".format(goal.name))
+            domain.check_types(goal.types)
         self.special_effects = special_effects
-
+        
     def __eq__(self, other):
         """
         Checks if two states are equal.
@@ -45,7 +58,7 @@ class State(object):
 
         Returns:
             bool: True if the predicate is in the state with the correct 
-            negation value, False otherwise.
+            value, False otherwise.
         """
         if predicate in self.predicates:
             return True
@@ -57,23 +70,24 @@ class State(object):
         Args:
             predicate (Predicate): The predicate to update.
         """
-        current_predicate = predicate.switch_negation()
-        if current_predicate in self.predicates:
-            self.predicates.remove(current_predicate)
+        negated_pred = predicate.set_value(not predicate.value)
+        if negated_pred in self.predicates:
+            self.predicates.remove(negated_pred)
             self.predicates.add(predicate)
     
-    def add_special_effect(self, special_effect):
+    def update_special_effect(self, special_effect):
         """
-        Adds a special effect to the state.
+        Updates a special effect in the state.
+        If the special effect is not in the state, it is added.
+        The special effect is then updated as an active update.
 
         Args:
             special_effect (SpecialEffect): The special effect to add.
         """
         if special_effect not in self.special_effects:
-            self.special_effects.append(special_effect)
-        elif type(special_effect) == RepetitiveEffect:
-            current = self.special_effects[self.special_effects.index(special_effect)]
-            current.increment_repetitions()
+            self.special_effects.add(special_effect)
+        current = self.special_effects.get(special_effect)
+        current.update(self, active=True)
 
     def check_goal(self, goal):
         """
@@ -85,8 +99,10 @@ class State(object):
         Returns:
             bool: True if the state satisfies the goal, False otherwise.
         """
-        if goal in self.predicates:
-            return True
+        for predicate in goal:
+            if predicate not in self.predicates:
+                return False
+        return True
 
     def step(self, action):
         """
@@ -99,7 +115,7 @@ class State(object):
             new_state (State): The successor state.
         """
         for special_effect in self.special_effects:
-            special_effect.update(self.state)
+            special_effect.update(self)
             if special_effect.completed:
                 self.special_effects.remove(special_effect)
         
@@ -110,26 +126,4 @@ class State(object):
             return new_state #TODO: eventually change this to end the game with a 'finish' state/ screen
 
         return new_state
-
-            
-    def add_predicate(self, predicate):
-        """
-        Adds a predicate to the state.
-
-        Args:
-            predicate (Predicate): The predicate to add.
-        """
-        pass
-
-    def remove_predicate(self, predicate):
-        """
-        Removes a predicate from the state.
-
-        Args:
-            predicate (Predicate): The predicate to remove.
-        """
-        pass
-
-
-# step(update) function -> just update special effects and apply effects of action if valid, check goal function
     

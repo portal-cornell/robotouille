@@ -16,6 +16,17 @@ class SpecialEffect(object):
         self.obj = obj
         self.effects = effects
         self.completed = completed
+
+    def update(self, state, active=False):
+        """
+        Updates the state with the effect.
+
+        Args:
+            state (State): The state to update.
+            active (bool): Whether or not the update is due to an action being
+            performed.
+        """
+        raise NotImplementedError
         
 class RepetitiveEffect(SpecialEffect):
     """
@@ -61,13 +72,17 @@ class RepetitiveEffect(SpecialEffect):
         """
         self.current_repetitions += 1
 
-    def update(self, state):
+    def update(self, state, active=False):
         """
         Updates the state with the effect.
 
         Args:
             state (State): The state to update.
+            active (bool): Whether or not the update is due to an action being
+            performed.
         """
+        if not active: return
+        self.increment_repetitions()
         if self.current_repetitions == self.goal_repetitions:
             for effect in self.effects:
                 state.update_predicate(effect)
@@ -117,20 +132,22 @@ class DelayedEffect(SpecialEffect):
         """
         self.current_time += 1
 
-    def update(self, state):
+    def update(self, state, active=False):
         """
         Updates the state with the effect.
 
         Args:
             state (State): The state to update.
+            active (bool): Whether or not the update is due to an action being
+            performed.
         """
+        if active: return
+        self.increment_time()
         if self.current_time == self.goal_time:
             for effect in self.effects:
                 state.update_predicate(effect)
             self.completed = True
-        else:
-            self.increment_time()
-
+            
 class ConditionalEffect(SpecialEffect):
 
     pass

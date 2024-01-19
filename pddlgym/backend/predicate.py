@@ -13,22 +13,24 @@ class Predicate(object):
     this class for the game to use.
     '''
 
-    def __init__(self, name, params, types, negation=False):
+    def __init__(self, name, types, params=[], value=False):
         """
         Initializes a predicate object.
 
         Args:
             name (str): The name of the predicate.
-            params (list[Object]): The parameters of the predicate, represented 
-            by a list of objects.
             types (list[str]): The types of the parameters, represented by a 
             list of strings of object types.
-            negation (bool): Whether the predicate is negated or not.
+            params (list[Object]): The parameters of the predicate, represented 
+            by a list of objects. If the predicate is a predicate definition,
+            params is empty.
+            value (bool): The value of the predicate; If the predicate is true,
+            value is True, and if the predicate is false, value is False.
         """
         self.name = name
-        self.params = params
         self.types = types
-        self.negation = negation
+        self.params = params
+        self.value = value
 
         # check if params match types
         if len(params) != len(types):
@@ -49,11 +51,23 @@ class Predicate(object):
             bool: True if the predicates are equal, False otherwise.
         """
         return self.name == other.name and self.params == other.params \
-            and self.types == other.types and self.negation == other.negation
+            and self.types == other.types and self.value == other.value
 
-    def switch_negation(self):
+    def set_value(self, value):
         """
-        Switches the negation value of the predicate.
+        Sets the value of the predicate.
+
+        Args:
+            value (bool): The value to set the predicate to.
         """
-        self.negation = not self.negation
+        self.value = value
+
+    def pred_without_objs(self):
+        """
+        Returns the predicate without the objects.
+
+        Returns:
+            pred (Predicate): The predicate without the objects.
+        """
+        return Predicate(self.name, self.types, value=self.value)
 

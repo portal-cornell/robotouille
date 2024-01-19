@@ -40,7 +40,7 @@ class Action(object):
             bool: True if the action is valid, False otherwise.
         """
         for precon in self.precons:
-            if state.check_predicate(precon) == False:
+            if not state.check_predicate(precon):
                 return False
         return True
 
@@ -66,7 +66,8 @@ class Action(object):
         for effect in self.immediate_effects:
             state.update_predicate(effect)
 
-        state.add_special_effects(self.special_effects)
+        for special_effect in self.special_effects:
+            state.update_special_effect(special_effect)
 
         return state
 
