@@ -19,9 +19,9 @@ class Predicate(object):
 
         Args:
             name (str): The name of the predicate.
-            types (list[str]): The types of the parameters, represented by a 
+            types (List[str]): The types of the parameters, represented by a 
                 list of strings of object types.
-            params (list[Object]): The parameters of the predicate, represented 
+            params (List[Object]): The parameters of the predicate, represented 
                 by a list of objects. If the predicate is a predicate 
                 definition, params is empty.
         """

@@ -20,8 +20,8 @@ class State(object):
 
         Args:
             domain (Domain): The domain of the game.
-            objects (list[Object]): The objects in the state.
-            true_predicates (list[Predicate]): The predicates that are true in
+            objects (List[Object]): The objects in the state.
+            true_predicates (List[Predicate]): The predicates that are true in
                 the state, as defined by the problem file. 
         """
         # convert predicates to strings in true_predicates, and convert list to set
@@ -76,10 +76,10 @@ class State(object):
 
         Args:
             domain (Domain): The domain of the game.
-            objects (list[Object]): The objects in the state.
-            true_predicates (list[Predicate]): The predicates that are true in
+            objects (List[Object]): The objects in the state.
+            true_predicates (List[Predicate]): The predicates that are true in
                 the state, as defined by the problem file. 
-            goal (list[Predicate]): The goal predicates of the game.
+            goal (List[Predicate]): The goal predicates of the game.
             special_effects (HashSet[Special_effects]): The special effects that 
                 are active in the state.
         """

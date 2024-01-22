@@ -9,7 +9,7 @@ class Domain(object):
         Checks if the list of types are valid, as defined by the domain.
 
         Args:
-            types (list[str]): The types to check.
+            types (List[str]): The types to check.
 
         Raises:
             ValueError: If the types are not valid.
@@ -24,10 +24,10 @@ class Domain(object):
 
         Args:
             name (str): The name of the domain.
-            object_types (list[str]): The types in the domain.
-            predicate_def (list[Predicate]): The predicate definitions in the
+            object_types (List[str]): The types in the domain.
+            predicate_def (List[Predicate]): The predicate definitions in the
             domain.
-            action_def (list[Action]): The action definitions in the domain.
+            action_def (List[Action]): The action definitions in the domain.
         """
         self.name = name
         self.object_types = object_types
