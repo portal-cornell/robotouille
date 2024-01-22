@@ -6,7 +6,7 @@ class Domain(object):
 
     def check_types(self, types):
         """
-        Checks if the types are valid.
+        Checks if the list of types are valid, as defined by the domain.
 
         Args:
             types (list[str]): The types to check.
@@ -34,6 +34,7 @@ class Domain(object):
         self.predicates = predicate_def
         self.actions = action_def
 
+        # Check if predicates and actions have valid parameter types
         for pred in self.predicates:
             self.check_types(pred.types)
 

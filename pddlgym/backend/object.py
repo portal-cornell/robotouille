@@ -20,7 +20,33 @@ class Object(object):
 
         self.name = name
         self.object_type = object_type
-        
-        # NO type checking in this class, check if types are valid in the domain class
 
-        # use itertools library 
+    def __eq__(self, other):
+        """
+        Checks if two objects are equal.
+
+        Args:
+            other (Object): The object to compare to.
+
+        Returns:
+            bool: True if the objects are equal, False otherwise.
+        """
+        return self.name == other.name and self.object_type == other.object_type
+    
+    def __hash__(self):
+        """
+        Returns the hash of the object.
+
+        Returns:
+            hash (int): The hash of the object.
+        """
+        return hash((self.name, self.object_type))
+    
+    def __repr__(self):
+        """
+        Returns the string representation of the object.
+
+        Returns:
+            string (str): The string representation of the object.
+        """
+        return self.name

@@ -9,8 +9,8 @@ class SpecialEffect(object):
 
         Args:
             object (Object): The object that the effect is applied to.
-            effects (list[Predicate]): The effects of the action, represented by
-            a list of predicates.
+            effects (Dictionary[Predicate, bool]): The effects of the action,
+            represented by a dictionary of predicates and bools.
             completed (bool): Whether or not the effect has been completed.
         """
         self.obj = obj
@@ -42,8 +42,8 @@ class RepetitiveEffect(SpecialEffect):
 
         Args:
             object (Object): The object that the effect is applied to.
-            effects (list[Predicate]): The effects of the action, represented by
-            a list of predicates.
+            effects (Dictionary[Predicate, bool]): The effects of the action,
+            represented by a dictionary of predicates and bools.
             completed (bool): Whether or not the effect has been completed.
             goal_repetitions (int): The number of times the action must be 
             performed before the effect is applied.
@@ -84,8 +84,8 @@ class RepetitiveEffect(SpecialEffect):
         if not active: return
         self.increment_repetitions()
         if self.current_repetitions == self.goal_repetitions:
-            for effect in self.effects:
-                state.update_predicate(effect)
+            for effect, value in self.effects:
+                state.update_predicate(effect, value)
             self.completed = True
 
 class DelayedEffect(SpecialEffect):
@@ -102,8 +102,8 @@ class DelayedEffect(SpecialEffect):
 
         Args:
             object (Object): The object that the effect is applied to.
-            effects (list[Predicate]): The effects of the action, represented by
-            a list of predicates.
+            effects (Dictionary[Predicate, bool]): The effects of the action,
+            represented by a dictionary of predicates and bools.
             completed (bool): Whether or not the effect has been completed.
             goal_time (int): The number of time steps that must pass before the
             effect is applied.
@@ -144,8 +144,8 @@ class DelayedEffect(SpecialEffect):
         if active: return
         self.increment_time()
         if self.current_time == self.goal_time:
-            for effect in self.effects:
-                state.update_predicate(effect)
+            for effect, value in self.effects:
+                state.update_predicate(effect, value)
             self.completed = True
             
 class ConditionalEffect(SpecialEffect):

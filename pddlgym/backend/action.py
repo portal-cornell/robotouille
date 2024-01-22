@@ -1,5 +1,3 @@
-from pddlgym.backend import Predicate, State
-
 class Action(object):
     """
     The action class is used to represent actions in robotouille.
@@ -17,11 +15,12 @@ class Action(object):
 
         Args:
             name (str): The name of the action.
-            precons (list[Predicate]): The preconditions of the action, 
-            represented by a list of predicates.
-            immediate_effects (list[Predicate]): The immediate effects of the 
-            action, represented by a list of predicates.
-            special_effects (list[SpecialEffect]): The delayed effects of the 
+            precons (Dictionary[Predicate, bool]): The preconditions of the
+            action, represented by a dictionary of predicates and bools.
+            immediate_effects (Dictionary[Predicate, bool]): The immediate
+            effects of the action, represented by a dictionary of predicates and
+            bools.
+            special_effects (List[SpecialEffect]): The delayed effects of the 
             action, represented by a list of SpecialEffect objects.
         """
         self.name = name
@@ -39,8 +38,8 @@ class Action(object):
         Returns:
             bool: True if the action is valid, False otherwise.
         """
-        for precon in self.precons:
-            if not state.check_predicate(precon):
+        for precon, value in self.precons:
+            if not state.check_predicate(precon, value):
                 return False
         return True
 
@@ -63,8 +62,8 @@ class Action(object):
         """
         assert self.check_if_valid(state)
             
-        for effect in self.immediate_effects:
-            state.update_predicate(effect)
+        for effect, value in self.immediate_effects:
+            state.update_predicate(effect, value)
 
         for special_effect in self.special_effects:
             state.update_special_effect(special_effect)
