@@ -316,7 +316,6 @@ def create_combinations(combination_dict):
         combinations (list): List of all possible combinations of combination predicates.
         id_order (list): List of the order of IDs for each combination.
     """
-    print("\n\n\nCREATE COMBINATIONS\n\n\n")
     combination_list = []
     id_order = []
     for arg in combination_dict:
@@ -324,11 +323,8 @@ def create_combinations(combination_dict):
         id_order += ids
         entities = combination_dict[arg]['entities']
         permutations = list(itertools.permutations(entities, len(ids)))
-        print(arg, permutations)
         combination_list.append(permutations)
     product = itertools.product(*combination_list)
-    from copy import deepcopy
-    print(f"PRODUCT: {list(deepcopy(product))}")
     # Clean up product list
     combinations = [list(itertools.chain.from_iterable(x)) for x in product]
     return combinations, id_order
@@ -366,13 +362,7 @@ def build_goal(environment_dict):
     """
     goal =  "   (or\n"
     unique_preds, combination_preds, combination_dict = create_unique_and_combination_preds(environment_dict)
-    print(f"Unique preds: {unique_preds}")
-    print(f"Combination preds: {combination_preds}")
-    print(f"Combination dict {combination_dict}")
     combinations, id_order = create_combinations(combination_dict)
-    print(f"Combinations: {combinations}")
-    print(f"id_order {id_order}")
-    input()
     assert len(combinations) > 0, "Object in goal missing from environment"
     for combination in combinations:
         # Combination predicates with the combination ID arguments filled in
