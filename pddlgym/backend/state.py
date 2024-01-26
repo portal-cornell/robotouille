@@ -107,7 +107,7 @@ class State(object):
         self.goal = goal
         # check if goal predicates are defined in domain
         for goal in self.goal:
-            if goal.name not in self.domain.predicates:
+            if goal not in self.predicates:
                 raise ValueError("Predicate {} is not defined in the domain.".format(goal.name))
             domain.check_types(goal.types)
         self.special_effects = special_effects
@@ -166,12 +166,9 @@ class State(object):
         current = self.special_effects.get(special_effect)
         current.update(self, active=True)
 
-    def check_goal(self, goal):
+    def check_goal(self):
         """
         Checks if the state satisfies the goal.
-
-        Args:
-            goal (Predicate): The goal to check.
 
         Returns:
             bool: True if the state satisfies the goal, False otherwise.
@@ -237,7 +234,7 @@ class State(object):
         if action in valid_actions:
             self = action.perform_action(self, valid_actions[action])
         
-        if self.check_goal(self.goal):
+        if self.check_goal():
             return self #TODO: eventually change this to end the game with a 'finish' state/ screen
 
         return self

@@ -64,7 +64,10 @@ state = State(domain,
                     Predicate("is_player", ["player"], [player1]),
                     Predicate("loc", ["player", "station"], [player1, table1]),
                 },
-                [])
+                [
+                    Predicate("is_cut", ["item"], [lettuce1]),
+                    Predicate("loc", ["player", "station"], [player1, table1]),
+                ])
 
 print("Beginning test\n")
 print("Checking state initialization")
@@ -88,3 +91,6 @@ state.step(move)
 assert state.check_predicate(Predicate("loc", ["player", "station"], [player1, table1]))
 print("Move successful")
 print("State predicates: {}".format(state.predicates))
+print("\nChecking goal")
+assert state.check_goal()
+print("Goal satisfied")
