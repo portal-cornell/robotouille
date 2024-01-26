@@ -190,8 +190,9 @@ class State(object):
         dictionary of valid actions.
 
         Returns:
-            valid_actions (Dictionary[Action, List[Object]]): A dictionary of
-                valid actions for the state.
+            valid_actions (Dictionary[Action, Dictionary[str, Object]]): A 
+                dictionary of valid actions for the state. The keys are the 
+                actions, and the values are the arguments for the actions.
         """
         object_dict = self._build_object_dictionary(self.domain, self.objects)
         valid_actions = {}
