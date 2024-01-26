@@ -25,14 +25,19 @@ state = State(domain,
             [
                 patty1, patty2, lettuce1, lettuce2, onion1, onion2, table1, table2
             ],
-            [
+            {
                 Predicate("is_patty", ["item"], [patty1]),
                 Predicate("is_lettuce", ["item"], [lettuce1]),
                 Predicate("is_onion", ["item"], [onion1]),
                 Predicate("is_table", ["station"], [table1]),
+                Predicate("is_patty", ["item"], [patty2]),
+                Predicate("is_lettuce", ["item"], [lettuce2]),
+                Predicate("is_onion", ["item"], [onion2]),
+                Predicate("is_table", ["station"], [table2]),
                 Predicate("on", ["station", "item"], [table1, patty1]),
+                Predicate("on", ["station", "item"], [table2, lettuce1]),
                 Predicate("atop", ["item", "item"], [patty1, lettuce1]),
-            ],
+            },
             [])
 
 

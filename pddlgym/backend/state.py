@@ -8,27 +8,21 @@ class State(object):
     performed.
     '''
 
-    def _build_predicates(self, domain, objects, true_predicates):
+    def _build_object_dictionary(self, domain, objects):
         """
-        Builds a dictionary of predicates.
+        Builds a dictionary of objects.
 
-        The dictionary is populated with all possible predicates in the state 
-        using the predicates in the domain and the objects in the problem file. 
-        All predicates are set to False, except for the predicates that are true 
-        in the problem file, which are passed in as the argument 
-        [true_predicates] and set to True.
+        The keys of the dictionary are the types of objects in the domain, and
+        the values are lists of objects of that type.
 
         Args:
             domain (Domain): The domain of the game.
             objects (List[Object]): The objects in the state.
-            true_predicates (List[Predicate]): The predicates that are true in
-                the state, as defined by the problem file. 
-        """
-        # convert predicates to strings in true_predicates, and convert list to set
-        true_predicates = set([str(pred) for pred in true_predicates])
 
-        # Create a dictionary, with the key as object types in the domain and 
-        # value being a list of objects of that type in the problem file
+        Returns:
+            object_dict (Dictionary[str, List[Object]]): A dictionary of objects
+                in the state.
+        """
         object_dict = {}
         for object_type in domain.object_types:
             object_dict[object_type] = []
@@ -37,7 +31,25 @@ class State(object):
                 raise ValueError("Type {} is not defined in the domain.".format(obj.object_type))
             object_dict[obj.object_type].append(obj)
 
-        # Create a list of all possible predicates in the state.
+        return object_dict
+
+    def _build_predicates(self, domain, objects, true_predicates):
+        """
+        Builds a dictionary of predicates.
+
+        The dictionary is populated with all possible predicates in the state 
+        using the predicates in the domain and the objects in the problem file. 
+        All predicates are set to False, except for the predicates that are true 
+        in the problem file, which are passed in as the argument 
+        [true_predicates].
+
+        Args:
+            domain (Domain): The domain of the game.
+            objects (List[Object]): The objects in the state.
+            true_predicates (Set[Predicate]): The predicates that are true in
+                the state, as defined by the problem file. 
+        """
+        object_dict = self._build_object_dictionary(domain, objects)
             
         # Loop through the predicates in the domain
         predicates = {}
@@ -57,7 +69,7 @@ class State(object):
                     continue
                 pred = Predicate(predicate.name, predicate.types, combination)
                 predicates[pred] = False
-                if str(pred) in true_predicates:
+                if pred in true_predicates:
                     predicates[pred] = True
 
         return predicates
@@ -77,7 +89,7 @@ class State(object):
         Args:
             domain (Domain): The domain of the game.
             objects (List[Object]): The objects in the state.
-            true_predicates (List[Predicate]): The predicates that are true in
+            true_predicates (Set[Predicate]): The predicates that are true in
                 the state, as defined by the problem file. 
             goal (List[Predicate]): The goal predicates of the game.
             special_effects (HashSet[Special_effects]): The special effects that 
@@ -136,6 +148,8 @@ class State(object):
             predicate (Predicate): The predicate to update.
             value (bool): The new value of the predicate.
         """
+        if predicate not in self.predicates:
+            raise ValueError("Predicate {} is not in the state.".format(predicate))
         self.predicates[predicate] = value
     
     def update_special_effect(self, special_effect):
@@ -166,6 +180,42 @@ class State(object):
             if not self.check_predicate(goal):
                 return False
         return True
+    
+    def _build_valid_actions(self):
+        """
+        Buillds a dictionary of valid actions for the state.
+
+        This helper method first builds a dictionary of objects in the state. 
+        It then loops through the actions in the domain. For each action, it
+        creates every possible combination of objects for the parameters of the
+        action. It then checks if the action is valid in the state with the
+        given combination of objects. If valid, the action is added to the
+        dictionary of valid actions.
+
+        Returns:
+            valid_actions (Dictionary[Action, List[Object]]): A dictionary of
+                valid actions for the state.
+        """
+        object_dict = self._build_object_dictionary(self.domain, self.objects)
+        valid_actions = {}
+        
+        for action in self.domain.actions:
+            params = action.get_all_params()
+            param_objects = []
+            for param in params:
+                param_objects.append(object_dict[param.object_type])
+            param_combinations = list(itertools.product(*param_objects))
+            for combination in param_combinations:
+                # if combination repeats an object, skip it
+                if len(set(combination)) != len(combination):
+                    continue
+                args = {}
+                for param in params:
+                    args[param] = combination[params.index(param)]
+                if action.check_if_valid(self, args):
+                    valid_actions[action] = args
+
+        return valid_actions
 
     def step(self, action):
         """
@@ -182,11 +232,13 @@ class State(object):
             if special_effect.completed:
                 self.special_effects.remove(special_effect)
         
-        if action.check_if_valid(self.state):
-            new_state = action.perform_action(self.state)
-        
-        if new_state.check_goal(self.domain.goal):
-            return new_state #TODO: eventually change this to end the game with a 'finish' state/ screen
+        valid_actions = self._build_valid_actions()
 
-        return new_state
+        if action in valid_actions:
+            self = action.perform_action(self, valid_actions[action])
+        
+        if self.check_goal(self.goal):
+            return self #TODO: eventually change this to end the game with a 'finish' state/ screen
+
+        return self
     
