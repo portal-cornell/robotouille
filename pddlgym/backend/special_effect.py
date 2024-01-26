@@ -65,6 +65,44 @@ class RepetitiveEffect(SpecialEffect):
         return self.obj == other.obj and self.effects == other.effects \
             and self.completed == other.completed \
                 and self.goal_repetitions == other.goal_repetitions 
+    
+    def __hash__(self):
+        """
+        Returns the hash of the repetitive effect.
+
+        Returns:
+            hash (int): The hash of the repetitive effect.
+        """
+        return hash((self.obj, tuple(self.effects), self.completed, 
+                     self.goal_repetitions))
+    
+    def __repr__(self):
+        """
+        Returns the string representation of the repetitive effect.
+
+        Returns:
+            string (str): The string representation of the repetitive effect.
+        """
+        return "RepetitiveEffect({}, {}, {})".format(self.obj, self.completed, self.current_repetitions)
+    
+    def copy(self, obj, args):
+        """
+        Returns a copy of the repetitive effect, with the replaced object.
+
+        Args:
+            obj (Object): The object to replace the object in the effect with.
+            args (Dictionary[Object, Object]): The dictionary of objects to
+                replace for the effects. 
+
+        Returns:
+            copy (RepetitiveEffect): The copy of the repetitive effect.
+        """
+        new_effects = {}
+        for effect, value in self.effects.items():
+            new_effects[effect.copy(args)] = value
+        return RepetitiveEffect(obj, new_effects, self.completed, 
+                                self.goal_repetitions)
+        
 
     def increment_repetitions(self):
         """
@@ -84,7 +122,7 @@ class RepetitiveEffect(SpecialEffect):
         if not active: return
         self.increment_repetitions()
         if self.current_repetitions == self.goal_repetitions:
-            for effect, value in self.effects:
+            for effect, value in self.effects.items():
                 state.update_predicate(effect, value)
             self.completed = True
 
@@ -126,6 +164,42 @@ class DelayedEffect(SpecialEffect):
             and self.completed == other.completed \
                 and self.goal_time == other.goal_time
     
+    def __hash__(self):
+        """
+        Returns the hash of the delayed effect.
+
+        Returns:
+            hash (int): The hash of the delayed effect.
+        """
+        return hash((self.obj, tuple(self.effects), self.completed, 
+                     self.goal_time))
+    
+    def __repr__(self):
+        """
+        Returns the string representation of the delayed effect.
+
+        Returns:
+            string (str): The string representation of the delayed effect.
+        """
+        return "DelayedEffect({}, {}, {})".format(self.obj, self.completed, self.current_time)
+    
+    def copy(self, obj, args):
+        """
+        Returns a copy of the delayed effect, with the replaced object.
+
+        Args:
+            obj (Object): The object to replace the object in the effect with.
+            args (Dictionary[Object, Object]): The dictionary of objects to
+                replace for the effects. 
+
+        Returns:
+            copy (DelayedEffect): The copy of the delayed effect.
+        """
+        new_effects = {}
+        for effect, value in self.effects.items():
+            new_effects[effect.copy(args)] = value
+        return DelayedEffect(obj, new_effects, self.completed, self.goal_time)
+    
     def increment_time(self):
         """
         Increments the number of time steps that have passed.
@@ -141,10 +215,11 @@ class DelayedEffect(SpecialEffect):
             active (bool): Whether or not the update is due to an action being
             performed.
         """
-        if active: return
+        # if active: return
+
         self.increment_time()
         if self.current_time == self.goal_time:
-            for effect, value in self.effects:
+            for effect, value in self.effects.items():
                 state.update_predicate(effect, value)
             self.completed = True
             

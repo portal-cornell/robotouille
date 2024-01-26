@@ -3,7 +3,7 @@ from object import Object
 from domain import Domain
 from state import State
 from action import Action
-from special_effect import SpecialEffect
+from special_effect import SpecialEffect, RepetitiveEffect
 
 is_lettuce_def = Predicate("is_lettuce", ["item"])
 is_table_def = Predicate("is_table", ["station"])
@@ -33,10 +33,10 @@ cut = Action("cut",
                  Predicate("loc", ["player", "station"], [p1, s1]) : True,
                  Predicate("is_cut", ["item"], [i1]) : False,
              },
-             {
-                 Predicate("is_cut", ["item"], [i1]) : True,
-             },
-             [])
+             {},
+             [
+                 RepetitiveEffect(i1, {Predicate("is_cut", ["item"], [i1]) : True}, False, 3)
+             ])
 
 move = Action("move",
                 {
@@ -78,19 +78,22 @@ print("\nPerforming move")
 state.step(move, {p1: player1, s1: table1, s2: cutting_board1})
 assert state.check_predicate(Predicate("loc", ["player", "station"], [player1, cutting_board1]))
 print("Move successful")
-print("State predicates: {}".format(state.predicates))
-print("\nValid actions: {}".format(state.get_valid_actions()))
-print("\nPerforming cut")
+print("\nState predicates: {}".format(state.predicates))
+print("Valid actions: {}".format(state.get_valid_actions()))
+print("\nPerforming cut (1st time)")
+state.step(cut, {p1: player1, s1: cutting_board1, i1: lettuce1})
+print("State special effects: {}".format(state.special_effects))
+print("\nState predicates: {}".format(state.predicates))
+print("Valid actions: {}".format(state.get_valid_actions()))
+print("\nPerforming cut (2nd time)")
+state.step(cut, {p1: player1, s1: cutting_board1, i1: lettuce1})
+print("State special effects: {}".format(state.special_effects))
+print("\nState predicates: {}".format(state.predicates))
+print("Valid actions: {}".format(state.get_valid_actions()))
+print("\nPerforming cut (3rd time)")
 state.step(cut, {p1: player1, s1: cutting_board1, i1: lettuce1})
 assert state.check_predicate(Predicate("is_cut", ["item"], [lettuce1]))
 print("Cut successful")
-print("State predicates: {}".format(state.predicates))
-print("\nValid actions: {}".format(state.get_valid_actions()))
-print("\nPerforming move again")
-state.step(move, {p1: player1, s1: cutting_board1, s2: table1})
-assert state.check_predicate(Predicate("loc", ["player", "station"], [player1, table1]))
-print("Move successful")
-print("State predicates: {}".format(state.predicates))
-print("\nChecking goal")
-assert state.check_goal()
-print("Goal satisfied")
+print("State special effects: {}".format(state.special_effects))
+print("\nState predicates: {}".format(state.predicates))
+print("Valid actions: {}".format(state.get_valid_actions()))

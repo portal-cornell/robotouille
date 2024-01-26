@@ -74,6 +74,19 @@ class Predicate(object):
             string (str): The string representation of the predicate.
         """
         return self.name + str(tuple(self.params))
+    
+    def copy(self, args):
+        """
+        Returns a copy of the predicate, with the replaced objects.
+
+        Args:
+            args (Dictionary[Object, Object]): The dictionary of objects to
+                replace for the predicate. 
+
+        Returns:
+            pred (Predicate): The copy of the predicate.
+        """
+        return Predicate(self.name, self.types, [args.get(param, param) for param in self.params])
 
 
     def pred_without_objs(self):

@@ -90,7 +90,8 @@ class Action(object):
         for effect in self.immediate_effects:
             params.update(effect.params)
         for special_effect in self.special_effects:
-            params.update(special_effect.params)
+            for effect in special_effect.effects:
+                params.update(effect.params)
         return list(params)
     
     def check_if_valid(self, state, args):
@@ -147,7 +148,8 @@ class Action(object):
             state.update_predicate(pred, value)
 
         for special_effect in self.special_effects:
-            state.update_special_effect(special_effect)
+            obj = args[special_effect.obj]
+            state.update_special_effect(special_effect, obj, args)
 
         return state
 

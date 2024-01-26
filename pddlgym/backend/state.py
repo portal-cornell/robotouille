@@ -1,4 +1,5 @@
 from predicate import Predicate
+from special_effect import SpecialEffect
 import itertools
 class State(object):
     '''
@@ -73,8 +74,43 @@ class State(object):
                     predicates[pred] = True
 
         return predicates
+    
+    def _build_actions(self):
+        """
+        Buillds a dictionary of all actions for the state.
 
-    def __init__(self, domain, objects, true_predicates, goal, special_effects=set()):
+        This helper method first builds a dictionary of objects in the state. 
+        It then loops through the actions in the domain. For each action, it
+        creates every possible combination of objects for the parameters of the
+        action.
+
+        Returns:
+            actions (Dictionary[Action, Dictionary[str, Object]]): A 
+                dictionary of valid actions for the state. The keys are the 
+                actions, and the values are the arguments for the actions.
+        """
+        object_dict = self._build_object_dictionary(self.domain, self.objects)
+        actions = {}
+        
+        for action in self.domain.actions:
+            params = action.get_all_params()
+            param_objects = []
+            for param in params:
+                param_objects.append(object_dict[param.object_type])
+            param_combinations = list(itertools.product(*param_objects))
+            actions[action] = []
+            for combination in param_combinations:
+                # if combination repeats an object, skip it
+                if len(set(combination)) != len(combination):
+                    continue
+                args = {}
+                for param in params:
+                    args[param] = combination[params.index(param)]
+                actions[action].append(args)
+
+        return actions
+
+    def __init__(self, domain, objects, true_predicates, goal, special_effects=[]):
         """
         Initializes a state object.
 
@@ -92,7 +128,7 @@ class State(object):
             true_predicates (Set[Predicate]): The predicates that are true in
                 the state, as defined by the problem file. 
             goal (List[Predicate]): The goal predicates of the game.
-            special_effects (HashSet[Special_effects]): The special effects that 
+            special_effects (List[Special_effects]): The special effects that 
                 are active in the state.
         """
         self.domain = domain
@@ -103,6 +139,8 @@ class State(object):
                 raise ValueError("Type {} is not defined in the domain.".format(object.object_type))
 
         self.predicates = self._build_predicates(domain, objects, true_predicates)
+
+        self.actions = self._build_actions()
         
         self.goal = goal
         # check if goal predicates are defined in domain
@@ -152,19 +190,25 @@ class State(object):
             raise ValueError("Predicate {} is not in the state.".format(predicate))
         self.predicates[predicate] = value
     
-    def update_special_effect(self, special_effect):
+    def update_special_effect(self, special_effect, obj, args):
         """
         Updates a special effect in the state.
         If the special effect is not in the state, it is added.
         The special effect is then updated as an active update.
 
         Args:
-            special_effect (SpecialEffect): The special effect to add.
+            special_effect (SpecialEffect): The special effect to update.
+            obj (Object): The object to update the special effect for.
+            args (Dictionary[Object, Object]): The arguments for the special
+                effect.
         """
-        if special_effect not in self.special_effects:
-            self.special_effects.add(special_effect)
-        current = self.special_effects.get(special_effect)
+        new_special_effect = special_effect.copy(obj, args)
+        if new_special_effect not in self.special_effects:
+            self.special_effects.append(new_special_effect)
+        current = self.special_effects[self.special_effects.index(new_special_effect)]
         current.update(self, active=True)
+        if current.completed:
+                self.special_effects.remove(current)
 
     def check_goal(self):
         """
@@ -178,49 +222,32 @@ class State(object):
                 return False
         return True
     
-    def _build_valid_actions(self):
+    def get_valid_actions(self):
         """
-        Buillds a dictionary of valid actions for the state.
-
-        This helper method first builds a dictionary of objects in the state. 
-        It then loops through the actions in the domain. For each action, it
-        creates every possible combination of objects for the parameters of the
-        action. It then checks if the action is valid in the state with the
-        given combination of objects. If valid, the action is added to the
-        dictionary of valid actions.
+        Gets all valid actions for the state.
 
         Returns:
-            valid_actions (Dictionary[Action, Dictionary[str, Object]]): A 
-                dictionary of valid actions for the state. The keys are the 
+            valid_actions (Dictionary[Action, Dictionary[str, Object]]): A
+                dictionary of valid actions for the state. The keys are the
                 actions, and the values are the arguments for the actions.
         """
-        object_dict = self._build_object_dictionary(self.domain, self.objects)
         valid_actions = {}
-        
-        for action in self.domain.actions:
-            params = action.get_all_params()
-            param_objects = []
-            for param in params:
-                param_objects.append(object_dict[param.object_type])
-            param_combinations = list(itertools.product(*param_objects))
-            for combination in param_combinations:
-                # if combination repeats an object, skip it
-                if len(set(combination)) != len(combination):
-                    continue
-                args = {}
-                for param in params:
-                    args[param] = combination[params.index(param)]
-                if action.check_if_valid(self, args):
-                    valid_actions[action] = args
+
+        for action, args in self.actions.items():
+            valid_actions[action] = []
+            for arg in args:
+                if action.check_if_valid(self, arg):
+                    valid_actions[action].append(arg)
 
         return valid_actions
 
-    def step(self, action):
+    def step(self, action, args):
         """
         Steps the state forward by applying the effects of the action.
 
         Args:
             action (Action): The action to apply the effects of.
+            args (Dictionary[str, Object]): The arguments for the action.
         
         Returns:
             new_state (State): The successor state.
@@ -229,11 +256,9 @@ class State(object):
             special_effect.update(self)
             if special_effect.completed:
                 self.special_effects.remove(special_effect)
-        
-        valid_actions = self._build_valid_actions()
 
-        if action in valid_actions:
-            self = action.perform_action(self, valid_actions[action])
+        assert action.check_if_valid(self, args)
+        self = action.perform_action(self, args)
         
         if self.check_goal():
             return self #TODO: eventually change this to end the game with a 'finish' state/ screen
