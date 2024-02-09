@@ -300,7 +300,6 @@ def build_location_predicates(environment_dict):
     location_predicates = []
     location_predicates += build_station_location_predicates(environment_dict)
     location_predicates += build_player_location_predicates(environment_dict)
-    print(location_predicates)
     return location_predicates
 
 def build_stacking_predicates(environment_dict):
@@ -450,8 +449,6 @@ def build_state(environment_json):
     goal = build_goal(environment_json)
 
     state = State(domain, objects, true_predicates, goal)
-
-    print("predicates", state.predicates)
 
     return state
 

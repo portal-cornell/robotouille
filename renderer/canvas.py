@@ -314,13 +314,11 @@ class RobotouilleCanvas:
             i = 0
             while i < len(stack_list):
                 item_above, item_below = stack_list[i]
-                print(item_above, item_below)
                 if item_below in stack_number:
                     stack_list.remove(stack_list[i])
                     stack_number[item_above] = stack_number[item_below] + 1
                     # Get location of station
                     for literal, value in obs.predicates.items():
-                        print(literal.params)
                         if value and literal.name == "at" and literal.params[0].name == item_below:
                             station_pos = self._get_station_position(literal.params[1].name)
                             break
