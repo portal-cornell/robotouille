@@ -45,8 +45,7 @@ class Predicate(object):
         Returns:
             bool: True if the predicates are equal, False otherwise.
         """
-        return self.name == other.name and set(self.params) == set(other.params) \
-            and set(self.types) == set(other.types)
+        return self.name == other.name and list(self.types) == list(other.types) and list(self.params) == list(other.params)
     
     def __hash__(self):
         """

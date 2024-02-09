@@ -50,52 +50,52 @@ class RobotouilleWrapper(gym.Wrapper):
         robotouille_utils.print_actions(self.env, self.prev_step[0])
         print(f"True Predicates: {expanded_truths.sum()}")
     
-    def _state_update(self):
-        """
-        This function updates the custom non-PDDL state of the environment.
+    # def _state_update(self):
+    #     """
+    #     This function updates the custom non-PDDL state of the environment.
 
-        This function is called after every step in the environment. It can either update
-        the custom state (e.g. incrementing the cook time of a cooking item) or directly
-        modify the PDDL state (e.g. adding the iscut predicate to an item that has been
-        fully cut).
+    #     This function is called after every step in the environment. It can either update
+    #     the custom state (e.g. incrementing the cook time of a cooking item) or directly
+    #     modify the PDDL state (e.g. adding the iscut predicate to an item that has been
+    #     fully cut).
 
-        Returns:
-            new_env_state (PDDLGym State): The new state of the environment.
-        """
-        state_updates = []
-        for item, status_dict in self.state.items():
-            for status, state in status_dict.items():
-                if status == "cut":
-                    item_name, _ = robotouille_utils.trim_item_ID(item)
-                    # TODO: Might need to trim item name
-                    num_cuts = self.config["num_cuts"]
-                    max_num_cuts = num_cuts.get(item_name, num_cuts["default"])
-                    if state >= max_num_cuts:
-                        literal = pddlgym_utils.str_to_literal(f"iscut({item}:item)")
-                        state_updates.append(literal)
-                elif status == "cook":
-                    item_name, _ = robotouille_utils.trim_item_ID(item)
-                    cook_time = self.config["cook_time"]
-                    max_cook_time = cook_time.get(item_name, cook_time["default"])
-                    if state["cooking"]:
-                        state["cook_time"] += 1
-                    if state["cook_time"] >= max_cook_time:
-                        literal = pddlgym_utils.str_to_literal(f"iscooked({item}:item)")
-                        state_updates.append(literal)
-                elif status == "fry":
-                    item_name, _ = robotouille_utils.trim_item_ID(item)
-                    fry_time = self.config["fry_time"]
-                    max_fry_time = fry_time.get(item_name, fry_time["default"])
-                    if state["frying"]:
-                        state["fry_time"] += 1
-                    if state["fry_time"] >= max_fry_time:
-                        literal = pddlgym_utils.str_to_literal(f"isfried({item}:item)")
-                        state_updates.append(literal)
-        env_state = self.env.get_state()
-        new_literals = env_state.literals.union(state_updates)
-        new_env_state = pddlgym.structs.State(new_literals, env_state.objects, env_state.goal)
-        self.env.set_state(new_env_state)
-        return new_env_state
+    #     Returns:
+    #         new_env_state (PDDLGym State): The new state of the environment.
+    #     """
+    #     state_updates = []
+    #     for item, status_dict in self.state.items():
+    #         for status, state in status_dict.items():
+    #             if status == "cut":
+    #                 item_name, _ = robotouille_utils.trim_item_ID(item)
+    #                 # TODO: Might need to trim item name
+    #                 num_cuts = self.config["num_cuts"]
+    #                 max_num_cuts = num_cuts.get(item_name, num_cuts["default"])
+    #                 if state >= max_num_cuts:
+    #                     literal = pddlgym_utils.str_to_literal(f"iscut({item}:item)")
+    #                     state_updates.append(literal)
+    #             elif status == "cook":
+    #                 item_name, _ = robotouille_utils.trim_item_ID(item)
+    #                 cook_time = self.config["cook_time"]
+    #                 max_cook_time = cook_time.get(item_name, cook_time["default"])
+    #                 if state["cooking"]:
+    #                     state["cook_time"] += 1
+    #                 if state["cook_time"] >= max_cook_time:
+    #                     literal = pddlgym_utils.str_to_literal(f"iscooked({item}:item)")
+    #                     state_updates.append(literal)
+    #             elif status == "fry":
+    #                 item_name, _ = robotouille_utils.trim_item_ID(item)
+    #                 fry_time = self.config["fry_time"]
+    #                 max_fry_time = fry_time.get(item_name, fry_time["default"])
+    #                 if state["frying"]:
+    #                     state["fry_time"] += 1
+    #                 if state["fry_time"] >= max_fry_time:
+    #                     literal = pddlgym_utils.str_to_literal(f"isfried({item}:item)")
+    #                     state_updates.append(literal)
+    #     env_state = self.env.get_state()
+    #     new_literals = env_state.literals.union(state_updates)
+    #     new_env_state = pddlgym.structs.State(new_literals, env_state.objects, env_state.goal)
+    #     self.env.set_state(new_env_state)
+    #     return new_env_state
 
     def _handle_action(self, action):
         """
@@ -133,44 +133,44 @@ class RobotouilleWrapper(gym.Wrapper):
             info (dict): A dictionary of metadata about the step.
         """
         if action == "noop": return self.prev_step
-        action_name = action.predicate.name
-        if action_name == "cut":
-            item = next(filter(lambda typed_entity: typed_entity.var_type == "item", action.variables))
-            item_status = self.state.get(item.name)
-            if item_status is None:
-                self.state[item.name] = {"cut": 1}
-            elif item_status.get("cut") is None:
-                item_status["cut"] = 1
-            else:
-                item_status["cut"] += 1
-            return self.prev_step
-        elif action_name == "cook":
-            item = next(filter(lambda typed_entity: typed_entity.var_type == "item", action.variables))
-            item_status = self.state.get(item.name)
-            if item_status is None:
-                self.state[item.name] = {"cook": {"cook_time": -1, "cooking": True}}
-            elif item_status.get("cook") is None:
-                item_status["cook"] = {"cook_time": -1, "cooking": True}
-            else:
-                item_status["cook"]["cooking"] = True
-            return self.prev_step
-        elif action_name == "fry" or action_name == "fry_cut_item":
-            item = next(filter(lambda typed_entity: typed_entity.var_type == "item", action.variables))
-            item_status = self.state.get(item.name)
-            if item_status is None:
-                self.state[item.name] = {"fry": {"fry_time": -1, "frying": True}}
-            elif item_status.get("fry") is None:
-                item_status["fry"] = {"fry_time": -1, "frying": True}
-            else:
-                item_status["fry"]["frying"] = True
-            return self.prev_step
-        elif action_name == "pick-up":
-            item = next(filter(lambda typed_entity: typed_entity.var_type == "item", action.variables))
-            item_status = self.state.get(item.name)
-            if item_status is not None and item_status.get("cook") is not None:
-                item_status["cook"]["cooking"] = False
-            if item_status is not None and item_status.get("fry") is not None:
-                item_status["fry"]["frying"] = False                
+        # action_name = action.predicate.name
+        # if action_name == "cut":
+        #     item = next(filter(lambda typed_entity: typed_entity.var_type == "item", action.variables))
+        #     item_status = self.state.get(item.name)
+        #     if item_status is None:
+        #         self.state[item.name] = {"cut": 1}
+        #     elif item_status.get("cut") is None:
+        #         item_status["cut"] = 1
+        #     else:
+        #         item_status["cut"] += 1
+        #     return self.prev_step
+        # elif action_name == "cook":
+        #     item = next(filter(lambda typed_entity: typed_entity.var_type == "item", action.variables))
+        #     item_status = self.state.get(item.name)
+        #     if item_status is None:
+        #         self.state[item.name] = {"cook": {"cook_time": -1, "cooking": True}}
+        #     elif item_status.get("cook") is None:
+        #         item_status["cook"] = {"cook_time": -1, "cooking": True}
+        #     else:
+        #         item_status["cook"]["cooking"] = True
+        #     return self.prev_step
+        # elif action_name == "fry" or action_name == "fry_cut_item":
+        #     item = next(filter(lambda typed_entity: typed_entity.var_type == "item", action.variables))
+        #     item_status = self.state.get(item.name)
+        #     if item_status is None:
+        #         self.state[item.name] = {"fry": {"fry_time": -1, "frying": True}}
+        #     elif item_status.get("fry") is None:
+        #         item_status["fry"] = {"fry_time": -1, "frying": True}
+        #     else:
+        #         item_status["fry"]["frying"] = True
+        #     return self.prev_step
+        # elif action_name == "pick-up":
+        #     item = next(filter(lambda typed_entity: typed_entity.var_type == "item", action.variables))
+        #     item_status = self.state.get(item.name)
+        #     if item_status is not None and item_status.get("cook") is not None:
+        #         item_status["cook"]["cooking"] = False
+        #     if item_status is not None and item_status.get("fry") is not None:
+        #         item_status["fry"]["frying"] = False                
         # TODO: Probably stop cooking if something is stacked on top of meat
         return self.env.step(action)
         

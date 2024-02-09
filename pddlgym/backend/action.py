@@ -1,4 +1,5 @@
-from predicate import Predicate
+from pddlgym.backend.predicate import Predicate
+import pygame
 
 class Action(object):
     """

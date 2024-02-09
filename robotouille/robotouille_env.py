@@ -3,6 +3,7 @@ from renderer.renderer import RobotouilleRenderer
 from utils.robotouille_wrapper import RobotouilleWrapper
 from environments.env_generator import builder
 from environments.env_generator import procedural_generator
+from robotouille.env import RobotouilleEnv
 
 def _parse_renderer_layout(environment_json):
     """
@@ -78,4 +79,8 @@ def create_robotouille_env(problem_filename, seed=None, noisy_randomization=Fals
     # builder.write_problem_file(problem_string, f"{problem_filename}.pddl")
     # pddl_env = pddlgym_interface.create_pddl_env(env_name, is_test_env, render_fn, f"{problem_filename}.pddl")
     # builder.delete_problem_file(f"{problem_filename}.pddl")
-    return RobotouilleWrapper(pddl_env, environment_json['config']), environment_json, renderer
+    # print(environment_json)
+    # print(problem_string)
+    # assert False
+    env = RobotouilleEnv(environment_json, render_fn)
+    return RobotouilleWrapper(env, environment_json['config']), environment_json, renderer

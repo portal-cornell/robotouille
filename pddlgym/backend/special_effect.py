@@ -215,7 +215,7 @@ class DelayedEffect(SpecialEffect):
             active (bool): Whether or not the update is due to an action being
             performed.
         """
-        # if active: return
+        if active: return
 
         self.increment_time()
         if self.current_time == self.goal_time:
@@ -224,8 +224,103 @@ class DelayedEffect(SpecialEffect):
             self.completed = True
             
 class ConditionalEffect(SpecialEffect):
+    """
+    This class represnets a conditional effect in Robotouille.
 
-    pass
+    A conditional effect is an immediate effect that is only applied if a 
+    certain condition is met.
+
+    For example, some food items can only be fried if they are cut. 
+    Then, the condition predicate would be:
+        - "isfryableifcut"
+    And the effect predicate would be:
+        - "isfryable"
+
+    """
+    def __init__(self, obj, effects, completed, conditions):
+        """
+        Initializes a conditional effect.
+
+        Args:
+            object (Object): The object that the effect is applied to.
+            effects (Dictionary[Predicate, bool]): The effects of the action,
+            represented by a dictionary of predicates and bools.
+            completed (bool): Whether or not the effect has been completed.
+            conditions (Dictionary[Predicate, bool]): The conditions of the
+            effect, represented by a dictionary of predicates and bools.
+        """
+        super().__init__(obj, effects, completed)
+        self.condition = conditions
+
+    def __eq__(self, other):
+        """
+        Checks if two conditional effects are equal.
+
+        Args:
+            other (ConditionalEffect): The conditional effect to compare to.
+
+        Returns:
+            bool: True if the effects are equal, False otherwise.
+        """
+        return self.obj == other.obj and self.effects == other.effects \
+            and self.completed == other.completed \
+                and self.condition == other.condition
+    
+    def __hash__(self):
+        """
+        Returns the hash of the conditional effect.
+
+        Returns:
+            hash (int): The hash of the conditional effect.
+        """
+        return hash((self.obj, tuple(self.effects), self.completed, 
+                     tuple(self.condition)))
+    
+    def __repr__(self):
+        """
+        Returns the string representation of the conditional effect.
+
+        Returns:
+            string (str): The string representation of the conditional effect.
+        """
+        return "ConditionalEffect({}, {}, {})".format(self.obj, self.completed, self.condition)
+    
+    def copy(self, obj, args):
+        """
+        Returns a copy of the conditional effect, with the replaced object.
+
+        Args:
+            obj (Object): The object to replace the object in the effect with.
+            args (Dictionary[Object, Object]): The dictionary of objects to
+                replace for the effects. 
+
+        Returns:
+            copy (ConditionalEffect): The copy of the conditional effect.
+        """
+        new_effects = {}
+        for effect, value in self.effects.items():
+            new_effects[effect.copy(args)] = value
+        new_conditions = {}
+        for condition, value in self.condition.items():
+            new_conditions[condition.copy(args)] = value
+        return ConditionalEffect(obj, new_effects, self.completed, new_conditions)
+    
+    def update(self, state, active=False):
+        """
+        Updates the state with the effect.
+
+        Args:
+            state (State): The state to update.
+            active (bool): Whether or not the update is due to an action being
+            performed.
+        """
+        if active: return
+        for condition, value in self.condition.items():
+            if state.predicates[condition] != value:
+                return
+        for effect, value in self.effects.items():
+            state.update_predicate(effect, value)
+        self.completed = True
 
 class CreationEffect(SpecialEffect):
 

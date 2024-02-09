@@ -35,7 +35,7 @@ fry = Action("fry",
                 },
                 {},
                 [
-                    DelayedEffect(i1, {Predicate("is_fried", ["item"], [i1]) : True}, False, 3)
+                    DelayedEffect(i1, {Predicate("is_fried", ["item"], [i1]) : True}, False, 2)
                 ])
 
 move = Action("move",

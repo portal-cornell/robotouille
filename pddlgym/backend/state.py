@@ -1,5 +1,5 @@
-from predicate import Predicate
-from special_effect import SpecialEffect
+from pddlgym.backend.predicate import Predicate
+from pddlgym.backend.special_effect import SpecialEffect
 import itertools
 class State(object):
     '''
@@ -127,7 +127,7 @@ class State(object):
             objects (List[Object]): The objects in the state.
             true_predicates (Set[Predicate]): The predicates that are true in
                 the state, as defined by the problem file. 
-            goal (List[Predicate]): The goal predicates of the game.
+            goal (List[List[Predicate]]): The goal predicates of the game.
             special_effects (List[Special_effects]): The special effects that 
                 are active in the state.
         """
@@ -139,15 +139,15 @@ class State(object):
                 raise ValueError("Type {} is not defined in the domain.".format(object.object_type))
 
         self.predicates = self._build_predicates(domain, objects, true_predicates)
-
         self.actions = self._build_actions()
         
         self.goal = goal
         # check if goal predicates are defined in domain
-        for goal in self.goal:
-            if goal not in self.predicates:
-                raise ValueError("Predicate {} is not defined in the domain.".format(goal.name))
-            domain.check_types(goal.types)
+        for goal_set in self.goal:
+            for goal in goal_set:
+                if goal not in self.predicates:
+                    raise ValueError("Predicate {} is not defined in the state.".format(goal.name))
+                domain.check_types(goal.types)
         self.special_effects = special_effects
         
     def __eq__(self, other):
@@ -217,17 +217,23 @@ class State(object):
         Returns:
             bool: True if the state satisfies the goal, False otherwise.
         """
-        for goal in self.goal:
-            if not self.check_predicate(goal):
-                return False
-        return True
+        satisfied = False
+        for goal_set in self.goal:
+            for goal in goal_set:
+                if not self.check_predicate(goal):
+                    break
+            else:
+                satisfied = True
+                break
+        return satisfied
+        
     
     def get_valid_actions(self):
         """
         Gets all valid actions for the state.
 
         Returns:
-            valid_actions (Dictionary[Action, Dictionary[str, Object]]): A
+            valid_actions (Dictionary[Action, Dictionary[Object, Object]]): A
                 dictionary of valid actions for the state. The keys are the
                 actions, and the values are the arguments for the actions.
         """
@@ -251,6 +257,7 @@ class State(object):
         
         Returns:
             new_state (State): The successor state.
+            done (bool): True if the goal is reached, False otherwise.
         """
         for special_effect in self.special_effects:
             special_effect.update(self)
@@ -261,7 +268,7 @@ class State(object):
         self = action.perform_action(self, args)
         
         if self.check_goal():
-            return self #TODO: eventually change this to end the game with a 'finish' state/ screen
+            return self, True
 
-        return self
+        return self, False
     
