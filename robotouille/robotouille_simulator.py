@@ -1,3 +1,4 @@
+from enum import Enum
 import numpy as np
 import pygame
 from utils.rl_wrapper import RLWrapper
@@ -5,15 +6,19 @@ from utils.robotouille_input import create_action_from_control
 from robotouille.robotouille_env import create_robotouille_env
 from stable_baselines3 import A2C, PPO
 from stable_baselines3.common.env_util import make_vec_env
-import wandb
+
+
+class mode(Enum):
+    PLAY = 1
+    TRAIN = 2
+    LOAD = 3
 
 
 def simulator(
     environment_name: str,
     seed: int = 42,
     noisy_randomization: bool = False,
-    use_rl: bool = False,
-    load: bool = False,
+    mode=mode.TRAIN,
 ):
     # Your code for robotouille goes here
     env, json, renderer = create_robotouille_env(
@@ -26,7 +31,7 @@ def simulator(
     truncated = False
     interactive = False  # Set to True to interact with the environment through terminal REPL (ignores input)
 
-    if use_rl:
+    if mode == mode.TRAIN or mode == mode.LOAD:
         config = {
             "num_cuts": {"lettuce": 3, "default": 3},
             "cook_time": {"patty": 3, "default": 3},
@@ -36,18 +41,19 @@ def simulator(
         obs, info = rl_env.reset()
         rl_env.render(mode="human")
 
-        if load:
-            agent = PPO.load("ppo_500k-all_2_0_iter1")
+        if mode == mode.LOAD:
+            agent = PPO.load("ppo_100k-new_observations")
         else:
-            agent = PPO("MlpPolicy", rl_env, verbose=1, n_steps=1024)
+            agent = PPO("MlpPolicy", rl_env, verbose=1, n_steps=1024, ent_coef=0.5)
             agent.learn(
-                total_timesteps=100000, reset_num_timesteps=False, progress_bar=True
+                total_timesteps=500000, reset_num_timesteps=False, progress_bar=True
             )
-            agent.save("ppo_100k-new_observations")
+            agent.save("ppo_500k_ent-0.5")
 
         obs, info = rl_env.reset()
+
     while not done and not truncated:
-        if use_rl:
+        if mode == mode.TRAIN or mode == mode.LOAD:
             pygame_events = pygame.event.get()
             keydown_events = list(
                 filter(lambda e: e.type == pygame.KEYDOWN, pygame_events)

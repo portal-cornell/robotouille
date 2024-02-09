@@ -37,6 +37,7 @@ class RobotouilleWrapper(gym.Wrapper):
         # The configuration for this environment.
         # This is used to specify things such as cooking times and cutting amounts
         self.config = config
+        self.planning_algorithm = []
 
     def _interactive_starter_prints(self, expanded_truths):
         """
@@ -207,8 +208,7 @@ class RobotouilleWrapper(gym.Wrapper):
         items = ["patty1", "lettuce1", "topbun1"]
         correct_order = [
             "atop(patty1:item,bottombun1:item)",
-            "atop(lettuce1:item,patty1:item)",
-            "atop(topbun1:item,lettuce1:item)",
+            "atop(topbun1:item,patty1:item)",
         ]
 
         expanded_truths = self.prev_step[3]["expanded_truths"]
@@ -260,7 +260,6 @@ class RobotouilleWrapper(gym.Wrapper):
     def _top_bun_left(self):
         correct_order = [
             "atop(patty1:item,bottombun1:item)",
-            "atop(lettuce1:item,patty1:item)",
         ]
 
         expanded_truths = self.prev_step[3]["expanded_truths"]
@@ -416,6 +415,14 @@ class RobotouilleWrapper(gym.Wrapper):
         """
         return self.prev_step[3] if self.prev_step else None
 
+    def generate_plan(self, obs):
+        # print(obs.goal.literals[0])
+        # print(type(obs.goal.literals[0]))
+
+        goal = []
+
+        return goal
+
     def step(self, action=None, interactive=False):
         """
         This function steps the environment forward.
@@ -486,9 +493,8 @@ class RobotouilleWrapper(gym.Wrapper):
         }
 
         self.prev_step = (obs, self.prev_step[1], done, info)
-
         reward = self._handle_reward(action, obs)
-        print("reward: ", reward)
+        # print("reward: ", reward)
 
         self.prev_step = (obs, reward, done, info)
         return obs, reward, done, info
@@ -515,4 +521,5 @@ class RobotouilleWrapper(gym.Wrapper):
         self.prev_step = (obs, 0, False, info)
         self.timesteps = 0
         self.state = {}
+        self.planning = self.generate_plan(obs)
         return obs, info
