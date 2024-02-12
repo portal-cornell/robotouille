@@ -215,8 +215,10 @@ def build_identity_predicates(environment_dict):
     for field in ENTITY_FIELDS:
         for entity in environment_dict[field]:
             name = entity['name']
-            obj = Object(name, field[:-1])
-            identity_predicates.append(Predicate("is"+name[:-1], [field[:-1]], [obj]))
+            while name[-1].isdigit():
+                name = name[:-1]
+            obj = Object(entity['name'], field[:-1])
+            identity_predicates.append(Predicate("is"+name, [field[:-1]], [obj]))
             for predicate in entity.get("predicates", []):
                 identity_predicates.append(Predicate(predicate, [field[:-1]], [obj]))
     return identity_predicates
@@ -352,7 +354,10 @@ def create_conjunction(predicates):
         args = []
         types = []
         for arg in pred[1:]:
-            arg_type = entity_to_entity_field(arg[:-1])[:-1]
+            name = arg[:-1]
+            while name[-1].isdigit():
+                name = name[:-1]
+            arg_type = entity_to_entity_field(name)[:-1]
             obj = Object(arg, arg_type)
             args.append(obj)
             types.append(arg_type)

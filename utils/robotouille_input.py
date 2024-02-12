@@ -31,7 +31,6 @@ def create_action_from_control(env, obs, action, renderer):
     if len(action) == 0: return None, None
     valid_actions = (obs.get_valid_actions())
     action = action[0]
-    # print(valid_actions)
     for predicate, value in obs.predicates.items():
         if predicate.name == "loc" and value:
             player_loc = str(predicate.params[1])
