@@ -66,5 +66,8 @@ def create_action_from_control(env, obs, action, renderer):
             for args in valid_actions[ACTIONS[5]]:
                 if args[s1].name == player_loc:
                     return ACTIONS[5], args
+        elif action.key == pygame.K_SPACE:
+            for args in valid_actions[ACTIONS[8]]:
+                return ACTIONS[8], args
         return None, None
                 

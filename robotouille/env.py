@@ -185,6 +185,12 @@ unstack = Action(
             },
             []
         )
+wait = Action(
+            "wait",
+            {},
+            {},
+            []
+        )
 
 ACTIONS = [
         move,
@@ -194,7 +200,8 @@ ACTIONS = [
         cut,
         fry,
         stack,
-        unstack
+        unstack,
+        wait
     ]
     
 def build_identity_predicates(environment_dict):
