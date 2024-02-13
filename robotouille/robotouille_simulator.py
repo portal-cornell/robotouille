@@ -18,8 +18,10 @@ def simulator(
     environment_name: str,
     seed: int = 42,
     noisy_randomization: bool = False,
-    mode=mode.TRAIN,
+    mode=mode.LOAD,
 ):
+    file = "feb13_ppo_200k_small_observations_ent_coef_0.01"
+
     # Your code for robotouille goes here
     env, json, renderer = create_robotouille_env(
         environment_name, seed, noisy_randomization
@@ -42,13 +44,13 @@ def simulator(
         rl_env.render(mode="human")
 
         if mode == mode.LOAD:
-            agent = PPO.load("ppo_100k-new_observations")
+            agent = PPO.load(file)
         else:
-            agent = PPO("MlpPolicy", rl_env, verbose=1, n_steps=1024, ent_coef=0.5)
+            agent = PPO("MlpPolicy", rl_env, verbose=1, n_steps=1024)
             agent.learn(
-                total_timesteps=500000, reset_num_timesteps=False, progress_bar=True
+                total_timesteps=1000000, reset_num_timesteps=False, progress_bar=True
             )
-            agent.save("ppo_500k_ent-0.5")
+            agent.save(file)
 
         obs, info = rl_env.reset()
 

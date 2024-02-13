@@ -105,6 +105,18 @@ class RobotouilleWrapper(gym.Wrapper):
         self.env.set_state(new_env_state)
         return new_env_state
 
+    def heurestic_function(self, obs):
+        """
+        This function is a heuristic function that is used to generate a plan.
+
+        Args:
+            obs (PDDLGym State): The current state of the environment.
+
+        Returns: The measure of "goodness" of the state.
+        """
+
+        return []
+
     def _handle_action(self, action):
         if action == "noop":
             return self.prev_step
@@ -195,10 +207,10 @@ class RobotouilleWrapper(gym.Wrapper):
                 self.state[destination.name] = {"visited": True}
                 return 10
             elif item_status.get("visited") is None:
-                item_status["picked-up"] = True
+                item_status["visited"] = True
                 return 10
             elif item_status.get("visited") is False:
-                item_status["picked-up"] = True
+                item_status["visited"] = True
                 return 10
 
         return 0
@@ -208,7 +220,8 @@ class RobotouilleWrapper(gym.Wrapper):
         items = ["patty1", "lettuce1", "topbun1"]
         correct_order = [
             "atop(patty1:item,bottombun1:item)",
-            "atop(topbun1:item,patty1:item)",
+            "atop(lettuce1:item,patty1:item)",
+            "atop(topbun1:item,lettuce1:item)",
         ]
 
         expanded_truths = self.prev_step[3]["expanded_truths"]
@@ -260,6 +273,7 @@ class RobotouilleWrapper(gym.Wrapper):
     def _top_bun_left(self):
         correct_order = [
             "atop(patty1:item,bottombun1:item)",
+            "atop(lettuce1:item,patty1:item)",
         ]
 
         expanded_truths = self.prev_step[3]["expanded_truths"]
@@ -493,7 +507,9 @@ class RobotouilleWrapper(gym.Wrapper):
         }
 
         self.prev_step = (obs, self.prev_step[1], done, info)
+        # reward = 500 if done else self._handle_reward(action, obs)
         reward = self._handle_reward(action, obs)
+
         # print("reward: ", reward)
 
         self.prev_step = (obs, reward, done, info)
