@@ -21,6 +21,7 @@ class Station(Enum):
     TABLE = "table"
     FRYER = "fryer"
     SINK = "sink"
+    COUNTER = "counter"
 
 class Container(Enum):
     POT = "pot"

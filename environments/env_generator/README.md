@@ -5,16 +5,20 @@ Our goal with Robotouille is to make it very easy to create new environments. We
 ## Creating Environments
 
 ### Description
+
 The features we currently support are:
+
 - Changing the width/height of the environment
 - Adding various items and stations into the environment
-    - See `object_enums.py` and `robotouille.pddl` for the items and stations we support
-    - For 'wildcard' items or stations, you can use the word 'item' or 'station' in your JSON
+  - See `object_enums.py` and `robotouille.pddl` for the items and stations we support
+  - For 'wildcard' items or stations, you can use the word 'item' or 'station' in your JSON
 - Single player
 - Expressive goal descriptions
 
 #### Goal Descriptions
+
 We have a simple expressive language for describing goals in the environment. Consider the goal, "Make a lettuce burger". This requires a bottom bun, a lettuce burger, a patty, and a top bun. Ideally, we would describe this goal in PDDL as follows:
+
 ```
 (:goal (and
     (on patty bottombun)
@@ -22,6 +26,7 @@ We have a simple expressive language for describing goals in the environment. Co
     (on topbun lettuce)
 ))
 ```
+
 but things get complicated when we have multiple types of the same ingredient. How do we express that the patty on the bottombun is the same patty that the lettuce is on? Or what if we would like these patties to be different? We resolve this by introducing IDs in our JSON to make this explicit. We also have support for IDs that require that a specific item must be used in a goal by using letters instead of numbers. Refer below for more details on the example format and under `examples` for various examples using the ID system.
 
 ### Example Format
@@ -49,6 +54,7 @@ Here we describe the format of the JSON files under `examples`.
             "default: <COOK_TIME>
         }
     }
+    "flooring" = (Optional) String matrix of ground tile types (see tileset README)
     "stations" = A list of station objects in the environment
     [
         {
@@ -101,7 +107,7 @@ Here we describe the format of the JSON files under `examples`.
 
 We support procedural generation of environments given an environment JSON. When constructing an environment, we ensure that all stations are reachable by the robot and that all the stations and items specified in the JSON are present in the environment. It is assumed that the goal is achievable given the stations and items provided in the JSON - you can think of the environment JSONs as a way to specify the bare minimum stations and items necessary to achieve the goal.
 
-Our procedural generation by default randomizes the location of items on stations and held by the player (note it also randomizes the position of the stations but due to the current lack of a distance metric this is only a rendering difference). 
+Our procedural generation by default randomizes the location of items on stations and held by the player (note it also randomizes the position of the stations but due to the current lack of a distance metric this is only a rendering difference).
 
 The procedural generation currently does not randomize the states of objects (an environment can start with cut letuce and/or cooked patties) nor does it randomize objects to be stacked upon one another.
 

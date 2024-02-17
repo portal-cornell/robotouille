@@ -10,7 +10,11 @@
         }
     },
 
-    "floor": "floorkitchen.png",
+    "floor": {
+        "ground": ["tileset_flooring"],
+        "furniture": ["tileset_table", "tileset_counter"],
+        "default": "floorkitchen.png"
+    },
 
     "item": {
         "constants": {
@@ -139,7 +143,13 @@
             },
             "table": {
                 "assets": {
-                    "default": "table.png"
+                    "tile": "T"
+                },
+                "constants": {}
+            },
+            "counter": {
+                "assets": {
+                    "tile": "C"
                 },
                 "constants": {}
             },
