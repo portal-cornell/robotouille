@@ -144,11 +144,30 @@ class RobotouilleCanvas:
         Args:
             surface (pygame.Surface): Surface to draw on
         """
-        floor_image_name = self.config["floor"]
+        image_name = self.config["floor"]["asset"]
+        if image_name not in self.asset_directory:
+            num_sprites_x = self.config["floor"]["columns"]
+            num_sprites_y = self.config["floor"]["rows"]
+
+            sprites = []
+            spritesheet = pygame.image.load(os.path.join(RobotouilleCanvas.ASSETS_DIRECTORY, image_name)).convert_alpha()
+            sprite_width = spritesheet.get_width() // num_sprites_x
+            sprite_height = spritesheet.get_height() // num_sprites_y
+            for y in range(num_sprites_y):
+                for x in range(num_sprites_x):
+                    rect = pygame.Rect(x * sprite_width, y * sprite_height, sprite_width, sprite_height)
+                    sprite = spritesheet.subsurface(rect)
+                    sprites.append(sprite)
+            self.asset_directory[image_name] = sprites
+
+        sprites = self.asset_directory[image_name]
+        
         clamped_pix_square_size = np.ceil(self.pix_square_size) # Necessary to avoid 1 pixel gaps from decimals
         for row in range(len(self.layout)):
             for col in range(len(self.layout[0])):
-                self._draw_image(surface, floor_image_name, np.array([col, row]) * clamped_pix_square_size, clamped_pix_square_size)
+                #self._draw_image(surface, sprites[47], np.array([col, row]) * clamped_pix_square_size, clamped_pix_square_size)
+                image = pygame.transform.smoothscale(sprites[47], clamped_pix_square_size)
+                surface.blit(image, np.array([col, row]) * clamped_pix_square_size)
 
     def _draw_stations(self, surface):
         """

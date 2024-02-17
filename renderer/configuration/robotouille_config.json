@@ -10,7 +10,11 @@
         }
     },
 
-    "floor": "floorkitchen.png",
+    "floor": {
+        "asset": "tileset_flooring.png",
+        "columns": 12,
+        "rows": 4
+    },
 
     "item": {
         "constants": {
