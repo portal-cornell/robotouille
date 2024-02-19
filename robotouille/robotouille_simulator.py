@@ -18,7 +18,7 @@ def simulator(
     environment_name: str,
     seed: int = 42,
     noisy_randomization: bool = False,
-    mode=mode.LOAD,
+    mode=mode.PLAY,
 ):
     file = "feb13_ppo_200k_small_observations_ent_coef_0.01"
 

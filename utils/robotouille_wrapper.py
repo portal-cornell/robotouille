@@ -105,7 +105,7 @@ class RobotouilleWrapper(gym.Wrapper):
         self.env.set_state(new_env_state)
         return new_env_state
 
-    def heurestic_function(self, obs):
+    def heuristic_function(self, obs):
         """
         This function is a heuristic function that is used to generate a plan.
 
@@ -115,7 +115,15 @@ class RobotouilleWrapper(gym.Wrapper):
         Returns: The measure of "goodness" of the state.
         """
 
-        return []
+        score = 0
+        for clause in obs.goal.literals:
+            for goal in clause.literals:
+                for literal in obs.literals:
+                    if goal == literal:
+                        score += 10
+
+        print(score)
+        return score
 
     def _handle_action(self, action):
         if action == "noop":
@@ -509,6 +517,7 @@ class RobotouilleWrapper(gym.Wrapper):
         self.prev_step = (obs, self.prev_step[1], done, info)
         # reward = 500 if done else self._handle_reward(action, obs)
         reward = self._handle_reward(action, obs)
+        self.heuristic_function(obs)
 
         # print("reward: ", reward)
 
