@@ -1,208 +1,11 @@
-from typing import List, Optional, Union
-from pddlgym.backend.action import Action
-from pddlgym.backend.predicate import Predicate
-from pddlgym.backend.object import Object
-from pddlgym.backend.domain import Domain
-from pddlgym.backend.state import State
-from pddlgym.backend.special_effect import ConditionalEffect, DelayedEffect, RepetitiveEffect
+from backend.predicate import Predicate
+from backend.object import Object
+from backend.domain import Domain
+from backend.state import State
 from environments.env_generator.builder import entity_to_entity_field, create_unique_and_combination_preds, create_combinations
 import copy
-
+from robotouille.build_domain import ACTIONS, PREDICATE_DEF, ENTITY_FIELDS, OBJECT_TYPES
 import gym
-from gym import spaces
-import pygame
-import numpy as np
-
-STATION_FIELD = "stations"
-ITEM_FIELD = "items"
-PLAYER_FIELD = "players"
-
-ENTITY_FIELDS = [STATION_FIELD, ITEM_FIELD, PLAYER_FIELD]
-
-p1 = Object("p1", "player")
-s1 = Object("s1", "station")
-s2 = Object("s2", "station")
-i1 = Object("i1", "item")
-i2 = Object("i2", "item")
-
-move = Action(
-            "move",
-            {
-                Predicate("loc", ["player", "station"], [p1, s1]) : True,
-                Predicate("vacant", ["station"], [s2]) : True,
-            },
-            {
-                Predicate("loc", ["player", "station"], [p1, s1]) : False,
-                Predicate("loc", ["player", "station"], [p1, s2]) : True,
-                Predicate("vacant", ["station"], [s1]) : True,
-                Predicate("vacant", ["station"], [s2]) : False,
-            },
-            []
-        )
-pick_up = Action(
-            "pick-up",
-            {
-                Predicate("nothing", ["player"], [p1]) : True,
-                Predicate("on", ["item", "station"], [i1, s1]) : True,
-                Predicate("loc", ["player", "station"], [p1, s1]) : True,
-                Predicate("clear", ["item"], [i1]) : True,
-            },
-            {
-                Predicate("has", ["player", "item"], [p1, i1]) : True,
-                Predicate("empty", ["station"], [s1]) : True,
-                Predicate("nothing", ["player"], [p1]) : False,
-                Predicate("at", ["item", "station"], [i1, s1]) : False,
-                Predicate("clear", ["item"], [i1]) : False,
-                Predicate("on", ["item", "station"], [i1, s1]) : False,
-            },
-            []
-        )
-place = Action(
-            "place",
-            {
-                Predicate("has", ["player", "item"], [p1, i1]) : True,
-                Predicate("loc", ["player", "station"], [p1, s1]) : True,
-                Predicate("empty", ["station"], [s1]) : True,
-            },
-            {
-                Predicate("nothing", ["player"], [p1]) : True,
-                Predicate("at", ["item", "station"], [i1, s1]) : True,
-                Predicate("clear", ["item"], [i1]) : True,
-                Predicate("on", ["item", "station"], [i1, s1]) : True,
-                Predicate("has", ["player", "item"], [p1, i1]) : False,
-                Predicate("empty", ["station"], [s1]) : False,
-            },
-            []
-        )
-cook =  Action(
-            "cook",
-            {
-                Predicate("isstove", ["station"], [s1]) : True,
-                Predicate("iscookable", ["item"], [i1]) : True,
-                Predicate("on", ["item", "station"], [i1, s1]) : True,
-                Predicate("loc", ["player", "station"], [p1, s1]) : True,
-                Predicate("clear", ["item"], [i1]) : True,
-            },
-            {},
-            [
-                DelayedEffect(
-                    i1,
-                    {
-                        Predicate("iscooked", ["item"], [i1]) : True,
-                    },
-                    False,
-                    4
-                )  
-            ]
-        )
-cut = Action(
-            "cut",
-            {
-                Predicate("isboard", ["station"], [s1]) : True,
-                Predicate("iscuttable", ["item"], [i1]) : True,
-                Predicate("on", ["item", "station"], [i1, s1]) : True,
-                Predicate("loc", ["player", "station"], [p1, s1]) : True,
-                Predicate("clear", ["item"], [i1]) : True,
-            },
-            {},
-            [
-                RepetitiveEffect(
-                    i1,
-                    {
-                        Predicate("iscut", ["item"], [i1]) : True,
-                    },
-                    False,
-                    3
-                ),
-                ConditionalEffect(
-                    i1,
-                    {
-                        Predicate("isfryable", ["item"], [i1]) : True,
-                    },
-                    False,
-                    {
-                        Predicate("isfryableifcut", ["item"], [i1]) : True,
-                    }
-                )
-            ]
-        )
-fry = Action(
-            "fry",
-            {
-                Predicate("isfryer", ["station"], [s1]) : True,
-                Predicate("isfryable", ["item"], [i1]) : True,
-                Predicate("on", ["item", "station"], [i1, s1]) : True,
-                Predicate("loc", ["player", "station"], [p1, s1]) : True,
-                Predicate("clear", ["item"], [i1]) : True,
-            },
-            {},
-            [
-                DelayedEffect(
-                    i1,
-                    {
-                        Predicate("isfried", ["item"], [i1]) : True,
-                    },
-                    False,
-                    4
-                )  
-            ]
-        )
-stack = Action(
-            "stack",
-            {
-                Predicate("has", ["player", "item"], [p1, i1]) : True,
-                Predicate("clear", ["item"], [i2]) : True,
-                Predicate("loc", ["player", "station"], [p1, s1]) : True,
-                Predicate("at", ["item", "station"], [i2, s1]) : True,
-            },
-            {
-                Predicate("nothing", ["player"], [p1]) : True,
-                Predicate("at", ["item", "station"], [i1, s1]) : True,
-                Predicate("atop", ["item", "item"], [i1, i2]) : True,
-                Predicate("clear", ["item"], [i1]) : True,
-                Predicate("clear", ["item"], [i2]) : False,
-                Predicate("has", ["player", "item"], [p1, i1]) : False,
-            },
-            []
-        )
-unstack = Action(
-            "unstack",
-            {
-                Predicate("nothing", ["player"], [p1]) : True,
-                Predicate("clear", ["item"], [i1]) : True,
-                Predicate("atop", ["item", "item"], [i1, i2]) : True,
-                Predicate("loc", ["player", "station"], [p1, s1]) : True,
-                Predicate("at", ["item", "station"], [i2, s1]) : True,
-                Predicate("at", ["item", "station"], [i1, s1]) : True,
-            },
-            {
-                Predicate("has", ["player", "item"], [p1, i1]) : True,
-                Predicate("clear", ["item"], [i2]) : True,
-                Predicate("nothing", ["player"], [p1]) : False,
-                Predicate("atop", ["item", "item"], [i1, i2]) : False,
-                Predicate("clear", ["item"], [i1]) : False,
-                Predicate("at", ["item", "station"], [i1, s1]) : False,
-            },
-            []
-        )
-wait = Action(
-            "wait",
-            {},
-            {},
-            []
-        )
-
-ACTIONS = [
-        move,
-        pick_up,
-        place,
-        cook,
-        cut,
-        fry,
-        stack,
-        unstack,
-        wait
-    ]
     
 def build_identity_predicates(environment_dict):
     """
@@ -225,9 +28,10 @@ def build_identity_predicates(environment_dict):
             while name[-1].isdigit():
                 name = name[:-1]
             obj = Object(entity['name'], field[:-1])
-            identity_predicates.append(Predicate("is"+name, [field[:-1]], [obj]))
+            identity_predicates.append(Predicate().initialize("is"+name, [field[:-1]], [obj]))
             for predicate in entity.get("predicates", []):
-                identity_predicates.append(Predicate(predicate, [field[:-1]], [obj]))
+                pred = Predicate().initialize(predicate, [field[:-1]], [obj])
+                identity_predicates.append(pred)
     return identity_predicates
 
 def build_station_location_predicates(environment_dict):
@@ -256,10 +60,12 @@ def build_station_location_predicates(environment_dict):
                 if x == station["x"] and y == station["y"]:
                     name = entity["name"]
                     obj = Object(name, field[:-1])
-                    predicates.append(Predicate(predicate, [field[:-1], "station"], [obj, station_obj]))
+                    pred = Predicate().initialize(predicate, [field[:-1], "station"], [obj, station_obj])
+                    predicates.append(pred)
                     match = True
             if not match:
-                predicates.append(Predicate(no_match_predicate, ["station"], [station_obj]))
+                pred = Predicate().initialize(no_match_predicate, ["station"], [station_obj])
+                predicates.append(pred)
     return predicates
 
 def build_player_location_predicates(environment_dict):
@@ -282,11 +88,13 @@ def build_player_location_predicates(environment_dict):
         for item in environment_dict["items"]:
             if player["x"] == item["x"] and player["y"] == item["y"]:
                 obj = Object(item["name"], "item")
-                predicates.append(Predicate("has", ["player", "item"], [player_obj, obj]))
+                pred = Predicate().initialize("has", ["player", "item"], [player_obj, obj])
+                predicates.append(pred)
                 match = True
                 break
         if not match:
-            predicates.append(Predicate("nothing", ["player"], [player_obj]))
+            pred = Predicate().initialize("nothing", ["player"], [player_obj])
+            predicates.append(pred)
     return predicates
 
 def build_location_predicates(environment_dict):
@@ -337,13 +145,16 @@ def build_stacking_predicates(environment_dict):
     for station_name, items in stacks.items():
         station_obj = Object(station_name, "station")
         first_item_obj = Object(items[0]["name"], "item")
-        stacking_predicates.append(Predicate("on", ["item", "station"], [first_item_obj, station_obj]))
+        pred = Predicate().initialize("on", ["item", "station"], [first_item_obj, station_obj])
+        stacking_predicates.append(pred)
         for i in range(1, len(items)):
             obj = Object(items[i]["name"], "item")
             obj_below = Object(items[i-1]["name"], "item")
-            stacking_predicates.append(Predicate("atop", ["item", "item"], [obj, obj_below]))
+            pred = Predicate().initialize("atop", ["item", "item"], [obj, obj_below])
+            stacking_predicates.append(pred)
         last_obj = Object(items[-1]["name"], "item")
-        stacking_predicates.append(Predicate("clear", ["item"], [last_obj]))
+        pred = Predicate().initialize("clear", ["item"], [last_obj])
+        stacking_predicates.append(pred)
     return stacking_predicates
 
 def create_conjunction(predicates):
@@ -368,7 +179,8 @@ def create_conjunction(predicates):
             obj = Object(arg, arg_type)
             args.append(obj)
             types.append(arg_type)
-        conjunction.append(Predicate(pred[0], types, args))
+        new_pred = Predicate().initialize(pred[0], types, args)
+        conjunction.append(new_pred)
     return conjunction
 
 def build_goal(environment_dict):
@@ -411,42 +223,12 @@ def build_state(environment_json):
     Returns:
         domain (State): The state.
     """
-    object_types = ["player", "item", "station"]
-    predicate_def = [
-        Predicate("istable", ["station"]),
-        Predicate("isstove", ["station"]),
-        Predicate("isboard", ["station"]),
-        Predicate("isfryer", ["station"]),
-        Predicate("isrobot", ["player"]),
-        Predicate("istopbun", ["item"]),
-        Predicate("isbottombun", ["item"]),
-        Predicate("isbread", ["item"]),
-        Predicate("islettuce", ["item"]),
-        Predicate("isonion", ["item"]),
-        Predicate("istomato", ["item"]),
-        Predicate("iscuttable", ["item"]),
-        Predicate("iscut", ["item"]),
-        Predicate("ispatty", ["item"]),
-        Predicate("ischicken", ["item"]),
-        Predicate("iscookable", ["item"]),
-        Predicate("iscooked", ["item"]),
-        Predicate("ischeese", ["item"]),
-        Predicate("isfryable", ["item"]),
-        Predicate("isfryableifcut", ["item"]),
-        Predicate("isfried", ["item"]),
-        Predicate("ispotato", ["item"]),
-        Predicate("loc", ["player", "station"]),
-        Predicate("at", ["item", "station"]),
-        Predicate("nothing", ["player"]),
-        Predicate("empty", ["station"]),
-        Predicate("on", ["item", "station"]),
-        Predicate("vacant", ["station"]),
-        Predicate("clear", ["item"]),
-        Predicate("atop", ["item", "item"]),
-        Predicate("has", ["player", "item"]),
-    ]
+    object_types = OBJECT_TYPES
+    predicate_def = PREDICATE_DEF
     action_def = ACTIONS
-    domain = Domain("robotouille", object_types, predicate_def, action_def)
+    domain = Domain()
+    
+    domain.initialize("robotouille", object_types, predicate_def, action_def)
 
     objects = []
 
@@ -460,7 +242,7 @@ def build_state(environment_json):
     true_predicates += build_stacking_predicates(environment_json)
     goal = build_goal(environment_json)
 
-    state = State(domain, objects, true_predicates, goal)
+    state = State().initialize(domain, objects, true_predicates, goal)
 
     return state
 

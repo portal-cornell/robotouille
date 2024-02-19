@@ -1,6 +1,15 @@
 class SpecialEffect(object):
     """
     This class represents special effects in Robotouille.
+
+    Some effects are not easily represented by immediate effects. For example,
+    some effects may need repeated actions to be performed, or may only kick in
+    after a certain amount of time has passed, or may create new predicates or 
+    objects not already present in the state. These effects are represented by
+    this class.
+
+    The SpecialEffect class should not be directly instantiated, but rather 
+    should be inherited by one of its subclasses. 
     """
 
     def __init__(self, obj, effects, completed):
@@ -8,7 +17,7 @@ class SpecialEffect(object):
         Initializes a special effect.
 
         Args:
-            object (Object): The object that the effect is applied to.
+            obj (Object): The object that the effect is applied to.
             effects (Dictionary[Predicate, bool]): The effects of the action,
             represented by a dictionary of predicates and bools.
             completed (bool): Whether or not the effect has been completed.
@@ -25,6 +34,10 @@ class SpecialEffect(object):
             state (State): The state to update.
             active (bool): Whether or not the update is due to an action being
             performed.
+
+        Raises:
+            NotImplementedError: If the method is not implemented in the 
+            subclass.
         """
         raise NotImplementedError
         
@@ -32,7 +45,7 @@ class RepetitiveEffect(SpecialEffect):
     """
     This class represents repetitive effects in Robotouille.
 
-    A repepitive effect is an effect that is only applied after am action has
+    A repetitive effect is an effect that is only applied after an action has
     been performed a certain number of times.
     """
     
@@ -41,7 +54,7 @@ class RepetitiveEffect(SpecialEffect):
         Initializes a repetitive effect.
 
         Args:
-            object (Object): The object that the effect is applied to.
+            obj (Object): The object that the effect is applied to.
             effects (Dictionary[Predicate, bool]): The effects of the action,
             represented by a dictionary of predicates and bools.
             completed (bool): Whether or not the effect has been completed.
@@ -83,11 +96,12 @@ class RepetitiveEffect(SpecialEffect):
         Returns:
             string (str): The string representation of the repetitive effect.
         """
-        return "RepetitiveEffect({}, {}, {})".format(self.obj, self.completed, self.current_repetitions)
+        return f"RepetitiveEffect({self.obj}, {self.completed}, {self.current_repetitions})"
     
-    def copy(self, obj, args):
+    def replace_params_with_args(self, obj, args):
         """
-        Returns a copy of the repetitive effect, with the replaced object.
+        Returns a copy of the repetitive effect, replacing the parameter object
+        with the argument object.
 
         Args:
             obj (Object): The object to replace the object in the effect with.
@@ -99,7 +113,7 @@ class RepetitiveEffect(SpecialEffect):
         """
         new_effects = {}
         for effect, value in self.effects.items():
-            new_effects[effect.copy(args)] = value
+            new_effects[effect.replace_params_with_args(args)] = value
         return RepetitiveEffect(obj, new_effects, self.completed, 
                                 self.goal_repetitions)
         
@@ -130,7 +144,7 @@ class DelayedEffect(SpecialEffect):
     """
     This class represents delayed effects in Robotouille.
 
-    A delayed effect is an effect that is only applied after a certain amouny
+    A delayed effect is an effect that is only applied after a certain amount
     of time has passed.
     """
 
@@ -139,7 +153,7 @@ class DelayedEffect(SpecialEffect):
         Initializes a delayed effect.
 
         Args:
-            object (Object): The object that the effect is applied to.
+            obj (Object): The object that the effect is applied to.
             effects (Dictionary[Predicate, bool]): The effects of the action,
             represented by a dictionary of predicates and bools.
             completed (bool): Whether or not the effect has been completed.
@@ -181,11 +195,12 @@ class DelayedEffect(SpecialEffect):
         Returns:
             string (str): The string representation of the delayed effect.
         """
-        return "DelayedEffect({}, {}, {})".format(self.obj, self.completed, self.current_time)
+        return f"DelayedEffect({self.obj}, {self.completed}, {self.current_time})"
     
-    def copy(self, obj, args):
+    def replace_params_with_args(self, obj, args):
         """
-        Returns a copy of the delayed effect, with the replaced object.
+        Returns a copy of the delayed effect, replacing the parameter object
+        with the argument object.
 
         Args:
             obj (Object): The object to replace the object in the effect with.
@@ -197,7 +212,7 @@ class DelayedEffect(SpecialEffect):
         """
         new_effects = {}
         for effect, value in self.effects.items():
-            new_effects[effect.copy(args)] = value
+            new_effects[effect.replace_params_with_args(args)] = value
         return DelayedEffect(obj, new_effects, self.completed, self.goal_time)
     
     def increment_time(self):
@@ -225,7 +240,7 @@ class DelayedEffect(SpecialEffect):
             
 class ConditionalEffect(SpecialEffect):
     """
-    This class represnets a conditional effect in Robotouille.
+    This class represents a conditional effect in Robotouille.
 
     A conditional effect is an immediate effect that is only applied if a 
     certain condition is met.
@@ -242,7 +257,7 @@ class ConditionalEffect(SpecialEffect):
         Initializes a conditional effect.
 
         Args:
-            object (Object): The object that the effect is applied to.
+            obj (Object): The object that the effect is applied to.
             effects (Dictionary[Predicate, bool]): The effects of the action,
             represented by a dictionary of predicates and bools.
             completed (bool): Whether or not the effect has been completed.
@@ -285,9 +300,10 @@ class ConditionalEffect(SpecialEffect):
         """
         return "ConditionalEffect({}, {}, {})".format(self.obj, self.completed, self.condition)
     
-    def copy(self, obj, args):
+    def replace_params_with_args(self, obj, args):
         """
-        Returns a copy of the conditional effect, with the replaced object.
+        Returns a copy of the conditional effect, replacing the parameter object
+        with the argument object.
 
         Args:
             obj (Object): The object to replace the object in the effect with.
@@ -299,10 +315,10 @@ class ConditionalEffect(SpecialEffect):
         """
         new_effects = {}
         for effect, value in self.effects.items():
-            new_effects[effect.copy(args)] = value
+            new_effects[effect.replace_params_with_args(args)] = value
         new_conditions = {}
         for condition, value in self.condition.items():
-            new_conditions[condition.copy(args)] = value
+            new_conditions[condition.replace_params_with_args(args)] = value
         return ConditionalEffect(obj, new_effects, self.completed, new_conditions)
     
     def update(self, state, active=False):

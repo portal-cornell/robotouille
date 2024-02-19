@@ -1,19 +1,21 @@
 class Predicate(object):
     '''
-    This class represents a predicate in the Robotouille game. 
+    This class represents a predicate in Robotouille. 
 
-    Predicates are rules that are true or false in a given state. There are two
-    main types of predicates:
-        - Identity predicates: These predicates inform the game about what the 
-        object is. 
-        - State predicates: These predicates inform the game about the state of
-        the object.
-    
-    Predicates are defined by the user in the domain file, and are created using
+    Predicates are properties that are True or False in a given state. 
+    Predicates are defined by the user in the domain json, and are created using
     this class for the game to use.
     '''
 
-    def __init__(self, name, types, params=[]):
+    def __init__(self):
+        """
+        Creates a predicate object with default values.
+        """
+        self.name = ""
+        self.types = []
+        self.params = []
+
+    def initialize(self, name, types, params=[]):
         """
         Initializes a predicate object.
 
@@ -24,16 +26,21 @@ class Predicate(object):
             params (List[Object]): The parameters of the predicate, represented 
                 by a list of objects. If the predicate is a predicate 
                 definition, params is empty.
-        """
-        self.name = name
-        self.types = types
-        self.params = params
 
-        # check if params match types
+        Returns:
+            pred (Predicate): The initialized predicate.
+        """
+        # Check if params match types
         for param in params:
             object_type = types[params.index(param)]
             if param.object_type != object_type:
                 raise ValueError("Type of parameter does not match type.")
+            
+        self.name = name
+        self.types = types
+        self.params = params
+
+        return self
 
     def __eq__(self, other):
         """
@@ -56,15 +63,6 @@ class Predicate(object):
         """
         return hash((self.name, tuple(self.types), tuple(self.params)))
     
-    def __str__(self):
-        """
-        Returns the string representation of the predicate.
-
-        Returns:
-            string (str): The string representation of the predicate.
-        """
-        return self.name + str(tuple(self.params))
-    
     def __repr__(self):
         """
         Returns the string representation of the predicate.
@@ -74,7 +72,7 @@ class Predicate(object):
         """
         return self.name + str(tuple(self.params))
     
-    def copy(self, args):
+    def replace_params_with_args(self, args):
         """
         Returns a copy of the predicate, with the replaced objects.
 
@@ -85,18 +83,6 @@ class Predicate(object):
         Returns:
             pred (Predicate): The copy of the predicate.
         """
-        return Predicate(self.name, self.types, [args.get(param, param) for param in self.params])
-
-
-    def pred_without_objs(self):
-        """
-        Returns the predicate without the objects. 
-
-        This is primarily used to compare the equality of a predicate and a 
-        predicate definition.
-
-        Returns:
-            pred (Predicate): The predicate without the objects.
-        """
-        return Predicate(self.name, self.types)
+        pred_args = [args.get(param, param) for param in self.params]
+        return Predicate().initialize(self.name, self.types, pred_args)
 

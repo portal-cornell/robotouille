@@ -91,8 +91,8 @@ class RobotouilleCanvas:
 
         # Get predicates of item in current game state
         item_predicates = []        
-        for literal, value in obs.predicates.items():   
-            if value and literal.params[0].name == item_image_name + item_id:
+        for literal, is_true in obs.predicates.items():   
+            if is_true and literal.params[0].name == item_image_name + item_id:
                 item_predicates.append(literal.name)
         
         item_config = self.config["item"]["entities"][item_image_name]
@@ -264,8 +264,8 @@ class RobotouilleCanvas:
         """
         player_pos = None
         held_item_name = None
-        for literal, value in obs.predicates.items():
-            if value and literal.name == "loc":
+        for literal, is_true in obs.predicates.items():
+            if is_true and literal.name == "loc":
                 player_station = literal.params[1].name
                 station_pos = self._get_station_position(player_station)
                 player_pos = self.player_pose["position"]
@@ -275,7 +275,7 @@ class RobotouilleCanvas:
                 #player_pos = pos
                 robot_image_name = self._get_player_image_name(player_direction)
                 self._draw_image(surface, robot_image_name, player_pos * self.pix_square_size, self.pix_square_size)
-            if value and literal.name == "has":
+            if is_true and literal.name == "has":
                 player_pos = self.player_pose["position"]
                 held_item_name = literal.params[1].name
         if held_item_name:
@@ -296,8 +296,8 @@ class RobotouilleCanvas:
         stack_list = [] # In the form (x, y) such that x is stacked on y
         stack_number = {} # Stores the item item and current stack number
         station_item_offset = self.config["item"]["constants"]["STATION_ITEM_OFFSET"]
-        for literal, value in obs.predicates.items():
-            if value and literal.name == "on":
+        for literal, is_true in obs.predicates.items():
+            if is_true and literal.name == "on":
                 item = literal.params[0].name
                 stack_number[item] = 1
                 item_station = literal.params[1].name
@@ -305,7 +305,7 @@ class RobotouilleCanvas:
                 # Place the item slightly above the station
                 pos[1] -= station_item_offset 
                 self._draw_item_image(surface, item, obs, pos * self.pix_square_size)
-            if value and literal.name == 'atop':
+            if is_true and literal.name == 'atop':
                 stack = (literal.params[0].name, literal.params[1].name)
                 stack_list.append(stack)
         
@@ -318,8 +318,8 @@ class RobotouilleCanvas:
                     stack_list.remove(stack_list[i])
                     stack_number[item_above] = stack_number[item_below] + 1
                     # Get location of station
-                    for literal, value in obs.predicates.items():
-                        if value and literal.name == "at" and literal.params[0].name == item_below:
+                    for literal, is_true in obs.predicates.items():
+                        if is_true and literal.name == "at" and literal.params[0].name == item_below:
                             station_pos = self._get_station_position(literal.params[1].name)
                             break
                     item_name, _ = trim_item_ID(item_above)

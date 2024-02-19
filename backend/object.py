@@ -2,10 +2,10 @@ class Object(object):
     '''
     This class represents objects in Robotouille.
 
-    Objects are created by the user in the domain file, and are created using
+    Objects are created by the user in the domain json, and are created using
     this class for the game to use.
 
-    Each object also has an object_type, which is also defined in the user file. 
+    Each object also has an object_type, which is also defined in the domain json. 
     This will be used for type checking when creating predicates.
     '''
 

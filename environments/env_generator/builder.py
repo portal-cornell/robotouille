@@ -68,6 +68,7 @@ def load_environment(json_filename, seed=None):
         environment_json = json.load(f)
     sorting_key = lambda entity: (entity["x"], entity["y"])
     environment_json["stations"].sort(key=sorting_key)
+    # TODO: Breaks seed that gives consistent layout
     for station in environment_json["stations"]:
         if station["name"] == "station":
             station["name"] = random.choice(list(Station)).value
