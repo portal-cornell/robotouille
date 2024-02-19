@@ -52,7 +52,8 @@ class Predicate(object):
         Returns:
             bool: True if the predicates are equal, False otherwise.
         """
-        return self.name == other.name and list(self.types) == list(other.types) and list(self.params) == list(other.params)
+        return self.name == other.name and list(self.types) == list(other.types)\
+              and list(self.params) == list(other.params)
     
     def __hash__(self):
         """
@@ -72,16 +73,16 @@ class Predicate(object):
         """
         return self.name + str(tuple(self.params))
     
-    def replace_params_with_args(self, args):
+    def replace_params_with_args(self, param_arg_dict):
         """
         Returns a copy of the predicate, with the replaced objects.
 
         Args:
-            args (Dictionary[Object, Object]): The dictionary of objects to
-                replace for the predicate. 
+            param_arg_dict (Dictionary[Object, Object]): The dictionary mapping
+                parameters to arguments.
 
         Returns:
             pred (Predicate): The copy of the predicate.
         """
-        pred_args = [args.get(param, param) for param in self.params]
+        pred_args = [param_arg_dict.get(param) for param in self.params]
         return Predicate().initialize(self.name, self.types, pred_args)

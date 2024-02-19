@@ -104,10 +104,10 @@ class Action(object):
                 return False
             
         # Check if all preconditions are satisfied
-        for precon, value in self.precons.items():
+        for precon, is_true in self.precons.items():
             pred_args = [args[param] for param in precon.params]
             pred = Predicate().initialize(precon.name, precon.types, pred_args)
-            if value is not state.get_predicate_value(pred):
+            if state.get_predicate_value(pred) is not is_true:
                 return False
         return True
 

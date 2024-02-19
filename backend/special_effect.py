@@ -98,22 +98,23 @@ class RepetitiveEffect(SpecialEffect):
         """
         return f"RepetitiveEffect({self.obj}, {self.completed}, {self.current_repetitions})"
     
-    def replace_params_with_args(self, obj, args):
+    def replace_params_with_args(self, obj, param_arg_dict):
         """
         Returns a copy of the repetitive effect, replacing the parameter object
         with the argument object.
 
         Args:
             obj (Object): The object to replace the object in the effect with.
-            args (Dictionary[Object, Object]): The dictionary of objects to
-                replace for the effects. 
+            param_arg_dict (Dictionary[Object, Object]): The dictionary mapping
+                the parameters to the arguments.
 
         Returns:
-            copy (RepetitiveEffect): The copy of the repetitive effect.
+            copy (RepetitiveEffect): The copy of the repetitive effect with 
+                the parameters replaced with the arguments.
         """
         new_effects = {}
         for effect, value in self.effects.items():
-            new_effects[effect.replace_params_with_args(args)] = value
+            new_effects[effect.replace_params_with_args(param_arg_dict)] = value
         return RepetitiveEffect(obj, new_effects, self.completed, 
                                 self.goal_repetitions)
         
@@ -197,22 +198,23 @@ class DelayedEffect(SpecialEffect):
         """
         return f"DelayedEffect({self.obj}, {self.completed}, {self.current_time})"
     
-    def replace_params_with_args(self, obj, args):
+    def replace_params_with_args(self, obj, param_arg_dict):
         """
         Returns a copy of the delayed effect, replacing the parameter object
         with the argument object.
 
         Args:
             obj (Object): The object to replace the object in the effect with.
-            args (Dictionary[Object, Object]): The dictionary of objects to
-                replace for the effects. 
+            param_arg_dict (Dictionary[Object, Object]): The dictionary mapping
+                the parameters to the arguments.
 
         Returns:
-            copy (DelayedEffect): The copy of the delayed effect.
+            copy (DelayedEffect): The copy of the delayed effect with the
+                parameters replaced with the arguments.
         """
         new_effects = {}
         for effect, value in self.effects.items():
-            new_effects[effect.replace_params_with_args(args)] = value
+            new_effects[effect.replace_params_with_args(param_arg_dict)] = value
         return DelayedEffect(obj, new_effects, self.completed, self.goal_time)
     
     def increment_time(self):
@@ -300,25 +302,26 @@ class ConditionalEffect(SpecialEffect):
         """
         return "ConditionalEffect({}, {}, {})".format(self.obj, self.completed, self.condition)
     
-    def replace_params_with_args(self, obj, args):
+    def replace_params_with_args(self, obj, param_arg_dict):
         """
         Returns a copy of the conditional effect, replacing the parameter object
         with the argument object.
 
         Args:
             obj (Object): The object to replace the object in the effect with.
-            args (Dictionary[Object, Object]): The dictionary of objects to
-                replace for the effects. 
+            param_arg_dict (Dictionary[Object, Object]): The dictionary mapping
+                the parameters to the arguments.
 
         Returns:
-            copy (ConditionalEffect): The copy of the conditional effect.
+            copy (ConditionalEffect): The copy of the conditional effect with
+                the parameters replaced with the arguments.
         """
         new_effects = {}
         for effect, value in self.effects.items():
-            new_effects[effect.replace_params_with_args(args)] = value
+            new_effects[effect.replace_params_with_args(param_arg_dict)] = value
         new_conditions = {}
         for condition, value in self.condition.items():
-            new_conditions[condition.replace_params_with_args(args)] = value
+            new_conditions[condition.replace_params_with_args(param_arg_dict)] = value
         return ConditionalEffect(obj, new_effects, self.completed, new_conditions)
     
     def update(self, state, active=False):
