@@ -85,4 +85,3 @@ class Predicate(object):
         """
         pred_args = [args.get(param, param) for param in self.params]
         return Predicate().initialize(self.name, self.types, pred_args)
-

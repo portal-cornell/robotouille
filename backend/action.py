@@ -148,10 +148,3 @@ class Action(object):
             state.update_special_effect(special_effect, arg, param_arg_dict)
 
         return state
-
-
-        
-        
-        
-
-
