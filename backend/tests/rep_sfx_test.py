@@ -1,6 +1,9 @@
 """
-This test is for the RepetitiveEffect class, to see if the repetitive effects are
-applied to the state after the action has been performed a certain number of times.
+This test is for the RepetitiveEffect class.
+
+An action, cut, is tested with a repetitive effect. The test asserts that the 
+effects of the action are only applied after the action is performed the correct
+number of times.
 """
 
 import sys
@@ -90,11 +93,13 @@ print("\nState predicates: {}".format(state.predicates))
 print("Valid actions: {}".format(state.get_valid_actions()))
 print("\nPerforming cut (1st time)")
 state.step(cut, {p1: player1, s1: cutting_board1, i1: lettuce1})
+assert not state.get_predicate_value(Predicate().initialize("is_cut", ["item"], [lettuce1]))
 print("State special effects: {}".format(state.special_effects))
 print("\nState predicates: {}".format(state.predicates))
 print("Valid actions: {}".format(state.get_valid_actions()))
 print("\nPerforming cut (2nd time)")
 state.step(cut, {p1: player1, s1: cutting_board1, i1: lettuce1})
+assert not state.get_predicate_value(Predicate().initialize("is_cut", ["item"], [lettuce1]))
 print("State special effects: {}".format(state.special_effects))
 print("\nState predicates: {}".format(state.predicates))
 print("Valid actions: {}".format(state.get_valid_actions()))

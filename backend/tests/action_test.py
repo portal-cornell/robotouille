@@ -1,7 +1,13 @@
 """
-This test is for the action class, to see if actions are able to be performed 
-given the preconditions are satisfied. It then tests if the immediate effects
-are applied to the state, and if the goal can be reached.
+This file tests the Action class. 
+
+Two actions with only immediate effects, cut and move, are tested.
+
+The test asserts that each action can only be performed when the correct 
+preconditions are met, and that the effects are applied correctly.
+
+The test also ensures that the goal is satisfied correctly at the end once
+the correct actions are performed. 
 """
 
 import sys

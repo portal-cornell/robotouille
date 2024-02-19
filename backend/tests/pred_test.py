@@ -1,6 +1,12 @@
 """
-This test is for the predicate class, to see if the predicates are able to be
-initialized properly and if the state is able to build all possible predicates.
+This file tests that the State class correctly initializes the predicates in the
+state.
+
+The State class builds all the possible predicates by looking at all possible
+combinations of objects and predicates in the domain.
+
+The test asserts that the number of predicates in the state is correct, and that
+the true predicates are correctly set to true in the state.
 """
 
 import sys
@@ -51,4 +57,15 @@ state = State().initialize(domain,
 
 print(state.predicates)
 assert len(state.predicates) == 62
+assert state.get_predicate_value(Predicate().initialize("is_patty", ["item"], [patty1]))
+assert state.get_predicate_value(Predicate().initialize("is_lettuce", ["item"], [lettuce1]))
+assert state.get_predicate_value(Predicate().initialize("is_onion", ["item"], [onion1]))
+assert state.get_predicate_value(Predicate().initialize("is_table", ["station"], [table1]))
+assert state.get_predicate_value(Predicate().initialize("is_patty", ["item"], [patty2]))
+assert state.get_predicate_value(Predicate().initialize("is_lettuce", ["item"], [lettuce2]))
+assert state.get_predicate_value(Predicate().initialize("is_onion", ["item"], [onion2]))
+assert state.get_predicate_value(Predicate().initialize("is_table", ["station"], [table2]))
+assert state.get_predicate_value(Predicate().initialize("on", ["station", "item"], [table1, patty1]))
+assert state.get_predicate_value(Predicate().initialize("on", ["station", "item"], [table2, lettuce1]))
+assert state.get_predicate_value(Predicate().initialize("atop", ["item", "item"], [patty1, lettuce1]))
 

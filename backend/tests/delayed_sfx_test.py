@@ -1,6 +1,12 @@
 """
-This test is for the DelayedEffect class, to see if the delayed effects are
-applied to the state after a certain number of updates to the state.
+This test is for the DelayedEffect class.
+
+An action, fry, is tested with a delayed effect. The test asserts that after 
+the action is performed, the delayed effect is applied to the object in the 
+state, no matter the action being performed. 
+
+It asserts that the effects of the action are only applied after the correct
+number of steps have been taken.
 """
 
 import sys
@@ -43,7 +49,7 @@ fry = Action("fry",
                 },
                 {},
                 [
-                    DelayedEffect(i1, {Predicate().initialize("is_fried", ["item"], [i1]) : True}, False, 2)
+                    DelayedEffect(i1, {Predicate().initialize("is_fried", ["item"], [i1]) : True}, False, 3)
                 ])
 
 move = Action("move",
@@ -90,11 +96,13 @@ print("\nState predicates: {}".format(state.predicates))
 print("Valid actions: {}".format(state.get_valid_actions()))
 print("\nPerforming fry (1st time)")
 state.step(fry, {s1: fryer1, p1: player1, i1: chicken1})
+assert not state.get_predicate_value(Predicate().initialize("is_fried", ["item"], [chicken1]))
 print("State special effects: {}".format(state.special_effects))
 print("\nState predicates: {}".format(state.predicates))
 print("Valid actions: {}".format(state.get_valid_actions()))
 print("\nPerforming fry (2nd time)")
 state.step(move, {p1: player1, s1: fryer1, s2: table1})
+assert not state.get_predicate_value(Predicate().initialize("is_fried", ["item"], [chicken1]))
 print("State special effects: {}".format(state.special_effects))
 print("\nState predicates: {}".format(state.predicates))
 print("Valid actions: {}".format(state.get_valid_actions()))
