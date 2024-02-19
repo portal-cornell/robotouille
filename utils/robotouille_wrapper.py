@@ -122,7 +122,6 @@ class RobotouilleWrapper(gym.Wrapper):
                     if goal == literal:
                         score += 10
 
-        print(score)
         return score
 
     def _handle_action(self, action):
@@ -491,6 +490,8 @@ class RobotouilleWrapper(gym.Wrapper):
                 self.env, self.prev_step[0], action
             )
 
+        score = self.heuristic_function(self.prev_step[0])
+
         obs, reward, done, info = self._handle_action(action)
         obs = self._state_update()
 
@@ -517,7 +518,7 @@ class RobotouilleWrapper(gym.Wrapper):
         self.prev_step = (obs, self.prev_step[1], done, info)
         # reward = 500 if done else self._handle_reward(action, obs)
         reward = self._handle_reward(action, obs)
-        self.heuristic_function(obs)
+        reward += self.heuristic_function(obs) - score
 
         # print("reward: ", reward)
 
