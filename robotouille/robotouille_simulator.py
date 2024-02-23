@@ -18,9 +18,9 @@ def simulator(
     environment_name: str,
     seed: int = 42,
     noisy_randomization: bool = False,
-    mode=mode.PLAY,
+    mode=mode.LOAD,
 ):
-    file = "feb13_ppo_200k_small_observations_ent_coef_0.01"
+    file = "feb22_ppo_1m_state_based_reward_ent_coef_0.01"
 
     # Your code for robotouille goes here
     env, json, renderer = create_robotouille_env(

@@ -55,7 +55,7 @@ class RLEnv(gym.Env):
         desired_items = ["lettuce", "patty"]
         # desired_truths = ["iscut", "iscooked", "has", "loc"]
         # desired_items = ["lettuce", "patty", "robot", "robot"]
-        desired_order = ["topbun", "lettuce", "patty", "bottombun"]
+        # desired_order = ["topbun", "lettuce", "patty", "bottombun"]
 
         shortened_expanded_truths = []
         shortened_expanded_states = []

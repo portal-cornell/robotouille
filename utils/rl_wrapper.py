@@ -17,7 +17,7 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
 
         self.pddl_env = env
         self.env = None
-        self.max_steps = 100
+        self.max_steps = 40
         self.episode_reward = 0
         # Configuration dictionary for tracking metrics
         self.metrics_config = {
