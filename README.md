@@ -121,6 +121,47 @@ To create your own environment, add another example into `environments/env_gener
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+### Running RL:
+Running RL:
+We have integrated robust reinforcement learning (RL) capabilities into Robotouille, allowing users to explore and train RL agents within our diverse cooking environments. This section guides you through the process of setting up and running RL algorithms with Robotouille.
+
+Setup for RL Training:
+1. Initialize the Environment: First, ensure that you have set up Robotouille as per the instructions in the Setup section. You can turn off RL and manually play the simulation by setting the RL flag to false. 
+
+2. Select an RL Algorithm: Robotouille supports various RL algorithms. You can choose from standard options like Proximal Policy Optimization (PPO) and Advantage Actor Critic (A2C), among others. The choice of algorithm can significantly affect how the agent learns and performs tasks in the cooking environment. You can either load a pretrained PPO model or train one from scratch per simulation.
+
+3. Configure the Algorithm: Modify the algorithm's parameters to suit your specific requirements. This could include setting the learning rate, the number of training episodes, or the reward structure. We provide a default configuration, but encourage experimentation for optimal results. A good metric might be 500,000 timesteps. 
+
+Running the Training:
+To initiate the training process, follow these steps:
+
+1. Launch the Training Script: Run the training script with the chosen environment and RL algorithm. You can use a command like:
+
+2. Monitor the Training: Training an RL agent can be time-consuming. Monitor the agent's progress through the logs or visualizations provided. Watching the agent learn and adapt over time can offer valuable insights into the effectiveness of your chosen RL setup.
+
+3. Evaluate the Agent: After the training is complete, evaluate the agent's performance. We provide tools to test the agent in the environment, allowing you to assess its ability to perform cooking tasks with efficiency and accuracy.
+
+Results:
+
+Goal only
+
+https://github.com/promiseve/hosp_robotouille/assets/43937402/7d08d89c-6582-45b1-b172-da930eb4b577
+
+
+Subtask completion
+
+https://github.com/promiseve/hosp_robotouille/assets/43937402/ebda6fa2-9f64-4bc5-b22d-729c75186e26
+
+
+Valid/Invalid actions
+
+https://github.com/promiseve/hosp_robotouille/assets/43937402/50a2d878-dcfe-442c-95a0-3f6c93131e68
+
+
+Subtask completion with valid/invalid actions
+
+https://github.com/promiseve/hosp_robotouille/assets/43937402/17a96745-6ae6-4e47-b3b5-f0138bfbf62d
+
 
 
 <!-- CONTRIBUTING -->
@@ -154,6 +195,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 ## Contact
 
 Gonzalo Gonzalez - gg387@cornell.edu
+Promise Ekpo - poe6@cornell.edu
 
 Project Link: [https://github.com/portal-cornell/robotouille](https://github.com/portal-cornell/robotouille)
 
