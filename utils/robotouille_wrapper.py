@@ -105,6 +105,14 @@ class RobotouilleWrapper(gym.Wrapper):
         self.env.set_state(new_env_state)
         return new_env_state
 
+    def find_stacking_index(self, goal, correct_order):
+        for i in range(len(correct_order) - 1):
+            if (
+                correct_order[i] in goal.variables[0]
+                and correct_order[i + 1] in goal.variables[1]
+            ):
+                return i
+
     def heuristic_function(self, obs):
         """
         This function is a heuristic function that is used to generate a plan.
@@ -115,16 +123,53 @@ class RobotouilleWrapper(gym.Wrapper):
         Returns: The measure of "goodness" of the state.
         """
 
+        # Example goal: [AND[iscut(lettuce1:item), atop(topbun1:item,lettuce1:item), iscooked(patty1:item), atop(lettuce1:item,patty1:item), atop(patty1:item,bottombun1:item)]]
+        correct_order = ["topbun", "lettuce", "patty", "bottombun"]
+        correct_stacking = [False] * 3
+        cooked = False
+        cut = False
+
         score = 0
         for clause in obs.goal.literals:
             for goal in clause.literals:
                 for literal in obs.literals:
                     if goal == literal:
-                        score += 10
+                        if goal.predicate == "atop":
+                            index = self.find_stacking_index(goal, correct_order)
+                            correct_stacking[index] = True
+                        if goal.predicate == "iscooked":
+                            cooked = True
+                        if goal.predicate == "iscut":
+                            cut = True
+
+        for i in range(len(correct_stacking)):
+            if not correct_stacking[2 - i]:
+                break
+            if i == 0 and not cooked:
+                break
+            elif i == 1 and (not cut or not cooked):
+                break
+            elif i == 2 and not cut:
+                break
+            score += 10
+
+        if cooked:
+            score += 10
+        if cut:
+            score += 30
+
+        item_status = self.state.get("lettuce1")
+        if item_status is not None and item_status.get("cut") is not None:
+            score += 10 * item_status["cut"] if item_status["cut"] < 3 else 0
 
         return score
 
     def _handle_action(self, action):
+        """
+        This function handles the action taken by the environment.
+
+        Args: action (str): The action to take.
+        """
         if action == "noop":
             return self.prev_step
         action_name = action.predicate.name
@@ -192,6 +237,11 @@ class RobotouilleWrapper(gym.Wrapper):
         return self.env.step(action)
 
     def _handle_moving_reward(self, action, obs):
+        """
+        This function handles the reward for the moving action. It currently rewards the agent for moving to the correct location with the correct item (patty to grill, lettuce to board)
+        """
+
+        # Check if an item is being held
         reward = 0
         holding = False
         literals = obs.literals
@@ -207,6 +257,7 @@ class RobotouilleWrapper(gym.Wrapper):
 
         item_status = self.state.get(destination.name)
 
+        # See if lettuce is going to board or patty is going to stove. If it is, return 10 reward
         if ("lettuce" in item_name and "board" in destination.name) or (
             "patty" in item_name and "stove" in destination.name
         ):
@@ -235,6 +286,7 @@ class RobotouilleWrapper(gym.Wrapper):
         expanded_states = self.prev_step[3]["expanded_states"]
         reward = 0
 
+        # Penalize for anyt stacking that is not in the correct order
         for truth, state in zip(expanded_truths, expanded_states):
             if (
                 truth == 1
@@ -247,6 +299,7 @@ class RobotouilleWrapper(gym.Wrapper):
         state_truth_map = self.map_state_to_truth(expanded_truths, expanded_states)
 
         valid_stacking = True
+        # Go through every item and check if it is stacked correctly
         for stack, item in zip(correct_order, items):
             if state_truth_map[stack]:
                 if action.variables[1].name == item:
@@ -257,6 +310,7 @@ class RobotouilleWrapper(gym.Wrapper):
                         item_status["stacked"] = False
 
                     if not item_status["stacked"]:
+                        # Check if patty is cooked or lettuce is cut if stacking is correct
                         if valid_stacking:
                             if (
                                 item == "patty1"
@@ -278,6 +332,9 @@ class RobotouilleWrapper(gym.Wrapper):
         return reward
 
     def _top_bun_left(self):
+        """
+        Return True if only the top bun is left, False otherwise.
+        """
         correct_order = [
             "atop(patty1:item,bottombun1:item)",
             "atop(lettuce1:item,patty1:item)",
@@ -339,6 +396,7 @@ class RobotouilleWrapper(gym.Wrapper):
                 None,
             )
             item_status = self.state.get(item.name, {})
+            # Check if the picked up item was a cooking patty.
             if item_status is not None and item_status.get("cook") is not None:
                 if (
                     item_status["cook"]["cook_time"] > 0
@@ -353,6 +411,8 @@ class RobotouilleWrapper(gym.Wrapper):
 
                     if not cooked:
                         reward -= 10
+
+            # Give a reward for picking up items other than the bottombun in hopes of it learning to stack better
             if not "bottombun" in item.name:
                 item_status = self.state.get(item.name)
                 if item_status is None:
@@ -375,11 +435,14 @@ class RobotouilleWrapper(gym.Wrapper):
             literals = obs.literals
 
             item_status = self.state.get(item)
+
+            # Initialize item status if it doesn't exist
             if item_status is None:
                 self.state[item] = {"placed": False}
             elif item_status.get("placed") is None:
                 item_status["placed"] = False
 
+            # Give a reward for placing a lettuce on the board or a patty on the stove
             if (
                 "lettuce" in item
                 and "board" in destination
@@ -402,6 +465,8 @@ class RobotouilleWrapper(gym.Wrapper):
                 if not cooked:
                     item_status["placed"] = True
                     reward += 10
+            else:
+                reward -= 20
         elif action_name == "stack":
             reward += self._handle_stacking_reward(action)
 

@@ -14,13 +14,15 @@ class mode(Enum):
     LOAD = 3
 
 
+file = "runs/feb26_ppo_200k_complete_heuristic"
+
+
 def simulator(
     environment_name: str,
     seed: int = 42,
     noisy_randomization: bool = False,
     mode=mode.LOAD,
 ):
-    file = "feb22_ppo_1m_state_based_reward_ent_coef_0.01"
 
     # Your code for robotouille goes here
     env, json, renderer = create_robotouille_env(
@@ -33,6 +35,7 @@ def simulator(
     truncated = False
     interactive = False  # Set to True to interact with the environment through terminal REPL (ignores input)
 
+    # Load or train agent
     if mode == mode.TRAIN or mode == mode.LOAD:
         config = {
             "num_cuts": {"lettuce": 3, "default": 3},
@@ -48,12 +51,13 @@ def simulator(
         else:
             agent = PPO("MlpPolicy", rl_env, verbose=1, n_steps=1024)
             agent.learn(
-                total_timesteps=1000000, reset_num_timesteps=False, progress_bar=True
+                total_timesteps=200000, reset_num_timesteps=False, progress_bar=True
             )
             agent.save(file)
 
         obs, info = rl_env.reset()
 
+    # Simulate the environment
     while not done and not truncated:
         if mode == mode.TRAIN or mode == mode.LOAD:
             pygame_events = pygame.event.get()

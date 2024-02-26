@@ -12,6 +12,10 @@ wandb.login()
 
 
 class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
+    """
+    This class is a wrapper around the Robotouille environment to make it compatible with stable-baselines3. It simplifies the environment for the RL agent by converting the state and action space to a format that is easier for the RL agent to learn.
+    """
+
     def __init__(self, env, config):
         super().__init__(env, config)
 
@@ -42,6 +46,9 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
         wandb.log(self.metrics_config)
 
     def _wrap_env(self):
+        """
+        Wrap the environment to make it compatible with stable-baselines3.
+        """
         expanded_truths, expanded_states = pddlgym_utils.expand_state(
             self.pddl_env.prev_step[0].literals, self.pddl_env.prev_step[0].objects
         )
@@ -63,6 +70,16 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
         self.env.step(expanded_truths, valid_actions)
 
     def step(self, action=None, interactive=False, debug=False):
+        """
+        Take a step in the environment.
+
+        Returns:
+            state (list): The state of the environment after the step.
+            reward (float): The reward obtained from the step.
+            done (bool): Whether the episode is done.
+            truncated (bool): Whether the episode was truncated.
+            info (dict): A dictionary containing information about the environment.
+        """
         action = self.env.unwrap_move(action)
         if debug:
             print(action)
@@ -94,6 +111,13 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
         )
 
     def reset(self, seed=42, options=None):
+        """
+        Reset the environment to its initial state.
+
+        Returns:
+            state (list): The initial state of the environment.
+            info (dict): A dictionary containing information about the environment.
+        """
         obs, info = self.pddl_env.reset()
         self.episode_reward = 0
         self._wrap_env()
