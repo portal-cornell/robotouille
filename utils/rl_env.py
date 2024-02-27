@@ -15,6 +15,7 @@ class RLEnv(gym.Env):
     class observation_size(Enum):
         SMALL = 1
         MEDIUM = 2
+        LARGE = 3
 
     def __init__(self, expanded_truths, expanded_states, valid_actions, all_actions):
         """
@@ -70,8 +71,10 @@ class RLEnv(gym.Env):
         )
 
         self.state = self.shortened_expanded_truths + self.shortened_action_truths
+        self.state_names = self.shortened_expanded_states + self.shortened_action_names
+        # self.print_state()
 
-    def _get_observation_space(self, mode=observation_size.SMALL):
+    def _get_observation_space(self, mode=observation_size.LARGE):
         """
         Returns the shortened observation space based on the expanded truths and expanded states. If the observation size is SMALL, the observation space will only include the iscut and iscooked predicates. If the observation size is MEDIUM, the observation space will also include the location of the robot, the held item of the robot and the order of the ingredients.
 
@@ -86,7 +89,7 @@ class RLEnv(gym.Env):
         desired_truths = ["iscut", "iscooked"]
         desired_items = ["lettuce", "patty"]
 
-        if mode == self.observation_size.MEDIUM:
+        if mode != self.observation_size.SMALL:
             desired_truths = ["iscut", "iscooked", "has", "loc"]
             desired_items = ["lettuce", "patty", "robot", "robot"]
             desired_order = ["topbun", "lettuce", "patty", "bottombun"]
@@ -104,13 +107,16 @@ class RLEnv(gym.Env):
                     shortened_expanded_states.append(state)
                     break
 
-            if predicate == "atop" and mode == self.observation_size.MEDIUM:
+            if predicate == "atop" and mode != self.observation_size.SMALL:
                 item2 = state.variables[1].name
                 for i in range(len(desired_order) - 1):
                     if desired_order[i] in item and desired_order[i + 1] in item2:
                         shortened_expanded_truths.append(truth)
                         shortened_expanded_states.append(state)
                         break
+            if predicate == "at" and mode == self.observation_size.LARGE:
+                shortened_expanded_truths.append(truth)
+                shortened_expanded_states.append(state)
 
         return shortened_expanded_truths, shortened_expanded_states
 
@@ -169,3 +175,15 @@ class RLEnv(gym.Env):
                 return action
 
         print("ERROR: Action not found")
+
+    def print_state(self):
+        """
+        Prints the state of the environment.
+        """
+
+        output = []
+        for truth, state in zip(self.state, self.state_names):
+            if truth == 1.0:
+                output.append(state)
+
+        print(output)

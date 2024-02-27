@@ -608,7 +608,7 @@ class RobotouilleWrapper(gym.Wrapper):
         reward = self._handle_reward(action, obs)
         reward = self.heuristic_function(obs) - prev_heuristic
 
-        print("reward: ", reward)
+        # print("reward: ", reward)
 
         self.prev_step = (obs, reward, done, info)
         return obs, reward, done, info

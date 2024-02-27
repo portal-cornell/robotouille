@@ -14,14 +14,14 @@ class mode(Enum):
     LOAD = 3
 
 
-file = "runs/feb27_ppo_200k_large_state_complete_heuristic_diff"
+file = "runs/feb27_ppo_200k_at_state_complete_heuristic_diff_ent_coef_.01.zip"
 
 
 def simulator(
     environment_name: str,
     seed: int = 42,
     noisy_randomization: bool = False,
-    mode=mode.LOAD,
+    mode=mode.TRAIN,
 ):
 
     # Your code for robotouille goes here
