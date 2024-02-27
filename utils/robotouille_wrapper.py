@@ -113,6 +113,26 @@ class RobotouilleWrapper(gym.Wrapper):
             ):
                 return i
 
+    def check_patty_stove(self, obs):
+        for literal in obs.literals:
+            if (
+                "on" == literal.predicate.name
+                and "patty1" in literal.variables[0].name
+                and "stove" in literal.variables[1].name
+            ):
+                return True
+        return False
+
+    def check_lettuce_board(self, obs):
+        for literal in obs.literals:
+            if (
+                "on" == literal.predicate.name
+                and "lettuce1" in literal.variables[0].name
+                and "board" in literal.variables[1].name
+            ):
+                return True
+        return False
+
     def heuristic_function(self, obs):
         """
         This function is a heuristic function that is used to generate a plan.
@@ -154,9 +174,14 @@ class RobotouilleWrapper(gym.Wrapper):
             score += 10
 
         if cooked:
-            score += 10
+            score += 20
+        else:
+            score += 10 if self.check_patty_stove(obs) else 0
+
         if cut:
-            score += 30
+            score += 40
+        else:
+            score += 10 if self.check_lettuce_board(obs) else 0
 
         item_status = self.state.get("lettuce1")
         if item_status is not None and item_status.get("cut") is not None:
@@ -555,6 +580,7 @@ class RobotouilleWrapper(gym.Wrapper):
                 self.env, self.prev_step[0], action
             )
 
+        prev_heuristic = self.heuristic_function(self.prev_step[0])
         obs, reward, done, info = self._handle_action(action)
         obs = self._state_update()
 
@@ -580,9 +606,9 @@ class RobotouilleWrapper(gym.Wrapper):
 
         self.prev_step = (obs, self.prev_step[1], done, info)
         reward = self._handle_reward(action, obs)
-        reward = self.heuristic_function(obs)
+        reward = self.heuristic_function(obs) - prev_heuristic
 
-        # print("reward: ", reward)
+        print("reward: ", reward)
 
         self.prev_step = (obs, reward, done, info)
         return obs, reward, done, info

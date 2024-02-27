@@ -14,7 +14,7 @@ class mode(Enum):
     LOAD = 3
 
 
-file = "runs/feb26_ppo_200k_complete_heuristic"
+file = "runs/feb27_ppo_200k_large_state_complete_heuristic_diff"
 
 
 def simulator(
@@ -49,7 +49,7 @@ def simulator(
         if mode == mode.LOAD:
             agent = PPO.load(file)
         else:
-            agent = PPO("MlpPolicy", rl_env, verbose=1, n_steps=1024)
+            agent = PPO("MlpPolicy", rl_env, verbose=1, n_steps=1024, ent_coef=0.01)
             agent.learn(
                 total_timesteps=200000, reset_num_timesteps=False, progress_bar=True
             )
