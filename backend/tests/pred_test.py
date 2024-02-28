@@ -2,15 +2,16 @@
 This file tests that the State class correctly initializes the predicates in the
 state.
 
+To run this test, run the following command from 'robotouille' directory:
+
+$ python -m backend.tests.pred_test
+
 The State class builds all the possible predicates by looking at all possible
 combinations of objects and predicates in the domain.
 
 The test asserts that the number of predicates in the state is correct, and that
 the true predicates are correctly set to true in the state.
 """
-
-import sys
-sys.path.append('../robotouille')
 
 from backend.predicate import Predicate
 from backend.object import Object

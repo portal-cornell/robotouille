@@ -38,30 +38,17 @@ def create_action_from_control(env, obs, action, renderer):
         for args in valid_actions[action_dict['move']]:
             if args[s2].name == clicked_station:
                 return action_dict['move'], args
-        for args in valid_actions[action_dict['pick-up']]:
-            if args[s1].name == clicked_station:
-                return action_dict['pick-up'], args
-        for args in valid_actions[action_dict['place']]:
-            if args[s1].name == clicked_station:
-                return action_dict['place'], args
-        for args in valid_actions[action_dict['stack']]:
-            if args[s1].name == clicked_station:
-                return action_dict['stack'], args
-        for args in valid_actions[action_dict['unstack']]:
-            if args[s1].name == clicked_station:
-                return action_dict['unstack'], args
+        for action_name in ['pick-up', 'place', 'stack', 'unstack']:
+            for args in valid_actions[action_dict[action_name]]:
+                if args[s1].name == clicked_station:
+                    return action_dict[action_name], args
         return None, None
     elif action.type == pygame.KEYDOWN:
         if action.key == pygame.K_e:
-            for args in valid_actions[action_dict['cook']]:
-                if args[s1].name == player_loc:
-                    return action_dict['cook'], args
-            for args in valid_actions[action_dict['cut']]:
-                if args[s1].name == player_loc:
-                    return action_dict['cut'], args  
-            for args in valid_actions[action_dict['fry']]:
-                if args[s1].name == player_loc:
-                    return action_dict['fry'], args
+            for action_name in ['cook', 'cut', 'fry']:
+                for args in valid_actions[action_dict[action_name]]:
+                    if args[s1].name == player_loc:
+                        return action_dict[action_name], args
         elif action.key == pygame.K_SPACE:
             for args in valid_actions[action_dict['wait']]:
                 return action_dict['wait'], args

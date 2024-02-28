@@ -41,12 +41,13 @@ class Domain(object):
             object_types (List[str]): The types to check.
             type_definitions (List[str]): The types to check against.
 
-        Raises:
-            ValueError: If the types are not valid.
+        Returns:
+            bool: True if the types are valid, False otherwise.
         """
         for object_type in object_types:
             if object_type not in type_definitions:
-                raise ValueError(f"Type {object_type} is not defined in the domain.")
+                return False
+        return True
         
             
     def initialize(self, name, object_types, predicate_def, action_def):
@@ -63,19 +64,27 @@ class Domain(object):
 
         Returns:
             Domain: The initialized domain object.
+
+        Raises:
+            ValueError: If the types in the predicate and action definitions are
+            not valid.
         """
         # Check if predicates and actions have valid parameter types
         for pred in self.predicates:
-            self._are_valid_types(pred.types, object_types)
+            if not self._are_valid_types(pred.types, object_types):
+                raise ValueError(f"Predicate {pred.name} has invalid types.")
 
         for action in self.actions:
             for precon in action.precons:
-                self._are_valid_types(precon.types, object_types)
+                if not self._are_valid_types(precon.types, object_types):
+                    raise ValueError(f"Precondition {precon.name} has invalid types.")
             for effect in action.immediate_effects:
-                self._are_valid_types(effect.types, object_types)
+                if not self._are_valid_types(effect.types, object_types):
+                    raise ValueError(f"Immediate effect {effect.name} has invalid types.")
             for special_effect in action.special_effects:
                 for effect in special_effect.effects:
-                    self._are_valid_types(effect.types, object_types)
+                    if not self._are_valid_types(effect.types, object_types):
+                        raise ValueError(f"Special effect {special_effect.name} has invalid types.")
 
         self.name = name
         self.object_types = object_types

@@ -1,6 +1,10 @@
 """
 This test is for the DelayedEffect class.
 
+To run this test, run the following command from 'robotouille' directory:
+
+$ python -m backend.tests.delayed_sfx_test
+
 An action, fry, is tested with a delayed effect. The test asserts that after 
 the action is performed, the delayed effect is applied to the object in the 
 state, no matter the action being performed. 
@@ -8,9 +12,6 @@ state, no matter the action being performed.
 It asserts that the effects of the action are only applied after the correct
 number of steps have been taken.
 """
-
-import sys
-sys.path.append('../robotouille')
 
 from backend.predicate import Predicate
 from backend.object import Object
@@ -109,7 +110,7 @@ print("Valid actions: {}".format(state.get_valid_actions()))
 print("\nPerforming fry (3rd time)")
 state.step(move, {p1: player1, s1: table1, s2: fryer1})
 assert state.get_predicate_value(Predicate().initialize("is_fried", ["item"], [chicken1]))
-print("fry successful")
+print("Fry successful")
 print("State special effects: {}".format(state.special_effects))
 print("\nState predicates: {}".format(state.predicates))
 print("Valid actions: {}".format(state.get_valid_actions()))

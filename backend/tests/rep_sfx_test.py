@@ -1,13 +1,14 @@
 """
 This test is for the RepetitiveEffect class.
 
+To run this test, run the following command from 'robotouille' directory:
+
+$ python -m backend.tests.rep_sfx_test
+
 An action, cut, is tested with a repetitive effect. The test asserts that the 
 effects of the action are only applied after the action is performed the correct
 number of times.
 """
-
-import sys
-sys.path.append('../robotouille')
 
 from backend.predicate import Predicate
 from backend.object import Object

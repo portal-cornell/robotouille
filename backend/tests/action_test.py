@@ -1,6 +1,10 @@
 """
 This file tests the Action class. 
 
+To run this test, run the following command from 'robotouille' directory:
+
+$ python -m backend.tests.action_test
+
 Two actions with only immediate effects, cut and move, are tested.
 
 The test asserts that each action can only be performed when the correct 
@@ -9,9 +13,6 @@ preconditions are met, and that the effects are applied correctly.
 The test also ensures that the goal is satisfied correctly at the end once
 the correct actions are performed. 
 """
-
-import sys
-sys.path.append('../robotouille')
 
 from backend.action import Action
 from backend.predicate import Predicate

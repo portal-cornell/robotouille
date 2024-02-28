@@ -142,17 +142,21 @@ class State(object):
 
         Returns:
             state (State): The initialized state.
+
+        Raises:
+            ValueError: If the type of an object is not defined in the domain, or
+                if a goal predicate is not defined in the domain.
         """
         predicates = self._build_predicates(domain, objects, true_predicates)
         # check if objects have types defined in domain
         for object in objects:
             if object.object_type not in domain.object_types:
-                raise ValueError("Type {} is not defined in the domain.".format(object.object_type))
+                raise ValueError(f"Type {object.object_type} is not defined in the domain.")
         # check if goal predicates are defined in domain
         for goal_set in all_goals:
             for goal in goal_set:
                 if goal not in predicates:
-                    raise ValueError("Predicate {} is not defined in the state.".format(goal.name))
+                    raise ValueError(f"Predicate {goal} is not defined in the domain.")
                 domain.are_valid_object_types(goal.types)
         
         self.domain = domain
@@ -209,7 +213,7 @@ class State(object):
         assert predicate in self.predicates
         self.predicates[predicate] = value
     
-    def update_special_effect(self, special_effect, obj, args):
+    def update_special_effect(self, special_effect, arg, param_arg_dict):
         """
         Updates a special effect in the state.
 
@@ -218,17 +222,19 @@ class State(object):
 
         Args:
             special_effect (SpecialEffect): The special effect to update.
-            obj (Object): The object to update the special effect for.
-            args (Dictionary[Object, Object]): The arguments for the special
-                effect.
+            arg (Object): The object to update the special effect for.
+            param_arg_dict (Dictionary[Object, Object]): The arguments for the 
+                special effect.
         """
-        new_special_effect = special_effect.replace_params_with_args(obj, args)
-        if new_special_effect not in self.special_effects:
+        if not special_effect.arg:
+            new_special_effect = special_effect.apply_sfx_on_arg(arg, param_arg_dict)
             self.special_effects.append(new_special_effect)
-        current = self.special_effects[self.special_effects.index(new_special_effect)]
+            current = self.special_effects[self.special_effects.index(new_special_effect)]
+        else:
+            current = self.special_effects[self.special_effects.index(special_effect)]
         current.update(self, active=True)
         if current.completed:
-                self.special_effects.remove(current)
+            self.special_effects.remove(current)
 
     def is_goal_reached(self):
         """

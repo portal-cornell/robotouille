@@ -29,6 +29,10 @@ class Predicate(object):
 
         Returns:
             pred (Predicate): The initialized predicate.
+
+        Raises:
+            ValueError: If the type of a parameter does not match the type 
+                defined in the domain.
         """
         # Check if params match types
         for param in params:
@@ -73,7 +77,7 @@ class Predicate(object):
         """
         return self.name + str(tuple(self.params))
     
-    def replace_params_with_args(self, param_arg_dict):
+    def replace_pred_params_with_args(self, param_arg_dict):
         """
         Returns a copy of the predicate, with the replaced objects.
 

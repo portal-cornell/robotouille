@@ -12,17 +12,20 @@ class SpecialEffect(object):
     should be inherited by one of its subclasses. 
     """
 
-    def __init__(self, obj, effects, completed):
+    def __init__(self, param, effects, completed, arg):
         """
         Initializes a special effect.
 
         Args:
-            obj (Object): The object that the effect is applied to.
+            param (Object): The parameter of the special effect.
             effects (Dictionary[Predicate, bool]): The effects of the action,
             represented by a dictionary of predicates and bools.
             completed (bool): Whether or not the effect has been completed.
+            arg (Object): The object that the effect is applied to. If the
+                special effect is not applied to an object, arg is None.
         """
-        self.obj = obj
+        self.arg = arg
+        self.param = param
         self.effects = effects
         self.completed = completed
 
@@ -49,19 +52,21 @@ class RepetitiveEffect(SpecialEffect):
     been performed a certain number of times.
     """
     
-    def __init__(self, obj, effects, completed, goal_repetitions):
+    def __init__(self, param, effects, completed, goal_repetitions, arg=None):
         """
         Initializes a repetitive effect.
 
         Args:
-            obj (Object): The object that the effect is applied to.
+            param (Object): The parameter of the special effect.
             effects (Dictionary[Predicate, bool]): The effects of the action,
             represented by a dictionary of predicates and bools.
             completed (bool): Whether or not the effect has been completed.
             goal_repetitions (int): The number of times the action must be 
             performed before the effect is applied.
+            arg (Object): The object that the effect is applied to. If the
+                special effect is not applied to an object, arg is None.
         """
-        super().__init__(obj, effects, completed)
+        super().__init__(param, effects, completed, arg)
         self.goal_repetitions = goal_repetitions
         self.current_repetitions = 0
 
@@ -75,9 +80,10 @@ class RepetitiveEffect(SpecialEffect):
         Returns:
             bool: True if the effects are equal, False otherwise.
         """
-        return self.obj == other.obj and self.effects == other.effects \
+        return self.param == other.param and self.effects == other.effects \
             and self.completed == other.completed \
-                and self.goal_repetitions == other.goal_repetitions 
+                and self.goal_repetitions == other.goal_repetitions \
+                    and self.arg == other.arg
     
     def __hash__(self):
         """
@@ -86,8 +92,8 @@ class RepetitiveEffect(SpecialEffect):
         Returns:
             hash (int): The hash of the repetitive effect.
         """
-        return hash((self.obj, tuple(self.effects), self.completed, 
-                     self.goal_repetitions))
+        return hash((self.param, tuple(self.effects), self.completed, 
+                     self.goal_repetitions, self.arg))
     
     def __repr__(self):
         """
@@ -96,28 +102,26 @@ class RepetitiveEffect(SpecialEffect):
         Returns:
             string (str): The string representation of the repetitive effect.
         """
-        return f"RepetitiveEffect({self.obj}, {self.completed}, {self.current_repetitions})"
-    
-    def replace_params_with_args(self, obj, param_arg_dict):
-        """
-        Returns a copy of the repetitive effect, replacing the parameter object
-        with the argument object.
+        return f"RepetitiveEffect({self.param}, {self.completed}, {self.current_repetitions}, {self.arg})"
 
-        Args:
-            obj (Object): The object to replace the object in the effect with.
-            param_arg_dict (Dictionary[Object, Object]): The dictionary mapping
-                the parameters to the arguments.
+    def apply_sfx_on_arg(self, arg, param_arg_dict):
+            """
+            Returns a copy of the special effect definition, but applied to an 
+            argument.
 
-        Returns:
-            copy (RepetitiveEffect): The copy of the repetitive effect with 
-                the parameters replaced with the arguments.
-        """
-        new_effects = {}
-        for effect, value in self.effects.items():
-            new_effects[effect.replace_params_with_args(param_arg_dict)] = value
-        return RepetitiveEffect(obj, new_effects, self.completed, 
-                                self.goal_repetitions)
-        
+            Args:
+                arg (Object): The argument that the special effect is applied to.
+                param_arg_dict (Dictionary[Object, Object]): The dictionary mapping
+                    the parameters to the arguments.
+
+            Returns:
+                copy (SpecialEffect): The copy of the special effect definition,
+                    but applied to an argument.
+            """
+            new_effects = {}
+            for effect, value in self.effects.items():
+                new_effects[effect.replace_pred_params_with_args(param_arg_dict)] = value
+            return RepetitiveEffect(self.param, new_effects, self.completed, self.goal_repetitions, arg)
 
     def increment_repetitions(self):
         """
@@ -149,19 +153,21 @@ class DelayedEffect(SpecialEffect):
     of time has passed.
     """
 
-    def __init__(self, obj, effects, completed, goal_time):
+    def __init__(self, param, effects, completed, goal_time, arg=None):
         """
         Initializes a delayed effect.
 
         Args:
-            obj (Object): The object that the effect is applied to.
+            param (Object): The parameter of the special effect.
             effects (Dictionary[Predicate, bool]): The effects of the action,
             represented by a dictionary of predicates and bools.
             completed (bool): Whether or not the effect has been completed.
             goal_time (int): The number of time steps that must pass before the
             effect is applied.
+            arg (Object): The object that the effect is applied to. If the
+                special effect is not applied to an object, arg is None.
         """
-        super().__init__(obj, effects, completed)
+        super().__init__(param, effects, completed, arg)
         self.goal_time = goal_time
         self.current_time = 0
 
@@ -175,9 +181,10 @@ class DelayedEffect(SpecialEffect):
         Returns:
             bool: True if the effects are equal, False otherwise.
         """
-        return self.obj == other.obj and self.effects == other.effects \
+        return self.param == other.param and self.effects == other.effects \
             and self.completed == other.completed \
-                and self.goal_time == other.goal_time
+                and self.goal_time == other.goal_time\
+                    and self.arg == other.arg
     
     def __hash__(self):
         """
@@ -186,8 +193,8 @@ class DelayedEffect(SpecialEffect):
         Returns:
             hash (int): The hash of the delayed effect.
         """
-        return hash((self.obj, tuple(self.effects), self.completed, 
-                     self.goal_time))
+        return hash((self.param, tuple(self.effects), self.completed, 
+                     self.goal_time, self.arg))
     
     def __repr__(self):
         """
@@ -196,27 +203,27 @@ class DelayedEffect(SpecialEffect):
         Returns:
             string (str): The string representation of the delayed effect.
         """
-        return f"DelayedEffect({self.obj}, {self.completed}, {self.current_time})"
+        return f"DelayedEffect({self.param}, {self.completed}, {self.current_time}, {self.arg})"
     
-    def replace_params_with_args(self, obj, param_arg_dict):
+    def apply_sfx_on_arg(self, arg, param_arg_dict):
         """
-        Returns a copy of the delayed effect, replacing the parameter object
-        with the argument object.
+        Returns a copy of the special effect definition, but applied to an 
+        argument.
 
         Args:
-            obj (Object): The object to replace the object in the effect with.
+            arg (Object): The argument that the special effect is applied to.
             param_arg_dict (Dictionary[Object, Object]): The dictionary mapping
                 the parameters to the arguments.
 
         Returns:
-            copy (DelayedEffect): The copy of the delayed effect with the
-                parameters replaced with the arguments.
+            copy (SpecialEffect): The copy of the special effect definition,
+                but applied to an argument.
         """
         new_effects = {}
         for effect, value in self.effects.items():
-            new_effects[effect.replace_params_with_args(param_arg_dict)] = value
-        return DelayedEffect(obj, new_effects, self.completed, self.goal_time)
-    
+            new_effects[effect.replace_pred_params_with_args(param_arg_dict)] = value
+        return DelayedEffect(self.param, new_effects, self.completed, self.goal_time, arg)
+
     def increment_time(self):
         """
         Increments the number of time steps that have passed.
@@ -254,19 +261,21 @@ class ConditionalEffect(SpecialEffect):
         - "isfryable"
 
     """
-    def __init__(self, obj, effects, completed, conditions):
+    def __init__(self, param, effects, completed, conditions, arg=None):
         """
         Initializes a conditional effect.
 
         Args:
-            obj (Object): The object that the effect is applied to.
+            param (Object): The parameter of the special effect.
             effects (Dictionary[Predicate, bool]): The effects of the action,
             represented by a dictionary of predicates and bools.
             completed (bool): Whether or not the effect has been completed.
             conditions (Dictionary[Predicate, bool]): The conditions of the
             effect, represented by a dictionary of predicates and bools.
+            arg (Object): The object that the effect is applied to. If the
+                special effect is not applied to an object, arg is None.
         """
-        super().__init__(obj, effects, completed)
+        super().__init__(param, effects, completed, arg)
         self.condition = conditions
 
     def __eq__(self, other):
@@ -279,9 +288,10 @@ class ConditionalEffect(SpecialEffect):
         Returns:
             bool: True if the effects are equal, False otherwise.
         """
-        return self.obj == other.obj and self.effects == other.effects \
+        return self.param == other.param and self.effects == other.effects \
             and self.completed == other.completed \
-                and self.condition == other.condition
+                and self.condition == other.condition \
+                    and self.arg == other.arg
     
     def __hash__(self):
         """
@@ -290,8 +300,8 @@ class ConditionalEffect(SpecialEffect):
         Returns:
             hash (int): The hash of the conditional effect.
         """
-        return hash((self.obj, tuple(self.effects), self.completed, 
-                     tuple(self.condition)))
+        return hash((self.param, tuple(self.effects), self.completed, 
+                     tuple(self.condition), self.arg))
     
     def __repr__(self):
         """
@@ -300,29 +310,27 @@ class ConditionalEffect(SpecialEffect):
         Returns:
             string (str): The string representation of the conditional effect.
         """
-        return "ConditionalEffect({}, {}, {})".format(self.obj, self.completed, self.condition)
+        return f"ConditionalEffect({self.param}, {self.completed}, {self.arg})"
     
-    def replace_params_with_args(self, obj, param_arg_dict):
+    def apply_sfx_on_arg(self, arg, param_arg_dict):
         """
-        Returns a copy of the conditional effect, replacing the parameter object
-        with the argument object.
+        Updates the conditional effect with an arg.
 
         Args:
-            obj (Object): The object to replace the object in the effect with.
+            arg (Object): The argument that the conditional effect is applied to.
             param_arg_dict (Dictionary[Object, Object]): The dictionary mapping
                 the parameters to the arguments.
 
         Returns:
-            copy (ConditionalEffect): The copy of the conditional effect with
-                the parameters replaced with the arguments.
+            copy (ConditionalEffect): The updated conditional effect with an arg. 
         """
         new_effects = {}
         for effect, value in self.effects.items():
-            new_effects[effect.replace_params_with_args(param_arg_dict)] = value
+            new_effects[effect.replace_pred_params_with_args(param_arg_dict)] = value
         new_conditions = {}
         for condition, value in self.condition.items():
-            new_conditions[condition.replace_params_with_args(param_arg_dict)] = value
-        return ConditionalEffect(obj, new_effects, self.completed, new_conditions)
+            new_conditions[condition.replace_pred_params_with_args(param_arg_dict)] = value
+        return ConditionalEffect(self.param, new_effects, self.completed, new_conditions, arg)
     
     def update(self, state, active=False):
         """

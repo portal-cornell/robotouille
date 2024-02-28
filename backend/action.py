@@ -78,7 +78,7 @@ class Action(object):
         """
         params = [param for precon in self.precons for param in precon.params]
         params += [param for effect in self.immediate_effects for param in effect.params]
-        params += [effect.obj for effect in self.special_effects]
+        params += [effect.param for effect in self.special_effects]
         return list(set(params))
     
     def is_valid(self, state, args):
@@ -144,7 +144,7 @@ class Action(object):
         for special_effect in self.special_effects:
             # Retrieve the argument based on the parameter in the special effect
             # definition
-            arg = param_arg_dict[special_effect.obj]
+            arg = param_arg_dict[special_effect.param]
             state.update_special_effect(special_effect, arg, param_arg_dict)
 
         return state

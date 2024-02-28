@@ -216,6 +216,9 @@ def build_goal(environment_dict):
 def build_state(environment_json):
     """
     This function is a temporary solution to building the state.
+    
+    TODO: This function should be replaced by a function that reads the problem
+    file and builds the state from it.
 
     Args:
         environment_json (dict): Dictionary containing the initial stations, items, and player location.
