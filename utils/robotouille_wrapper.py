@@ -123,12 +123,30 @@ class RobotouilleWrapper(gym.Wrapper):
                 return True
         return False
 
+    def check_patty_held(self, obs):
+        for literal in obs.literals:
+            if (
+                "has" == literal.predicate.name
+                and "patty1" in literal.variables[1].name
+            ):
+                return True
+        return False
+
     def check_lettuce_board(self, obs):
         for literal in obs.literals:
             if (
                 "on" == literal.predicate.name
                 and "lettuce1" in literal.variables[0].name
                 and "board" in literal.variables[1].name
+            ):
+                return True
+        return False
+
+    def check_lettuced_held(self, obs):
+        for literal in obs.literals:
+            if (
+                "has" == literal.predicate.name
+                and "lettuce1" in literal.variables[1].name
             ):
                 return True
         return False
@@ -174,14 +192,16 @@ class RobotouilleWrapper(gym.Wrapper):
             score += 10
 
         if cooked:
-            score += 20
+            score += 25
         else:
-            score += 10 if self.check_patty_stove(obs) else 0
+            score += 15 if self.check_patty_stove(obs) else 0
+            score += 5 if self.check_patty_held(obs) else 0
 
         if cut:
             score += 40
         else:
-            score += 10 if self.check_lettuce_board(obs) else 0
+            score += 15 if self.check_lettuce_board(obs) else 0
+            score += 5 if self.check_lettuced_held(obs) else 0
 
         item_status = self.state.get("lettuce1")
         if item_status is not None and item_status.get("cut") is not None:
