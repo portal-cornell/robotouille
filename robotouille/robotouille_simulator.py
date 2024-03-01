@@ -14,7 +14,7 @@ class mode(Enum):
     LOAD = 3
 
 
-file = "runs/feb27_ppo_200k_complete_heuristic.zip"
+file = "runs/feb29_ppo_1m_heuristic_ent_coef_0.01.zip"
 
 
 def simulator(
