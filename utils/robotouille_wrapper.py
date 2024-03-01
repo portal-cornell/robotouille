@@ -123,6 +123,13 @@ class RobotouilleWrapper(gym.Wrapper):
                 return True
         return False
 
+    def check_cooking_start(self):
+        for item, status_dict in self.state.items():
+            for status, state in status_dict.items():
+                if status == "cook" and state["cooking"]:
+                    return True
+        return False
+
     def check_patty_held(self, obs):
         for literal in obs.literals:
             if (
@@ -192,13 +199,14 @@ class RobotouilleWrapper(gym.Wrapper):
             score += 10
 
         if cooked:
-            score += 25
+            score += 35
         else:
             score += 15 if self.check_patty_stove(obs) else 0
+            score += 10 if self.check_cooking_start() else 0
             score += 5 if self.check_patty_held(obs) else 0
 
         if cut:
-            score += 40
+            score += 45
         else:
             score += 15 if self.check_lettuce_board(obs) else 0
             score += 5 if self.check_lettuced_held(obs) else 0
@@ -628,7 +636,7 @@ class RobotouilleWrapper(gym.Wrapper):
         reward = self._handle_reward(action, obs)
         reward = self.heuristic_function(obs) - prev_heuristic
 
-        print("reward: ", reward)
+        # print("reward: ", reward)
 
         self.prev_step = (obs, reward, done, info)
         return obs, reward, done, info

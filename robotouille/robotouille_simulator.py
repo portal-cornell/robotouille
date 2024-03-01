@@ -6,6 +6,7 @@ from utils.robotouille_input import create_action_from_control
 from robotouille.robotouille_env import create_robotouille_env
 from stable_baselines3 import A2C, PPO
 from stable_baselines3.common.env_util import make_vec_env
+from stable_baselines.common.callbacks import EvalCallback
 
 
 class mode(Enum):
@@ -14,7 +15,7 @@ class mode(Enum):
     LOAD = 3
 
 
-file = "runs/feb29_ppo_1m_heuristic_ent_coef_0.01.zip"
+file = "runs/feb29_ppo_100k_heuristic_ent_coef_0.01.zip"
 
 
 def simulator(
@@ -43,17 +44,27 @@ def simulator(
         }
 
         rl_env = RLWrapper(env, config)
-        obs, info = rl_env.reset()
         rl_env.render(mode="human")
+        obs, info = rl_env.reset()
 
         if mode == mode.LOAD:
-            agent = PPO.load(file)
+            model = PPO.load(file, env=rl_env)
+
         else:
-            agent = PPO("MlpPolicy", rl_env, verbose=1, n_steps=1024, ent_coef=0.01)
-            agent.learn(
-                total_timesteps=1000000, reset_num_timesteps=False, progress_bar=True
+            eval_callback = EvalCallback(
+                rl_env,
+                best_model_save_path="best_model",
+                eval_freq=100,
+                deterministic=True,
             )
-            agent.save(file)
+            model = PPO("MlpPolicy", rl_env, verbose=1, n_steps=1024, ent_coef=0.01)
+            model.learn(
+                total_timesteps=100000,
+                reset_num_timesteps=False,
+                progress_bar=True,
+                callback=eval_callback,
+            )
+            model.save(file)
 
         obs, info = rl_env.reset()
 
@@ -69,7 +80,7 @@ def simulator(
                 continue
 
             if keydown_events[0].key == pygame.K_SPACE:
-                action, _states = agent.predict(obs)
+                action, _states = model.predict(obs)
                 obs, reward, done, truncated, info = rl_env.step(
                     action=action, debug=True
                 )

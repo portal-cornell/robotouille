@@ -74,7 +74,7 @@ class RLEnv(gym.Env):
         self.state_names = self.shortened_expanded_states + self.shortened_action_names
         # self.print_state()
 
-    def _get_observation_space(self, mode=observation_size.SMALL):
+    def _get_observation_space(self, mode=observation_size.LARGE):
         """
         Returns the shortened observation space based on the expanded truths and expanded states. If the observation size is SMALL, the observation space will only include the iscut and iscooked predicates. If the observation size is MEDIUM, the observation space will also include the location of the robot, the held item of the robot and the order of the ingredients. If the observation size is LARGE, the observation space will also include the location of the ingredients.
 
@@ -158,6 +158,7 @@ class RLEnv(gym.Env):
 
         """
         if self.shortened_action_truths[action] == 0.0:
+            print("invalid: " + self.shortened_action_names[action])
             return "invalid"
 
         attempted_action = self.shortened_action_names[action]
