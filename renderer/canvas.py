@@ -206,15 +206,15 @@ class RobotouilleCanvas:
                     raw_matrix[row][column] = -1
                     continue
 
-                N_wall = "0" if row == 0 or abstract_matrix[row - 1][column] == letter else "1"
-                S_wall = "0" if row == len(abstract_matrix) - 1 or abstract_matrix[row + 1][column] == letter else "1"
-                W_wall = "0" if column == 0 or abstract_matrix[row][column - 1] == letter else "1"
-                E_wall = "0" if column == len(abstract_matrix[row]) - 1 or abstract_matrix[row][column + 1] == letter else "1"
+                N_wall = "1" if row == 0 or abstract_matrix[row - 1][column] != letter else "0"
+                S_wall = "1" if row == len(abstract_matrix) - 1 or abstract_matrix[row + 1][column] != letter else "0"
+                W_wall = "1" if column == 0 or abstract_matrix[row][column - 1] != letter else "0"
+                E_wall = "1" if column == len(abstract_matrix[row]) - 1 or abstract_matrix[row][column + 1] != letter else "0"
 
-                NE_corner = "0" if row == 0 or column == len(abstract_matrix[row]) - 1 or abstract_matrix[row - 1][column + 1] == letter else "1"
-                SE_corner = "0" if row == len(abstract_matrix) - 1 or column == len(abstract_matrix[row]) - 1 or abstract_matrix[row + 1][column + 1] == letter else "1"
-                NW_corner = "0" if row == 0 or column == 0 or abstract_matrix[row - 1][column - 1] == letter else "1"
-                SW_corner = "0" if row == len(abstract_matrix) - 1 or column == 0 or abstract_matrix[row + 1][column - 1] == letter else "1"
+                NE_corner = "1" if row == 0 or column == len(abstract_matrix[row]) - 1 or abstract_matrix[row - 1][column + 1] != letter else "0"
+                SE_corner = "1" if row == len(abstract_matrix) - 1 or column == len(abstract_matrix[row]) - 1 or abstract_matrix[row + 1][column + 1] != letter else "0"
+                NW_corner = "1" if row == 0 or column == 0 or abstract_matrix[row - 1][column - 1] != letter else "0"
+                SW_corner = "1" if row == len(abstract_matrix) - 1 or column == 0 or abstract_matrix[row + 1][column - 1] != letter else "0"
 
                 # corners covered by a wall are redundant
                 if N_wall == "1":
@@ -301,11 +301,11 @@ class RobotouilleCanvas:
         matrix_json = '''   {
         "matrix": 
         ["******",
-        "***TT*",
         "******",
         "******",
         "******",
-        "******"]}'''
+        "****T*",
+        "****T*"]}'''
         abstract_tile_matrix = json.loads(matrix_json)
         raw_tile_matrix = self._load_raw_tile_matrix(abstract_tile_matrix["matrix"], furniture_name)
 
