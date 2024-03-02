@@ -2,6 +2,7 @@ import os
 import pygame
 import numpy as np
 from utils.robotouille_utils import trim_item_ID
+import json
 
 class RobotouilleCanvas:
     """
@@ -133,6 +134,44 @@ class RobotouilleCanvas:
         y_scale_factor = self.config["item"]["constants"]["Y_SCALE_FACTOR"]
 
         self._draw_image(surface, f"{item_image_name}", position + self.pix_square_size * x_scale_factor, self.pix_square_size * y_scale_factor)
+    
+    """
+        Load floor assets and calculate the tile layout.
+
+        The unpacked values will be stored in the asset_directory
+
+        Args:
+            floor (String): Path to the flooring asset folder; the unpacked values will be stored under this key in asset_directory
+        """
+    def _load_floor(self, floor):
+        # Load floor config
+        floor_config_path = floor + "/config.json" # Assumes the name of the json is standardized as config.json
+        with open(os.path.join(RobotouilleCanvas.ASSETS_DIRECTORY, floor_config_path), "r") as f:
+            floor_config = json.load(f)
+        #self.asset_directory[floor_config_path] = floor_config
+
+        # Load and slice flooring spritesheet
+        spritesheet_path = floor + "/" + floor_config["asset"]
+        spritesheet = pygame.image.load(os.path.join(RobotouilleCanvas.ASSETS_DIRECTORY, spritesheet_path)).convert_alpha()
+        num_sprites_x = floor_config["columns"]
+        num_sprites_y = floor_config["rows"]
+        sprite_width = spritesheet.get_width() // num_sprites_x
+        sprite_height = spritesheet.get_height() // num_sprites_y
+        sprites = []
+        for y in range(num_sprites_y):
+            for x in range(num_sprites_x):
+                rect = pygame.Rect(x * sprite_width, y * sprite_height, sprite_width, sprite_height)
+                sprite = spritesheet.subsurface(rect)
+                sprites.append(sprite)
+        #self.asset_directory[spritesheet_path] = sprites
+
+        # Store loaded values in catalog under floor in asset_directory
+        catalog = {}
+        catalog["config"] = floor_config
+        catalog["sprites"] = sprites
+        self.asset_directory[floor] = catalog
+
+
 
     def _draw_floor(self, surface):
         """
@@ -144,23 +183,11 @@ class RobotouilleCanvas:
         Args:
             surface (pygame.Surface): Surface to draw on
         """
-        image_name = self.config["floor"]["asset"]
-        if image_name not in self.asset_directory:
-            num_sprites_x = self.config["floor"]["columns"]
-            num_sprites_y = self.config["floor"]["rows"]
+        biome_name = self.config["floor"]["biome"]
+        if biome_name not in self.asset_directory:
+            self._load_floor(biome_name)
 
-            sprites = []
-            spritesheet = pygame.image.load(os.path.join(RobotouilleCanvas.ASSETS_DIRECTORY, image_name)).convert_alpha()
-            sprite_width = spritesheet.get_width() // num_sprites_x
-            sprite_height = spritesheet.get_height() // num_sprites_y
-            for y in range(num_sprites_y):
-                for x in range(num_sprites_x):
-                    rect = pygame.Rect(x * sprite_width, y * sprite_height, sprite_width, sprite_height)
-                    sprite = spritesheet.subsurface(rect)
-                    sprites.append(sprite)
-            self.asset_directory[image_name] = sprites
-
-        sprites = self.asset_directory[image_name]
+        sprites = self.asset_directory[biome_name]["sprites"]
         
         clamped_pix_square_size = np.ceil(self.pix_square_size) # Necessary to avoid 1 pixel gaps from decimals
         for row in range(len(self.layout)):

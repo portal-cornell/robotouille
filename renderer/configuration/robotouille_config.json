@@ -11,9 +11,8 @@
     },
 
     "floor": {
-        "asset": "tileset_flooring.png",
-        "columns": 12,
-        "rows": 4
+        "biome": "tileset_flooring"
+        
     },
 
     "item": {
