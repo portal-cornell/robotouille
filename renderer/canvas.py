@@ -140,9 +140,11 @@ class RobotouilleCanvas:
 
         The unpacked values will be stored in the asset_directory
 
+        The values are: config, sprites, mappings
+
         Args:
             floor (String): Path to the flooring asset folder; the unpacked values will be stored under this key in asset_directory
-        """
+    """
     def _load_floor(self, floor):
         # Load floor config
         floor_config_path = floor + "/config.json" # Assumes the name of the json is standardized as config.json
@@ -164,12 +166,72 @@ class RobotouilleCanvas:
                 sprite = spritesheet.subsurface(rect)
                 sprites.append(sprite)
         #self.asset_directory[spritesheet_path] = sprites
+                
+        # Parse tile ID mappings
+        mappings = {}
+        for word, walls in floor_config["mappings"].items():
+            entry = {}
+            for data in walls:
+                wall = data[0]
+                corners = {}
+                for t in data[1]:
+                    corners[t[0]] = t[1]
+                entry[wall] = corners
+            mappings[word] = entry
 
         # Store loaded values in catalog under floor in asset_directory
         catalog = {}
         catalog["config"] = floor_config
         catalog["sprites"] = sprites
+        catalog["mappings"] = mappings
         self.asset_directory[floor] = catalog
+    
+    """
+        Parse the given abstract tile matrix into a matrix of raw tile IDs suitable for drawing
+
+        Args:
+            abstract_matrix (List): List of strings whose characters represent abstract tiles
+            biome_name (String): Name of biome to reference when translating tilings
+    """
+    def _load_raw_tile_matrix(self, abstract_matrix, biome_name):
+        raw_matrix = [[-1] * len(abstract_matrix[0]) for _ in range(len(abstract_matrix))]
+        mappings = self.asset_directory[biome_name]["mappings"]
+
+        for row in range(len(abstract_matrix)):
+            for column in range(len(abstract_matrix[row])):
+                letter = abstract_matrix[row][column]
+                N_wall = "0" if row == 0 or abstract_matrix[row - 1][column] == letter else "1"
+                S_wall = "0" if row == len(abstract_matrix) - 1 or abstract_matrix[row + 1][column] == letter else "1"
+                W_wall = "0" if column == 0 or abstract_matrix[row][column - 1] == letter else "1"
+                E_wall = "0" if column == len(abstract_matrix[row]) - 1 or abstract_matrix[row][column + 1] == letter else "1"
+
+                NE_corner = "0" if row == 0 or column == len(abstract_matrix[row]) - 1 or abstract_matrix[row - 1][column + 1] == letter else "1"
+                SE_corner = "0" if row == len(abstract_matrix) - 1 or column == len(abstract_matrix[row]) - 1 or abstract_matrix[row + 1][column + 1] == letter else "1"
+                NW_corner = "0" if row == 0 or column == 0 or abstract_matrix[row - 1][column - 1] == letter else "1"
+                SW_corner = "0" if row == len(abstract_matrix) - 1 or column == 0 or abstract_matrix[row + 1][column - 1] == letter else "1"
+
+                # corners covered by a wall are redundant
+                if N_wall == "1":
+                    NE_corner = "0"
+                    NW_corner = "0"
+                if S_wall == "1":
+                    SE_corner = "0"
+                    SW_corner = "0"
+                if W_wall == "1":
+                    NW_corner = "0"
+                    SW_corner = "0"
+                if E_wall == "1":
+                    NE_corner = "0"
+                    SE_corner = "0"
+
+                wall_key = N_wall + E_wall + S_wall + W_wall
+                corner_key = NE_corner + SE_corner + SW_corner + NW_corner
+
+                letter_mappings = mappings[letter]
+                wall_data = letter_mappings[wall_key] if wall_key in letter_mappings else letter_mappings["0000"]
+                tile_ID = wall_data[corner_key] if corner_key in wall_data else wall_data["0000"]
+                raw_matrix[row][column] = tile_ID - 1
+        return raw_matrix
 
 
 
@@ -187,13 +249,24 @@ class RobotouilleCanvas:
         if biome_name not in self.asset_directory:
             self._load_floor(biome_name)
 
+        matrix_json = '''   {
+        "matrix": 
+        ["CCCCCC",
+        "CCCCCC",
+        "CCWWWW",
+        "CCWWCW",
+        "CCWWWW",
+        "CCCCCC"]}'''
+        abstract_tile_matrix = json.loads(matrix_json)
+        raw_tile_matrix = self._load_raw_tile_matrix(abstract_tile_matrix["matrix"], biome_name)
+
         sprites = self.asset_directory[biome_name]["sprites"]
         
         clamped_pix_square_size = np.ceil(self.pix_square_size) # Necessary to avoid 1 pixel gaps from decimals
         for row in range(len(self.layout)):
             for col in range(len(self.layout[0])):
                 #self._draw_image(surface, sprites[47], np.array([col, row]) * clamped_pix_square_size, clamped_pix_square_size)
-                image = pygame.transform.smoothscale(sprites[47], clamped_pix_square_size)
+                image = pygame.transform.smoothscale(sprites[raw_tile_matrix[row][col]], clamped_pix_square_size)
                 surface.blit(image, np.array([col, row]) * clamped_pix_square_size)
 
     def _draw_stations(self, surface):
