@@ -11,7 +11,8 @@
     },
 
     "floor": {
-        "biome": "tileset_flooring"
+        "biome": "tileset_flooring",
+        "furniture": "tileset_table"
     },
 
     "item": {

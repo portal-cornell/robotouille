@@ -135,28 +135,27 @@ class RobotouilleCanvas:
 
         self._draw_image(surface, f"{item_image_name}", position + self.pix_square_size * x_scale_factor, self.pix_square_size * y_scale_factor)
     
-    """
-        Load floor assets and calculate the tile layout.
+    def _load_tiles(self, tiling):
+        """
+        Load tile assets and calculate the tile layout.
 
         The unpacked values will be stored in the asset_directory
 
         The values are: config, sprites, mappings
 
         Args:
-            floor (String): Path to the flooring asset folder; the unpacked values will be stored under this key in asset_directory
-    """
-    def _load_floor(self, floor):
+            tiling (String): Path to the tiling asset folder; the unpacked values will be stored under this key in asset_directory
+        """
         # Load floor config
-        floor_config_path = floor + "/config.json" # Assumes the name of the json is standardized as config.json
-        with open(os.path.join(RobotouilleCanvas.ASSETS_DIRECTORY, floor_config_path), "r") as f:
-            floor_config = json.load(f)
-        #self.asset_directory[floor_config_path] = floor_config
+        tiling_config_path = tiling + "/config.json" # Assumes the name of the json is standardized as config.json
+        with open(os.path.join(RobotouilleCanvas.ASSETS_DIRECTORY, tiling_config_path), "r") as f:
+            tiling_config = json.load(f)
 
         # Load and slice flooring spritesheet
-        spritesheet_path = floor + "/" + floor_config["asset"]
+        spritesheet_path = tiling + "/" + tiling_config["asset"]
         spritesheet = pygame.image.load(os.path.join(RobotouilleCanvas.ASSETS_DIRECTORY, spritesheet_path)).convert_alpha()
-        num_sprites_x = floor_config["columns"]
-        num_sprites_y = floor_config["rows"]
+        num_sprites_x = tiling_config["columns"]
+        num_sprites_y = tiling_config["rows"]
         sprite_width = spritesheet.get_width() // num_sprites_x
         sprite_height = spritesheet.get_height() // num_sprites_y
         sprites = []
@@ -165,11 +164,14 @@ class RobotouilleCanvas:
                 rect = pygame.Rect(x * sprite_width, y * sprite_height, sprite_width, sprite_height)
                 sprite = spritesheet.subsurface(rect)
                 sprites.append(sprite)
-        #self.asset_directory[spritesheet_path] = sprites
+        # Add empty sprite for index -1
+        empty = pygame.Surface((1, 1), flags=pygame.SRCALPHA)
+        empty.fill((0, 0, 0, 0))
+        sprites.append(empty)
                 
         # Parse tile ID mappings
         mappings = {}
-        for word, walls in floor_config["mappings"].items():
+        for word, walls in tiling_config["mappings"].items():
             entry = {}
             for data in walls:
                 wall = data[0]
@@ -181,25 +183,29 @@ class RobotouilleCanvas:
 
         # Store loaded values in catalog under floor in asset_directory
         catalog = {}
-        catalog["config"] = floor_config
+        catalog["config"] = tiling_config
         catalog["sprites"] = sprites
         catalog["mappings"] = mappings
-        self.asset_directory[floor] = catalog
+        self.asset_directory[tiling] = catalog
     
-    """
+    def _load_raw_tile_matrix(self, abstract_matrix, biome_name):
+        """
         Parse the given abstract tile matrix into a matrix of raw tile IDs suitable for drawing
 
         Args:
-            abstract_matrix (List): List of strings whose characters represent abstract tiles
+            abstract_matrix (List[String]): List of strings whose characters represent abstract tiles
             biome_name (String): Name of biome to reference when translating tilings
-    """
-    def _load_raw_tile_matrix(self, abstract_matrix, biome_name):
+        """
         raw_matrix = [[-1] * len(abstract_matrix[0]) for _ in range(len(abstract_matrix))]
         mappings = self.asset_directory[biome_name]["mappings"]
 
         for row in range(len(abstract_matrix)):
             for column in range(len(abstract_matrix[row])):
                 letter = abstract_matrix[row][column]
+                if not letter in mappings:
+                    raw_matrix[row][column] = -1
+                    continue
+
                 N_wall = "0" if row == 0 or abstract_matrix[row - 1][column] == letter else "1"
                 S_wall = "0" if row == len(abstract_matrix) - 1 or abstract_matrix[row + 1][column] == letter else "1"
                 W_wall = "0" if column == 0 or abstract_matrix[row][column - 1] == letter else "1"
@@ -234,6 +240,23 @@ class RobotouilleCanvas:
         return raw_matrix
 
 
+    def _draw_tiles(self, surface, sprites, raw_tile_matrix):
+        """
+        Draw tiles on the canvas.
+
+        Args:
+            surface (pygame.Surface): Surface to draw on
+            sprites (List[pygame.Surface]): List of tile sprites
+            raw_tile_matrix (List[List[int]]): Matrix of tile IDs (corresponding to sprites indices) 
+        """
+        clamped_pix_square_size = np.ceil(self.pix_square_size) # Necessary to avoid 1 pixel gaps from decimals
+        for row in range(len(self.layout)):
+            for col in range(len(self.layout[0])):
+                #self._draw_image(surface, sprites[47], np.array([col, row]) * clamped_pix_square_size, clamped_pix_square_size)
+                # draws the image directly instead of calling _draw_images since tile sprites are not individually in asset_directory
+                image = pygame.transform.smoothscale(sprites[raw_tile_matrix[row][col]], clamped_pix_square_size)
+                surface.blit(image, np.array([col, row]) * clamped_pix_square_size)
+
 
     def _draw_floor(self, surface):
         """
@@ -247,7 +270,7 @@ class RobotouilleCanvas:
         """
         biome_name = self.config["floor"]["biome"]
         if biome_name not in self.asset_directory:
-            self._load_floor(biome_name)
+            self._load_tiles(biome_name)
 
         matrix_json = '''   {
         "matrix": 
@@ -262,12 +285,33 @@ class RobotouilleCanvas:
 
         sprites = self.asset_directory[biome_name]["sprites"]
         
-        clamped_pix_square_size = np.ceil(self.pix_square_size) # Necessary to avoid 1 pixel gaps from decimals
-        for row in range(len(self.layout)):
-            for col in range(len(self.layout[0])):
-                #self._draw_image(surface, sprites[47], np.array([col, row]) * clamped_pix_square_size, clamped_pix_square_size)
-                image = pygame.transform.smoothscale(sprites[raw_tile_matrix[row][col]], clamped_pix_square_size)
-                surface.blit(image, np.array([col, row]) * clamped_pix_square_size)
+        self._draw_tiles(surface, sprites, raw_tile_matrix)
+
+    def _draw_furniture(self, surface):
+        """
+        Draw the furniture on the canvas.
+
+        Args:
+            surface (pygame.Surface): Surface to draw on
+        """
+        furniture_name = self.config["floor"]["furniture"]
+        if furniture_name not in self.asset_directory:
+            self._load_tiles(furniture_name)
+
+        matrix_json = '''   {
+        "matrix": 
+        ["******",
+        "***TT*",
+        "******",
+        "******",
+        "******",
+        "******"]}'''
+        abstract_tile_matrix = json.loads(matrix_json)
+        raw_tile_matrix = self._load_raw_tile_matrix(abstract_tile_matrix["matrix"], furniture_name)
+
+        sprites = self.asset_directory[furniture_name]["sprites"]
+        
+        self._draw_tiles(surface, sprites, raw_tile_matrix)
 
     def _draw_stations(self, surface):
         """
@@ -457,6 +501,7 @@ class RobotouilleCanvas:
             obs (List[Literal]): Game state predicates
         """
         self._draw_floor(surface)
+        self._draw_furniture(surface)
         self._draw_stations(surface)
         self._draw_player(surface, obs)
         self._draw_item(surface, obs)
