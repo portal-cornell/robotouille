@@ -134,14 +134,48 @@ class RobotouilleCanvas:
         y_scale_factor = self.config["item"]["constants"]["Y_SCALE_FACTOR"]
 
         self._draw_image(surface, f"{item_image_name}", position + self.pix_square_size * x_scale_factor, self.pix_square_size * y_scale_factor)
-    
-    def _load_tiles(self, tiling):
+
+    def _load_tiles(self, tilings):
         """
         Load tile assets and calculate the tile layout.
 
-        The unpacked values will be stored in the asset_directory
+        The unpacked values will be stored in the asset_directory (under each tiling)
 
         The values are: config, sprites, mappings
+
+        For a given tiling t, catalog["config"] will return the config for that tiling only
+        
+        However, catalog["sprites"] and catalog["mappings"] return the UNION of the respective values of everything in tilings
+
+        Args:
+            tilings (List[String]: List of paths to the tiling asset folder; the unpacked values will be stored under these keys in asset_directory
+        """
+        catalogs = []
+        for t in tilings:
+            catalogs.append(self._load_tiles_single(t))
+        
+        union_sprites = []
+        union_mappings = {}
+        for c in catalogs:
+            offset = len(union_sprites)
+            union_sprites.extend(c["sprites"])
+            for lk, lv in c["mappings"].items():
+                for wk, wv in lv.items():
+                    for ck, cv in wv.items():
+                        c["mappings"][lk][wk][ck] = cv + offset
+            union_mappings.update(c["mappings"])
+        
+        for i in range(len(tilings)):
+            t = tilings[i]
+            catalogs[i]["sprites"] = union_sprites
+            catalogs[i]["mappings"] = union_mappings
+            self.asset_directory[t] = catalogs[i]
+    
+    def _load_tiles_single(self, tiling):
+        """
+        Load tile assets and calculate the tile layout.
+
+        Returns a catalog of: config, sprites, mappings
 
         Args:
             tiling (String): Path to the tiling asset folder; the unpacked values will be stored under this key in asset_directory
@@ -181,23 +215,24 @@ class RobotouilleCanvas:
                 entry[wall] = corners
             mappings[word] = entry
 
-        # Store loaded values in catalog under floor in asset_directory
+        # Store loaded values in catalog
         catalog = {}
         catalog["config"] = tiling_config
         catalog["sprites"] = sprites
         catalog["mappings"] = mappings
-        self.asset_directory[tiling] = catalog
+        return catalog
+        #self.asset_directory[tiling] = catalog
     
-    def _load_raw_tile_matrix(self, abstract_matrix, biome_name):
+    def _load_raw_tile_matrix(self, abstract_matrix, tiling_name):
         """
         Parse the given abstract tile matrix into a matrix of raw tile IDs suitable for drawing
 
         Args:
             abstract_matrix (List[String]): List of strings whose characters represent abstract tiles
-            biome_name (String): Name of biome to reference when translating tilings
+            tiling_name (String): Name of tiling to reference when translating tilings
         """
         raw_matrix = [[-1] * len(abstract_matrix[0]) for _ in range(len(abstract_matrix))]
-        mappings = self.asset_directory[biome_name]["mappings"]
+        mappings = self.asset_directory[tiling_name]["mappings"]
 
         for row in range(len(abstract_matrix)):
             for column in range(len(abstract_matrix[row])):
@@ -268,9 +303,11 @@ class RobotouilleCanvas:
         Args:
             surface (pygame.Surface): Surface to draw on
         """
-        biome_name = self.config["floor"]["biome"]
-        if biome_name not in self.asset_directory:
-            self._load_tiles(biome_name)
+        # Just referencing one of the spritesheets is enough; they are unioned upon loading
+        flooring_name = self.config["floor"]["flooring"][0]
+        if flooring_name not in self.asset_directory:
+            # In this case we have to load every spritesheet
+            self._load_tiles(self.config["floor"]["flooring"])
 
         matrix_json = '''   {
         "matrix": 
@@ -281,9 +318,9 @@ class RobotouilleCanvas:
         "CCWWWW",
         "CCCCCC"]}'''
         abstract_tile_matrix = json.loads(matrix_json)
-        raw_tile_matrix = self._load_raw_tile_matrix(abstract_tile_matrix["matrix"], biome_name)
+        raw_tile_matrix = self._load_raw_tile_matrix(abstract_tile_matrix["matrix"], flooring_name)
 
-        sprites = self.asset_directory[biome_name]["sprites"]
+        sprites = self.asset_directory[flooring_name]["sprites"]
         
         self._draw_tiles(surface, sprites, raw_tile_matrix)
 
@@ -294,9 +331,11 @@ class RobotouilleCanvas:
         Args:
             surface (pygame.Surface): Surface to draw on
         """
-        furniture_name = self.config["floor"]["furniture"]
+        # Just referencing one of the spritesheets is enough; they are unioned upon loading
+        furniture_name = self.config["floor"]["furniture"][0]
         if furniture_name not in self.asset_directory:
-            self._load_tiles(furniture_name)
+            # In this case we have to load every spritesheet
+            self._load_tiles(self.config["floor"]["furniture"])
 
         matrix_json = '''   {
         "matrix": 
@@ -304,8 +343,8 @@ class RobotouilleCanvas:
         "******",
         "******",
         "******",
-        "****T*",
-        "****T*"]}'''
+        "***CT*",
+        "***CT*"]}'''
         abstract_tile_matrix = json.loads(matrix_json)
         raw_tile_matrix = self._load_raw_tile_matrix(abstract_tile_matrix["matrix"], furniture_name)
 
