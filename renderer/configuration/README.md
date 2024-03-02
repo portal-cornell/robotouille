@@ -15,13 +15,13 @@ There are four main types of objects in the game. Each object has a set of prope
 
 ### Example Format
 
-Here we describe the format of the JSON files under ```configuration```.
+Here we describe the format of the JSON files under `configuration`.
 
 ```
 {
     "version" = The current version of the configuration file
 
-    "player" = A dictionary of player models that can be used in the game. Currently, Robotouille only supports setting a single set of assets to be used for all players. 
+    "player" = A dictionary of player models that can be used in the game. Currently, Robotouille only supports setting a single set of assets to be used for all players.
     {
         "robot" = A dictionary of assets to draw the player model
         {
@@ -32,7 +32,11 @@ Here we describe the format of the JSON files under ```configuration```.
         }
     }
 
-    "floor" = The image for the floor
+    "floor" = References to the tilings to be used for the floor and furniture
+    {
+        "flooring" = list of tilings to be used for the floor
+        "furniture" = list of tilings to be used for the furniture
+    }
 
     "item" = The configuration for items in the game
     {
@@ -82,4 +86,4 @@ Here we describe the format of the JSON files under ```configuration```.
 
 ### RobotouilleRenderer and RobotouilleCanvas
 
-The ```RobotouilleRenderer``` class sets up the pygame window and reads the configuration file to use in ```RobotouilleCanvas```. ```RobotouilleCanvas``` is responsible for drawing the images onto the window using the information from the configuration file. 
+The `RobotouilleRenderer` class sets up the pygame window and reads the configuration file to use in `RobotouilleCanvas`. `RobotouilleCanvas` is responsible for drawing the images onto the window using the information from the configuration file.
