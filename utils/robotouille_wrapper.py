@@ -105,7 +105,7 @@ class RobotouilleWrapper(gym.Wrapper):
         self.env.set_state(new_env_state)
         return new_env_state
 
-    def find_stacking_index(self, goal, correct_order):
+    def _find_stacking_index(self, goal, correct_order):
         for i in range(len(correct_order) - 1):
             if (
                 correct_order[i] in goal.variables[0]
@@ -113,7 +113,13 @@ class RobotouilleWrapper(gym.Wrapper):
             ):
                 return i
 
-    def check_patty_stove(self, obs):
+    def _check_cooked(self, obs):
+        for literal in obs.literals:
+            if "iscooked" == literal.predicate.name:
+                return True
+        return False
+
+    def _check_patty_stove(self, obs):
         for literal in obs.literals:
             if (
                 "on" == literal.predicate.name
@@ -123,14 +129,14 @@ class RobotouilleWrapper(gym.Wrapper):
                 return True
         return False
 
-    def check_cooking_start(self):
+    def _check_cooking_start(self):
         for item, status_dict in self.state.items():
             for status, state in status_dict.items():
                 if status == "cook" and state["cooking"]:
                     return True
         return False
 
-    def check_patty_held(self, obs):
+    def _check_patty_held(self, obs):
         for literal in obs.literals:
             if (
                 "has" == literal.predicate.name
@@ -139,7 +145,7 @@ class RobotouilleWrapper(gym.Wrapper):
                 return True
         return False
 
-    def check_lettuce_board(self, obs):
+    def _check_lettuce_board(self, obs):
         for literal in obs.literals:
             if (
                 "on" == literal.predicate.name
@@ -149,7 +155,7 @@ class RobotouilleWrapper(gym.Wrapper):
                 return True
         return False
 
-    def check_lettuced_held(self, obs):
+    def _check_lettuced_held(self, obs):
         for literal in obs.literals:
             if (
                 "has" == literal.predicate.name
@@ -158,7 +164,31 @@ class RobotouilleWrapper(gym.Wrapper):
                 return True
         return False
 
-    def heuristic_function(self, obs):
+    def _not_stacking(self, obs):
+        if not self.state["patty1"]["picked-up"]:
+            return False
+
+        table = None
+        item_below = None
+
+        for literal in obs.literals:
+            if "at" == literal.predicate.name and "patty1" in literal.variables[0].name:
+                table = literal.variables[1].name
+            if (
+                "atop" == literal.predicate.name
+                and "patty1" in literal.variables[0].name
+            ):
+                item_below = literal.variables[1].name
+
+        if table is None:
+            return False
+
+        if item_below is None or "bottombun" not in item_below:
+            return True
+
+        return False
+
+    def _heuristic_function(self, obs):
         """
         This function is a heuristic function that is used to generate a plan.
 
@@ -174,19 +204,21 @@ class RobotouilleWrapper(gym.Wrapper):
         cooked = False
         cut = False
 
+        # See if goals (stacking, cooking, cutting) are met
         score = 0
         for clause in obs.goal.literals:
             for goal in clause.literals:
                 for literal in obs.literals:
                     if goal == literal:
                         if goal.predicate == "atop":
-                            index = self.find_stacking_index(goal, correct_order)
+                            index = self._find_stacking_index(goal, correct_order)
                             correct_stacking[index] = True
                         if goal.predicate == "iscooked":
                             cooked = True
                         if goal.predicate == "iscut":
                             cut = True
 
+        # Check if the stacking is correct (Correct order + cooked burger + cut lettuce)
         for i in range(len(correct_stacking)):
             if not correct_stacking[2 - i]:
                 break
@@ -198,19 +230,23 @@ class RobotouilleWrapper(gym.Wrapper):
                 break
             score += 10
 
+        # Give reward for cooked. If not, give reward for uncooked patty on stove, cooking started, and uncooked patty held
         if cooked:
             score += 35
+            score -= 10 if self._not_stacking(obs) else 0
         else:
-            score += 15 if self.check_patty_stove(obs) else 0
-            score += 10 if self.check_cooking_start() else 0
-            score += 5 if self.check_patty_held(obs) else 0
+            score += 15 if self._check_patty_stove(obs) else 0
+            score += 10 if self._check_cooking_start() else 0
+            score += 5 if self._check_patty_held(obs) else 0
 
+        # Give reward for cut. If not, give reward for uncut lettuce on board and uncut lettuce held
         if cut:
             score += 45
         else:
-            score += 15 if self.check_lettuce_board(obs) else 0
-            score += 5 if self.check_lettuced_held(obs) else 0
+            score += 15 if self._check_lettuce_board(obs) else 0
+            score += 5 if self._check_lettuced_held(obs) else 0
 
+        # Give reward for each cut in the lettuce
         item_status = self.state.get("lettuce1")
         if item_status is not None and item_status.get("cut") is not None:
             score += 10 * item_status["cut"] if item_status["cut"] < 3 else 0
@@ -286,264 +322,22 @@ class RobotouilleWrapper(gym.Wrapper):
                 item_status["cook"]["cooking"] = False
             if item_status is not None and item_status.get("fry") is not None:
                 item_status["fry"]["frying"] = False
+
+            # Spaghetti code to handle the fact that the patty is not stacked after cooking
+            item_status = self.state.get("patty1")
+            cooked = self._check_cooked(self.prev_step[0])
+
+            # initialize state["patty1"]["picked-up"] if it doesn't exist
+            if item_status is None:
+                self.state[item.name] = {"picked-up": False}
+                item_status = self.state.get(item.name)
+            elif item_status.get("picked-up") is None:
+                item_status["picked-up"] = False
+
+            if cooked:
+                item_status["picked-up"] = True
         # TODO: Probably stop cooking if something is stacked on top of meat
         return self.env.step(action)
-
-    def _handle_moving_reward(self, action, obs):
-        """
-        This function handles the reward for the moving action. It currently rewards the agent for moving to the correct location with the correct item (patty to grill, lettuce to board)
-        """
-
-        # Check if an item is being held
-        reward = 0
-        holding = False
-        literals = obs.literals
-        for literal in literals:
-            if "has" in literal.predicate.name:
-                item_name = literal.variables[1].name
-                holding = True
-
-        if not holding:
-            return 0
-
-        destination = action.variables[2]
-
-        item_status = self.state.get(destination.name)
-
-        # See if lettuce is going to board or patty is going to stove. If it is, return 10 reward
-        if ("lettuce" in item_name and "board" in destination.name) or (
-            "patty" in item_name and "stove" in destination.name
-        ):
-            if item_status is None:
-                self.state[destination.name] = {"visited": True}
-                return 10
-            elif item_status.get("visited") is None:
-                item_status["visited"] = True
-                return 10
-            elif item_status.get("visited") is False:
-                item_status["visited"] = True
-                return 10
-
-        return 0
-
-    def _handle_stacking_reward(self, action):
-        # Check that no incorrect stacking occured
-        items = ["patty1", "lettuce1", "topbun1"]
-        correct_order = [
-            "atop(patty1:item,bottombun1:item)",
-            "atop(lettuce1:item,patty1:item)",
-            "atop(topbun1:item,lettuce1:item)",
-        ]
-
-        expanded_truths = self.prev_step[3]["expanded_truths"]
-        expanded_states = self.prev_step[3]["expanded_states"]
-        reward = 0
-
-        # Penalize for anyt stacking that is not in the correct order
-        for truth, state in zip(expanded_truths, expanded_states):
-            if (
-                truth == 1
-                and "atop" == state.predicate
-                and action.variables[1].name == state.variables[0].name
-                and str(state) not in correct_order
-            ):
-                reward -= 0
-
-        state_truth_map = self.map_state_to_truth(expanded_truths, expanded_states)
-
-        valid_stacking = True
-        # Go through every item and check if it is stacked correctly
-        for stack, item in zip(correct_order, items):
-            if state_truth_map[stack]:
-                if action.variables[1].name == item:
-                    item_status = self.state.get(item)
-                    if item_status is None:
-                        self.state[item.name] = {"stacked": False}
-                    elif item_status.get("stacked") is None:
-                        item_status["stacked"] = False
-
-                    if not item_status["stacked"]:
-                        # Check if patty is cooked or lettuce is cut if stacking is correct
-                        if valid_stacking:
-                            if (
-                                item == "patty1"
-                                and not state_truth_map[f"iscooked({item}:item)"]
-                            ) or (
-                                item == "lettuce1"
-                                and not state_truth_map[f"iscut({item}:item)"]
-                            ):
-                                reward -= 0
-                            else:
-                                reward += 10
-                                item_status["stacked"] = True
-                        else:
-                            reward -= 0
-
-            else:
-                valid_stacking = False
-
-        return reward
-
-    def _top_bun_left(self):
-        """
-        Return True if only the top bun is left, False otherwise.
-        """
-        correct_order = [
-            "atop(patty1:item,bottombun1:item)",
-            "atop(lettuce1:item,patty1:item)",
-        ]
-
-        expanded_truths = self.prev_step[3]["expanded_truths"]
-        expanded_states = self.prev_step[3]["expanded_states"]
-        state_truth_map = self.map_state_to_truth(expanded_truths, expanded_states)
-
-        return all([state_truth_map[stack] for stack in correct_order])
-
-    def _handle_reward(self, action, obs):
-        reward = 0
-        action_name = action.predicate.name
-
-        # Reward/Penalty for cutting
-        if action_name == "move":
-            reward += self._handle_moving_reward(action, obs)
-        if action_name == "cut":
-            item = next(
-                filter(
-                    lambda typed_entity: typed_entity.var_type == "item",
-                    action.variables,
-                ),
-                None,
-            )
-            if item:
-                item_name, _ = robotouille_utils.trim_item_ID(item.name)
-                num_cuts = self.config["num_cuts"]
-                max_num_cuts = num_cuts.get(item_name, num_cuts["default"])
-
-                item_status = self.state.get(item.name, {})
-                num_cuts = item_status.get("cut", 0)
-
-                reward += 10 if num_cuts <= max_num_cuts else 0
-        # Reward/Penalty for cooking and frying
-        elif action_name in ["cook", "fry"]:
-            item = next(
-                filter(
-                    lambda typed_entity: typed_entity.var_type == "item",
-                    action.variables,
-                ),
-                None,
-            )
-            if item:
-                item_status = self.state.get(item.name, {})
-                if action_name == "fry":
-                    num_fries = item_status.get("fry", {}).get("fry_time", 0)
-                    reward += 10 if num_fries < 1 else 0
-                elif action_name == "cook":
-                    cook_time = item_status.get("cook", {}).get("cook_time", 0)
-                    reward += 10 if cook_time < 1 else 0
-        elif action_name == "pick-up":
-            item = next(
-                filter(
-                    lambda typed_entity: typed_entity.var_type == "item",
-                    action.variables,
-                ),
-                None,
-            )
-            item_status = self.state.get(item.name, {})
-            # Check if the picked up item was a cooking patty.
-            if item_status is not None and item_status.get("cook") is not None:
-                if (
-                    item_status["cook"]["cook_time"] > 0
-                    and "iscooked(" + item.name not in self.prev_step[0]
-                ):
-                    literals = obs.literals
-
-                    cooked = False
-                    for literal in literals:
-                        if "iscooked" == literal.predicate.name:
-                            cooked = True
-
-                    if not cooked:
-                        reward -= 10
-
-            # Give a reward for picking up items other than the bottombun in hopes of it learning to stack better
-            if not "bottombun" in item.name:
-                item_status = self.state.get(item.name)
-                if item_status is None:
-                    self.state[item.name] = {"picked-up": False}
-                    item_status = self.state.get(item.name)
-                elif item_status.get("picked-up") is None:
-                    item_status["picked-up"] = False
-
-                if item_status.get("picked-up") is False:
-                    if "topbun" in item.name:
-                        if self._top_bun_left():
-                            reward += 10
-                            item_status["picked-up"] = True
-                    else:
-                        reward += 10
-                        item_status["picked-up"] = True
-        elif action_name == "place":
-            item = action.variables[1].name
-            destination = action.variables[2].name
-            literals = obs.literals
-
-            item_status = self.state.get(item)
-
-            # Initialize item status if it doesn't exist
-            if item_status is None:
-                self.state[item] = {"placed": False}
-            elif item_status.get("placed") is None:
-                item_status["placed"] = False
-
-            # Give a reward for placing a lettuce on the board or a patty on the stove
-            if (
-                "lettuce" in item
-                and "board" in destination
-                and not item_status["placed"]
-            ):
-                cut = False
-                for literal in literals:
-                    if "iscut" == literal.predicate.name:
-                        cut = True
-                if not cut:
-                    item_status["placed"] = True
-                    reward += 10
-            elif (
-                "patty" in item and "stove" in destination and not item_status["placed"]
-            ):
-                cooked = False
-                for literal in literals:
-                    if "iscooked" == literal.predicate.name:
-                        cooked = True
-                if not cooked:
-                    item_status["placed"] = True
-                    reward += 10
-            else:
-                reward -= 20
-        elif action_name == "stack":
-            reward += self._handle_stacking_reward(action)
-
-        # Reward for continuous cooking
-        for item, status_dict in self.state.items():
-            for status, state in status_dict.items():
-                if status == "cook":
-                    item_name, _ = robotouille_utils.trim_item_ID(item)
-                    cook_time = self.config["cook_time"]
-                    max_cook_time = cook_time.get(item_name, cook_time["default"])
-                    if state["cooking"] and state["cook_time"] <= max_cook_time:
-                        reward += 1
-                    elif state["cooking"] and state["cook_time"] > max_cook_time:
-                        reward -= 0
-
-        return reward
-
-    def map_state_to_truth(self, expanded_truths, expanded_states):
-        if expanded_truths is None or len(expanded_truths) != len(expanded_states):
-            print("Error: Mismatch in lengths or None input")  # Debugging
-            return {}
-        return {
-            str(expanded_states[i]): truth for i, truth in enumerate(expanded_truths)
-        }
 
     def get_latest_info(self):
         """
@@ -608,9 +402,9 @@ class RobotouilleWrapper(gym.Wrapper):
                 self.env, self.prev_step[0], action
             )
 
-        prev_heuristic = self.heuristic_function(self.prev_step[0])
         obs, reward, done, info = self._handle_action(action)
         obs = self._state_update()
+        prev_heuristic = self._heuristic_function(self.prev_step[0])
 
         toggle_array = pddlgym_utils.create_toggle_array(
             expanded_truths, expanded_states, obs.literals
@@ -633,10 +427,9 @@ class RobotouilleWrapper(gym.Wrapper):
         }
 
         self.prev_step = (obs, self.prev_step[1], done, info)
-        reward = self._handle_reward(action, obs)
-        reward = self.heuristic_function(obs) - prev_heuristic
+        reward = self._heuristic_function(obs) - prev_heuristic
 
-        # print("reward: ", reward)
+        print("reward: ", reward)
 
         self.prev_step = (obs, reward, done, info)
         return obs, reward, done, info

@@ -158,7 +158,7 @@ class RLEnv(gym.Env):
 
         """
         if self.shortened_action_truths[action] == 0.0:
-            print("invalid: " + self.shortened_action_names[action])
+            # print("invalid: " + self.shortened_action_names[action])
             return "invalid"
 
         attempted_action = self.shortened_action_names[action]

@@ -6,7 +6,6 @@ from utils.robotouille_input import create_action_from_control
 from robotouille.robotouille_env import create_robotouille_env
 from stable_baselines3 import A2C, PPO
 from stable_baselines3.common.env_util import make_vec_env
-from stable_baselines.common.callbacks import EvalCallback
 
 
 class mode(Enum):
@@ -15,14 +14,14 @@ class mode(Enum):
     LOAD = 3
 
 
-file = "runs/feb29_ppo_100k_heuristic_ent_coef_0.01.zip"
+file = "runs/mar1_ppo_200k_heuristic_ent_coef_0.01.zip"
 
 
 def simulator(
     environment_name: str,
     seed: int = 42,
     noisy_randomization: bool = False,
-    mode=mode.LOAD,
+    mode=mode.PLAY,
 ):
 
     # Your code for robotouille goes here
@@ -51,18 +50,9 @@ def simulator(
             model = PPO.load(file, env=rl_env)
 
         else:
-            eval_callback = EvalCallback(
-                rl_env,
-                best_model_save_path="best_model",
-                eval_freq=100,
-                deterministic=True,
-            )
             model = PPO("MlpPolicy", rl_env, verbose=1, n_steps=1024, ent_coef=0.01)
             model.learn(
-                total_timesteps=100000,
-                reset_num_timesteps=False,
-                progress_bar=True,
-                callback=eval_callback,
+                total_timesteps=200000, reset_num_timesteps=False, progress_bar=True
             )
             model.save(file)
 
