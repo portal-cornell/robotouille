@@ -18,7 +18,7 @@ from backend.object import Object
 from backend.domain import Domain
 from backend.state import State
 from backend.action import Action
-from backend.special_effect import DelayedEffect
+from backend.special_effects.delayed_effect import DelayedEffect
 
 is_chicken_def = Predicate().initialize("is_chicken", ["item"])
 is_table_def = Predicate().initialize("is_table", ["station"])

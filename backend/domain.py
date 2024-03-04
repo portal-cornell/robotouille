@@ -23,12 +23,13 @@ class Domain(object):
         Args:
             object_types (List[str]): The types to check.
 
-        Raises:
-            ValueError: If the types are not valid.
+        Returns:
+            bool: True if the types are valid, False otherwise.
         """
         for object_type in object_types:
             if object_type not in self.object_types:
-                raise ValueError(f"Type {object_type} is not defined in the domain.")
+                return False
+        return True
             
     def _are_valid_types(self, object_types, type_definitions):
         """

@@ -157,7 +157,8 @@ class State(object):
             for goal in goal_set:
                 if goal not in predicates:
                     raise ValueError(f"Predicate {goal} is not defined in the domain.")
-                domain.are_valid_object_types(goal.types)
+                if not domain.are_valid_object_types(goal.types):
+                    raise ValueError(f"Types {goal.types} are not defined in the domain.")
         
         self.domain = domain
         self.objects = objects

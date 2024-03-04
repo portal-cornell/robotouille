@@ -6,7 +6,9 @@ from backend.object import Object
 from backend.domain import Domain
 from backend.state import State
 from backend.action import Action
-from backend.special_effect import DelayedEffect, RepetitiveEffect, ConditionalEffect
+from backend.special_effects.delayed_effect import DelayedEffect
+from backend.special_effects.repetitive_effect import RepetitiveEffect
+from backend.special_effects.conditional_effect import ConditionalEffect
 
 p1 = Object("p1", "player")
 s1 = Object("s1", "station")
