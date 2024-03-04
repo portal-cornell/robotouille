@@ -183,7 +183,7 @@
             "direction": [-1, 0]
         }
     ],
-    "goal_description": "Make a burger with patty, tomato, lettuce in that order, and an onion cheese chicken sandwich (any order).",
+    "goal_description": "Make a burger with patty, tomato, lettuce, cheese, in that order, a cooked chicken, and a fried onion, fried chicken, fried potato sandwich (any order).",
     "goal": [
         {
             "predicate": "iscut",
@@ -196,7 +196,7 @@
             "ids": [2]
         },
         {
-            "predicate": "iscut",
+            "predicate": "isfried",
             "args": ["onion"],
             "ids": [3]
         },
@@ -206,14 +206,19 @@
             "ids": [4]
         },
         {
-            "predicate": "iscooked",
+            "predicate": "isfried",
             "args": ["chicken"],
             "ids": [5]
         },
         {
             "predicate": "atop",
-            "args": ["topbun", "lettuce"],
-            "ids": [6, 1]
+            "args": ["topbun", "cheese"],
+            "ids": [6, 10]
+        },
+        {
+            "predicate": "atop",
+            "args": ["cheese", "lettuce"],
+            "ids": [10, 1]
         },
         {
             "predicate": "atop",
@@ -242,11 +247,6 @@
         },
         {
             "predicate": "at",
-            "args": ["cheese", "table"],
-            "ids": [10, 9]
-        },
-        {
-            "predicate": "at",
             "args": ["chicken", "table"],
             "ids": [5, 9]
         },
@@ -259,6 +259,11 @@
             "predicate": "clear",
             "args": ["bread"],
             "ids": [11]
+        },
+        {
+            "predicate": "iscooked",
+            "args": ["chicken"],
+            "ids": [12]
         }
     ]
 }

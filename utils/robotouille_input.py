@@ -1,4 +1,5 @@
 import pygame
+from robotouille.build_domain import s1, s2
 
 def create_action_from_control(env, obs, action, renderer):
     """
@@ -18,39 +19,38 @@ def create_action_from_control(env, obs, action, renderer):
         renderer: The renderer.
     
     Returns:
-        A valid action.
+        action: The action to perform.
+        params_args_dict: The dictionary containing the mapping of parameters to
+            arguments for the action.
     """
-    if len(action) == 0: return
-    valid_actions = list(env.action_space.all_ground_literals(obs))
-    str_valid_actions = list(map(str, valid_actions))
+    if len(action) == 0: return None, None
+    valid_actions = obs.get_valid_actions()
+    action_dict = {str(action): action for action in env.action_space}
     action = action[0]
+    for literal, is_true in obs.predicates.items():
+        if literal.name == "loc" and is_true:
+            player_loc = str(literal.params[1])
     if action.type == pygame.MOUSEBUTTONDOWN:
         pos_x, pos_y = action.pos
         grid_size = renderer.canvas.pix_square_size[0]
         layout_pos = int(pos_x / grid_size), int(pos_y / grid_size)
         clicked_station = renderer.canvas.layout[layout_pos[1]][layout_pos[0]]
-        loc_tuples = [str_valid_action.split(",") for str_valid_action in str_valid_actions]
-        locs = [loc_tuple[2].split(":")[0] if 'station' in loc_tuple[2] else loc_tuple[3].split(":")[0] for loc_tuple in loc_tuples]
-        if clicked_station in locs:
-            index = locs.index(clicked_station)
-            while 'cook(' in str_valid_actions[index] or 'cut(' in str_valid_actions[index] or 'fry(' in str_valid_actions[index] or 'fry_cut_item(' in str_valid_actions[index]:
-                # We look for fry( instead which should be guaranteed to only match the fry action, and not the fryer
-                index = locs.index(clicked_station, index+1)
-            return str_valid_actions[index]
+        for args in valid_actions[action_dict['move']]:
+            if args[s2].name == clicked_station:
+                return action_dict['move'], args
+        for action_name in ['pick-up', 'place', 'stack', 'unstack']:
+            for args in valid_actions[action_dict[action_name]]:
+                if args[s1].name == clicked_station:
+                    return action_dict[action_name], args
+        return None, None
     elif action.type == pygame.KEYDOWN:
         if action.key == pygame.K_e:
-            literal_names = [str_valid_action.split("(")[0] for str_valid_action in str_valid_actions]
-            if 'cook' in literal_names:
-                index = literal_names.index('cook')
-                return str_valid_actions[index]
-            elif 'cut' in literal_names:
-                index = literal_names.index('cut')
-                return str_valid_actions[index]
-            elif 'fry' in literal_names:
-                index = literal_names.index('fry')
-                return str_valid_actions[index]
-            elif 'fry_cut_item' in literal_names:
-                index = literal_names.index('fry_cut_item')
-                return str_valid_actions[index]
+            for action_name in ['cook', 'cut', 'fry']:
+                for args in valid_actions[action_dict[action_name]]:
+                    if args[s1].name == player_loc:
+                        return action_dict[action_name], args
         elif action.key == pygame.K_SPACE:
-            return "noop"
+            for args in valid_actions[action_dict['wait']]:
+                return action_dict['wait'], args
+        return None, None
+                

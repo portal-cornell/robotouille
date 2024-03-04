@@ -5,6 +5,7 @@ import copy
 import itertools
 from .object_enums import Item, Player, Station, str_to_typed_enum
 from .procedural_generator import randomize_environment
+import random
 
 EXAMPLES_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), "examples")
 PROBLEM_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", "robotouille")
@@ -67,7 +68,14 @@ def load_environment(json_filename, seed=None):
         environment_json = json.load(f)
     sorting_key = lambda entity: (entity["x"], entity["y"])
     environment_json["stations"].sort(key=sorting_key)
+    # TODO: Breaks seed that gives consistent layout
+    for station in environment_json["stations"]:
+        if station["name"] == "station":
+            station["name"] = random.choice(list(Station)).value
     environment_json["items"].sort(key=sorting_key)
+    for item in environment_json["items"]:
+        if item["name"] == "item":
+            item["name"] = random.choice(list(Item)).value
     environment_json["players"].sort(key=sorting_key)
     return environment_json
 

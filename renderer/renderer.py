@@ -61,7 +61,7 @@ class RobotouilleRenderer:
         rendering in human mode or returned if rendering in rgb_array mode.
 
         Args:
-            obs (dict): The game state
+            obs (State): The game state
             render_mode (str): Either "human" or "rgb_array"
         
         Returns:
@@ -93,7 +93,7 @@ class RobotouilleRenderer:
         ends, we also hide the window.
 
         Args:
-            obs (dict): The game state
+            obs (State): The game state
             mode (str): Either "human" or "rgb_array"
             close (bool): Whether to close the pygame window
         """
