@@ -93,3 +93,12 @@ class Domain(object):
         self.actions = action_def
 
         return self
+    
+    def get_entity_fields(self):
+        """
+        Returns the object types of the domain.
+
+        Returns:
+            object_types (List[str]): The object types of the domain.
+        """
+        return [object_type + "s" for object_type in self.object_types]
