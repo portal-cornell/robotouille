@@ -95,7 +95,8 @@ class DelayedEffect(SpecialEffect):
             performed.
         """
         if active: return
-
+        
+        if self.completed: return
         self.increment_time()
         if self.current_time == self.goal_time:
             for effect, value in self.effects.items():

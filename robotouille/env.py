@@ -6,6 +6,7 @@ from environments.env_generator.builder import entity_to_entity_field, create_un
 import copy
 from domain.domain_builder import build_domain
 import gym
+import json
     
 def build_identity_predicates(environment_dict, entity_fields):
     """
@@ -226,9 +227,9 @@ def build_state(domain_json, environment_json):
         environment_json (dict): Dictionary containing the initial stations, items, and player location.
 
     Returns:
-        domain (State): The state.
+        state (State): The state.
     """
-    domain = build_domain(domain_json)
+    domain, param_objs = build_domain(domain_json)
 
     entity_fields = domain.get_entity_fields()
 
@@ -244,9 +245,26 @@ def build_state(domain_json, environment_json):
     true_predicates += build_stacking_predicates(environment_json)
     goal = build_goal(environment_json)
 
-    state = State().initialize(domain, objects, true_predicates, goal)
+    state = State().initialize(domain, objects, true_predicates, goal, param_objs)
 
     return state
+
+def build_input_json(domain_json):
+    """
+    This function builds the input JSON from the domain JSON.
+
+    Args:
+        domain_json (dict): Dictionary containing the domain name, object types, predicate definitions, and action definitions.
+
+    Returns:
+        input_json (dict): The input JSON.
+    """
+    input_json_name = domain_json["input_json"]
+
+    with open(input_json_name, "r") as input_json_file:
+        input_json = json.load(input_json_file)
+
+    return input_json
 
 class RobotouilleEnv(gym.Env):
     metadata = {"render_modes": ["human", "rgb_array"], "render_fps": 60}
@@ -262,6 +280,8 @@ class RobotouilleEnv(gym.Env):
         self.observation_space = initial_state
 
         self.action_space = initial_state.domain.actions
+
+        self.input_json = build_input_json(domain_json)
 
         assert render_mode is None or render_mode in self.metadata["render_modes"]
         self.render_mode = render_mode

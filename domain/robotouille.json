@@ -2,7 +2,7 @@
     "version": "1.0.0",
     "name": "robotouille",
 
-    "input_json": "input.json",
+    "input_json": "domain/input.json",
 
     "object_types": ["station", "item", "player"],
 

@@ -121,6 +121,8 @@ def _build_action_defs(input_json, predicate_defs):
 
     Returns:
         action_defs (List[Action]): The action definitions.
+        param_objs (Dictionary[str, Object]): The parameter objects to prevent 
+            unnecessary object creation.
     """
     predicate_dict = {pred.name: pred for pred in predicate_defs}
 
@@ -130,7 +132,6 @@ def _build_action_defs(input_json, predicate_defs):
 
     for action in input_json["action_defs"]:
         name = action["name"]
-        print(name)
         precons, param_objs = _build_precons_or_effects(
             "precons", param_objs, action, predicate_dict)
         immediate_effects, param_objs = _build_precons_or_effects(
@@ -140,7 +141,7 @@ def _build_action_defs(input_json, predicate_defs):
         action_def = Action(name, precons, immediate_effects, special_effects)
         action_defs.append(action_def)
 
-    return action_defs
+    return action_defs, param_objs
         
 def build_domain(input_json):
     """
@@ -151,6 +152,8 @@ def build_domain(input_json):
 
     Returns:
         domain (Domain): The domain object.
+        param_objs (Dictionary[str, Object]): The parameter objects to prevent 
+            unnecessary object creation.
     """
     name = input_json["name"]
 
@@ -158,9 +161,9 @@ def build_domain(input_json):
 
     predicate_defs = _build_predicate_defs(input_json)
 
-    action_defs = _build_action_defs(input_json, predicate_defs)
+    action_defs, param_objs = _build_action_defs(input_json, predicate_defs)
 
     domain = Domain().initialize(name, object_types, predicate_defs, action_defs)
 
-    return domain
+    return domain, param_objs
         

@@ -20,6 +20,7 @@ class State(object):
         self.actions = {}
         self.goal = []
         self.special_effects = []
+        self.param_objs = {}
 
     def _build_object_dictionary(self, domain, objects):
         """
@@ -119,7 +120,7 @@ class State(object):
 
         return actions
 
-    def initialize(self, domain, objects, true_predicates, all_goals, special_effects=[]):
+    def initialize(self, domain, objects, true_predicates, all_goals, param_objs, special_effects=[]):
         """
         Initializes a state object.
 
@@ -137,6 +138,8 @@ class State(object):
             true_predicates (Set[Predicate]): The predicates that are true in
                 the state, as defined by the problem file. 
             all_goals (List[List[Predicate]]): The goal predicates of the game.
+            param_objs (Dictionary[str, Object]): The parameter objects to prevent
+                unnecessary object creation.
             special_effects (List[Special_effects]): The special effects that 
                 are active in the state.
 
@@ -165,6 +168,7 @@ class State(object):
         self.predicates = predicates
         self.actions = self._build_actions(domain, objects)
         self.goal = all_goals
+        self.param_objs = param_objs
         self.special_effects = special_effects
 
         return self
@@ -227,15 +231,15 @@ class State(object):
             param_arg_dict (Dictionary[Object, Object]): The arguments for the 
                 special effect.
         """
-        if not special_effect.arg:
-            new_special_effect = special_effect.apply_sfx_on_arg(arg, param_arg_dict)
-            self.special_effects.append(new_special_effect)
-            current = self.special_effects[self.special_effects.index(new_special_effect)]
-        else:
-            current = self.special_effects[self.special_effects.index(special_effect)]
+        replaced_effect = special_effect.apply_sfx_on_arg(arg, param_arg_dict)
+        completed_effect = special_effect.apply_sfx_on_arg(arg, param_arg_dict)
+        completed_effect.completed = True
+        if completed_effect in self.special_effects:
+            return
+        if not replaced_effect in self.special_effects:
+            self.special_effects.append(replaced_effect)
+        current = self.special_effects[self.special_effects.index(replaced_effect)]
         current.update(self, active=True)
-        if current.completed:
-            self.special_effects.remove(current)
 
     def is_goal_reached(self):
         """
@@ -296,11 +300,9 @@ class State(object):
         """
         assert action.is_valid(self, param_arg_dict)
         self = action.perform_action(self, param_arg_dict)
-
+        
         for special_effect in self.special_effects:
             special_effect.update(self)
-            if special_effect.completed:
-                self.special_effects.remove(special_effect)
         
         if self.is_goal_reached():
             return self, True

@@ -95,6 +95,7 @@ class RepetitiveEffect(SpecialEffect):
             performed.
         """
         if not active: return
+        if self.completed: return
         self.increment_repetitions()
         if self.current_repetitions == self.goal_repetitions:
             for effect, value in self.effects.items():
