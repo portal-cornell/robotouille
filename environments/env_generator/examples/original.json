@@ -11,6 +11,22 @@
             "default": 3
         }
     },
+    "flooring":{
+        "ground": [
+        "CCCCCC",
+        "CCCCCC",
+        "CCWWWW",
+        "CCWWCW",
+        "CCWWWW",
+        "CCCCCC"],
+        "furniture":[
+        "******",
+        "******",
+        "******",
+        "******",
+        "***CT*",
+        "***CT*"]
+    },
     "stations": [
         {
             "name": "table",

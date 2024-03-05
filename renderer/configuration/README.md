@@ -9,7 +9,7 @@ Our goal for Robotouille is for it to be configurable so that users are able to 
 There are four main types of objects in the game. Each object has a set of properties that can be configured. The features we currently support are:
 
 - **Player**: changing the front, back, left and right image for the player
-- **Floor**: changing the floor image
+- **Floor**: changing the floor tilesets
 - **Item**: changing universal scaling and offset constants, and adding items that can each have their own offset constant and multiple images with corresponding predicates
 - **Station**: adding stations and their corresponding images
 
@@ -32,9 +32,9 @@ Here we describe the format of the JSON files under `configuration`.
         }
     }
 
-    "floor" = References to the tilings to be used for the floor and furniture
+    "floor" = References to the tilings to be used for the ground and furniture
     {
-        "flooring" = list of tilings to be used for the floor
+        "ground" = list of tilings to be used for the ground
         "furniture" = list of tilings to be used for the furniture
     }
 

@@ -11,7 +11,7 @@
     },
 
     "floor": {
-        "flooring": ["tileset_flooring"],
+        "ground": ["tileset_flooring"],
         "furniture": ["tileset_table", "tileset_counter"]
     },
 

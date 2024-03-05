@@ -13,6 +13,7 @@ def _parse_renderer_layout(environment_json):
     
     Returns:
         layout (list): A 2D list of station names representing where stations are in the environment.
+        tiles (dictionary): A dictionary storing abstract tilings
     """
     # Update environment names with unique versions
     width, height = environment_json["width"], environment_json["height"]
@@ -22,7 +23,8 @@ def _parse_renderer_layout(environment_json):
     for station in stations:
         x, y = station["x"], height - station["y"] - 1 # Origin is in the bottom left corner
         layout[y][x] = station["name"]
-    return layout
+    
+    return layout, environment_json["flooring"]
 
 def _procedurally_generate(environment_json, seed, noisy_randomization):
     """
@@ -70,9 +72,9 @@ def create_robotouille_env(problem_filename, seed=None, noisy_randomization=Fals
     environment_json = builder.load_environment(json_filename)
     if seed is not None:
         environment_json = _procedurally_generate(environment_json, int(seed), noisy_randomization)
-    layout = _parse_renderer_layout(environment_json)
+    layout, tiling = _parse_renderer_layout(environment_json)
     config_filename = "robotouille_config.json"
-    renderer = RobotouilleRenderer(config_filename=config_filename, layout=layout, players=environment_json["players"])
+    renderer = RobotouilleRenderer(config_filename=config_filename, layout=layout, tiling=tiling, players=environment_json["players"])
     render_fn = renderer.render
     problem_string, environment_json = builder.build_problem(environment_json) # IDs objects in environment
     builder.write_problem_file(problem_string, f"{problem_filename}.pddl")

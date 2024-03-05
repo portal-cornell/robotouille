@@ -14,12 +14,13 @@ class RobotouilleCanvas:
     # The directory containing the assets
     ASSETS_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets")
 
-    def __init__(self, config, layout, player, window_size=np.array([512,512])):
+    def __init__(self, config, layout, tiling, player, window_size=np.array([512,512])):
         """
         Initializes the canvas.
 
         Args:
             layout (List[List[Optional[str]]]): 2D array of station names (or None)
+            tiling (Dict): Dictionary with tiling data
             window_size (np.array): (width, height) of the window
         """
         # The layout of the game
@@ -34,6 +35,14 @@ class RobotouilleCanvas:
         self.asset_directory = {}
         # A dictionary which maps floor, players, items, and stations to their assets and constants
         self.config = config
+        # Reference to tiling data
+        self.tiling = tiling
+        # Tileset assets
+        self.ground_tileset = None
+        self.furniture_tileset = None
+        # Raw tiling matrices
+        self.ground_matrix = None
+        self.furniture_matrix = None
 
     def _get_station_position(self, station_name):
         """
@@ -137,18 +146,12 @@ class RobotouilleCanvas:
 
     def _load_tiles(self, tilings):
         """
-        Load tile assets and calculate the tile layout.
-
-        The unpacked values will be stored in the asset_directory (under each tiling)
-
-        The values are: config, sprites, mappings
-
-        For a given tiling t, catalog["config"] will return the config for that tiling only
+        Load tile assets and calculate tile mappings for multiple tile spritesheets.
         
-        However, catalog["sprites"] and catalog["mappings"] return the UNION of the respective values of everything in tilings
+        Returns a catalog of: sprites, mappings
 
         Args:
-            tilings (List[String]: List of paths to the tiling asset folder; the unpacked values will be stored under these keys in asset_directory
+            tilings (List[String]: List of paths to the tiling asset folder
         """
         catalogs = []
         for t in tilings:
@@ -165,20 +168,16 @@ class RobotouilleCanvas:
                         c["mappings"][lk][wk][ck] = cv + offset
             union_mappings.update(c["mappings"])
         
-        for i in range(len(tilings)):
-            t = tilings[i]
-            catalogs[i]["sprites"] = union_sprites
-            catalogs[i]["mappings"] = union_mappings
-            self.asset_directory[t] = catalogs[i]
+        return {"sprites": union_sprites, "mappings": union_mappings}
     
     def _load_tiles_single(self, tiling):
         """
-        Load tile assets and calculate the tile layout.
+        Load tile assets and calculate tile mappings.
 
         Returns a catalog of: config, sprites, mappings
 
         Args:
-            tiling (String): Path to the tiling asset folder; the unpacked values will be stored under this key in asset_directory
+            tiling (String): Path to the tiling asset folder
         """
         # Load floor config
         tiling_config_path = tiling + "/config.json" # Assumes the name of the json is standardized as config.json
@@ -223,16 +222,16 @@ class RobotouilleCanvas:
         return catalog
         #self.asset_directory[tiling] = catalog
     
-    def _load_raw_tile_matrix(self, abstract_matrix, tiling_name):
+    def _parse_abstract_tile_matrix(self, abstract_matrix, tiling_catalog):
         """
         Parse the given abstract tile matrix into a matrix of raw tile IDs suitable for drawing
 
         Args:
             abstract_matrix (List[String]): List of strings whose characters represent abstract tiles
-            tiling_name (String): Name of tiling to reference when translating tilings
+            tiling_catalog (Dict): Catalog to reference when translating tilings
         """
         raw_matrix = [[-1] * len(abstract_matrix[0]) for _ in range(len(abstract_matrix))]
-        mappings = self.asset_directory[tiling_name]["mappings"]
+        mappings = tiling_catalog["mappings"]
 
         for row in range(len(abstract_matrix)):
             for column in range(len(abstract_matrix[row])):
@@ -303,26 +302,14 @@ class RobotouilleCanvas:
         Args:
             surface (pygame.Surface): Surface to draw on
         """
-        # Just referencing one of the spritesheets is enough; they are unioned upon loading
-        flooring_name = self.config["floor"]["flooring"][0]
-        if flooring_name not in self.asset_directory:
-            # In this case we have to load every spritesheet
-            self._load_tiles(self.config["floor"]["flooring"])
+        if not self.ground_tileset:
+            # load ground tile data
+            self.ground_tileset = self._load_tiles(self.config["floor"]["ground"])
+            self.ground_matrix = self._parse_abstract_tile_matrix(self.tiling["ground"], self.ground_tileset)
 
-        matrix_json = '''   {
-        "matrix": 
-        ["CCCCCC",
-        "CCCCCC",
-        "CCWWWW",
-        "CCWWCW",
-        "CCWWWW",
-        "CCCCCC"]}'''
-        abstract_tile_matrix = json.loads(matrix_json)
-        raw_tile_matrix = self._load_raw_tile_matrix(abstract_tile_matrix["matrix"], flooring_name)
-
-        sprites = self.asset_directory[flooring_name]["sprites"]
+        sprites = self.ground_tileset["sprites"]
         
-        self._draw_tiles(surface, sprites, raw_tile_matrix)
+        self._draw_tiles(surface, sprites, self.ground_matrix)
 
     def _draw_furniture(self, surface):
         """
@@ -331,26 +318,14 @@ class RobotouilleCanvas:
         Args:
             surface (pygame.Surface): Surface to draw on
         """
-        # Just referencing one of the spritesheets is enough; they are unioned upon loading
-        furniture_name = self.config["floor"]["furniture"][0]
-        if furniture_name not in self.asset_directory:
-            # In this case we have to load every spritesheet
-            self._load_tiles(self.config["floor"]["furniture"])
+        if not self.furniture_tileset:
+            # load ground tile data
+            self.furniture_tileset = self._load_tiles(self.config["floor"]["furniture"])
+            self.furniture_matrix = self._parse_abstract_tile_matrix(self.tiling["furniture"], self.furniture_tileset)
 
-        matrix_json = '''   {
-        "matrix": 
-        ["******",
-        "******",
-        "******",
-        "******",
-        "***CT*",
-        "***CT*"]}'''
-        abstract_tile_matrix = json.loads(matrix_json)
-        raw_tile_matrix = self._load_raw_tile_matrix(abstract_tile_matrix["matrix"], furniture_name)
-
-        sprites = self.asset_directory[furniture_name]["sprites"]
+        sprites = self.furniture_tileset["sprites"]
         
-        self._draw_tiles(surface, sprites, raw_tile_matrix)
+        self._draw_tiles(surface, sprites, self.furniture_matrix)
 
     def _draw_stations(self, surface):
         """
