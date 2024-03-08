@@ -4,7 +4,7 @@ import pygame
 from utils.rl_wrapper import RLWrapper
 from utils.robotouille_input import create_action_from_control
 from robotouille.robotouille_env import create_robotouille_env
-from stable_baselines3 import A2C, PPO
+from stable_baselines3 import A2C, DQN, PPO
 from stable_baselines3.common.env_util import make_vec_env
 
 
@@ -14,7 +14,7 @@ class mode(Enum):
     LOAD = 3
 
 
-file = "runs/mar1_ppo_200k_heuristic_ent_coef_0.01.zip"
+file = "runs/mar8_dqn_200k_heuristic_move_ent_coef_0.01.zip"
 
 
 def simulator(

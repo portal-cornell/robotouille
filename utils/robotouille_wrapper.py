@@ -155,7 +155,7 @@ class RobotouilleWrapper(gym.Wrapper):
                 return True
         return False
 
-    def _check_lettuced_held(self, obs):
+    def _check_lettuce_held(self, obs):
         for literal in obs.literals:
             if (
                 "has" == literal.predicate.name
@@ -185,6 +185,30 @@ class RobotouilleWrapper(gym.Wrapper):
 
         if item_below is None or "bottombun" not in item_below:
             return True
+
+        return False
+
+    def _at_bottombun(self, obs):
+        bottombun_station = None
+        for literal in obs.literals:
+            if (
+                "at" == literal.predicate.name
+                and "bottombun" in literal.variables[0].name
+            ):
+                bottombun_station = literal.variables[1].name
+
+        for literal in obs.literals:
+            if (
+                "loc" == literal.predicate.name
+                and bottombun_station in literal.variables[1].name
+            ):
+                return True
+        return False
+
+    def _at_stove(self, obs):
+        for literal in obs.literals:
+            if "loc" == literal.predicate.name and "stove" in literal.variables[1].name:
+                return True
 
         return False
 
@@ -228,23 +252,31 @@ class RobotouilleWrapper(gym.Wrapper):
                 break
             elif i == 2 and not cut:
                 break
-            score += 10
+            score += 30
 
         # Give reward for cooked. If not, give reward for uncooked patty on stove, cooking started, and uncooked patty held
         if cooked:
             score += 35
-            score -= 10 if self._not_stacking(obs) else 0
+            score += 10 if self._check_patty_held(obs) else 0
+            if self._check_patty_held(obs) and self._at_bottombun(obs):
+                score += 10
+            elif self._check_patty_held(obs) and not (
+                self._at_bottombun(obs) or self._at_stove(obs)
+            ):
+                score -= 10
+
+            # score -= 10 if self._not_stacking(obs) else 0
         else:
+            score += 5 if self._check_patty_held(obs) else 0
             score += 15 if self._check_patty_stove(obs) else 0
             score += 10 if self._check_cooking_start() else 0
-            score += 5 if self._check_patty_held(obs) else 0
 
         # Give reward for cut. If not, give reward for uncut lettuce on board and uncut lettuce held
         if cut:
             score += 45
         else:
             score += 15 if self._check_lettuce_board(obs) else 0
-            score += 5 if self._check_lettuced_held(obs) else 0
+            score += 5 if self._check_lettuce_held(obs) else 0
 
         # Give reward for each cut in the lettuce
         item_status = self.state.get("lettuce1")
@@ -402,9 +434,10 @@ class RobotouilleWrapper(gym.Wrapper):
                 self.env, self.prev_step[0], action
             )
 
+        prev_heuristic = self._heuristic_function(self.prev_step[0])
+
         obs, reward, done, info = self._handle_action(action)
         obs = self._state_update()
-        prev_heuristic = self._heuristic_function(self.prev_step[0])
 
         toggle_array = pddlgym_utils.create_toggle_array(
             expanded_truths, expanded_states, obs.literals
