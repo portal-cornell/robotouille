@@ -1,5 +1,5 @@
 import pygame
-from utils.rl_wrapper import RLWrapper
+from rl.rl_wrapper import RLWrapper
 from utils.robotouille_input import create_action_from_control
 from robotouille.robotouille_env import create_robotouille_env
 from stable_baselines3 import PPO

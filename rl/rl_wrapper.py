@@ -5,7 +5,7 @@ import pddlgym
 import utils.robotouille_utils as robotouille_utils
 import utils.pddlgym_utils as pddlgym_utils
 import utils.robotouille_wrapper as robotouille_wrapper
-from utils.rl_env import RLEnv
+from rl.rl_env import RLEnv
 import wandb
 
 wandb.login()
