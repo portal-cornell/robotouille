@@ -10,16 +10,18 @@ class Item(Enum):
     TOMATO = "tomato"
     ONION = "onion"
     CHICKEN = "chicken"
-    POTATO = "potato"
+    MEDICINE = "medicine"
+    PULSE_CHECKER = "pulse_checker-equipment"
 
 class Player(Enum):
     ROBOT = "robot"
+    NURSE = "nurse"
 
 class Station(Enum):
     BOARD = "board"
     STOVE = "stove"
     TABLE = "table"
-    FRYER = "fryer"
+    PATIENT = "patient"
 
 def str_to_typed_enum(s):
     """
