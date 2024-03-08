@@ -1,0 +1,119 @@
+Using cpu device
+Wrapping the env with a `Monitor` wrapper
+Wrapping the env in a DummyVecEnv.
+[35m   0%[39m [38m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[39m [32m51/100,000 [39m [ [33m0:00:00[39m < [36m0:20:36[39m , [31m81 it/s[39m ]
+/Users/promiseosaineekpo/Cornell Repos/hosp_robotouille/.venv/lib/python3.8/site-packages/stable_baselines3/common/vec_env/patch_gym.py:49: UserWarning: You provided an OpenAI Gym environment. We strongly recommend transitioning to Gymnasium environments. Stable-Baselines3 is automatically wrapping your environments in a compatibility layer, which could potentially cause issues.
+  warnings.warn(
+/Users/promiseosaineekpo/Cornell Repos/hosp_robotouille/.venv/lib/python3.8/site-packages/stable_baselines3/ppo/ppo.py:155: UserWarning: You have specified a mini-batch size of 64, but because the `RolloutBuffer` is of size `n_steps * n_envs = 100000`, after every 1562 untruncated mini-batches, there will be a truncated mini-batch of size 32
+We recommend using a `batch_size` that is a factor of `n_steps * n_envs`.
+Info: (n_steps=100000 and n_envs=1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Traceback (most recent call last):
+  File "main.py", line 10, in <module>
+    simulator(args.environment_name, args.seed, args.noisy_randomization)
+  File "/Users/promiseosaineekpo/Cornell Repos/hosp_robotouille/robotouille/robotouille_simulator.py", line 35, in simulator
+    agent.learn(
+  File "/Users/promiseosaineekpo/Cornell Repos/hosp_robotouille/.venv/lib/python3.8/site-packages/stable_baselines3/ppo/ppo.py", line 315, in learn
+    return super().learn(
+  File "/Users/promiseosaineekpo/Cornell Repos/hosp_robotouille/.venv/lib/python3.8/site-packages/stable_baselines3/common/on_policy_algorithm.py", line 277, in
+learn
+    continue_training = self.collect_rollouts(self.env, callback, self.rollout_buffer, n_rollout_steps=self.n_steps)
+  File "/Users/promiseosaineekpo/Cornell Repos/hosp_robotouille/.venv/lib/python3.8/site-packages/stable_baselines3/common/on_policy_algorithm.py", line 194, in
+collect_rollouts
+    new_obs, rewards, dones, infos = env.step(clipped_actions)
+  File "/Users/promiseosaineekpo/Cornell Repos/hosp_robotouille/.venv/lib/python3.8/site-packages/stable_baselines3/common/vec_env/base_vec_env.py", line 206, in
+step
+    return self.step_wait()
+  File "/Users/promiseosaineekpo/Cornell Repos/hosp_robotouille/.venv/lib/python3.8/site-packages/stable_baselines3/common/vec_env/dummy_vec_env.py", line 58, in
+step_wait
+    obs, self.buf_rews[env_idx], terminated, truncated, self.buf_infos[env_idx] = self.envs[env_idx].step(
+  File "/Users/promiseosaineekpo/Cornell Repos/hosp_robotouille/.venv/lib/python3.8/site-packages/stable_baselines3/common/monitor.py", line 94, in step
+    observation, reward, terminated, truncated, info = self.env.step(action)
+  File "/Users/promiseosaineekpo/Cornell Repos/hosp_robotouille/.venv/lib/python3.8/site-packages/shimmy/openai_gym_compatibility.py", line 117, in step
+    return self.gym_env.step(action)
+  File "/Users/promiseosaineekpo/Cornell Repos/hosp_robotouille/utils/rl_wrapper.py", line 75, in step
+    self._wrap_env()
+  File "/Users/promiseosaineekpo/Cornell Repos/hosp_robotouille/utils/rl_wrapper.py", line 41, in _wrap_env
+    expanded_truths, expanded_states = pddlgym_utils.expand_state(
+  File "/Users/promiseosaineekpo/Cornell Repos/hosp_robotouille/utils/pddlgym_utils.py", line 70, in expand_state
+    expanded_truths = np.zeros(len(expanded_state))
+KeyboardInterrupt
+[35m  13%[39m [38m━━━━━━━━━━━━━━╺━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━[39m [32m12,745/100,000 [39m [ [33m0:02:41[39m < [36m0:18:15[39m , [31m80 it/s[39m ]

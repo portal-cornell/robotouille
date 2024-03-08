@@ -1,17 +1,29 @@
+from enum import Enum
+import numpy as np
 import pygame
-from utils.rl_wrapper import RLWrapper
+from rl.rl_wrapper import RLWrapper
 from utils.robotouille_input import create_action_from_control
 from robotouille.robotouille_env import create_robotouille_env
-from stable_baselines3 import PPO
+from stable_baselines3 import A2C, DQN, PPO
 from stable_baselines3.common.env_util import make_vec_env
+
+
+class mode(Enum):
+    PLAY = 1
+    TRAIN = 2
+    LOAD = 3
+
+
+file = "runs/mar8_ppo_200k_heuristic_combine_actions_ent_coef_0.01.zip"
 
 
 def simulator(
     environment_name: str,
     seed: int = 42,
     noisy_randomization: bool = False,
-    use_rl: bool = True,
+    mode=mode.LOAD,
 ):
+
     # Your code for robotouille goes here
     env, json, renderer = create_robotouille_env(
         environment_name, seed, noisy_randomization
@@ -23,24 +35,32 @@ def simulator(
     truncated = False
     interactive = False  # Set to True to interact with the environment through terminal REPL (ignores input)
 
-    if use_rl:
+    # Load or train agent
+    if mode == mode.TRAIN or mode == mode.LOAD:
         config = {
-            "num_cuts": {"lettuce": 5, "default": 3},
-            "cook_time": {"patty": 10, "default": 3},
+            "num_cuts": {"lettuce": 3, "default": 3},
+            "cook_time": {"patty": 3, "default": 3},
         }
+
         rl_env = RLWrapper(env, config)
-        obs, info = rl_env.reset()
         rl_env.render(mode="human")
-        agent = PPO("MlpPolicy", rl_env, verbose=1, n_steps=100000)
-        agent.learn(
-            total_timesteps=100000, reset_num_timesteps=False, progress_bar=True
-        )
-        agent.save("ppo_robotouille")
+        obs, info = rl_env.reset()
+
+        if mode == mode.LOAD:
+            model = PPO.load(file, env=rl_env)
+
+        else:
+            model = PPO("MlpPolicy", rl_env, verbose=1, n_steps=1024, ent_coef=0.01)
+            model.learn(
+                total_timesteps=200000, reset_num_timesteps=False, progress_bar=True
+            )
+            model.save(file)
 
         obs, info = rl_env.reset()
 
+    # Simulate the environment
     while not done and not truncated:
-        if use_rl:
+        if mode == mode.TRAIN or mode == mode.LOAD:
             pygame_events = pygame.event.get()
             keydown_events = list(
                 filter(lambda e: e.type == pygame.KEYDOWN, pygame_events)
@@ -50,7 +70,7 @@ def simulator(
                 continue
 
             if keydown_events[0].key == pygame.K_SPACE:
-                action, _states = agent.predict(obs, deterministic=True)
+                action, _states = model.predict(obs)
                 obs, reward, done, truncated, info = rl_env.step(
                     action=action, debug=True
                 )

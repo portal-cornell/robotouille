@@ -6,7 +6,8 @@ from utils.robotouille_exceptions import RobotouilleEnvironmentDoesNotExistExcep
 import environments
 
 ENVIRONMENT_DIR_PATH = os.path.dirname(os.path.abspath(environments.__file__))
-PDDL_DIR_PATH = os.path.join(os.path.dirname(os.path.abspath(pddlgym.__file__)), 'pddl')
+PDDL_DIR_PATH = os.path.join(os.path.dirname(os.path.abspath(pddlgym.__file__)), "pddl")
+
 
 def add_domain_file(env_name):
     """
@@ -14,7 +15,7 @@ def add_domain_file(env_name):
 
     Args:
         env_name (str): Name of the environment
-    
+
     Returns:
         domain_file_path (str): Path to the domain file in the PDDL directory
     """
@@ -24,13 +25,14 @@ def add_domain_file(env_name):
     new_domain_file_path = os.path.join(PDDL_DIR_PATH, domain_file_name)
     return new_domain_file_path
 
+
 def add_problem_files(env_name):
     """
     Add problem files to the PDDL directory.
 
     Args:
         env_name (str): Name of the environment
-    
+
     Returns:
         problem_dir_path (str): Path to the problem files in the PDDL directory
     """
@@ -41,6 +43,7 @@ def add_problem_files(env_name):
     shutil.copytree(problem_dir_path, pddl_problem_dir_path)
     new_problem_dir_path = os.path.join(PDDL_DIR_PATH, env_name)
     return new_problem_dir_path
+
 
 def create_pddl_env(env_name, is_test_env, render_fn, problem_filename):
     """
@@ -55,16 +58,16 @@ def create_pddl_env(env_name, is_test_env, render_fn, problem_filename):
         is_test_env (bool): Whether the environment is a test environment
         render_fn (function): Function to render the environment
         problem_filename (str): Name of the problem file to generate the environment for
-    
+
     Returns:
         env (pddlgym.PDDLEnv): PDDLGym environment
     """
     kwargs = {
-        'render': render_fn,
-        'operators_as_actions': True, 
-        'dynamic_action_space': True,
-        "raise_error_on_invalid_action": False
-        }
+        "render": render_fn,
+        "operators_as_actions": True,
+        "dynamic_action_space": True,
+        "raise_error_on_invalid_action": False,
+    }
     pddlgym.register_pddl_env(env_name, is_test_env, kwargs)
     domain_file_path = add_domain_file(env_name)
     problem_dir_path = add_problem_files(env_name)
@@ -74,21 +77,24 @@ def create_pddl_env(env_name, is_test_env, render_fn, problem_filename):
     try:
         env_index = sorted(os.listdir(problem_dir_path)).index(problem_filename)
     except:
-        raise RobotouilleEnvironmentDoesNotExistException(f"Environment {problem_filename} does not exist.")
+        raise RobotouilleEnvironmentDoesNotExistException(
+            f"Environment {problem_filename} does not exist."
+        )
     shutil.rmtree(problem_dir_path)
     env.fix_problem_index(env_index)
     return env
+
 
 def parse(literal_str):
     """
     Parses a string representation of a literal into a Literal object.
 
     Args:
-        literal_str (str): String representation of a literal. 
+        literal_str (str): String representation of a literal.
             Examples:
             - at(chef:player,stove:station)
             - A(B:1,C:2,D:3,...) where A is the predicate name, B-D are the arguments, and 1-3 are the types
-    
+
     Returns:
         predicate (str): Predicate name
         args (List[str]): List of arguments
@@ -97,7 +103,7 @@ def parse(literal_str):
     # Split the string into the predicate name and the arguments
     predicate_name, args_str = literal_str.split("(")
     # Split the arguments into a list of strings
-    args_str = args_str[:-1] # Remove the trailing ')'
+    args_str = args_str[:-1]  # Remove the trailing ')'
     args_str = args_str.split(",")
     # Convert the arguments into a list of tuples
     args = []
@@ -108,16 +114,17 @@ def parse(literal_str):
         types.append(pddlgym.structs.Type(arg_type))
     return predicate_name, args, types
 
+
 def str_to_literal(literal_str):
     """
     Converts a string representation of a literal to a Literal object.
 
     Args:
-        literal_str (str): String representation of a literal. 
+        literal_str (str): String representation of a literal.
             Examples:
             - at(chef:player,stove:station)
             - A(B:1,C:2,D:3,...) where A is the predicate name, B-D are the arguments, and 1-3 are the types
-    
+
     Returns:
         literal (pddlgym.structs.Literal): Literal object
     """
@@ -126,4 +133,3 @@ def str_to_literal(literal_str):
     # Create the literal
     literal = pddlgym.structs.Literal(predicate, args)
     return literal
-
