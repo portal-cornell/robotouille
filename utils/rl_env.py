@@ -139,6 +139,10 @@ class RLEnv(gym.Env):
             # Add the action name to the shortened action space. If the action is new, add the truth value to the shortened action truths. If the action is already in the shortened action space, update the truth value if the action is valid.
             if action_name == "move":
                 action_name += "_" + action.variables[2].name
+            elif action_name == "place" or action_name == "stack":
+                action_name = "place/stack"
+            elif action_name == "pick-up" or action_name == "unstack":
+                action_name = "pick-up/unstack"
 
             if action_name not in shortened_action_names:
                 shortened_action_names.append(action_name)
@@ -172,7 +176,7 @@ class RLEnv(gym.Env):
             action_name = action.predicate.name
             if action_name == "move":
                 action_name += "_" + action.variables[2].name
-            if action_name == attempted_action and truth == 1.0:
+            if action_name in attempted_action and truth == 1.0:
                 return action
 
         print("ERROR: Action not found")

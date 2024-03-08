@@ -14,14 +14,14 @@ class mode(Enum):
     LOAD = 3
 
 
-file = "runs/mar8_dqn_200k_heuristic_move_ent_coef_0.01.zip"
+file = "runs/mar8_ppo_200k_heuristic_combine_actions_ent_coef_0.01.zip"
 
 
 def simulator(
     environment_name: str,
     seed: int = 42,
     noisy_randomization: bool = False,
-    mode=mode.PLAY,
+    mode=mode.TRAIN,
 ):
 
     # Your code for robotouille goes here
