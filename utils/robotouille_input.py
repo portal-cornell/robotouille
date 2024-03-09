@@ -19,14 +19,13 @@ def create_action_from_control(env, obs, action, renderer):
     
     Returns:
         action: The action to perform.
-        params_args_dict: The dictionary containing the mapping of parameters to
+        param_arg_dict: The dictionary containing the mapping of parameters to
             arguments for the action.
     """
     if len(action) == 0: return None, None
     valid_actions = obs.get_valid_actions()
     action_dict = {str(action): action for action in env.action_space}
     input_json = env.input_json
-    param_objs = env.observation_space.param_objs
     action = action[0]
     for literal, is_true in obs.predicates.items():
         if literal.name == "loc" and is_true:
@@ -39,9 +38,9 @@ def create_action_from_control(env, obs, action, renderer):
         for action_input in input_json["mouse_click_actions"]:
             action_name = action_input["name"]
             input_instructions = action_input["input_instructions"]
-            param_obj = param_objs[input_instructions["click_on"]]
+            param = input_instructions["click_on"]
             for args in valid_actions[action_dict[action_name]]:
-                if args[param_obj].name == clicked_station:
+                if args[param].name == clicked_station:
                     return action_dict[action_name], args
         return None, None
     elif action.type == pygame.KEYDOWN:
@@ -51,11 +50,10 @@ def create_action_from_control(env, obs, action, renderer):
             input_instructions = action_input["input_instructions"]
             if key_pressed == input_instructions["key"]:
                 if not input_instructions["at"]:
-                    for args in valid_actions[action_dict[action_name]]:
-                        return action_dict[action_name], args
+                    return action_dict[action_name], valid_actions[action_dict[action_name]][0]
                 for args in valid_actions[action_dict[action_name]]:
-                    param_obj = param_objs[input_instructions["at"]]
-                    if args[param_obj].name == player_loc:
+                    param = input_instructions["at"]
+                    if args[param].name == player_loc:
                         return action_dict[action_name], args
         return None, None
                 

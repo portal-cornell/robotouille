@@ -115,12 +115,11 @@ class State(object):
                 # If combination repeats an object, skip it
                 if len(set(combination)) != len(combination):
                     continue
-                args = {param:combination[params.index(param)] for param in params}
+                args = {param.name:combination[params.index(param)] for param in params}
                 actions[action].append(args)
-
         return actions
 
-    def initialize(self, domain, objects, true_predicates, all_goals, param_objs, special_effects=[]):
+    def initialize(self, domain, objects, true_predicates, all_goals, special_effects=[]):
         """
         Initializes a state object.
 
@@ -137,9 +136,7 @@ class State(object):
             objects (List[Object]): The objects in the state.
             true_predicates (Set[Predicate]): The predicates that are true in
                 the state, as defined by the problem file. 
-            all_goals (List[List[Predicate]]): The goal predicates of the game.
-            param_objs (Dictionary[str, Object]): The parameter objects to prevent
-                unnecessary object creation.
+            all_goals (List[List[Predicate]]): The goal predicates of the game. 
             special_effects (List[Special_effects]): The special effects that 
                 are active in the state.
 
@@ -168,7 +165,6 @@ class State(object):
         self.predicates = predicates
         self.actions = self._build_actions(domain, objects)
         self.goal = all_goals
-        self.param_objs = param_objs
         self.special_effects = special_effects
 
         return self
@@ -228,7 +224,7 @@ class State(object):
         Args:
             special_effect (SpecialEffect): The special effect to update.
             arg (Object): The object to update the special effect for.
-            param_arg_dict (Dictionary[Object, Object]): The arguments for the 
+            param_arg_dict (Dictionary[Str, Object]): The arguments for the 
                 special effect.
         """
         replaced_effect = special_effect.apply_sfx_on_arg(arg, param_arg_dict)
@@ -267,7 +263,7 @@ class State(object):
         valid for each action are appended to the lists for the relevant action.
 
         Returns:
-            valid_actions (Dictionary[Action, Dictionary[Object, Object]]): A
+            valid_actions (Dictionary[Action, Dictionary[Str, Object]]): A
                 dictionary of valid actions for the state. The keys are the
                 actions, and the values are the parameter-argument dictionaries
                 for the actions.
@@ -287,7 +283,7 @@ class State(object):
 
         Args:
             action (Action): The action to apply the effects of.
-            param_arg_dict (Dictionary[Object, Object]): The dictionary that map
+            param_arg_dict (Dictionary[Str, Object]): The dictionary that map
                 parameters to arguments.
         
         Returns:

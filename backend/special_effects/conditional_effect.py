@@ -71,7 +71,7 @@ class ConditionalEffect(SpecialEffect):
 
         Args:
             arg (Object): The argument that the conditional effect is applied to.
-            param_arg_dict (Dictionary[Object, Object]): The dictionary mapping
+            param_arg_dict (Dictionary[Str, Object]): The dictionary mapping
                 the parameters to the arguments.
 
         Returns:
@@ -94,8 +94,7 @@ class ConditionalEffect(SpecialEffect):
             active (bool): Whether or not the update is due to an action being
             performed.
         """
-        if active: return
-        if self.completed: return
+        if active or self.completed: return
         for condition, value in self.condition.items():
             if state.predicates[condition] != value:
                 state.special_effects.remove(self)

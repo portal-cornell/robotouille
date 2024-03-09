@@ -218,9 +218,6 @@ def build_goal(environment_dict):
 def build_state(domain_json, environment_json):
     """
     This function is a temporary solution to building the state.
-    
-    TODO: This function should be replaced by a function that reads the problem
-    file and builds the state from it.
 
     Args:
         domain_json (dict): Dictionary containing the domain name, object types, predicate definitions, and action definitions.
@@ -229,7 +226,7 @@ def build_state(domain_json, environment_json):
     Returns:
         state (State): The state.
     """
-    domain, param_objs = build_domain(domain_json)
+    domain = build_domain(domain_json)
 
     entity_fields = domain.get_entity_fields()
 
@@ -245,7 +242,7 @@ def build_state(domain_json, environment_json):
     true_predicates += build_stacking_predicates(environment_json)
     goal = build_goal(environment_json)
 
-    state = State().initialize(domain, objects, true_predicates, goal, param_objs)
+    state = State().initialize(domain, objects, true_predicates, goal)
 
     return state
 

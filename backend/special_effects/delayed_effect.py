@@ -8,7 +8,7 @@ class DelayedEffect(SpecialEffect):
     of time has passed.
     """
 
-    def __init__(self, param, effects, completed, goal_time, arg=None):
+    def __init__(self, param, effects, completed, goal_time=4, arg=None):
         """
         Initializes a delayed effect.
 
@@ -67,7 +67,7 @@ class DelayedEffect(SpecialEffect):
 
         Args:
             arg (Object): The argument that the special effect is applied to.
-            param_arg_dict (Dictionary[Object, Object]): The dictionary mapping
+            param_arg_dict (Dictionary[Str, Object]): The dictionary mapping
                 the parameters to the arguments.
 
         Returns:
@@ -94,9 +94,7 @@ class DelayedEffect(SpecialEffect):
             active (bool): Whether or not the update is due to an action being
             performed.
         """
-        if active: return
-        
-        if self.completed: return
+        if active or self.completed: return
         self.increment_time()
         if self.current_time == self.goal_time:
             for effect, value in self.effects.items():

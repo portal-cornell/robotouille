@@ -34,8 +34,8 @@ def _build_precons_or_effects(precon_or_effect_key, param_objs, action, predicat
         domain_dict (Dictionary): The domain dictionary.
         precon_or_effect_key (str): The key for the preconditions or immediate
             effects in the domain dictionary.
-        param_objs (Dictionary[str, Object]): The parameter objects to prevent 
-            unnecessary object creation.
+        param_objs (Dictionary[str, Object]): A dictionary whose keys are
+            parameter names and the values are placeholder objects. 
         action (Dictionary): The action to build the preconditions or immediate
             effects from.
         predicate_dict (Dictionary[str, Predicate]): The predicate dictionary.
@@ -43,22 +43,24 @@ def _build_precons_or_effects(precon_or_effect_key, param_objs, action, predicat
     Returns:
         precons_or_effects (Dictionary[Predicate, bool]): The preconditions or
             immediate effects of the action.
-        param_objs (Dictionary[str, Object]): The updated parameter objects.
+
+    Side Effects:
+        - Updates 'param_objs' in-place with parameter objects.
     """
     precons_or_effects = {}
 
     for precon_or_effect in action[precon_or_effect_key]:
         pred = predicate_dict[precon_or_effect["predicate"]]
         params = []
-        for param in precon_or_effect["params"]:
+        for i, param in enumerate(precon_or_effect["params"]):
             if param not in param_objs.keys():
-                type = pred.types[precon_or_effect["params"].index(param)]
+                type = pred.types[i]
                 param_objs[param] = Object(param, type)
             params.append(param_objs[param])
         new_pred = Predicate().initialize(pred.name, pred.types, params)
         precons_or_effects[new_pred] = precon_or_effect["is_true"]
 
-    return precons_or_effects, param_objs
+    return precons_or_effects
 
 def _build_special_effects(action, param_objs, predicate_dict):
     """
@@ -66,50 +68,35 @@ def _build_special_effects(action, param_objs, predicate_dict):
 
     Args:
         action (Dictionary): The action to build the special effects from.
-        param_objs (Dictionary[str, Object]): The parameter objects to prevent 
-            unnecessary object creation.
+        param_objs (Dictionary[str, Object]): A dictionary whose keys are
+            parameter names and the values are placeholder objects. 
         predicate_dict (Dictionary[str, Predicate]): The predicate dictionary.
 
     Returns:
         special_effects (List[SpecialEffect]): The special effects of the action.
-        param_objs (Dictionary[str, Object]): The updated parameter objects.
+
+    Side Effects:
+        - Updates 'param_objs' in-place with parameter objects.
     """
     special_effects = []
 
     for special_effect in action["special_fx"]:
         param_name = special_effect["param"]
         param_obj = param_objs[param_name]
-        effects = {}
-        for effect in special_effect["fx"]:
-            pred = predicate_dict[effect["predicate"]]
-            params = []
-            for param in effect["params"]:
-                if param not in param_objs.keys():
-                    type = pred.types[effect["params"].index(param)]
-                    param_objs[param] = Object(param, type)
-                params.append(param_objs[param])
-            new_pred = Predicate().initialize(pred.name, pred.types, params)
-            effects[new_pred] = effect["is_true"]
+        effects = _build_precons_or_effects(
+            "fx", param_objs, special_effect, predicate_dict)
         if special_effect["type"] == "delayed":
-            sfx = DelayedEffect(param_obj, effects, False, 4)
+            # TODO: The values for goal repetitions/time should be decided by the problem json
+            sfx = DelayedEffect(param_obj, effects, False)
         elif special_effect["type"] == "repetitive":
-            sfx = RepetitiveEffect(param_obj, effects, False, 3)
+            sfx = RepetitiveEffect(param_obj, effects, False)
         elif special_effect["type"] == "conditional":
-            conditions = {}
-            for condition in special_effect["conditions"]:
-                pred = predicate_dict[condition["predicate"]]
-                params = []
-                for param in condition["params"]:
-                    if param not in param_objs.keys():
-                        type = pred.types[condition["params"].index(param)]
-                        param_objs[param] = Object(param, type)
-                    params.append(param_objs[param])
-                new_pred = Predicate().initialize(pred.name, pred.types, params)
-                conditions[new_pred] = condition["is_true"]
+            conditions = _build_precons_or_effects(
+                "conditions", param_objs, special_effect, predicate_dict)
             sfx = ConditionalEffect(param_obj, effects, False, conditions)
         special_effects.append(sfx)
 
-    return special_effects, param_objs
+    return special_effects
 
 def _build_action_defs(input_json, predicate_defs):
     """
@@ -121,8 +108,6 @@ def _build_action_defs(input_json, predicate_defs):
 
     Returns:
         action_defs (List[Action]): The action definitions.
-        param_objs (Dictionary[str, Object]): The parameter objects to prevent 
-            unnecessary object creation.
     """
     predicate_dict = {pred.name: pred for pred in predicate_defs}
 
@@ -132,16 +117,16 @@ def _build_action_defs(input_json, predicate_defs):
 
     for action in input_json["action_defs"]:
         name = action["name"]
-        precons, param_objs = _build_precons_or_effects(
+        precons = _build_precons_or_effects(
             "precons", param_objs, action, predicate_dict)
-        immediate_effects, param_objs = _build_precons_or_effects(
+        immediate_effects = _build_precons_or_effects(
             "immediate_fx", param_objs, action, predicate_dict)
-        special_effects, param_objs = _build_special_effects(
+        special_effects = _build_special_effects(
             action, param_objs, predicate_dict)
         action_def = Action(name, precons, immediate_effects, special_effects)
         action_defs.append(action_def)
 
-    return action_defs, param_objs
+    return action_defs
         
 def build_domain(input_json):
     """
@@ -152,8 +137,6 @@ def build_domain(input_json):
 
     Returns:
         domain (Domain): The domain object.
-        param_objs (Dictionary[str, Object]): The parameter objects to prevent 
-            unnecessary object creation.
     """
     name = input_json["name"]
 
@@ -161,9 +144,9 @@ def build_domain(input_json):
 
     predicate_defs = _build_predicate_defs(input_json)
 
-    action_defs, param_objs = _build_action_defs(input_json, predicate_defs)
+    action_defs = _build_action_defs(input_json, predicate_defs)
 
     domain = Domain().initialize(name, object_types, predicate_defs, action_defs)
 
-    return domain, param_objs
+    return domain
         
