@@ -228,9 +228,7 @@ class State(object):
                 special effect.
         """
         replaced_effect = special_effect.apply_sfx_on_arg(arg, param_arg_dict)
-        completed_effect = special_effect.apply_sfx_on_arg(arg, param_arg_dict)
-        completed_effect.completed = True
-        if completed_effect in self.special_effects:
+        if replaced_effect in self.special_effects:
             return
         if not replaced_effect in self.special_effects:
             self.special_effects.append(replaced_effect)

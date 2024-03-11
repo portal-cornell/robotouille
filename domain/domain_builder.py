@@ -26,18 +26,18 @@ def _build_predicate_defs(input_json):
 
     return predicate_defs
 
-def _build_precons_or_effects(precon_or_effect_key, param_objs, action, predicate_dict):
+def _build_pred_list(key, param_objs, dict, predicate_dict):
     """
-    This function builds the preconditions or immediate effects of an action.
+    This function builds a list of predicates from a JSON input. This is used 
+    in building actions and special effects, where their preconditions, 
+    immediate effects, or conditions are defined as a list of predicates.
     
     Args:
-        domain_dict (Dictionary): The domain dictionary.
-        precon_or_effect_key (str): The key for the preconditions or immediate
-            effects in the domain dictionary.
+        key (str): The key for the list or predicates being built 
+            (e.g. "precons").
         param_objs (Dictionary[str, Object]): A dictionary whose keys are
             parameter names and the values are placeholder objects. 
-        action (Dictionary): The action to build the preconditions or immediate
-            effects from.
+        dict (Dictionary): The dictionary containing the predicates to be built. 
         predicate_dict (Dictionary[str, Predicate]): The predicate dictionary.
 
     Returns:
@@ -49,7 +49,7 @@ def _build_precons_or_effects(precon_or_effect_key, param_objs, action, predicat
     """
     precons_or_effects = {}
 
-    for precon_or_effect in action[precon_or_effect_key]:
+    for precon_or_effect in dict[key]:
         pred = predicate_dict[precon_or_effect["predicate"]]
         params = []
         for i, param in enumerate(precon_or_effect["params"]):
@@ -83,7 +83,7 @@ def _build_special_effects(action, param_objs, predicate_dict):
     for special_effect in action["special_fx"]:
         param_name = special_effect["param"]
         param_obj = param_objs[param_name]
-        effects = _build_precons_or_effects(
+        effects = _build_pred_list(
             "fx", param_objs, special_effect, predicate_dict)
         if special_effect["type"] == "delayed":
             # TODO: The values for goal repetitions/time should be decided by the problem json
@@ -91,7 +91,7 @@ def _build_special_effects(action, param_objs, predicate_dict):
         elif special_effect["type"] == "repetitive":
             sfx = RepetitiveEffect(param_obj, effects, False)
         elif special_effect["type"] == "conditional":
-            conditions = _build_precons_or_effects(
+            conditions = _build_pred_list(
                 "conditions", param_objs, special_effect, predicate_dict)
             sfx = ConditionalEffect(param_obj, effects, False, conditions)
         special_effects.append(sfx)
@@ -117,9 +117,9 @@ def _build_action_defs(input_json, predicate_defs):
 
     for action in input_json["action_defs"]:
         name = action["name"]
-        precons = _build_precons_or_effects(
+        precons = _build_pred_list(
             "precons", param_objs, action, predicate_dict)
-        immediate_effects = _build_precons_or_effects(
+        immediate_effects = _build_pred_list(
             "immediate_fx", param_objs, action, predicate_dict)
         special_effects = _build_special_effects(
             action, param_objs, predicate_dict)

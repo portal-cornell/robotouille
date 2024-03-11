@@ -37,9 +37,8 @@ class DelayedEffect(SpecialEffect):
             bool: True if the effects are equal, False otherwise.
         """
         return self.param == other.param and self.effects == other.effects \
-            and self.completed == other.completed \
-                and self.goal_time == other.goal_time\
-                    and self.arg == other.arg
+            and self.goal_time == other.goal_time\
+                and self.arg == other.arg
     
     def __hash__(self):
         """
