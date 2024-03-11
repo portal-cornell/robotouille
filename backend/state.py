@@ -1,5 +1,4 @@
 from backend.predicate import Predicate
-from backend.special_effect import SpecialEffect
 import itertools
 
 class State(object):
