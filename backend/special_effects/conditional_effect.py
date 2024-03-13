@@ -88,8 +88,8 @@ class ConditionalEffect(SpecialEffect):
         """
         Updates the state with the effect.
 
-        Since this is a conditional effect, the effects are applied whenver the
-        condtions are met, irregarless of whether the effect is active or not.
+        Since this is a conditional effect, the effects are applied whenever the
+        condtions are met, irregardless of whether the action is active or not.
         The active parameter is ignored, but still required to match the
         signature of the update method in the SpecialEffect class.
 
