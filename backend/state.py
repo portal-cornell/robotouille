@@ -1,5 +1,4 @@
 from backend.predicate import Predicate
-from backend.special_effect import SpecialEffect
 import itertools
 
 class State(object):
@@ -20,6 +19,7 @@ class State(object):
         self.actions = {}
         self.goal = []
         self.special_effects = []
+        self.param_objs = {}
 
     def _build_object_dictionary(self, domain, objects):
         """
@@ -114,9 +114,8 @@ class State(object):
                 # If combination repeats an object, skip it
                 if len(set(combination)) != len(combination):
                     continue
-                args = {param:combination[params.index(param)] for param in params}
+                args = {param.name:combination[params.index(param)] for param in params}
                 actions[action].append(args)
-
         return actions
 
     def initialize(self, domain, objects, true_predicates, all_goals, special_effects=[]):
@@ -136,7 +135,7 @@ class State(object):
             objects (List[Object]): The objects in the state.
             true_predicates (Set[Predicate]): The predicates that are true in
                 the state, as defined by the problem file. 
-            all_goals (List[List[Predicate]]): The goal predicates of the game.
+            all_goals (List[List[Predicate]]): The goal predicates of the game. 
             special_effects (List[Special_effects]): The special effects that 
                 are active in the state.
 
@@ -224,18 +223,14 @@ class State(object):
         Args:
             special_effect (SpecialEffect): The special effect to update.
             arg (Object): The object to update the special effect for.
-            param_arg_dict (Dictionary[Object, Object]): The arguments for the 
+            param_arg_dict (Dictionary[Str, Object]): The arguments for the 
                 special effect.
         """
-        if not special_effect.arg:
-            new_special_effect = special_effect.apply_sfx_on_arg(arg, param_arg_dict)
-            self.special_effects.append(new_special_effect)
-            current = self.special_effects[self.special_effects.index(new_special_effect)]
-        else:
-            current = self.special_effects[self.special_effects.index(special_effect)]
+        replaced_effect = special_effect.apply_sfx_on_arg(arg, param_arg_dict)
+        if replaced_effect not in self.special_effects:
+            self.special_effects.append(replaced_effect)
+        current = self.special_effects[self.special_effects.index(replaced_effect)]
         current.update(self, active=True)
-        if current.completed:
-            self.special_effects.remove(current)
 
     def is_goal_reached(self):
         """
@@ -252,7 +247,6 @@ class State(object):
             if all(self.get_predicate_value(goal) for goal in goal_set):
                 return True
         return False
-        
     
     def get_valid_actions(self):
         """
@@ -263,7 +257,7 @@ class State(object):
         valid for each action are appended to the lists for the relevant action.
 
         Returns:
-            valid_actions (Dictionary[Action, Dictionary[Object, Object]]): A
+            valid_actions (Dictionary[Action, Dictionary[Str, Object]]): A
                 dictionary of valid actions for the state. The keys are the
                 actions, and the values are the parameter-argument dictionaries
                 for the actions.
@@ -283,7 +277,7 @@ class State(object):
 
         Args:
             action (Action): The action to apply the effects of.
-            param_arg_dict (Dictionary[Object, Object]): The dictionary that map
+            param_arg_dict (Dictionary[Str, Object]): The dictionary that map
                 parameters to arguments.
         
         Returns:
@@ -296,11 +290,9 @@ class State(object):
         """
         assert action.is_valid(self, param_arg_dict)
         self = action.perform_action(self, param_arg_dict)
-
+        
         for special_effect in self.special_effects:
             special_effect.update(self)
-            if special_effect.completed:
-                self.special_effects.remove(special_effect)
         
         if self.is_goal_reached():
             return self, True

@@ -4,10 +4,11 @@ from backend.domain import Domain
 from backend.state import State
 from environments.env_generator.builder import entity_to_entity_field, create_unique_and_combination_preds, create_combinations
 import copy
-from robotouille.build_domain import ACTIONS, PREDICATE_DEF, ENTITY_FIELDS, OBJECT_TYPES
+from domain.domain_builder import build_domain
 import gym
+import json
     
-def build_identity_predicates(environment_dict):
+def build_identity_predicates(environment_dict, entity_fields):
     """
     Builds identity predicates string from an environment dictionary.
 
@@ -17,12 +18,13 @@ def build_identity_predicates(environment_dict):
     Args:
         environment_dict (dict): Dictionary containing the initial stations, items, 
             and player location.
+        entity_fields (List[Str]): A list of object types defined in the domain.
     
     Returns:
         identity_predicates (List): Identity predicates list.
     """
     identity_predicates = []
-    for field in ENTITY_FIELDS:
+    for field in entity_fields:
         for entity in environment_dict[field]:
             name = entity['name']
             while name[-1].isdigit():
@@ -213,34 +215,29 @@ def build_goal(environment_dict):
         goal.append(create_conjunction(unique_preds + filled_combination_preds))
     return goal
 
-def build_state(environment_json):
+def build_state(domain_json, environment_json):
     """
     This function is a temporary solution to building the state.
-    
-    TODO: This function should be replaced by a function that reads the problem
-    file and builds the state from it.
 
     Args:
+        domain_json (dict): Dictionary containing the domain name, object types, predicate definitions, and action definitions.
         environment_json (dict): Dictionary containing the initial stations, items, and player location.
 
     Returns:
-        domain (State): The state.
+        state (State): The state.
     """
-    object_types = OBJECT_TYPES
-    predicate_def = PREDICATE_DEF
-    action_def = ACTIONS
-    domain = Domain()
-    
-    domain.initialize("robotouille", object_types, predicate_def, action_def)
+    domain = build_domain(domain_json)
+
+    entity_fields = domain.get_entity_fields()
 
     objects = []
 
-    for field in ENTITY_FIELDS:
+    for field in entity_fields:
         for entity in environment_json[field]:
             objects.append(Object(entity["name"], field[:-1]))
 
     true_predicates = []
-    true_predicates += build_identity_predicates(environment_json)
+    true_predicates += build_identity_predicates(environment_json, entity_fields)
     true_predicates += build_location_predicates(environment_json)
     true_predicates += build_stacking_predicates(environment_json)
     goal = build_goal(environment_json)
@@ -249,20 +246,39 @@ def build_state(environment_json):
 
     return state
 
+def build_input_json(domain_json):
+    """
+    This function builds the input JSON from the domain JSON.
+
+    Args:
+        domain_json (dict): Dictionary containing the domain name, object types, predicate definitions, and action definitions.
+
+    Returns:
+        input_json (dict): The input JSON.
+    """
+    input_json_name = domain_json["input_json"]
+
+    with open(input_json_name, "r") as input_json_file:
+        input_json = json.load(input_json_file)
+
+    return input_json
+
 class RobotouilleEnv(gym.Env):
     metadata = {"render_modes": ["human", "rgb_array"], "render_fps": 60}
 
-    def __init__(self, environment_json, render_fn, render_mode=None, size=5):        
+    def __init__(self, domain_json, environment_json, render_fn, render_mode=None, size=5):        
         self.size = size
         self.window_size = 512
 
-        initial_state = build_state(environment_json)
+        initial_state = build_state(domain_json, environment_json)
 
         self.initial_state = initial_state
 
         self.observation_space = initial_state
 
-        self.action_space = ACTIONS
+        self.action_space = initial_state.domain.actions
+
+        self.input_json = build_input_json(domain_json)
 
         assert render_mode is None or render_mode in self.metadata["render_modes"]
         self.render_mode = render_mode

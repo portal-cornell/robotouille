@@ -8,7 +8,7 @@ class RepetitiveEffect(SpecialEffect):
     been performed a certain number of times.
     """
     
-    def __init__(self, param, effects, completed, goal_repetitions, arg=None):
+    def __init__(self, param, effects, completed, goal_repetitions=3, arg=None):
         """
         Initializes a repetitive effect.
 
@@ -37,9 +37,8 @@ class RepetitiveEffect(SpecialEffect):
             bool: True if the effects are equal, False otherwise.
         """
         return self.param == other.param and self.effects == other.effects \
-            and self.completed == other.completed \
-                and self.goal_repetitions == other.goal_repetitions \
-                    and self.arg == other.arg
+            and self.goal_repetitions == other.goal_repetitions \
+                and self.arg == other.arg
     
     def __hash__(self):
         """
@@ -67,7 +66,7 @@ class RepetitiveEffect(SpecialEffect):
 
             Args:
                 arg (Object): The argument that the special effect is applied to.
-                param_arg_dict (Dictionary[Object, Object]): The dictionary mapping
+                param_arg_dict (Dictionary[Str, Object]): The dictionary mapping
                     the parameters to the arguments.
 
             Returns:
@@ -94,7 +93,7 @@ class RepetitiveEffect(SpecialEffect):
             active (bool): Whether or not the update is due to an action being
             performed.
         """
-        if not active: return
+        if not active or self.completed: return
         self.increment_repetitions()
         if self.current_repetitions == self.goal_repetitions:
             for effect, value in self.effects.items():

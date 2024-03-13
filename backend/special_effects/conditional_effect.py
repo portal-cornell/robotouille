@@ -42,9 +42,8 @@ class ConditionalEffect(SpecialEffect):
             bool: True if the effects are equal, False otherwise.
         """
         return self.param == other.param and self.effects == other.effects \
-            and self.completed == other.completed \
-                and self.condition == other.condition \
-                    and self.arg == other.arg
+            and self.condition == other.condition \
+                and self.arg == other.arg
     
     def __hash__(self):
         """
@@ -71,7 +70,7 @@ class ConditionalEffect(SpecialEffect):
 
         Args:
             arg (Object): The argument that the conditional effect is applied to.
-            param_arg_dict (Dictionary[Object, Object]): The dictionary mapping
+            param_arg_dict (Dictionary[Str, Object]): The dictionary mapping
                 the parameters to the arguments.
 
         Returns:
@@ -89,12 +88,17 @@ class ConditionalEffect(SpecialEffect):
         """
         Updates the state with the effect.
 
+        Since this is a conditional effect, the effects are applied whenever the
+        condtions are met, irregardless of whether the action is active or not.
+        The active parameter is ignored, but still required to match the
+        signature of the update method in the SpecialEffect class.
+
         Args:
             state (State): The state to update.
             active (bool): Whether or not the update is due to an action being
             performed.
         """
-        if active: return
+        if self.completed: return
         for condition, value in self.condition.items():
             if state.predicates[condition] != value:
                 return
