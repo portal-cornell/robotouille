@@ -62,6 +62,12 @@ class State(object):
             objects (List[Object]): The objects in the state.
             true_predicates (Set[Predicate]): The predicates that are true in
                 the state, as defined by the problem file. 
+
+        Returns:
+            predicates (Dictionary[Predicate, bool]): A dictionary of predicates
+                in the state. The keys are the predicates, and the values are
+                boolean, where True means that the predicate is true in the state,
+                and False means that the predicate is false in the state.
         """
         object_dict = self._build_object_dictionary(domain, objects)
             
@@ -231,6 +237,18 @@ class State(object):
             self.special_effects.append(replaced_effect)
         current = self.special_effects[self.special_effects.index(replaced_effect)]
         current.update(self, active=True)
+
+    def add_object(self, obj):
+        """
+        Adds an object to the state.
+
+        Args:
+            obj (Object): The object to add to the state.
+        """
+        self.objects.append(obj)
+        true_predicates = {predicate for predicate, value in self.predicates.items() if value}
+        self.predicates = self._build_predicates(self.domain, self.objects, true_predicates)
+        self.actions = self._build_actions(self.domain, self.objects)
 
     def is_goal_reached(self):
         """
