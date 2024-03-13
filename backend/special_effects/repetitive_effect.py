@@ -93,7 +93,7 @@ class RepetitiveEffect(SpecialEffect):
             active (bool): Whether or not the update is due to an action being
             performed.
         """
-        if active or self.completed: return
+        if not active or self.completed: return
         self.increment_repetitions()
         if self.current_repetitions == self.goal_repetitions:
             for effect, value in self.effects.items():

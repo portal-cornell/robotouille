@@ -88,15 +88,20 @@ class ConditionalEffect(SpecialEffect):
         """
         Updates the state with the effect.
 
+        Since this is a conditional effect, the effects are applied whenver the
+        condtions are met, irregarless of whether the effect is active or not.
+        The active parameter is ignored, but still required to match the
+        signature of the update method in the SpecialEffect class.
+
         Args:
             state (State): The state to update.
             active (bool): Whether or not the update is due to an action being
             performed.
         """
-        if active or self.completed: return
+        if self.completed: return
         for condition, value in self.condition.items():
             if state.predicates[condition] != value:
-                state.special_effects.remove(self)
+                return
         for effect, value in self.effects.items():
             state.update_predicate(effect, value)
         self.completed = True

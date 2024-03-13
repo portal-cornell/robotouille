@@ -374,9 +374,14 @@
                     "param": "i1",
                     "conditions": [
                         {
-                        "predicate": "isfryableifcut",
-                        "params": ["i1"],
-                        "is_true": true
+                            "predicate": "isfryableifcut",
+                            "params": ["i1"],
+                            "is_true": true
+                        },
+                        {
+                            "predicate": "iscut",
+                            "params": ["i1"],
+                            "is_true": true
                         }
                     ],
                     "fx": [

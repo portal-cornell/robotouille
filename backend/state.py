@@ -227,9 +227,7 @@ class State(object):
                 special effect.
         """
         replaced_effect = special_effect.apply_sfx_on_arg(arg, param_arg_dict)
-        if replaced_effect in self.special_effects:
-            return
-        if not replaced_effect in self.special_effects:
+        if replaced_effect not in self.special_effects:
             self.special_effects.append(replaced_effect)
         current = self.special_effects[self.special_effects.index(replaced_effect)]
         current.update(self, active=True)
@@ -249,7 +247,6 @@ class State(object):
             if all(self.get_predicate_value(goal) for goal in goal_set):
                 return True
         return False
-        
     
     def get_valid_actions(self):
         """
