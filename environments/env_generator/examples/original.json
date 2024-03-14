@@ -86,7 +86,8 @@
             ],
             "actions": [
                 "move",
-                "cut"
+                "cut",
+                "place"
             ]
         },
         {

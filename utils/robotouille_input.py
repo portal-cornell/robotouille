@@ -34,11 +34,16 @@ def create_action_from_control(env, obs, action, renderer):
         loc_tuples = [
             str_valid_action.split(",") for str_valid_action in str_valid_actions
         ]
+
         locs = [
             (
-                loc_tuple[2].split(":")[0]
-                if "station" in loc_tuple[2]
-                else loc_tuple[3].split(":")[0]
+                []
+                if len(loc_tuple) == 2
+                else (
+                    loc_tuple[2].split(":")[0]
+                    if "station" in loc_tuple[2]
+                    else loc_tuple[3].split(":")[0]
+                )
             )
             for loc_tuple in loc_tuples
         ]
