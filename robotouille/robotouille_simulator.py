@@ -50,6 +50,7 @@ def simulator(
 
         else:
             model = PPO("MlpPolicy", rl_env, verbose=1, n_steps=1024, ent_coef=0.01)
+
             model.learn(
                 total_timesteps=200000, reset_num_timesteps=False, progress_bar=True
             )
