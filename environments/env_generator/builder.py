@@ -7,13 +7,16 @@ from .object_enums import Item, Player, Station, str_to_typed_enum
 from .procedural_generator import randomize_environment
 
 EXAMPLES_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), "examples")
-PROBLEM_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", "robotouille")
+PROBLEM_DIR = os.path.join(
+    os.path.dirname(os.path.realpath(__file__)), "..", "robotouille"
+)
 
 STATION_FIELD = "stations"
 ITEM_FIELD = "items"
 PLAYER_FIELD = "players"
 
 ENTITY_FIELDS = [STATION_FIELD, ITEM_FIELD, PLAYER_FIELD]
+
 
 def entity_to_entity_field(entity):
     """
@@ -26,7 +29,7 @@ def entity_to_entity_field(entity):
 
     Args:
         entity (str): A string representation of an entity.
-    
+
     Returns:
         entity_field (str): Entity field corresponding to the typed enum.
 
@@ -36,15 +39,22 @@ def entity_to_entity_field(entity):
     try:
         typed_enum = str_to_typed_enum(entity)
         # Convert entities into entity fields
-        if isinstance(typed_enum, Station): return STATION_FIELD
-        elif isinstance(typed_enum, Item): return ITEM_FIELD
-        elif isinstance(typed_enum, Player): return PLAYER_FIELD
+        if isinstance(typed_enum, Station):
+            return STATION_FIELD
+        elif isinstance(typed_enum, Item):
+            return ITEM_FIELD
+        elif isinstance(typed_enum, Player):
+            return PLAYER_FIELD
     except ValueError:
         # Convert wild card entities into entity fields
-        if entity == STATION_FIELD[:-1]: return STATION_FIELD
-        elif entity == ITEM_FIELD[:-1]: return ITEM_FIELD
-        elif entity == PLAYER_FIELD[:-1]: return PLAYER_FIELD
+        if entity == STATION_FIELD[:-1]:
+            return STATION_FIELD
+        elif entity == ITEM_FIELD[:-1]:
+            return ITEM_FIELD
+        elif entity == PLAYER_FIELD[:-1]:
+            return PLAYER_FIELD
     raise ValueError(f"Cannot convert {entity} into an entity field.")
+
 
 def load_environment(json_filename, seed=None):
     """
@@ -58,7 +68,7 @@ def load_environment(json_filename, seed=None):
     Args:
         json_filename (str): Name of the JSON file in the examples folder
         seed (int): Seed for the environment.
-    
+
     Returns:
         environment (dict): JSON containing the initial stations, items, and player location.
     """
@@ -71,17 +81,18 @@ def load_environment(json_filename, seed=None):
     environment_json["players"].sort(key=sorting_key)
     return environment_json
 
+
 def build_objects(environment_dict):
     """
     Builds a PDDL objects string from an environment dictionary.
 
     Args:
-        environment_dict (dict): Dictionary containing the initial stations, items, 
+        environment_dict (dict): Dictionary containing the initial stations, items,
             and player location.
-    
+
     Returns:
         objects_str (str): PDDL objects string.
-        updated_environment_dict (List[str, Enum]): The original environment dictionary with the 
+        updated_environment_dict (List[str, Enum]): The original environment dictionary with the
             names updated to include the IDs and the typed enums added.
     """
     objects_str = ""
@@ -89,8 +100,12 @@ def build_objects(environment_dict):
     for field in ENTITY_FIELDS:
         object_type = field[:-1]
         seen = {}
-        updated_environment_dict[field].sort(key=lambda entity: (entity["x"], entity["y"]))
-        for i, entity in enumerate([entity["name"] for entity in updated_environment_dict[field]]):
+        updated_environment_dict[field].sort(
+            key=lambda entity: (entity["x"], entity["y"])
+        )
+        for i, entity in enumerate(
+            [entity["name"] for entity in updated_environment_dict[field]]
+        ):
             updated_environment_dict[field][i]["typed_enum"] = str_to_typed_enum(entity)
             seen[entity] = seen.get(entity, 0) + 1
             entity_with_id = f"{entity}{seen[entity]}"
@@ -98,29 +113,31 @@ def build_objects(environment_dict):
             objects_str += f"    {entity_with_id} - {object_type}\n"
     return objects_str, updated_environment_dict
 
+
 def build_identity_predicates(environment_dict):
     """
     Builds PDDL identity predicates string from an environment dictionary.
 
-    Note that if the typed enum is a cuttable/cookable item, then that identity 
+    Note that if the typed enum is a cuttable/cookable item, then that identity
     predicate will be added in this function.
 
     Args:
-        environment_dict (dict): Dictionary containing the initial stations, items, 
+        environment_dict (dict): Dictionary containing the initial stations, items,
             and player location.
-    
+
     Returns:
         identity_predicates_str (str): PDDL identity predicates string.
     """
     identity_predicates_str = ""
     for field in ENTITY_FIELDS:
         for entity in environment_dict[field]:
-            typed_enum = entity['typed_enum']
-            name = entity['name']
+            typed_enum = entity["typed_enum"]
+            name = entity["name"]
             identity_predicates_str += f"    (is{typed_enum.value} {name})\n"
             for predicate in entity.get("predicates", []):
                 identity_predicates_str += f"    ({predicate} {name})\n"
     return identity_predicates_str
+
 
 def build_station_location_predicates(environment_dict):
     """
@@ -129,9 +146,9 @@ def build_station_location_predicates(environment_dict):
     These include the (empty), (vacant), (loc) and (at) predicates.
 
     Args:
-        environment_dict (dict): Dictionary containing the initial stations, items, 
+        environment_dict (dict): Dictionary containing the initial stations, items,
             and player location.
-    
+
     Returns:
         predicates_str (str): PDDL station location predicates string.
     """
@@ -142,8 +159,16 @@ def build_station_location_predicates(environment_dict):
             no_match_predicate = "empty" if field == "items" else "vacant"
             predicate = "at" if field == "items" else "loc"
             for entity in environment_dict[field]:
-                x = entity["x"] + entity["direction"][0] if field == "players" else entity["x"]
-                y = entity["y"] + entity["direction"][1] if field == "players" else entity["y"]
+                x = (
+                    entity["x"] + entity["direction"][0]
+                    if field == "players"
+                    else entity["x"]
+                )
+                y = (
+                    entity["y"] + entity["direction"][1]
+                    if field == "players"
+                    else entity["y"]
+                )
                 if x == station["x"] and y == station["y"]:
                     name = entity["name"]
                     predicates_str += f"    ({predicate} {name} {station['name']})\n"
@@ -152,6 +177,7 @@ def build_station_location_predicates(environment_dict):
                 predicates_str += f"    ({no_match_predicate} {station['name']})\n"
     return predicates_str
 
+
 def build_player_location_predicates(environment_dict):
     """
     Builds PDDL player location predicates string from an environment dictionary.
@@ -159,9 +185,9 @@ def build_player_location_predicates(environment_dict):
     These include the (nothing) and (has) predicates.
 
     Args:
-        environment_dict (dict): Dictionary containing the initial stations, items, 
+        environment_dict (dict): Dictionary containing the initial stations, items,
             and player location.
-    
+
     Returns:
         predicates_str (str): PDDL player location predicates string.
     """
@@ -175,7 +201,11 @@ def build_player_location_predicates(environment_dict):
                 break
         if not match:
             predicates_str += f"    (nothing {player['name']})\n"
+
+    player_name = environment_dict["players"][0]["name"]
+    predicates_str += f"    (selected {player_name})\n"
     return predicates_str
+
 
 def build_location_predicates(environment_dict):
     """
@@ -186,11 +216,11 @@ def build_location_predicates(environment_dict):
     There are other implicit location predicates such as (nothing), (has), (empty) and
     (vacant) which all imply the location of the player or item.
 
-    Note that the (clear), (on) and (atop) predicates are added in the build_stacking_predicates function. 
+    Note that the (clear), (on) and (atop) predicates are added in the build_stacking_predicates function.
 
     Args:
         environment_dict (dict): Dictionary containing the initial stations, items, and player location.
-    
+
     Returns:
         location_predicates_str (str): PDDL location predicates string.
     """
@@ -198,6 +228,7 @@ def build_location_predicates(environment_dict):
     location_predicates_str += build_station_location_predicates(environment_dict)
     location_predicates_str += build_player_location_predicates(environment_dict)
     return location_predicates_str
+
 
 def build_stacking_predicates(environment_dict):
     """
@@ -207,7 +238,7 @@ def build_stacking_predicates(environment_dict):
 
     Args:
         environment_dict (dict): Dictionary containing the initial stations, items, and player location.
-    
+
     Returns:
         stacking_predicates_str (str): PDDL stacking predicates string.
     """
@@ -225,17 +256,30 @@ def build_stacking_predicates(environment_dict):
     for station_name, items in stacks.items():
         stacking_predicates_str += f"    (on {items[0]['name']} {station_name})\n"
         for i in range(1, len(items)):
-            stacking_predicates_str += f"    (atop {items[i]['name']} {items[i-1]['name']})\n"
+            stacking_predicates_str += (
+                f"    (atop {items[i]['name']} {items[i-1]['name']})\n"
+            )
         stacking_predicates_str += f"    (clear {items[-1]['name']})\n"
     return stacking_predicates_str
+
+
+def build_action_predicates(environment_dict):
+    predicates_str = ""
+    actions = ["cook", "cut", "place", "move", "fry", "frycut"]
+    for player in environment_dict["players"]:
+        for action in actions:
+            if action in player["actions"]:
+                predicates_str += f"    (can{action} {player['name']})"
+    return predicates_str
+
 
 def create_unique_and_combination_preds(environment_dict):
     """
     Creates lists of unique and combination predicates from an environment dictionary.
 
     This function is used for goal creation. A goal in PDDL is a conjunction or disjunction
-    of predicates. The goal JSON is specified by a predicate name, the arguments it takes, 
-    and then an ID for each argument. The ID can be used to specify a specific entity of a particular 
+    of predicates. The goal JSON is specified by a predicate name, the arguments it takes,
+    and then an ID for each argument. The ID can be used to specify a specific entity of a particular
     type (a digit ID) or a unique entity (a non-digit ID).
 
     Unique predicates are those whose arguments only refer to unique entities. This means that
@@ -247,7 +291,7 @@ def create_unique_and_combination_preds(environment_dict):
     Combination predicates are those that contain at least one argument that refers to a specific entity
     of a particular type. This means that at least one argument's ID is a digit. This means that
     any entity of that type can be included in the goal and thus a disjunction must be used to
-    include all possible entities. For example, perhaps the goal is to hold any patty or to create a 
+    include all possible entities. For example, perhaps the goal is to hold any patty or to create a
     lettuce burger where the ingredients can be any found in the environment. This would be a combination
     predicate.
 
@@ -258,7 +302,7 @@ def create_unique_and_combination_preds(environment_dict):
     double cheese burgers where the same entity can be used twice.
 
     TODO: Allow for combination predicates that aren't specific entities of a particular type but
-          any entities of a particular type (wild cards) For example, make a burger and place on 
+          any entities of a particular type (wild cards) For example, make a burger and place on
           any station.
 
     Args:
@@ -269,10 +313,12 @@ def create_unique_and_combination_preds(environment_dict):
         combination_preds (list): List of combination predicates.
         combination_dict (dict): Dictionary of all the specific entities of a particular type.
     """
-    unique_preds = [] # Predicates whose arguments refer to unique entities
-    combination_preds = [] # Predicates whose arguments refer to a particular item type
-    combination_dict = {} # Dictionary to prepare combination predicates
-    for goal in environment_dict["goal"]: # Check out an example under the `examples` directory for JSON structure
+    unique_preds = []  # Predicates whose arguments refer to unique entities
+    combination_preds = []  # Predicates whose arguments refer to a particular item type
+    combination_dict = {}  # Dictionary to prepare combination predicates
+    for goal in environment_dict[
+        "goal"
+    ]:  # Check out an example under the `examples` directory for JSON structure
         pred = [goal["predicate"]]
         unique_pred = True
         for i, arg in enumerate(goal["args"]):
@@ -285,14 +331,26 @@ def create_unique_and_combination_preds(environment_dict):
                 if arg not in combination_dict:
                     combination_dict[arg] = {}
                     # Get all entities to prepare the combination
-                    arg_entities = list(filter(lambda entity: arg in entity["name"], environment_dict[entity_field]))
-                    arg_entity_names = list(map(lambda entity: entity["name"], arg_entities))
-                    combination_dict[arg]['entities'] = arg_entity_names
-                    combination_dict[arg]['ids'] = set()
-                combination_dict[arg]['ids'].add(arg_id)
+                    arg_entities = list(
+                        filter(
+                            lambda entity: arg in entity["name"],
+                            environment_dict[entity_field],
+                        )
+                    )
+                    arg_entity_names = list(
+                        map(lambda entity: entity["name"], arg_entities)
+                    )
+                    combination_dict[arg]["entities"] = arg_entity_names
+                    combination_dict[arg]["ids"] = set()
+                combination_dict[arg]["ids"].add(arg_id)
             else:
                 # Unique predicate
-                same_id_entity = list(filter(lambda entity: entity.get("id") == arg_id, environment_dict[entity_field]))
+                same_id_entity = list(
+                    filter(
+                        lambda entity: entity.get("id") == arg_id,
+                        environment_dict[entity_field],
+                    )
+                )
                 entity_name = same_id_entity[0]["name"]
                 pred.append(entity_name)
         if unique_pred:
@@ -300,6 +358,7 @@ def create_unique_and_combination_preds(environment_dict):
         else:
             combination_preds.append(pred)
     return unique_preds, combination_preds, combination_dict
+
 
 def create_combinations(combination_dict):
     """
@@ -311,7 +370,7 @@ def create_combinations(combination_dict):
 
     Args:
         combination_dict (dict): Dictionary of all the specific entities of a particular type.
-    
+
     Returns:
         combinations (list): List of all possible combinations of combination predicates.
         id_order (list): List of the order of IDs for each combination.
@@ -319,9 +378,9 @@ def create_combinations(combination_dict):
     combination_list = []
     id_order = []
     for arg in combination_dict:
-        ids = list(combination_dict[arg]['ids'])
+        ids = list(combination_dict[arg]["ids"])
         id_order += ids
-        entities = combination_dict[arg]['entities']
+        entities = combination_dict[arg]["entities"]
         permutations = list(itertools.permutations(entities, len(ids)))
         combination_list.append(permutations)
     product = itertools.product(*combination_list)
@@ -329,13 +388,14 @@ def create_combinations(combination_dict):
     combinations = [list(itertools.chain.from_iterable(x)) for x in product]
     return combinations, id_order
 
+
 def create_conjunction(predicates):
     """
     Creates a PDDL conjunction format for all the provided predicates.
 
     Args:
         predicates (list[list[str]]): List of predicates separated into a list of arguments.
-    
+
     Returns:
         conjunction (str): PDDL conjunction string.
     """
@@ -344,6 +404,7 @@ def create_conjunction(predicates):
         conjunction += f"           ({' '.join(pred)})\n"
     conjunction += "       )\n"
     return conjunction
+
 
 def build_goal(environment_dict):
     """
@@ -356,12 +417,16 @@ def build_goal(environment_dict):
 
     Args:
         environment_dict (dict): Dictionary containing the initial stations, items, and player location.
-    
+
     Returns:
         goal (str): PDDL goal string.
     """
-    goal =  "   (or\n"
-    unique_preds, combination_preds, combination_dict = create_unique_and_combination_preds(environment_dict)
+    goal = "   (or\n"
+    (
+        unique_preds,
+        combination_preds,
+        combination_dict,
+    ) = create_unique_and_combination_preds(environment_dict)
     combinations, id_order = create_combinations(combination_dict)
     assert len(combinations) > 0, "Object in goal missing from environment"
     for combination in combinations:
@@ -369,12 +434,13 @@ def build_goal(environment_dict):
         filled_combination_preds = copy.deepcopy(combination_preds)
         for i, combination_pred in enumerate(filled_combination_preds):
             for j, arg in enumerate(combination_pred):
-                if arg.isdigit(): # Combination ID argument
+                if arg.isdigit():  # Combination ID argument
                     id_idx = id_order.index(arg)
                     filled_combination_preds[i][j] = combination[id_idx]
         goal += create_conjunction(unique_preds + filled_combination_preds)
     goal += "   )\n"
     return goal
+
 
 def build_problem(environment_dict):
     """
@@ -382,7 +448,7 @@ def build_problem(environment_dict):
 
     Args:
         environment_dict (dict): Dictionary containing the initial stations, items, and player location.
-    
+
     Returns:
         problem (str): PDDL problem string.
         new_environment_dict (dict): Dictionary containing IDed stations, items, and player location.
@@ -397,11 +463,13 @@ def build_problem(environment_dict):
     problem += build_identity_predicates(new_environment_dict)
     problem += build_location_predicates(new_environment_dict)
     problem += build_stacking_predicates(new_environment_dict)
+    problem += build_action_predicates(new_environment_dict)
     problem += ")\n"
     problem += "(:goal\n"
     problem += build_goal(new_environment_dict)
     problem += ")\n"
     return problem, new_environment_dict
+
 
 def write_problem_file(problem, filename):
     """
@@ -415,6 +483,7 @@ def write_problem_file(problem, filename):
     with open(path, "w") as f:
         f.write(problem)
 
+
 def delete_problem_file(filename):
     """
     Deletes a PDDL problem file.
@@ -425,12 +494,22 @@ def delete_problem_file(filename):
     path = os.path.join(PROBLEM_DIR, filename)
     os.remove(path)
 
+
 if __name__ == "__main__":
     # Prints PDDL problem string to terminal
     parser = argparse.ArgumentParser()
-    parser.add_argument("--json_filename", type=str, default="test_patties.json", help="JSON file to convert to PDDL")
+    parser.add_argument(
+        "--json_filename",
+        type=str,
+        default="test_patties.json",
+        help="JSON file to convert to PDDL",
+    )
     parser.add_argument("--seed", default=None, help="Seed for randomization")
-    parser.add_argument("--noisy_randomization", help="Whether to use 'noisy randomization' for proceudral generation", default=True)
+    parser.add_argument(
+        "--noisy_randomization",
+        help="Whether to use 'noisy randomization' for proceudral generation",
+        default=True,
+    )
     args = parser.parse_args()
 
     environment_dict = load_environment(args.json_filename)
@@ -438,6 +517,8 @@ if __name__ == "__main__":
     # Since the environment JSON can have wildcard stations / items, we need to run the
     # procedural generation to choose some
     if args.seed is not None:
-        environment_dict = randomize_environment(environment_dict, args.seed, noisy_randomization=args.noisy_randomization)
+        environment_dict = randomize_environment(
+            environment_dict, args.seed, noisy_randomization=args.noisy_randomization
+        )
     problem, problem_dict = build_problem(environment_dict)
     print(problem)

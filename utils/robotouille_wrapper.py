@@ -37,6 +37,7 @@ class RobotouilleWrapper(gym.Wrapper):
         # The configuration for this environment.
         # This is used to specify things such as cooking times and cutting amounts
         self.config = config
+        self.num_players = None
         self.planning_algorithm = []
 
     def _interactive_starter_prints(self, expanded_truths):
@@ -53,6 +54,92 @@ class RobotouilleWrapper(gym.Wrapper):
         print("\n")
         robotouille_utils.print_actions(self.env, self.prev_step[0])
         print(f"True Predicates: {expanded_truths.sum()}")
+
+    def _handle_action(self, action):
+        """
+        This function handles the action taken by the environment.
+
+        Args: action (str): The action to take.
+        """
+        if action == "noop":
+            return self.prev_step
+        action_name = action.predicate.name
+        if action_name == "cut":
+            item = next(
+                filter(
+                    lambda typed_entity: typed_entity.var_type == "item",
+                    action.variables,
+                )
+            )
+            item_status = self.state.get(item.name)
+            if item_status is None:
+                self.state[item.name] = {"cut": 1}
+            elif item_status.get("cut") is None:
+                item_status["cut"] = 1
+            else:
+                item_status["cut"] += 1
+
+                if item_status["cut"] == 3:
+                    item_status["picked-up"] = False
+            return self.prev_step
+        elif action_name == "cook":
+            item = next(
+                filter(
+                    lambda typed_entity: typed_entity.var_type == "item",
+                    action.variables,
+                )
+            )
+            item_status = self.state.get(item.name)
+            if item_status is None:
+                self.state[item.name] = {"cook": {"cook_time": -1, "cooking": True}}
+            elif item_status.get("cook") is None:
+                item_status["cook"] = {"cook_time": -1, "cooking": True}
+            else:
+                item_status["cook"]["cooking"] = True
+            return self.prev_step
+        elif action_name == "fry" or action_name == "fry_cut_item":
+            item = next(
+                filter(
+                    lambda typed_entity: typed_entity.var_type == "item",
+                    action.variables,
+                )
+            )
+            item_status = self.state.get(item.name)
+            if item_status is None:
+                self.state[item.name] = {"fry": {"fry_time": -1, "frying": True}}
+            elif item_status.get("fry") is None:
+                item_status["fry"] = {"fry_time": -1, "frying": True}
+            else:
+                item_status["fry"]["frying"] = True
+            return self.prev_step
+        elif action_name == "pick-up":
+            item = next(
+                filter(
+                    lambda typed_entity: typed_entity.var_type == "item",
+                    action.variables,
+                )
+            )
+            item_status = self.state.get(item.name)
+            if item_status is not None and item_status.get("cook") is not None:
+                item_status["cook"]["cooking"] = False
+            if item_status is not None and item_status.get("fry") is not None:
+                item_status["fry"]["frying"] = False
+
+            # Spaghetti code to handle the fact that the patty is not stacked after cooking
+            item_status = self.state.get("patty1")
+            cooked = self._check_cooked(self.prev_step[0])
+
+            # initialize state["patty1"]["picked-up"] if it doesn't exist
+            if item_status is None:
+                self.state[item.name] = {"picked-up": False}
+                item_status = self.state.get(item.name)
+            elif item_status.get("picked-up") is None:
+                item_status["picked-up"] = False
+
+            if cooked:
+                item_status["picked-up"] = True
+        # TODO: Probably stop cooking if something is stacked on top of meat
+        return self.env.step(action)
 
     def _state_update(self):
         """
@@ -104,6 +191,51 @@ class RobotouilleWrapper(gym.Wrapper):
         )
         self.env.set_state(new_env_state)
         return new_env_state
+
+    def _count_players(self, obs):
+        """
+        This function counts the number of players in the environment.
+
+        Args:
+            obs (PDDLGym State): The current state of the environment.
+
+        Returns:
+            num_players (int): The number of players in the environment.
+        """
+        num_players = 0
+        for literal in obs.literals:
+            if "isrobot" in literal.predicate.name:
+                num_players += 1
+        return num_players
+
+    def _current_selected_player(self, obs):
+        """
+        This function returns the current selected player in the environment.
+
+        Returns:
+            selected_player (str): The name of the selected player.
+        """
+        for literal in obs.literals:
+            if "selected" == literal.predicate.name:
+                return literal.variables[0].name
+
+    def _change_selected_player(self):
+        """
+        This function changes the player in the environment.
+
+        Returns:
+            new_env_state (PDDLGym State): The new state of the environment.
+        """
+
+        obs = self.prev_step[0]
+        current_player = self._current_selected_player(obs)
+        current_player_index = int(current_player[5:])
+        next_player = current_player_index % self.num_players + 1
+        next_player = f"robot{next_player}"
+        action = f"select({current_player}:player,{next_player}:player)"
+        action = robotouille_utils.create_action(self.env, self.prev_step[0], action)
+
+        return self.env.step(action)
 
     def _find_stacking_index(self, goal, correct_order):
         for i in range(len(correct_order) - 1):
@@ -285,92 +417,6 @@ class RobotouilleWrapper(gym.Wrapper):
 
         return score
 
-    def _handle_action(self, action):
-        """
-        This function handles the action taken by the environment.
-
-        Args: action (str): The action to take.
-        """
-        if action == "noop":
-            return self.prev_step
-        action_name = action.predicate.name
-        if action_name == "cut":
-            item = next(
-                filter(
-                    lambda typed_entity: typed_entity.var_type == "item",
-                    action.variables,
-                )
-            )
-            item_status = self.state.get(item.name)
-            if item_status is None:
-                self.state[item.name] = {"cut": 1}
-            elif item_status.get("cut") is None:
-                item_status["cut"] = 1
-            else:
-                item_status["cut"] += 1
-
-                if item_status["cut"] == 3:
-                    item_status["picked-up"] = False
-            return self.prev_step
-        elif action_name == "cook":
-            item = next(
-                filter(
-                    lambda typed_entity: typed_entity.var_type == "item",
-                    action.variables,
-                )
-            )
-            item_status = self.state.get(item.name)
-            if item_status is None:
-                self.state[item.name] = {"cook": {"cook_time": -1, "cooking": True}}
-            elif item_status.get("cook") is None:
-                item_status["cook"] = {"cook_time": -1, "cooking": True}
-            else:
-                item_status["cook"]["cooking"] = True
-            return self.prev_step
-        elif action_name == "fry" or action_name == "fry_cut_item":
-            item = next(
-                filter(
-                    lambda typed_entity: typed_entity.var_type == "item",
-                    action.variables,
-                )
-            )
-            item_status = self.state.get(item.name)
-            if item_status is None:
-                self.state[item.name] = {"fry": {"fry_time": -1, "frying": True}}
-            elif item_status.get("fry") is None:
-                item_status["fry"] = {"fry_time": -1, "frying": True}
-            else:
-                item_status["fry"]["frying"] = True
-            return self.prev_step
-        elif action_name == "pick-up":
-            item = next(
-                filter(
-                    lambda typed_entity: typed_entity.var_type == "item",
-                    action.variables,
-                )
-            )
-            item_status = self.state.get(item.name)
-            if item_status is not None and item_status.get("cook") is not None:
-                item_status["cook"]["cooking"] = False
-            if item_status is not None and item_status.get("fry") is not None:
-                item_status["fry"]["frying"] = False
-
-            # Spaghetti code to handle the fact that the patty is not stacked after cooking
-            item_status = self.state.get("patty1")
-            cooked = self._check_cooked(self.prev_step[0])
-
-            # initialize state["patty1"]["picked-up"] if it doesn't exist
-            if item_status is None:
-                self.state[item.name] = {"picked-up": False}
-                item_status = self.state.get(item.name)
-            elif item_status.get("picked-up") is None:
-                item_status["picked-up"] = False
-
-            if cooked:
-                item_status["picked-up"] = True
-        # TODO: Probably stop cooking if something is stacked on top of meat
-        return self.env.step(action)
-
     def get_latest_info(self):
         """
         Get the latest info dictionary from the environment.
@@ -437,6 +483,7 @@ class RobotouilleWrapper(gym.Wrapper):
         prev_heuristic = self._heuristic_function(self.prev_step[0])
 
         obs, reward, done, info = self._handle_action(action)
+        obs, reward, done, info = self._change_selected_player()
         obs = self._state_update()
 
         toggle_array = pddlgym_utils.create_toggle_array(
@@ -459,13 +506,14 @@ class RobotouilleWrapper(gym.Wrapper):
             "state": self.state,
         }
 
-        self.prev_step = (obs, self.prev_step[1], done, info)
         reward = self._heuristic_function(obs) - prev_heuristic
-        print("prev_heuristic: ", prev_heuristic)
-        print("current_heuristic: ", self._heuristic_function(obs))
-        print("reward: ", reward)
 
         self.prev_step = (obs, reward, done, info)
+
+        # print("prev_heuristic: ", prev_heuristic)
+        # print("current_heuristic: ", self._heuristic_function(obs))
+        # print("reward: ", reward)
+
         return obs, reward, done, info
 
     def reset(self):
@@ -490,5 +538,6 @@ class RobotouilleWrapper(gym.Wrapper):
         self.prev_step = (obs, 0, False, info)
         self.timesteps = 0
         self.state = {}
+        self.num_players = self._count_players(obs)
         self.planning = self.generate_plan(obs)
         return obs, info
