@@ -1,5 +1,7 @@
 import pygame
 
+from utils.robotouille_utils import get_valid_moves
+
 
 def create_action_from_control(env, obs, action, renderer):
     """
@@ -23,7 +25,8 @@ def create_action_from_control(env, obs, action, renderer):
     """
     if len(action) == 0:
         return
-    valid_actions = list(env.action_space.all_ground_literals(obs))
+
+    valid_actions = get_valid_moves(env, obs, renderer)
     str_valid_actions = list(map(str, valid_actions))
     action = action[0]
     if action.type == pygame.MOUSEBUTTONDOWN:
@@ -56,7 +59,10 @@ def create_action_from_control(env, obs, action, renderer):
                 or "fry_cut_item(" in str_valid_actions[index]
             ):
                 # We look for fry( instead which should be guaranteed to only match the fry action, and not the fryer
-                index = locs.index(clicked_station, index + 1)
+                try:
+                    index = locs.index(clicked_station, index + 1)
+                except ValueError:
+                    return None
             return str_valid_actions[index]
     elif action.type == pygame.KEYDOWN:
         if action.key == pygame.K_e:
