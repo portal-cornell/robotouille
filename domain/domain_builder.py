@@ -5,6 +5,8 @@ from backend.action import Action
 from backend.special_effects.delayed_effect import DelayedEffect
 from backend.special_effects.repetitive_effect import RepetitiveEffect
 from backend.special_effects.conditional_effect import ConditionalEffect
+from backend.special_effects.creation_effect import CreationEffect
+from backend.special_effects.deletion_effect import DeletionEffect
 
 
 def _build_predicate_defs(input_json):
@@ -83,17 +85,25 @@ def _build_special_effects(action, param_objs, predicate_dict):
     for special_effect in action["special_fx"]:
         param_name = special_effect["param"]
         param_obj = param_objs[param_name]
-        effects = _build_pred_list(
-            "fx", param_objs, special_effect, predicate_dict)
-        if special_effect["type"] == "delayed":
-            # TODO: The values for goal repetitions/time should be decided by the problem json
-            sfx = DelayedEffect(param_obj, effects, False)
-        elif special_effect["type"] == "repetitive":
-            sfx = RepetitiveEffect(param_obj, effects, False)
-        elif special_effect["type"] == "conditional":
-            conditions = _build_pred_list(
-                "conditions", param_objs, special_effect, predicate_dict)
-            sfx = ConditionalEffect(param_obj, effects, False, conditions)
+        if special_effect["type"] == "creation":
+            created_obj_name = special_effect["created_obj"]["name"]
+            created_obj_type = special_effect["created_obj"]["type"]
+            created_obj = Object(created_obj_name, created_obj_type)
+            sfx = CreationEffect(param_obj, False, created_obj)
+        elif special_effect["type"] == "deletion":
+            sfx = DeletionEffect(param_obj, False)
+        else:
+            effects = _build_pred_list(
+                "fx", param_objs, special_effect, predicate_dict)
+            if special_effect["type"] == "delayed":
+                # TODO: The values for goal repetitions/time should be decided by the problem json
+                sfx = DelayedEffect(param_obj, effects, False)
+            elif special_effect["type"] == "repetitive":
+                sfx = RepetitiveEffect(param_obj, effects, False)
+            elif special_effect["type"] == "conditional":
+                conditions = _build_pred_list(
+                    "conditions", param_objs, special_effect, predicate_dict)
+                sfx = ConditionalEffect(param_obj, effects, False, conditions)
         special_effects.append(sfx)
 
     return special_effects

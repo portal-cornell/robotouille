@@ -20,6 +20,16 @@ class Station(Enum):
     STOVE = "stove"
     TABLE = "table"
     FRYER = "fryer"
+    SINK = "sink"
+
+class Container(Enum):
+    POT = "pot"
+    BOWL = "bowl"
+
+class Meal(Enum):
+    WATER = "water"
+    BOILING_WATER = "boiling_water"
+    SOUP = "soup"
 
 def str_to_typed_enum(s):
     """
@@ -34,7 +44,7 @@ def str_to_typed_enum(s):
     Returns:
         typed_enum (Enum): Enum of the string.
     """
-    for typed_enum in [Item, Player, Station]:
+    for typed_enum in [Item, Player, Station, Container, Meal]:
         try:
             return typed_enum(s)
         except ValueError:

@@ -112,6 +112,14 @@
             "param_types": ["meal"]
         },
         {
+            "name": "iswater",
+            "param_types": ["meal"]
+        },
+        {
+            "name": "isboilingwater",
+            "param_types": ["meal"]
+        },
+        {
             "name": "loc",
             "param_types": ["player", "station"]
         },
@@ -124,7 +132,7 @@
             "param_types": ["player"]
         },
         {
-            "name": "station_empty",
+            "name": "empty",
             "param_types": ["station"]
         },
         {
@@ -160,16 +168,8 @@
             "param_types": ["item", "meal"]
         },
         {
-            "name": "haswater",
-            "param_types": ["container"]
-        },
-        {
-            "name": "container_on",
+            "name": "container_at",
             "param_types": ["container", "station"]
-        },
-        {
-            "name": "container_empty",
-            "param_types": ["container"]
         }
     ],
 
@@ -243,7 +243,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "station_empty",
+                    "predicate": "empty",
                     "params": ["s1"],
                     "is_true": true
                 },
@@ -284,7 +284,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "station_empty",
+                    "predicate": "empty",
                     "params": ["s1"],
                     "is_true": true
                 }
@@ -316,7 +316,7 @@
                     "is_true": false
                 },
                 {
-                    "predicate": "station_empty",
+                    "predicate": "empty",
                     "params": ["s1"],
                     "is_true": false
                 }
@@ -332,7 +332,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "container_on",
+                    "predicate": "container_at",
                     "params": ["c1", "s1"],
                     "is_true": true
                 },
@@ -349,7 +349,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "container_on",
+                    "predicate": "container_at",
                     "params": ["c1", "s1"],
                     "is_true": false
                 },
@@ -375,7 +375,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "station_empty",
+                    "predicate": "empty",
                     "params": ["s1"],
                     "is_true": true
                 }
@@ -387,7 +387,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "container_on",
+                    "predicate": "container_at",
                     "params": ["c1", "s1"],
                     "is_true": true
                 },
@@ -397,7 +397,7 @@
                     "is_true": false
                 },
                 {
-                    "predicate": "station_empty",
+                    "predicate": "empty",
                     "params": ["s1"],
                     "is_true": false
                 }
@@ -569,16 +569,6 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "haswater",
-                    "params": ["c1"],
-                    "is_true": false
-                },
-                {
-                    "predicate": "container_empty",
-                    "params": ["c1"],
-                    "is_true": true
-                },
-                {
                     "predicate": "issink",
                     "params": ["s1"],
                     "is_true": true
@@ -589,7 +579,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "container_on",
+                    "predicate": "container_at",
                     "params": ["c1", "s1"],
                     "is_true": true
                 }
@@ -597,18 +587,22 @@
             "immediate_fx":[],
             "special_fx": [
                 {
+                    "type": "creation",
+                    "param": "c1",
+                    "created_obj": {
+                        "name": "water",
+                        "type": "item",
+                        "param": "m1"
+                    }
+                },
+                {
                     "type": "delayed",
                     "param": "c1",
                     "fx": [
                         {
-                            "predicate": "haswater",
-                            "params": ["c1"],
+                            "predicate": "in",
+                            "params": ["m1", "c1"],
                             "is_true": true
-                        },
-                        {
-                            "predicate": "container_empty",
-                            "params": ["c1"],
-                            "is_true": false
                         }
                     ]
                 }
@@ -623,8 +617,13 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "haswater",
-                    "params": ["c1"],
+                    "predicate": "iswater",
+                    "params": ["m1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "in",
+                    "params": ["m1", "c1"],
                     "is_true": true
                 },
                 {
@@ -633,7 +632,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "container_on",
+                    "predicate": "container_at",
                     "params": ["c1", "s1"],
                     "is_true": true
                 },
@@ -645,7 +644,18 @@
             ],
             "immediate_fx": [],
             "special_fx": [
-                {}
+                {
+                    "type": "creation",
+                    "param": "c1",
+                    "created_obj": {
+                        "name": "boiling-water",
+                        "type": "meal"
+                    }
+                },
+                {
+                    "type": "deletion",
+                    "param": "m1"
+                }
             ]
         },
         {

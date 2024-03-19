@@ -52,10 +52,10 @@ def build_station_location_predicates(environment_dict):
     predicates = []
     for station in environment_dict["stations"]:
         station_obj = Object(station["name"], "station")
-        for field in ["items", "players"]:
+        for field in ["items", "players", "containers"]:
             match = False
             no_match_predicate = "empty" if field == "items" else "vacant"
-            predicate = "at" if field == "items" else "loc"
+            predicate = "item_at" if field == "items" else "container_at" if field == "containers" else "loc"
             for entity in environment_dict[field]:
                 x = entity["x"] + entity["direction"][0] if field == "players" else entity["x"]
                 y = entity["y"] + entity["direction"][1] if field == "players" else entity["y"]
@@ -90,10 +90,18 @@ def build_player_location_predicates(environment_dict):
         for item in environment_dict["items"]:
             if player["x"] == item["x"] and player["y"] == item["y"]:
                 obj = Object(item["name"], "item")
-                pred = Predicate().initialize("has", ["player", "item"], [player_obj, obj])
+                pred = Predicate().initialize("has_item", ["player", "item"], [player_obj, obj])
                 predicates.append(pred)
                 match = True
                 break
+        if not match:
+            for container in environment_dict["containers"]:
+                if player["x"] == container["x"] and player["y"] == container["y"]:
+                    obj = Object(container["name"], "container")
+                    pred = Predicate().initialize("has_container", ["player", "container"], [player_obj, obj])
+                    predicates.append(pred)
+                    match = True
+                    break
         if not match:
             pred = Predicate().initialize("nothing", ["player"], [player_obj])
             predicates.append(pred)
@@ -147,7 +155,7 @@ def build_stacking_predicates(environment_dict):
     for station_name, items in stacks.items():
         station_obj = Object(station_name, "station")
         first_item_obj = Object(items[0]["name"], "item")
-        pred = Predicate().initialize("on", ["item", "station"], [first_item_obj, station_obj])
+        pred = Predicate().initialize("item_on", ["item", "station"], [first_item_obj, station_obj])
         stacking_predicates.append(pred)
         for i in range(1, len(items)):
             obj = Object(items[i]["name"], "item")
@@ -273,6 +281,8 @@ class RobotouilleEnv(gym.Env):
         initial_state = build_state(domain_json, environment_json)
 
         self.initial_state = initial_state
+
+        print(initial_state.predicates)
 
         self.observation_space = initial_state
 

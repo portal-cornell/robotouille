@@ -13,21 +13,13 @@
     },
     "stations": [
         {
-            "name": "station",
+            "name": "sink",
             "x": 0,
             "y": 1,
             "id": "A"
         }
     ],
-    "items": [
-        {
-            "name": "item",
-            "x": 0,
-            "y": 0,
-            "stack-level": 0,
-            "id": "a"
-        }
-    ],
+    "items": [],
     "players": [
         {
             "name": "robot",
@@ -37,12 +29,19 @@
         }
     ],
     "meals": [],
-    "containers": [],
+    "containers": [
+        {
+            "name": "pot",
+            "x": 0,
+            "y": 1,
+            "id": "a",
+            "meal_id": []
+        }
+    ],
     "goal": [
         {
-            "predicate": "item_on",
-            "args": ["item", "station"],
-            "ids": ["a", "A"]
+            "predicate": "in",
+            "args": ["water", "pot"]
         }
     ]
 }

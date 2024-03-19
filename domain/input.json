@@ -8,14 +8,28 @@
             }
         },
         {
-            "name": "pick-up",
+            "name": "pick-up-item",
             "input_instructions": {
                 "button": "left",
                 "click_on": "s1"
             }
         },
         {
-            "name": "place",
+            "name": "place-item",
+            "input_instructions": {
+                "button": "left",
+                "click_on": "s1"
+            }
+        },
+        {
+            "name": "pick-up-container",
+            "input_instructions": {
+                "button": "left",
+                "click_on": "s1"
+            }
+        },
+        {
+            "name": "place-container",
             "input_instructions": {
                 "button": "left",
                 "click_on": "s1"

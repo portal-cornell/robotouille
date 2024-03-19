@@ -250,6 +250,18 @@ class State(object):
         self.predicates = self._build_predicates(self.domain, self.objects, true_predicates)
         self.actions = self._build_actions(self.domain, self.objects)
 
+    def delete_obj(self, obj):
+        """
+        Deletes an object from the state.
+
+        Args:
+            obj (Object): The object to delete from the state.
+        """
+        self.objects.remove(obj)
+        true_predicates = {predicate for predicate, value in self.predicates.items() if value}
+        self.predicates = self._build_predicates(self.domain, self.objects, true_predicates)
+        self.actions = self._build_actions(self.domain, self.objects)
+
     def is_goal_reached(self):
         """
         Returns whether the goal is satisfied in the current state.

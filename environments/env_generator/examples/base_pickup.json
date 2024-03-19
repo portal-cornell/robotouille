@@ -36,9 +36,10 @@
             "direction": [0, 1]
         }
     ],
+    "containers": [],
     "goal": [
         {
-            "predicate": "has",
+            "predicate": "has_item",
             "args": ["robot", "item"],
             "ids": [1, "a"]
         }

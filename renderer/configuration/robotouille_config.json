@@ -121,6 +121,7 @@
             } 
         }
     },
+
     "station": {
         "constants": {},
         "entities": {
@@ -149,5 +150,45 @@
                 "constants": {}
             }
         }
+    },
+
+    "container": {
+        "constants": {
+            "STATION_ITEM_OFFSET" : 0.25,
+            "X_SCALE_FACTOR": 0.125,
+            "Y_SCALE_FACTOR": 0.75
+        },
+        "entities": {
+            "pot": {
+                "assets": {
+                    "default": "pot.png",
+                    "water": {
+                        "asset": "pot_water.png",
+                        "meal": "water"
+                    },
+                    "boiling_water": {
+                        "asset": "pot_water_boil.png",
+                        "meal": "boiling_water"
+                    },
+                    "soup": {
+                        "asset": "pot_soup.png",
+                        "meal": "soup"
+                    }
+                },
+                "constants": {}
+            },
+            "bowl": {
+                "assets": {
+                    "default": "bowl.png",
+                    "soup": {
+                        "asset": "bowl_soup.png",
+                        "meal": "soup"
+                    }
+                },
+                "constants": {}
+            }
+        }
     }
+
+
 }
