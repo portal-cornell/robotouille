@@ -319,7 +319,12 @@ class State(object):
             the given state.
         """
         assert action.is_valid(self, param_arg_dict)
+
+        print(f"before: {self.predicates} \n")
+
         self = action.perform_action(self, param_arg_dict)
+
+        print(f"after: {self.predicates} \n")
         
         for special_effect in self.special_effects:
             special_effect.update(self)

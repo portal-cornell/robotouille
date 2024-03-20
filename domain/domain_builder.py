@@ -64,12 +64,12 @@ def _build_pred_list(key, param_objs, dict, predicate_dict):
 
     return precons_or_effects
 
-def _build_special_effects(action, param_objs, predicate_dict):
+def _build_special_effects(dict, param_objs, predicate_dict):
     """
-    This function builds the special effects of an action.
+    This function builds special effects. 
 
     Args:
-        action (Dictionary): The action to build the special effects from.
+        dict (Dictionary): The dictionary to build the special effects from.
         param_objs (Dictionary[str, Object]): A dictionary whose keys are
             parameter names and the values are placeholder objects. 
         predicate_dict (Dictionary[str, Predicate]): The predicate dictionary.
@@ -82,28 +82,27 @@ def _build_special_effects(action, param_objs, predicate_dict):
     """
     special_effects = []
 
-    for special_effect in action["special_fx"]:
+    for special_effect in dict:
         param_name = special_effect["param"]
         param_obj = param_objs[param_name]
-        if special_effect["type"] == "creation":
+        effects = _build_pred_list(
+            "fx", param_objs, special_effect, predicate_dict)
+        nested_sfx = _build_special_effects(special_effect["sfx"], param_objs, predicate_dict)
+        if special_effect["type"] == "delayed":
+            # TODO: The values for goal repetitions/time should be decided by the problem json
+            sfx = DelayedEffect(param_obj, effects, nested_sfx)
+        elif special_effect["type"] == "repetitive":
+            sfx = RepetitiveEffect(param_obj, effects, nested_sfx)
+        elif special_effect["type"] == "conditional":
+            conditions = _build_pred_list(
+                "conditions", param_objs, special_effect, predicate_dict)
+            sfx = ConditionalEffect(param_obj, effects, nested_sfx, conditions)
+        elif special_effect["type"] == "creation":
             created_obj_name = special_effect["created_obj"]["name"]
             created_obj_type = special_effect["created_obj"]["type"]
+            created_obj_param = special_effect["created_obj"]["param"]
             created_obj = Object(created_obj_name, created_obj_type)
-            sfx = CreationEffect(param_obj, False, created_obj)
-        elif special_effect["type"] == "deletion":
-            sfx = DeletionEffect(param_obj, False)
-        else:
-            effects = _build_pred_list(
-                "fx", param_objs, special_effect, predicate_dict)
-            if special_effect["type"] == "delayed":
-                # TODO: The values for goal repetitions/time should be decided by the problem json
-                sfx = DelayedEffect(param_obj, effects, False)
-            elif special_effect["type"] == "repetitive":
-                sfx = RepetitiveEffect(param_obj, effects, False)
-            elif special_effect["type"] == "conditional":
-                conditions = _build_pred_list(
-                    "conditions", param_objs, special_effect, predicate_dict)
-                sfx = ConditionalEffect(param_obj, effects, False, conditions)
+            sfx = CreationEffect(param_obj, (created_obj_param, created_obj), effects, nested_sfx)            
         special_effects.append(sfx)
 
     return special_effects
@@ -132,7 +131,7 @@ def _build_action_defs(input_json, predicate_defs):
         immediate_effects = _build_pred_list(
             "immediate_fx", param_objs, action, predicate_dict)
         special_effects = _build_special_effects(
-            action, param_objs, predicate_dict)
+            action["sfx"], param_objs, predicate_dict)
         action_def = Action(name, precons, immediate_effects, special_effects)
         action_defs.append(action_def)
 

@@ -52,22 +52,24 @@ def build_station_location_predicates(environment_dict):
     predicates = []
     for station in environment_dict["stations"]:
         station_obj = Object(station["name"], "station")
+        match = False
         for field in ["items", "players", "containers"]:
-            match = False
-            no_match_predicate = "empty" if field == "items" else "vacant"
+            no_match_predicate = "empty" if field in ["items", "containers"] else "vacant"
             predicate = "item_at" if field == "items" else "container_at" if field == "containers" else "loc"
             for entity in environment_dict[field]:
+                print(entity["name"])
                 x = entity["x"] + entity["direction"][0] if field == "players" else entity["x"]
                 y = entity["y"] + entity["direction"][1] if field == "players" else entity["y"]
                 if x == station["x"] and y == station["y"]:
+                    print("match")
                     name = entity["name"]
                     obj = Object(name, field[:-1])
                     pred = Predicate().initialize(predicate, [field[:-1], "station"], [obj, station_obj])
                     predicates.append(pred)
                     match = True
-            if not match:
-                pred = Predicate().initialize(no_match_predicate, ["station"], [station_obj])
-                predicates.append(pred)
+        if not match:
+            pred = Predicate().initialize(no_match_predicate, ["station"], [station_obj])
+            predicates.append(pred)
     return predicates
 
 def build_player_location_predicates(environment_dict):

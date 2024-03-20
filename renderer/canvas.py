@@ -167,7 +167,7 @@ class RobotouilleCanvas:
             return container_config["assets"]["default"]
         
         # If there is a meal in the container, choose the asset based on the meal
-        return container_config["assets"][meal_name]
+        return container_config["assets"][meal_name]["asset"]
     
     def _draw_container_image(self, surface, container_name, obs, position):
         """

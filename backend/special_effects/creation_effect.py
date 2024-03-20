@@ -5,34 +5,28 @@ class CreationEffect(SpecialEffect):
     This class represents creation effects in Robotouille.
 
     A creation effect is an effect that creates a new object in the state.
-    It can be immediate, or require a delay or repeated actions.
     """
 
-    def __init__(self, param, completed, created_obj, goal_time=4, goal_repetitions=0, arg=None):
+    def __init__(self, param, created_obj, effects, special_effects, arg=None):
         """
         Initializes a creation effect.
 
         Args:
-            param (Object): The parameter of the special effect.
-            completed (bool): Whether or not the effect has been completed.
-            created_obj (Object): The object that the effect creates.
-            goal_time (int): The number of time steps that must pass before the
-                effect is applied.
-            goal_repetitions (int): The number of times the effect must be
-                repeated before it is applied.
+            param (Object): The parameter of the creation effect. This is the 
+                object that the action is performed on, not the object that is
+                created.
+            created_obj (Tuple[Str, Object]): A tuple representing the object
+                that is created. The first element is the param name of the 
+                object, and the second element is the object itself.
+            effects (Dictionary[Predicate, bool]): The effects of the action,
+                represented by a dictionary of predicates and bools.
+            special_effects (List[SpecialEffect]): The nested special effects of
+                the action.
             arg (Object): The object that the effect is applied to. If the
                 special effect is not applied to an object, arg is None.
-
-        Requires:
-            goal_time == 0 if goal_repetitions > 0, 
-            and goal_repetitions == 0 if goal_time > 0.
         """
-        super().__init__(param, {}, completed, arg)
+        super().__init__(param, effects, special_effects, False, arg)
         self.created_obj = created_obj
-        self.goal_time = goal_time
-        self.current_time = 0
-        self.goal_repetitions = goal_repetitions
-        self.current_repetitions = 0
 
     def __eq__(self, other):
         """
@@ -44,11 +38,11 @@ class CreationEffect(SpecialEffect):
         Returns:
             bool: True if the effects are equal, False otherwise.
         """
-        return self.param == other.param and self.effects == other.effects \
-            and self.created_obj == other.created_obj and \
-                self.goal_time == other.goal_time\
-                    and self.goal_repetitions == other.goal_repetitions and \
-                        self.arg == other.arg
+        return self.param == other.param and \
+            self.effects == other.effects and \
+                self.special_effects == other.special_effects and \
+            self.created_obj == other.created_obj and \
+                self.arg == other.arg
         
     def __hash__(self):
         """
@@ -57,9 +51,8 @@ class CreationEffect(SpecialEffect):
         Returns:
             hash (int): The hash of the creation effect.
         """
-        return hash((self.param, tuple(self.effects), self.completed, 
-                     self.created_obj, self.goal_time, self.goal_repetitions, 
-                     self.arg))
+        return hash((self.param, tuple(self.effects), tuple(self.special_effects),
+                        self.completed, self.created_obj, self.arg))
     
     def __repr__(self):
         """
@@ -68,9 +61,7 @@ class CreationEffect(SpecialEffect):
         Returns:
             string (str): The string representation of the creation effect.
         """
-        return f"CreationEffect({self.param}, {self.completed}, \
-            {self.current_repetitions}, {self.current_time}, {self.created_obj}, \
-                {self.arg})"
+        return f"CreationEffect({self.param}, {self.completed}, {self.created_obj}, {self.arg})"
     
     def apply_sfx_on_arg(self, arg, param_arg_dict):
         """
@@ -80,27 +71,21 @@ class CreationEffect(SpecialEffect):
         Args:
             arg (Object): The argument that the special effect is applied to.
             param_arg_dict (Dictionary[Object, Object]): A dictionary mapping 
-                parameters to arguments.
+                parameters to arguments. Since the creation effect does not have
+                any immediate effects, this dictionary is not used.
 
         Returns:
             CreationEffect: A copy of the special effect definition, but applied
                 to an argument.
         """
-        return CreationEffect(param_arg_dict[self.param], self.effects, 
-                              self.completed, self.created_obj, self.goal_time, 
-                              self.goal_repetitions, arg)
-    
-    def increment_time(self):
-        """
-        Increments the time of the effect.
-        """
-        self.current_time += 1
-
-    def increment_repetitions(self):
-        """
-        Increments the number of repetitions of the effect.
-        """
-        self.current_repetitions += 1
+        param_arg_dict[self.created_obj[0]] = self.created_obj[1]
+        new_effects = {}
+        for effect, value in self.effects.items():
+            new_effects[effect.replace_pred_params_with_args(param_arg_dict)] = value
+        new_special_effects = []
+        for special_effect in self.special_effects:
+            new_special_effects.append(special_effect.apply_sfx_on_arg(arg, param_arg_dict))
+        return CreationEffect(self.param, self.created_obj, new_effects, new_special_effects, arg)
     
     def update(self, state, active=False):
         """
@@ -113,15 +98,9 @@ class CreationEffect(SpecialEffect):
         """
         if self.completed:
             return
-        if self.goal_time > 0:
-            if active: return
-            self.increment_time()
-            if self.current_time == self.goal_time:
-                state.add_object(self.created_obj)
-                self.completed = True
-        elif self.goal_repetitions > 0:
-            if not active: return
-            self.increment_repetitions()
-            if self.current_repetitions == self.goal_repetitions:
-                state.add_object(self.created_obj)
-                self.completed = True
+        state.add_object(self.created_obj[1])
+        for effect, value in self.effects.items():
+            state.update_predicate(effect, value)
+        for special_effect in self.special_effects:
+            special_effect.update(state, active)
+        self.completed = True

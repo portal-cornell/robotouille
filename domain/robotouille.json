@@ -210,7 +210,7 @@
                     "is_true": false
                 }
             ],
-            "special_fx": []
+            "sfx": []
         },
         {
             "name": "pick-up-item",
@@ -268,7 +268,7 @@
                     "is_true": false
                 }
             ],
-            "special_fx": []
+            "sfx": []
         },
         {
             "name": "place-item",
@@ -321,7 +321,7 @@
                     "is_true": false
                 }
             ],
-            "special_fx": []
+            "sfx": []
         },
         {
             "name": "pick-up-container",
@@ -357,9 +357,14 @@
                     "predicate": "nothing",
                     "params": ["p1"],
                     "is_true": false
+                },
+                {
+                    "predicate": "empty",
+                    "params": ["s1"],
+                    "is_true": true
                 }
             ],
-            "special_fx": []
+            "sfx": []
         },
         {
             "name": "place-container",
@@ -402,7 +407,7 @@
                     "is_true": false
                 }
             ],
-            "special_fx": []
+            "sfx": []
         },
         {
             "name": "cook",
@@ -434,7 +439,7 @@
                 }
             ],
             "immediate_fx": [],
-            "special_fx": [
+            "sfx": [
                 {
                     "type": "delayed",
                     "param": "i1",
@@ -444,7 +449,8 @@
                             "params": ["i1"],
                             "is_true": true
                         }
-                    ]
+                    ],
+                    "sfx": []
                 }
             ]
         },
@@ -478,7 +484,7 @@
                 }
             ],
             "immediate_fx": [],
-            "special_fx": [
+            "sfx": [
                 {
                     "type": "repetitive",
                     "param": "i1",
@@ -488,7 +494,8 @@
                             "params": ["i1"],
                             "is_true": true
                         }
-                    ]
+                    ],
+                    "sfx": []
                 },
                 {
                     "type": "conditional",
@@ -511,7 +518,8 @@
                             "params": ["i1"],
                             "is_true": true
                         }
-                    ]
+                    ],
+                    "sfx": []
                 }
             ]
 
@@ -546,7 +554,7 @@
                 }
             ],
             "immediate_fx": [],
-            "special_fx": [
+            "sfx": [
                 {
                     "type": "delayed",
                     "param": "i1",
@@ -556,7 +564,8 @@
                             "params": ["i1"],
                             "is_true": true
                         }
-                    ]
+                    ],
+                    "sfx": []
                 }
             ]
         },
@@ -585,24 +594,33 @@
                 }
             ],
             "immediate_fx":[],
-            "special_fx": [
-                {
-                    "type": "creation",
-                    "param": "c1",
-                    "created_obj": {
-                        "name": "water",
-                        "type": "item",
-                        "param": "m1"
-                    }
-                },
+            "sfx": [
                 {
                     "type": "delayed",
                     "param": "c1",
-                    "fx": [
+                    "fx": [],
+                    "sfx": [
                         {
-                            "predicate": "in",
-                            "params": ["m1", "c1"],
-                            "is_true": true
+                            "type": "creation",
+                            "param": "c1",
+                            "created_obj": {
+                                "name": "water",
+                                "type": "meal",
+                                "param": "m1"
+                            },
+                            "fx": [
+                                {
+                                    "predicate": "iswater",
+                                    "params": ["m1"],
+                                    "is_true": true
+                                },
+                                {
+                                    "predicate": "in",
+                                    "params": ["m1", "c1"],
+                                    "is_true": true
+                                }
+                            ],
+                            "sfx": []
                         }
                     ]
                 }
@@ -643,20 +661,7 @@
                 }
             ],
             "immediate_fx": [],
-            "special_fx": [
-                {
-                    "type": "creation",
-                    "param": "c1",
-                    "created_obj": {
-                        "name": "boiling-water",
-                        "type": "meal"
-                    }
-                },
-                {
-                    "type": "deletion",
-                    "param": "m1"
-                }
-            ]
+            "sfx": []
         },
         {
             "name": "stack",
@@ -714,7 +719,7 @@
                     "is_true": false
                 }
             ],
-            "special_fx": []
+            "sfx": []
         },
         {
             "name": "unstack",
@@ -782,13 +787,13 @@
                     "is_true": false
                 }
             ],
-            "special_fx": []
+            "sfx": []
         },
         {
             "name": "wait",
             "precons": [],
             "immediate_fx": [],
-            "special_fx": []
+            "sfx": []
         }
     ]
 }

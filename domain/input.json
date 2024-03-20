@@ -73,6 +73,13 @@
             }
         },
         {
+            "name": "fill-pot",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
             "name": "wait",
             "input_instructions": {
                 "key": "space",
