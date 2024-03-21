@@ -89,9 +89,12 @@ def simulator(
             action = create_action_from_control(
                 env, obs, mousedown_events + keydown_events, renderer
             )
+
             if not interactive and action is None:
                 # Retry for keyboard input
                 continue
+
             obs, reward, done, info = env.step(action=action, interactive=interactive)
+
             env.render(mode="human")
     env.render(close=True)

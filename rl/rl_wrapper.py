@@ -2,7 +2,7 @@ from typing import List, Optional, Union
 import gym
 import numpy as np
 import pddlgym
-import utils.robotouille_utils as robotouille_utils
+from utils.robotouille_utils import get_valid_moves
 import utils.pddlgym_utils as pddlgym_utils
 import utils.robotouille_wrapper as robotouille_wrapper
 from rl.rl_env import RLEnv
@@ -16,13 +16,14 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
     This class is a wrapper around the Robotouille environment to make it compatible with stable-baselines3. It simplifies the environment for the RL agent by converting the state and action space to a format that is easier for the RL agent to learn.
     """
 
-    def __init__(self, env, config):
+    def __init__(self, env, config, renderer):
         super().__init__(env, config)
 
         self.pddl_env = env
         self.env = None
         self.max_steps = 80
         self.episode_reward = 0
+        self.renderer = renderer
         # Configuration dictionary for tracking metrics
         self.metrics_config = {
             "ep_rew_mean": None,  # Mean episode reward
@@ -53,8 +54,8 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
             self.pddl_env.prev_step[0].literals, self.pddl_env.prev_step[0].objects
         )
 
-        valid_actions = list(
-            self.pddl_env.action_space.all_ground_literals(self.pddl_env.prev_step[0])
+        valid_actions = get_valid_moves(
+            self.pddl_env, self.pddl_env.prev_step[0], self.renderer
         )
 
         all_actions = list(
@@ -67,6 +68,7 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
             self.env = RLEnv(
                 expanded_truths, expanded_states, valid_actions, all_actions
             )
+
         self.env.step(expanded_truths, valid_actions)
 
     def step(self, action=None, interactive=False, debug=False):

@@ -92,7 +92,7 @@ def create_robotouille_env(problem_filename, seed=None, noisy_randomization=Fals
     )
     builder.delete_problem_file(f"{problem_filename}.pddl")
     return (
-        RobotouilleWrapper(pddl_env, environment_json["config"]),
+        RobotouilleWrapper(pddl_env, environment_json["config"], renderer),
         environment_json,
         renderer,
     )

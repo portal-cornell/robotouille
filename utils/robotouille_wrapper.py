@@ -16,7 +16,7 @@ class RobotouilleWrapper(gym.Wrapper):
     offload this to the wrapper's metadata.
     """
 
-    def __init__(self, env, config):
+    def __init__(self, env, config, renderer):
         """
         Initialize the Robotouille wrapper.
 
@@ -39,6 +39,7 @@ class RobotouilleWrapper(gym.Wrapper):
         self.config = config
         self.num_players = None
         self.planning_algorithm = []
+        self.renderer = renderer
 
     def _interactive_starter_prints(self, expanded_truths):
         """
@@ -52,7 +53,7 @@ class RobotouilleWrapper(gym.Wrapper):
             print(f"You have made {self.timesteps} steps.")
         robotouille_utils.print_states(self.prev_step[0])
         print("\n")
-        robotouille_utils.print_actions(self.env, self.prev_step[0])
+        robotouille_utils.print_actions(self.env, self.prev_step[0], self.renderer)
         print(f"True Predicates: {expanded_truths.sum()}")
 
     def _handle_action(self, action):
@@ -219,7 +220,7 @@ class RobotouilleWrapper(gym.Wrapper):
             if "selected" == literal.predicate.name:
                 return literal.variables[0].name
 
-    def _change_selected_player(self):
+    def _change_selected_player(self, obs):
         """
         This function changes the player in the environment.
 
@@ -227,14 +228,17 @@ class RobotouilleWrapper(gym.Wrapper):
             new_env_state (PDDLGym State): The new state of the environment.
         """
 
-        obs = self.prev_step[0]
         current_player = self._current_selected_player(obs)
         current_player_index = int(current_player[5:])
         next_player = current_player_index % self.num_players + 1
         next_player = f"robot{next_player}"
         action = f"select({current_player}:player,{next_player}:player)"
-        action = robotouille_utils.create_action(self.env, self.prev_step[0], action)
-
+        try:
+            action = robotouille_utils.create_action(
+                self.env, obs, action, self.renderer
+            )
+        except Exception:
+            return self.prev_step
         return self.env.step(action)
 
     def _find_stacking_index(self, goal, correct_order):
@@ -434,6 +438,12 @@ class RobotouilleWrapper(gym.Wrapper):
 
         return goal
 
+    def test_step(self, action):
+        obs, reward, done, info = self._handle_action(action)
+        _, reward, done, info = self.prev_step
+        self.prev_step = (obs, reward, done, info)
+        return obs, reward, done, info
+
     def step(self, action=None, interactive=False):
         """
         This function steps the environment forward.
@@ -474,16 +484,19 @@ class RobotouilleWrapper(gym.Wrapper):
 
         if interactive:
             self._interactive_starter_prints(expanded_truths)
-            action = robotouille_utils.create_action_repl(self.env, self.prev_step[0])
+            action = robotouille_utils.create_action_repl(
+                self.env, self.prev_step[0], self.renderer
+            )
         else:
             action = robotouille_utils.create_action(
-                self.env, self.prev_step[0], action
+                self.env, self.prev_step[0], action, self.renderer
             )
 
         prev_heuristic = self._heuristic_function(self.prev_step[0])
 
         obs, reward, done, info = self._handle_action(action)
-        obs, reward, done, info = self._change_selected_player()
+        obs, reward, done, info = self._change_selected_player(obs)
+
         obs = self._state_update()
 
         toggle_array = pddlgym_utils.create_toggle_array(
@@ -512,7 +525,7 @@ class RobotouilleWrapper(gym.Wrapper):
 
         # print("prev_heuristic: ", prev_heuristic)
         # print("current_heuristic: ", self._heuristic_function(obs))
-        # print("reward: ", reward)
+        print("reward: ", reward)
 
         return obs, reward, done, info
 
