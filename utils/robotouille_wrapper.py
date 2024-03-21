@@ -233,8 +233,12 @@ class RobotouilleWrapper(gym.Wrapper):
         next_player = current_player_index % self.num_players + 1
         next_player = f"robot{next_player}"
         action = f"select({current_player}:player,{next_player}:player)"
-        action = robotouille_utils.create_action(self.env, obs, action, self.renderer)
-
+        try:
+            action = robotouille_utils.create_action(
+                self.env, obs, action, self.renderer
+            )
+        except Exception:
+            return self.prev_step
         return self.env.step(action)
 
     def _find_stacking_index(self, goal, correct_order):
@@ -521,7 +525,7 @@ class RobotouilleWrapper(gym.Wrapper):
 
         # print("prev_heuristic: ", prev_heuristic)
         # print("current_heuristic: ", self._heuristic_function(obs))
-        # print("reward: ", reward)
+        print("reward: ", reward)
 
         return obs, reward, done, info
 
