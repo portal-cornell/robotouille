@@ -102,7 +102,9 @@ def _build_special_effects(dict, param_objs, predicate_dict):
             created_obj_type = special_effect["created_obj"]["type"]
             created_obj_param = special_effect["created_obj"]["param"]
             created_obj = Object(created_obj_name, created_obj_type)
-            sfx = CreationEffect(param_obj, (created_obj_param, created_obj), effects, nested_sfx)            
+            sfx = CreationEffect(param_obj, (created_obj_param, created_obj), effects, nested_sfx)        
+        elif special_effect["type"] == "deletion":
+            sfx = DeletionEffect(param_obj, effects, nested_sfx)    
         special_effects.append(sfx)
 
     return special_effects

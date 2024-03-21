@@ -250,7 +250,7 @@ class State(object):
         self.predicates = self._build_predicates(self.domain, self.objects, true_predicates)
         self.actions = self._build_actions(self.domain, self.objects)
 
-    def delete_obj(self, obj):
+    def delete_object(self, obj):
         """
         Deletes an object from the state.
 
@@ -319,7 +319,7 @@ class State(object):
             the given state.
         """
         assert action.is_valid(self, param_arg_dict)
-
+        print(f"Performing action {action.name}\n")
         print(f"before: {self.predicates} \n")
 
         self = action.perform_action(self, param_arg_dict)

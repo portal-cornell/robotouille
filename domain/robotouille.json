@@ -132,8 +132,12 @@
             "param_types": ["player"]
         },
         {
-            "name": "empty",
+            "name": "station_empty",
             "param_types": ["station"]
+        },
+        {
+            "name": "container_empty",
+            "param_types": ["container"]
         },
         {
             "name": "item_on",
@@ -243,7 +247,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "empty",
+                    "predicate": "station_empty",
                     "params": ["s1"],
                     "is_true": true
                 },
@@ -284,7 +288,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "empty",
+                    "predicate": "station_empty",
                     "params": ["s1"],
                     "is_true": true
                 }
@@ -316,7 +320,7 @@
                     "is_true": false
                 },
                 {
-                    "predicate": "empty",
+                    "predicate": "station_empty",
                     "params": ["s1"],
                     "is_true": false
                 }
@@ -359,7 +363,7 @@
                     "is_true": false
                 },
                 {
-                    "predicate": "empty",
+                    "predicate": "station_empty",
                     "params": ["s1"],
                     "is_true": true
                 }
@@ -380,7 +384,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "empty",
+                    "predicate": "station_empty",
                     "params": ["s1"],
                     "is_true": true
                 }
@@ -402,7 +406,7 @@
                     "is_true": false
                 },
                 {
-                    "predicate": "empty",
+                    "predicate": "station_empty",
                     "params": ["s1"],
                     "is_true": false
                 }
@@ -591,6 +595,11 @@
                     "predicate": "container_at",
                     "params": ["c1", "s1"],
                     "is_true": true
+                },
+                {
+                    "predicate": "container_empty",
+                    "params": ["c1"],
+                    "is_true": true
                 }
             ],
             "immediate_fx":[],
@@ -618,6 +627,11 @@
                                     "predicate": "in",
                                     "params": ["m1", "c1"],
                                     "is_true": true
+                                },
+                                {
+                                    "predicate": "container_empty",
+                                    "params": ["c1"],
+                                    "is_true": false
                                 }
                             ],
                             "sfx": []
@@ -661,7 +675,43 @@
                 }
             ],
             "immediate_fx": [],
-            "sfx": []
+            "sfx": [
+                {
+                    "type": "delayed",
+                    "param": "c1",
+                    "fx": [],
+                    "sfx": [
+                        {
+                            "type": "creation",
+                            "param": "c1",
+                            "created_obj": {
+                                "name": "boilingwater",
+                                "type": "meal",
+                                "param": "m2"
+                            },
+                            "fx": [
+                                {
+                                    "predicate": "isboilingwater",
+                                    "params": ["m2"],
+                                    "is_true": true
+                                },
+                                {
+                                    "predicate": "in",
+                                    "params": ["m2", "c1"],
+                                    "is_true": true
+                                }
+                            ],
+                            "sfx": []
+                        },
+                        {
+                            "type": "deletion",
+                            "param": "m1",
+                            "fx": [],
+                            "sfx": []
+                        }
+                    ]
+                }
+            ]
         },
         {
             "name": "stack",

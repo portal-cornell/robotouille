@@ -7,16 +7,20 @@ class DeletionEffect(SpecialEffect):
     A creation effect is an effect that delets an object in the state.
     """
 
-    def __init__(self, param, arg=None):
+    def __init__(self, param, effects, special_effects, arg=None):
         """
         Initializes a deletion effect.
 
         Args:
             param (Object): The parameter of the deletion effect. 
+            effects (Dictionary[Predicate, bool]): The effects of the action,
+                represented by a dictionary of predicates and bools.
+            special_effects (List[SpecialEffect]): The nested special effects of
+                the action.
             arg (Object): The object that deleted. If the
                 special effect is not applied to an object, arg is None.
         """
-        super().__init__(param, {}, [], False, arg)
+        super().__init__(param, effects, special_effects, False, arg)
     
     def __eq__(self, other):
         """
@@ -28,7 +32,8 @@ class DeletionEffect(SpecialEffect):
         Returns:
             bool: True if the effects are equal, False otherwise.
         """
-        return self.param == other.param and self.arg == other.arg
+        return self.param == other.param and self.effects == other.effects \
+            and self.special_effects == other.special_effects and self.arg == other.arg
     
     def __hash__(self):
         """
@@ -37,7 +42,8 @@ class DeletionEffect(SpecialEffect):
         Returns:
             hash (int): The hash of the deletion effect.
         """
-        return hash((self.param, self.completed, self.arg))
+        return hash((self.param, tuple(self.effects), tuple(self.special_effects), 
+                     self.completed, self.arg))
     
     def __repr__(self):
         """
@@ -56,14 +62,20 @@ class DeletionEffect(SpecialEffect):
         Args:
             arg (Object): The object to apply the special effect to.
             param_arg_dict (Dictionary[Object, Object]): A dictionary mapping 
-                parameters to arguments. Since the creation effect does not have
-                any immediate effects, this dictionary is not used.
+                parameters to arguments. 
 
         Returns:
             DeletionEffect: A copy of the special effect definition, but applied
                 to an argument.
         """
-        return DeletionEffect(self.param, arg)
+        new_effects = {}
+        for effect, value in self.effects.items():
+            new_effects[effect.replace_pred_params_with_args(param_arg_dict)] = value
+        new_special_effects = []
+        for special_effect in self.special_effects:
+            new_special_effects.append(special_effect.apply_sfx_on_arg(arg, param_arg_dict))
+        deleted_obj = param_arg_dict[self.param.name]
+        return DeletionEffect(self.param, new_effects, new_special_effects, deleted_obj)
     
     def update(self, state, active=False):
         """
@@ -76,5 +88,9 @@ class DeletionEffect(SpecialEffect):
         """
         if self.completed:
             return
-        state.remove_object(self.arg, active)
+        state.delete_object(self.arg)
+        for effect, value in self.effects.items():
+            state.update_predicate(effect, value, active)
+        for special_effect in self.special_effects:
+            special_effect.update(state, active)
         self.completed = True

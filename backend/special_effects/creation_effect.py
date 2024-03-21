@@ -71,8 +71,7 @@ class CreationEffect(SpecialEffect):
         Args:
             arg (Object): The argument that the special effect is applied to.
             param_arg_dict (Dictionary[Object, Object]): A dictionary mapping 
-                parameters to arguments. Since the creation effect does not have
-                any immediate effects, this dictionary is not used.
+                parameters to arguments.
 
         Returns:
             CreationEffect: A copy of the special effect definition, but applied
