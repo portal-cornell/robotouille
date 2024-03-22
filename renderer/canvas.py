@@ -194,7 +194,7 @@ class RobotouilleCanvas:
         return player_positions
 
     def _move_player_to_station(
-        self, player_index, player_position, station_position, layout
+        self, player_index, player_position, station_position, layout, test=False
     ):
         """
         Moves the player from their current position to a position adjacent to a station using BFS.
@@ -223,6 +223,7 @@ class RobotouilleCanvas:
         )  # current position, previous position
         queue = [curr_prev]
         visited = set()
+
         while queue:
             curr_prev = queue.pop(0)
             curr_position = curr_prev[0]
@@ -258,6 +259,7 @@ class RobotouilleCanvas:
                 )
                 if next_position != prev_position:
                     queue.append((next_position, curr_position))
+
         assert False, "Player could not be moved to station"
 
     def _check_selected(self, obs, player_index):
@@ -294,6 +296,17 @@ class RobotouilleCanvas:
 
         assert False, "Invalid player direction"
 
+    def test_new_positions(self, obs):
+        for literal in obs.literals:
+            if literal.predicate == "loc":
+                player_station = literal.variables[1].name
+                station_pos = self._get_station_position(player_station)
+                player_index = self._get_player_index(literal)
+                player_pos = self.players_pose[player_index]["position"]
+                player_pos, player_direction = self._move_player_to_station(
+                    player_index, player_pos, tuple(station_pos), self.layout, test=True
+                )
+
     def _draw_player(self, surface, obs):
         """
         Draws the player on the canvas. This implementation assumes one player.
@@ -304,9 +317,8 @@ class RobotouilleCanvas:
         """
         player_pos = None
         holding_foods = ["" for i in range(len(self.players_pose))]
-
         for literal in obs:
-            if literal.predicate == "loc":
+            if literal.predicate.name == "loc":
                 player_station = literal.variables[1].name
                 station_pos = self._get_station_position(player_station)
                 player_index = self._get_player_index(literal)
