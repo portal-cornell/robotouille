@@ -154,7 +154,7 @@
 
     "container": {
         "constants": {
-            "STATION_ITEM_OFFSET" : 0.25,
+            "STATION_CONTAINER_OFFSET" : 0.25,
             "X_SCALE_FACTOR": 0.125,
             "Y_SCALE_FACTOR": 0.75
         },

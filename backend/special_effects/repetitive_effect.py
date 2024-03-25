@@ -81,7 +81,7 @@ class RepetitiveEffect(SpecialEffect):
             new_special_effects = []
             for special_effect in self.special_effects:
                 new_special_effects.append(special_effect.apply_sfx_on_arg(arg, param_arg_dict))
-            return RepetitiveEffect(self.param, new_effects, new_special_effects, self.completed, self.goal_repetitions, arg)
+            return RepetitiveEffect(self.param, new_effects, new_special_effects, self.goal_repetitions, arg)
 
     def increment_repetitions(self):
         """

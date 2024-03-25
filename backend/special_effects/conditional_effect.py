@@ -86,7 +86,7 @@ class ConditionalEffect(SpecialEffect):
         new_conditions = {}
         for condition, value in self.condition.items():
             new_conditions[condition.replace_pred_params_with_args(param_arg_dict)] = value
-        return ConditionalEffect(self.param, new_effects, new_special_effects, self.completed, new_conditions, arg)
+        return ConditionalEffect(self.param, new_effects, new_special_effects, new_conditions, arg)
     
     def update(self, state, active=False):
         """

@@ -754,7 +754,7 @@
                 },
                 {
                     "predicate": "container_at",
-                    "params": ["c2", "s1"],
+                    "params": ["c1", "s1"],
                     "is_true": true
                 },
                 {
@@ -770,6 +770,11 @@
                 {
                     "predicate": "container_empty",
                     "params": ["c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "has_container",
+                    "params": ["p1", "c2"],
                     "is_true": true
                 }
             ],
