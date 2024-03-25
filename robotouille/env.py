@@ -5,6 +5,7 @@ from backend.state import State
 from environments.env_generator.builder import entity_to_entity_field, create_unique_and_combination_preds, create_combinations
 import copy
 from domain.domain_builder import build_domain
+from utils.robotouille_utils import trim_item_ID
 import gym
 import json
     

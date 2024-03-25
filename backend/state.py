@@ -1,4 +1,5 @@
 from backend.predicate import Predicate
+from utils.robotouille_utils import trim_item_ID
 import itertools
 
 class State(object):
@@ -238,6 +239,18 @@ class State(object):
         current = self.special_effects[self.special_effects.index(replaced_effect)]
         current.update(self, active=True)
 
+    def _get_num_of_objs_with_same_name(self, obj):
+        """
+        Returns the number of objects with the same name as the given object.
+
+        Args:
+            obj (Object): The object to check.
+
+        Returns:
+            num (int): The number of objects with the same name as the given object.
+        """
+        return len([o for o in self.objects if trim_item_ID(o.name) == obj.name])
+
     def add_object(self, obj):
         """
         Adds an object to the state.
@@ -245,6 +258,8 @@ class State(object):
         Args:
             obj (Object): The object to add to the state.
         """
+        num = self._get_num_of_objs_with_same_name(obj)
+        obj.name = f"{obj.name}{num+1}"
         self.objects.append(obj)
         true_predicates = {predicate for predicate, value in self.predicates.items() if value}
         self.predicates = self._build_predicates(self.domain, self.objects, true_predicates)
