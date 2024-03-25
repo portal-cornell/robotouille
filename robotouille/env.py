@@ -94,9 +94,9 @@ def build_station_location_predicates(environment_dict):
                     pred = Predicate().initialize(predicate, [field[:-1], "station"], [obj, station_obj])
                     predicates.append(pred)
                     match = True
-        if not match:
-            pred = Predicate().initialize(no_match_predicate, ["station"], [station_obj])
-            predicates.append(pred)
+            if not match:
+                pred = Predicate().initialize(no_match_predicate, ["station"], [station_obj])
+                predicates.append(pred)
     return predicates
 
 def build_player_location_predicates(environment_dict):
@@ -311,8 +311,6 @@ class RobotouilleEnv(gym.Env):
         initial_state = build_state(domain_json, environment_json)
 
         self.initial_state = initial_state
-
-        print(initial_state.predicates)
 
         self.observation_space = initial_state
 

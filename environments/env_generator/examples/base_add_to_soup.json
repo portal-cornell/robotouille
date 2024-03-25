@@ -1,0 +1,63 @@
+{
+    "width": 3,
+    "height": 3,
+    "config": {
+        "num_cuts": {
+            "lettuce": 3,
+            "default": 3
+        },
+        "cook_time": {
+            "patty": 3,
+            "default": 3
+        }
+    },
+    "stations": [
+        {
+            "name": "stove",
+            "x": 0,
+            "y": 1,
+            "id": "A"
+        }
+    ],
+    "items": [
+        {
+            "name": "tomato",
+            "x": 0,
+            "y": 0,
+            "id": "c",
+            "predicates": ["iscut"]
+        }
+    ],
+    "players": [
+        {
+            "name": "robot",
+            "x": 0,
+            "y": 0,
+            "direction": [0, 1]
+        }
+    ],
+    "meals": [
+        {
+            "name": "water",
+            "x": 0,
+            "y": 1,
+            "id": "b",
+            "predicates": ["isboiling"]
+        }
+    ],
+    "containers": [
+        {
+            "name": "pot",
+            "x": 0,
+            "y": 1,
+            "id": "a"
+        }
+    ],
+    "goal": [
+        {
+            "predicate": "isbowl",
+            "args": ["pot"],
+            "ids": ["a"]
+        }
+    ]
+}

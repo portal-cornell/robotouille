@@ -163,16 +163,20 @@
                 "assets": {
                     "default": "pot.png",
                     "water": {
-                        "asset": "pot_water.png",
-                        "meal": "water"
-                    },
-                    "boilingwater": {
-                        "asset": "pot_water_boil.png",
-                        "meal": "boilingwater"
-                    },
-                    "soup": {
-                        "asset": "pot_soup.png",
-                        "meal": "soup"
+                        "default": "pot_water.png",
+                        "boiling": {
+                            "asset": "pot_water_boil.png",
+                            "predicates": [
+                                {"name": "isboiling", "params": ["water"]}
+                            ]
+                        },
+                        "soup": {
+                            "asset": "pot_soup.png",
+                            "predicates": [
+                                {"name": "isboiling", "params": ["water"]},
+                                {"name": "addedto", "params": ["", "water"]}
+                            ]
+                        }
                     }
                 },
                 "constants": {}
@@ -180,9 +184,14 @@
             "bowl": {
                 "assets": {
                     "default": "bowl.png",
-                    "soup": {
-                        "asset": "bowl_soup.png",
-                        "meal": "soup"
+                    "water": {
+                        "default": "bowl.png",
+                        "soup": {
+                            "asset": "bowl_soup.png",
+                            "predicates": [
+                                {"name": "addedto", "params": ["", "water"]}
+                            ]
+                        }
                     }
                 },
                 "constants": {}

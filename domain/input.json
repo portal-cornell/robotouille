@@ -87,6 +87,20 @@
             }
         },
         {
+            "name": "add-to",
+            "input_instructions": {
+                "key": "a",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "fill-bowl",
+            "input_instructions": {
+                "key": "f",
+                "at": "s1"
+            }
+        },
+        {
             "name": "wait",
             "input_instructions": {
                 "key": "space",

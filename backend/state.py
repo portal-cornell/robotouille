@@ -239,17 +239,22 @@ class State(object):
         current = self.special_effects[self.special_effects.index(replaced_effect)]
         current.update(self, active=True)
 
-    def _get_num_of_objs_with_same_name(self, obj):
+    def _get_next_ID_for_object(self, obj):
         """
-        Returns the number of objects with the same name as the given object.
+        Gets the next available ID for an object.
 
         Args:
-            obj (Object): The object to check.
+            obj (Object): The object to get the next available ID for.
 
         Returns:
-            num (int): The number of objects with the same name as the given object.
+            int: The next available ID for the object.
         """
-        return len([o for o in self.objects if trim_item_ID(o.name) == obj.name])
+        num = 0
+        for object in self.objects:
+            name, id = trim_item_ID(object.name)
+            if name == obj.name:
+                num = max(num, id)
+        return num+1
 
     def add_object(self, obj):
         """
@@ -258,8 +263,8 @@ class State(object):
         Args:
             obj (Object): The object to add to the state.
         """
-        num = self._get_num_of_objs_with_same_name(obj)
-        obj.name = f"{obj.name}{num+1}"
+        num = self._get_next_ID_for_object(obj)
+        obj.name = f"{obj.name}{num}"
         self.objects.append(obj)
         true_predicates = {predicate for predicate, value in self.predicates.items() if value}
         self.predicates = self._build_predicates(self.domain, self.objects, true_predicates)
@@ -334,12 +339,8 @@ class State(object):
             the given state.
         """
         assert action.is_valid(self, param_arg_dict)
-        print(f"Performing action {action.name}\n")
-        print(f"before: {self.predicates} \n")
 
         self = action.perform_action(self, param_arg_dict)
-
-        print(f"after: {self.predicates} \n")
         
         for special_effect in self.special_effects:
             special_effect.update(self)

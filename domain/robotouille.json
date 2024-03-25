@@ -108,15 +108,11 @@
             "param_types": ["container"]
         },
         {
-            "name": "issoup",
-            "param_types": ["meal"]
-        },
-        {
             "name": "iswater",
             "param_types": ["meal"]
         },
         {
-            "name": "isboilingwater",
+            "name": "isboiling",
             "param_types": ["meal"]
         },
         {
@@ -679,39 +675,127 @@
                 {
                     "type": "delayed",
                     "param": "c1",
-                    "fx": [],
-                    "sfx": [
+                    "fx": [
                         {
-                            "type": "creation",
-                            "param": "c1",
-                            "created_obj": {
-                                "name": "boilingwater",
-                                "type": "meal",
-                                "param": "m2"
-                            },
-                            "fx": [
-                                {
-                                    "predicate": "isboilingwater",
-                                    "params": ["m2"],
-                                    "is_true": true
-                                },
-                                {
-                                    "predicate": "in",
-                                    "params": ["m2", "c1"],
-                                    "is_true": true
-                                }
-                            ],
-                            "sfx": []
-                        },
-                        {
-                            "type": "deletion",
-                            "param": "m1",
-                            "fx": [],
-                            "sfx": []
+                            "predicate": "isboiling",
+                            "params": ["m1"],
+                            "is_true": true
                         }
-                    ]
+                    ],
+                    "sfx": []
                 }
             ]
+        },
+        {
+            "name": "add-to",
+            "precons": [
+                {
+                    "predicate": "ispot",
+                    "params": ["c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "addedto",
+                    "params": ["i1", "m1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "in",
+                    "params": ["m1", "c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "iscut",
+                    "params": ["i1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "loc",
+                    "params": ["p1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "has_item",
+                    "params": ["p1", "i1"],
+                    "is_true": true
+                }
+            ],
+            "immediate_fx": [
+                {
+                    "predicate": "addedto",
+                    "params": ["i1", "m1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "has_item",
+                    "params": ["p1", "i1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
+                    "is_true": true
+                }
+            ],
+            "sfx": []
+        },
+        {
+            "name": "fill-bowl",
+            "precons": [
+                {
+                    "predicate": "isbowl",
+                    "params": ["c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "ispot",
+                    "params": ["c2"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "container_at",
+                    "params": ["c2", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "in",
+                    "params": ["m1", "c2"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "loc",
+                    "params": ["p1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "container_empty",
+                    "params": ["c1"],
+                    "is_true": true
+                }
+            ],
+            "immediate_fx": [
+                {
+                    "predicate": "in",
+                    "params": ["m1", "c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "in",
+                    "params": ["m1", "c2"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "container_empty",
+                    "params": ["c1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "container_empty",
+                    "params": ["c2"],
+                    "is_true": true
+                }
+            ],
+            "sfx": []
         },
         {
             "name": "stack",
