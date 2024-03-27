@@ -134,6 +134,91 @@ class RobotouilleCanvas:
 
         self._draw_image(surface, f"{item_image_name}", position + self.pix_square_size * x_scale_factor, self.pix_square_size * y_scale_factor)
 
+    def _choose_container_asset(self, container_image_name, obs):
+        """
+        Helper function to choose the container asset based on the current 
+        true predicates in the state.
+
+        Meals can only be in containers, and cannot be drawn on their own. In the
+        state, the predicate "in" determines whether a meal is in a container.
+        Only one meal can be in each container at any point in time, so this 
+        helper function chooses the container asset based on the current
+        state of the meal. 
+
+        Args:
+            container_image_name (str): Name of the container
+            obs (List[Literal]): Game state predicates
+
+        Returns:
+            chosen_asset (str): Name of the chosen asset
+        """
+        container_image_name, container_id = trim_item_ID(container_image_name)
+        container_config = self.config["container"]["entities"][container_image_name]
+
+        # Get the name of the meal in the container
+        meal_name = None
+        for literal, is_true in obs.predicates.items():
+            if is_true and literal.name == "in" and literal.params[1].name == container_image_name + container_id:
+                meal_name = literal.params[0].name
+                break
+        
+        # If there is no meal in the container, use the default asset
+        if meal_name is None:
+            return container_config["assets"]["default"]
+        
+        # If there is a meal in the container, choose the asset based on the meal
+        item_predicates = {}
+        for literal, is_true in obs.predicates.items():
+            if is_true:
+                literal_args = [param.name for param in literal.params]
+                if meal_name in literal_args:
+                    item_predicates[literal.name] = [param.name for param in literal.params]
+        if len(item_predicates) == 0:
+            return container_config["assets"]["default"]
+        
+        meal_name, _ = trim_item_ID(meal_name)
+        max_matches = 0
+        asset_config = container_config["assets"][meal_name]
+        chosen_asset = asset_config["default"]
+        for asset in asset_config:
+            if asset == "default":
+                continue
+            matches = 0
+            for predicate in asset_config[asset]["predicates"]:
+                if predicate["name"] in item_predicates:
+                    params = []
+                    pred_params = [trim_item_ID(param)[0] for param in item_predicates[predicate["name"]]]
+                    for param in predicate["params"]:
+                        if param == "":
+                            param = pred_params[predicate["params"].index("")]
+                        params.append(param)
+                    if params == pred_params:
+                        matches += 1
+            if matches == len(asset_config[asset]["predicates"]):
+                if matches > max_matches:
+                    max_matches = matches
+                    chosen_asset = asset_config[asset]["asset"]
+                elif matches == max_matches:
+                    chosen_asset = asset_config["default"]
+
+        return chosen_asset
+    
+    def _draw_container_image(self, surface, container_name, obs, position):
+        """
+        Helper to draw a container image on the canvas.
+
+        Args:
+            surface (pygame.Surface): Surface to draw on
+            container_name (str): Name of the container
+            obs (List[Literal]): Game state predicates
+            position (np.array): (x, y) position of the container (with pix_square_size factor accounted for)
+        """
+        container_image_name = self._choose_container_asset(container_name, obs)
+        x_scale_factor = self.config["container"]["constants"]["X_SCALE_FACTOR"]
+        y_scale_factor = self.config["container"]["constants"]["Y_SCALE_FACTOR"]
+
+        self._draw_image(surface, f"{container_image_name}", position + self.pix_square_size * x_scale_factor, self.pix_square_size * y_scale_factor)
+
     def _draw_floor(self, surface):
         """
         Draw the floor on the canvas.
@@ -275,7 +360,7 @@ class RobotouilleCanvas:
                 #player_pos = pos
                 robot_image_name = self._get_player_image_name(player_direction)
                 self._draw_image(surface, robot_image_name, player_pos * self.pix_square_size, self.pix_square_size)
-            if is_true and literal.name == "has":
+            if is_true and literal.name == "has_item":
                 player_pos = self.player_pose["position"]
                 held_item_name = literal.params[1].name
         if held_item_name:
@@ -297,7 +382,7 @@ class RobotouilleCanvas:
         stack_number = {} # Stores the item item and current stack number
         station_item_offset = self.config["item"]["constants"]["STATION_ITEM_OFFSET"]
         for literal, is_true in obs.predicates.items():
-            if is_true and literal.name == "on":
+            if is_true and literal.name == "item_on":
                 item = literal.params[0].name
                 stack_number[item] = 1
                 item_station = literal.params[1].name
@@ -319,7 +404,7 @@ class RobotouilleCanvas:
                     stack_number[item_above] = stack_number[item_below] + 1
                     # Get location of station
                     for literal, is_true in obs.predicates.items():
-                        if is_true and literal.name == "at" and literal.params[0].name == item_below:
+                        if is_true and literal.name == "item_at" and literal.params[0].name == item_below:
                             station_pos = self._get_station_position(literal.params[1].name)
                             break
                     item_name, _ = trim_item_ID(item_above)
@@ -329,6 +414,28 @@ class RobotouilleCanvas:
                     self._draw_item_image(surface, item_above, obs, station_pos * self.pix_square_size)
                 else:
                     i += 1
+
+    def _draw_container(self, surface, obs):
+        """
+        This helper draws containers on the canvas.
+
+        Args:
+            surface (pygame.Surface): Surface to draw on
+            obs (State): Game state predicates
+        """
+        station_container_offset = self.config["container"]["constants"]["STATION_CONTAINER_OFFSET"]
+
+        for literal, is_true in obs.predicates.items():
+            if is_true and literal.name == "container_at":
+                container = literal.params[0].name
+                station = literal.params[1].name
+                container_pos = self._get_station_position(station)
+                container_pos[1] -= station_container_offset
+                self._draw_container_image(surface, container, obs, container_pos * self.pix_square_size)
+            if is_true and literal.name == "has_container":
+                container = literal.params[1].name
+                container_pos = self.player_pose["position"]
+                self._draw_container_image(surface, container, obs, container_pos * self.pix_square_size)
 
     def draw_to_surface(self, surface, obs):
         """
@@ -342,3 +449,4 @@ class RobotouilleCanvas:
         self._draw_stations(surface)
         self._draw_player(surface, obs)
         self._draw_item(surface, obs)
+        self._draw_container(surface, obs)

@@ -4,7 +4,7 @@
 
     "input_json": "domain/input.json",
 
-    "object_types": ["station", "item", "player"],
+    "object_types": ["station", "item", "player", "container", "meal"],
 
     "predicate_defs": [
         {
@@ -21,6 +21,10 @@
         },
         {
             "name": "isfryer",
+            "param_types": ["station"]
+        },
+        {
+            "name": "issink",
             "param_types": ["station"]
         },
         {
@@ -96,11 +100,27 @@
             "param_types": ["item"]
         },
         {
+            "name": "ispot",
+            "param_types": ["container"]
+        },
+        {
+            "name": "isbowl",
+            "param_types": ["container"]
+        },
+        {
+            "name": "iswater",
+            "param_types": ["meal"]
+        },
+        {
+            "name": "isboiling",
+            "param_types": ["meal"]
+        },
+        {
             "name": "loc",
             "param_types": ["player", "station"]
         },
         {
-            "name": "at",
+            "name": "item_at",
             "param_types": ["item", "station"]
         },
         {
@@ -108,11 +128,15 @@
             "param_types": ["player"]
         },
         {
-            "name": "empty",
+            "name": "station_empty",
             "param_types": ["station"]
         },
         {
-            "name": "on",
+            "name": "container_empty",
+            "param_types": ["container"]
+        },
+        {
+            "name": "item_on",
             "param_types": ["item", "station"]
         },
         {
@@ -128,8 +152,24 @@
             "param_types": ["item", "item"]
         },
         {
-            "name": "has",
+            "name": "has_item",
             "param_types": ["player", "item"]
+        },
+        {
+            "name": "has_container",
+            "param_types": ["player", "container"]
+        },
+        {
+            "name": "in",
+            "param_types": ["meal", "container"]
+        },
+        {
+            "name": "addedto",
+            "param_types": ["item", "meal"]
+        },
+        {
+            "name": "container_at",
+            "param_types": ["container", "station"]
         }
     ],
 
@@ -170,10 +210,10 @@
                     "is_true": false
                 }
             ],
-            "special_fx": []
+            "sfx": []
         },
         {
-            "name": "pick-up",
+            "name": "pick-up-item",
             "precons": [
                 {
                     "predicate": "nothing",
@@ -181,7 +221,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "on",
+                    "predicate": "item_on",
                     "params": ["i1", "s1"],
                     "is_true": true
                 },
@@ -198,12 +238,12 @@
             ],
             "immediate_fx": [
                 {
-                    "predicate": "has",
+                    "predicate": "has_item",
                     "params": ["p1", "i1"],
                     "is_true": true
                 },
                 {
-                    "predicate": "empty",
+                    "predicate": "station_empty",
                     "params": ["s1"],
                     "is_true": true
                 },
@@ -213,7 +253,7 @@
                     "is_true": false
                 },
                 {
-                    "predicate": "at",
+                    "predicate": "item_at",
                     "params": ["i1", "s1"],
                     "is_true": false
                 },
@@ -223,18 +263,18 @@
                     "is_true": false
                 },
                 {
-                    "predicate": "on",
+                    "predicate": "item_on",
                     "params": ["i1", "s1"],
                     "is_true": false
                 }
             ],
-            "special_fx": []
+            "sfx": []
         },
         {
-            "name": "place",
+            "name": "place-item",
             "precons": [
                 {
-                    "predicate": "has",
+                    "predicate": "has_item",
                     "params": ["p1", "i1"],
                     "is_true": true
                 },
@@ -244,7 +284,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "empty",
+                    "predicate": "station_empty",
                     "params": ["s1"],
                     "is_true": true
                 }
@@ -256,7 +296,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "at",
+                    "predicate": "item_at",
                     "params": ["i1", "s1"],
                     "is_true": true
                 },
@@ -266,22 +306,108 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "on",
+                    "predicate": "item_on",
                     "params": ["i1", "s1"],
                     "is_true": true
                 },
                 {
-                    "predicate": "has",
+                    "predicate": "has_item",
                     "params": ["p1", "i1"],
                     "is_true": false
                 },
                 {
-                    "predicate": "empty",
+                    "predicate": "station_empty",
                     "params": ["s1"],
                     "is_true": false
                 }
             ],
-            "special_fx": []
+            "sfx": []
+        },
+        {
+            "name": "pick-up-container",
+            "precons": [
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "container_at",
+                    "params": ["c1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "loc",
+                    "params": ["p1", "s1"],
+                    "is_true": true
+                }
+            ],
+            "immediate_fx": [
+                {
+                    "predicate": "has_container",
+                    "params": ["p1", "c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "container_at",
+                    "params": ["c1", "s1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "station_empty",
+                    "params": ["s1"],
+                    "is_true": true
+                }
+            ],
+            "sfx": []
+        },
+        {
+            "name": "place-container",
+            "precons": [
+                {
+                    "predicate": "has_container",
+                    "params": ["p1", "c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "loc",
+                    "params": ["p1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "station_empty",
+                    "params": ["s1"],
+                    "is_true": true
+                }
+            ],
+            "immediate_fx": [
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "container_at",
+                    "params": ["c1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "has_container",
+                    "params": ["p1", "c1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "station_empty",
+                    "params": ["s1"],
+                    "is_true": false
+                }
+            ],
+            "sfx": []
         },
         {
             "name": "cook",
@@ -297,7 +423,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "on",
+                    "predicate": "item_on",
                     "params": ["i1", "s1"],
                     "is_true": true
                 },
@@ -310,18 +436,38 @@
                     "predicate": "clear",
                     "params": ["i1"],
                     "is_true": true
+                },
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
+                    "is_true": true
                 }
             ],
             "immediate_fx": [],
-            "special_fx": [
+            "sfx": [
                 {
-                    "type": "delayed",
+                    "type": "conditional",
                     "param": "i1",
-                    "fx": [
+                    "conditions": [
                         {
-                            "predicate": "iscooked",
-                            "params": ["i1"],
+                            "predicate": "item_on",
+                            "params": ["i1", "s1"],
                             "is_true": true
+                        }
+                    ],
+                    "fx": [],
+                    "sfx": [
+                        {
+                            "type": "delayed",
+                            "param": "i1",
+                            "fx": [
+                                {
+                                    "predicate": "iscooked",
+                                    "params": ["i1"],
+                                    "is_true": true
+                                }
+                            ],
+                            "sfx": []
                         }
                     ]
                 }
@@ -341,7 +487,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "on",
+                    "predicate": "item_on",
                     "params": ["i1", "s1"],
                     "is_true": true
                 },
@@ -354,10 +500,15 @@
                     "predicate": "clear",
                     "params": ["i1"],
                     "is_true": true
+                },
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
+                    "is_true": true
                 }
             ],
             "immediate_fx": [],
-            "special_fx": [
+            "sfx": [
                 {
                     "type": "repetitive",
                     "param": "i1",
@@ -367,7 +518,8 @@
                             "params": ["i1"],
                             "is_true": true
                         }
-                    ]
+                    ],
+                    "sfx": []
                 },
                 {
                     "type": "conditional",
@@ -390,7 +542,8 @@
                             "params": ["i1"],
                             "is_true": true
                         }
-                    ]
+                    ],
+                    "sfx": []
                 }
             ]
 
@@ -409,7 +562,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "on",
+                    "predicate": "item_on",
                     "params": ["i1", "s1"],
                     "is_true": true
                 },
@@ -422,28 +575,305 @@
                     "predicate": "clear",
                     "params": ["i1"],
                     "is_true": true
+                },
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
+                    "is_true": true
                 }
             ],
             "immediate_fx": [],
-            "special_fx": [
+            "sfx": [
                 {
-                    "type": "delayed",
+                    "type": "conditional",
                     "param": "i1",
-                    "fx": [
+                    "conditions": [
                         {
-                            "predicate": "isfried",
-                            "params": ["i1"],
+                            "predicate": "item_on",
+                            "params": ["i1", "s1"],
                             "is_true": true
+                        }
+                    ],
+                    "fx": [],
+                    "sfx": [
+                        {
+                            "type": "delayed",
+                            "param": "i1",
+                            "fx": [
+                                {
+                                    "predicate": "isfried",
+                                    "params": ["i1"],
+                                    "is_true": true
+                                }
+                            ],
+                            "sfx": []
                         }
                     ]
                 }
             ]
         },
         {
+            "name": "fill-pot",
+            "precons": [
+                {
+                    "predicate": "ispot",
+                    "params": ["c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "issink",
+                    "params": ["s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "loc",
+                    "params": ["p1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "container_at",
+                    "params": ["c1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "container_empty",
+                    "params": ["c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
+                    "is_true": true
+                }
+            ],
+            "immediate_fx":[],
+            "sfx": [
+                {
+                    "type": "delayed",
+                    "param": "c1",
+                    "fx": [],
+                    "sfx": [
+                        {
+                            "type": "creation",
+                            "param": "c1",
+                            "created_obj": {
+                                "name": "water",
+                                "type": "meal",
+                                "param": "m1"
+                            },
+                            "fx": [
+                                {
+                                    "predicate": "iswater",
+                                    "params": ["m1"],
+                                    "is_true": true
+                                },
+                                {
+                                    "predicate": "in",
+                                    "params": ["m1", "c1"],
+                                    "is_true": true
+                                },
+                                {
+                                    "predicate": "container_empty",
+                                    "params": ["c1"],
+                                    "is_true": false
+                                }
+                            ],
+                            "sfx": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "boil-water",
+            "precons": [
+                {
+                    "predicate": "ispot",
+                    "params": ["c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "iswater",
+                    "params": ["m1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "in",
+                    "params": ["m1", "c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "isstove",
+                    "params": ["s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "container_at",
+                    "params": ["c1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "loc",
+                    "params": ["p1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
+                    "is_true": true
+                }
+            ],
+            "immediate_fx": [],
+            "sfx": [
+                {
+                    "type": "conditional",
+                    "param": "m1",
+                    "conditions": [
+                        {
+                            "predicate": "container_at",
+                            "params": ["c1", "s1"],
+                            "is_true": true
+                        }
+                    ],
+                    "fx": [],
+                    "sfx": [
+                        {
+                            "type": "delayed",
+                            "param": "m1",
+                            "fx": [
+                                {
+                                    "predicate": "isboiling",
+                                    "params": ["m1"],
+                                    "is_true": true
+                                }
+                            ],
+                            "sfx": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "add-to",
+            "precons": [
+                {
+                    "predicate": "ispot",
+                    "params": ["c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "addedto",
+                    "params": ["i1", "m1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "in",
+                    "params": ["m1", "c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "iscut",
+                    "params": ["i1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "loc",
+                    "params": ["p1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "has_item",
+                    "params": ["p1", "i1"],
+                    "is_true": true
+                }
+            ],
+            "immediate_fx": [
+                {
+                    "predicate": "addedto",
+                    "params": ["i1", "m1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "has_item",
+                    "params": ["p1", "i1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
+                    "is_true": true
+                }
+            ],
+            "sfx": []
+        },
+        {
+            "name": "fill-bowl",
+            "precons": [
+                {
+                    "predicate": "isbowl",
+                    "params": ["c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "ispot",
+                    "params": ["c2"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "container_at",
+                    "params": ["c1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "in",
+                    "params": ["m1", "c2"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "loc",
+                    "params": ["p1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "container_empty",
+                    "params": ["c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "has_container",
+                    "params": ["p1", "c2"],
+                    "is_true": true
+                }
+            ],
+            "immediate_fx": [
+                {
+                    "predicate": "in",
+                    "params": ["m1", "c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "in",
+                    "params": ["m1", "c2"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "container_empty",
+                    "params": ["c1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "container_empty",
+                    "params": ["c2"],
+                    "is_true": true
+                }
+            ],
+            "sfx": []
+        },
+        {
             "name": "stack",
             "precons": [
                 {
-                    "predicate": "has",
+                    "predicate": "has_item",
                     "params": ["p1", "i1"],
                     "is_true": true
                 },
@@ -458,7 +888,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "at",
+                    "predicate": "item_at",
                     "params": ["i2", "s1"],
                     "is_true": true
                 }
@@ -470,7 +900,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "at",
+                    "predicate": "item_at",
                     "params": ["i1", "s1"],
                     "is_true": true
                 },
@@ -490,12 +920,12 @@
                     "is_true": false
                 },
                 {
-                    "predicate": "has",
+                    "predicate": "has_item",
                     "params": ["p1", "i1"],
                     "is_true": false
                 }
             ],
-            "special_fx": []
+            "sfx": []
         },
         {
             "name": "unstack",
@@ -521,19 +951,19 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "at",
+                    "predicate": "item_at",
                     "params": ["i1", "s1"],
                     "is_true": true
                 },
                 {
-                    "predicate": "at",
+                    "predicate": "item_at",
                     "params": ["i2", "s1"],
                     "is_true": true
                 }
             ],
             "immediate_fx": [
                 {
-                    "predicate": "has",
+                    "predicate": "has_item",
                     "params": ["p1", "i1"],
                     "is_true": true
                 },
@@ -558,18 +988,18 @@
                     "is_true": false
                 },
                 {
-                    "predicate": "at",
+                    "predicate": "item_at",
                     "params": ["i1", "s1"],
                     "is_true": false
                 }
             ],
-            "special_fx": []
+            "sfx": []
         },
         {
             "name": "wait",
             "precons": [],
             "immediate_fx": [],
-            "special_fx": []
+            "sfx": []
         }
     ]
 }

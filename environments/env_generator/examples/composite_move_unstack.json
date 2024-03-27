@@ -1,4 +1,5 @@
 {
+    "version": "1.0.0",
     "width": 3,
     "height": 3,
     "config": {
@@ -50,7 +51,7 @@
     ],
     "goal": [
         {
-            "predicate": "has",
+            "predicate": "has_item",
             "args": ["robot", "patty"],
             "ids": [1, "a"]
         }

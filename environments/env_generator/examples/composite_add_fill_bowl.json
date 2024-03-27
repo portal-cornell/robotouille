@@ -23,43 +23,46 @@
             "x": 2,
             "y": 1,
             "id": "A"
-        },
-        {
-            "name": "table",
-            "x": 0,
-            "y": 0
-        },
-        {
-            "name": "stove",
-            "x": 2,
-            "y": 0,
-            "id": "B"
         }
     ],
     "items": [
         {
-            "name": "patty",
-            "x": 0,
-            "y": 1,
-            "stack-level": 0,
-            "predicates": ["iscookable"],
-            "id": "a"
-        },
-        {
-            "name": "patty",
+            "name": "tomato",
             "x": 0,
             "y": 0,
-            "stack-level": 0,
-            "predicates": ["iscookable"],
-            "id": "b"
+            "predicates": ["iscut"],
+            "id": "a"
         }
     ],
     "players": [
         {
             "name": "robot",
-            "x": 1,
+            "x": 0,
             "y": 0,
-            "direction": [-1, 0]
+            "direction": [0, 1]
+        }
+    ],
+    "meals": [
+        {
+            "name": "water",
+            "x": 2,
+            "y": 1,
+            "id": "b",
+            "predicates": ["isboiling"]
+        }
+    ],
+    "containers": [
+        {
+            "name": "pot",
+            "x": 2,
+            "y": 1,
+            "id": "c"
+        },
+        {
+            "name": "bowl",
+            "x": 0,
+            "y": 1,
+            "id": "d"
         }
     ],
     "goal": [
@@ -67,11 +70,6 @@
             "predicate": "iscooked",
             "args": ["patty"],
             "ids": ["a"]
-        },
-        {
-            "predicate": "iscooked",
-            "args": ["patty"],
-            "ids": ["b"]
         }
     ]
 }

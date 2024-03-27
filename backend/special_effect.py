@@ -12,14 +12,16 @@ class SpecialEffect(object):
     should be inherited by one of its subclasses. 
     """
 
-    def __init__(self, param, effects, completed, arg):
+    def __init__(self, param, effects, special_effects, completed, arg):
         """
         Initializes a special effect.
 
         Args:
             param (Object): The parameter of the special effect.
             effects (Dictionary[Predicate, bool]): The effects of the action,
-            represented by a dictionary of predicates and bools.
+                represented by a dictionary of predicates and bools.
+            special_effects (List[SpecialEffect]): The nested special effects of
+                the action.
             completed (bool): Whether or not the effect has been completed.
             arg (Object): The object that the effect is applied to. If the
                 special effect is not applied to an object, arg is None.
@@ -27,6 +29,7 @@ class SpecialEffect(object):
         self.arg = arg
         self.param = param
         self.effects = effects
+        self.special_effects = special_effects
         self.completed = completed
 
     def update(self, state, active=False):

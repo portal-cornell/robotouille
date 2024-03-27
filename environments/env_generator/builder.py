@@ -3,7 +3,7 @@ import json
 import os
 import copy
 import itertools
-from .object_enums import Item, Player, Station, str_to_typed_enum
+from .object_enums import Item, Player, Station, Container, Meal, str_to_typed_enum, TYPES
 from .procedural_generator import randomize_environment
 import random
 
@@ -13,8 +13,10 @@ PROBLEM_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", "r
 STATION_FIELD = "stations"
 ITEM_FIELD = "items"
 PLAYER_FIELD = "players"
+MEAL_FIELD = "meals"
+CONTAINER_FIELD = "containers"
 
-ENTITY_FIELDS = [STATION_FIELD, ITEM_FIELD, PLAYER_FIELD]
+ENTITY_FIELDS = [STATION_FIELD, ITEM_FIELD, PLAYER_FIELD, CONTAINER_FIELD, MEAL_FIELD]
 
 def entity_to_entity_field(entity):
     """
@@ -40,11 +42,15 @@ def entity_to_entity_field(entity):
         if isinstance(typed_enum, Station): return STATION_FIELD
         elif isinstance(typed_enum, Item): return ITEM_FIELD
         elif isinstance(typed_enum, Player): return PLAYER_FIELD
+        elif isinstance(typed_enum, Meal): return MEAL_FIELD
+        elif isinstance(typed_enum, Container): return CONTAINER_FIELD
     except ValueError:
         # Convert wild card entities into entity fields
         if entity == STATION_FIELD[:-1]: return STATION_FIELD
         elif entity == ITEM_FIELD[:-1]: return ITEM_FIELD
         elif entity == PLAYER_FIELD[:-1]: return PLAYER_FIELD
+        elif entity == MEAL_FIELD[:-1]: return MEAL_FIELD
+        elif entity == CONTAINER_FIELD[:-1]: return CONTAINER_FIELD
     raise ValueError(f"Cannot convert {entity} into an entity field.")
 
 def load_environment(json_filename, seed=None):
@@ -69,14 +75,12 @@ def load_environment(json_filename, seed=None):
     sorting_key = lambda entity: (entity["x"], entity["y"])
     environment_json["stations"].sort(key=sorting_key)
     # TODO: Breaks seed that gives consistent layout
-    for station in environment_json["stations"]:
-        if station["name"] == "station":
-            station["name"] = random.choice(list(Station)).value
-    environment_json["items"].sort(key=sorting_key)
-    for item in environment_json["items"]:
-        if item["name"] == "item":
-            item["name"] = random.choice(list(Item)).value
-    environment_json["players"].sort(key=sorting_key)
+    for field in ENTITY_FIELDS:
+        if not environment_json.get(field): continue
+        for entity in environment_json[field]:
+            if entity["name"] == field[:-1]:
+                entity["name"] = random.choice(list(TYPES[field[:-1]])).value
+        environment_json[field].sort(key=sorting_key)
     return environment_json
 
 def build_objects(environment_dict):
@@ -95,6 +99,7 @@ def build_objects(environment_dict):
     objects_str = ""
     updated_environment_dict = copy.deepcopy(environment_dict)
     for field in ENTITY_FIELDS:
+        if not environment_dict.get(field): continue
         object_type = field[:-1]
         seen = {}
         updated_environment_dict[field].sort(key=lambda entity: (entity["x"], entity["y"]))
@@ -148,7 +153,7 @@ def build_station_location_predicates(environment_dict):
         for field in ["items", "players"]:
             match = False
             no_match_predicate = "empty" if field == "items" else "vacant"
-            predicate = "at" if field == "items" else "loc"
+            predicate = "item_at" if field == "items" else "loc"
             for entity in environment_dict[field]:
                 x = entity["x"] + entity["direction"][0] if field == "players" else entity["x"]
                 y = entity["y"] + entity["direction"][1] if field == "players" else entity["y"]
@@ -396,19 +401,19 @@ def build_problem(environment_dict):
         new_environment_dict (dict): Dictionary containing IDed stations, items, and player location.
     """
     problem = "(define (problem robotouille)\n"
-    problem += "(:domain robotouille)\n"
-    problem += "(:objects\n"
+    # problem += "(:domain robotouille)\n"
+    # problem += "(:objects\n"
     objects_str, new_environment_dict = build_objects(environment_dict)
-    problem += objects_str
-    problem += ")\n"
-    problem += "(:init\n"
-    problem += build_identity_predicates(new_environment_dict)
-    problem += build_location_predicates(new_environment_dict)
-    problem += build_stacking_predicates(new_environment_dict)
-    problem += ")\n"
-    problem += "(:goal\n"
-    problem += build_goal(new_environment_dict)
-    problem += ")\n"
+    # problem += objects_str
+    # problem += ")\n"
+    # problem += "(:init\n"
+    # problem += build_identity_predicates(new_environment_dict)
+    # problem += build_location_predicates(new_environment_dict)
+    # problem += build_stacking_predicates(new_environment_dict)
+    # problem += ")\n"
+    # problem += "(:goal\n"
+    # problem += build_goal(new_environment_dict)
+    # problem += ")\n"
     return problem, new_environment_dict
 
 def write_problem_file(problem, filename):

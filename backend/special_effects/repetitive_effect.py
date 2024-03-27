@@ -8,21 +8,22 @@ class RepetitiveEffect(SpecialEffect):
     been performed a certain number of times.
     """
     
-    def __init__(self, param, effects, completed, goal_repetitions=3, arg=None):
+    def __init__(self, param, effects, special_effects, goal_repetitions=3, arg=None):
         """
         Initializes a repetitive effect.
 
         Args:
             param (Object): The parameter of the special effect.
             effects (Dictionary[Predicate, bool]): The effects of the action,
-            represented by a dictionary of predicates and bools.
-            completed (bool): Whether or not the effect has been completed.
+                represented by a dictionary of predicates and bools.
+            special_effects (List[SpecialEffect]): The nested special effects of
+                the action.
             goal_repetitions (int): The number of times the action must be 
-            performed before the effect is applied.
+                performed before the effect is applied.
             arg (Object): The object that the effect is applied to. If the
                 special effect is not applied to an object, arg is None.
         """
-        super().__init__(param, effects, completed, arg)
+        super().__init__(param, effects, special_effects, False, arg)
         self.goal_repetitions = goal_repetitions
         self.current_repetitions = 0
 
@@ -37,8 +38,9 @@ class RepetitiveEffect(SpecialEffect):
             bool: True if the effects are equal, False otherwise.
         """
         return self.param == other.param and self.effects == other.effects \
-            and self.goal_repetitions == other.goal_repetitions \
-                and self.arg == other.arg
+            and self.special_effects == other.special_effects \
+                and self.goal_repetitions == other.goal_repetitions \
+                    and self.arg == other.arg
     
     def __hash__(self):
         """
@@ -47,8 +49,8 @@ class RepetitiveEffect(SpecialEffect):
         Returns:
             hash (int): The hash of the repetitive effect.
         """
-        return hash((self.param, tuple(self.effects), self.completed, 
-                     self.goal_repetitions, self.arg))
+        return hash((self.param, tuple(self.effects), tuple(self.special_effects), 
+                     self.completed, self.current_repetitions, self.arg))
     
     def __repr__(self):
         """
@@ -76,7 +78,10 @@ class RepetitiveEffect(SpecialEffect):
             new_effects = {}
             for effect, value in self.effects.items():
                 new_effects[effect.replace_pred_params_with_args(param_arg_dict)] = value
-            return RepetitiveEffect(self.param, new_effects, self.completed, self.goal_repetitions, arg)
+            new_special_effects = []
+            for special_effect in self.special_effects:
+                new_special_effects.append(special_effect.apply_sfx_on_arg(arg, param_arg_dict))
+            return RepetitiveEffect(self.param, new_effects, new_special_effects, self.goal_repetitions, arg)
 
     def increment_repetitions(self):
         """
@@ -98,4 +103,6 @@ class RepetitiveEffect(SpecialEffect):
         if self.current_repetitions == self.goal_repetitions:
             for effect, value in self.effects.items():
                 state.update_predicate(effect, value)
+            for special_effect in self.special_effects:
+                special_effect.update(state, active)
             self.completed = True
