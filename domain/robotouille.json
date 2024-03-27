@@ -436,21 +436,40 @@
                     "predicate": "clear",
                     "params": ["i1"],
                     "is_true": true
+                },
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
+                    "is_true": true
                 }
             ],
             "immediate_fx": [],
             "sfx": [
                 {
-                    "type": "delayed",
+                    "type": "conditional",
                     "param": "i1",
-                    "fx": [
+                    "conditions": [
                         {
-                            "predicate": "iscooked",
-                            "params": ["i1"],
+                            "predicate": "item_on",
+                            "params": ["i1", "s1"],
                             "is_true": true
                         }
                     ],
-                    "sfx": []
+                    "fx": [],
+                    "sfx": [
+                        {
+                            "type": "delayed",
+                            "param": "i1",
+                            "fx": [
+                                {
+                                    "predicate": "iscooked",
+                                    "params": ["i1"],
+                                    "is_true": true
+                                }
+                            ],
+                            "sfx": []
+                        }
+                    ]
                 }
             ]
         },
@@ -480,6 +499,11 @@
                 {
                     "predicate": "clear",
                     "params": ["i1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
                     "is_true": true
                 }
             ],
@@ -551,21 +575,40 @@
                     "predicate": "clear",
                     "params": ["i1"],
                     "is_true": true
+                },
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
+                    "is_true": true
                 }
             ],
             "immediate_fx": [],
             "sfx": [
                 {
-                    "type": "delayed",
+                    "type": "conditional",
                     "param": "i1",
-                    "fx": [
+                    "conditions": [
                         {
-                            "predicate": "isfried",
-                            "params": ["i1"],
+                            "predicate": "item_on",
+                            "params": ["i1", "s1"],
                             "is_true": true
                         }
                     ],
-                    "sfx": []
+                    "fx": [],
+                    "sfx": [
+                        {
+                            "type": "delayed",
+                            "param": "i1",
+                            "fx": [
+                                {
+                                    "predicate": "isfried",
+                                    "params": ["i1"],
+                                    "is_true": true
+                                }
+                            ],
+                            "sfx": []
+                        }
+                    ]
                 }
             ]
         },
@@ -595,6 +638,11 @@
                 {
                     "predicate": "container_empty",
                     "params": ["c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
                     "is_true": true
                 }
             ],
@@ -668,21 +716,40 @@
                     "predicate": "loc",
                     "params": ["p1", "s1"],
                     "is_true": true
+                },
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
+                    "is_true": true
                 }
             ],
             "immediate_fx": [],
             "sfx": [
                 {
-                    "type": "delayed",
-                    "param": "c1",
-                    "fx": [
+                    "type": "conditional",
+                    "param": "m1",
+                    "conditions": [
                         {
-                            "predicate": "isboiling",
-                            "params": ["m1"],
+                            "predicate": "container_at",
+                            "params": ["c1", "s1"],
                             "is_true": true
                         }
                     ],
-                    "sfx": []
+                    "fx": [],
+                    "sfx": [
+                        {
+                            "type": "delayed",
+                            "param": "m1",
+                            "fx": [
+                                {
+                                    "predicate": "isboiling",
+                                    "params": ["m1"],
+                                    "is_true": true
+                                }
+                            ],
+                            "sfx": []
+                        }
+                    ]
                 }
             ]
         },

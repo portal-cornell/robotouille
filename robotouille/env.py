@@ -26,6 +26,7 @@ def build_identity_predicates(environment_dict, entity_fields):
     """
     identity_predicates = []
     for field in entity_fields:
+        if not environment_dict.get(field): continue
         for entity in environment_dict[field]:
             name = entity['name']
             while name[-1].isdigit():
@@ -51,6 +52,7 @@ def build_container_location_predicates(environment_dict):
         predicates (List): Container location predicates.
     """
     predicates = []
+    if not environment_dict.get("containers"): return predicates
     for container in environment_dict["containers"]:
         container_obj = Object(container["name"], "container")
         match = False
@@ -81,10 +83,11 @@ def build_station_location_predicates(environment_dict):
     predicates = []
     for station in environment_dict["stations"]:
         station_obj = Object(station["name"], "station")
-        match = False
         for field in ["items", "players", "containers"]:
+            if not environment_dict.get(field): continue
             no_match_predicate = "station_empty" if field in ["items", "containers"] else "vacant"
             predicate = "item_at" if field == "items" else "container_at" if field == "containers" else "loc"
+            match = False
             for entity in environment_dict[field]:
                 x = entity["x"] + entity["direction"][0] if field == "players" else entity["x"]
                 y = entity["y"] + entity["direction"][1] if field == "players" else entity["y"]
@@ -116,14 +119,15 @@ def build_player_location_predicates(environment_dict):
     for player in environment_dict["players"]:
         player_obj = Object(player["name"], "player")
         match = False
-        for item in environment_dict["items"]:
-            if player["x"] == item["x"] and player["y"] == item["y"]:
-                obj = Object(item["name"], "item")
-                pred = Predicate().initialize("has_item", ["player", "item"], [player_obj, obj])
-                predicates.append(pred)
-                match = True
-                break
-        if not match:
+        if environment_dict.get("items"):
+            for item in environment_dict["items"]:
+                if player["x"] == item["x"] and player["y"] == item["y"]:
+                    obj = Object(item["name"], "item")
+                    pred = Predicate().initialize("has_item", ["player", "item"], [player_obj, obj])
+                    predicates.append(pred)
+                    match = True
+                    break
+        if not match and environment_dict.get("containers"): 
             for container in environment_dict["containers"]:
                 if player["x"] == container["x"] and player["y"] == container["y"]:
                     obj = Object(container["name"], "container")
@@ -175,6 +179,7 @@ def build_stacking_predicates(environment_dict):
     stacks = {}
     # Sort items into stacks ordered by stacking order
     sorting_key = lambda item: item["stack-level"]
+    if not environment_dict.get("items"): return stacking_predicates
     for item in environment_dict["items"]:
         for station in environment_dict["stations"]:
             if item["x"] == station["x"] and item["y"] == station["y"]:
@@ -271,6 +276,7 @@ def build_state(domain_json, environment_json):
     objects = []
 
     for field in entity_fields:
+        if environment_json.get(field) is None: continue
         for entity in environment_json[field]:
             objects.append(Object(entity["name"], field[:-1]))
 

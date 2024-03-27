@@ -1,4 +1,5 @@
 {
+    "version": "1.0.0",
     "width": 6,
     "height": 6,
     "config": {
@@ -79,7 +80,6 @@
             "direction": [0, 1]
         }
     ],
-    "containers": [],
     "goal_description": "Make a lettuce burger with lettuce on top of the patty.",
     "goal": [
         {

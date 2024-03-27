@@ -89,14 +89,14 @@
         {
             "name": "add-to",
             "input_instructions": {
-                "key": "a",
+                "key": "e",
                 "at": "s1"
             }
         },
         {
             "name": "fill-bowl",
             "input_instructions": {
-                "key": "f",
+                "key": "e",
                 "at": "s1"
             }
         },

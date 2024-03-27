@@ -3,7 +3,7 @@ import json
 import os
 import copy
 import itertools
-from .object_enums import Item, Player, Station, Container, Meal, str_to_typed_enum
+from .object_enums import Item, Player, Station, Container, Meal, str_to_typed_enum, TYPES
 from .procedural_generator import randomize_environment
 import random
 
@@ -75,22 +75,12 @@ def load_environment(json_filename, seed=None):
     sorting_key = lambda entity: (entity["x"], entity["y"])
     environment_json["stations"].sort(key=sorting_key)
     # TODO: Breaks seed that gives consistent layout
-    for station in environment_json["stations"]:
-        if station["name"] == "station":
-            station["name"] = random.choice(list(Station)).value
-    environment_json["items"].sort(key=sorting_key)
-    for item in environment_json["items"]:
-        if item["name"] == "item":
-            item["name"] = random.choice(list(Item)).value
-    environment_json["players"].sort(key=sorting_key)
-    for container in environment_json["containers"]:
-        if container["name"] == "container":
-            container["name"] = random.choice(list(Container)).value
-    environment_json["containers"].sort(key=sorting_key)
-    for meal in environment_json["meals"]:
-        if meal["name"] == "meal":
-            meal["name"] = random.choice(list(Meal)).value
-    environment_json["meals"].sort(key=sorting_key)
+    for field in ENTITY_FIELDS:
+        if not environment_json.get(field): continue
+        for entity in environment_json[field]:
+            if entity["name"] == field[:-1]:
+                entity["name"] = random.choice(list(TYPES[field[:-1]])).value
+        environment_json[field].sort(key=sorting_key)
     return environment_json
 
 def build_objects(environment_dict):
@@ -109,6 +99,7 @@ def build_objects(environment_dict):
     objects_str = ""
     updated_environment_dict = copy.deepcopy(environment_dict)
     for field in ENTITY_FIELDS:
+        if not environment_dict.get(field): continue
         object_type = field[:-1]
         seen = {}
         updated_environment_dict[field].sort(key=lambda entity: (entity["x"], entity["y"]))
@@ -162,7 +153,7 @@ def build_station_location_predicates(environment_dict):
         for field in ["items", "players"]:
             match = False
             no_match_predicate = "empty" if field == "items" else "vacant"
-            predicate = "at" if field == "items" else "loc"
+            predicate = "item_at" if field == "items" else "loc"
             for entity in environment_dict[field]:
                 x = entity["x"] + entity["direction"][0] if field == "players" else entity["x"]
                 y = entity["y"] + entity["direction"][1] if field == "players" else entity["y"]

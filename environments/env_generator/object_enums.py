@@ -31,6 +31,8 @@ class Meal(Enum):
     BOILING_WATER = "boiling_water"
     SOUP = "soup"
 
+TYPES = {"item": Item, "player": Player, "station": Station, "container": Container, "meal": Meal}
+
 def str_to_typed_enum(s):
     """
     Attempts to convert a string into any of the typed enums.

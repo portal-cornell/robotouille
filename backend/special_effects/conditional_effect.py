@@ -110,4 +110,6 @@ class ConditionalEffect(SpecialEffect):
             state.update_predicate(effect, value)
         for special_effect in self.special_effects:
             special_effect.update(state, active)
-        self.completed = True
+        if all([special_effect.completed for special_effect in self.special_effects]):
+            self.completed = True
+        
