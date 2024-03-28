@@ -21,24 +21,30 @@ def server_loop(environment_name: str, seed: int=42, noisy_randomization: bool=F
         print("Hello client", websocket)
         env, json_data, renderer = create_robotouille_env(environment_name, seed, noisy_randomization)
         obs, info = env.reset()
+        renderer.render(obs, mode='human')
         done = False
         interactive = False  # Adjust based on client commands later if needed
+        try:
+            while not done:
+                action_message = await websocket.recv()
+                encoded_action, encoded_args = json.loads(action_message)
+                action = pickle.loads(base64.b64decode(encoded_action))
+                args = pickle.loads(base64.b64decode(encoded_args))
+                #print((action, args))
+                #time.sleep(0.25)
 
-        while not done:
-            action_message = await websocket.recv()
-            encoded_action, encoded_args = json.loads(action_message)
-            action = pickle.loads(base64.b64decode(encoded_action))
-            args = pickle.loads(base64.b64decode(encoded_args))
-            #print((action, args))
-            #time.sleep(0.5)
-
-            obs, reward, done, info = env.step(action=action, args=args, interactive=interactive)
-            # Convert obs to a suitable format to send over the network
-            obs_data = pickle.dumps(obs)
-            encoded_obs_data = base64.b64encode(obs_data).decode('utf-8')
-            await websocket.send(json.dumps({"obs": encoded_obs_data, "reward": reward, "done": done, "info": info}))
-        
-        print("GG")
+                obs, reward, done, info = env.step(action=action, args=args, interactive=interactive)
+                # Convert obs to a suitable format to send over the network
+                obs_data = pickle.dumps(obs)
+                encoded_obs_data = base64.b64encode(obs_data).decode('utf-8')
+                #time.sleep(0.25)
+                await websocket.send(json.dumps({"obs": encoded_obs_data, "reward": reward, "done": done, "info": info}))
+                renderer.render(obs, mode='human')
+        except e:
+            pass
+        finally:
+            renderer.render(obs, close=True)
+            print("GG")
 
     start_server = websockets.serve(simulator, "localhost", 8765)
 
