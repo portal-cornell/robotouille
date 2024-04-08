@@ -422,6 +422,9 @@ class RobotouilleCanvas:
         Args:
             surface (pygame.Surface): Surface to draw on
             obs (State): Game state predicates
+
+        Side effects:
+            Draws the containers to surface
         """
         station_container_offset = self.config["container"]["constants"]["STATION_CONTAINER_OFFSET"]
 

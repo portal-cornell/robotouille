@@ -73,14 +73,13 @@ def load_environment(json_filename, seed=None):
     with open(os.path.join(EXAMPLES_DIR, json_filename), "r") as f:
         environment_json = json.load(f)
     sorting_key = lambda entity: (entity["x"], entity["y"])
-    environment_json["stations"].sort(key=sorting_key)
     # TODO: Breaks seed that gives consistent layout
-    for field in ENTITY_FIELDS:
-        if not environment_json.get(field): continue
+    valid_entity_fields = [field for field in ENTITY_FIELDS if field in environment_json]
+    for field in valid_entity_fields:
+        environment_json[field].sort(key=sorting_key)
         for entity in environment_json[field]:
             if entity["name"] == field[:-1]:
                 entity["name"] = random.choice(list(TYPES[field[:-1]])).value
-        environment_json[field].sort(key=sorting_key)
     return environment_json
 
 def build_objects(environment_dict):
@@ -98,8 +97,8 @@ def build_objects(environment_dict):
     """
     objects_str = ""
     updated_environment_dict = copy.deepcopy(environment_dict)
-    for field in ENTITY_FIELDS:
-        if not environment_dict.get(field): continue
+    valid_entity_fields = [field for field in ENTITY_FIELDS if field in environment_dict]
+    for field in valid_entity_fields:
         object_type = field[:-1]
         seen = {}
         updated_environment_dict[field].sort(key=lambda entity: (entity["x"], entity["y"]))
@@ -126,7 +125,8 @@ def build_identity_predicates(environment_dict):
         identity_predicates_str (str): PDDL identity predicates string.
     """
     identity_predicates_str = ""
-    for field in ENTITY_FIELDS:
+    valid_entity_fields = [field for field in ENTITY_FIELDS if field in environment_dict]
+    for field in valid_entity_fields:
         for entity in environment_dict[field]:
             typed_enum = entity['typed_enum']
             name = entity['name']
@@ -401,19 +401,19 @@ def build_problem(environment_dict):
         new_environment_dict (dict): Dictionary containing IDed stations, items, and player location.
     """
     problem = "(define (problem robotouille)\n"
-    # problem += "(:domain robotouille)\n"
-    # problem += "(:objects\n"
+    problem += "(:domain robotouille)\n"
+    problem += "(:objects\n"
     objects_str, new_environment_dict = build_objects(environment_dict)
-    # problem += objects_str
-    # problem += ")\n"
-    # problem += "(:init\n"
-    # problem += build_identity_predicates(new_environment_dict)
-    # problem += build_location_predicates(new_environment_dict)
-    # problem += build_stacking_predicates(new_environment_dict)
-    # problem += ")\n"
-    # problem += "(:goal\n"
-    # problem += build_goal(new_environment_dict)
-    # problem += ")\n"
+    problem += objects_str
+    problem += ")\n"
+    problem += "(:init\n"
+    problem += build_identity_predicates(new_environment_dict)
+    problem += build_location_predicates(new_environment_dict)
+    problem += build_stacking_predicates(new_environment_dict)
+    problem += ")\n"
+    problem += "(:goal\n"
+    problem += build_goal(new_environment_dict)
+    problem += ")\n"
     return problem, new_environment_dict
 
 def write_problem_file(problem, filename):

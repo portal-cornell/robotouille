@@ -4,7 +4,7 @@ class DeletionEffect(SpecialEffect):
     """
     This class represents deletion effects in Robotouille.
 
-    A creation effect is an effect that delets an object in the state.
+    A creation effect is an effect that deletes an object in the state.
     """
 
     def __init__(self, param, effects, special_effects, arg=None):

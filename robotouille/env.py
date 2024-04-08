@@ -25,7 +25,8 @@ def build_identity_predicates(environment_dict, entity_fields):
         identity_predicates (List): Identity predicates list.
     """
     identity_predicates = []
-    for field in entity_fields:
+    valid_entity_fields = [field for field in entity_fields if field in environment_dict.keys()]
+    for field in valid_entity_fields:
         if not environment_dict.get(field): continue
         for entity in environment_dict[field]:
             name = entity['name']
