@@ -11,7 +11,7 @@ import wandb
 wandb.login()
 
 
-class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
+class MultiAgentRLWrapper(robotouille_wrapper.RobotouilleWrapper):
     """
     This class is a wrapper around the Robotouille environment to make it compatible with stable-baselines3. It simplifies the environment for the RL agent by converting the state and action space to a format that is easier for the RL agent to learn.
     """
@@ -21,6 +21,7 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
 
         self.pddl_env = env
         self.env = None
+        self.num_players = self._get_num_players()
         self.max_steps = 80
         self.episode_reward = 0
         self.renderer = renderer
@@ -45,6 +46,9 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
         self.metrics_config.update(update_dict)
         # Log the updated metrics to WandB
         wandb.log(self.metrics_config)
+
+    def _get_number_players(self):
+        return len(self.renderer.canvas.players_pose)
 
     def _wrap_env(self):
         """

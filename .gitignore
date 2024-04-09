@@ -3,3 +3,5 @@
 *-env
 robotouille.egg-info
 /wandb
+
+.DS_Store

@@ -176,7 +176,6 @@ def get_valid_moves(env, obs, renderer):
                     renderer.canvas.test_new_positions(obs)
 
                 except AssertionError:
-                    print(str(action) + " is invalid")
                     valid_actions.remove(action)
                 try:
                     env.test_step(reverse_action)
@@ -188,7 +187,6 @@ def get_valid_moves(env, obs, renderer):
                     obs, _, _, _ = env.step(action)
                     renderer.canvas.test_new_positions(obs)
                 except AssertionError:
-                    print(str(action) + " is invalid")
                     valid_actions.remove(action)
                 finally:
                     env.step(reverse_action)

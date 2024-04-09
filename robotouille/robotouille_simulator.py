@@ -1,10 +1,12 @@
 from enum import Enum
 import numpy as np
 import pygame
+from learners.ppo import PPO
 from rl.rl_wrapper import RLWrapper
 from utils.robotouille_input import create_action_from_control
 from robotouille.robotouille_env import create_robotouille_env
-from stable_baselines3 import A2C, DQN, PPO
+
+# from stable_baselines3 import A2C, DQN, PPO
 from stable_baselines3.common.env_util import make_vec_env
 
 
@@ -14,7 +16,7 @@ class mode(Enum):
     LOAD = 3
 
 
-file = "runs/mar8_ppo_200k_heuristic_combine_actions_ent_coef_0.01.zip"
+file = "runs/custom_ppo.zip"
 
 
 def simulator(
@@ -41,7 +43,7 @@ def simulator(
             "cook_time": {"patty": 3, "default": 3},
         }
 
-        rl_env = RLWrapper(env, config)
+        rl_env = RLWrapper(env, config, renderer)
         rl_env.render(mode="human")
         obs, info = rl_env.reset()
 
@@ -52,7 +54,7 @@ def simulator(
             model = PPO("MlpPolicy", rl_env, verbose=1, n_steps=1024, ent_coef=0.01)
 
             model.learn(
-                total_timesteps=200000, reset_num_timesteps=False, progress_bar=True
+                total_timesteps=100000, reset_num_timesteps=False, progress_bar=True
             )
             model.save(file)
 

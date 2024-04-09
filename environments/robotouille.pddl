@@ -42,7 +42,7 @@
         (selected ?p - player)
         (cancook ?p - player)
         (cancut ?p - player)
-        (canplace ?p - player)
+        (canmoveitem ?p - player)
         (canmove ?p - player)
         (canfry ?p - player)
         (canfrycut ?p - player)
@@ -75,7 +75,7 @@
             (loc ?p ?s)
             (clear ?i)
             (selected ?p)
-            (canplace ?p)
+            (canmoveitem ?p)
         )
         :effect (and 
             (has ?p ?i)
@@ -95,7 +95,7 @@
             (loc ?p ?s)
             (empty ?s)
             (selected ?p)
-            (canplace ?p)
+            (canmoveitem ?p)
         )
         :effect (and 
             (nothing ?p)
@@ -168,7 +168,7 @@
             (loc ?p ?s)
             (at ?i2 ?s)
             (selected ?p)
-            (canplace ?p)
+            (canmoveitem ?p)
         )
         :effect (and
             (nothing ?p)
@@ -208,7 +208,7 @@
             (at ?i1 ?s)
             (at ?i2 ?s)
             (selected ?p)
-            (canplace ?p)
+            (canmoveitem ?p)
         )
         :effect (and 
             (has ?p ?i1)
