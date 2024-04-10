@@ -9,17 +9,20 @@ import websockets
 import time
 from pathlib import Path
 from datetime import datetime
+import imageio
 
 
 def simulator(environment_name: str, seed: int=42, role="client", host="ws://localhost:8765", recording="", noisy_randomization: bool=False):
-    if recording != "":
+    if recording != "" and role != "replay" and role != "render":
         role = "replay"
     if role == "server":
         server_loop(environment_name, seed, noisy_randomization)
     elif role == "client":
         client_loop(environment_name, seed, host, noisy_randomization)
-    else:
+    elif role == "replay":
         replay(recording)
+    elif role == "render":
+        render(recording)
 
 def server_loop(environment_name: str, seed: int=42, noisy_randomization: bool=False):
     print("I am server")
@@ -148,3 +151,33 @@ def replay(recording_name):
         obs, reward, done, info = env.step(action=action, args=args, interactive=False)
         renderer.render(obs, mode='human')
     renderer.render(obs, close=True)
+
+def render(recording_name):
+    p = Path('recordings')
+    with open(p / (recording_name + '.pkl'), 'rb') as f:
+        recording = pickle.load(f)
+    
+    env, _, renderer = create_robotouille_env(recording["environment_name"], recording["seed"], recording["noisy_randomization"])
+    obs, _ = env.reset()
+    frame = renderer.render(obs, mode='rgb_array')
+
+    vp = Path('recordings')
+    vp.mkdir(exist_ok=True)
+    fps = 20
+    video_writer = imageio.get_writer(vp / (recording_name + '.mp4'), fps=fps)
+
+    i = 0
+    t = 0
+    while i < len(recording["actions"]):
+        action, args, state, time_stamp = recording["actions"][i]
+        while t > time_stamp:
+            obs, reward, done, info = env.step(action=action, args=args, interactive=False)
+            frame = renderer.render(obs, mode='rgb_array')
+            i += 1
+            if i >= len(recording["actions"]):
+                break
+            action, args, state, time_stamp = recording["actions"][i]
+        t += 1 / fps
+        video_writer.append_data(frame)
+    renderer.render(obs, close=True)
+    video_writer.close()
