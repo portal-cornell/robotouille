@@ -73,7 +73,7 @@ def load_environment(json_filename, seed=None):
     with open(os.path.join(EXAMPLES_DIR, json_filename), "r") as f:
         environment_json = json.load(f)
     sorting_key = lambda entity: (entity["x"], entity["y"])
-    # TODO: Breaks seed that gives consistent layout
+    # TODO (chalo2000): Breaks seed that gives consistent layout
     valid_entity_fields = [field for field in ENTITY_FIELDS if field in environment_json]
     for field in valid_entity_fields:
         environment_json[field].sort(key=sorting_key)

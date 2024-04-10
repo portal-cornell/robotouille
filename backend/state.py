@@ -241,11 +241,10 @@ class State(object):
 
     def _get_next_ID_for_object(self, obj):
         """
-        This helper function finds all objects in the current state with the
-        same name as the added object and returns the next available ID for the 
-        object. IDs are still not reused even if objects have been deleted, 
-        because the function always finds the greatest current ID and increments
-        it by 1.
+        This helper function finds the next available ID for an object.
+        
+        IDs are still not reused even if objects have been deleted, because the 
+        function always finds the greatest current ID and increments it by 1.
 
         Args:
             obj (Object): The object to get the next available ID for.
