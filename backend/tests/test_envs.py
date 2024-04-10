@@ -4,15 +4,21 @@ import subprocess
 
 ALL_TESTS = {
     'base tests':[
+        'base_add_to_soup',
+        'base_boil_water',
         'base_cook',
         'base_cut',
+        'base_fill_water',
         'base_move',
+        'base_pickup_container',
         'base_pickup',
+        'base_place_container',
         'base_place',
         'base_stack',
         'base_unstack'
     ],
     'composite tests':[
+        'composite_add_fill_bowl',
         'composite_cook_pickup',
         'composite_cut_pickup',
         'composite_move_cook',
@@ -26,6 +32,7 @@ ALL_TESTS = {
     ],
     'high level tests':[
         'cook_patties',
+        'cook_soup',
         'cut_lettuces',
         'fry_chicken',
         'fry_potato',

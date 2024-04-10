@@ -161,8 +161,8 @@ class State(object):
         # check if goal predicates are defined in domain
         for goal_set in all_goals:
             for goal in goal_set:
-                if goal not in predicates:
-                    raise ValueError(f"Predicate {goal} is not defined in the domain.")
+                if goal.name not in list(map(lambda x: x.name, domain.predicates)):
+                    raise ValueError(f"Predicate {goal.name} is not defined in the domain.")
                 if not domain.are_valid_object_types(goal.types):
                     raise ValueError(f"Types {goal.types} are not defined in the domain.")
         
@@ -198,13 +198,9 @@ class State(object):
             value (bool): The value of the predicate to check for.
 
         Returns:
-            bool: True if the predicate is True in the state, False otherwise.
-
-        Raises:
-            AssertionError: If the predicate is not in the state.
+            bool: True if the predicate is True in the state, False otherwise. 
         """
-        assert predicate in self.predicates
-        return self.predicates[predicate]
+        return self.predicates[predicate] if predicate in self.predicates else False
         
     def update_predicate(self, predicate, value):
         """

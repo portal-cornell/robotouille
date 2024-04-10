@@ -300,13 +300,14 @@ def create_unique_and_combination_preds(environment_dict):
                     # Get all entities to prepare the combination
                     arg_entities = list(filter(lambda entity: arg in entity["name"], environment_dict[entity_field]))
                     arg_entity_names = list(map(lambda entity: entity["name"], arg_entities))
-                    combination_dict[arg]['entities'] = arg_entity_names
+                    combination_dict[arg]['entities'] = arg_entity_names if arg_entity_names else [arg + "1"]
                     combination_dict[arg]['ids'] = set()
                 combination_dict[arg]['ids'].add(arg_id)
             else:
                 # Unique predicate
                 same_id_entity = list(filter(lambda entity: entity.get("id") == arg_id, environment_dict[entity_field]))
-                entity_name = same_id_entity[0]["name"]
+                # If the entity is not found, then it is a wild card entity
+                entity_name = arg + "1" if not same_id_entity else same_id_entity[0]["name"]
                 pred.append(entity_name)
         if unique_pred:
             unique_preds.append(pred)
@@ -401,19 +402,19 @@ def build_problem(environment_dict):
         new_environment_dict (dict): Dictionary containing IDed stations, items, and player location.
     """
     problem = "(define (problem robotouille)\n"
-    problem += "(:domain robotouille)\n"
-    problem += "(:objects\n"
+    # problem += "(:domain robotouille)\n"
+    # problem += "(:objects\n"
     objects_str, new_environment_dict = build_objects(environment_dict)
-    problem += objects_str
-    problem += ")\n"
-    problem += "(:init\n"
-    problem += build_identity_predicates(new_environment_dict)
-    problem += build_location_predicates(new_environment_dict)
-    problem += build_stacking_predicates(new_environment_dict)
-    problem += ")\n"
-    problem += "(:goal\n"
-    problem += build_goal(new_environment_dict)
-    problem += ")\n"
+    # problem += objects_str
+    # problem += ")\n"
+    # problem += "(:init\n"
+    # problem += build_identity_predicates(new_environment_dict)
+    # problem += build_location_predicates(new_environment_dict)
+    # problem += build_stacking_predicates(new_environment_dict)
+    # problem += ")\n"
+    # problem += "(:goal\n"
+    # problem += build_goal(new_environment_dict)
+    # problem += ")\n"
     return problem, new_environment_dict
 
 def write_problem_file(problem, filename):

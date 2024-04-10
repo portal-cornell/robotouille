@@ -41,9 +41,9 @@
     ],
     "goal": [
         {
-            "predicate": "isbowl",
-            "args": ["pot"],
-            "ids": ["a"]
+            "predicate": "in",
+            "args": ["water", "pot"],
+            "ids": [1, 2]
         }
     ]
 }

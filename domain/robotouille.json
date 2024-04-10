@@ -782,6 +782,11 @@
                     "is_true": true
                 },
                 {
+                    "predicate": "container_at",
+                    "params": ["c1", "s1"],
+                    "is_true": true
+                },
+                {
                     "predicate": "has_item",
                     "params": ["p1", "i1"],
                     "is_true": true
