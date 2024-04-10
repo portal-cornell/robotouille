@@ -8,14 +8,18 @@ import base64
 import websockets
 import time
 from pathlib import Path
-import datetime
+from datetime import datetime
 
 
-def simulator(environment_name: str, seed: int=42, role="client", host="ws://localhost:8765", noisy_randomization: bool=False):
+def simulator(environment_name: str, seed: int=42, role="client", host="ws://localhost:8765", recording="", noisy_randomization: bool=False):
+    if recording != "":
+        role = "replay"
     if role == "server":
         server_loop(environment_name, seed, noisy_randomization)
-    else:
+    elif role == "client":
         client_loop(environment_name, seed, host, noisy_randomization)
+    else:
+        replay(recording)
 
 def server_loop(environment_name: str, seed: int=42, noisy_randomization: bool=False):
     print("I am server")
@@ -23,6 +27,9 @@ def server_loop(environment_name: str, seed: int=42, noisy_randomization: bool=F
         print("Hello client", websocket)
         recording = {}
         recording["start_time"] = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
+        recording["environment_name"] = environment_name
+        recording["seed"] = seed
+        recording["noisy_randomization"] = noisy_randomization
         recording["actions"] = []
         recording["violations"] = []
         start_time = time.monotonic()
@@ -45,7 +52,7 @@ def server_loop(environment_name: str, seed: int=42, noisy_randomization: bool=F
 
                 try:
                     obs, reward, done, info = env.step(action=action, args=args, interactive=interactive)
-                    recording["actions"].append((action, time.monotonic() - start_time))
+                    recording["actions"].append((action, args, env.get_state(), time.monotonic() - start_time))
                     reply = json.dumps({"valid": True, "done": done})
                     renderer.render(obs, mode='human')
                 except AssertionError:
@@ -124,3 +131,20 @@ def client_loop(environment_name: str, seed: int = 42, host="ws://localhost:8765
             # Additional cleanup if necessary
 
     asyncio.get_event_loop().run_until_complete(interact_with_server())
+
+def replay(recording_name):
+    p = Path('recordings')
+    with open(p / (recording_name + '.pkl'), 'rb') as f:
+        recording = pickle.load(f)
+    
+    env, _, renderer = create_robotouille_env(recording["environment_name"], recording["seed"], recording["noisy_randomization"])
+    obs, _ = env.reset()
+    renderer.render(obs, mode='human')
+
+    previous_time = 0
+    for action, args, state, t in recording["actions"]:
+        time.sleep(t - previous_time)
+        previous_time = t
+        obs, reward, done, info = env.step(action=action, args=args, interactive=False)
+        renderer.render(obs, mode='human')
+    renderer.render(obs, close=True)
