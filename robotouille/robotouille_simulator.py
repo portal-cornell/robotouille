@@ -7,6 +7,8 @@ import pickle
 import base64
 import websockets
 import time
+from pathlib import Path
+import datetime
 
 
 def simulator(environment_name: str, seed: int=42, role="client", host="ws://localhost:8765", noisy_randomization: bool=False):
@@ -19,6 +21,12 @@ def server_loop(environment_name: str, seed: int=42, noisy_randomization: bool=F
     print("I am server")
     async def simulator(websocket):
         print("Hello client", websocket)
+        recording = {}
+        recording["start_time"] = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
+        recording["actions"] = []
+        recording["violations"] = []
+        start_time = time.monotonic()
+
         env, json_data, renderer = create_robotouille_env(environment_name, seed, noisy_randomization)
         obs, info = env.reset()
         renderer.render(obs, mode='human')
@@ -37,9 +45,11 @@ def server_loop(environment_name: str, seed: int=42, noisy_randomization: bool=F
 
                 try:
                     obs, reward, done, info = env.step(action=action, args=args, interactive=interactive)
+                    recording["actions"].append((action, time.monotonic() - start_time))
                     reply = json.dumps({"valid": True, "done": done})
                     renderer.render(obs, mode='human')
                 except AssertionError:
+                    recording["violations"].append((action, time.monotonic() - start_time))
                     env_data = pickle.dumps(env.get_state())
                     encoded_env_data = base64.b64encode(env_data).decode('utf-8')
                     obs_data = pickle.dumps(obs)
@@ -48,11 +58,19 @@ def server_loop(environment_name: str, seed: int=42, noisy_randomization: bool=F
                 
                 time.sleep(0.25)
                 await websocket.send(reply)
+            recording["result"] = "done"
         except BaseException as e:
             print(e)
+            recording["result"] = e
         finally:
             renderer.render(obs, close=True)
             print("GG")
+            recording["end_time"] = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
+
+            p = Path('recordings')
+            p.mkdir(exist_ok=True)
+            with open(p / (recording["start_time"] + '.pkl'), 'wb') as f:
+                pickle.dump(recording, f)
 
     start_server = websockets.serve(simulator, "localhost", 8765)
 
