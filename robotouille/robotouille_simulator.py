@@ -11,12 +11,14 @@ from pathlib import Path
 from datetime import datetime
 import imageio
 
+SIMULATE_LATENCY = False
+SIMULATED_LATENCY_DURATION = 0.25
 
-def simulator(environment_name: str, seed: int=42, role="client", host="ws://localhost:8765", recording="", noisy_randomization: bool=False):
+def simulator(environment_name: str, seed: int=42, role: str="client", display_server: bool=False, host: str="ws://localhost:8765", recording: str="", noisy_randomization: bool=False):
     if recording != "" and role != "replay" and role != "render":
         role = "replay"
     if role == "server":
-        server_loop(environment_name, seed, noisy_randomization)
+        server_loop(environment_name, seed, noisy_randomization, display_server)
     elif role == "client":
         client_loop(environment_name, seed, host, noisy_randomization)
     elif role == "replay":
@@ -24,7 +26,7 @@ def simulator(environment_name: str, seed: int=42, role="client", host="ws://loc
     elif role == "render":
         render(recording)
 
-def server_loop(environment_name: str, seed: int=42, noisy_randomization: bool=False):
+def server_loop(environment_name: str, seed: int=42, noisy_randomization: bool=False, display_server: bool=False):
     print("I am server")
     async def simulator(websocket):
         print("Hello client", websocket)
@@ -39,7 +41,8 @@ def server_loop(environment_name: str, seed: int=42, noisy_randomization: bool=F
 
         env, json_data, renderer = create_robotouille_env(environment_name, seed, noisy_randomization)
         obs, info = env.reset()
-        renderer.render(obs, mode='human')
+        if display_server:
+            renderer.render(obs, mode='human')
         done = False
         interactive = False  # Adjust based on client commands later if needed
         try:
@@ -49,7 +52,8 @@ def server_loop(environment_name: str, seed: int=42, noisy_randomization: bool=F
                 action = pickle.loads(base64.b64decode(encoded_action))
                 args = pickle.loads(base64.b64decode(encoded_args))
                 #print((action, args))
-                time.sleep(0.25)
+                if SIMULATE_LATENCY:
+                    time.sleep(SIMULATED_LATENCY_DURATION)
 
                 reply = None
 
@@ -57,7 +61,8 @@ def server_loop(environment_name: str, seed: int=42, noisy_randomization: bool=F
                     obs, reward, done, info = env.step(action=action, args=args, interactive=interactive)
                     recording["actions"].append((action, args, env.get_state(), time.monotonic() - start_time))
                     reply = json.dumps({"valid": True, "done": done})
-                    renderer.render(obs, mode='human')
+                    if display_server:
+                        renderer.render(obs, mode='human')
                 except AssertionError:
                     recording["violations"].append((action, time.monotonic() - start_time))
                     env_data = pickle.dumps(env.get_state())
@@ -66,14 +71,16 @@ def server_loop(environment_name: str, seed: int=42, noisy_randomization: bool=F
                     encoded_obs_data = base64.b64encode(obs_data).decode('utf-8')
                     reply = json.dumps({"valid": False, "env": encoded_env_data, "obs": encoded_obs_data, "done": False})
                 
-                time.sleep(0.25)
+                if SIMULATE_LATENCY:
+                    time.sleep(SIMULATED_LATENCY_DURATION)
                 await websocket.send(reply)
             recording["result"] = "done"
         except BaseException as e:
             print(e)
             recording["result"] = e
         finally:
-            renderer.render(obs, close=True)
+            if display_server:
+                renderer.render(obs, close=True)
             print("GG")
             recording["end_time"] = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
 
@@ -82,12 +89,12 @@ def server_loop(environment_name: str, seed: int=42, noisy_randomization: bool=F
             with open(p / (recording["start_time"] + '.pkl'), 'wb') as f:
                 pickle.dump(recording, f)
 
-    start_server = websockets.serve(simulator, "localhost", 8765)
+    start_server = websockets.serve(simulator, "0.0.0.0", 8765)
 
     asyncio.get_event_loop().run_until_complete(start_server)
     asyncio.get_event_loop().run_forever()
 
-def client_loop(environment_name: str, seed: int = 42, host="ws://localhost:8765", noisy_randomization: bool = False):
+def client_loop(environment_name: str, seed: int = 42, host: str="ws://localhost:8765", noisy_randomization: bool = False):
     uri = host
 
     async def send_actions(websocket, shared_state):
@@ -135,7 +142,10 @@ def client_loop(environment_name: str, seed: int = 42, host="ws://localhost:8765
 
     asyncio.get_event_loop().run_until_complete(interact_with_server())
 
-def replay(recording_name):
+def replay(recording_name: str):
+    if not recording_name:
+        raise ValueError("Empty recording_name supplied")
+
     p = Path('recordings')
     with open(p / (recording_name + '.pkl'), 'rb') as f:
         recording = pickle.load(f)
@@ -152,7 +162,7 @@ def replay(recording_name):
         renderer.render(obs, mode='human')
     renderer.render(obs, close=True)
 
-def render(recording_name):
+def render(recording_name: str):
     p = Path('recordings')
     with open(p / (recording_name + '.pkl'), 'rb') as f:
         recording = pickle.load(f)
