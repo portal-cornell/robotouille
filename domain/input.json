@@ -8,14 +8,28 @@
             }
         },
         {
-            "name": "pick-up",
+            "name": "pick-up-item",
             "input_instructions": {
                 "button": "left",
                 "click_on": "s1"
             }
         },
         {
-            "name": "place",
+            "name": "place-item",
+            "input_instructions": {
+                "button": "left",
+                "click_on": "s1"
+            }
+        },
+        {
+            "name": "pick-up-container",
+            "input_instructions": {
+                "button": "left",
+                "click_on": "s1"
+            }
+        },
+        {
+            "name": "place-container",
             "input_instructions": {
                 "button": "left",
                 "click_on": "s1"
@@ -53,6 +67,34 @@
         },
         {
             "name": "fry",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "fill-pot",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "boil-water",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "add-to",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "fill-bowl",
             "input_instructions": {
                 "key": "e",
                 "at": "s1"

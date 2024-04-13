@@ -1,4 +1,5 @@
 from backend.predicate import Predicate
+from utils.robotouille_utils import trim_item_ID
 import itertools
 
 class State(object):
@@ -62,6 +63,12 @@ class State(object):
             objects (List[Object]): The objects in the state.
             true_predicates (Set[Predicate]): The predicates that are true in
                 the state, as defined by the problem file. 
+
+        Returns:
+            predicates (Dictionary[Predicate, bool]): A dictionary of predicates
+                in the state. The keys are the predicates, and the values are
+                boolean, where True means that the predicate is true in the state,
+                and False means that the predicate is false in the state.
         """
         object_dict = self._build_object_dictionary(domain, objects)
             
@@ -232,6 +239,66 @@ class State(object):
         current = self.special_effects[self.special_effects.index(replaced_effect)]
         current.update(self, active=True)
 
+    def _get_next_ID_for_object(self, obj):
+        """
+        This helper function finds the next available ID for an object.
+        
+        IDs are still not reused even if objects have been deleted, because the 
+        function always finds the greatest current ID and increments it by 1.
+
+        Args:
+            obj (Object): The object to get the next available ID for.
+
+        Returns:
+            int: The next available ID for the object.
+        """
+        max_id = 0
+        for object in self.objects:
+            name, id = trim_item_ID(object.name)
+            if name == obj.name:
+                max_id = max(max_id, id)
+        return max_id + 1
+
+    def add_object(self, obj):
+        """
+        Adds an object to the state.
+
+        Args:
+            obj (Object): The object to add to the state. 
+
+        Side effects:
+            - The argument obj is given an id
+            - The objects, predicates, and actions in the state are modified and 
+              updated to account for the new object.
+        """
+        num = self._get_next_ID_for_object(obj)
+        obj.name = f"{obj.name}{num}"
+        # TODO(lsuyean): create field to store ID instead of modifying name
+        self.objects.append(obj)
+        # TODO(lsuyean): optimize creating predicates and actions; only add
+        # necessary predicates and actions instead of building from scratch
+        true_predicates = {predicate for predicate, value in self.predicates.items() if value}
+        self.predicates = self._build_predicates(self.domain, self.objects, true_predicates)
+        self.actions = self._build_actions(self.domain, self.objects)
+
+    def delete_object(self, obj):
+        """
+        Deletes an object from the state.
+
+        Args:
+            obj (Object): The object to delete from the state.
+
+        Side effects:
+            - The objects, predicates, and actions in the state are modified and 
+              updated to account for the deleted object.
+        """
+        self.objects.remove(obj)
+        # TODO(lsuyean): optimize creating predicates and actions; only delete
+        # necessary predicates and actions instead of building from scratch
+        true_predicates = {predicate for predicate, value in self.predicates.items() if value}
+        self.predicates = self._build_predicates(self.domain, self.objects, true_predicates)
+        self.actions = self._build_actions(self.domain, self.objects)
+
     def is_goal_reached(self):
         """
         Returns whether the goal is satisfied in the current state.
@@ -289,6 +356,7 @@ class State(object):
             the given state.
         """
         assert action.is_valid(self, param_arg_dict)
+
         self = action.perform_action(self, param_arg_dict)
         
         for special_effect in self.special_effects:

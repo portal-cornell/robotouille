@@ -5,12 +5,13 @@ from backend.state import State
 from environments.env_generator.builder import entity_to_entity_field, create_unique_and_combination_preds, create_combinations
 import copy
 from domain.domain_builder import build_domain
+from utils.robotouille_utils import trim_item_ID
 import gym
 import json
     
 def build_identity_predicates(environment_dict, entity_fields):
     """
-    Builds identity predicates string from an environment dictionary.
+    Builds identity predicates from an environment dictionary.
 
     Note that if the typed enum is a cuttable/cookable item, then that identity 
     predicate will be added in this function.
@@ -24,7 +25,9 @@ def build_identity_predicates(environment_dict, entity_fields):
         identity_predicates (List): Identity predicates list.
     """
     identity_predicates = []
-    for field in entity_fields:
+    valid_entity_fields = [field for field in entity_fields if field in environment_dict.keys()]
+    for field in valid_entity_fields:
+        if not environment_dict.get(field): continue
         for entity in environment_dict[field]:
             name = entity['name']
             while name[-1].isdigit():
@@ -36,26 +39,56 @@ def build_identity_predicates(environment_dict, entity_fields):
                 identity_predicates.append(pred)
     return identity_predicates
 
+def build_container_location_predicates(environment_dict):
+    """
+    Builds container location predicates form an environment dictionary.
+
+    These include (in) and (container_empty) predicates.
+
+    Args:
+        environment_dict (dict): Dictionary containing the initial stations, items, 
+            and player location.
+
+    Returns:
+        predicates (List): Container location predicates.
+    """
+    predicates = []
+    if not environment_dict.get("containers"): return predicates
+    for container in environment_dict["containers"]:
+        container_obj = Object(container["name"], "container")
+        match = False
+        for meal in environment_dict["meals"]:
+            if meal["x"] == container["x"] and meal["y"] == container["y"]:
+                meal_obj = Object(meal["name"], "meal")
+                pred = Predicate().initialize("in", ["meal", "container"], [meal_obj, container_obj])
+                predicates.append(pred)
+                match = True
+        if not match:
+            pred = Predicate().initialize("container_empty", ["container"], [container_obj])
+            predicates.append(pred)
+    return predicates
+
 def build_station_location_predicates(environment_dict):
     """
-    Builds station location predicates string from an environment dictionary.
+    Builds station location predicates from an environment dictionary.
 
-    These include the (empty), (vacant), (loc) and (at) predicates.
+    These include the (station_empty), (vacant), (loc) and (at) predicates.
 
     Args:
         environment_dict (dict): Dictionary containing the initial stations, items, 
             and player location.
     
     Returns:
-        predicates (List): Station location predicates string.
+        predicates (List): Station location predicates.
     """
     predicates = []
     for station in environment_dict["stations"]:
         station_obj = Object(station["name"], "station")
-        for field in ["items", "players"]:
+        for field in ["items", "players", "containers"]:
+            if not environment_dict.get(field): continue
+            no_match_predicate = "station_empty" if field in ["items", "containers"] else "vacant"
+            predicate = "item_at" if field == "items" else "container_at" if field == "containers" else "loc"
             match = False
-            no_match_predicate = "empty" if field == "items" else "vacant"
-            predicate = "at" if field == "items" else "loc"
             for entity in environment_dict[field]:
                 x = entity["x"] + entity["direction"][0] if field == "players" else entity["x"]
                 y = entity["y"] + entity["direction"][1] if field == "players" else entity["y"]
@@ -72,7 +105,7 @@ def build_station_location_predicates(environment_dict):
 
 def build_player_location_predicates(environment_dict):
     """
-    Builds player location predicates string from an environment dictionary.
+    Builds player location predicates from an environment dictionary.
 
     These include the (nothing) and (has) predicates.
 
@@ -81,19 +114,28 @@ def build_player_location_predicates(environment_dict):
             and player location.
     
     Returns:
-        predicates (List): Player location predicates string.
+        predicates (List): Player location predicates.
     """
     predicates = []
     for player in environment_dict["players"]:
         player_obj = Object(player["name"], "player")
         match = False
-        for item in environment_dict["items"]:
-            if player["x"] == item["x"] and player["y"] == item["y"]:
-                obj = Object(item["name"], "item")
-                pred = Predicate().initialize("has", ["player", "item"], [player_obj, obj])
-                predicates.append(pred)
-                match = True
-                break
+        if environment_dict.get("items"):
+            for item in environment_dict["items"]:
+                if player["x"] == item["x"] and player["y"] == item["y"]:
+                    obj = Object(item["name"], "item")
+                    pred = Predicate().initialize("has_item", ["player", "item"], [player_obj, obj])
+                    predicates.append(pred)
+                    match = True
+                    break
+        if not match and environment_dict.get("containers"): 
+            for container in environment_dict["containers"]:
+                if player["x"] == container["x"] and player["y"] == container["y"]:
+                    obj = Object(container["name"], "container")
+                    pred = Predicate().initialize("has_container", ["player", "container"], [player_obj, obj])
+                    predicates.append(pred)
+                    match = True
+                    break
         if not match:
             pred = Predicate().initialize("nothing", ["player"], [player_obj])
             predicates.append(pred)
@@ -101,11 +143,11 @@ def build_player_location_predicates(environment_dict):
 
 def build_location_predicates(environment_dict):
     """
-    Builds location predicates string from an environment dictionary.
+    Builds location predicates from an environment dictionary.
 
     The most explicit location predicates are the (loc) and (at) predicates
     which specify the location of players and items relative to stations respectively.
-    There are other implicit location predicates such as (nothing), (has), (empty) and
+    There are other implicit location predicates such as (nothing), (has), (station_empty) and
     (vacant) which all imply the location of the player or item.
 
     Note that the (clear), (on) and (atop) predicates are added in the build_stacking_predicates function. 
@@ -114,16 +156,17 @@ def build_location_predicates(environment_dict):
         environment_dict (dict): Dictionary containing the initial stations, items, and player location.
     
     Returns:
-        location_predicates (List): PDDL location predicates string.
+        location_predicates (List): PDDL location predicates.
     """
     location_predicates = []
+    location_predicates += build_container_location_predicates(environment_dict)
     location_predicates += build_station_location_predicates(environment_dict)
     location_predicates += build_player_location_predicates(environment_dict)
     return location_predicates
 
 def build_stacking_predicates(environment_dict):
     """
-    Build stacking predicates string from an environment dictionary.
+    Build stacking predicates from an environment dictionary.
 
     These include the (clear), (on) and (atop) predicates.
 
@@ -131,12 +174,13 @@ def build_stacking_predicates(environment_dict):
         environment_dict (dict): Dictionary containing the initial stations, items, and player location.
     
     Returns:
-        stacking_predicates (List): Stacking predicates string.
+        stacking_predicates (List): Stacking predicates.
     """
     stacking_predicates = []
     stacks = {}
     # Sort items into stacks ordered by stacking order
     sorting_key = lambda item: item["stack-level"]
+    if not environment_dict.get("items"): return stacking_predicates
     for item in environment_dict["items"]:
         for station in environment_dict["stations"]:
             if item["x"] == station["x"] and item["y"] == station["y"]:
@@ -147,7 +191,7 @@ def build_stacking_predicates(environment_dict):
     for station_name, items in stacks.items():
         station_obj = Object(station_name, "station")
         first_item_obj = Object(items[0]["name"], "item")
-        pred = Predicate().initialize("on", ["item", "station"], [first_item_obj, station_obj])
+        pred = Predicate().initialize("item_on", ["item", "station"], [first_item_obj, station_obj])
         stacking_predicates.append(pred)
         for i in range(1, len(items)):
             obj = Object(items[i]["name"], "item")
@@ -233,6 +277,7 @@ def build_state(domain_json, environment_json):
     objects = []
 
     for field in entity_fields:
+        if environment_json.get(field) is None: continue
         for entity in environment_json[field]:
             objects.append(Object(entity["name"], field[:-1]))
 

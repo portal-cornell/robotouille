@@ -1,4 +1,5 @@
 {
+    "version": "1.0.0",
     "width": 5,
     "height": 5,
     "config": {
@@ -94,7 +95,7 @@
             "ids": [2, 3]
         },
         {
-            "predicate": "on",
+            "predicate": "item_on",
             "args": ["bottombun", "table"],
             "ids": [3, 4]
         },
@@ -109,7 +110,7 @@
             "ids": [6, 7]
         },
         {
-            "predicate": "on",
+            "predicate": "item_on",
             "args": ["bottombun", "table"],
             "ids": [7, 8]
         }
