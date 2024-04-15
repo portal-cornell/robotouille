@@ -649,36 +649,50 @@
             "immediate_fx":[],
             "sfx": [
                 {
-                    "type": "delayed",
+                    "type": "conditional",
                     "param": "c1",
+                    "conditions": [
+                        {
+                            "predicate": "container_at",
+                            "params": ["c1", "s1"],
+                            "is_true": true
+                        }
+                    ],
                     "fx": [],
                     "sfx": [
                         {
-                            "type": "creation",
+                            "type": "delayed",
                             "param": "c1",
-                            "created_obj": {
-                                "name": "water",
-                                "type": "meal",
-                                "param": "m1"
-                            },
-                            "fx": [
+                            "fx": [],
+                            "sfx": [
                                 {
-                                    "predicate": "iswater",
-                                    "params": ["m1"],
-                                    "is_true": true
-                                },
-                                {
-                                    "predicate": "in",
-                                    "params": ["m1", "c1"],
-                                    "is_true": true
-                                },
-                                {
-                                    "predicate": "container_empty",
-                                    "params": ["c1"],
-                                    "is_true": false
+                                    "type": "creation",
+                                    "param": "c1",
+                                    "created_obj": {
+                                        "name": "water",
+                                        "type": "meal",
+                                        "param": "m1"
+                                    },
+                                    "fx": [
+                                        {
+                                            "predicate": "iswater",
+                                            "params": ["m1"],
+                                            "is_true": true
+                                        },
+                                        {
+                                            "predicate": "in",
+                                            "params": ["m1", "c1"],
+                                            "is_true": true
+                                        },
+                                        {
+                                            "predicate": "container_empty",
+                                            "params": ["c1"],
+                                            "is_true": false
+                                        }
+                                    ],
+                                    "sfx": []
                                 }
-                            ],
-                            "sfx": []
+                            ]
                         }
                     ]
                 }
