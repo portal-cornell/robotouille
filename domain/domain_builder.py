@@ -87,7 +87,7 @@ def _build_special_effects(defn, param_objs, predicate_dict):
             special_effect["fx"], param_objs, predicate_dict)
         nested_sfx = _build_special_effects(special_effect["sfx"], param_objs, predicate_dict)
         if special_effect["type"] == "delayed":
-            # TODO: The values for goal repetitions/time should be decided by the problem json
+            # TODO (lsuyean): The values for goal repetitions/time should be decided by the problem json
             sfx = DelayedEffect(param_obj, effects, nested_sfx)
         elif special_effect["type"] == "repetitive":
             sfx = RepetitiveEffect(param_obj, effects, nested_sfx)

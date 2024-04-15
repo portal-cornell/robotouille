@@ -167,24 +167,24 @@ class RobotouilleCanvas:
             return container_config["assets"]["default"]
         
         # If there is a meal in the container, choose the asset based on the meal
+        # Find the predicates of the meal in the current game state
         item_predicates = {}
         for literal, is_true in obs.predicates.items():
             if is_true:
                 literal_args = [param.name for param in literal.params]
                 if meal_name in literal_args:
                     item_predicates[literal.name] = [param.name for param in literal.params]
-        if len(item_predicates) == 0:
-            return container_config["assets"]["default"]
         
         meal_name, _ = trim_item_ID(meal_name)
         max_matches = 0
-        asset_config = container_config["assets"][meal_name]
-        chosen_asset = asset_config["default"]
-        for asset in asset_config:
+        meal_config = container_config["assets"][meal_name]
+        chosen_asset = meal_config["default"]
+        for asset in meal_config:
             if asset == "default":
                 continue
             matches = 0
-            for predicate in asset_config[asset]["predicates"]:
+            # Find the number of matches between the current predicates and the meal's predicates
+            for predicate in meal_config[asset]["predicates"]:
                 if predicate["name"] in item_predicates:
                     params = []
                     pred_params = [trim_item_ID(param)[0] for param in item_predicates[predicate["name"]]]
@@ -194,12 +194,14 @@ class RobotouilleCanvas:
                         params.append(param)
                     if params == pred_params:
                         matches += 1
-            if matches == len(asset_config[asset]["predicates"]):
+
+            # If all predicates are true, choose the asset with the most matches
+            if matches == len(meal_config[asset]["predicates"]):
                 if matches > max_matches:
                     max_matches = matches
-                    chosen_asset = asset_config[asset]["asset"]
+                    chosen_asset = meal_config[asset]["asset"]
                 elif matches == max_matches:
-                    chosen_asset = asset_config["default"]
+                    chosen_asset = meal_config["default"]
 
         return chosen_asset
     
