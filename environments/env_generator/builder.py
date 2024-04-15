@@ -150,7 +150,8 @@ def build_station_location_predicates(environment_dict):
     """
     predicates_str = ""
     for station in environment_dict["stations"]:
-        for field in ["items", "players"]:
+        valid_fields = [field for field in ["items", "players"] if field in environment_dict]
+        for field in valid_fields:
             match = False
             no_match_predicate = "empty" if field == "items" else "vacant"
             predicate = "item_at" if field == "items" else "loc"
@@ -181,13 +182,14 @@ def build_player_location_predicates(environment_dict):
     predicates_str = ""
     for player in environment_dict["players"]:
         match = False
-        for item in environment_dict["items"]:
-            if player["x"] == item["x"] and player["y"] == item["y"]:
-                predicates_str += f"    (has {player['name']} {item['name']})\n"
-                match = True
-                break
-        if not match:
-            predicates_str += f"    (nothing {player['name']})\n"
+        if environment_dict.get("items"):
+            for item in environment_dict["items"]:
+                if player["x"] == item["x"] and player["y"] == item["y"]:
+                    predicates_str += f"    (has {player['name']} {item['name']})\n"
+                    match = True
+                    break
+            if not match:
+                predicates_str += f"    (nothing {player['name']})\n"
     return predicates_str
 
 def build_location_predicates(environment_dict):
@@ -228,12 +230,13 @@ def build_stacking_predicates(environment_dict):
     stacks = {}
     # Sort items into stacks ordered by stacking order
     sorting_key = lambda item: item["stack-level"]
-    for item in environment_dict["items"]:
-        for station in environment_dict["stations"]:
-            if item["x"] == station["x"] and item["y"] == station["y"]:
-                stacks[station["name"]] = stacks.get(station["name"], []) + [item]
-                stacks[station["name"]].sort(key=sorting_key)
-                break
+    if environment_dict.get("items"):
+        for item in environment_dict["items"]:
+            for station in environment_dict["stations"]:
+                if item["x"] == station["x"] and item["y"] == station["y"]:
+                    stacks[station["name"]] = stacks.get(station["name"], []) + [item]
+                    stacks[station["name"]].sort(key=sorting_key)
+                    break
     # Add stacking predicates
     for station_name, items in stacks.items():
         stacking_predicates_str += f"    (on {items[0]['name']} {station_name})\n"
@@ -402,19 +405,19 @@ def build_problem(environment_dict):
         new_environment_dict (dict): Dictionary containing IDed stations, items, and player location.
     """
     problem = "(define (problem robotouille)\n"
-    # problem += "(:domain robotouille)\n"
-    # problem += "(:objects\n"
+    problem += "(:domain robotouille)\n"
+    problem += "(:objects\n"
     objects_str, new_environment_dict = build_objects(environment_dict)
-    # problem += objects_str
-    # problem += ")\n"
-    # problem += "(:init\n"
-    # problem += build_identity_predicates(new_environment_dict)
-    # problem += build_location_predicates(new_environment_dict)
-    # problem += build_stacking_predicates(new_environment_dict)
-    # problem += ")\n"
-    # problem += "(:goal\n"
-    # problem += build_goal(new_environment_dict)
-    # problem += ")\n"
+    problem += objects_str
+    problem += ")\n"
+    problem += "(:init\n"
+    problem += build_identity_predicates(new_environment_dict)
+    problem += build_location_predicates(new_environment_dict)
+    problem += build_stacking_predicates(new_environment_dict)
+    problem += ")\n"
+    problem += "(:goal\n"
+    problem += build_goal(new_environment_dict)
+    problem += ")\n"
     return problem, new_environment_dict
 
 def write_problem_file(problem, filename):
