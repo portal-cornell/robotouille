@@ -1,6 +1,6 @@
 import pygame
 
-def create_action_from_control(env, obs, action, renderer):
+def create_action_from_control(env, obs, player, action, renderer):
     """
     This function attempts to create a valid action from the provided action.
 
@@ -14,6 +14,7 @@ def create_action_from_control(env, obs, action, renderer):
     Args:
         env: The environment.
         obs: The current observation.
+        player: The player to control.
         action: The action to transform.
         renderer: The renderer.
     
@@ -23,12 +24,12 @@ def create_action_from_control(env, obs, action, renderer):
             arguments for the action.
     """
     if len(action) == 0: return None, None
-    valid_actions = obs.get_valid_actions()
+    valid_actions = obs.get_valid_actions_for_player(player)
     action_dict = {str(action): action for action in env.action_space}
     input_json = env.input_json
     action = action[0]
     for literal, is_true in obs.predicates.items():
-        if literal.name == "loc" and is_true:
+        if literal.name == "loc" and is_true and literal.params[0].name == player.name:
             player_loc = str(literal.params[1])
     if action.type == pygame.MOUSEBUTTONDOWN:
         pos_x, pos_y = action.pos

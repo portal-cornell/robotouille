@@ -124,6 +124,15 @@ class State(object):
                 args = {param.name:combination[params.index(param)] for param in params}
                 actions[action].append(args)
         return actions
+    
+    def get_players(self):
+        """
+        Returns the player objects in the state.
+
+        Returns:
+            players (List[Object]): The player objects in the state.
+        """
+        return [obj for obj in self.objects if obj.object_type == "player"]
 
     def initialize(self, domain, objects, true_predicates, all_goals, special_effects=[]):
         """
@@ -168,6 +177,7 @@ class State(object):
         
         self.domain = domain
         self.objects = objects
+        self.current_player = self.get_players()[0]
         self.predicates = predicates
         self.actions = self._build_actions(domain, objects)
         self.goal = all_goals
@@ -337,15 +347,51 @@ class State(object):
                     valid_actions[action].append(arg)
 
         return valid_actions
+    
+    def get_valid_actions_for_player(self, player):
+        """
+        Gets all valid actions for a player in the state.
 
-    def step(self, action, param_arg_dict):
+        Args:
+            player (Object): The player to get the valid actions for.
+
+        Returns:
+            valid_actions (Dictionary[Action, Dictionary[Str, Object]]): A
+                dictionary of valid actions for the player. The keys are the
+                actions, and the values are the parameter-argument dictionaries
+                for the actions.
+        """
+        valid_actions = self.get_valid_actions()
+
+        player_actions = {action:[] for action in self.actions}
+
+        for action, args in valid_actions.items():
+            for arg in args:
+                if player in arg.values() or arg == {}:
+                    player_actions[action].append(arg)
+
+        return player_actions
+                    
+    def next_player(self):
+        """
+        Returns the next player in the state.
+
+        Returns:
+            player (Object): The next player in the state.
+        """
+        players = self.get_players()
+        current_index = players.index(self.current_player)
+        next_index = (current_index + 1) % len(players)
+        return players[next_index]
+
+    def step(self, actions):
         """
         Steps the state forward by applying the effects of the action.
 
         Args:
-            action (Action): The action to apply the effects of.
-            param_arg_dict (Dictionary[Str, Object]): The dictionary that map
-                parameters to arguments.
+            actions (Dictionary[Action, Dictionary[Str, Object]]): A dictionary
+                of actions to perform. The keys are the actions, and the values
+                are the parameter-argument dictionaries for the actions.
         
         Returns:
             new_state (State): The successor state.
@@ -355,15 +401,17 @@ class State(object):
             AssertionError: If the action is invalid with the given arguments in
             the given state.
         """
-        assert action.is_valid(self, param_arg_dict)
-
-        self = action.perform_action(self, param_arg_dict)
+        for action, param_arg_dict in actions.items():
+            assert action.is_valid(self, param_arg_dict)
+            self = action.perform_action(self, param_arg_dict)
         
         for special_effect in self.special_effects:
             special_effect.update(self)
         
         if self.is_goal_reached():
             return self, True
+        
+        self.current_player = self.next_player()
 
         return self, False
     
