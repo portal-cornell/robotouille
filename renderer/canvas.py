@@ -180,12 +180,12 @@ class RobotouilleCanvas:
             tiling (String): Path to the tiling asset folder
         """
         # Load floor config
-        tiling_config_path = tiling + "/config.json" # Assumes the name of the json is standardized as config.json
+        tiling_config_path = "tileset/" + tiling + "/config.json" # Assumes the name of the json is standardized as config.json
         with open(os.path.join(RobotouilleCanvas.ASSETS_DIRECTORY, tiling_config_path), "r") as f:
             tiling_config = json.load(f)
 
         # Load and slice flooring spritesheet
-        spritesheet_path = tiling + "/" + tiling_config["asset"]
+        spritesheet_path = "tileset/" + tiling + "/" + tiling_config["asset"]
         spritesheet = pygame.image.load(os.path.join(RobotouilleCanvas.ASSETS_DIRECTORY, spritesheet_path)).convert_alpha()
         num_sprites_x = tiling_config["columns"]
         num_sprites_y = tiling_config["rows"]
