@@ -34,8 +34,8 @@ Here we describe the format of the JSON files under `configuration`.
 
     "floor" = References to the tilings to be used for the ground and furniture
     {
-        "ground" = list of tilings to be used for the ground
-        "furniture" = list of tilings to be used for the furniture
+        "ground" = List of tilings to be used for the ground
+        "furniture" = List of tilings to be used for the furniture
     }
 
     "item" = The configuration for items in the game
