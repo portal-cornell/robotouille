@@ -92,12 +92,12 @@
         {
             "predicate": "in",
             "args": ["water", "bowl"],
-            "ids": ["c", "b"]
+            "ids": [1, "b"]
         },
         {
             "predicate": "addedto",
             "args": ["tomato", "water"],
-            "ids": [1, 2]
+            "ids": [2, 1]
         }
     ]
 }

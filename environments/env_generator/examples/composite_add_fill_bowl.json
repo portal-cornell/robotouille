@@ -69,7 +69,7 @@
         {
             "predicate": "addedto",
             "args": ["tomato", "water"],
-            "ids": ["a", "c"]
+            "ids": ["a", "b"]
         },
         {
             "predicate": "in",
