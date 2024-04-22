@@ -70,7 +70,7 @@ class RobotouilleCanvas:
             scale (np.array): (width, height) to scale the image by
         """
         if image_name not in self.asset_directory:
-            self.asset_directory[image_name] = pygame.image.load(os.path.join(RobotouilleCanvas.ASSETS_DIRECTORY, image_name))
+            self.asset_directory[image_name] = pygame.image.load(os.path.join(RobotouilleCanvas.ASSETS_DIRECTORY, image_name)).convert_alpha()
         image = self.asset_directory[image_name]
         image = pygame.transform.smoothscale(image, scale)
         surface.blit(image, position)
@@ -195,7 +195,7 @@ class RobotouilleCanvas:
         for y in range(num_sprites_y):
             for x in range(num_sprites_x):
                 rect = pygame.Rect(x * sprite_width, y * sprite_height, sprite_width, sprite_height)
-                sprite = spritesheet.subsurface(rect)
+                sprite = spritesheet.subsurface(rect).convert_alpha()
                 sprites.append(sprite)
         # Add empty sprite for index -1
         empty = pygame.Surface((1, 1), flags=pygame.SRCALPHA)
