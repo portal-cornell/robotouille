@@ -1,5 +1,4 @@
 from backend.predicate import Predicate
-import pygame
 
 class Action(object):
     """
