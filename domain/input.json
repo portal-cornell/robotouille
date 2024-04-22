@@ -1,0 +1,111 @@
+{
+    "mouse_click_actions": [
+        {
+            "name": "move",
+            "input_instructions": {
+                "button": "left",
+                "click_on": "s2"
+            }
+        },
+        {
+            "name": "pick-up-item",
+            "input_instructions": {
+                "button": "left",
+                "click_on": "s1"
+            }
+        },
+        {
+            "name": "place-item",
+            "input_instructions": {
+                "button": "left",
+                "click_on": "s1"
+            }
+        },
+        {
+            "name": "pick-up-container",
+            "input_instructions": {
+                "button": "left",
+                "click_on": "s1"
+            }
+        },
+        {
+            "name": "place-container",
+            "input_instructions": {
+                "button": "left",
+                "click_on": "s1"
+            }
+        },
+        {
+            "name": "stack",
+            "input_instructions": {
+                "button": "left",
+                "click_on": "s1"
+            }
+        },
+        {
+            "name": "unstack",
+            "input_instructions": {
+                "button": "left",
+                "click_on": "s1"
+            }
+        }
+    ],
+    "keyboard_actions": [
+        {
+            "name": "cook",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "cut",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "fry",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "fill-pot",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "boil-water",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "add-to",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "fill-bowl",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "wait",
+            "input_instructions": {
+                "key": "space",
+                "at": null
+            }
+        }
+    ]
+}

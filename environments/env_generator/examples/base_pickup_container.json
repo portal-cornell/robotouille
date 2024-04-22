@@ -1,0 +1,49 @@
+{
+    "version": "1.0.0",
+    "width": 3,
+    "height": 3,
+    "config": {
+        "num_cuts": {
+            "lettuce": 3,
+            "default": 3
+        },
+        "cook_time": {
+            "patty": 3,
+            "default": 3
+        }
+    },
+    "stations": [
+        {
+            "name": "station",
+            "x": 0,
+            "y": 1,
+            "id": "A"
+        }
+    ],
+    "items": [],
+    "players": [
+        {
+            "name": "robot",
+            "x": 0,
+            "y": 0,
+            "direction": [0, 1]
+        }
+    ],
+    "meals": [],
+    "containers": [
+        {
+            "name": "container",
+            "x": 0,
+            "y": 1,
+            "id": "a",
+            "meal_id": []
+        }
+    ],
+    "goal": [
+        {
+            "predicate": "has_container",
+            "args": ["robot", "container"],
+            "ids": [1, "a"]
+        }
+    ]
+}
