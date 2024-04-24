@@ -75,7 +75,8 @@
         {
             "name": "bowl",
             "x": 0,
-            "y": 3
+            "y": 3,
+            "id": "b"
         }
     ],
     "players": [
@@ -95,9 +96,14 @@
     "goal_description": "",
     "goal": [
         {
-            "predicate": "isbowl",
-            "args": ["pot"],
-            "ids": ["a"]
+            "predicate": "in",
+            "args": ["water", "bowl"],
+            "ids": [1, "b"]
+        },
+        {
+            "predicate": "addedto",
+            "args": ["tomato", "water"],
+            "ids": [2, 1]
         }
     ]
 }

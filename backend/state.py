@@ -1,4 +1,5 @@
 from backend.predicate import Predicate
+from backend.object import Object
 from utils.robotouille_utils import trim_item_ID
 import itertools
 
@@ -167,11 +168,12 @@ class State(object):
         for object in objects:
             if object.object_type not in domain.object_types:
                 raise ValueError(f"Type {object.object_type} is not defined in the domain.")
+        predicate_names = list(map(lambda x: x.name, domain.predicates))
         # check if goal predicates are defined in domain
         for goal_set in all_goals:
             for goal in goal_set:
-                if goal not in predicates:
-                    raise ValueError(f"Predicate {goal} is not defined in the domain.")
+                if goal.name not in predicate_names:
+                    raise ValueError(f"Predicate {goal.name} is not defined in the domain.")
                 if not domain.are_valid_object_types(goal.types):
                     raise ValueError(f"Types {goal.types} are not defined in the domain.")
         
@@ -203,18 +205,21 @@ class State(object):
         """
        Returns the value of a predicate in the state.
 
+       If a predicate is not yet in the state, then the function returns False.
+       For example, for goal predicates involving objects not yet created, the
+       predicate would not be defined in the state. Then the function returns 
+       False.
+
         Args:
             predicate (Predicate): The predicate to check.
             value (bool): The value of the predicate to check for.
 
         Returns:
-            bool: True if the predicate is True in the state, False otherwise.
-
-        Raises:
-            AssertionError: If the predicate is not in the state.
+            bool: True if the predicate is True in the state, False if the 
+                predicate is False in the state or if the predicate is not in 
+                the state. 
         """
-        assert predicate in self.predicates
-        return self.predicates[predicate]
+        return self.predicates[predicate] if predicate in self.predicates else False
         
     def update_predicate(self, predicate, value):
         """
@@ -266,7 +271,7 @@ class State(object):
         for object in self.objects:
             name, id = trim_item_ID(object.name)
             if name == obj.name:
-                max_id = max(max_id, id)
+                max_id = max(max_id, int(id))
         return max_id + 1
 
     def add_object(self, obj):
@@ -277,19 +282,23 @@ class State(object):
             obj (Object): The object to add to the state. 
 
         Side effects:
-            - The argument obj is given an id
             - The objects, predicates, and actions in the state are modified and 
               updated to account for the new object.
+
+        Returns:
+            created_obj (Object): The object that was created.
         """
         num = self._get_next_ID_for_object(obj)
-        obj.name = f"{obj.name}{num}"
+        name = f"{obj.name}{num}"
+        new_obj = Object(name, obj.object_type)
         # TODO(lsuyean): create field to store ID instead of modifying name
-        self.objects.append(obj)
+        self.objects.append(new_obj)
         # TODO(lsuyean): optimize creating predicates and actions; only add
         # necessary predicates and actions instead of building from scratch
         true_predicates = {predicate for predicate, value in self.predicates.items() if value}
         self.predicates = self._build_predicates(self.domain, self.objects, true_predicates)
         self.actions = self._build_actions(self.domain, self.objects)
+        return new_obj
 
     def delete_object(self, obj):
         """

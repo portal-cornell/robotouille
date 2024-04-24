@@ -67,9 +67,14 @@
     ],
     "goal": [
         {
-            "predicate": "iscooked",
-            "args": ["patty"],
-            "ids": ["a"]
+            "predicate": "addedto",
+            "args": ["tomato", "water"],
+            "ids": ["a", "b"]
+        },
+        {
+            "predicate": "in",
+            "args": ["water", "bowl"],
+            "ids": ["b", "d"]
         }
     ]
 }

@@ -1,3 +1,5 @@
+from backend.object import Object
+
 class Predicate(object):
     '''
     This class represents a predicate in Robotouille. 
@@ -89,4 +91,7 @@ class Predicate(object):
             pred (Predicate): The copy of the predicate.
         """
         pred_args = [param_arg_dict[param.name] for param in self.params]
-        return Predicate().initialize(self.name, self.types, pred_args)
+        new_pred_args = []
+        for arg in pred_args:
+            new_pred_args.append(Object(arg.name, arg.object_type))
+        return Predicate().initialize(self.name, self.types, new_pred_args)

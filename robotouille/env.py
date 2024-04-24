@@ -85,24 +85,34 @@ def build_station_location_predicates(environment_dict):
     for station in environment_dict["stations"]:
         station_obj = Object(station["name"], "station")
         match = False
-        for field in ["players", "items", "containers"]:
-            if not environment_dict.get(field): continue
-            no_match_predicate = "station_empty" if field in ["items", "containers"] else "vacant"
-            predicate = "item_at" if field == "items" else "container_at" if field == "containers" else "loc"
-            for entity in environment_dict[field]:
-                x = entity["x"] + entity["direction"][0] if field == "players" else entity["x"]
-                y = entity["y"] + entity["direction"][1] if field == "players" else entity["y"]
+        # Check if there are any players at the station
+        for player in environment_dict.get("players", []):
+            x = player["x"] + player["direction"][0]
+            y = player["y"] + player["direction"][1]
+            if x == station["x"] and y == station["y"]:
+                name = player["name"]
+                obj = Object(name, "player")
+                pred = Predicate().initialize("loc", ["player", "station"], [obj, station_obj])
+                predicates.append(pred)
+                match = True
+        # If no players are at the station, add a vacant predicate
+        if not match:
+            pred = Predicate().initialize("vacant", ["station"], [station_obj])
+            predicates.append(pred)
+        match = False
+        # Check if there are any items or containers at the station
+        for field in ["items", "containers"]:
+            predicate = "item_at" if field == "items" else "container_at"
+            for entity in environment_dict.get(field, []):
+                x = entity["x"]
+                y = entity["y"]
                 if x == station["x"] and y == station["y"]:
                     name = entity["name"]
                     obj = Object(name, field[:-1])
                     pred = Predicate().initialize(predicate, [field[:-1], "station"], [obj, station_obj])
                     predicates.append(pred)
                     match = True
-            if field == "players":
-                if not match:
-                    pred = Predicate().initialize(no_match_predicate, ["station"], [station_obj])
-                    predicates.append(pred)
-                else: match = False
+        # If no items or containers are at the station, add a station_empty predicate
         if not match:
             pred = Predicate().initialize("station_empty", ["station"], [station_obj])
             predicates.append(pred)
@@ -252,7 +262,7 @@ def build_goal(environment_dict):
     goal =  []
     unique_preds, combination_preds, combination_dict = create_unique_and_combination_preds(environment_dict)
     combinations, id_order = create_combinations(combination_dict)
-    assert len(combinations) > 0, "Object in goal missing from environment"
+    # assert len(combinations) > 0, "Object in goal missing from environment"
     for combination in combinations:
         # Combination predicates with the combination ID arguments filled in
         filled_combination_preds = copy.deepcopy(combination_preds)
