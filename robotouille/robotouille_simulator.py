@@ -18,10 +18,16 @@ def simulator(environment_name: str, seed: int=42, noisy_randomization: bool=Fal
         mousedown_events = list(filter(lambda e: e.type == pygame.MOUSEBUTTONDOWN, pygame_events))
         # Keyboard events ('e' button) for cut/cook ('space' button) for noop
         keydown_events = list(filter(lambda e: e.type == pygame.KEYDOWN, pygame_events))
+        actions = []
         action, args = create_action_from_control(env, obs, obs.current_player, mousedown_events+keydown_events, renderer)
+        for player in obs.get_players():
+            if player == obs.current_player:
+                actions.append((action, args))
+            else:
+                actions.append((None, None))
         if not interactive and action is None:
             # Retry for keyboard input
             continue
-        obs, reward, done, info = env.step(actions={action: args}, interactive=interactive)
+        obs, reward, done, info = env.step(actions, interactive=interactive)
         renderer.render(obs, mode='human')
     renderer.render(obs, close=True)

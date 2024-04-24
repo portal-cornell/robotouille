@@ -398,9 +398,12 @@ class State(object):
         Steps the state forward by applying the effects of the action.
 
         Args:
-            actions (Dictionary[Action, Dictionary[Str, Object]]): A dictionary
-                of actions to perform. The keys are the actions, and the values
-                are the parameter-argument dictionaries for the actions.
+            actions (List[Tuple[Action, Dictionary[str, Object]]): A list of
+                tuples where the first element is the action to perform, and the
+                second element is a dictionary of arguments for the action. The 
+                length of the list is the number of players, where actions[i] is
+                the action for player i. If player i is not performing an action,
+                actions[i] is None.
         
         Returns:
             new_state (State): The successor state.
@@ -410,7 +413,9 @@ class State(object):
             AssertionError: If the action is invalid with the given arguments in
             the given state.
         """
-        for action, param_arg_dict in actions.items():
+        for action, param_arg_dict in actions:
+            if not action:
+                continue
             assert action.is_valid(self, param_arg_dict)
             self = action.perform_action(self, param_arg_dict)
         
