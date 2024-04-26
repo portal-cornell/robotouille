@@ -10,7 +10,10 @@
         }
     },
 
-    "floor": "floorkitchen.png",
+    "floor": {
+        "ground": ["tileset_flooring"],
+        "furniture": ["tileset_table", "tileset_counter"]
+    },
 
     "item": {
         "constants": {
