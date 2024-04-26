@@ -5,7 +5,7 @@ import pddlgym
 from utils.robotouille_utils import get_valid_moves
 import utils.pddlgym_utils as pddlgym_utils
 import utils.robotouille_wrapper as robotouille_wrapper
-from rl.rl_env import RLEnv
+from rl.rl_converter import RLConverter
 import wandb
 
 wandb.login()
@@ -65,7 +65,7 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
         )
 
         if self.env is None:
-            self.env = RLEnv(
+            self.env = RLConverter(
                 expanded_truths, expanded_states, valid_actions, all_actions
             )
 

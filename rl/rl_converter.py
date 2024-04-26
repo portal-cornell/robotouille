@@ -7,7 +7,7 @@ from gym.spaces import Box
 import numpy as np
 
 
-class RLEnv(gym.Env):
+class RLConverter:
     """
     This is a custom Environment that follows gym interface. This allows us to use stable-baselines3 by converting pddl-gym environment to gym environment. Instead of using the states and actions from the pddl-gym environment, we simplify the state and action space to make it easier for the RL agent to learn. We also use the RLWrapper class to simplify the environment for the RL agent.
     """
