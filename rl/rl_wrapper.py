@@ -17,7 +17,7 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
     """
 
     def __init__(self, env, config, renderer):
-        super().__init__(env, config)
+        super().__init__(env, config, renderer)
 
         self.pddl_env = env
         self.env = None

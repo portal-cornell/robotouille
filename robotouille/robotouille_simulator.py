@@ -21,7 +21,7 @@ def simulator(
     environment_name: str,
     seed: int = 42,
     noisy_randomization: bool = False,
-    mode=mode.PLAY,
+    mode=mode.TRAIN,
 ):
 
     # Your code for robotouille goes here
@@ -41,7 +41,7 @@ def simulator(
             "cook_time": {"patty": 3, "default": 3},
         }
 
-        rl_env = RLWrapper(env, config)
+        rl_env = RLWrapper(env, config, renderer)
         rl_env.render(mode="human")
         obs, info = rl_env.reset()
 
