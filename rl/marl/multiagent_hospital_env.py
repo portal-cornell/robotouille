@@ -1,5 +1,6 @@
 import numpy as np
-from rl.marl.marl_converter import MARLEnv
+from rl.marl.marl_env import MARLEnv
+from rl.rl_converter import RLConverter
 from utils.robotouille_utils import get_valid_moves
 from multiagentenv import MultiAgentEnv
 import utils.pddlgym_utils as pddlgym_utils
@@ -17,9 +18,14 @@ class MAHospital_robotouille(MultiAgentEnv):
         num_agents=3,
     ):
 
-        self.pddl_env = env
+        self.pddl_env = MARLEnv(env, config, renderer, num_agents)
+        self.converter = RLConverter(
+            self.pddl_env.prev_step[0].literals,
+            self.pddl_env.prev_step[0].objects,
+            self.pddl_env.valid_actions,
+            self.pddl_env.all_actions,
+        )
         self.n_agents = num_agents
-        self.env = None
 
         self.action_space = [
             gym.spaces.Discrete(self.env.action_space.nvec[1])
@@ -56,7 +62,7 @@ class MAHospital_robotouille(MultiAgentEnv):
         )
 
         if self.env is None:
-            self.env = MARLEnv(
+            self.env = RLConverter(
                 expanded_truths, expanded_states, valid_actions, all_actions
             )
 

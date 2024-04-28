@@ -20,7 +20,7 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
         super().__init__(env, config, renderer)
 
         self.pddl_env = env
-        self.env = None
+        self.converter = None
         self.max_steps = 80
         self.episode_reward = 0
         self.renderer = renderer
@@ -64,12 +64,12 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
             )
         )
 
-        if self.env is None:
-            self.env = RLConverter(
+        if self.converter is None:
+            self.converter = RLConverter(
                 expanded_truths, expanded_states, valid_actions, all_actions
             )
 
-        self.env.step(expanded_truths, valid_actions)
+        self.converter.step(expanded_truths, valid_actions)
 
     def step(self, action=None, interactive=False, debug=False):
         """
@@ -82,7 +82,7 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
             truncated (bool): Whether the episode was truncated.
             info (dict): A dictionary containing information about the environment.
         """
-        action = self.env.unwrap_move(action)
+        action = self.converter.unwrap_move(action)
         if debug:
             print(action)
         if action == "invalid":
@@ -107,7 +107,7 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
             wandb.log({"reward per episode": self.episode_reward})
 
         return (
-            self.env.state,
+            self.converter.state,
             reward,
             done,
             self.pddl_env.timesteps > self.max_steps,
@@ -125,7 +125,7 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
         obs, info = self.pddl_env.reset()
         self.episode_reward = 0
         self._wrap_env()
-        return self.env.state, info
+        return self.converter.state, info
 
     def render(self, *args, **kwargs):
         self.pddl_env.render()

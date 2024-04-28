@@ -1,7 +1,7 @@
 from enum import Enum
 import numpy as np
 import pygame
-from learners.ppo import PPO
+from stable_baselines3 import PPO
 from rl.rl_wrapper import RLWrapper
 from utils.robotouille_input import create_action_from_control
 from robotouille.robotouille_env import create_robotouille_env
@@ -23,7 +23,7 @@ def simulator(
     environment_name: str,
     seed: int = 42,
     noisy_randomization: bool = False,
-    mode=mode.PLAY,
+    mode=mode.TRAIN,
 ):
 
     # Your code for robotouille goes here

@@ -9,7 +9,7 @@ import numpy as np
 
 class RLConverter:
     """
-    This is a custom Environment that follows gym interface. This allows us to use stable-baselines3 by converting pddl-gym environment to gym environment. Instead of using the states and actions from the pddl-gym environment, we simplify the state and action space to make it easier for the RL agent to learn. We also use the RLWrapper class to simplify the environment for the RL agent.
+    This is a converter class that simplifies the environment for the RL agent by converting the state and action space to a format that is easier for the RL agent to learn.
     """
 
     class observation_size(Enum):
@@ -19,7 +19,7 @@ class RLConverter:
 
     def __init__(self, expanded_truths, expanded_states, valid_actions, all_actions):
         """
-        Initializes the RLenv based on expanded_truths, expanded_states, valid_actions, and all_actions.
+        Initializes the converter based on expanded_truths, expanded_states, valid_actions, and all_actions.
 
         Args:
             expanded_truths (list): List of expanded truths of the current state.
