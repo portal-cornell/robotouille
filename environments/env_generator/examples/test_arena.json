@@ -1,4 +1,5 @@
 {
+    "version": "1.0.0",
     "width": 8,
     "height": 8,
     "config": {
@@ -236,22 +237,22 @@
             "ids": [4, 7]
         },
         {
-            "predicate": "on",
+            "predicate": "item_on",
             "args": ["bread", "table"],
             "ids": [8, 9]
         },
         {
-            "predicate": "at",
+            "predicate": "item_at",
             "args": ["onion", "table"],
             "ids": [3, 9]
         },
         {
-            "predicate": "at",
+            "predicate": "item_at",
             "args": ["chicken", "table"],
             "ids": [5, 9]
         },
         {
-            "predicate": "at",
+            "predicate": "item_at",
             "args": ["bread", "table"],
             "ids": [11, 9]
         },

@@ -1,5 +1,4 @@
 from backend.predicate import Predicate
-import pygame
 
 class Action(object):
     """
@@ -100,12 +99,12 @@ class Action(object):
         # Check if all arguments are valid  
         params = self.get_all_params()
         for param in params:
-            if param not in args:
+            if param.name not in args:
                 return False
             
         # Check if all preconditions are satisfied
         for precon, is_true in self.precons.items():
-            pred_args = [args[param] for param in precon.params]
+            pred_args = [args[param.name] for param in precon.params]
             pred = Predicate().initialize(precon.name, precon.types, pred_args)
             if state.get_predicate_value(pred) is not is_true:
                 return False
@@ -124,7 +123,7 @@ class Action(object):
 
         Args:
             state (State): The state to perform the action on.
-            param_arg_dict (Dictionary[Object, Object]): The dictionary that map
+            param_arg_dict (Dictionary[Str, Object]): The dictionary that map
                 parameters to arguments. 
 
         Returns:
@@ -137,14 +136,14 @@ class Action(object):
         assert self.is_valid(state, param_arg_dict)
             
         for effect, value in self.immediate_effects.items():
-            pred_args = [param_arg_dict[param] for param in effect.params]
+            pred_args = [param_arg_dict[param.name] for param in effect.params]
             pred = Predicate().initialize(effect.name, effect.types, pred_args)
             state.update_predicate(pred, value)
 
         for special_effect in self.special_effects:
             # Retrieve the argument based on the parameter in the special effect
             # definition
-            arg = param_arg_dict[special_effect.param]
+            arg = param_arg_dict[special_effect.param.name]
             state.update_special_effect(special_effect, arg, param_arg_dict)
 
         return state

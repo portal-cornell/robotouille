@@ -3,7 +3,7 @@ import json
 import os
 import copy
 import itertools
-from .object_enums import Item, Player, Station, str_to_typed_enum
+from .object_enums import Item, Player, Station, Container, Meal, str_to_typed_enum, TYPES
 from .procedural_generator import randomize_environment
 import random
 
@@ -13,8 +13,10 @@ PROBLEM_DIR = os.path.join(os.path.dirname(os.path.realpath(__file__)), "..", "r
 STATION_FIELD = "stations"
 ITEM_FIELD = "items"
 PLAYER_FIELD = "players"
+MEAL_FIELD = "meals"
+CONTAINER_FIELD = "containers"
 
-ENTITY_FIELDS = [STATION_FIELD, ITEM_FIELD, PLAYER_FIELD]
+ENTITY_FIELDS = [STATION_FIELD, ITEM_FIELD, PLAYER_FIELD, CONTAINER_FIELD, MEAL_FIELD]
 
 def entity_to_entity_field(entity):
     """
@@ -40,11 +42,15 @@ def entity_to_entity_field(entity):
         if isinstance(typed_enum, Station): return STATION_FIELD
         elif isinstance(typed_enum, Item): return ITEM_FIELD
         elif isinstance(typed_enum, Player): return PLAYER_FIELD
+        elif isinstance(typed_enum, Meal): return MEAL_FIELD
+        elif isinstance(typed_enum, Container): return CONTAINER_FIELD
     except ValueError:
         # Convert wild card entities into entity fields
         if entity == STATION_FIELD[:-1]: return STATION_FIELD
         elif entity == ITEM_FIELD[:-1]: return ITEM_FIELD
         elif entity == PLAYER_FIELD[:-1]: return PLAYER_FIELD
+        elif entity == MEAL_FIELD[:-1]: return MEAL_FIELD
+        elif entity == CONTAINER_FIELD[:-1]: return CONTAINER_FIELD
     raise ValueError(f"Cannot convert {entity} into an entity field.")
 
 def load_environment(json_filename, seed=None):
@@ -67,16 +73,13 @@ def load_environment(json_filename, seed=None):
     with open(os.path.join(EXAMPLES_DIR, json_filename), "r") as f:
         environment_json = json.load(f)
     sorting_key = lambda entity: (entity["x"], entity["y"])
-    environment_json["stations"].sort(key=sorting_key)
-    # TODO: Breaks seed that gives consistent layout
-    for station in environment_json["stations"]:
-        if station["name"] == "station":
-            station["name"] = random.choice(list(Station)).value
-    environment_json["items"].sort(key=sorting_key)
-    for item in environment_json["items"]:
-        if item["name"] == "item":
-            item["name"] = random.choice(list(Item)).value
-    environment_json["players"].sort(key=sorting_key)
+    # TODO (chalo2000): Breaks seed that gives consistent layout
+    valid_entity_fields = [field for field in ENTITY_FIELDS if field in environment_json]
+    for field in valid_entity_fields:
+        environment_json[field].sort(key=sorting_key)
+        for entity in environment_json[field]:
+            if entity["name"] == field[:-1]:
+                entity["name"] = random.choice(list(TYPES[field[:-1]])).value
     return environment_json
 
 def build_objects(environment_dict):
@@ -94,7 +97,8 @@ def build_objects(environment_dict):
     """
     objects_str = ""
     updated_environment_dict = copy.deepcopy(environment_dict)
-    for field in ENTITY_FIELDS:
+    valid_entity_fields = [field for field in ENTITY_FIELDS if field in environment_dict]
+    for field in valid_entity_fields:
         object_type = field[:-1]
         seen = {}
         updated_environment_dict[field].sort(key=lambda entity: (entity["x"], entity["y"]))
@@ -121,7 +125,8 @@ def build_identity_predicates(environment_dict):
         identity_predicates_str (str): PDDL identity predicates string.
     """
     identity_predicates_str = ""
-    for field in ENTITY_FIELDS:
+    valid_entity_fields = [field for field in ENTITY_FIELDS if field in environment_dict]
+    for field in valid_entity_fields:
         for entity in environment_dict[field]:
             typed_enum = entity['typed_enum']
             name = entity['name']
@@ -145,10 +150,11 @@ def build_station_location_predicates(environment_dict):
     """
     predicates_str = ""
     for station in environment_dict["stations"]:
-        for field in ["items", "players"]:
+        valid_fields = [field for field in ["items", "players"] if field in environment_dict]
+        for field in valid_fields:
             match = False
             no_match_predicate = "empty" if field == "items" else "vacant"
-            predicate = "at" if field == "items" else "loc"
+            predicate = "item_at" if field == "items" else "loc"
             for entity in environment_dict[field]:
                 x = entity["x"] + entity["direction"][0] if field == "players" else entity["x"]
                 y = entity["y"] + entity["direction"][1] if field == "players" else entity["y"]
@@ -176,7 +182,7 @@ def build_player_location_predicates(environment_dict):
     predicates_str = ""
     for player in environment_dict["players"]:
         match = False
-        for item in environment_dict["items"]:
+        for item in environment_dict.get("items", []):
             if player["x"] == item["x"] and player["y"] == item["y"]:
                 predicates_str += f"    (has {player['name']} {item['name']})\n"
                 match = True
@@ -223,7 +229,7 @@ def build_stacking_predicates(environment_dict):
     stacks = {}
     # Sort items into stacks ordered by stacking order
     sorting_key = lambda item: item["stack-level"]
-    for item in environment_dict["items"]:
+    for item in environment_dict.get("items", []):
         for station in environment_dict["stations"]:
             if item["x"] == station["x"] and item["y"] == station["y"]:
                 stacks[station["name"]] = stacks.get(station["name"], []) + [item]
@@ -295,12 +301,13 @@ def create_unique_and_combination_preds(environment_dict):
                     # Get all entities to prepare the combination
                     arg_entities = list(filter(lambda entity: arg in entity["name"], environment_dict[entity_field]))
                     arg_entity_names = list(map(lambda entity: entity["name"], arg_entities))
-                    combination_dict[arg]['entities'] = arg_entity_names
+                    combination_dict[arg]['entities'] = arg_entity_names if arg_entity_names else []
                     combination_dict[arg]['ids'] = set()
                 combination_dict[arg]['ids'].add(arg_id)
             else:
                 # Unique predicate
                 same_id_entity = list(filter(lambda entity: entity.get("id") == arg_id, environment_dict[entity_field]))
+                # If the entity is not found, then it is a wild card entity
                 entity_name = same_id_entity[0]["name"]
                 pred.append(entity_name)
         if unique_pred:
@@ -330,6 +337,9 @@ def create_combinations(combination_dict):
         ids = list(combination_dict[arg]['ids'])
         id_order += ids
         entities = combination_dict[arg]['entities']
+        if entities == []:
+            for id in ids:
+                entities.append(arg + id)
         permutations = list(itertools.permutations(entities, len(ids)))
         combination_list.append(permutations)
     product = itertools.product(*combination_list)
@@ -371,7 +381,7 @@ def build_goal(environment_dict):
     goal =  "   (or\n"
     unique_preds, combination_preds, combination_dict = create_unique_and_combination_preds(environment_dict)
     combinations, id_order = create_combinations(combination_dict)
-    assert len(combinations) > 0, "Object in goal missing from environment"
+    # assert len(combinations) > 0, "Object in goal missing from environment"
     for combination in combinations:
         # Combination predicates with the combination ID arguments filled in
         filled_combination_preds = copy.deepcopy(combination_preds)

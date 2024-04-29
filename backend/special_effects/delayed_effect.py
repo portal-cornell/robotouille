@@ -8,21 +8,22 @@ class DelayedEffect(SpecialEffect):
     of time has passed.
     """
 
-    def __init__(self, param, effects, completed, goal_time, arg=None):
+    def __init__(self, param, effects, special_effects, goal_time=4, arg=None):
         """
         Initializes a delayed effect.
 
         Args:
             param (Object): The parameter of the special effect.
             effects (Dictionary[Predicate, bool]): The effects of the action,
-            represented by a dictionary of predicates and bools.
-            completed (bool): Whether or not the effect has been completed.
+                represented by a dictionary of predicates and bools.
+            special_effects (List[SpecialEffect]): The nested special effects of
+                the action.
             goal_time (int): The number of time steps that must pass before the
-            effect is applied.
+                effect is applied.
             arg (Object): The object that the effect is applied to. If the
                 special effect is not applied to an object, arg is None.
         """
-        super().__init__(param, effects, completed, arg)
+        super().__init__(param, effects, special_effects, False, arg)
         self.goal_time = goal_time
         self.current_time = 0
 
@@ -37,9 +38,8 @@ class DelayedEffect(SpecialEffect):
             bool: True if the effects are equal, False otherwise.
         """
         return self.param == other.param and self.effects == other.effects \
-            and self.completed == other.completed \
-                and self.goal_time == other.goal_time\
-                    and self.arg == other.arg
+            and self.special_effects == other.special_effects \
+                and self.goal_time == other.goal_time and self.arg == other.arg
     
     def __hash__(self):
         """
@@ -48,8 +48,8 @@ class DelayedEffect(SpecialEffect):
         Returns:
             hash (int): The hash of the delayed effect.
         """
-        return hash((self.param, tuple(self.effects), self.completed, 
-                     self.goal_time, self.arg))
+        return hash((self.param, tuple(self.effects), tuple(self.special_effects), 
+                     self.completed, self.current_time, self.arg))
     
     def __repr__(self):
         """
@@ -67,7 +67,7 @@ class DelayedEffect(SpecialEffect):
 
         Args:
             arg (Object): The argument that the special effect is applied to.
-            param_arg_dict (Dictionary[Object, Object]): The dictionary mapping
+            param_arg_dict (Dictionary[Str, Object]): The dictionary mapping
                 the parameters to the arguments.
 
         Returns:
@@ -77,7 +77,10 @@ class DelayedEffect(SpecialEffect):
         new_effects = {}
         for effect, value in self.effects.items():
             new_effects[effect.replace_pred_params_with_args(param_arg_dict)] = value
-        return DelayedEffect(self.param, new_effects, self.completed, self.goal_time, arg)
+        new_special_effects = []
+        for special_effect in self.special_effects:
+            new_special_effects.append(special_effect.apply_sfx_on_arg(arg, param_arg_dict))
+        return DelayedEffect(self.param, new_effects, new_special_effects, self.goal_time, arg)
 
     def increment_time(self):
         """
@@ -94,10 +97,11 @@ class DelayedEffect(SpecialEffect):
             active (bool): Whether or not the update is due to an action being
             performed.
         """
-        if active: return
-
+        if active or self.completed: return
         self.increment_time()
         if self.current_time == self.goal_time:
             for effect, value in self.effects.items():
                 state.update_predicate(effect, value)
+            for special_effect in self.special_effects:
+                special_effect.update(state)
             self.completed = True

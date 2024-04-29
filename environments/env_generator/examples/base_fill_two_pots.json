@@ -1,0 +1,67 @@
+{
+    "version": "1.0.0",
+    "width": 3,
+    "height": 3,
+    "config": {
+        "num_cuts": {
+            "lettuce": 3,
+            "default": 3
+        },
+        "cook_time": {
+            "patty": 3,
+            "default": 3
+        }
+    },
+    "stations": [
+        {
+            "name": "sink",
+            "x": 0,
+            "y": 1,
+            "id": "A"
+        },
+        {
+            "name": "sink",
+            "x": 2,
+            "y": 1,
+            "id": "B"
+        }
+    ],
+    "items": [],
+    "players": [
+        {
+            "name": "robot",
+            "x": 0,
+            "y": 0,
+            "direction": [0, 1]
+        }
+    ],
+    "meals": [],
+    "containers": [
+        {
+            "name": "pot",
+            "x": 0,
+            "y": 1,
+            "id": "a",
+            "meal_id": []
+        },
+        {
+            "name": "pot",
+            "x": 2,
+            "y": 1,
+            "id": "b",
+            "meal_id": []
+        }
+    ],
+    "goal": [
+        {
+            "predicate": "in",
+            "args": ["water", "pot"],
+            "ids": [1, "a"]
+        },
+        {
+            "predicate": "in",
+            "args": ["water", "pot"],
+            "ids": [2, 3]
+        }
+    ]
+}
