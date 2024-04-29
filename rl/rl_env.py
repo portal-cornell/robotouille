@@ -7,7 +7,7 @@ from gym.spaces import Box
 import numpy as np
 
 
-class RLConverter:
+class RLEnv(gym.Env):
     """
     This is a converter class that simplifies the environment for the RL agent by converting the state and action space to a format that is easier for the RL agent to learn.
     """

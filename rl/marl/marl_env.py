@@ -1,133 +1,213 @@
-from typing import List, Optional, Union
+from enum import Enum
 import gym
-import numpy as np
-import pddlgym
-from utils.robotouille_utils import get_valid_moves
+from gym import spaces
 import utils.pddlgym_utils as pddlgym_utils
-import utils.robotouille_wrapper as robotouille_wrapper
-from rl.rl_converter import RLConverter
-import wandb
-
-wandb.login()
+import utils.robotouille_utils as robotouille_utils
+from gym.spaces import Box
+import numpy as np
 
 
-class MARLWrapper(robotouille_wrapper.RobotouilleWrapper):
+class MARLEnv(gym.Env):
     """
-    This class is a wrapper around the Robotouille environment to make it compatible with stable-baselines3. It simplifies the environment for the RL agent by converting the state and action space to a format that is easier for the RL agent to learn.
+    This is a converter class that simplifies the environment for the RL agent by converting the state and action space to a format that is easier for the RL agent to learn.
     """
 
-    def __init__(self, env, config, renderer):
-        super().__init__(env, config, renderer)
+    class observation_size(Enum):
+        SMALL = 1
+        MEDIUM = 2
+        LARGE = 3
 
-        self.pddl_env = env
-        self.converter = None
-        self.max_steps = 80
-        self.episode_reward = 0
-        self.renderer = renderer
-        # Configuration dictionary for tracking metrics
-        self.metrics_config = {
-            "ep_rew_mean": None,  # Mean episode reward
-            "total_timesteps": 0,  # Total number of timesteps
-            "iterations": 0,  # Number of iterations
-            "ep_len_mean": None,  # Mean episode length
-            "loss": None,  # Loss,
-            "entropy_loss": None,  # Entropy loss
-        }
-        # Initialize WandB with the metrics config
-        wandb.init(project="6756-rl-experiments", config=self.metrics_config)
+    def __init__(
+        self, n_agents, expanded_truths, expanded_states, valid_actions, all_actions
+    ):
+        """
+        Initializes the converter based on expanded_truths, expanded_states, valid_actions, and all_actions.
 
-    def log_metrics(self, update_dict):
+        Args:
+            expanded_truths (list): List of expanded truths of the current state.
+            expanded_states (list): List of expanded states that correspond to each truth in expanded_truths.
+            valid_actions (list): List of valid actions
+            all_actions (list): List of all actions
         """
-        Log metrics to the metrics_config and to WandB.
-        :param update_dict: A dictionary containing updates to the metrics.
-        """
-        # Update the metrics configuration with new values
-        self.metrics_config.update(update_dict)
-        # Log the updated metrics to WandB
-        wandb.log(self.metrics_config)
 
-    def _wrap_env(self):
-        """
-        Wrap the environment to make it compatible with stable-baselines3.
-        """
-        expanded_truths, expanded_states = pddlgym_utils.expand_state(
-            self.pddl_env.prev_step[0].literals, self.pddl_env.prev_step[0].objects
+        # Initialize the environment
+        self.n_agents = n_agents
+        self.state = [[]] * self.n_agents
+        self.state_names = [[]] * self.n_agents
+
+        self.valid_actions = valid_actions
+        self.all_actions = all_actions
+        self.expanded_truths = expanded_truths
+        self.expanded_states = expanded_states
+
+        # Get shortened action space and shortened observation space
+        self.shortened_action_truths, self.shortened_action_names = (
+            self._get_action_space()
         )
 
-        valid_actions = get_valid_moves(
-            self.pddl_env, self.pddl_env.prev_step[0], self.renderer
-        )
+        (
+            self.shortened_expanded_truths,
+            self.shortened_expanded_states,
+        ) = self._get_observation_space()
 
-        all_actions = list(
-            self.pddl_env.action_space.all_ground_literals(
-                self.pddl_env.prev_step[0], valid_only=False
-            )
-        )
-
-        if self.converter is None:
-            self.converter = RLConverter(
-                expanded_truths, expanded_states, valid_actions, all_actions
+        # Set the state space. This is a binary array of the shortened expanded truths and shortened action truths
+        for i in range(self.n_agents):
+            self.state[i] = (
+                self.shortened_expanded_truths + self.shortened_action_truths[i]
             )
 
-        self.converter.step(expanded_truths, valid_actions)
+            self.state_names[i] = (
+                self.shortened_expanded_states + self.shortened_action_names[i]
+            )
 
-    def step(self, actions=None, interactive=False, debug=False):
+        # Set the action space and observation space (Note: this is for the individual agent)
+        self.action_space = spaces.Discrete(len(self.shortened_action_names))
+        self.observation_space = spaces.MultiBinary(len(self.state))
+
+    def step(self, expanded_truths, valid_actions):
         """
-        Take a step in the environment.
+        Updates the environment based on the action taken by the agent.
 
-        Returns:
-            state (list): The state of the environment after the step.
-            reward (float): The reward obtained from the step.
-            done (bool): Whether the episode is done.
-            truncated (bool): Whether the episode was truncated.
-            info (dict): A dictionary containing information about the environment.
+        Args:
+            expanded_truths (list): List of expanded truths of the state after the update.
+            valid_actions (list): List of valid actions after the update
         """
+        self.expanded_truths = expanded_truths
+        self.valid_actions = valid_actions
 
-        for action in actions:
-            action = self.converter.unwrap_move(action)
-            if debug:
-                print(action)
-            if action == "invalid":
-                obs, reward, done, info = self.pddl_env.prev_step
-                reward = 0
-                self.pddl_env.prev_step = (obs, reward, done, info)
-                self.pddl_env.timesteps += 1
-                reward -= 2
-
-                info["timesteps"] = self.pddl_env.timesteps
-            else:
-                action = str(action)
-                obs, reward, done, info = self.pddl_env.step(action, interactive)
-                self.pddl_env.prev_step = (obs, reward, done, info)
-
-        reward -= 1
-
-        wandb.log({"reward per step": reward})
-        self._wrap_env()
-        self.episode_reward += reward
-        if self.pddl_env.timesteps > self.max_steps:
-            wandb.log({"reward per episode": self.episode_reward})
-
-        return (
-            self.converter.state,
-            reward,
-            done,
-            self.pddl_env.timesteps > self.max_steps,
-            info,
+        self.shortened_action_truths, self.shortened_action_names = (
+            self._get_action_space()
         )
 
-    def reset(self, seed=42, options=None):
+        self.shortened_expanded_truths, self.shortened_expanded_states = (
+            self._get_observation_space()
+        )
+
+        for i in range(self.n_agents):
+            self.state[i] = (
+                self.shortened_expanded_truths + self.shortened_action_truths[i]
+            )
+            self.state_names[i] = (
+                self.shortened_expanded_states + self.shortened_action_names[i]
+            )
+        # self.print_state()
+
+    def _get_observation_space(self, mode=observation_size.LARGE):
         """
-        Reset the environment to its initial state.
+        Returns the shortened observation space based on the expanded truths and expanded states. If the observation size is SMALL, the observation space will only include the iscut and iscooked predicates. If the observation size is MEDIUM, the observation space will also include the location of the robot, the held item of the robot and the order of the ingredients. If the observation size is LARGE, the observation space will also include the location of the ingredients.
+
+        Args:
+            mode (observation_size): The size of the observation space.
 
         Returns:
-            state (list): The initial state of the environment.
-            info (dict): A dictionary containing information about the environment.
+            shortened_expanded_truths (list): List of truth values for each predicate in the shortened observation space.
+            shortened_expanded_states (list): List of states in the shortened observation space.
         """
-        obs, info = self.pddl_env.reset()
-        self.episode_reward = 0
-        self._wrap_env()
-        return self.converter.state, info
 
-    def render(self, *args, **kwargs):
-        self.pddl_env.render()
+        desired_truths = ["iscut", "iscooked"]
+        desired_items = ["lettuce", "patty"]
+
+        if mode != self.observation_size.SMALL:
+            desired_truths = ["iscut", "iscooked", "has", "loc"]
+            desired_items = ["lettuce", "patty", "robot", "robot"]
+            desired_order = ["topbun", "lettuce", "patty", "bottombun"]
+
+        shortened_expanded_truths = []
+        shortened_expanded_states = []
+
+        for truth, state in zip(self.expanded_truths, self.expanded_states):
+            predicate = state.predicate.name
+            item = state.variables[0].name
+
+            for i in range(len(desired_items)):
+                if predicate in desired_truths[i] and desired_items[i] in item:
+                    shortened_expanded_truths.append(truth)
+                    shortened_expanded_states.append(state)
+                    break
+
+            if predicate == "atop" and mode != self.observation_size.SMALL:
+                item2 = state.variables[1].name
+                for i in range(len(desired_order) - 1):
+                    if desired_order[i] in item and desired_order[i + 1] in item2:
+                        shortened_expanded_truths.append(truth)
+                        shortened_expanded_states.append(state)
+                        break
+            if predicate == "at" and mode == self.observation_size.LARGE:
+                shortened_expanded_truths.append(truth)
+                shortened_expanded_states.append(state)
+
+        return shortened_expanded_truths, shortened_expanded_states
+
+    def _get_action_space(self):
+        """
+        Returns the shortened action space based on the valid actions. The shortened action space includes the following actions: moving to each location, cook, cut, pick-up, place, stack, unstack. We take advantage of the fact that at any point in time, these actions are deterministic.
+
+        Returns:
+            shortened_action_truths (list): List of truth values for each action in the shortened action space.
+            shortened_action_names (list): List of action names in the shortened action space.
+        """
+        actions_truth = np.isin(
+            np.array(self.all_actions), np.array(self.valid_actions)
+        ).astype(np.float64)
+
+        shortened_action_names = [[]] * self.n_agents
+        shortened_action_truths = [[]] * self.n_agents
+        for action, valid in zip(self.all_actions, actions_truth):
+            action_name = action.predicate.name
+            # Add the action name to the shortened action space. If the action is new, add the truth value to the shortened action truths. If the action is already in the shortened action space, update the truth value if the action is valid.
+            if action_name == "move":
+                action_name += "_" + action.variables[2].name
+            elif action_name == "place" or action_name == "stack":
+                action_name = "place/stack"
+            elif action_name == "pick-up" or action_name == "unstack":
+                action_name = "pick-up/unstack"
+
+            player_index = int(action.variables[0].name[-1]) - 1
+            if action_name not in shortened_action_names[player_index]:
+                shortened_action_names[player_index].append(action_name)
+                shortened_action_truths[player_index].append(valid)
+            elif action_name in shortened_action_names and valid == 1.0:
+                index = shortened_action_names[player_index].index(action_name)
+                shortened_action_truths[player_index][index] = valid
+
+        return shortened_action_truths, shortened_action_names
+
+    def unwrap_move(self, action):
+        """
+        Returns the action that corresponds to the shortened action space. If it is an invalid action, return "invalid". Otherwise, it returns the pddlgym action that corresponds to the shortened action space.
+
+        Args:
+            action (int): The index of the action in the shortened action space.
+
+        """
+        if self.shortened_action_truths[action] == 0.0:
+            # print("invalid: " + self.shortened_action_names[action])
+            return "invalid"
+
+        attempted_action = self.shortened_action_names[action]
+
+        actions_truth = np.isin(
+            np.array(self.all_actions), np.array(self.valid_actions)
+        ).astype(np.float64)
+
+        # Find the action in the all_actions list that is valid and corresponds to the attempted action
+        for action, truth in zip(self.all_actions, actions_truth):
+            action_name = action.predicate.name
+            if action_name == "move":
+                action_name += "_" + action.variables[2].name
+            if action_name in attempted_action and truth == 1.0:
+                return action
+
+        print("ERROR: Action not found")
+
+    def print_state(self):
+        """
+        Prints the state of the environment.
+        """
+
+        output = []
+        for truth, state in zip(self.state, self.state_names):
+            if truth == 1.0:
+                output.append(state)
+
+        print(output)

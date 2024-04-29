@@ -1,8 +1,7 @@
 import numpy as np
-from rl.marl.marl_env import MARLEnv
-from rl.rl_converter import RLConverter
+from rl.marl.marl_wrapper import MARLWrapper
+from rl.marl.multiagentenv import MultiAgentEnv
 from utils.robotouille_utils import get_valid_moves
-from multiagentenv import MultiAgentEnv
 import utils.pddlgym_utils as pddlgym_utils
 
 import gym
@@ -18,55 +17,28 @@ class MAHospital_robotouille(MultiAgentEnv):
         num_agents=3,
     ):
 
-        self.pddl_env = MARLEnv(env, config, renderer, num_agents)
-        self.converter = RLConverter(
-            self.pddl_env.prev_step[0].literals,
-            self.pddl_env.prev_step[0].objects,
-            self.pddl_env.valid_actions,
-            self.pddl_env.all_actions,
-        )
+        self.pddl_env = env
+        self.config = config
+        self.renderer = renderer
+        self.env = MARLWrapper(self.pddl_env, self.config, self.renderer, num_agents)
+
         self.n_agents = num_agents
 
         self.action_space = [
-            gym.spaces.Discrete(self.env.action_space.nvec[1])
+            gym.spaces.Discrete(self.env.env.action_space.n)
             for _ in range(self.n_agents)
         ]
 
         self.observation_space = [
-            gym.spaces.Discrete(
-                self.shortened_action_names,
-                dtype=self.env.observation_space.dtype,
+            gym.spaces.MultiBinary(
+                self.env.env.observation_space.n,
             )
             for _ in range(self.n_agents)
         ]
 
         self.n_actions = self.action_space[0].n
         self.obs = None
-
-    def _wrap_env(self):
-        """
-        Wrap the environment to make it compatible with stable-baselines3.
-        """
-        expanded_truths, expanded_states = pddlgym_utils.expand_state(
-            self.pddl_env.prev_step[0].literals, self.pddl_env.prev_step[0].objects
-        )
-
-        valid_actions = get_valid_moves(
-            self.pddl_env, self.pddl_env.prev_step[0], self.renderer
-        )
-
-        all_actions = list(
-            self.pddl_env.action_space.all_ground_literals(
-                self.pddl_env.prev_step[0], valid_only=False
-            )
-        )
-
-        if self.env is None:
-            self.env = RLConverter(
-                expanded_truths, expanded_states, valid_actions, all_actions
-            )
-
-        self.env.step(expanded_truths, valid_actions)
+        self.episode_limit = 100
 
     def step(self, _actions):
         """Returns reward, terminated, info."""

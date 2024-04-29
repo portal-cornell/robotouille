@@ -2,25 +2,25 @@ from typing import List, Optional, Union
 import gym
 import numpy as np
 import pddlgym
+from rl.marl.marl_env import MARLEnv
 from utils.robotouille_utils import get_valid_moves
 import utils.pddlgym_utils as pddlgym_utils
 import utils.robotouille_wrapper as robotouille_wrapper
-from rl.rl_env import RLEnv
 import wandb
 
-# wandb.login()
+wandb.login()
 
 
-class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
+class MARLWrapper(robotouille_wrapper.RobotouilleWrapper):
     """
     This class is a wrapper around the Robotouille environment to make it compatible with stable-baselines3. It simplifies the environment for the RL agent by converting the state and action space to a format that is easier for the RL agent to learn.
     """
 
-    def __init__(self, env, config, renderer):
+    def __init__(self, env, config, renderer, n_agents):
         super().__init__(env, config, renderer)
-
         self.pddl_env = env
-        self._wrap_env()
+        self.n_agents = n_agents
+
         self.max_steps = 80
         self.episode_reward = 0
         self.renderer = renderer
@@ -33,6 +33,9 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
             "loss": None,  # Loss,
             "entropy_loss": None,  # Entropy loss
         }
+
+        self._wrap_env()
+
         # Initialize WandB with the metrics config
         wandb.init(project="6756-rl-experiments", config=self.metrics_config)
 
@@ -57,21 +60,23 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
         valid_actions = get_valid_moves(
             self.pddl_env, self.pddl_env.prev_step[0], self.renderer
         )
-
         all_actions = list(
             self.pddl_env.action_space.all_ground_literals(
                 self.pddl_env.prev_step[0], valid_only=False
             )
         )
-
-        if not isinstance(self.env, RLEnv):
-            self.env = RLEnv(
-                expanded_truths, expanded_states, valid_actions, all_actions
+        if not isinstance(self.env, MARLEnv):
+            self.env = MARLEnv(
+                self.n_agents,
+                expanded_truths,
+                expanded_states,
+                valid_actions,
+                all_actions,
             )
         else:
             self.env.step(expanded_truths, valid_actions)
 
-    def step(self, action=None, interactive=False, debug=False):
+    def step(self, actions=None, interactive=False, debug=False):
         """
         Take a step in the environment.
 
@@ -82,30 +87,34 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
             truncated (bool): Whether the episode was truncated.
             info (dict): A dictionary containing information about the environment.
         """
-        action = self.env.unwrap_move(action)
-        if debug:
-            print(action)
-        if action == "invalid":
-            obs, reward, done, info = self.pddl_env.prev_step
-            reward = 0
-            self.pddl_env.prev_step = (obs, reward, done, info)
-            self.pddl_env.timesteps += 1
-            reward -= 2
 
-            info["timesteps"] = self.pddl_env.timesteps
-        else:
-            action = str(action)
-            obs, reward, done, info = self.pddl_env.step(action, interactive)
-            self.pddl_env.prev_step = (obs, reward, done, info)
+        for action in actions:
+            action = self.env.unwrap_move(action)
+            if debug:
+                print(action)
+            if action == "invalid":
+                obs, reward, done, info = self.pddl_env.prev_step
+                reward = 0
+                self.pddl_env.prev_step = (obs, reward, done, info)
+                self.pddl_env.timesteps += 1
+                reward -= 2
+
+                info["timesteps"] = self.pddl_env.timesteps
+            else:
+                action = str(action)
+                obs, reward, done, info = self.pddl_env.step(action, interactive)
+                self.pddl_env.prev_step = (obs, reward, done, info)
 
         reward -= 1
 
         wandb.log({"reward per step": reward})
         self._wrap_env()
+
         self.episode_reward += reward
         if self.pddl_env.timesteps > self.max_steps:
             wandb.log({"reward per episode": self.episode_reward})
 
+        print("self.env.state", self.env.state)
         return (
             self.env.state,
             reward,
