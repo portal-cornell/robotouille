@@ -10,6 +10,7 @@ import time
 from pathlib import Path
 from datetime import datetime
 import imageio
+import traceback
 
 SIMULATE_LATENCY = False
 SIMULATED_LATENCY_DURATION = 0.25
@@ -28,28 +29,61 @@ def simulator(environment_name: str, seed: int=42, role: str="client", display_s
 
 def server_loop(environment_name: str, seed: int=42, noisy_randomization: bool=False, display_server: bool=False):
     print("I am server")
-    async def simulator(websocket):
-        print("Hello client", websocket)
-        recording = {}
-        recording["start_time"] = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
-        recording["environment_name"] = environment_name
-        recording["seed"] = seed
-        recording["noisy_randomization"] = noisy_randomization
-        recording["actions"] = []
-        recording["violations"] = []
-        start_time = time.monotonic()
 
-        env, json_data, renderer = create_robotouille_env(environment_name, seed, noisy_randomization)
-        obs, info = env.reset()
-        if display_server:
-            renderer.render(obs, mode='human')
-        done = False
-        interactive = False  # Adjust based on client commands later if needed
+    waiting_queue = {}
+    gameQueue = asyncio.Queue()
+    reference_env = create_robotouille_env(environment_name, seed, noisy_randomization)[0]
+    num_players = len(reference_env.get_state().get_players())
+
+    async def simulator(connections):
         try:
+            print("Start game", connections.keys())
+            recording = {}
+            recording["start_time"] = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
+            recording["environment_name"] = environment_name
+            recording["seed"] = seed
+            recording["noisy_randomization"] = noisy_randomization
+            recording["actions"] = []
+            recording["violations"] = []
+            start_time = time.monotonic()
+
+            env, json_data, renderer = create_robotouille_env(environment_name, seed, noisy_randomization)
+            obs, info = env.reset()
+            if display_server:
+                renderer.render(obs, mode='human')
+            done = False
+            interactive = False  # Adjust based on client commands later if needed
+
+            assert len(connections) == num_players
+            sockets_to_playerID = {}
+            for i, socket in enumerate(connections.keys()):
+                sockets_to_playerID[socket] = i
+                player_data = base64.b64encode(pickle.dumps(i)).decode('utf-8')
+                opening_message = json.dumps({"player": player_data})
+                await socket.send(opening_message)
+
             while not done:
-                action_message = await websocket.recv()
-                encoded_action = json.loads(action_message)
-                action = pickle.loads(base64.b64decode(encoded_action))
+                # Wait for messages from any client
+                # lol this is causing a memory leak
+                receive_tasks = {asyncio.create_task(q.get()): client for client, q in connections.items()}
+                finished_tasks, pending_tasks = await asyncio.wait(receive_tasks.keys(), return_when=asyncio.FIRST_COMPLETED)
+                
+                # Cancel pending tasks, otherwise we leak
+                for task in pending_tasks:
+                    task.cancel()
+                
+                # Retrieve the message from the completed task
+                actions = [(None, None)] * num_players
+                for task in finished_tasks:
+                    message = task.result()
+                    client = receive_tasks[task]
+                    #print(f"Received: {message} from {client.remote_address}")
+                    encoded_action = json.loads(message)
+                    action = pickle.loads(base64.b64decode(encoded_action))
+
+                    actions[sockets_to_playerID[client]] = action
+
+                
                 #print((action, args))
                 if SIMULATE_LATENCY:
                     time.sleep(SIMULATED_LATENCY_DURATION)
@@ -57,27 +91,31 @@ def server_loop(environment_name: str, seed: int=42, noisy_randomization: bool=F
                 reply = None
 
                 try:
-                    obs, reward, done, info = env.step(action=action, interactive=interactive)
+                    obs, reward, done, info = env.step(actions, interactive=interactive)
                     recording["actions"].append((action, env.get_state(), time.monotonic() - start_time))
-                    reply = json.dumps({"valid": True, "done": done})
                     if display_server:
                         renderer.render(obs, mode='human')
                 except AssertionError:
+                    print("violation")
                     recording["violations"].append((action, time.monotonic() - start_time))
-                    env_data = pickle.dumps(env.get_state())
-                    encoded_env_data = base64.b64encode(env_data).decode('utf-8')
-                    obs_data = pickle.dumps(obs)
-                    encoded_obs_data = base64.b64encode(obs_data).decode('utf-8')
-                    reply = json.dumps({"valid": False, "env": encoded_env_data, "obs": encoded_obs_data, "done": False})
+                
+                env_data = pickle.dumps(env.get_state())
+                encoded_env_data = base64.b64encode(env_data).decode('utf-8')
+                obs_data = pickle.dumps(obs)
+                encoded_obs_data = base64.b64encode(obs_data).decode('utf-8')
+                reply = json.dumps({"env": encoded_env_data, "obs": encoded_obs_data, "done": done})
                 
                 if SIMULATE_LATENCY:
                     time.sleep(SIMULATED_LATENCY_DURATION)
-                await websocket.send(reply)
+                websockets.broadcast(connections.keys(), reply)
             recording["result"] = "done"
         except BaseException as e:
-            print(e)
-            recording["result"] = e
+            traceback.print_exc(e)
+            recording["result"] = traceback.format_exc(e)
         finally:
+            for websocket in connections.keys():
+                await websocket.close()
+
             if display_server:
                 renderer.render(obs, close=True)
             print("GG")
@@ -87,8 +125,20 @@ def server_loop(environment_name: str, seed: int=42, noisy_randomization: bool=F
             p.mkdir(exist_ok=True)
             with open(p / (recording["start_time"] + '.pkl'), 'wb') as f:
                 pickle.dump(recording, f)
+    
+    async def handle_connection(websocket):
+        # simple lobby code; will break if anyone disconnects, probably has race conditions lol, etc.
+        print("Hello client", websocket)
+        q = asyncio.Queue()
+        waiting_queue[websocket] = q
+        if len(waiting_queue) == num_players:
+            connections = waiting_queue.copy()
+            waiting_queue.clear()
+            asyncio.create_task(simulator(connections))
+        async for message in websocket:
+            await q.put(message)
 
-    start_server = websockets.serve(simulator, "0.0.0.0", 8765)
+    start_server = websockets.serve(handle_connection, "0.0.0.0", 8765)
 
     asyncio.get_event_loop().run_until_complete(start_server)
     asyncio.get_event_loop().run_forever()
@@ -100,20 +150,21 @@ def client_loop(environment_name: str, seed: int = 42, host: str="ws://localhost
         env = shared_state["env"]
         renderer = shared_state["renderer"]
         renderer.render(shared_state["obs"], mode='human')
+        player = shared_state["player"]
         online = True
         while not shared_state["done"]:
             pygame_events = pygame.event.get()
             mousedown_events = list(filter(lambda e: e.type == pygame.MOUSEBUTTONDOWN, pygame_events))
             keydown_events = list(filter(lambda e: e.type == pygame.KEYDOWN, pygame_events))
-            action, args = create_action_from_control(env, shared_state["obs"], mousedown_events + keydown_events, renderer)
+            action, args = create_action_from_control(env, shared_state["obs"], player, mousedown_events + keydown_events, renderer)
 
             online = not (pygame.key.get_mods() & pygame.KMOD_CAPS)
 
             if action is not None:
                 if online:
-                    encoded_action = base64.b64encode(pickle.dumps(action)).decode('utf-8')
+                    encoded_action = base64.b64encode(pickle.dumps((action, args))).decode('utf-8')
                     await websocket.send(json.dumps(encoded_action))
-                shared_state["obs"], reward, done, info = env.step(action=action, interactive=True)
+                #shared_state["obs"], reward, done, info = env.step(action=action, interactive=True)
             renderer.render(env.get_state(), mode='human')
 
             await asyncio.sleep(0)  # Yield control to allow other tasks to run
@@ -123,16 +174,22 @@ def client_loop(environment_name: str, seed: int = 42, host: str="ws://localhost
             response = await websocket.recv()
             data = json.loads(response)
             shared_state["done"] = data["done"]
-
-            if(not data["valid"]):
-                shared_state["env"].set_state(pickle.loads(base64.b64decode(data["env"])))
-                shared_state["obs"] = pickle.loads(base64.b64decode(data["obs"]))
+            
+            shared_state["env"].set_state(pickle.loads(base64.b64decode(data["env"])))
+            shared_state["obs"] = pickle.loads(base64.b64decode(data["obs"]))
 
     async def interact_with_server():
         async with websockets.connect(uri) as websocket:
             env, _, renderer = create_robotouille_env(environment_name, seed, noisy_randomization)
             obs, info = env.reset()
-            shared_state = {"done": False, "env": env, "renderer": renderer, "obs": obs}
+            shared_state = {"done": False, "env": env, "renderer": renderer, "obs": obs, "player": None}
+
+            opening_message = await websocket.recv()
+            opening_data = json.loads(opening_message)
+            player_index = pickle.loads(base64.b64decode(opening_data["player"]))
+            player = env.get_state().get_players()[player_index]
+            shared_state["player"] = player
+
             sender = asyncio.create_task(send_actions(websocket, shared_state))
             receiver = asyncio.create_task(receive_responses(websocket, shared_state))
             await asyncio.gather(sender, receiver)
