@@ -92,12 +92,12 @@ def server_loop(environment_name: str, seed: int=42, noisy_randomization: bool=F
 
                 try:
                     obs, reward, done, info = env.step(actions, interactive=interactive)
-                    recording["actions"].append((action, env.get_state(), time.monotonic() - start_time))
+                    recording["actions"].append((actions, env.get_state(), time.monotonic() - start_time))
                     if display_server:
                         renderer.render(obs, mode='human')
                 except AssertionError:
                     print("violation")
-                    recording["violations"].append((action, time.monotonic() - start_time))
+                    recording["violations"].append((actions, time.monotonic() - start_time))
                 
                 env_data = pickle.dumps(env.get_state())
                 encoded_env_data = base64.b64encode(env_data).decode('utf-8')
@@ -210,10 +210,10 @@ def replay(recording_name: str):
     renderer.render(obs, mode='human')
 
     previous_time = 0
-    for action, state, t in recording["actions"]:
+    for actions, state, t in recording["actions"]:
         time.sleep(t - previous_time)
         previous_time = t
-        obs, reward, done, info = env.step(action=action, interactive=False)
+        obs, reward, done, info = env.step(actions=actions, interactive=False)
         renderer.render(obs, mode='human')
     renderer.render(obs, close=True)
 
@@ -234,9 +234,9 @@ def render(recording_name: str):
     i = 0
     t = 0
     while i < len(recording["actions"]):
-        action, state, time_stamp = recording["actions"][i]
+        actions, state, time_stamp = recording["actions"][i]
         while t > time_stamp:
-            obs, reward, done, info = env.step(action=action, interactive=False)
+            obs, reward, done, info = env.step(actions=actions, interactive=False)
             frame = renderer.render(obs, mode='rgb_array')
             i += 1
             if i >= len(recording["actions"]):
