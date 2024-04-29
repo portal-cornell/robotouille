@@ -256,70 +256,6 @@ class RobotouilleCanvas:
                         col = col[:-1]
                     self._draw_image(surface, f"{col}.png", np.array([j, i]) * self.pix_square_size, self.pix_square_size)
 
-    def _get_station_locations(self, layout):
-        """
-        Gets the locations of all stations in the layout.
-
-        Args:
-            layout (List[List[Optional[str]]]): 2D array of station names (or None)
-        
-        Returns:
-            station_locations (List[tuple]): List of (x, y) positions of stations
-        """
-        station_locations = []
-        for i, row in enumerate(layout):
-            for j, col in enumerate(row):
-                if col is not None:
-                    station_locations.append((j, i))
-        return station_locations
-
-    def _move_player_to_station(self, player_position, station_position, layout):
-        """
-        Moves the player from their current position to a position adjacent to a station using BFS.
-
-        BFS is used to determine the final state. As an additional constraint, the player cannot
-        move through a station or out of bounds.
-
-        Args:
-            player_position (tuple): (x, y) position of the player
-            station_position (tuple): (x, y) position of the station
-            layout (List[List[Optional[str]]]): 2D array of station names (or None)
-        
-        Returns:
-            new_player_position (tuple): (x, y) position of the player after moving
-            new_player_direction (tuple): unit vector of the player's direction after moving
-        
-        Raises:
-            ValueError: If the player cannot reach the station
-        """
-        width, height = len(layout[0]), len(layout)
-        obstacle_locations = self._get_station_locations(layout)
-        curr_prev = (player_position, player_position) # current position, previous position
-        queue = [curr_prev]
-        visited = set()
-        while queue:
-            curr_prev = queue.pop(0)
-            curr_position = curr_prev[0]
-            prev_position = curr_prev[1]
-            if curr_position == station_position:
-                # Reached target station
-                return prev_position, (curr_position[0] - prev_position[0], prev_position[1] - curr_position[1])
-            if curr_position[0] < 0 or curr_position[0] >= width or curr_position[1] < 0 or curr_position[1] >= height:
-                # Out of bounds
-                continue
-            if curr_position in obstacle_locations:
-                # Cannot move through station
-                continue
-            if curr_position in visited:
-                # Already visited
-                continue
-            visited.add(curr_position)
-            for direction in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
-                next_position = (curr_position[0] + direction[0], curr_position[1] + direction[1])
-                if next_position != prev_position:
-                    queue.append((next_position, curr_position))
-        assert False, "Player could not be moved to station"
-
     def _get_player_image_name(self, direction):
         """
         Returns the image name of the player given their direction.
@@ -353,21 +289,13 @@ class RobotouilleCanvas:
         """
         players = obs.get_players()
         for player in players:
-            player_pos = None
+            player_obj = obs.movement.players[player.name]
+            player_pos = player_obj.pos
+            robot_image_name = self._get_player_image_name(player_obj.direction)
             held_item_name = None
+            self._draw_image(surface, robot_image_name, player_pos * self.pix_square_size, self.pix_square_size)
             for literal, is_true in obs.predicates.items():
-                if is_true and literal.name == "loc" and literal.params[0].name == player.name:
-                    player_station = literal.params[1].name
-                    station_pos = self._get_station_position(player_station)
-                    player_pos = self.player_pose[player.name]["position"]
-                    player_pos, player_direction = self._move_player_to_station(player_pos, tuple(station_pos), self.layout)
-                    self.player_pose[player.name] = {"position": player_pos, "direction": player_direction}
-                    #pos[1] += 1 # place the player below the station
-                    #player_pos = pos
-                    robot_image_name = self._get_player_image_name(player_direction)
-                    self._draw_image(surface, robot_image_name, player_pos * self.pix_square_size, self.pix_square_size)
                 if is_true and literal.name == "has_item" and literal.params[0].name == player.name:
-                    player_pos = self.player_pose[player.name]["position"]
                     held_item_name = literal.params[1].name
             if held_item_name:
                 self._draw_item_image(surface, held_item_name, obs, player_pos * self.pix_square_size)

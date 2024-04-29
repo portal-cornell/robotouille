@@ -1,6 +1,7 @@
 from backend.predicate import Predicate
 from backend.object import Object
 from utils.robotouille_utils import trim_item_ID
+from backend.movement.movement import Movement
 import itertools
 
 class State(object):
@@ -135,7 +136,7 @@ class State(object):
         """
         return [obj for obj in self.objects if obj.object_type == "player"]
 
-    def initialize(self, domain, objects, true_predicates, all_goals, special_effects=[]):
+    def initialize(self, domain, objects, true_predicates, all_goals, movement, special_effects=[]):
         """
         Initializes a state object.
 
@@ -153,6 +154,8 @@ class State(object):
             true_predicates (Set[Predicate]): The predicates that are true in
                 the state, as defined by the problem file. 
             all_goals (List[List[Predicate]]): The goal predicates of the game. 
+            movement (Movement): The movement object that handles the movement
+                of players in the state.
             special_effects (List[Special_effects]): The special effects that 
                 are active in the state.
 
@@ -183,6 +186,7 @@ class State(object):
         self.predicates = predicates
         self.actions = self._build_actions(domain, objects)
         self.goal = all_goals
+        self.movement = movement
         self.special_effects = special_effects
 
         return self
@@ -413,11 +417,18 @@ class State(object):
             AssertionError: If the action is invalid with the given arguments in
             the given state.
         """
+        self.movement.step(self)
+
         for action, param_arg_dict in actions:
             if not action:
                 continue
             assert action.is_valid(self, param_arg_dict)
-            self = action.perform_action(self, param_arg_dict)
+            if action.name == "move":
+                player = param_arg_dict["p1"]
+                destination = param_arg_dict["s2"]
+                self.movement.move(self, player, destination, action, param_arg_dict)
+            else:
+                self = action.perform_action(self, param_arg_dict)
         
         for special_effect in self.special_effects:
             special_effect.update(self)
@@ -425,7 +436,7 @@ class State(object):
         if self.is_goal_reached():
             return self, True
         
-        self.current_player = self.next_player()
+        if not self.movement.animate: self.current_player = self.next_player()
 
         return self, False
     
