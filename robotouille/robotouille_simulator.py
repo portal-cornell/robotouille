@@ -33,10 +33,6 @@ def simulator(
     mode=mode.TRAIN,
     type=type.MULTI,
 ):
-    print(
-        f"Simulating environment {environment_name} with seed {seed} and noisy randomization {noisy_randomization}"
-    )
-
     # Your code for robotouille goes here
     env, json, renderer = create_robotouille_env(
         environment_name, seed, noisy_randomization

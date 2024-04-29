@@ -73,6 +73,11 @@ class EpisodeRunner:
                 "obs": [self.env.get_obs()],
             }
 
+            print("Data in episode runner")
+            print(pre_transition_data["state"][0].shape)
+            print(pre_transition_data["avail_actions"][0])
+            print(pre_transition_data["obs"][0].shape)
+
             self.batch.update(pre_transition_data, ts=self.t)
 
             # Pass the entire batch of experiences up till now to the agents

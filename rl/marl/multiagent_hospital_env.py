@@ -95,7 +95,7 @@ class MAHospital_robotouille(MultiAgentEnv):
     def reset(self):
         """Returns initial observations and states."""
         self.time_step = 0
-        self.obs = self.env.reset()
+        self.obs, _ = self.env.reset()
 
         return self.get_obs(), self.get_global_state()
 

@@ -32,8 +32,6 @@ class MARLEnv(gym.Env):
 
         # Initialize the environment
         self.n_agents = n_agents
-        self.state = [[]] * self.n_agents
-        self.state_names = [[]] * self.n_agents
 
         self.valid_actions = valid_actions
         self.all_actions = all_actions
@@ -51,9 +49,16 @@ class MARLEnv(gym.Env):
         ) = self._get_observation_space()
 
         # Set the state space. This is a binary array of the shortened expanded truths and shortened action truths
+        self.state = np.zeros(
+            (
+                self.n_agents,
+                len(self.shortened_expanded_truths + self.shortened_action_truths[0]),
+            )
+        )
+        self.state_names = [[]] * self.n_agents
         for i in range(self.n_agents):
-            self.state[i] = (
-                self.shortened_expanded_truths + self.shortened_action_truths[i]
+            self.state[i] = np.array(
+                (self.shortened_expanded_truths + self.shortened_action_truths[i])
             )
 
             self.state_names[i] = (
@@ -61,7 +66,7 @@ class MARLEnv(gym.Env):
             )
 
         # Set the action space and observation space (Note: this is for the individual agent)
-        self.action_space = spaces.Discrete(len(self.shortened_action_names))
+        self.action_space = spaces.Discrete(len(self.shortened_action_names[0]))
         self.observation_space = spaces.MultiBinary(len(self.state))
 
     def step(self, expanded_truths, valid_actions):
@@ -84,7 +89,7 @@ class MARLEnv(gym.Env):
         )
 
         for i in range(self.n_agents):
-            self.state[i] = (
+            self.state[i] = np.array(
                 self.shortened_expanded_truths + self.shortened_action_truths[i]
             )
             self.state_names[i] = (

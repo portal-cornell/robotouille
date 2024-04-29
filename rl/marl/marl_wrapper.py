@@ -114,7 +114,6 @@ class MARLWrapper(robotouille_wrapper.RobotouilleWrapper):
         if self.pddl_env.timesteps > self.max_steps:
             wandb.log({"reward per episode": self.episode_reward})
 
-        print("self.env.state", self.env.state)
         return (
             self.env.state,
             reward,
@@ -134,6 +133,7 @@ class MARLWrapper(robotouille_wrapper.RobotouilleWrapper):
         obs, info = self.pddl_env.reset()
         self.episode_reward = 0
         self._wrap_env()
+        # print("self.env.state", self.env.state)
         return self.env.state, info
 
     def render(self, *args, **kwargs):
