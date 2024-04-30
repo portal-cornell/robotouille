@@ -150,7 +150,8 @@ def build_station_location_predicates(environment_dict):
     """
     predicates_str = ""
     for station in environment_dict["stations"]:
-        for field in ["items", "players"]:
+        valid_fields = [field for field in ["items", "players"] if field in environment_dict]
+        for field in valid_fields:
             match = False
             no_match_predicate = "empty" if field == "items" else "vacant"
             predicate = "item_at" if field == "items" else "loc"
@@ -181,7 +182,7 @@ def build_player_location_predicates(environment_dict):
     predicates_str = ""
     for player in environment_dict["players"]:
         match = False
-        for item in environment_dict["items"]:
+        for item in environment_dict.get("items", []):
             if player["x"] == item["x"] and player["y"] == item["y"]:
                 predicates_str += f"    (has {player['name']} {item['name']})\n"
                 match = True
@@ -228,7 +229,7 @@ def build_stacking_predicates(environment_dict):
     stacks = {}
     # Sort items into stacks ordered by stacking order
     sorting_key = lambda item: item["stack-level"]
-    for item in environment_dict["items"]:
+    for item in environment_dict.get("items", []):
         for station in environment_dict["stations"]:
             if item["x"] == station["x"] and item["y"] == station["y"]:
                 stacks[station["name"]] = stacks.get(station["name"], []) + [item]
@@ -300,12 +301,13 @@ def create_unique_and_combination_preds(environment_dict):
                     # Get all entities to prepare the combination
                     arg_entities = list(filter(lambda entity: arg in entity["name"], environment_dict[entity_field]))
                     arg_entity_names = list(map(lambda entity: entity["name"], arg_entities))
-                    combination_dict[arg]['entities'] = arg_entity_names
+                    combination_dict[arg]['entities'] = arg_entity_names if arg_entity_names else []
                     combination_dict[arg]['ids'] = set()
                 combination_dict[arg]['ids'].add(arg_id)
             else:
                 # Unique predicate
                 same_id_entity = list(filter(lambda entity: entity.get("id") == arg_id, environment_dict[entity_field]))
+                # If the entity is not found, then it is a wild card entity
                 entity_name = same_id_entity[0]["name"]
                 pred.append(entity_name)
         if unique_pred:
@@ -335,6 +337,9 @@ def create_combinations(combination_dict):
         ids = list(combination_dict[arg]['ids'])
         id_order += ids
         entities = combination_dict[arg]['entities']
+        if entities == []:
+            for id in ids:
+                entities.append(arg + id)
         permutations = list(itertools.permutations(entities, len(ids)))
         combination_list.append(permutations)
     product = itertools.product(*combination_list)
@@ -376,7 +381,7 @@ def build_goal(environment_dict):
     goal =  "   (or\n"
     unique_preds, combination_preds, combination_dict = create_unique_and_combination_preds(environment_dict)
     combinations, id_order = create_combinations(combination_dict)
-    assert len(combinations) > 0, "Object in goal missing from environment"
+    # assert len(combinations) > 0, "Object in goal missing from environment"
     for combination in combinations:
         # Combination predicates with the combination ID arguments filled in
         filled_combination_preds = copy.deepcopy(combination_preds)

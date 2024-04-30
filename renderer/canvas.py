@@ -13,7 +13,7 @@ class RobotouilleCanvas:
     # The directory containing the assets
     ASSETS_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets")
 
-    def __init__(self, config, layout, player, window_size=np.array([512,512])):
+    def __init__(self, config, layout, players, window_size=np.array([512,512])):
         """
         Initializes the canvas.
 
@@ -24,8 +24,10 @@ class RobotouilleCanvas:
         # The layout of the game
         self.layout = layout
         # The player's position and direction (assuming one player)
-        player_pos = (player["x"], len(layout) - player["y"] - 1)
-        self.player_pose = {"position": player_pos, "direction": tuple(player["direction"])}
+        self.player_pose = {}
+        for player in players:
+            player_pos = (player["x"], len(layout) - player["y"] - 1)
+            self.player_pose[player["name"]] = {"position": player_pos, "direction": tuple(player["direction"])}
         grid_dimensions = np.array([len(layout[0]), len(layout)])
         # The scaling factor for a grid square
         self.pix_square_size = window_size / grid_dimensions
@@ -349,24 +351,26 @@ class RobotouilleCanvas:
             surface (pygame.Surface): Surface to draw on
             obs (State): Game state predicates
         """
-        player_pos = None
-        held_item_name = None
-        for literal, is_true in obs.predicates.items():
-            if is_true and literal.name == "loc":
-                player_station = literal.params[1].name
-                station_pos = self._get_station_position(player_station)
-                player_pos = self.player_pose["position"]
-                player_pos, player_direction = self._move_player_to_station(player_pos, tuple(station_pos), self.layout)
-                self.player_pose = {"position": player_pos, "direction": player_direction}
-                #pos[1] += 1 # place the player below the station
-                #player_pos = pos
-                robot_image_name = self._get_player_image_name(player_direction)
-                self._draw_image(surface, robot_image_name, player_pos * self.pix_square_size, self.pix_square_size)
-            if is_true and literal.name == "has_item":
-                player_pos = self.player_pose["position"]
-                held_item_name = literal.params[1].name
-        if held_item_name:
-            self._draw_item_image(surface, held_item_name, obs, player_pos * self.pix_square_size)
+        players = obs.get_players()
+        for player in players:
+            player_pos = None
+            held_item_name = None
+            for literal, is_true in obs.predicates.items():
+                if is_true and literal.name == "loc" and literal.params[0].name == player.name:
+                    player_station = literal.params[1].name
+                    station_pos = self._get_station_position(player_station)
+                    player_pos = self.player_pose[player.name]["position"]
+                    player_pos, player_direction = self._move_player_to_station(player_pos, tuple(station_pos), self.layout)
+                    self.player_pose[player.name] = {"position": player_pos, "direction": player_direction}
+                    #pos[1] += 1 # place the player below the station
+                    #player_pos = pos
+                    robot_image_name = self._get_player_image_name(player_direction)
+                    self._draw_image(surface, robot_image_name, player_pos * self.pix_square_size, self.pix_square_size)
+                if is_true and literal.name == "has_item" and literal.params[0].name == player.name:
+                    player_pos = self.player_pose[player.name]["position"]
+                    held_item_name = literal.params[1].name
+            if held_item_name:
+                self._draw_item_image(surface, held_item_name, obs, player_pos * self.pix_square_size)
 
     def _draw_item(self, surface, obs):
         """
@@ -439,7 +443,8 @@ class RobotouilleCanvas:
                 self._draw_container_image(surface, container, obs, container_pos * self.pix_square_size)
             if is_true and literal.name == "has_container":
                 container = literal.params[1].name
-                container_pos = self.player_pose["position"]
+                player = literal.params[0].name
+                container_pos = self.player_pose[player]["position"]
                 self._draw_container_image(surface, container, obs, container_pos * self.pix_square_size)
 
     def draw_to_surface(self, surface, obs):

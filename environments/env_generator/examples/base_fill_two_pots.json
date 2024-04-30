@@ -18,6 +18,12 @@
             "x": 0,
             "y": 1,
             "id": "A"
+        },
+        {
+            "name": "sink",
+            "x": 2,
+            "y": 1,
+            "id": "B"
         }
     ],
     "items": [],
@@ -37,13 +43,25 @@
             "y": 1,
             "id": "a",
             "meal_id": []
+        },
+        {
+            "name": "pot",
+            "x": 2,
+            "y": 1,
+            "id": "b",
+            "meal_id": []
         }
     ],
     "goal": [
         {
-            "predicate": "isbowl",
-            "args": ["pot"],
-            "ids": ["a"]
+            "predicate": "in",
+            "args": ["water", "pot"],
+            "ids": [1, "a"]
+        },
+        {
+            "predicate": "in",
+            "args": ["water", "pot"],
+            "ids": [2, 3]
         }
     ]
 }

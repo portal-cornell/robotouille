@@ -1,4 +1,5 @@
 from backend.special_effect import SpecialEffect
+from backend.object import Object
 
 class CreationEffect(SpecialEffect):
     """
@@ -97,9 +98,13 @@ class CreationEffect(SpecialEffect):
         """
         if self.completed:
             return
-        state.add_object(self.created_obj[1])
+        new_obj = state.add_object(self.created_obj[1])
         for effect, value in self.effects.items():
+            for param in effect.params:
+                if param == self.created_obj[1]:
+                    param.name = new_obj.name
             state.update_predicate(effect, value)
         for special_effect in self.special_effects:
             special_effect.update(state, active)
-        self.completed = True
+        if all([special_effect.completed for special_effect in self.special_effects]):
+            self.completed = True
