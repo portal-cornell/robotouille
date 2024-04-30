@@ -290,7 +290,7 @@ class RobotouilleCanvas:
         players = obs.get_players()
         for player in players:
             player_obj = obs.movement.players[player.name]
-            player_pos = player_obj.pos
+            player_pos = (player_obj.pos[0], len(self.layout) - player_obj.pos[1] - 1)
             robot_image_name = self._get_player_image_name(player_obj.direction)
             held_item_name = None
             self._draw_image(surface, robot_image_name, player_pos * self.pix_square_size, self.pix_square_size)

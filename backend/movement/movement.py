@@ -99,16 +99,40 @@ class Movement(object):
         for i, row in enumerate(self.layout):
             for j, col in enumerate(row):
                 if col is not None:
-                    station_locations.append((j, i))
+                    station_locations.append((j, len(self.layout) - i - 1))
         return station_locations
     
-    def _get_player_path(self, player, destination):
+    def _get_possible_destinations(self, player, destination):
         """
-        Gets the path for the player to move to the destination using bfs.
+        Gets the possible destination positions for a player.
 
         Args:
             player (Player): The player.
-            destination (Tuple]): The destination position.
+            destination (tuple): The destination position.
+
+        Returns:
+            possible_destinations (List[tuple]): The possible destination positions.
+        """
+        possible_destinations = []
+        other_station_locations = self._get_station_locations()
+        player_locations = [(p.pos[0], p.pos[1]) for p in self.players.values() if p != player]
+        width, height = len(self.layout[0]), len(self.layout)
+        for i, j in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
+            next_pos = (destination[0] + i, destination[1] + j)
+            if next_pos[0] < 0 or next_pos[0] >= width or next_pos[1] < 0 or next_pos[1] >= height:
+                continue
+            if next_pos in other_station_locations or next_pos in player_locations:
+                continue
+            possible_destinations.append(next_pos)
+        return possible_destinations
+
+    def _get_player_path(self, player, destinations):
+        """
+        Gets the path for the player to move to the destination.
+
+        Args:
+            player (Player): The player.
+            destinations (List[tuple]): The possible destination positions.
 
         Returns:
             path (list[Tuple]): The path to the destination. Each 
@@ -117,30 +141,26 @@ class Movement(object):
         width, height = len(self.layout[0]), len(self.layout)
         obstacle_locations = self._get_station_locations()
         other_player_locations = [(p.pos[0], p.pos[1]) for p in self.players.values() if p != player]
-        curr_prev = (player.pos, player.pos)
-        queue = [curr_prev]
         visited = set()
         path = []
+        queue = [(player.pos, path)]
         while queue:
-            curr_prev = queue.pop(0)
-            curr_pos, prev_pos = curr_prev
-            if curr_pos == destination:
-                if prev_pos in other_player_locations:
-                    continue
+            current, path = queue.pop(0)
+            if current in destinations:
                 return path
-            if curr_pos[0] < 0 or curr_pos[0] >= width or curr_pos[1] < 0 or curr_pos[1] >= height:
+            if current[0] < 0 or current[0] >= width or current[1] < 0 or current[1] >= height:
                 continue
-            if curr_pos in obstacle_locations:
+            if current in obstacle_locations or current in other_player_locations:
                 continue
-            if curr_pos in visited:
+            if current in visited:
                 continue
-            visited.add(curr_pos)
-            path.append(curr_pos)
-            for direction in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
-                next_pos = (curr_pos[0] + direction[0], curr_pos[1] + direction[1])
-                if next_pos != prev_pos:
-                    queue.append((next_pos, curr_pos))
-        return []
+            visited.add(current)
+            for i, j in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
+                next_pos = (current[0] + i, current[1] + j)
+                new_path = path.copy()
+                new_path.append(next_pos)
+                queue.append((next_pos, new_path))
+        assert False, "No path found"
     
     def move(self, state, player, destination, action, param_arg_dict):
         """
@@ -162,24 +182,30 @@ class Movement(object):
         """
         player_obj = self.players[player.name]
         destination_pos = self.stations[destination.name]
-        print("initial position:", player_obj.pos)
-        path = self._get_player_path(player_obj, destination_pos)
-        assert path != [], "No path found"
-        print(path)
+        possible_destinations = self._get_possible_destinations(player_obj, destination_pos)
+        if player_obj.pos in possible_destinations:
+            action.perform_action(state, param_arg_dict)
+            player_obj.direction = (destination_pos[0] - player_obj.pos[0], destination_pos[1] - player_obj.pos[1])
+            return
+        path = self._get_player_path(player_obj, possible_destinations)
+        print("path:", path)
         if not self.animate:
             player_obj.pos = path[-1]
-            player.direction = (destination_pos[0] - player_obj.pos[0], destination_pos[1] - player_obj.pos[1])
+            player_obj.direction = (destination_pos[0] - player_obj.pos[0], destination_pos[1] - player_obj.pos[1])
             action.perform_action(state, param_arg_dict)
         else:
             player_obj.path = path
-            player_obj.direction = (path[1][0] - player_obj.pos[0], path[1][1] - player_obj.pos[1])
-            player_obj.pos = path[1]
-            player_obj.path.pop(0)
+            next_pos = player_obj.path.pop(0)
+            player_obj.direction = (next_pos[0] - player_obj.pos[0], next_pos[1] - player_obj.pos[1])
+            player_obj.pos = next_pos
             if player_obj.path == []:
                 action.perform_action(state, param_arg_dict)
+                destination = param_arg_dict["s2"]
+                station_pos = self.stations[destination.name]
+                player_obj.direction = (station_pos[0] - next_pos[0], station_pos[1] - next_pos[1])
             else:
                 player_obj.motion = True
-                player.action = (action, param_arg_dict)
+                player_obj.action = (action, param_arg_dict)
         
     def step(self, state):
         """
@@ -189,10 +215,28 @@ class Movement(object):
             state (State): The state of the environment.
         """
         for player in self.players.values():
-            if player.path != []:
-                player.pos = player.path[0]
-                player.path.pop(0)
+            other_player_pos = [p.pos for p in self.players.values() if p != player]
+            if player.path != [] and player.path[0] not in other_player_pos:
+                next_pos = player.path.pop(0)
+                player.direction = (next_pos[0] - player.pos[0], next_pos[1] - player.pos[1])
+                player.pos = next_pos
                 if player.path == []:
                     player.motion = False
                     player.action[0].perform_action(state, player.action[1])
+                    destination = player.action[1]["s2"]
+                    station_pos = self.stations[destination.name]
+                    player.direction = (station_pos[0] - player.pos[0], station_pos[1] - player.pos[1])
                     player.action = None
+
+
+    def get_player(self, player_name):
+        """
+        Gets the player object with the given name.
+
+        Args:
+            player_name (str): The name of the player.
+
+        Returns:
+            player (Player): The player object.
+        """
+        return self.players[player_name]
