@@ -1,5 +1,6 @@
 from backend.predicate import Predicate
 from backend.object import Object
+from backend.object import Object
 from utils.robotouille_utils import trim_item_ID
 from backend.movement.movement import Movement
 import itertools

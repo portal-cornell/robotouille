@@ -28,6 +28,10 @@ class RobotouilleCanvas:
         for player in players:
             player_pos = (player["x"], len(layout) - player["y"] - 1)
             self.player_pose[player["name"]] = {"position": player_pos, "direction": tuple(player["direction"])}
+        self.player_pose = {}
+        for player in players:
+            player_pos = (player["x"], len(layout) - player["y"] - 1)
+            self.player_pose[player["name"]] = {"position": player_pos, "direction": tuple(player["direction"])}
         grid_dimensions = np.array([len(layout[0]), len(layout)])
         # The scaling factor for a grid square
         self.pix_square_size = window_size / grid_dimensions
