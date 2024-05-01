@@ -116,12 +116,13 @@ class Movement(object):
         possible_destinations = []
         other_station_locations = self._get_station_locations()
         player_locations = [(p.pos[0], p.pos[1]) for p in self.players.values() if p != player]
+        player_destinations = [p.path[-1] for p in self.players.values() if p != player and p.path != []]
         width, height = len(self.layout[0]), len(self.layout)
         for i, j in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
             next_pos = (destination[0] + i, destination[1] + j)
             if next_pos[0] < 0 or next_pos[0] >= width or next_pos[1] < 0 or next_pos[1] >= height:
                 continue
-            if next_pos in other_station_locations or next_pos in player_locations:
+            if next_pos in other_station_locations or next_pos in player_locations or next_pos in player_destinations:
                 continue
             possible_destinations.append(next_pos)
         return possible_destinations
