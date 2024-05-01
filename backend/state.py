@@ -424,6 +424,7 @@ class State(object):
             if not action:
                 continue
             assert action.is_valid(self, param_arg_dict)
+            # If the action is a movement action, use the movement module
             if action.name == "move":
                 player = param_arg_dict["p1"]
                 destination = param_arg_dict["s2"]

@@ -297,12 +297,17 @@ class RobotouilleCanvas:
             player_pos = (player_obj.pos[0], len(self.layout) - player_obj.pos[1] - 1)
             robot_image_name = self._get_player_image_name(player_obj.direction)
             held_item_name = None
+            held_container_name = None
             self._draw_image(surface, robot_image_name, player_pos * self.pix_square_size, self.pix_square_size)
             for literal, is_true in obs.predicates.items():
                 if is_true and literal.name == "has_item" and literal.params[0].name == player.name:
                     held_item_name = literal.params[1].name
+                if is_true and literal.name == "has_container" and literal.params[0].name == player.name:
+                    held_container_name = literal.params[1].name
             if held_item_name:
                 self._draw_item_image(surface, held_item_name, obs, player_pos * self.pix_square_size)
+            if held_container_name:
+                self._draw_container_image(surface, held_container_name, obs, player_pos * self.pix_square_size)
 
     def _draw_item(self, surface, obs):
         """
@@ -372,11 +377,6 @@ class RobotouilleCanvas:
                 station = literal.params[1].name
                 container_pos = self._get_station_position(station)
                 container_pos[1] -= station_container_offset
-                self._draw_container_image(surface, container, obs, container_pos * self.pix_square_size)
-            if is_true and literal.name == "has_container":
-                container = literal.params[1].name
-                player = literal.params[0].name
-                container_pos = self.player_pose[player]["position"]
                 self._draw_container_image(surface, container, obs, container_pos * self.pix_square_size)
 
     def draw_to_surface(self, surface, obs):

@@ -132,7 +132,9 @@ class Movement(object):
 
         Args:
             player (Player): The player.
-            destinations (List[tuple]): The possible destination positions.
+            destinations (List[tuple]): The possible destination positions
+                (accounts for other player locations and station locations when
+                the move action is first called)
 
         Returns:
             path (list[Tuple]): The path to the destination. Each 
@@ -140,7 +142,6 @@ class Movement(object):
         """
         width, height = len(self.layout[0]), len(self.layout)
         obstacle_locations = self._get_station_locations()
-        other_player_locations = [(p.pos[0], p.pos[1]) for p in self.players.values() if p != player]
         visited = set()
         path = []
         queue = [(player.pos, path)]
@@ -150,7 +151,7 @@ class Movement(object):
                 return path
             if current[0] < 0 or current[0] >= width or current[1] < 0 or current[1] >= height:
                 continue
-            if current in obstacle_locations or current in other_player_locations:
+            if current in obstacle_locations:
                 continue
             if current in visited:
                 continue
@@ -183,26 +184,31 @@ class Movement(object):
         player_obj = self.players[player.name]
         destination_pos = self.stations[destination.name]
         possible_destinations = self._get_possible_destinations(player_obj, destination_pos)
+        # If player is already at the destination, perform move action immediately
         if player_obj.pos in possible_destinations:
             action.perform_action(state, param_arg_dict)
             player_obj.direction = (destination_pos[0] - player_obj.pos[0], destination_pos[1] - player_obj.pos[1])
             return
+        # Get the path to the destination
         path = self._get_player_path(player_obj, possible_destinations)
-        print("path:", path)
+        # If animate mode is disabled, move player to destination immediately
         if not self.animate:
             player_obj.pos = path[-1]
             player_obj.direction = (destination_pos[0] - player_obj.pos[0], destination_pos[1] - player_obj.pos[1])
             action.perform_action(state, param_arg_dict)
         else:
+            # Animate the movement by moving the player by on step in the path
             player_obj.path = path
             next_pos = player_obj.path.pop(0)
             player_obj.direction = (next_pos[0] - player_obj.pos[0], next_pos[1] - player_obj.pos[1])
             player_obj.pos = next_pos
+            # If player has reached the destination, perform the action
             if player_obj.path == []:
                 action.perform_action(state, param_arg_dict)
                 destination = param_arg_dict["s2"]
                 station_pos = self.stations[destination.name]
                 player_obj.direction = (station_pos[0] - next_pos[0], station_pos[1] - next_pos[1])
+            # Else, the player is still currently moving and waits for the next step
             else:
                 player_obj.motion = True
                 player_obj.action = (action, param_arg_dict)
@@ -216,7 +222,7 @@ class Movement(object):
         """
         for player in self.players.values():
             other_player_pos = [p.pos for p in self.players.values() if p != player]
-            if player.path != [] and player.path[0] not in other_player_pos:
+            if player.path != [] and not (len(player.path) == 1 and player.path[0] in other_player_pos):
                 next_pos = player.path.pop(0)
                 player.direction = (next_pos[0] - player.pos[0], next_pos[1] - player.pos[1])
                 player.pos = next_pos
