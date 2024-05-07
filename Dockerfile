@@ -4,4 +4,4 @@ COPY . .
 
 RUN pip install -r requirements.txt
 
-CMD python main.py --role server
+CMD python main.py --environment_name "cook_soup" --role server

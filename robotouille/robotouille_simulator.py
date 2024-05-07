@@ -157,7 +157,7 @@ async def server_loop(environment_name: str, seed: int=42, noisy_randomization: 
     if event == None:
         event = asyncio.Event()
 
-    async with websockets.serve(handle_connection, "localhost", 8765):
+    async with websockets.serve(handle_connection, "0.0.0.0", 8765):
         print("I am server")
         await event.wait()
 
