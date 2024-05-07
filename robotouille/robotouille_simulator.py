@@ -19,19 +19,30 @@ def simulator(environment_name: str, seed: int=42, role: str="client", display_s
     if recording != "" and role != "replay" and role != "render":
         role = "replay"
     if role == "server":
-        server_loop(environment_name, seed, noisy_randomization, display_server)
+        asyncio.run(server_loop(environment_name, seed, noisy_randomization, display_server))
     elif role == "client":
-        client_loop(environment_name, seed, host, noisy_randomization)
+        asyncio.run(client_loop(environment_name, seed, host, noisy_randomization))
+    elif role == "single":
+        asyncio.run(single_player(environment_name, seed, noisy_randomization))
     elif role == "replay":
         replay(recording)
     elif role == "render":
         render(recording)
+    else:
+        print("Invalid role:", role)
 
-def server_loop(environment_name: str, seed: int=42, noisy_randomization: bool=False, display_server: bool=False):
-    print("I am server")
+async def single_player(environment_name: str, seed: int=42, noisy_randomization: bool=False):
+    event = asyncio.Event()
+    server = asyncio.create_task(server_loop(environment_name=environment_name, seed=seed, noisy_randomization=noisy_randomization, event=event))
+    await asyncio.sleep(0.5)  # wait for server to initialize
+    client = asyncio.create_task(client_loop(environment_name=environment_name, seed=seed, noisy_randomization=noisy_randomization))
+    await client
+    event.set()
+    await server
 
+
+async def server_loop(environment_name: str, seed: int=42, noisy_randomization: bool=False, display_server: bool=False, event: asyncio.Event=None):
     waiting_queue = {}
-    gameQueue = asyncio.Queue()
     reference_env = create_robotouille_env(environment_name, seed, noisy_randomization)[0]
     num_players = len(reference_env.get_state().get_players())
 
@@ -138,12 +149,19 @@ def server_loop(environment_name: str, seed: int=42, noisy_randomization: bool=F
         async for message in websocket:
             await q.put(message)
 
-    start_server = websockets.serve(handle_connection, "0.0.0.0", 8765)
+    #start_server = websockets.serve(handle_connection, "0.0.0.0", 8765)
 
-    asyncio.get_event_loop().run_until_complete(start_server)
-    asyncio.get_event_loop().run_forever()
+    #asyncio.get_event_loop().run_until_complete(start_server)
+    #asyncio.get_event_loop().run_forever()
 
-def client_loop(environment_name: str, seed: int = 42, host: str="ws://localhost:8765", noisy_randomization: bool = False):
+    if event == None:
+        event = asyncio.Event()
+
+    async with websockets.serve(handle_connection, "localhost", 8765):
+        print("I am server")
+        await event.wait()
+
+async def client_loop(environment_name: str, seed: int = 42, host: str="ws://localhost:8765", noisy_randomization: bool = False):
     uri = host
 
     async def send_actions(websocket, shared_state):
@@ -178,24 +196,24 @@ def client_loop(environment_name: str, seed: int = 42, host: str="ws://localhost
             shared_state["env"].set_state(pickle.loads(base64.b64decode(data["env"])))
             shared_state["obs"] = pickle.loads(base64.b64decode(data["obs"]))
 
-    async def interact_with_server():
-        async with websockets.connect(uri) as websocket:
-            env, _, renderer = create_robotouille_env(environment_name, seed, noisy_randomization)
-            obs, info = env.reset()
-            shared_state = {"done": False, "env": env, "renderer": renderer, "obs": obs, "player": None}
+    async with websockets.connect(uri) as websocket:
+        env, _, renderer = create_robotouille_env(environment_name, seed, noisy_randomization)
+        obs, info = env.reset()
+        shared_state = {"done": False, "env": env, "renderer": renderer, "obs": obs, "player": None}
+        print("In lobby")
 
-            opening_message = await websocket.recv()
-            opening_data = json.loads(opening_message)
-            player_index = pickle.loads(base64.b64decode(opening_data["player"]))
-            player = env.get_state().get_players()[player_index]
-            shared_state["player"] = player
+        opening_message = await websocket.recv()
+        print("In game")
+        opening_data = json.loads(opening_message)
+        player_index = pickle.loads(base64.b64decode(opening_data["player"]))
+        player = env.get_state().get_players()[player_index]
+        shared_state["player"] = player
+        
 
-            sender = asyncio.create_task(send_actions(websocket, shared_state))
-            receiver = asyncio.create_task(receive_responses(websocket, shared_state))
-            await asyncio.gather(sender, receiver)
-            # Additional cleanup if necessary
-
-    asyncio.get_event_loop().run_until_complete(interact_with_server())
+        sender = asyncio.create_task(send_actions(websocket, shared_state))
+        receiver = asyncio.create_task(receive_responses(websocket, shared_state))
+        await asyncio.gather(sender, receiver)
+        # Additional cleanup if necessary
 
 def replay(recording_name: str):
     if not recording_name:
