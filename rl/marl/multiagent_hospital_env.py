@@ -54,7 +54,7 @@ class MAHospital_robotouille(MultiAgentEnv):
         if self.time_step >= self.episode_limit:
             done = True
 
-        return sum(rewards), done, infos
+        return sum(rewards), done, {}
 
     def get_obs(self):
         """Returns all agent observations in a list."""
@@ -66,7 +66,7 @@ class MAHospital_robotouille(MultiAgentEnv):
 
     def get_obs_size(self):
         """Returns the size of the observation."""
-        obs_size = np.array(self.env.observation_space.shape[1:])
+        obs_size = np.array(self.env.observation_space.shape)
         return int(obs_size.prod())
 
     def get_global_state(self):
@@ -96,7 +96,6 @@ class MAHospital_robotouille(MultiAgentEnv):
         """Returns initial observations and states."""
         self.time_step = 0
         self.obs, _ = self.env.reset()
-
         return self.get_obs(), self.get_global_state()
 
     def render(self):

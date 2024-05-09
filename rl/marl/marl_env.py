@@ -67,7 +67,7 @@ class MARLEnv(gym.Env):
 
         # Set the action space and observation space (Note: this is for the individual agent)
         self.action_space = spaces.Discrete(len(self.shortened_action_names[0]))
-        self.observation_space = spaces.MultiBinary(len(self.state))
+        self.observation_space = spaces.MultiBinary(len(self.state[0]))
 
     def step(self, expanded_truths, valid_actions):
         """
@@ -160,6 +160,8 @@ class MARLEnv(gym.Env):
         for action, valid in zip(self.all_actions, actions_truth):
             action_name = action.predicate.name
             # Add the action name to the shortened action space. If the action is new, add the truth value to the shortened action truths. If the action is already in the shortened action space, update the truth value if the action is valid.
+            if action_name == "select":
+                continue
             if action_name == "move":
                 action_name += "_" + action.variables[2].name
             elif action_name == "place" or action_name == "stack":
@@ -177,7 +179,7 @@ class MARLEnv(gym.Env):
 
         return shortened_action_truths, shortened_action_names
 
-    def unwrap_move(self, action):
+    def unwrap_move(self, agent_index, action):
         """
         Returns the action that corresponds to the shortened action space. If it is an invalid action, return "invalid". Otherwise, it returns the pddlgym action that corresponds to the shortened action space.
 
@@ -185,18 +187,19 @@ class MARLEnv(gym.Env):
             action (int): The index of the action in the shortened action space.
 
         """
-        if self.shortened_action_truths[action] == 0.0:
+        if self.shortened_action_truths[agent_index][action] == 0.0:
             # print("invalid: " + self.shortened_action_names[action])
             return "invalid"
 
-        attempted_action = self.shortened_action_names[action]
+        attempted_action = self.shortened_action_names[agent_index][action]
 
         actions_truth = np.isin(
             np.array(self.all_actions), np.array(self.valid_actions)
         ).astype(np.float64)
-
         # Find the action in the all_actions list that is valid and corresponds to the attempted action
         for action, truth in zip(self.all_actions, actions_truth):
+            if action.variables[0].name != "robot" + str(agent_index + 1):
+                continue
             action_name = action.predicate.name
             if action_name == "move":
                 action_name += "_" + action.variables[2].name

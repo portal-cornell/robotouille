@@ -107,14 +107,10 @@ class EpisodeBatch:
         self.device = device
 
     def update(self, data, bs=slice(None), ts=slice(None), mark_filled=True):
-        # print("data", data)
         slices = self._parse_slices((bs, ts))
-        # print("slices", slices)
         for k, v in data.items():
-            # print("k, v", k, v)
             if k in self.data.transition_data:
                 target = self.data.transition_data
-                # print("target", target)
                 if mark_filled:
                     target["filled"][slices] = 1
                     mark_filled = False
@@ -124,7 +120,6 @@ class EpisodeBatch:
                 _slices = slices[0]
             else:
                 raise KeyError("{} not found in transition or episode data".format(k))
-
             dtype = self.scheme[k].get("dtype", th.float32)
             if type(v) == list:
                 v = th.tensor(np.array(v), dtype=dtype, device=self.device)
@@ -141,7 +136,6 @@ class EpisodeBatch:
 
     def _check_safe_view(self, v, dest):
         idx = len(v.shape) - 1
-        breakpoint()
         for s in dest.shape[::-1]:
             if v.shape[idx] != s:
                 if s != 1:

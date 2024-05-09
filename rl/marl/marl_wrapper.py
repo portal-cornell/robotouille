@@ -8,7 +8,7 @@ import utils.pddlgym_utils as pddlgym_utils
 import utils.robotouille_wrapper as robotouille_wrapper
 import wandb
 
-wandb.login()
+# wandb.login()
 
 
 class MARLWrapper(robotouille_wrapper.RobotouilleWrapper):
@@ -76,6 +76,8 @@ class MARLWrapper(robotouille_wrapper.RobotouilleWrapper):
         else:
             self.env.step(expanded_truths, valid_actions)
 
+        self.observation_space = self.env.observation_space
+
     def step(self, actions=None, interactive=False, debug=False):
         """
         Take a step in the environment.
@@ -88,8 +90,9 @@ class MARLWrapper(robotouille_wrapper.RobotouilleWrapper):
             info (dict): A dictionary containing information about the environment.
         """
 
-        for action in actions:
-            action = self.env.unwrap_move(action)
+        rewards = []
+        for i in range(len(actions)):
+            action = self.env.unwrap_move(i, actions[i])
             if debug:
                 print(action)
             if action == "invalid":
@@ -98,14 +101,15 @@ class MARLWrapper(robotouille_wrapper.RobotouilleWrapper):
                 self.pddl_env.prev_step = (obs, reward, done, info)
                 self.pddl_env.timesteps += 1
                 reward -= 2
-
+                rewards.append(reward)
                 info["timesteps"] = self.pddl_env.timesteps
             else:
                 action = str(action)
                 obs, reward, done, info = self.pddl_env.step(action, interactive)
                 self.pddl_env.prev_step = (obs, reward, done, info)
+                rewards.append(reward)
 
-        reward -= 1
+        # reward -= 1
 
         wandb.log({"reward per step": reward})
         self._wrap_env()
@@ -116,9 +120,8 @@ class MARLWrapper(robotouille_wrapper.RobotouilleWrapper):
 
         return (
             self.env.state,
-            reward,
+            rewards,
             done,
-            self.pddl_env.timesteps > self.max_steps,
             info,
         )
 
