@@ -30,7 +30,7 @@ def simulator(
     environment_name: str,
     seed: int = 42,
     noisy_randomization: bool = False,
-    mode=mode.TRAIN,
+    mode=mode.PLAY,
     type=type.MULTI,
 ):
     # Your code for robotouille goes here
