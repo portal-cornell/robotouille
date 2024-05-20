@@ -53,7 +53,7 @@ class MAHospital_robotouille(MultiAgentEnv):
 
         if self.time_step >= self.episode_limit:
             done = True
-
+        # print("sum(rewards): ", sum(rewards))
         return sum(rewards), done, {}
 
     def get_obs(self):

@@ -64,7 +64,6 @@ class EpisodeRunner:
         terminated = False
         episode_return = 0
         self.mac.init_hidden(batch_size=self.batch_size)
-
         while not terminated:
 
             pre_transition_data = {
@@ -114,8 +113,6 @@ class EpisodeRunner:
         cur_stats = self.test_stats if test_mode else self.train_stats
         cur_returns = self.test_returns if test_mode else self.train_returns
         log_prefix = "test_" if test_mode else ""
-        print("cur_stats", cur_stats)
-        print("env_info", env_info)
         cur_stats.update(
             {
                 k: cur_stats.get(k, 0) + env_info.get(k, 0)

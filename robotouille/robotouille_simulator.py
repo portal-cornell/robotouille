@@ -125,11 +125,10 @@ def multi_rl_simulator(environment_name: str, seed: int, noisy_randomization: bo
     arguments = [
         "python",
         "epymarl/main.py",
-        "--config=vdn",
+        "--config=qmix",
         "--env-config=gymma",
         "with",
-        "env_args.time_limit=25",
-        "env_args.key=lbforaging:Foraging-8x8-2p-3f-v2",
+        "env_args.time_limit=50",
     ]
 
     config = {

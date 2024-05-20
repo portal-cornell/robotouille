@@ -66,6 +66,8 @@ class MARLEnv(gym.Env):
             )
 
         # Set the action space and observation space (Note: this is for the individual agent)
+        print("action names", len(self.shortened_action_names[0]))
+        print(self.shortened_action_names[0])
         self.action_space = spaces.Discrete(len(self.shortened_action_names[0]))
         self.observation_space = spaces.MultiBinary(len(self.state[0]))
 
@@ -173,7 +175,7 @@ class MARLEnv(gym.Env):
             if action_name not in shortened_action_names[player_index]:
                 shortened_action_names[player_index].append(action_name)
                 shortened_action_truths[player_index].append(valid)
-            elif action_name in shortened_action_names and valid == 1.0:
+            elif action_name in shortened_action_names[player_index] and valid == 1.0:
                 index = shortened_action_names[player_index].index(action_name)
                 shortened_action_truths[player_index][index] = valid
 

@@ -101,6 +101,8 @@
             ],
             "actions": [
                 "move",
+                "cut",
+                "cook",
                 "moveitem"
             ]
         },
@@ -114,7 +116,9 @@
             ],
             "actions": [
                 "move",
-                "cook"
+                "cut",
+                "cook",
+                "moveitem"
             ]
         }
     ],
