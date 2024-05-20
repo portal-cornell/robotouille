@@ -8,7 +8,7 @@ import utils.robotouille_wrapper as robotouille_wrapper
 from rl.rl_env import RLEnv
 import wandb
 
-wandb.login()
+# wandb.login()
 
 
 class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
@@ -20,7 +20,7 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
         super().__init__(env, config, renderer)
 
         self.pddl_env = env
-        self.env = None
+        self._wrap_env()
         self.max_steps = 80
         self.episode_reward = 0
         self.renderer = renderer
@@ -64,12 +64,12 @@ class RLWrapper(robotouille_wrapper.RobotouilleWrapper):
             )
         )
 
-        if self.env is None:
+        if not isinstance(self.env, RLEnv):
             self.env = RLEnv(
                 expanded_truths, expanded_states, valid_actions, all_actions
             )
-
-        self.env.step(expanded_truths, valid_actions)
+        else:
+            self.env.step(expanded_truths, valid_actions)
 
     def step(self, action=None, interactive=False, debug=False):
         """

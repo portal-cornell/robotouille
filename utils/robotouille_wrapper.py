@@ -478,7 +478,6 @@ class RobotouilleWrapper(gym.Wrapper):
             done (bool): Whether or not the episode is done.
             info (dict): A dictionary of metadata about the step.
         """
-
         expanded_truths = self.prev_step[3]["expanded_truths"]
         expanded_states = self.prev_step[3]["expanded_states"]
 
@@ -495,7 +494,7 @@ class RobotouilleWrapper(gym.Wrapper):
         prev_heuristic = self._heuristic_function(self.prev_step[0])
 
         obs, reward, done, info = self._handle_action(action)
-        obs, reward, done, info = self._change_selected_player(obs)
+        obs, reward, _, info = self._change_selected_player(obs)
 
         obs = self._state_update()
 
@@ -509,7 +508,8 @@ class RobotouilleWrapper(gym.Wrapper):
             obs.literals, obs.objects
         )
 
-        self.timesteps += 1
+        if self._current_selected_player(obs) == "robot1":
+            self.timesteps += 1
 
         info = {
             "timesteps": self.timesteps,
@@ -525,7 +525,7 @@ class RobotouilleWrapper(gym.Wrapper):
 
         # print("prev_heuristic: ", prev_heuristic)
         # print("current_heuristic: ", self._heuristic_function(obs))
-        print("reward: ", reward)
+        # print("reward: ", reward)
 
         return obs, reward, done, info
 
