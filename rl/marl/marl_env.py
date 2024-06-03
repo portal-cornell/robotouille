@@ -66,8 +66,6 @@ class MARLEnv(gym.Env):
             )
 
         # Set the action space and observation space (Note: this is for the individual agent)
-        print("action names", len(self.shortened_action_names[0]))
-        print(self.shortened_action_names[0])
         self.action_space = spaces.Discrete(len(self.shortened_action_names[0]))
         self.observation_space = spaces.MultiBinary(len(self.state[0]))
 
@@ -189,15 +187,18 @@ class MARLEnv(gym.Env):
             action (int): The index of the action in the shortened action space.
 
         """
+        # print("valid actions", self.valid_actions)
+        # print("index", agent_index)
+
         if self.shortened_action_truths[agent_index][action] == 0.0:
             # print("invalid: " + self.shortened_action_names[action])
             return "invalid"
-
         attempted_action = self.shortened_action_names[agent_index][action]
 
         actions_truth = np.isin(
             np.array(self.all_actions), np.array(self.valid_actions)
         ).astype(np.float64)
+
         # Find the action in the all_actions list that is valid and corresponds to the attempted action
         for action, truth in zip(self.all_actions, actions_truth):
             if action.variables[0].name != "robot" + str(agent_index + 1):
@@ -208,7 +209,8 @@ class MARLEnv(gym.Env):
             if action_name in attempted_action and truth == 1.0:
                 return action
 
-        print("ERROR: Action not found")
+        print("ERROR: Action not found ", attempted_action)
+        print("hello" + 1)
 
     def print_state(self):
         """

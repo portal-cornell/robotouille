@@ -1,0 +1,121 @@
+[INFO 12:07:20] pymarl Running command 'my_main'
+[INFO 12:07:20] pymarl Started run with ID "3"
+[DEBUG 12:07:20] pymarl Starting Heartbeat
+[DEBUG 12:07:20] my_main Started
+[WARNING 12:07:20] my_main CUDA flag use_cuda was switched OFF automatically because no CUDA devices are available!
+[INFO 12:07:20] my_main Experiment Parameters:
+[INFO 12:07:20] my_main 
+
+{   'action_selector': 'epsilon_greedy',
+    'add_value_last_step': True,
+    'agent': 'rnn',
+    'agent_output_type': 'q',
+    'batch_size': 32,
+    'batch_size_run': 1,
+    'buffer_cpu_only': True,
+    'buffer_size': 5000,
+    'checkpoint_path': '',
+    'double_q': True,
+    'env': 'gymma',
+    'env_args': {   'key': None,
+                    'pretrained_wrapper': None,
+                    'seed': 205024298,
+                    'time_limit': 50},
+    'epsilon_anneal_time': 50000,
+    'epsilon_finish': 0.05,
+    'epsilon_start': 1.0,
+    'evaluate': False,
+    'evaluation_epsilon': 0.0,
+    'gamma': 0.99,
+    'grad_norm_clip': 10,
+    'hidden_dim': 64,
+    'hypergroup': None,
+    'hypernet_embed': 64,
+    'hypernet_layers': 2,
+    'label': 'default_label',
+    'learner': 'q_learner',
+    'learner_log_interval': 10000,
+    'load_step': 0,
+    'local_results_path': 'results',
+    'log_interval': 50000,
+    'lr': 0.0005,
+    'mac': 'basic_mac',
+    'mixer': 'qmix',
+    'mixing_embed_dim': 32,
+    'name': 'qmix',
+    'obs_agent_id': True,
+    'obs_individual_obs': False,
+    'obs_last_action': False,
+    'optim_alpha': 0.99,
+    'optim_eps': 1e-05,
+    'render': False,
+    'repeat_id': 1,
+    'runner': 'episode',
+    'runner_log_interval': 10000,
+    'save_model': True,
+    'save_model_interval': 50000,
+    'save_replay': False,
+    'seed': 205024298,
+    'standardise_returns': False,
+    'standardise_rewards': True,
+    't_max': 200000,
+    'target_update_interval_or_tau': 200,
+    'test_greedy': True,
+    'test_interval': 50000,
+    'test_nepisode': 100,
+    'use_cuda': False,
+    'use_rnn': False,
+    'use_tensorboard': False}
+
+[INFO 12:07:20] my_main Beginning training for 200000 timesteps
+[INFO 12:07:24] my_main t_env: 100 / 200000
+[INFO 12:07:24] my_main Estimated time left: 14 seconds. Time passed: 3 seconds
+[INFO 12:14:10] my_main Saving models to results/models/qmix_seed205024298_None_2024-06-02 12:07:20.015625/100
+[INFO 12:48:05] my_main Recent Stats | t_env:      50000 | Episode:      500
+ep_length_mean:          100.0000	epsilon:                   0.2400	grad_norm:                 8.8643	loss:                      1.4381
+q_taken_mean:              0.1195	return_mean:             -185.0280	return_std:               22.3332	target_mean:               0.2850
+td_error_abs:              0.8557	test_ep_length_mean:     100.0000	test_return_mean:        -198.0000	test_return_std:           0.0000
+
+[INFO 12:48:09] my_main t_env: 50100 / 200000
+[INFO 12:48:09] my_main Estimated time left: 2 hours, 2 minutes, 12 seconds. Time passed: 40 minutes, 49 seconds
+[INFO 12:55:24] my_main Saving models to results/models/qmix_seed205024298_None_2024-06-02 12:07:20.015625/50100
+[INFO 13:32:04] my_main Recent Stats | t_env:     100000 | Episode:     1000
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                10.0611	loss:                      1.3577
+q_taken_mean:              0.8354	return_mean:              -7.2000	return_std:               52.1480	target_mean:               0.9760
+td_error_abs:              0.7614	test_ep_length_mean:     100.0000	test_return_mean:        -72.0000	test_return_std:           0.0000
+
+[INFO 13:32:09] my_main t_env: 100100 / 200000
+[INFO 13:32:09] my_main Estimated time left: 1 hours, 27 minutes, 53 seconds. Time passed: 1 hours, 24 minutes, 48 seconds
+[INFO 13:39:46] my_main Saving models to results/models/qmix_seed205024298_None_2024-06-02 12:07:20.015625/100100
+[INFO 14:19:37] my_main Recent Stats | t_env:     150000 | Episode:     1500
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                17.9610	loss:                      1.7449
+q_taken_mean:              1.6979	return_mean:             -18.1720	return_std:               55.4307	target_mean:               1.8848
+td_error_abs:              0.8424	test_ep_length_mean:     100.0000	test_return_mean:        -36.3333	test_return_std:           0.0000
+
+[INFO 14:19:43] my_main t_env: 150100 / 200000
+[INFO 14:19:43] my_main Estimated time left: 47 minutes, 28 seconds. Time passed: 2 hours, 12 minutes, 23 seconds
+[INFO 14:35:19] my_main Saving models to results/models/qmix_seed205024298_None_2024-06-02 12:07:20.015625/150100
+[INFO 15:16:55] my_main Recent Stats | t_env:     200000 | Episode:     2000
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 9.9632	loss:                      0.9140
+q_taken_mean:              2.2481	return_mean:              17.0640	return_std:               22.0660	target_mean:               2.3323
+td_error_abs:              0.5426	test_ep_length_mean:     100.0000	test_return_mean:        -17.2500	test_return_std:           0.0000
+
+[INFO 15:16:59] my_main t_env: 200100 / 200000
+[INFO 15:16:59] my_main Estimated time left: -. Time passed: 3 hours, 9 minutes, 39 seconds
+[INFO 15:24:34] my_main Saving models to results/models/qmix_seed205024298_None_2024-06-02 12:07:20.015625/200100
+[INFO 15:24:34] my_main Finished Training
+Exiting Main
+Stopping all threads
+Thread MsgRouterThr is alive! Is daemon: True
+Thread joined
+Thread ChkStopThr is alive! Is daemon: True
+Thread joined
+Thread NetStatThr is alive! Is daemon: True
+Thread joined
+Thread IntMsgThr is alive! Is daemon: True
+Thread joined
+Thread Thread-3 is alive! Is daemon: False
+Thread joined
+Exiting script
+[DEBUG 15:24:39] my_main Finished after 3:17:19.
+[INFO 15:24:39] pymarl Completed after 3:17:19
