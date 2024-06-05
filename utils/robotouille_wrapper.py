@@ -238,6 +238,7 @@ class RobotouilleWrapper(gym.Wrapper):
                 self.env, obs, action, self.renderer
             )
         except Exception:
+            print("Error in changing player")
             return self.prev_step
         return self.env.step(action)
 
@@ -332,7 +333,8 @@ class RobotouilleWrapper(gym.Wrapper):
                 and "bottombun" in literal.variables[0].name
             ):
                 bottombun_station = literal.variables[1].name
-
+        if bottombun_station is None:
+            return False
         for literal in obs.literals:
             if (
                 "loc" == literal.predicate.name
@@ -495,7 +497,6 @@ class RobotouilleWrapper(gym.Wrapper):
 
         obs, reward, done, info = self._handle_action(action)
         obs, reward, _, info = self._change_selected_player(obs)
-
         obs = self._state_update()
 
         toggle_array = pddlgym_utils.create_toggle_array(
@@ -523,6 +524,8 @@ class RobotouilleWrapper(gym.Wrapper):
 
         self.prev_step = (obs, reward, done, info)
 
+        if done:
+            print("Goal Reached!")
         # print("prev_heuristic: ", prev_heuristic)
         # print("current_heuristic: ", self._heuristic_function(obs))
         # print("reward: ", reward)
