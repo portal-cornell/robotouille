@@ -210,7 +210,6 @@ class MARLEnv(gym.Env):
                 return action
 
         print("ERROR: Action not found ", attempted_action)
-        print("hello" + 1)
 
     def print_state(self):
         """
