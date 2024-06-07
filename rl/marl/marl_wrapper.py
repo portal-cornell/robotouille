@@ -21,7 +21,7 @@ class MARLWrapper(robotouille_wrapper.RobotouilleWrapper):
         self.pddl_env = env
         self.n_agents = n_agents
 
-        self.max_steps = 80
+        self.max_steps = 100
         self.episode_reward = 0
         self.renderer = renderer
         # Configuration dictionary for tracking metrics
@@ -102,7 +102,8 @@ class MARLWrapper(robotouille_wrapper.RobotouilleWrapper):
                 obs, _, _, _ = self.pddl_env._change_selected_player(obs)
                 reward = 0
                 self.pddl_env.prev_step = (obs, reward, done, info)
-                self.pddl_env.timesteps += 1
+                if self.pddl_env._current_selected_player(obs) == "robot1":
+                    self.pddl_env.timesteps += 1
                 reward -= 2
                 rewards.append(reward)
                 info["timesteps"] = self.pddl_env.timesteps
@@ -118,7 +119,7 @@ class MARLWrapper(robotouille_wrapper.RobotouilleWrapper):
         wandb.log({"reward per step": reward})
 
         self.episode_reward += reward
-        if self.pddl_env.timesteps > self.max_steps:
+        if self.pddl_env.timesteps >= self.max_steps:
             wandb.log({"reward per episode": self.episode_reward})
 
         return (

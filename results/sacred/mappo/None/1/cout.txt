@@ -1,0 +1,444 @@
+[INFO 10:33:32] pymarl Running command 'my_main'
+[INFO 10:33:32] pymarl Started run with ID "1"
+[DEBUG 10:33:32] pymarl Starting Heartbeat
+[DEBUG 10:33:32] my_main Started
+[WARNING 10:33:32] my_main CUDA flag use_cuda was switched OFF automatically because no CUDA devices are available!
+[INFO 10:33:32] my_main Experiment Parameters:
+[INFO 10:33:32] my_main 
+
+{   'action_selector': 'soft_policies',
+    'add_value_last_step': True,
+    'agent': 'rnn',
+    'agent_output_type': 'pi_logits',
+    'batch_size': 10,
+    'batch_size_run': 10,
+    'buffer_cpu_only': True,
+    'buffer_size': 10,
+    'checkpoint_path': '',
+    'critic_type': 'cv_critic',
+    'entropy_coef': 0.01,
+    'env': 'gymma',
+    'env_args': {   'key': None,
+                    'pretrained_wrapper': None,
+                    'seed': 238129911,
+                    'time_limit': 50},
+    'epochs': 4,
+    'eps_clip': 0.2,
+    'evaluate': False,
+    'gamma': 0.99,
+    'grad_norm_clip': 10,
+    'hidden_dim': 64,
+    'hypergroup': None,
+    'label': 'default_label',
+    'learner': 'ppo_learner',
+    'learner_log_interval': 10000,
+    'load_step': 0,
+    'local_results_path': 'results',
+    'log_interval': 50000,
+    'lr': 0.0005,
+    'mac': 'basic_mac',
+    'mask_before_softmax': True,
+    'name': 'mappo',
+    'obs_agent_id': True,
+    'obs_individual_obs': False,
+    'obs_last_action': False,
+    'optim_alpha': 0.99,
+    'optim_eps': 1e-05,
+    'q_nstep': 5,
+    'render': False,
+    'repeat_id': 1,
+    'runner': 'parallel',
+    'runner_log_interval': 10000,
+    'save_model': True,
+    'save_model_interval': 50000,
+    'save_replay': False,
+    'seed': 238129911,
+    'standardise_returns': False,
+    'standardise_rewards': False,
+    't_max': 20050000,
+    'target_update_interval_or_tau': 200,
+    'test_greedy': True,
+    'test_interval': 50000,
+    'test_nepisode': 100,
+    'use_cuda': False,
+    'use_rnn': False,
+    'use_tensorboard': False}
+
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/multiprocessing/spawn.py", line 116, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/multiprocessing/spawn.py", line 125, in _main
+    prepare(preparation_data)
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/multiprocessing/spawn.py", line 236, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/multiprocessing/spawn.py", line 287, in _fixup_main_from_path
+    main_content = runpy.run_path(main_path,
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/runpy.py", line 265, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/main.py", line 15, in <module>
+    from run import run
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/run.py", line 13, in <module>
+    from runners import REGISTRY as r_REGISTRY
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/__init__.py", line 3, in <module>
+    from .episode_runner import EpisodeRunner
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/episode_runner.py", line 9, in <module>
+    from robotouille import ENVIRONMENT
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/../../robotouille/__init__.py", line 11, in <module>
+    env, json, renderer = create_robotouille_env("multiagent", None, False)
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/../../robotouille/robotouille_env.py", line 90, in create_robotouille_env
+    pddl_env = pddlgym_interface.create_pddl_env(
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/../../utils/pddlgym_interface.py", line 73, in create_pddl_env
+    problem_dir_path = add_problem_files(env_name)
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/../../utils/pddlgym_interface.py", line 42, in add_problem_files
+    shutil.rmtree(pddl_problem_dir_path)
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/shutil.py", line 714, in rmtree
+    onerror(os.open, path, sys.exc_info())
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/shutil.py", line 712, in rmtree
+    fd = os.open(path, os.O_RDONLY)
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/brianla/Documents/GitHub/hosp_robotouille/pddlgym/pddl/robotouille'
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/multiprocessing/spawn.py", line 116, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/multiprocessing/spawn.py", line 125, in _main
+    prepare(preparation_data)
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/multiprocessing/spawn.py", line 236, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/multiprocessing/spawn.py", line 287, in _fixup_main_from_path
+    main_content = runpy.run_path(main_path,
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/runpy.py", line 265, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/main.py", line 15, in <module>
+    from run import run
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/run.py", line 13, in <module>
+    from runners import REGISTRY as r_REGISTRY
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/__init__.py", line 3, in <module>
+    from .episode_runner import EpisodeRunner
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/episode_runner.py", line 9, in <module>
+    from robotouille import ENVIRONMENT
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/../../robotouille/__init__.py", line 11, in <module>
+    env, json, renderer = create_robotouille_env("multiagent", None, False)
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/../../robotouille/robotouille_env.py", line 90, in create_robotouille_env
+    pddl_env = pddlgym_interface.create_pddl_env(
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/../../utils/pddlgym_interface.py", line 73, in create_pddl_env
+    problem_dir_path = add_problem_files(env_name)
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/../../utils/pddlgym_interface.py", line 42, in add_problem_files
+    shutil.rmtree(pddl_problem_dir_path)
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/shutil.py", line 709, in rmtree
+    onerror(os.lstat, path, sys.exc_info())
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/shutil.py", line 707, in rmtree
+    orig_st = os.lstat(path)
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/brianla/Documents/GitHub/hosp_robotouille/pddlgym/pddl/robotouille'
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/multiprocessing/spawn.py", line 116, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/multiprocessing/spawn.py", line 125, in _main
+    prepare(preparation_data)
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/multiprocessing/spawn.py", line 236, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/multiprocessing/spawn.py", line 287, in _fixup_main_from_path
+    main_content = runpy.run_path(main_path,
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/runpy.py", line 265, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/main.py", line 15, in <module>
+    from run import run
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/run.py", line 13, in <module>
+    from runners import REGISTRY as r_REGISTRY
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/__init__.py", line 3, in <module>
+    from .episode_runner import EpisodeRunner
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/episode_runner.py", line 9, in <module>
+    from robotouille import ENVIRONMENT
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/../../robotouille/__init__.py", line 11, in <module>
+    env, json, renderer = create_robotouille_env("multiagent", None, False)
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/../../robotouille/robotouille_env.py", line 90, in create_robotouille_env
+    pddl_env = pddlgym_interface.create_pddl_env(
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/../../utils/pddlgym_interface.py", line 73, in create_pddl_env
+    problem_dir_path = add_problem_files(env_name)
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/../../utils/pddlgym_interface.py", line 42, in add_problem_files
+    shutil.rmtree(pddl_problem_dir_path)
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/shutil.py", line 722, in rmtree
+    onerror(os.rmdir, path, sys.exc_info())
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/shutil.py", line 720, in rmtree
+    os.rmdir(path)
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/brianla/Documents/GitHub/hosp_robotouille/pddlgym/pddl/robotouille'
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/multiprocessing/spawn.py", line 116, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/multiprocessing/spawn.py", line 125, in _main
+    prepare(preparation_data)
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/multiprocessing/spawn.py", line 236, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/multiprocessing/spawn.py", line 287, in _fixup_main_from_path
+    main_content = runpy.run_path(main_path,
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/runpy.py", line 265, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/main.py", line 15, in <module>
+    from run import run
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/run.py", line 13, in <module>
+    from runners import REGISTRY as r_REGISTRY
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/__init__.py", line 3, in <module>
+    from .episode_runner import EpisodeRunner
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/episode_runner.py", line 9, in <module>
+    from robotouille import ENVIRONMENT
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/../../robotouille/__init__.py", line 11, in <module>
+    env, json, renderer = create_robotouille_env("multiagent", None, False)
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/../../robotouille/robotouille_env.py", line 90, in create_robotouille_env
+    pddl_env = pddlgym_interface.create_pddl_env(
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/../../utils/pddlgym_interface.py", line 73, in create_pddl_env
+    problem_dir_path = add_problem_files(env_name)
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/../../utils/pddlgym_interface.py", line 43, in add_problem_files
+    shutil.copytree(problem_dir_path, pddl_problem_dir_path)
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/shutil.py", line 557, in copytree
+    return _copytree(entries=entries, src=src, dst=dst, symlinks=symlinks,
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/shutil.py", line 458, in _copytree
+    os.makedirs(dst, exist_ok=dirs_exist_ok)
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/os.py", line 223, in makedirs
+    mkdir(name, mode)
+FileExistsError: [Errno 17] File exists: '/Users/brianla/Documents/GitHub/hosp_robotouille/pddlgym/pddl/robotouille'
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/multiprocessing/spawn.py", line 116, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/multiprocessing/spawn.py", line 125, in _main
+    prepare(preparation_data)
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/multiprocessing/spawn.py", line 236, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/multiprocessing/spawn.py", line 287, in _fixup_main_from_path
+    main_content = runpy.run_path(main_path,
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/runpy.py", line 265, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/main.py", line 15, in <module>
+    from run import run
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/run.py", line 13, in <module>
+    from runners import REGISTRY as r_REGISTRY
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/__init__.py", line 3, in <module>
+    from .episode_runner import EpisodeRunner
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/episode_runner.py", line 9, in <module>
+    from robotouille import ENVIRONMENT
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/../../robotouille/__init__.py", line 11, in <module>
+    env, json, renderer = create_robotouille_env("multiagent", None, False)
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/../../robotouille/robotouille_env.py", line 90, in create_robotouille_env
+    pddl_env = pddlgym_interface.create_pddl_env(
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/../../utils/pddlgym_interface.py", line 73, in create_pddl_env
+    problem_dir_path = add_problem_files(env_name)
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/../../utils/pddlgym_interface.py", line 42, in add_problem_files
+    shutil.rmtree(pddl_problem_dir_path)
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/shutil.py", line 709, in rmtree
+    onerror(os.lstat, path, sys.exc_info())
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/shutil.py", line 707, in rmtree
+    orig_st = os.lstat(path)
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/brianla/Documents/GitHub/hosp_robotouille/pddlgym/pddl/robotouille'
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/multiprocessing/spawn.py", line 116, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/multiprocessing/spawn.py", line 125, in _main
+    prepare(preparation_data)
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/multiprocessing/spawn.py", line 236, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/multiprocessing/spawn.py", line 287, in _fixup_main_from_path
+    main_content = runpy.run_path(main_path,
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/runpy.py", line 265, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/main.py", line 15, in <module>
+    from run import run
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/run.py", line 13, in <module>
+    from runners import REGISTRY as r_REGISTRY
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/__init__.py", line 3, in <module>
+    from .episode_runner import EpisodeRunner
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/episode_runner.py", line 9, in <module>
+    from robotouille import ENVIRONMENT
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/../../robotouille/__init__.py", line 11, in <module>
+    env, json, renderer = create_robotouille_env("multiagent", None, False)
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/../../robotouille/robotouille_env.py", line 90, in create_robotouille_env
+    pddl_env = pddlgym_interface.create_pddl_env(
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/../../utils/pddlgym_interface.py", line 73, in create_pddl_env
+    problem_dir_path = add_problem_files(env_name)
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/../../utils/pddlgym_interface.py", line 42, in add_problem_files
+    shutil.rmtree(pddl_problem_dir_path)
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/shutil.py", line 718, in rmtree
+    _rmtree_safe_fd(fd, path, onerror)
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/shutil.py", line 675, in _rmtree_safe_fd
+    onerror(os.unlink, fullname, sys.exc_info())
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/shutil.py", line 673, in _rmtree_safe_fd
+    os.unlink(entry.name, dir_fd=topfd)
+FileNotFoundError: [Errno 2] No such file or directory: 'multiagent.pddl'
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/multiprocessing/spawn.py", line 116, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/multiprocessing/spawn.py", line 125, in _main
+    prepare(preparation_data)
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/multiprocessing/spawn.py", line 236, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/multiprocessing/spawn.py", line 287, in _fixup_main_from_path
+    main_content = runpy.run_path(main_path,
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/runpy.py", line 265, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/main.py", line 15, in <module>
+    from run import run
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/run.py", line 13, in <module>
+    from runners import REGISTRY as r_REGISTRY
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/__init__.py", line 3, in <module>
+    from .episode_runner import EpisodeRunner
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/episode_runner.py", line 9, in <module>
+    from robotouille import ENVIRONMENT
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/../../robotouille/__init__.py", line 11, in <module>
+    env, json, renderer = create_robotouille_env("multiagent", None, False)
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/../../robotouille/robotouille_env.py", line 90, in create_robotouille_env
+    pddl_env = pddlgym_interface.create_pddl_env(
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/../../utils/pddlgym_interface.py", line 73, in create_pddl_env
+    problem_dir_path = add_problem_files(env_name)
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/../../utils/pddlgym_interface.py", line 43, in add_problem_files
+    shutil.copytree(problem_dir_path, pddl_problem_dir_path)
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/shutil.py", line 557, in copytree
+    return _copytree(entries=entries, src=src, dst=dst, symlinks=symlinks,
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/shutil.py", line 458, in _copytree
+    os.makedirs(dst, exist_ok=dirs_exist_ok)
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/os.py", line 223, in makedirs
+    mkdir(name, mode)
+FileExistsError: [Errno 17] File exists: '/Users/brianla/Documents/GitHub/hosp_robotouille/pddlgym/pddl/robotouille'
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/multiprocessing/spawn.py", line 116, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/multiprocessing/spawn.py", line 125, in _main
+    prepare(preparation_data)
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/multiprocessing/spawn.py", line 236, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/multiprocessing/spawn.py", line 287, in _fixup_main_from_path
+    main_content = runpy.run_path(main_path,
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/runpy.py", line 265, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/main.py", line 15, in <module>
+    from run import run
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/run.py", line 13, in <module>
+    from runners import REGISTRY as r_REGISTRY
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/__init__.py", line 3, in <module>
+    from .episode_runner import EpisodeRunner
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/episode_runner.py", line 9, in <module>
+    from robotouille import ENVIRONMENT
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/../../robotouille/__init__.py", line 11, in <module>
+    env, json, renderer = create_robotouille_env("multiagent", None, False)
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/../../robotouille/robotouille_env.py", line 90, in create_robotouille_env
+    pddl_env = pddlgym_interface.create_pddl_env(
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/../../utils/pddlgym_interface.py", line 73, in create_pddl_env
+    problem_dir_path = add_problem_files(env_name)
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/../../utils/pddlgym_interface.py", line 43, in add_problem_files
+    shutil.copytree(problem_dir_path, pddl_problem_dir_path)
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/shutil.py", line 557, in copytree
+    return _copytree(entries=entries, src=src, dst=dst, symlinks=symlinks,
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/shutil.py", line 513, in _copytree
+    raise Error(errors)
+shutil.Error: [('/Users/brianla/Documents/GitHub/hosp_robotouille/environments/robotouille/multiagent.pddl', '/Users/brianla/Documents/GitHub/hosp_robotouille/pddlgym/pddl/robotouille/multiagent.pddl', "[Errno 2] No such file or directory: '/Users/brianla/Documents/GitHub/hosp_robotouille/pddlgym/pddl/robotouille/multiagent.pddl'")]
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/multiprocessing/spawn.py", line 116, in spawn_main
+    exitcode = _main(fd, parent_sentinel)
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/multiprocessing/spawn.py", line 125, in _main
+    prepare(preparation_data)
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/multiprocessing/spawn.py", line 236, in prepare
+    _fixup_main_from_path(data['init_main_from_path'])
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/multiprocessing/spawn.py", line 287, in _fixup_main_from_path
+    main_content = runpy.run_path(main_path,
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/runpy.py", line 265, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/runpy.py", line 97, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/runpy.py", line 87, in _run_code
+    exec(code, run_globals)
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/main.py", line 15, in <module>
+    from run import run
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/run.py", line 13, in <module>
+    from runners import REGISTRY as r_REGISTRY
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/__init__.py", line 3, in <module>
+    from .episode_runner import EpisodeRunner
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/episode_runner.py", line 9, in <module>
+    from robotouille import ENVIRONMENT
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/../../robotouille/__init__.py", line 11, in <module>
+    env, json, renderer = create_robotouille_env("multiagent", None, False)
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/../../robotouille/robotouille_env.py", line 90, in create_robotouille_env
+    pddl_env = pddlgym_interface.create_pddl_env(
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/../../utils/pddlgym_interface.py", line 73, in create_pddl_env
+    problem_dir_path = add_problem_files(env_name)
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/../../utils/pddlgym_interface.py", line 43, in add_problem_files
+    shutil.copytree(problem_dir_path, pddl_problem_dir_path)
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/shutil.py", line 557, in copytree
+    return _copytree(entries=entries, src=src, dst=dst, symlinks=symlinks,
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/shutil.py", line 513, in _copytree
+    raise Error(errors)
+shutil.Error: [('/Users/brianla/Documents/GitHub/hosp_robotouille/environments/robotouille/multiagent.pddl', '/Users/brianla/Documents/GitHub/hosp_robotouille/pddlgym/pddl/robotouille/multiagent.pddl', '[Errno 2] No such file or directory')]
+wandb: Currently logged in as: pe3955 (6756-team). Use `wandb login --relogin` to force relogin
+wandb: wandb version 0.17.0 is available!  To upgrade, please run:
+wandb:  $ pip install wandb --upgrade
+wandb: Tracking run with wandb version 0.16.3
+wandb: Run data is saved locally in /Users/brianla/Documents/GitHub/hosp_robotouille/wandb/run-20240606_103509-jekfeti6
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run leafy-totem-830
+wandb: ⭐️ View project at https://wandb.ai/6756-team/6756-rl-experiments
+wandb: 🚀 View run at https://wandb.ai/6756-team/6756-rl-experiments/runs/jekfeti6
+[DEBUG 10:35:18] git.cmd Popen(['git', 'diff', '--cached', '--abbrev=40', '--full-index', '--raw'], cwd=/Users/brianla/Documents/GitHub/hosp_robotouille, stdin=None, shell=False, universal_newlines=False)
+[DEBUG 10:35:19] git.cmd Popen(['git', 'diff', '--abbrev=40', '--full-index', '--raw'], cwd=/Users/brianla/Documents/GitHub/hosp_robotouille, stdin=None, shell=False, universal_newlines=False)
+[DEBUG 10:35:19] git.cmd Popen(['git', 'cat-file', '--batch-check'], cwd=/Users/brianla/Documents/GitHub/hosp_robotouille, stdin=<valid stream>, shell=False, universal_newlines=False)
+[DEBUG 10:35:19] git.cmd Popen(['git', 'diff', '--cached', '--abbrev=40', '--full-index', '--raw'], cwd=/Users/brianla/Documents/GitHub/hosp_robotouille, stdin=None, shell=False, universal_newlines=False)
+[DEBUG 10:35:19] git.cmd Popen(['git', 'diff', '--abbrev=40', '--full-index', '--raw'], cwd=/Users/brianla/Documents/GitHub/hosp_robotouille, stdin=None, shell=False, universal_newlines=False)
+[DEBUG 10:35:19] git.cmd Popen(['git', 'cat-file', '--batch-check'], cwd=/Users/brianla/Documents/GitHub/hosp_robotouille, stdin=<valid stream>, shell=False, universal_newlines=False)
+[DEBUG 10:35:19] git.cmd Popen(['git', 'diff', '--cached', '--abbrev=40', '--full-index', '--raw'], cwd=/Users/brianla/Documents/GitHub/hosp_robotouille, stdin=None, shell=False, universal_newlines=False)
+[DEBUG 10:35:19] git.cmd Popen(['git', 'diff', '--abbrev=40', '--full-index', '--raw'], cwd=/Users/brianla/Documents/GitHub/hosp_robotouille, stdin=None, shell=False, universal_newlines=False)
+[DEBUG 10:35:19] git.cmd Popen(['git', 'cat-file', '--batch-check'], cwd=/Users/brianla/Documents/GitHub/hosp_robotouille, stdin=<valid stream>, shell=False, universal_newlines=False)
+Process Process-3:
+Traceback (most recent call last):
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/multiprocessing/process.py", line 315, in _bootstrap
+    self.run()
+  File "/Users/brianla/.pyenv/versions/3.8.10/lib/python3.8/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/runners/parallel_runner.py", line 221, in env_worker
+    env = env_fn.x()
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/envs/__init__.py", line 15, in env_fn
+    return env(**kwargs)
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/epymarl/envs/__init__.py", line 82, in __init__
+    self.original_env = gym.make(f"{key}", **kwargs)
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/.venv/lib/python3.8/site-packages/gym/envs/registration.py", line 569, in make
+    _check_version_exists(ns, name, version)
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/.venv/lib/python3.8/site-packages/gym/envs/registration.py", line 219, in _check_version_exists
+    _check_name_exists(ns, name)
+  File "/Users/brianla/Documents/GitHub/hosp_robotouille/.venv/lib/python3.8/site-packages/gym/envs/registration.py", line 197, in _check_name_exists
+    raise error.NameNotFound(
+gym.error.NameNotFound: Environment None doesn't exist. 
+[DEBUG 10:35:20] urllib3.connectionpool Starting new HTTPS connection (1): o151352.ingest.sentry.io:443
+[DEBUG 10:35:20] urllib3.connectionpool https://o151352.ingest.sentry.io:443 "POST /api/4504800232407040/envelope/ HTTP/1.1" 200 0
