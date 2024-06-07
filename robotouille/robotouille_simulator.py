@@ -38,7 +38,7 @@ def simulator(
         environment_name, seed, noisy_randomization
     )
     obs, info = env.reset()
-    env.render(mode="human")
+    # env.render(mode="human")
     done = False
     truncated = False
     interactive = False  # Set to True to interact with the environment through terminal REPL (ignores input)
@@ -125,7 +125,7 @@ def multi_rl_simulator(environment_name: str, seed: int, noisy_randomization: bo
     arguments = [
         "python",
         "epymarl/main.py",
-        "--config=qmix",
+        "--config=mappo",
         "--env-config=gymma",
         "with",
         "env_args.time_limit=50",
@@ -140,7 +140,7 @@ def multi_rl_simulator(environment_name: str, seed: int, noisy_randomization: bo
         environment_name, seed, noisy_randomization
     )
     obs, info = env.reset()
-    env.render(mode="human")
+    # env.render(mode="human")
     done = False
     truncated = False
     interactive = False

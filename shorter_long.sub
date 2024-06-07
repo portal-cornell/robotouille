@@ -1,0 +1,15 @@
+#!/bin/bash
+#SBATCH -J test_file                         # Job name
+#SBATCH -o test_file_%j.out                  # output file (%j expands to jobID)
+#SBATCH -e test_file_%j.err                  # error log file (%j expands to jobID)
+#SBATCH --mail-type=ALL                      # Request status by email 
+#SBATCH --mail-user=byl8@cornell.edu        # Email address to send results to.
+#SBATCH -N 1                                 # Total number of nodes requested
+#SBATCH -n 5                                 # Total number of cores requested
+#SBATCH --get-user-env                       # retrieve the users login environment
+#SBATCH --mem=2000                           # server memory requested (per node)
+#SBATCH -t 2:00:00                           # Time limit (hh:mm:ss)
+#SBATCH --partition=default_partition       # Request partition
+#SBATCH --gres=gpu:1080ti:1                  # Type/number of GPUs needed
+
+python main.py
