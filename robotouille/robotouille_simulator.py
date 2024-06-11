@@ -125,7 +125,7 @@ def multi_rl_simulator(environment_name: str, seed: int, noisy_randomization: bo
     arguments = [
         "python",
         "epymarl/main.py",
-        "--config=qmix",
+        "--config=ippo",
         "--env-config=gymma",
         "with",
         "env_args.time_limit=50",

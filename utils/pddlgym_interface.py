@@ -38,9 +38,12 @@ def add_problem_files(env_name):
     """
     problem_dir_path = os.path.join(ENVIRONMENT_DIR_PATH, env_name)
     pddl_problem_dir_path = os.path.join(PDDL_DIR_PATH, env_name)
-    if os.path.exists(pddl_problem_dir_path):
-        shutil.rmtree(pddl_problem_dir_path)
-    shutil.copytree(problem_dir_path, pddl_problem_dir_path)
+    # if os.path.exists(pddl_problem_dir_path):
+    #     shutil.rmtree(pddl_problem_dir_path)
+    try:
+        shutil.copytree(problem_dir_path, pddl_problem_dir_path)
+    except:
+        pass
     new_problem_dir_path = os.path.join(PDDL_DIR_PATH, env_name)
     return new_problem_dir_path
 
@@ -72,7 +75,10 @@ def create_pddl_env(env_name, is_test_env, render_fn, problem_filename):
     domain_file_path = add_domain_file(env_name)
     problem_dir_path = add_problem_files(env_name)
     env = pddlgym.make(f"PDDLEnv{env_name.capitalize()}-v0")
-    os.remove(domain_file_path)
+    try:
+        os.remove(domain_file_path)
+    except:
+        pass
     # Get the index of the problem file path
     try:
         env_index = sorted(os.listdir(problem_dir_path)).index(problem_filename)
@@ -80,7 +86,7 @@ def create_pddl_env(env_name, is_test_env, render_fn, problem_filename):
         raise RobotouilleEnvironmentDoesNotExistException(
             f"Environment {problem_filename} does not exist."
         )
-    shutil.rmtree(problem_dir_path)
+    # shutil.rmtree(problem_dir_path)
     env.fix_problem_index(env_index)
     return env
 
