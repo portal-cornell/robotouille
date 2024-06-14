@@ -1,0 +1,269 @@
+[INFO 01:58:31] pymarl Running command 'my_main'
+[INFO 01:58:31] pymarl Started run with ID "1"
+[DEBUG 01:58:31] pymarl Starting Heartbeat
+[DEBUG 01:58:31] my_main Started
+[INFO 01:58:31] my_main Experiment Parameters:
+[INFO 01:58:31] my_main 
+
+{   'action_selector': 'epsilon_greedy',
+    'add_value_last_step': True,
+    'agent': 'rnn',
+    'agent_output_type': 'q',
+    'batch_size': 32,
+    'batch_size_run': 1,
+    'buffer_cpu_only': True,
+    'buffer_size': 5000,
+    'checkpoint_path': '',
+    'double_q': True,
+    'env': 'gymma',
+    'env_args': {   'key': None,
+                    'pretrained_wrapper': None,
+                    'seed': 430798315,
+                    'time_limit': 50},
+    'epsilon_anneal_time': 50000,
+    'epsilon_finish': 0.05,
+    'epsilon_start': 1.0,
+    'evaluate': False,
+    'evaluation_epsilon': 0.0,
+    'gamma': 0.99,
+    'grad_norm_clip': 10,
+    'hidden_dim': 64,
+    'hypergroup': None,
+    'label': 'default_label',
+    'learner': 'q_learner',
+    'learner_log_interval': 10000,
+    'load_step': 0,
+    'local_results_path': 'results',
+    'log_interval': 50000,
+    'lr': 0.0005,
+    'mac': 'basic_mac',
+    'mixer': 'vdn',
+    'name': 'vdn',
+    'obs_agent_id': True,
+    'obs_individual_obs': False,
+    'obs_last_action': False,
+    'optim_alpha': 0.99,
+    'optim_eps': 1e-05,
+    'render': False,
+    'repeat_id': 1,
+    'runner': 'episode',
+    'runner_log_interval': 10000,
+    'save_model': True,
+    'save_model_interval': 50000,
+    'save_replay': False,
+    'seed': 430798315,
+    'standardise_returns': False,
+    'standardise_rewards': True,
+    't_max': 2050000,
+    'target_update_interval_or_tau': 200,
+    'test_greedy': True,
+    'test_interval': 50000,
+    'test_nepisode': 100,
+    'use_cuda': True,
+    'use_rnn': False,
+    'use_tensorboard': False}
+
+[INFO 01:58:34] my_main Beginning training for 2050000 timesteps
+[INFO 01:58:44] my_main t_env: 100 / 2050000
+[INFO 01:58:44] my_main Estimated time left: 6 minutes, 59 seconds. Time passed: 10 seconds
+[INFO 02:17:54] my_main Saving models to results/models/vdn_seed430798315_None_2024-06-11 01:58:31.320028/100
+[INFO 03:47:12] my_main Recent Stats | t_env:      50000 | Episode:      500
+ep_length_mean:          100.0000	epsilon:                   0.2400	grad_norm:                 2.4037	loss:                      1.1813
+q_taken_mean:              0.1328	return_mean:             -171.9060	return_std:               22.8964	target_mean:               0.2882
+td_error_abs:              0.7704	test_ep_length_mean:     100.0000	test_return_mean:          0.0000	test_return_std:           0.0000
+
+[INFO 03:47:24] my_main t_env: 50100 / 2050000
+[INFO 03:47:24] my_main Estimated time left: 3 days, 26 minutes, 16 seconds. Time passed: 1 hours, 48 minutes, 49 seconds
+[INFO 04:06:20] my_main Saving models to results/models/vdn_seed430798315_None_2024-06-11 01:58:31.320028/50100
+[INFO 05:42:47] my_main Recent Stats | t_env:     100000 | Episode:     1000
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 3.0459	loss:                      0.6835
+q_taken_mean:              0.8225	return_mean:              -3.7880	return_std:               18.2195	target_mean:               0.9264
+td_error_abs:              0.5505	test_ep_length_mean:     100.0000	test_return_mean:          5.0000	test_return_std:           0.0000
+
+[INFO 05:42:59] my_main t_env: 100100 / 2050000
+[INFO 05:42:59] my_main Estimated time left: 3 days, 3 hours, 7 minutes, 50 seconds. Time passed: 3 hours, 44 minutes, 25 seconds
+[INFO 06:02:16] my_main Saving models to results/models/vdn_seed430798315_None_2024-06-11 01:58:31.320028/100100
+[INFO 07:36:38] my_main Recent Stats | t_env:     150000 | Episode:     1500
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 7.1299	loss:                      1.4782
+q_taken_mean:              1.3765	return_mean:               2.2220	return_std:               38.4776	target_mean:               1.5557
+td_error_abs:              0.8320	test_ep_length_mean:     100.0000	test_return_mean:          8.6667	test_return_std:           0.0000
+
+[INFO 07:36:45] my_main t_env: 150100 / 2050000
+[INFO 07:36:45] my_main Estimated time left: 3 days, 3 minutes, 8 seconds. Time passed: 5 hours, 38 minutes, 11 seconds
+[INFO 07:55:34] my_main Saving models to results/models/vdn_seed430798315_None_2024-06-11 01:58:31.320028/150100
+[INFO 09:27:36] my_main Recent Stats | t_env:     200000 | Episode:     2000
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 7.8203	loss:                      2.1662
+q_taken_mean:              1.9471	return_mean:             -10.8800	return_std:               70.6927	target_mean:               2.0753
+td_error_abs:              0.9854	test_ep_length_mean:     100.0000	test_return_mean:         17.5000	test_return_std:           0.0000
+
+[INFO 09:27:47] my_main t_env: 200100 / 2050000
+[INFO 09:27:47] my_main Estimated time left: 2 days, 20 hours, 27 minutes, 59 seconds. Time passed: 7 hours, 29 minutes, 13 seconds
+[INFO 09:46:48] my_main Saving models to results/models/vdn_seed430798315_None_2024-06-11 01:58:31.320028/200100
+[INFO 11:21:49] my_main Recent Stats | t_env:     250000 | Episode:     2500
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 8.5722	loss:                      1.4253
+q_taken_mean:              2.3857	return_mean:              24.4440	return_std:               49.1564	target_mean:               2.5178
+td_error_abs:              0.7919	test_ep_length_mean:     100.0000	test_return_mean:         22.0000	test_return_std:           0.0000
+
+[INFO 11:22:00] my_main t_env: 250100 / 2050000
+[INFO 11:22:00] my_main Estimated time left: 2 days, 20 hours, 31 minutes, 25 seconds. Time passed: 9 hours, 23 minutes, 26 seconds
+[INFO 11:41:49] my_main Saving models to results/models/vdn_seed430798315_None_2024-06-11 01:58:31.320028/250100
+[INFO 13:17:35] my_main Recent Stats | t_env:     300000 | Episode:     3000
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 6.8184	loss:                      1.2831
+q_taken_mean:              2.7886	return_mean:              44.7140	return_std:               46.4809	target_mean:               2.8718
+td_error_abs:              0.6296	test_ep_length_mean:     100.0000	test_return_mean:         37.2000	test_return_std:           0.0000
+
+[INFO 13:17:46] my_main t_env: 300100 / 2050000
+[INFO 13:17:46] my_main Estimated time left: 2 days, 19 hours, 31 minutes, 33 seconds. Time passed: 11 hours, 19 minutes, 12 seconds
+[INFO 13:37:26] my_main Saving models to results/models/vdn_seed430798315_None_2024-06-11 01:58:31.320028/300100
+[INFO 15:13:06] my_main Recent Stats | t_env:     350000 | Episode:     3500
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 9.6034	loss:                      1.4199
+q_taken_mean:              3.1455	return_mean:              35.9480	return_std:               62.7281	target_mean:               3.2539
+td_error_abs:              0.6681	test_ep_length_mean:     100.0000	test_return_mean:         49.2000	test_return_std:           0.0000
+
+[INFO 15:13:17] my_main t_env: 350100 / 2050000
+[INFO 15:13:17] my_main Estimated time left: 2 days, 17 hours, 27 minutes, 5 seconds. Time passed: 13 hours, 14 minutes, 43 seconds
+[INFO 15:33:08] my_main Saving models to results/models/vdn_seed430798315_None_2024-06-11 01:58:31.320028/350100
+[INFO 17:08:55] my_main Recent Stats | t_env:     400000 | Episode:     4000
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 5.2558	loss:                      1.2709
+q_taken_mean:              3.3699	return_mean:              55.9460	return_std:               49.2478	target_mean:               3.4145
+td_error_abs:              0.5240	test_ep_length_mean:     100.0000	test_return_mean:         61.2000	test_return_std:           0.0000
+
+[INFO 17:09:08] my_main t_env: 400100 / 2050000
+[INFO 17:09:08] my_main Estimated time left: 2 days, 15 hours, 43 minutes, 4 seconds. Time passed: 15 hours, 10 minutes, 34 seconds
+[INFO 17:29:39] my_main Saving models to results/models/vdn_seed430798315_None_2024-06-11 01:58:31.320028/400100
+[INFO 19:06:14] my_main Recent Stats | t_env:     450000 | Episode:     4500
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 3.0867	loss:                      1.0462
+q_taken_mean:              3.1712	return_mean:              61.5720	return_std:               51.4547	target_mean:               3.1960
+td_error_abs:              0.4182	test_ep_length_mean:     100.0000	test_return_mean:         72.4000	test_return_std:           0.0000
+
+[INFO 19:06:25] my_main t_env: 450100 / 2050000
+[INFO 19:06:25] my_main Estimated time left: 2 days, 14 hours, 32 minutes, 51 seconds. Time passed: 17 hours, 7 minutes, 51 seconds
+[INFO 19:26:18] my_main Saving models to results/models/vdn_seed430798315_None_2024-06-11 01:58:31.320028/450100
+[INFO 21:02:39] my_main Recent Stats | t_env:     500000 | Episode:     5000
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 1.9538	loss:                      1.0745
+q_taken_mean:              3.3274	return_mean:              52.2300	return_std:               53.4883	target_mean:               3.3428
+td_error_abs:              0.3877	test_ep_length_mean:     100.0000	test_return_mean:         72.4000	test_return_std:           0.0000
+
+[INFO 21:02:50] my_main t_env: 500100 / 2050000
+[INFO 21:02:50] my_main Estimated time left: 2 days, 12 hours, 8 minutes, 45 seconds. Time passed: 19 hours, 4 minutes, 16 seconds
+[INFO 21:22:20] my_main Saving models to results/models/vdn_seed430798315_None_2024-06-11 01:58:31.320028/500100
+[INFO 22:56:48] my_main Recent Stats | t_env:     550000 | Episode:     5500
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 1.5007	loss:                      0.9434
+q_taken_mean:              3.2947	return_mean:              66.9840	return_std:               37.8379	target_mean:               3.3030
+td_error_abs:              0.3222	test_ep_length_mean:     100.0000	test_return_mean:         76.8000	test_return_std:           0.0000
+
+[INFO 22:56:59] my_main t_env: 550100 / 2050000
+[INFO 22:56:59] my_main Estimated time left: 2 days, 9 hours, 3 minutes, 59 seconds. Time passed: 20 hours, 58 minutes, 25 seconds
+[INFO 23:12:44] my_main Saving models to results/models/vdn_seed430798315_None_2024-06-11 01:58:31.320028/550100
+[INFO 00:42:32] my_main Recent Stats | t_env:     600000 | Episode:     6000
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 1.0429	loss:                      0.8523
+q_taken_mean:              3.1331	return_mean:              78.4900	return_std:               22.4171	target_mean:               3.1377
+td_error_abs:              0.3029	test_ep_length_mean:     100.0000	test_return_mean:         26.0000	test_return_std:           0.0000
+
+[INFO 00:42:45] my_main t_env: 600100 / 2050000
+[INFO 00:42:45] my_main Estimated time left: 2 days, 3 hours, 6 minutes, 59 seconds. Time passed: 22 hours, 44 minutes, 11 seconds
+[INFO 01:01:21] my_main Saving models to results/models/vdn_seed430798315_None_2024-06-11 01:58:31.320028/600100
+[INFO 02:31:50] my_main Recent Stats | t_env:     650000 | Episode:     6500
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 1.1341	loss:                      0.6968
+q_taken_mean:              2.9168	return_mean:              67.9640	return_std:               21.0524	target_mean:               2.9129
+td_error_abs:              0.2514	test_ep_length_mean:     100.0000	test_return_mean:         26.8000	test_return_std:           0.0000
+
+[INFO 02:32:02] my_main t_env: 650100 / 2050000
+[INFO 02:32:02] my_main Estimated time left: 2 days, 2 hours, 59 minutes, 51 seconds. Time passed: 1 days, 33 minutes, 28 seconds
+[INFO 02:50:08] my_main Saving models to results/models/vdn_seed430798315_None_2024-06-11 01:58:31.320028/650100
+[INFO 04:20:30] my_main Recent Stats | t_env:     700000 | Episode:     7000
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 1.0609	loss:                      0.5928
+q_taken_mean:              2.7155	return_mean:              60.2060	return_std:               27.1939	target_mean:               2.7071
+td_error_abs:              0.2325	test_ep_length_mean:     100.0000	test_return_mean:         22.8000	test_return_std:           0.0000
+
+[INFO 04:20:40] my_main t_env: 700100 / 2050000
+[INFO 04:20:40] my_main Estimated time left: 2 days, 53 minutes, 5 seconds. Time passed: 1 days, 2 hours, 22 minutes, 6 seconds
+[INFO 04:39:29] my_main Saving models to results/models/vdn_seed430798315_None_2024-06-11 01:58:31.320028/700100
+[INFO 06:10:01] my_main Recent Stats | t_env:     750000 | Episode:     7500
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 1.2091	loss:                      0.5889
+q_taken_mean:              2.6721	return_mean:              60.5540	return_std:               22.2734	target_mean:               2.6640
+td_error_abs:              0.2221	test_ep_length_mean:     100.0000	test_return_mean:         30.8000	test_return_std:           0.0000
+
+[INFO 06:10:11] my_main t_env: 750100 / 2050000
+[INFO 06:10:11] my_main Estimated time left: 1 days, 23 hours, 27 minutes, 12 seconds. Time passed: 1 days, 4 hours, 11 minutes, 37 seconds
+[INFO 06:28:53] my_main Saving models to results/models/vdn_seed430798315_None_2024-06-11 01:58:31.320028/750100
+[INFO 07:59:58] my_main Recent Stats | t_env:     800000 | Episode:     8000
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 1.0813	loss:                      0.5517
+q_taken_mean:              2.6322	return_mean:              58.1100	return_std:               24.8002	target_mean:               2.6272
+td_error_abs:              0.2096	test_ep_length_mean:     100.0000	test_return_mean:         26.8000	test_return_std:           0.0000
+
+[INFO 08:00:08] my_main t_env: 800100 / 2050000
+[INFO 08:00:08] my_main Estimated time left: 1 days, 21 hours, 48 minutes, 31 seconds. Time passed: 1 days, 6 hours, 1 minutes, 34 seconds
+[INFO 08:18:56] my_main Saving models to results/models/vdn_seed430798315_None_2024-06-11 01:58:31.320028/800100
+[INFO 09:50:02] my_main Recent Stats | t_env:     850000 | Episode:     8500
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 1.9792	loss:                      0.6252
+q_taken_mean:              2.8224	return_mean:              60.3980	return_std:               20.1240	target_mean:               2.8053
+td_error_abs:              0.2227	test_ep_length_mean:     100.0000	test_return_mean:         77.6000	test_return_std:           0.0000
+
+[INFO 09:50:13] my_main t_env: 850100 / 2050000
+[INFO 09:50:13] my_main Estimated time left: 1 days, 20 hours, 1 minutes, 30 seconds. Time passed: 1 days, 7 hours, 51 minutes, 39 seconds
+[INFO 10:08:41] my_main Saving models to results/models/vdn_seed430798315_None_2024-06-11 01:58:31.320028/850100
+[INFO 11:39:41] my_main Recent Stats | t_env:     900000 | Episode:     9000
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 1.5409	loss:                      0.5554
+q_taken_mean:              2.6423	return_mean:              57.4360	return_std:               26.6634	target_mean:               2.6294
+td_error_abs:              0.2006	test_ep_length_mean:     100.0000	test_return_mean:         61.6000	test_return_std:           0.0000
+
+[INFO 11:39:52] my_main t_env: 900100 / 2050000
+[INFO 11:39:52] my_main Estimated time left: 1 days, 18 hours, 1 minutes, 40 seconds. Time passed: 1 days, 9 hours, 41 minutes, 17 seconds
+[INFO 11:58:20] my_main Saving models to results/models/vdn_seed430798315_None_2024-06-11 01:58:31.320028/900100
+[INFO 13:29:36] my_main Recent Stats | t_env:     950000 | Episode:     9500
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 1.9396	loss:                      0.6146
+q_taken_mean:              2.8296	return_mean:              41.0040	return_std:               45.2506	target_mean:               2.8092
+td_error_abs:              0.2105	test_ep_length_mean:     100.0000	test_return_mean:         57.2000	test_return_std:           0.0000
+
+[INFO 13:29:47] my_main t_env: 950100 / 2050000
+[INFO 13:29:47] my_main Estimated time left: 1 days, 16 hours, 18 minutes, 10 seconds. Time passed: 1 days, 11 hours, 31 minutes, 13 seconds
+[INFO 13:48:35] my_main Saving models to results/models/vdn_seed430798315_None_2024-06-11 01:58:31.320028/950100
+[INFO 15:20:10] my_main Recent Stats | t_env:    1000000 | Episode:    10000
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 1.3552	loss:                      0.5788
+q_taken_mean:              2.6231	return_mean:              71.0020	return_std:               25.1378	target_mean:               2.6108
+td_error_abs:              0.2120	test_ep_length_mean:     100.0000	test_return_mean:         52.8000	test_return_std:           0.0000
+
+[INFO 15:20:22] my_main t_env: 1000100 / 2050000
+[INFO 15:20:22] my_main Estimated time left: 1 days, 14 hours, 42 minutes, 8 seconds. Time passed: 1 days, 13 hours, 21 minutes, 48 seconds
+[INFO 15:38:06] my_main Saving models to results/models/vdn_seed430798315_None_2024-06-11 01:58:31.320028/1000100
+[INFO 17:08:16] my_main Recent Stats | t_env:    1050000 | Episode:    10500
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 1.4250	loss:                      0.4930
+q_taken_mean:              2.5148	return_mean:              68.5280	return_std:               28.2584	target_mean:               2.4987
+td_error_abs:              0.2069	test_ep_length_mean:     100.0000	test_return_mean:         54.8000	test_return_std:           0.0000
+
+[INFO 17:08:27] my_main t_env: 1050100 / 2050000
+[INFO 17:08:27] my_main Estimated time left: 1 days, 12 hours, 1 minutes, 8 seconds. Time passed: 1 days, 15 hours, 9 minutes, 52 seconds
+[INFO 17:26:38] my_main Saving models to results/models/vdn_seed430798315_None_2024-06-11 01:58:31.320028/1050100
+[INFO 18:57:11] my_main Recent Stats | t_env:    1100000 | Episode:    11000
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 1.2717	loss:                      0.4666
+q_taken_mean:              2.4349	return_mean:              69.7920	return_std:               26.1025	target_mean:               2.4247
+td_error_abs:              0.2012	test_ep_length_mean:     100.0000	test_return_mean:         54.4000	test_return_std:           0.0000
+
+[INFO 18:57:22] my_main t_env: 1100100 / 2050000
+[INFO 18:57:22] my_main Estimated time left: 1 days, 10 hours, 29 minutes, 19 seconds. Time passed: 1 days, 16 hours, 58 minutes, 48 seconds
+[INFO 19:15:04] my_main Saving models to results/models/vdn_seed430798315_None_2024-06-11 01:58:31.320028/1100100
+[INFO 20:44:28] my_main Recent Stats | t_env:    1150000 | Episode:    11500
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 1.5712	loss:                      0.4604
+q_taken_mean:              2.4170	return_mean:              60.0120	return_std:               25.3305	target_mean:               2.4054
+td_error_abs:              0.2014	test_ep_length_mean:     100.0000	test_return_mean:         68.0000	test_return_std:           0.0000
+
+[INFO 20:44:39] my_main t_env: 1150100 / 2050000
+[INFO 20:44:39] my_main Estimated time left: 1 days, 8 hours, 10 minutes, 49 seconds. Time passed: 1 days, 18 hours, 46 minutes, 5 seconds
+[INFO 21:02:12] my_main Saving models to results/models/vdn_seed430798315_None_2024-06-11 01:58:31.320028/1150100
+[INFO 22:32:27] my_main Recent Stats | t_env:    1200000 | Episode:    12000
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 1.5145	loss:                      0.5460
+q_taken_mean:              2.5305	return_mean:              57.1760	return_std:               29.1321	target_mean:               2.5234
+td_error_abs:              0.2102	test_ep_length_mean:     100.0000	test_return_mean:         70.0000	test_return_std:           0.0000
+
+[INFO 22:32:38] my_main t_env: 1200100 / 2050000
+[INFO 22:32:38] my_main Estimated time left: 1 days, 6 hours, 35 minutes, 31 seconds. Time passed: 1 days, 20 hours, 34 minutes, 4 seconds
+[INFO 22:50:19] my_main Saving models to results/models/vdn_seed430798315_None_2024-06-11 01:58:31.320028/1200100
+[INFO 00:18:17] my_main Recent Stats | t_env:    1250000 | Episode:    12500
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 1.5795	loss:                      0.5183
+q_taken_mean:              2.5632	return_mean:              27.6240	return_std:               44.6081	target_mean:               2.5504
+td_error_abs:              0.2019	test_ep_length_mean:     100.0000	test_return_mean:         70.0000	test_return_std:           0.0000
+
+[INFO 00:18:28] my_main t_env: 1250100 / 2050000
+[INFO 00:18:28] my_main Estimated time left: 1 days, 4 hours, 13 minutes, 3 seconds. Time passed: 1 days, 22 hours, 19 minutes, 54 seconds
+[INFO 00:36:32] my_main Saving models to results/models/vdn_seed430798315_None_2024-06-11 01:58:31.320028/1250100

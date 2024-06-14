@@ -125,10 +125,13 @@ def multi_rl_simulator(environment_name: str, seed: int, noisy_randomization: bo
     arguments = [
         "python",
         "epymarl/main.py",
-        "--config=ippo",
+        "--config=qmix",
         "--env-config=gymma",
         "with",
         "env_args.time_limit=50",
+        "checkpoint_path=\"results/models/qmix_seed677336568_None_2024-06-11 01:58:41.601187\"",
+        "evaluate=True"
+        "render=True"
     ]
 
     config = {

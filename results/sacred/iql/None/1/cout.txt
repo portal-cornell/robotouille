@@ -1,0 +1,301 @@
+[INFO 01:58:10] pymarl Running command 'my_main'
+[INFO 01:58:10] pymarl Started run with ID "1"
+[DEBUG 01:58:10] pymarl Starting Heartbeat
+[DEBUG 01:58:10] my_main Started
+[INFO 01:58:10] my_main Experiment Parameters:
+[INFO 01:58:10] my_main 
+
+{   'action_selector': 'epsilon_greedy',
+    'add_value_last_step': True,
+    'agent': 'rnn',
+    'agent_output_type': 'q',
+    'batch_size': 32,
+    'batch_size_run': 1,
+    'buffer_cpu_only': True,
+    'buffer_size': 5000,
+    'checkpoint_path': '',
+    'double_q': True,
+    'env': 'gymma',
+    'env_args': {   'key': None,
+                    'pretrained_wrapper': None,
+                    'seed': 169210272,
+                    'time_limit': 50},
+    'epsilon_anneal_time': 50000,
+    'epsilon_finish': 0.05,
+    'epsilon_start': 1.0,
+    'evaluate': False,
+    'evaluation_epsilon': 0.0,
+    'gamma': 0.99,
+    'grad_norm_clip': 10,
+    'hidden_dim': 64,
+    'hypergroup': None,
+    'label': 'default_label',
+    'learner': 'q_learner',
+    'learner_log_interval': 10000,
+    'load_step': 0,
+    'local_results_path': 'results',
+    'log_interval': 50000,
+    'lr': 0.0005,
+    'mac': 'basic_mac',
+    'mixer': None,
+    'name': 'iql',
+    'obs_agent_id': True,
+    'obs_individual_obs': False,
+    'obs_last_action': False,
+    'optim_alpha': 0.99,
+    'optim_eps': 1e-05,
+    'render': False,
+    'repeat_id': 1,
+    'runner': 'episode',
+    'runner_log_interval': 10000,
+    'save_model': True,
+    'save_model_interval': 50000,
+    'save_replay': False,
+    'seed': 169210272,
+    'standardise_returns': False,
+    'standardise_rewards': True,
+    't_max': 2050000,
+    'target_update_interval_or_tau': 200,
+    'test_greedy': True,
+    'test_interval': 50000,
+    'test_nepisode': 100,
+    'use_cuda': True,
+    'use_rnn': False,
+    'use_tensorboard': False}
+
+[INFO 01:58:13] my_main Beginning training for 2050000 timesteps
+[INFO 01:58:22] my_main t_env: 100 / 2050000
+[INFO 01:58:22] my_main Estimated time left: 5 minutes, 58 seconds. Time passed: 8 seconds
+[INFO 02:08:16] my_main Saving models to results/models/iql_seed169210272_None_2024-06-11 01:58:10.711980/100
+[INFO 03:25:11] my_main Recent Stats | t_env:      50000 | Episode:      500
+ep_length_mean:          100.0000	epsilon:                   0.2400	grad_norm:                 0.6312	loss:                      0.9696
+q_taken_mean:              0.0813	return_mean:             -188.6400	return_std:               23.0100	target_mean:               0.1558
+td_error_abs:              0.6912	test_ep_length_mean:     100.0000	test_return_mean:        -596.0000	test_return_std:           0.0000
+
+[INFO 03:25:21] my_main t_env: 50100 / 2050000
+[INFO 03:25:21] my_main Estimated time left: 2 days, 9 hours, 59 minutes, 40 seconds. Time passed: 1 hours, 27 minutes, 8 seconds
+[INFO 03:42:16] my_main Saving models to results/models/iql_seed169210272_None_2024-06-11 01:58:10.711980/50100
+[INFO 05:05:38] my_main Recent Stats | t_env:     100000 | Episode:     1000
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 1.5136	loss:                      0.8482
+q_taken_mean:              0.5357	return_mean:             -11.8480	return_std:               27.7678	target_mean:               0.6146
+td_error_abs:              0.6206	test_ep_length_mean:     100.0000	test_return_mean:        -296.5000	test_return_std:           0.0000
+
+[INFO 05:05:48] my_main t_env: 100100 / 2050000
+[INFO 05:05:48] my_main Estimated time left: 2 days, 17 hours, 17 minutes, 14 seconds. Time passed: 3 hours, 7 minutes, 35 seconds
+[INFO 05:22:43] my_main Saving models to results/models/iql_seed169210272_None_2024-06-11 01:58:10.711980/100100
+[INFO 06:44:41] my_main Recent Stats | t_env:     150000 | Episode:     1500
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 3.3938	loss:                      1.1892
+q_taken_mean:              0.9262	return_mean:             -18.6080	return_std:               56.3161	target_mean:               1.0451
+td_error_abs:              0.7499	test_ep_length_mean:     100.0000	test_return_mean:        -193.6667	test_return_std:           0.0000
+
+[INFO 06:44:51] my_main t_env: 150100 / 2050000
+[INFO 06:44:51] my_main Estimated time left: 2 days, 14 hours, 43 minutes, 35 seconds. Time passed: 4 hours, 46 minutes, 38 seconds
+[INFO 07:01:25] my_main Saving models to results/models/iql_seed169210272_None_2024-06-11 01:58:10.711980/150100
+[INFO 08:23:49] my_main Recent Stats | t_env:     200000 | Episode:     2000
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 2.6518	loss:                      0.8753
+q_taken_mean:              1.2388	return_mean:              -0.1660	return_std:               38.5793	target_mean:               1.3002
+td_error_abs:              0.5936	test_ep_length_mean:     100.0000	test_return_mean:        -137.7500	test_return_std:           0.0000
+
+[INFO 08:23:59] my_main t_env: 200100 / 2050000
+[INFO 08:23:59] my_main Estimated time left: 2 days, 13 hours, 7 minutes, 50 seconds. Time passed: 6 hours, 25 minutes, 46 seconds
+[INFO 08:39:52] my_main Saving models to results/models/iql_seed169210272_None_2024-06-11 01:58:10.711980/200100
+[INFO 09:58:57] my_main Recent Stats | t_env:     250000 | Episode:     2500
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 2.3534	loss:                      0.6218
+q_taken_mean:              1.4623	return_mean:              16.7620	return_std:               27.0694	target_mean:               1.5101
+td_error_abs:              0.4822	test_ep_length_mean:     100.0000	test_return_mean:        -101.8000	test_return_std:           0.0000
+
+[INFO 09:59:07] my_main t_env: 250100 / 2050000
+[INFO 09:59:07] my_main Estimated time left: 2 days, 9 hours, 4 minutes, 24 seconds. Time passed: 8 hours, 54 seconds
+[INFO 10:15:06] my_main Saving models to results/models/iql_seed169210272_None_2024-06-11 01:58:10.711980/250100
+[INFO 11:34:33] my_main Recent Stats | t_env:     300000 | Episode:     3000
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 1.4721	loss:                      0.5922
+q_taken_mean:              1.7213	return_mean:              15.4480	return_std:               47.0542	target_mean:               1.7466
+td_error_abs:              0.4083	test_ep_length_mean:     100.0000	test_return_mean:         22.4000	test_return_std:           0.0000
+
+[INFO 11:34:42] my_main t_env: 300100 / 2050000
+[INFO 11:34:42] my_main Estimated time left: 2 days, 7 hours, 45 minutes, 25 seconds. Time passed: 9 hours, 36 minutes, 29 seconds
+[INFO 11:50:42] my_main Saving models to results/models/iql_seed169210272_None_2024-06-11 01:58:10.711980/300100
+[INFO 13:15:11] my_main Recent Stats | t_env:     350000 | Episode:     3500
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 1.0266	loss:                      0.4746
+q_taken_mean:              1.7682	return_mean:              15.4120	return_std:               39.8513	target_mean:               1.7874
+td_error_abs:              0.3387	test_ep_length_mean:     100.0000	test_return_mean:         29.0000	test_return_std:           0.0000
+
+[INFO 13:15:20] my_main t_env: 350100 / 2050000
+[INFO 13:15:20] my_main Estimated time left: 2 days, 9 hours, 1 minutes, 24 seconds. Time passed: 11 hours, 17 minutes, 7 seconds
+[INFO 13:31:41] my_main Saving models to results/models/iql_seed169210272_None_2024-06-11 01:58:10.711980/350100
+[INFO 14:53:19] my_main Recent Stats | t_env:     400000 | Episode:     4000
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 0.6860	loss:                      0.4177
+q_taken_mean:              1.8713	return_mean:              12.7280	return_std:               22.1882	target_mean:               1.8796
+td_error_abs:              0.2817	test_ep_length_mean:     100.0000	test_return_mean:         29.6000	test_return_std:           0.0000
+
+[INFO 14:53:29] my_main t_env: 400100 / 2050000
+[INFO 14:53:29] my_main Estimated time left: 2 days, 5 hours, 58 minutes, 37 seconds. Time passed: 12 hours, 55 minutes, 16 seconds
+[INFO 15:10:05] my_main Saving models to results/models/iql_seed169210272_None_2024-06-11 01:58:10.711980/400100
+[INFO 16:30:57] my_main Recent Stats | t_env:     450000 | Episode:     4500
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 0.6632	loss:                      0.4234
+q_taken_mean:              1.9250	return_mean:              12.3900	return_std:               25.3164	target_mean:               1.9262
+td_error_abs:              0.2747	test_ep_length_mean:     100.0000	test_return_mean:         29.8000	test_return_std:           0.0000
+
+[INFO 16:31:07] my_main t_env: 450100 / 2050000
+[INFO 16:31:07] my_main Estimated time left: 2 days, 4 hours, 4 minutes, 9 seconds. Time passed: 14 hours, 32 minutes, 54 seconds
+[INFO 16:47:26] my_main Saving models to results/models/iql_seed169210272_None_2024-06-11 01:58:10.711980/450100
+[INFO 18:07:50] my_main Recent Stats | t_env:     500000 | Episode:     5000
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 0.5193	loss:                      0.4000
+q_taken_mean:              1.9487	return_mean:              18.3920	return_std:               18.5782	target_mean:               1.9476
+td_error_abs:              0.2381	test_ep_length_mean:     100.0000	test_return_mean:         27.2000	test_return_std:           0.0000
+
+[INFO 18:07:59] my_main t_env: 500100 / 2050000
+[INFO 18:07:59] my_main Estimated time left: 2 days, 2 hours, 2 minutes, 44 seconds. Time passed: 16 hours, 9 minutes, 46 seconds
+[INFO 18:24:16] my_main Saving models to results/models/iql_seed169210272_None_2024-06-11 01:58:10.711980/500100
+[INFO 19:44:43] my_main Recent Stats | t_env:     550000 | Episode:     5500
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 0.5958	loss:                      0.3785
+q_taken_mean:              1.9572	return_mean:              18.0960	return_std:               18.8285	target_mean:               1.9540
+td_error_abs:              0.2169	test_ep_length_mean:     100.0000	test_return_mean:         28.0000	test_return_std:           0.0000
+
+[INFO 19:44:53] my_main t_env: 550100 / 2050000
+[INFO 19:44:53] my_main Estimated time left: 2 days, 26 minutes, 39 seconds. Time passed: 17 hours, 46 minutes, 40 seconds
+[INFO 20:01:06] my_main Saving models to results/models/iql_seed169210272_None_2024-06-11 01:58:10.711980/550100
+[INFO 21:21:08] my_main Recent Stats | t_env:     600000 | Episode:     6000
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 0.5429	loss:                      0.3622
+q_taken_mean:              1.9528	return_mean:              13.5740	return_std:               34.0214	target_mean:               1.9465
+td_error_abs:              0.1894	test_ep_length_mean:     100.0000	test_return_mean:         26.6000	test_return_std:           0.0000
+
+[INFO 21:21:17] my_main t_env: 600100 / 2050000
+[INFO 21:21:17] my_main Estimated time left: 1 days, 22 hours, 35 minutes, 32 seconds. Time passed: 19 hours, 23 minutes, 4 seconds
+[INFO 21:37:11] my_main Saving models to results/models/iql_seed169210272_None_2024-06-11 01:58:10.711980/600100
+[INFO 22:57:34] my_main Recent Stats | t_env:     650000 | Episode:     6500
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 0.8030	loss:                      0.3350
+q_taken_mean:              1.9224	return_mean:              16.1880	return_std:               23.9211	target_mean:               1.9147
+td_error_abs:              0.1938	test_ep_length_mean:     100.0000	test_return_mean:         25.8000	test_return_std:           0.0000
+
+[INFO 22:57:44] my_main t_env: 650100 / 2050000
+[INFO 22:57:44] my_main Estimated time left: 1 days, 21 hours, 5 seconds. Time passed: 20 hours, 59 minutes, 30 seconds
+[INFO 23:13:49] my_main Saving models to results/models/iql_seed169210272_None_2024-06-11 01:58:10.711980/650100
+[INFO 00:34:08] my_main Recent Stats | t_env:     700000 | Episode:     7000
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 0.6097	loss:                      0.3321
+q_taken_mean:              1.9902	return_mean:              12.5460	return_std:               28.5387	target_mean:               1.9859
+td_error_abs:              0.1784	test_ep_length_mean:     100.0000	test_return_mean:         20.2000	test_return_std:           0.0000
+
+[INFO 00:34:17] my_main t_env: 700100 / 2050000
+[INFO 00:34:17] my_main Estimated time left: 1 days, 19 hours, 27 minutes, 3 seconds. Time passed: 22 hours, 36 minutes, 4 seconds
+[INFO 00:50:39] my_main Saving models to results/models/iql_seed169210272_None_2024-06-11 01:58:10.711980/700100
+[INFO 02:10:47] my_main Recent Stats | t_env:     750000 | Episode:     7500
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 0.7723	loss:                      0.3243
+q_taken_mean:              1.9400	return_mean:              19.0940	return_std:               29.5337	target_mean:               1.9309
+td_error_abs:              0.1671	test_ep_length_mean:     100.0000	test_return_mean:         20.6000	test_return_std:           0.0000
+
+[INFO 02:10:57] my_main t_env: 750100 / 2050000
+[INFO 02:10:57] my_main Estimated time left: 1 days, 17 hours, 52 minutes, 44 seconds. Time passed: 1 days, 12 minutes, 43 seconds
+[INFO 02:27:18] my_main Saving models to results/models/iql_seed169210272_None_2024-06-11 01:58:10.711980/750100
+[INFO 03:52:50] my_main Recent Stats | t_env:     800000 | Episode:     8000
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 0.7460	loss:                      0.3110
+q_taken_mean:              1.9588	return_mean:              22.2640	return_std:               32.3076	target_mean:               1.9509
+td_error_abs:              0.1753	test_ep_length_mean:     100.0000	test_return_mean:         21.4000	test_return_std:           0.0000
+
+[INFO 03:53:01] my_main t_env: 800100 / 2050000
+[INFO 03:53:01] my_main Estimated time left: 1 days, 18 hours, 31 minutes, 36 seconds. Time passed: 1 days, 1 hours, 54 minutes, 48 seconds
+[INFO 04:09:28] my_main Saving models to results/models/iql_seed169210272_None_2024-06-11 01:58:10.711980/800100
+[INFO 05:29:37] my_main Recent Stats | t_env:     850000 | Episode:     8500
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 0.8273	loss:                      0.2938
+q_taken_mean:              1.8515	return_mean:              26.9200	return_std:               17.5191	target_mean:               1.8430
+td_error_abs:              0.1633	test_ep_length_mean:     100.0000	test_return_mean:         21.4000	test_return_std:           0.0000
+
+[INFO 05:29:46] my_main t_env: 850100 / 2050000
+[INFO 05:29:46] my_main Estimated time left: 1 days, 14 hours, 41 minutes, 59 seconds. Time passed: 1 days, 3 hours, 31 minutes, 33 seconds
+[INFO 05:45:46] my_main Saving models to results/models/iql_seed169210272_None_2024-06-11 01:58:10.711980/850100
+[INFO 07:05:57] my_main Recent Stats | t_env:     900000 | Episode:     9000
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 0.5618	loss:                      0.2307
+q_taken_mean:              1.6884	return_mean:              33.2040	return_std:               24.1470	target_mean:               1.6818
+td_error_abs:              0.1466	test_ep_length_mean:     100.0000	test_return_mean:         32.4000	test_return_std:           0.0000
+
+[INFO 07:06:06] my_main t_env: 900100 / 2050000
+[INFO 07:06:06] my_main Estimated time left: 1 days, 12 hours, 55 minutes, 31 seconds. Time passed: 1 days, 5 hours, 7 minutes, 53 seconds
+[INFO 07:22:12] my_main Saving models to results/models/iql_seed169210272_None_2024-06-11 01:58:10.711980/900100
+[INFO 08:42:23] my_main Recent Stats | t_env:     950000 | Episode:     9500
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 0.5995	loss:                      0.2316
+q_taken_mean:              1.6445	return_mean:              38.9780	return_std:               20.2245	target_mean:               1.6345
+td_error_abs:              0.1451	test_ep_length_mean:     100.0000	test_return_mean:         38.0000	test_return_std:           0.0000
+
+[INFO 08:42:33] my_main t_env: 950100 / 2050000
+[INFO 08:42:33] my_main Estimated time left: 1 days, 11 hours, 21 minutes, 32 seconds. Time passed: 1 days, 6 hours, 44 minutes, 20 seconds
+[INFO 08:58:41] my_main Saving models to results/models/iql_seed169210272_None_2024-06-11 01:58:10.711980/950100
+[INFO 10:18:58] my_main Recent Stats | t_env:    1000000 | Episode:    10000
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 0.3356	loss:                      0.1828
+q_taken_mean:              1.5099	return_mean:              44.0760	return_std:               15.9119	target_mean:               1.5058
+td_error_abs:              0.1321	test_ep_length_mean:     100.0000	test_return_mean:         45.0000	test_return_std:           0.0000
+
+[INFO 10:19:08] my_main t_env: 1000100 / 2050000
+[INFO 10:19:08] my_main Estimated time left: 1 days, 9 hours, 47 minutes, 57 seconds. Time passed: 1 days, 8 hours, 20 minutes, 55 seconds
+[INFO 10:35:07] my_main Saving models to results/models/iql_seed169210272_None_2024-06-11 01:58:10.711980/1000100
+[INFO 11:55:01] my_main Recent Stats | t_env:    1050000 | Episode:    10500
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 0.3790	loss:                      0.1786
+q_taken_mean:              1.4096	return_mean:              44.2900	return_std:               19.7556	target_mean:               1.4046
+td_error_abs:              0.1395	test_ep_length_mean:     100.0000	test_return_mean:         51.2000	test_return_std:           0.0000
+
+[INFO 11:55:11] my_main t_env: 1050100 / 2050000
+[INFO 11:55:11] my_main Estimated time left: 1 days, 8 hours, 43 seconds. Time passed: 1 days, 9 hours, 56 minutes, 57 seconds
+[INFO 12:11:01] my_main Saving models to results/models/iql_seed169210272_None_2024-06-11 01:58:10.711980/1050100
+[INFO 13:30:59] my_main Recent Stats | t_env:    1100000 | Episode:    11000
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 0.2847	loss:                      0.1577
+q_taken_mean:              1.2658	return_mean:              44.7900	return_std:               23.2432	target_mean:               1.2622
+td_error_abs:              0.1346	test_ep_length_mean:     100.0000	test_return_mean:         54.6000	test_return_std:           0.0000
+
+[INFO 13:31:09] my_main t_env: 1100100 / 2050000
+[INFO 13:31:09] my_main Estimated time left: 1 days, 6 hours, 23 minutes, 13 seconds. Time passed: 1 days, 11 hours, 32 minutes, 55 seconds
+[INFO 13:47:08] my_main Saving models to results/models/iql_seed169210272_None_2024-06-11 01:58:10.711980/1100100
+[INFO 15:07:04] my_main Recent Stats | t_env:    1150000 | Episode:    11500
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 0.2701	loss:                      0.1443
+q_taken_mean:              1.2090	return_mean:              45.2260	return_std:               26.9344	target_mean:               1.2059
+td_error_abs:              0.1352	test_ep_length_mean:     100.0000	test_return_mean:         54.6000	test_return_std:           0.0000
+
+[INFO 15:07:13] my_main t_env: 1150100 / 2050000
+[INFO 15:07:13] my_main Estimated time left: 1 days, 4 hours, 49 minutes, 6 seconds. Time passed: 1 days, 13 hours, 9 minutes, 0 seconds
+[INFO 15:23:15] my_main Saving models to results/models/iql_seed169210272_None_2024-06-11 01:58:10.711980/1150100
+[INFO 16:43:07] my_main Recent Stats | t_env:    1200000 | Episode:    12000
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 0.2455	loss:                      0.1265
+q_taken_mean:              1.1182	return_mean:              46.0760	return_std:               18.0358	target_mean:               1.1178
+td_error_abs:              0.1334	test_ep_length_mean:     100.0000	test_return_mean:         61.6000	test_return_std:           0.0000
+
+[INFO 16:43:17] my_main t_env: 1200100 / 2050000
+[INFO 16:43:17] my_main Estimated time left: 1 days, 3 hours, 12 minutes, 49 seconds. Time passed: 1 days, 14 hours, 45 minutes, 3 seconds
+[INFO 16:59:15] my_main Saving models to results/models/iql_seed169210272_None_2024-06-11 01:58:10.711980/1200100
+[INFO 18:19:06] my_main Recent Stats | t_env:    1250000 | Episode:    12500
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 0.2247	loss:                      0.1070
+q_taken_mean:              0.9942	return_mean:              43.5700	return_std:               18.6289	target_mean:               0.9905
+td_error_abs:              0.1204	test_ep_length_mean:     100.0000	test_return_mean:         61.6000	test_return_std:           0.0000
+
+[INFO 18:19:16] my_main t_env: 1250100 / 2050000
+[INFO 18:19:16] my_main Estimated time left: 1 days, 1 hours, 35 minutes, 39 seconds. Time passed: 1 days, 16 hours, 21 minutes, 3 seconds
+[INFO 18:35:26] my_main Saving models to results/models/iql_seed169210272_None_2024-06-11 01:58:10.711980/1250100
+[INFO 19:55:34] my_main Recent Stats | t_env:    1300000 | Episode:    13000
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 0.2665	loss:                      0.0935
+q_taken_mean:              0.9352	return_mean:              48.3340	return_std:               15.6731	target_mean:               0.9330
+td_error_abs:              0.1172	test_ep_length_mean:     100.0000	test_return_mean:         62.0000	test_return_std:           0.0000
+
+[INFO 19:55:43] my_main t_env: 1300100 / 2050000
+[INFO 19:55:43] my_main Estimated time left: 1 days, 6 minutes, 37 seconds. Time passed: 1 days, 17 hours, 57 minutes, 30 seconds
+[INFO 20:11:45] my_main Saving models to results/models/iql_seed169210272_None_2024-06-11 01:58:10.711980/1300100
+[INFO 21:31:46] my_main Recent Stats | t_env:    1350000 | Episode:    13500
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 0.2298	loss:                      0.0780
+q_taken_mean:              0.8514	return_mean:              48.4160	return_std:               10.6545	target_mean:               0.8491
+td_error_abs:              0.1054	test_ep_length_mean:     100.0000	test_return_mean:         66.0000	test_return_std:           0.0000
+
+[INFO 21:31:55] my_main t_env: 1350100 / 2050000
+[INFO 21:31:55] my_main Estimated time left: 22 hours, 26 minutes, 37 seconds. Time passed: 1 days, 19 hours, 33 minutes, 42 seconds
+[INFO 21:47:48] my_main Saving models to results/models/iql_seed169210272_None_2024-06-11 01:58:10.711980/1350100
+[INFO 23:07:44] my_main Recent Stats | t_env:    1400000 | Episode:    14000
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 0.2550	loss:                      0.0720
+q_taken_mean:              0.8006	return_mean:              41.1340	return_std:               28.1115	target_mean:               0.7955
+td_error_abs:              0.1026	test_ep_length_mean:     100.0000	test_return_mean:         65.2000	test_return_std:           0.0000
+
+[INFO 23:07:53] my_main t_env: 1400100 / 2050000
+[INFO 23:07:53] my_main Estimated time left: 20 hours, 47 minutes, 19 seconds. Time passed: 1 days, 21 hours, 9 minutes, 40 seconds
+[INFO 23:23:55] my_main Saving models to results/models/iql_seed169210272_None_2024-06-11 01:58:10.711980/1400100
+[INFO 00:44:06] my_main Recent Stats | t_env:    1450000 | Episode:    14500
+ep_length_mean:          100.0000	epsilon:                   0.0500	grad_norm:                 0.2776	loss:                      0.0666
+q_taken_mean:              0.7275	return_mean:              47.4220	return_std:               17.3484	target_mean:               0.7247
+td_error_abs:              0.1023	test_ep_length_mean:     100.0000	test_return_mean:         65.2000	test_return_std:           0.0000
+
+[INFO 00:44:15] my_main t_env: 1450100 / 2050000
+[INFO 00:44:15] my_main Estimated time left: 19 hours, 16 minutes, 14 seconds. Time passed: 1 days, 22 hours, 46 minutes, 2 seconds
+[INFO 01:00:15] my_main Saving models to results/models/iql_seed169210272_None_2024-06-11 01:58:10.711980/1450100

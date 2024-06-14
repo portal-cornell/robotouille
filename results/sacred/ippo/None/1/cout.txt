@@ -1,0 +1,217 @@
+[INFO 11:01:09] pymarl Running command 'my_main'
+[INFO 11:01:09] pymarl Started run with ID "1"
+[DEBUG 11:01:09] pymarl Starting Heartbeat
+[DEBUG 11:01:09] my_main Started
+[INFO 11:01:09] my_main Experiment Parameters:
+[INFO 11:01:09] my_main 
+
+{   'action_selector': 'soft_policies',
+    'add_value_last_step': True,
+    'agent': 'rnn',
+    'agent_output_type': 'pi_logits',
+    'batch_size': 10,
+    'batch_size_run': 10,
+    'buffer_cpu_only': True,
+    'buffer_size': 10,
+    'checkpoint_path': '',
+    'critic_type': 'ac_critic',
+    'entropy_coef': 0.01,
+    'env': 'gymma',
+    'env_args': {   'key': None,
+                    'pretrained_wrapper': None,
+                    'seed': 793276739,
+                    'time_limit': 50},
+    'epochs': 4,
+    'eps_clip': 0.2,
+    'evaluate': False,
+    'gamma': 0.99,
+    'grad_norm_clip': 10,
+    'hidden_dim': 64,
+    'hypergroup': None,
+    'label': 'default_label',
+    'learner': 'ppo_learner',
+    'learner_log_interval': 10000,
+    'load_step': 0,
+    'local_results_path': 'results',
+    'log_interval': 50000,
+    'lr': 0.0003,
+    'mac': 'basic_mac',
+    'mask_before_softmax': True,
+    'name': 'ippo',
+    'obs_agent_id': True,
+    'obs_individual_obs': False,
+    'obs_last_action': False,
+    'optim_alpha': 0.99,
+    'optim_eps': 1e-05,
+    'q_nstep': 5,
+    'render': False,
+    'repeat_id': 1,
+    'runner': 'parallel',
+    'runner_log_interval': 10000,
+    'save_model': True,
+    'save_model_interval': 50000,
+    'save_replay': False,
+    'seed': 793276739,
+    'standardise_returns': False,
+    'standardise_rewards': True,
+    't_max': 20050000,
+    'target_update_interval_or_tau': 0.01,
+    'test_greedy': True,
+    'test_interval': 50000,
+    'test_nepisode': 100,
+    'use_cuda': True,
+    'use_rnn': True,
+    'use_tensorboard': False}
+
+[INFO 11:01:15] my_main Beginning training for 20050000 timesteps
+[DEBUG 11:01:19] git.cmd Popen(['git', 'rev-parse', '--show-toplevel'], cwd=/home/byl8/hosp_robotouille, stdin=None, shell=False, universal_newlines=False)
+[DEBUG 11:01:19] git.cmd Popen(['git', 'rev-parse', '--show-toplevel'], cwd=/home/byl8/hosp_robotouille, stdin=None, shell=False, universal_newlines=False)
+[DEBUG 11:01:19] git.cmd Popen(['git', 'rev-parse', '--show-toplevel'], cwd=/home/byl8/hosp_robotouille, stdin=None, shell=False, universal_newlines=False)
+[DEBUG 11:01:19] git.cmd Popen(['git', 'rev-parse', '--show-toplevel'], cwd=/home/byl8/hosp_robotouille, stdin=None, shell=False, universal_newlines=False)
+[DEBUG 11:01:19] git.cmd Popen(['git', 'rev-parse', '--show-toplevel'], cwd=/home/byl8/hosp_robotouille, stdin=None, shell=False, universal_newlines=False)
+[DEBUG 11:01:19] git.cmd Popen(['git', 'rev-parse', '--show-toplevel'], cwd=/home/byl8/hosp_robotouille, stdin=None, shell=False, universal_newlines=False)
+[DEBUG 11:01:19] git.cmd Popen(['git', 'rev-parse', '--show-toplevel'], cwd=/home/byl8/hosp_robotouille, stdin=None, shell=False, universal_newlines=False)
+[DEBUG 11:01:19] git.cmd Popen(['git', 'rev-parse', '--show-toplevel'], cwd=/home/byl8/hosp_robotouille, stdin=None, shell=False, universal_newlines=False)
+[DEBUG 11:01:19] git.cmd Popen(['git', 'rev-parse', '--show-toplevel'], cwd=/home/byl8/hosp_robotouille, stdin=None, shell=False, universal_newlines=False)
+[DEBUG 11:01:19] git.cmd Popen(['git', 'rev-parse', '--show-toplevel'], cwd=/home/byl8/hosp_robotouille, stdin=None, shell=False, universal_newlines=False)
+[DEBUG 11:01:19] git.cmd Popen(['git', 'rev-parse', '--show-toplevel'], cwd=/home/byl8/hosp_robotouille, stdin=None, shell=False, universal_newlines=False)
+[DEBUG 11:01:19] git.cmd Popen(['git', 'rev-parse', '--show-toplevel'], cwd=/home/byl8/hosp_robotouille, stdin=None, shell=False, universal_newlines=False)
+[DEBUG 11:01:19] git.cmd Popen(['git', 'rev-parse', '--show-toplevel'], cwd=/home/byl8/hosp_robotouille, stdin=None, shell=False, universal_newlines=False)
+[DEBUG 11:01:19] git.cmd Popen(['git', 'rev-parse', '--show-toplevel'], cwd=/home/byl8/hosp_robotouille, stdin=None, shell=False, universal_newlines=False)
+[DEBUG 11:01:19] git.cmd Popen(['git', 'rev-parse', '--show-toplevel'], cwd=/home/byl8/hosp_robotouille, stdin=None, shell=False, universal_newlines=False)
+[DEBUG 11:01:20] git.cmd Popen(['git', 'rev-parse', '--show-toplevel'], cwd=/home/byl8/hosp_robotouille, stdin=None, shell=False, universal_newlines=False)
+[DEBUG 11:01:20] git.cmd Popen(['git', 'rev-parse', '--show-toplevel'], cwd=/home/byl8/hosp_robotouille, stdin=None, shell=False, universal_newlines=False)
+[DEBUG 11:01:20] git.cmd Popen(['git', 'rev-parse', '--show-toplevel'], cwd=/home/byl8/hosp_robotouille, stdin=None, shell=False, universal_newlines=False)
+[DEBUG 11:01:20] git.cmd Popen(['git', 'rev-parse', '--show-toplevel'], cwd=/home/byl8/hosp_robotouille, stdin=None, shell=False, universal_newlines=False)
+[DEBUG 11:01:20] git.cmd Popen(['git', 'rev-parse', '--show-toplevel'], cwd=/home/byl8/hosp_robotouille, stdin=None, shell=False, universal_newlines=False)
+[INFO 11:03:00] my_main t_env: 1000 / 20050000
+[INFO 11:03:00] my_main Estimated time left: 11 hours, 26 minutes, 33 seconds. Time passed: 1 minutes, 44 seconds
+[INFO 11:19:44] my_main Saving models to results/models/ippo_seed793276739_None_2024-06-12 11:01:09.453591/1000
+[INFO 12:50:39] my_main Recent Stats | t_env:      50000 | Episode:      500
+advantage_mean:            0.1940	agent_grad_norm:           0.1910	critic_grad_norm:          0.9386	critic_loss:               3.0492
+ep_length_mean:          100.0000	pg_loss:                  -0.2186	pi_max:                    0.1745	q_taken_mean:              0.6102
+return_mean:             -162.8340	return_std:               21.7638	target_mean:               0.8042	td_error_abs:              1.3238
+test_ep_length_mean:     100.0000	test_return_mean:        -253.8000	test_return_std:          26.3105	
+[INFO 12:52:32] my_main t_env: 51000 / 20050000
+[INFO 12:52:32] my_main Estimated time left: 30 days, 10 hours, 12 minutes, 44 seconds. Time passed: 1 hours, 51 minutes, 17 seconds
+[INFO 13:11:32] my_main Saving models to results/models/ippo_seed793276739_None_2024-06-12 11:01:09.453591/51000
+[INFO 14:46:22] my_main Recent Stats | t_env:     100000 | Episode:     1000
+advantage_mean:           -0.0686	agent_grad_norm:           0.1537	critic_grad_norm:          0.5289	critic_loss:               2.5594
+ep_length_mean:          100.0000	pg_loss:                   0.0492	pi_max:                    0.1965	q_taken_mean:              1.0172
+return_mean:             -96.5040	return_std:               13.2731	target_mean:               0.9486	td_error_abs:              1.2837
+test_ep_length_mean:     100.0000	test_return_mean:        -177.4300	test_return_std:          19.9489	
+[INFO 14:48:20] my_main t_env: 101000 / 20050000
+[INFO 14:48:20] my_main Estimated time left: 32 days, 1 hours, 57 minutes, 25 seconds. Time passed: 3 hours, 47 minutes, 4 seconds
+[INFO 15:08:01] my_main Saving models to results/models/ippo_seed793276739_None_2024-06-12 11:01:09.453591/101000
+[INFO 16:48:58] my_main Recent Stats | t_env:     150000 | Episode:     1500
+advantage_mean:            0.1026	agent_grad_norm:           0.1944	critic_grad_norm:          1.4112	critic_loss:               1.8509
+ep_length_mean:          100.0000	pg_loss:                  -0.1201	pi_max:                    0.5058	q_taken_mean:              2.4212
+return_mean:             -43.8160	return_std:               10.8791	target_mean:               2.5238	td_error_abs:              0.9936
+test_ep_length_mean:     100.0000	test_return_mean:        -144.9433	test_return_std:          17.0514	
+[INFO 16:51:03] my_main t_env: 151000 / 20050000
+[INFO 16:51:03] my_main Estimated time left: 33 days, 22 hours, 1 minutes, 29 seconds. Time passed: 5 hours, 49 minutes, 47 seconds
+[INFO 17:11:40] my_main Saving models to results/models/ippo_seed793276739_None_2024-06-12 11:01:09.453591/151000
+[INFO 18:52:44] my_main Recent Stats | t_env:     200000 | Episode:     2000
+advantage_mean:            0.0377	agent_grad_norm:           0.0910	critic_grad_norm:          0.8345	critic_loss:               0.7544
+ep_length_mean:          100.0000	pg_loss:                  -0.0464	pi_max:                    0.6125	q_taken_mean:              3.5493
+return_mean:              -2.9080	return_std:                5.1786	target_mean:               3.5870	td_error_abs:              0.4750
+test_ep_length_mean:     100.0000	test_return_mean:        -109.8700	test_return_std:          14.1012	
+[INFO 18:54:46] my_main t_env: 201000 / 20050000
+[INFO 18:54:46] my_main Estimated time left: 34 days, 2 hours, 32 minutes, 43 seconds. Time passed: 7 hours, 53 minutes, 30 seconds
+[INFO 19:15:07] my_main Saving models to results/models/ippo_seed793276739_None_2024-06-12 11:01:09.453591/201000
+[INFO 20:55:28] my_main Recent Stats | t_env:     250000 | Episode:     2500
+advantage_mean:           -0.0110	agent_grad_norm:           0.0906	critic_grad_norm:          0.9363	critic_loss:               0.6869
+ep_length_mean:          100.0000	pg_loss:                   0.0023	pi_max:                    0.5934	q_taken_mean:              3.9716
+return_mean:              -0.9720	return_std:                4.9391	target_mean:               3.9606	td_error_abs:              0.4396
+test_ep_length_mean:     100.0000	test_return_mean:        -88.2480	test_return_std:          12.2255	
+[INFO 20:57:29] my_main t_env: 251000 / 20050000
+[INFO 20:57:29] my_main Estimated time left: 33 days, 17 hours, 55 minutes, 19 seconds. Time passed: 9 hours, 56 minutes, 14 seconds
+[INFO 21:17:49] my_main Saving models to results/models/ippo_seed793276739_None_2024-06-12 11:01:09.453591/251000
+[INFO 22:58:00] my_main Recent Stats | t_env:     300000 | Episode:     3000
+advantage_mean:            0.0368	agent_grad_norm:           0.0749	critic_grad_norm:          0.8338	critic_loss:               0.6887
+ep_length_mean:          100.0000	pg_loss:                  -0.0454	pi_max:                    0.5776	q_taken_mean:              4.2480
+return_mean:               1.4060	return_std:                4.1562	target_mean:               4.2848	td_error_abs:              0.3935
+test_ep_length_mean:     100.0000	test_return_mean:        -37.5700	test_return_std:           7.9387	
+[INFO 23:00:03] my_main t_env: 301000 / 20050000
+[INFO 23:00:03] my_main Estimated time left: 33 days, 14 hours, 47 minutes, 43 seconds. Time passed: 11 hours, 58 minutes, 47 seconds
+[INFO 23:20:27] my_main Saving models to results/models/ippo_seed793276739_None_2024-06-12 11:01:09.453591/301000
+[INFO 01:00:46] my_main Recent Stats | t_env:     350000 | Episode:     3500
+advantage_mean:            0.0427	agent_grad_norm:           0.0686	critic_grad_norm:          1.3325	critic_loss:               0.4561
+ep_length_mean:          100.0000	pg_loss:                  -0.0509	pi_max:                    0.5887	q_taken_mean:              4.7732
+return_mean:               3.1820	return_std:                3.7249	target_mean:               4.8159	td_error_abs:              0.3254
+test_ep_length_mean:     100.0000	test_return_mean:        -16.7400	test_return_std:           5.9031	
+[INFO 01:02:49] my_main t_env: 351000 / 20050000
+[INFO 01:02:49] my_main Estimated time left: 33 days, 14 hours, 7 minutes, 35 seconds. Time passed: 14 hours, 1 minutes, 33 seconds
+[INFO 01:23:10] my_main Saving models to results/models/ippo_seed793276739_None_2024-06-12 11:01:09.453591/351000
+[INFO 03:03:30] my_main Recent Stats | t_env:     400000 | Episode:     4000
+advantage_mean:           -0.0400	agent_grad_norm:           0.0602	critic_grad_norm:          0.7741	critic_loss:               0.4349
+ep_length_mean:          100.0000	pg_loss:                   0.0318	pi_max:                    0.5659	q_taken_mean:              5.2067
+return_mean:               4.1840	return_std:                3.3401	target_mean:               5.1667	td_error_abs:              0.2513
+test_ep_length_mean:     100.0000	test_return_mean:          0.0820	test_return_std:           4.2811	
+[INFO 03:05:33] my_main t_env: 401000 / 20050000
+[INFO 03:05:33] my_main Estimated time left: 33 days, 11 hours, 51 minutes, 47 seconds. Time passed: 16 hours, 4 minutes, 17 seconds
+[INFO 03:25:58] my_main Saving models to results/models/ippo_seed793276739_None_2024-06-12 11:01:09.453591/401000
+[INFO 05:06:18] my_main Recent Stats | t_env:     450000 | Episode:     4500
+advantage_mean:           -0.0211	agent_grad_norm:           0.0735	critic_grad_norm:          1.6155	critic_loss:               0.4366
+ep_length_mean:          100.0000	pg_loss:                   0.0126	pi_max:                    0.5640	q_taken_mean:              5.5337
+return_mean:               5.2940	return_std:                3.2554	target_mean:               5.5126	td_error_abs:              0.2511
+test_ep_length_mean:     100.0000	test_return_mean:          2.0080	test_return_std:           3.8249	
+[INFO 05:08:21] my_main t_env: 451000 / 20050000
+[INFO 05:08:21] my_main Estimated time left: 33 days, 10 hours, 18 minutes, 20 seconds. Time passed: 18 hours, 7 minutes, 5 seconds
+[INFO 05:28:45] my_main Saving models to results/models/ippo_seed793276739_None_2024-06-12 11:01:09.453591/451000
+[INFO 07:09:18] my_main Recent Stats | t_env:     500000 | Episode:     5000
+advantage_mean:           -0.0169	agent_grad_norm:           0.0576	critic_grad_norm:          1.0665	critic_loss:               0.3465
+ep_length_mean:          100.0000	pg_loss:                   0.0089	pi_max:                    0.5567	q_taken_mean:              5.8566
+return_mean:               5.3780	return_std:                3.3159	target_mean:               5.8396	td_error_abs:              0.2185
+test_ep_length_mean:     100.0000	test_return_mean:          3.4800	test_return_std:           3.5431	
+[INFO 07:11:21] my_main t_env: 501000 / 20050000
+[INFO 07:11:21] my_main Estimated time left: 33 days, 9 hours, 28 minutes, 50 seconds. Time passed: 20 hours, 10 minutes, 5 seconds
+[INFO 07:31:44] my_main Saving models to results/models/ippo_seed793276739_None_2024-06-12 11:01:09.453591/501000
+[INFO 09:12:12] my_main Recent Stats | t_env:     550000 | Episode:     5500
+advantage_mean:           -0.0003	agent_grad_norm:           0.0381	critic_grad_norm:          1.3173	critic_loss:               0.2155
+ep_length_mean:          100.0000	pg_loss:                  -0.0073	pi_max:                    0.5607	q_taken_mean:              6.1246
+return_mean:               5.6940	return_std:                2.9247	target_mean:               6.1243	td_error_abs:              0.1607
+test_ep_length_mean:     100.0000	test_return_mean:          4.7000	test_return_std:           3.1683	
+[INFO 09:14:14] my_main t_env: 551000 / 20050000
+[INFO 09:14:14] my_main Estimated time left: 33 days, 6 hours, 43 minutes, 30 seconds. Time passed: 22 hours, 12 minutes, 58 seconds
+[INFO 09:34:39] my_main Saving models to results/models/ippo_seed793276739_None_2024-06-12 11:01:09.453591/551000
+[INFO 11:15:01] my_main Recent Stats | t_env:     600000 | Episode:     6000
+advantage_mean:           -0.0300	agent_grad_norm:           0.0464	critic_grad_norm:          1.1763	critic_loss:               0.3070
+ep_length_mean:          100.0000	pg_loss:                   0.0222	pi_max:                    0.5588	q_taken_mean:              6.2598
+return_mean:               5.9860	return_std:                3.0115	target_mean:               6.2298	td_error_abs:              0.1797
+test_ep_length_mean:     100.0000	test_return_mean:          5.2560	test_return_std:           3.0198	
+[INFO 11:17:04] my_main t_env: 601000 / 20050000
+[INFO 11:17:04] my_main Estimated time left: 33 days, 4 hours, 15 minutes, 0 seconds. Time passed: 1 days, 15 minutes, 48 seconds
+[INFO 11:37:28] my_main Saving models to results/models/ippo_seed793276739_None_2024-06-12 11:01:09.453591/601000
+[INFO 13:17:52] my_main Recent Stats | t_env:     650000 | Episode:     6500
+advantage_mean:           -0.0327	agent_grad_norm:           0.0605	critic_grad_norm:          1.5883	critic_loss:               0.2599
+ep_length_mean:          100.0000	pg_loss:                   0.0246	pi_max:                    0.5733	q_taken_mean:              6.5078
+return_mean:               6.6940	return_std:                2.8679	target_mean:               6.4751	td_error_abs:              0.1773
+test_ep_length_mean:     100.0000	test_return_mean:          5.6780	test_return_std:           2.9062	
+[INFO 13:19:54] my_main t_env: 651000 / 20050000
+[INFO 13:19:54] my_main Estimated time left: 33 days, 2 hours, 21 minutes, 13 seconds. Time passed: 1 days, 2 hours, 18 minutes, 38 seconds
+[INFO 13:40:17] my_main Saving models to results/models/ippo_seed793276739_None_2024-06-12 11:01:09.453591/651000
+[INFO 15:20:44] my_main Recent Stats | t_env:     700000 | Episode:     7000
+advantage_mean:           -0.0030	agent_grad_norm:           0.0664	critic_grad_norm:          1.3226	critic_loss:               0.2222
+ep_length_mean:          100.0000	pg_loss:                  -0.0053	pi_max:                    0.5584	q_taken_mean:              6.7085
+return_mean:               6.8380	return_std:                2.8765	target_mean:               6.7055	td_error_abs:              0.1436
+test_ep_length_mean:     100.0000	test_return_mean:          6.0180	test_return_std:           2.9827	
+[INFO 15:22:47] my_main t_env: 701000 / 20050000
+[INFO 15:22:47] my_main Estimated time left: 33 days, 34 minutes, 49 seconds. Time passed: 1 days, 4 hours, 21 minutes, 32 seconds
+[INFO 15:43:11] my_main Saving models to results/models/ippo_seed793276739_None_2024-06-12 11:01:09.453591/701000
+[INFO 17:23:32] my_main Recent Stats | t_env:     750000 | Episode:     7500
+advantage_mean:           -0.0108	agent_grad_norm:           0.0300	critic_grad_norm:          0.8999	critic_loss:               0.2314
+ep_length_mean:          100.0000	pg_loss:                   0.0029	pi_max:                    0.5608	q_taken_mean:              6.8236
+return_mean:               7.3520	return_std:                2.7892	target_mean:               6.8128	td_error_abs:              0.1515
+test_ep_length_mean:     100.0000	test_return_mean:          6.3460	test_return_std:           2.8729	
+[INFO 17:25:35] my_main t_env: 751000 / 20050000
+[INFO 17:25:35] my_main Estimated time left: 32 days, 21 hours, 54 minutes, 55 seconds. Time passed: 1 days, 6 hours, 24 minutes, 19 seconds
+[INFO 17:45:57] my_main Saving models to results/models/ippo_seed793276739_None_2024-06-12 11:01:09.453591/751000
+[INFO 19:26:07] my_main Recent Stats | t_env:     800000 | Episode:     8000
+advantage_mean:           -0.0043	agent_grad_norm:           0.0575	critic_grad_norm:          0.8796	critic_loss:               0.3110
+ep_length_mean:          100.0000	pg_loss:                  -0.0045	pi_max:                    0.5639	q_taken_mean:              6.9250
+return_mean:               7.6480	return_std:                2.4952	target_mean:               6.9206	td_error_abs:              0.1828
+test_ep_length_mean:     100.0000	test_return_mean:          6.6820	test_return_std:           2.7960	
+[INFO 19:28:09] my_main t_env: 801000 / 20050000
+[INFO 19:28:09] my_main Estimated time left: 32 days, 18 hours, 27 minutes, 55 seconds. Time passed: 1 days, 8 hours, 26 minutes, 53 seconds
+[INFO 19:48:30] my_main Saving models to results/models/ippo_seed793276739_None_2024-06-12 11:01:09.453591/801000
