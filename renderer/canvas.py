@@ -260,7 +260,7 @@ class RobotouilleCanvas:
                         col = col[:-1]
                     self._draw_image(surface, f"{col}.png", np.array([j, i]) * self.pix_square_size, self.pix_square_size)
 
-    def _get_player_image_name(self, direction):
+    def _get_player_sprite(self, direction):
         """
         Returns the image name of the player given their direction.
 
@@ -268,7 +268,7 @@ class RobotouilleCanvas:
             direction (tuple): Unit vector of the player's direction
         
         Returns:
-            image_name (str): Image name of the player
+            sprite_list (List[str]): List of image names for the player in the given direction
         
         Raises:
             AssertionError: If the direction is invalid
@@ -293,17 +293,27 @@ class RobotouilleCanvas:
         """
         players = obs.get_players()
         for player in players:
+            # Get the player object to access information about direction and position
             player_obj = obs.movement.players[player.name]
             player_pos = (player_obj.pos[0], len(self.layout) - player_obj.pos[1] - 1)
-            robot_image_name = self._get_player_image_name(player_obj.direction)
+            # Get the sprite list for the player's direction
+            robot_sprite = self._get_player_sprite(player_obj.direction)
+            if player_obj.sprite_value >= len(robot_sprite):
+                player_obj.sprite_value = 0
+            # Get the image name of the player
+            robot_image_name = robot_sprite[player_obj.sprite_value]
             held_item_name = None
             held_container_name = None
+            # Draw the player
             self._draw_image(surface, robot_image_name, player_pos * self.pix_square_size, self.pix_square_size)
+
+            # Check if the player is holding an item or container
             for literal, is_true in obs.predicates.items():
                 if is_true and literal.name == "has_item" and literal.params[0].name == player.name:
                     held_item_name = literal.params[1].name
                 if is_true and literal.name == "has_container" and literal.params[0].name == player.name:
                     held_container_name = literal.params[1].name
+            # Draw the item or container the player is holding
             if held_item_name:
                 self._draw_item_image(surface, held_item_name, obs, player_pos * self.pix_square_size)
             if held_container_name:

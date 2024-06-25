@@ -1,4 +1,5 @@
 import pygame
+import time
 from utils.robotouille_input import create_action_from_control
 from robotouille.robotouille_env import create_robotouille_env
 
@@ -15,11 +16,7 @@ def simulator(environment_name: str, seed: int=42, noisy_randomization: bool=Fal
     if animate:
         players = obs.get_players()
         actions = []
-        i = 0
         while not done:
-            i += 1
-            if i%200000 != 0:
-                continue
             pygame_events = pygame.event.get()
             mousedown_events = list(filter(lambda e: e.type == pygame.MOUSEBUTTONDOWN, pygame_events))
             keydown_events = list(filter(lambda e: e.type == pygame.KEYDOWN, pygame_events))
@@ -46,7 +43,6 @@ def simulator(environment_name: str, seed: int=42, noisy_randomization: bool=Fal
 
             # If all players have made an action, step the environments
             if len(actions) == len(players):
-                print(actions)
                 obs, reward, done, info = env.step(actions, interactive=interactive)
                 renderer.render(obs, mode='human')
                 actions = []

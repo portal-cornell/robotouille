@@ -198,7 +198,7 @@ class Movement(object):
             player_obj.direction = (destination_pos[0] - player_obj.pos[0], destination_pos[1] - player_obj.pos[1])
             action.perform_action(state, param_arg_dict)
         else:
-            # Animate the movement by moving the player by on step in the path
+            # Animate the movement by moving the player by one step in the path
             player_obj.path = path
             next_pos = player_obj.path.pop(0)
             player_obj.direction = (next_pos[0] - player_obj.pos[0], next_pos[1] - player_obj.pos[1])
@@ -227,6 +227,7 @@ class Movement(object):
                 next_pos = player.path.pop(0)
                 player.direction = (next_pos[0] - player.pos[0], next_pos[1] - player.pos[1])
                 player.pos = next_pos
+                player.sprite_value += 1
                 if player.path == []:
                     player.motion = False
                     player.action[0].perform_action(state, player.action[1])
@@ -234,6 +235,7 @@ class Movement(object):
                     station_pos = self.stations[destination.name]
                     player.direction = (station_pos[0] - player.pos[0], station_pos[1] - player.pos[1])
                     player.action = None
+                    player.sprite_value = 0
 
 
     def get_player(self, player_name):

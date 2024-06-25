@@ -104,4 +104,5 @@ class RobotouilleRenderer:
             pygame.display.quit()
             pygame.quit()
         else:
+            if self.clock: print(self.clock.get_time())
             return self._render_frame(obs, mode)

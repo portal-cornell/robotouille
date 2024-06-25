@@ -17,6 +17,7 @@ class Player(object):
         self.pos = pos
         self.direction = direction
         self.motion = False
+        self.sprite_value = 0
         self.destination = None
         self.path = []
         self.action = None
