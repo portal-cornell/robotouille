@@ -135,7 +135,7 @@ class State(object):
         """
         return [obj for obj in self.objects if obj.object_type == "player"]
 
-    def initialize(self, domain, objects, true_predicates, all_goals, special_effects=[]):
+    def initialize(self, domain, objects, true_predicates, all_goals, special_effects=None):
         """
         Initializes a state object.
 
@@ -163,6 +163,7 @@ class State(object):
             ValueError: If the type of an object is not defined in the domain, or
                 if a goal predicate is not defined in the domain.
         """
+        if special_effects is None: special_effects = []
         predicates = self._build_predicates(domain, objects, true_predicates)
         # check if objects have types defined in domain
         for object in objects:
