@@ -3,6 +3,9 @@ class Player(object):
     This class represents a player in Robotouille. It contains information
     about the player's position and movement. 
     """
+
+    players = {}
+    id_counter = 0
     
     def __init__(self, name, pos, direction):
         """
@@ -21,6 +24,34 @@ class Player(object):
         self.destination = None
         self.path = []
         self.action = None
+        self.id = Player.id_counter
+        Player.id_counter += 1
+        Player.players[self.name] = self
+
+    def build_players(environment_json):
+        """
+        Builds the players in the environment.
+
+        Args:
+            environment_json (dict): The environment json.
+        """
+        for player in environment_json["players"]:
+            name = player["name"]
+            pos = (player["x"], player["y"])
+            direction = (player["direction"][0], player["direction"][1])
+            Player(name, pos, direction)
+    
+    def get_player(player_name):
+        """
+        Gets the player object with the given name.
+
+        Args:
+            player_name (str): The name of the player.
+
+        Returns:
+            player (Player): The player object.
+        """
+        return Player.players[player_name]
 
     def is_moving(self):
         """

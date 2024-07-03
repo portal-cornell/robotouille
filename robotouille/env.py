@@ -304,7 +304,7 @@ def build_state(domain_json, environment_json, layout, animate):
     true_predicates += build_stacking_predicates(environment_json)
     goal = build_goal(environment_json)
 
-    movement = Movement(layout, animate).initialize(environment_json)
+    movement = Movement(layout, animate, environment_json)
 
     state = State().initialize(domain, objects, true_predicates, goal, movement)
 

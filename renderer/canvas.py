@@ -2,6 +2,7 @@ import os
 import pygame
 import numpy as np
 from utils.robotouille_utils import trim_item_ID
+from backend.movement.player import Player
 
 class RobotouilleCanvas:
     """
@@ -294,7 +295,7 @@ class RobotouilleCanvas:
         players = obs.get_players()
         for player in players:
             # Get the player object to access information about direction and position
-            player_obj = obs.movement.players[player.name]
+            player_obj = Player.players[player.name]
             player_pos = (player_obj.pos[0], len(self.layout) - player_obj.pos[1] - 1)
             # Get the sprite list for the player's direction
             robot_sprite = self._get_player_sprite(player_obj.direction)

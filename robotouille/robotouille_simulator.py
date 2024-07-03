@@ -2,6 +2,7 @@ import pygame
 import time
 from utils.robotouille_input import create_action_from_control
 from robotouille.robotouille_env import create_robotouille_env
+from backend.movement.player import Player
 
 
 def simulator(environment_name: str, seed: int=42, noisy_randomization: bool=False):
@@ -20,7 +21,7 @@ def simulator(environment_name: str, seed: int=42, noisy_randomization: bool=Fal
             pygame_events = pygame.event.get()
             mousedown_events = list(filter(lambda e: e.type == pygame.MOUSEBUTTONDOWN, pygame_events))
             keydown_events = list(filter(lambda e: e.type == pygame.KEYDOWN, pygame_events))
-            player_obj = obs.movement.get_player(obs.current_player.name)
+            player_obj = Player.get_player(obs.current_player.name)
             no_action = True
             
             # If player is moving, do not allow any action; action will be None
