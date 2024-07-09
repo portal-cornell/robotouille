@@ -8,7 +8,7 @@ setup(
     version='1.0',
     author='Gonzalo Gonzalez',
     author_email='gg387@cornell.edu',
-    description='A short description of your package',
+    description='A customizable multi-task cooking environment',
     packages=find_packages(),
     install_requires=requirements,
 )
