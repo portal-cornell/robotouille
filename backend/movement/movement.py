@@ -84,11 +84,12 @@ class Movement(object):
         """
         Gets the path for the player to move to the destination.
 
+        The destinations account for other player locations and station locations 
+        when the move action is first called
+
         Args:
             player (Player): The player.
             destinations (List[tuple]): The possible destination positions
-                (accounts for other player locations and station locations when
-                the move action is first called)
 
         Returns:
             path (list[Tuple]): The path to the destination. Each 
@@ -146,7 +147,7 @@ class Movement(object):
         player_obj = Player.players[player.name]
         destination_pos = Station.stations[destination.name].pos
         possible_destinations = self._get_possible_destinations(player_obj, destination_pos)
-        # If player is already at the destination, perform move action immediately
+        # If player is already at the destination, the state predicates are immediately updated
         if player_obj.pos in possible_destinations:
             action.perform_action(state, param_arg_dict)
             player_obj.direction = (destination_pos[0] - player_obj.pos[0], destination_pos[1] - player_obj.pos[1])
