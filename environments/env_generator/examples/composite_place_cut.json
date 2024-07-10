@@ -38,6 +38,7 @@
             "direction": [0, 1]
         }
     ],
+    "goal_description": "Fully cut the lettuce",
     "goal": [
         {
             "predicate": "iscut",

@@ -44,6 +44,7 @@
             "id": "a"
         }
     ],
+    "goal_description": "Boil the pot of water",
     "goal": [
         {
             "predicate": "isboiling",

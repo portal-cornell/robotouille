@@ -38,6 +38,7 @@
         }
     ],
     "containers": [],
+    "goal_description": "Pickup the item",
     "goal": [
         {
             "predicate": "has_item",

@@ -39,6 +39,7 @@
             "meal_id": []
         }
     ],
+    "goal_description": "Pickup the container",
     "goal": [
         {
             "predicate": "has_container",

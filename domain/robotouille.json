@@ -9,167 +9,300 @@
     "predicate_defs": [
         {
             "name": "istable",
-            "param_types": ["station"]
+            "param_types": ["station"],
+            "language_descriptors": {
+                "0": "{0} is a table"
+            }
         },
         {
             "name": "isstove",
-            "param_types": ["station"]
+            "param_types": ["station"],
+            "language_descriptors": {
+                "0": "{0} is a stove"
+            }
         },
         {
             "name": "isboard",
-            "param_types": ["station"]
+            "param_types": ["station"],
+            "language_descriptors": {
+                "0": "{0} is a cutting board"
+            }
+            
         },
         {
             "name": "isfryer",
-            "param_types": ["station"]
+            "param_types": ["station"],
+            "language_descriptors": {
+                "0": "{0} is a fryer"
+            }
         },
         {
             "name": "issink",
-            "param_types": ["station"]
+            "param_types": ["station"],
+            "language_descriptors": {
+                "0": "{0} is a sink"
+            }
         },
         {
             "name": "isrobot",
-            "param_types": ["player"]
+            "param_types": ["player"],
+            "language_descriptors": {
+                "0": "{0} is a robot"
+            }
         },
         {
             "name": "istopbun",
-            "param_types": ["item"]
+            "param_types": ["item"],
+            "language_descriptors": {
+                "0": "{0} is a top bun"
+            }
         },
         {
             "name": "isbottombun",
-            "param_types": ["item"]
+            "param_types": ["item"],
+            "language_descriptors": {
+                "0": "{0} is a bottom bun"
+            }
         },
         {
             "name": "isbread",
-            "param_types": ["item"]
+            "param_types": ["item"],
+            "language_descriptors": {
+                "0": "{0} is a bread slice"
+            }
         },
         {
             "name": "islettuce",
-            "param_types": ["item"]
+            "param_types": ["item"],
+            "language_descriptors": {
+                "0": "{0} is a head of lettuce"
+            }
         },
         {
             "name": "isonion",
-            "param_types": ["item"]
+            "param_types": ["item"],
+            "language_descriptors": {
+                "0": "{0} is an onion"
+            }
         },
         {
             "name": "istomato",
-            "param_types": ["item"]
+            "param_types": ["item"],
+            "language_descriptors": {
+                "0": "{0} is a tomato"
+            }
         },
         {
             "name": "ispatty",
-            "param_types": ["item"]
+            "param_types": ["item"],
+            "language_descriptors": {
+                "0": "{0} is a hamburger patty"
+            }
         },
         {
             "name": "ischicken",
-            "param_types": ["item"]
+            "param_types": ["item"],
+            "language_descriptors": {
+                "0": "{0} is a chicken breast"
+            }
         },
         {
             "name": "ischeese",
-            "param_types": ["item"]
+            "param_types": ["item"],
+            "language_descriptors": {
+                "0": "{0} is a cheese slice"
+            }
         },
         {
             "name": "ispotato",
-            "param_types": ["item"]
+            "param_types": ["item"],
+            "language_descriptors": {
+                "0": "{0} is a potato"
+            }
         },
         {
             "name": "isfryable",
-            "param_types": ["item"]
+            "param_types": ["item"],
+            "language_descriptors": {
+                "0": "{0} can be fried in a fryer"
+            }
         },
         {
             "name": "isfryableifcut",
-            "param_types": ["item"]
+            "param_types": ["item"],
+            "language_descriptors": {
+                "0": "{0} can be fried in a fryer after being cut"
+            }
         },
         {
             "name": "isfried",
-            "param_types": ["item"]
+            "param_types": ["item"],
+            "language_descriptors": {
+                "0": "{0} is fried"
+            }
         },
         {
             "name": "iscookable",
-            "param_types": ["item"]
+            "param_types": ["item"],
+            "language_descriptors": {
+                "0": "{0} can be cooked on a stove"
+            }
         },
         {
             "name": "iscooked",
-            "param_types": ["item"]
+            "param_types": ["item"],
+            "language_descriptors": {
+                "0": "{0} is cooked"
+            }
         },
         {
             "name": "iscuttable",
-            "param_types": ["item"]
+            "param_types": ["item"],
+            "language_descriptors": {
+                "0": "{0} can be cut on a cutting board"
+            }
         },
         {
             "name": "iscut",
-            "param_types": ["item"]
+            "param_types": ["item"],
+            "language_descriptors": {
+                "0": "{0} is cut"
+            }
         },
         {
             "name": "ispot",
-            "param_types": ["container"]
+            "param_types": ["container"],
+            "language_descriptors": {
+                "0": "{0} is a pot"
+            }
         },
         {
             "name": "isbowl",
-            "param_types": ["container"]
+            "param_types": ["container"],
+            "language_descriptors": {
+                "0": "{0} is a bowl"
+            }
         },
         {
             "name": "iswater",
-            "param_types": ["meal"]
+            "param_types": ["meal"],
+            "language_descriptors": {
+                "0": "{0} is water"
+            }
         },
         {
             "name": "isboiling",
-            "param_types": ["meal"]
+            "param_types": ["meal"],
+            "language_descriptors": {
+                "0": "{0} is boiling"
+            }
         },
         {
             "name": "loc",
-            "param_types": ["player", "station"]
+            "param_types": ["player", "station"],
+            "language_descriptors": {
+                "0": "{0} is at {1}",
+                "1": "{1} is occupied by {0}"
+            }
         },
         {
             "name": "item_at",
-            "param_types": ["item", "station"]
+            "param_types": ["item", "station"],
+            "language_descriptors": {
+                "0": "{0} is at {1}",
+                "1": "{1} has {0}"
+            }
         },
         {
             "name": "nothing",
-            "param_types": ["player"]
+            "param_types": ["player"],
+            "language_descriptors": {
+                "0": "{0} is holding nothing"
+            }
         },
         {
             "name": "station_empty",
-            "param_types": ["station"]
+            "param_types": ["station"],
+            "language_descriptors": {
+                "0": "{0} has nothing on it"
+            }
         },
         {
             "name": "container_empty",
-            "param_types": ["container"]
+            "param_types": ["container"],
+            "language_descriptors": {
+                "0": "{0} has nothing inside it"
+            }
         },
         {
             "name": "item_on",
-            "param_types": ["item", "station"]
+            "param_types": ["item", "station"],
+            "language_descriptors": {
+                "0": "{0} is directly on top of {1}",
+                "1": "{1} has {0} directly on top of it"
+            }
         },
         {
             "name": "vacant",
-            "param_types": ["station"]
+            "param_types": ["station"],
+            "language_descriptors": {
+                "0": "{0} has no players at it"
+            }
         },
         {
             "name": "clear",
-            "param_types": ["item"]
+            "param_types": ["item"],
+            "language_descriptors": {
+                "0": "{0} has nothing above it"
+            }
         },
         {
             "name": "atop",
-            "param_types": ["item", "item"]
+            "param_types": ["item", "item"],
+            "language_descriptors": {
+                "0": "{0} is directly on top of {1}",
+                "1": "{1} is directly under {0}"
+            }
         },
         {
             "name": "has_item",
-            "param_types": ["player", "item"]
+            "param_types": ["player", "item"],
+            "language_descriptors": {
+                "0": "{0} is holding {1}",
+                "1": "{1} is held by {0}"
+            }
         },
         {
             "name": "has_container",
-            "param_types": ["player", "container"]
+            "param_types": ["player", "container"],
+            "language_descriptors": {
+                "0": "{0} is holding {1}",
+                "1": "{1} is held by {0}"
+            }
         },
         {
             "name": "in",
-            "param_types": ["meal", "container"]
+            "param_types": ["meal", "container"],
+            "language_descriptors": {
+                "0": "{0} is inside of {1}",
+                "1": "{1} contains {0}"
+            }
         },
         {
             "name": "addedto",
-            "param_types": ["item", "meal"]
+            "param_types": ["item", "meal"],
+            "language_descriptors": {
+                "0": "{0} is added to {1}",
+                "1": "{1} has {0} added to it"
+            }
         },
         {
             "name": "container_at",
-            "param_types": ["container", "station"]
+            "param_types": ["container", "station"],
+            "language_descriptors": {
+                "0": "{0} is at {1}",
+                "1": "{1} has {0}"
+            }
         }
     ],
 

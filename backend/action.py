@@ -137,7 +137,7 @@ class Action(object):
             
         for effect, value in self.immediate_effects.items():
             pred_args = [param_arg_dict[param.name] for param in effect.params]
-            pred = Predicate().initialize(effect.name, effect.types, pred_args)
+            pred = Predicate().initialize(effect.name, effect.types, pred_args, effect.language_descriptors)
             state.update_predicate(pred, value)
 
         for special_effect in self.special_effects:

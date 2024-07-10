@@ -93,7 +93,7 @@
             "direction": [0, 1]
         }
     ],
-    "goal_description": "",
+    "goal_description": "Cook some soup by boiling some water and adding a tomato to it.",
     "goal": [
         {
             "predicate": "in",

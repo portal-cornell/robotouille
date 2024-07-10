@@ -76,7 +76,7 @@ def create_keypress_action(pygame_event, player_loc, input_json, action_name_to_
                     return action_name, param_arg_dict
     return None, None
 
-def create_action_from_event(obs, pygame_events, input_json, renderer):
+def create_action_from_event(current_state, pygame_events, input_json, renderer):
     """This function attempts to create a valid action from the provided Pygame event.
 
     This function takes a combination of mouse clicks and key presses and maps it to a valid action.
@@ -87,8 +87,8 @@ def create_action_from_event(obs, pygame_events, input_json, renderer):
         - Press 'e' at a station for interactions like cooking, frying, cutting, etc.
 
     Parameters:
-        obs (State):
-            The current environment observation.
+        current_state (State):
+            The current environment state.
         pygame_events (pygame.event.Event):
             The pygame keypress / mouse click events.
         input_json (dict):
@@ -105,12 +105,12 @@ def create_action_from_event(obs, pygame_events, input_json, renderer):
         AssertionError: If the Pygame event type is not supported.
     """
     if len(pygame_events) == 0: return None, None
-    player = obs.current_player
-    action_to_param_arg_dict = obs.get_valid_actions_for_player(player)
+    player = current_state.current_player
+    action_to_param_arg_dict = current_state.get_valid_actions_for_player(player)
     # Convert actions to strings for easier comparison
     action_name_to_param_arg_dict = {str(action): action_to_param_arg_dict[action] for action in action_to_param_arg_dict}
     # Locate the player's current location loc(player, loc)
-    for literal, is_true in obs.predicates.items():
+    for literal, is_true in current_state.predicates.items():
         if literal.name == "loc" and is_true and literal.params[0].name == player.name:
             player_loc = str(literal.params[1])
             break
@@ -122,6 +122,9 @@ def create_action_from_event(obs, pygame_events, input_json, renderer):
         action_name, param_arg_dict = create_keypress_action(pygame_event, player_loc, input_json, action_name_to_param_arg_dict)
     else:
         assert False, f"create_action_from_event does not support {pygame_event.type} events."
+    
+    if action_name is None or param_arg_dict is None:
+        return None, None
     
     # Convert the action name back to an Action object
     action = [action for action in action_to_param_arg_dict if str(action) == action_name][0]
