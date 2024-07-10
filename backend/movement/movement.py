@@ -1,5 +1,19 @@
 from backend.movement.player import Player
 from backend.movement.station import Station
+from enum import Enum
+
+class PlayerData(object):
+        def __init__(self, path, time):
+            self.path = path
+            self.time = time
+
+class Mode(Enum):
+    """
+    This class represents the different movement modes in Robotouille.
+    """
+    IMMEDIATE = 0 # The player moves immediately to the destination
+    TRAVERSE = 1 # The player traverses to the destination
+    
 
 class Movement(object):
     """
@@ -19,16 +33,23 @@ class Movement(object):
     be forced to wait at their current location. 
     """
 
-    def __init__(self, layout, animate, environment_json):
+    # (Int) The number of milliseconds it takes for a player to move one tile
+    MS_PER_TILE = 500
+
+    # (Dict[str, PlayerData]) The player movement data, with the key being the player name
+    player_movement_data = {}
+
+    def __init__(self, layout, mode, environment_json):
         """
         Initializes the Movement object.
         
         Args:
             layout (list): The layout of the environment.
-            animate (bool): Whether or not to enable animate mode.
+            mode (Mode): The movement mode of the game.
+            environment_json (dict): The environment JSON.
         """
         self.layout = layout
-        self.animate = animate
+        self.mode = mode
         Player.build_players(environment_json)
         Station.build_stations(environment_json)
     
@@ -46,7 +67,7 @@ class Movement(object):
         possible_destinations = []
         other_station_locations = Station.get_station_locations()
         player_locations = [p.pos for p in Player.players.values() if p != player]
-        player_destinations = [p.path[-1] for p in Player.players.values() if p != player and p.path != []]
+        player_destinations = [data.path[-1] for name, data in Movement.player_movement_data.items() if data.path and name != player.name]
         width, height = len(self.layout[0]), len(self.layout)
         for i, j in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
             next_pos = (destination[0] + i, destination[1] + j)
@@ -79,7 +100,8 @@ class Movement(object):
         width, height = len(self.layout[0]), len(self.layout)
         obstacle_locations = Station.get_station_locations()
         visited = set()
-        path = []
+        current = player.pos
+        path = [current]
         queue = [(player.pos, path)]
         while queue:
             current, path = queue.pop(0)
@@ -100,12 +122,14 @@ class Movement(object):
         assert current in destinations, "Player cannot reach the destination."
         return path
     
-    def move(self, state, player, destination, action, param_arg_dict):
+    def move(self, state, player, destination, action, param_arg_dict, clock):
         """
         Moves the player to the destination.
 
-        If animate mode is disabled, the player is immediately moved to the
-        destination. If animate mode is enabled, the player path is calculated
+        If the movement mode is immediate, the player moves to the destination
+        immediately.
+
+        If the movement mode is traverse, the player path is calculated
         and the player moves the first step in the path.
 
         Args:
@@ -114,9 +138,10 @@ class Movement(object):
             destination (Object): The destination station.
             action (Action): The move action.
             param_arg_dict (Dictionary[str, Object]): The arguments of the action.
+            clock (pygame.time.Clock): The pygame clock.
 
         Modifies:
-            player (Player): Modifies the path and pos fields of the player.
+            player (Player): Modifies the direction and pos fields of the player.
         """
         player_obj = Player.players[player.name]
         destination_pos = Station.stations[destination.name].pos
@@ -128,47 +153,71 @@ class Movement(object):
             return
         # Get the path to the destination
         path = self._get_player_path(player_obj, possible_destinations)
-        # If animate mode is disabled, move player to destination immediately
-        if not self.animate:
+        # If movement mode is immediate, move the player to the destination
+        if self.mode == Mode.IMMEDIATE:
             player_obj.pos = path[-1]
             player_obj.direction = (destination_pos[0] - player_obj.pos[0], destination_pos[1] - player_obj.pos[1])
             action.perform_action(state, param_arg_dict)
         else:
             # Animate the movement by moving the player by one step in the path
-            player_obj.path = path
-            next_pos = player_obj.path.pop(0)
-            player_obj.direction = (next_pos[0] - player_obj.pos[0], next_pos[1] - player_obj.pos[1])
-            player_obj.pos = next_pos
-            # If player has reached the destination, perform the action
-            if player_obj.path == []:
-                action.perform_action(state, param_arg_dict)
-                destination = param_arg_dict["s2"]
-                station_pos = Station.stations[destination.name].pos
-                player_obj.direction = (station_pos[0] - next_pos[0], station_pos[1] - next_pos[1])
-            # Else, the player is still currently moving and waits for the next step
-            else:
-                player_obj.motion = True
-                player_obj.action = (action, param_arg_dict)
+            prev_pos = path[0]
+            next_pos = path[1]
+            data = PlayerData(path, 0)
+            Movement.player_movement_data[player.name] = data
+            player_obj.direction = (next_pos[0] - prev_pos[0], next_pos[1] - prev_pos[1])
+            clock.tick(20)
+            clock.tick(20)
+            data.time += clock.get_time()
+            dt = data.time/Movement.MS_PER_TILE
+            current_x = prev_pos[0] + dt * (next_pos[0] - prev_pos[0])
+            current_y = prev_pos[1] + dt * (next_pos[1] - prev_pos[1])
+            player_obj.pos = (current_x, current_y)
+            player_obj.action = (action, param_arg_dict)
         
-    def step(self, state):
+    def step(self, state, clock):
         """
         This function represents one time step in the environment.
 
         Args:
             state (State): The state of the environment.
+            clock (pygame.time.Clock): The pygame clock.
         """
-        for player in Player.players.values():
-            other_player_pos = [p.pos for p in Player.players.values() if p != player]
-            if player.path != [] and not (len(player.path) == 1 and player.path[0] in other_player_pos):
-                next_pos = player.path.pop(0)
-                player.direction = (next_pos[0] - player.pos[0], next_pos[1] - player.pos[1])
+        players_ending_movement = []
+        for name, data in Movement.player_movement_data.items():
+            player = Player.players[name]
+            next_pos = data.path[1]
+            prev_pos = data.path[0]
+            player.direction = (next_pos[0] - prev_pos[0], next_pos[1] - prev_pos[1])
+            player.sprite_value += 1
+            data.time += clock.get_time()
+            dt = data.time/Movement.MS_PER_TILE
+            if dt >= 1:
+                data.path.pop(0)
+                data.time = 0
                 player.pos = next_pos
-                player.sprite_value += 1
-                if player.path == []:
-                    player.motion = False
-                    player.action[0].perform_action(state, player.action[1])
-                    destination = player.action[1]["s2"]
-                    station_pos = Station.stations[destination.name].pos
-                    player.direction = (station_pos[0] - player.pos[0], station_pos[1] - player.pos[1])
-                    player.action = None
-                    player.sprite_value = 0
+            else:
+                current_x = prev_pos[0] + dt * (next_pos[0] - prev_pos[0])
+                current_y = prev_pos[1] + dt * (next_pos[1] - prev_pos[1])
+                player.pos = (current_x, current_y)
+            if len(data.path) == 1:
+                player.action[0].perform_action(state, player.action[1])
+                destination = player.action[1]["s2"]
+                station_pos = Station.stations[destination.name].pos
+                player.direction = (station_pos[0] - next_pos[0], station_pos[1] - next_pos[1])
+                player.action = None
+                player.sprite_value = 0
+                players_ending_movement.append(name)
+        for name in players_ending_movement:
+            del Movement.player_movement_data[name]
+
+    def is_player_moving(player_name):
+        """
+        Returns True if the player is in motion, False otherwise.
+
+        Args:
+            player_name (str): The name of the player.
+
+        Returns:
+            is_moving (bool): True if the player is in motion, False otherwise.
+        """
+        return player_name in Movement.player_movement_data

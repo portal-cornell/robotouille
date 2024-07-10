@@ -2,7 +2,7 @@ from backend.predicate import Predicate
 from backend.object import Object
 from backend.object import Object
 from utils.robotouille_utils import trim_item_ID
-from backend.movement.movement import Movement
+from backend.movement.movement import Mode
 import itertools
 
 class State(object):
@@ -398,7 +398,7 @@ class State(object):
         next_index = (current_index + 1) % len(players)
         return players[next_index]
 
-    def step(self, actions):
+    def step(self, actions, clock):
         """
         Steps the state forward by applying the effects of the action.
 
@@ -409,6 +409,8 @@ class State(object):
                 length of the list is the number of players, where actions[i] is
                 the action for player i. If player i is not performing an action,
                 actions[i] is None.
+            clock (pygame.time.Clock): The clock object to control the framerate
+                of the game.
         
         Returns:
             new_state (State): The successor state.
@@ -418,7 +420,7 @@ class State(object):
             AssertionError: If the action is invalid with the given arguments in
             the given state.
         """
-        self.movement.step(self)
+        self.movement.step(self, clock)
 
         for action, param_arg_dict in actions:
             if not action:
@@ -428,7 +430,7 @@ class State(object):
             if action.name == "move":
                 player = param_arg_dict["p1"]
                 destination = param_arg_dict["s2"]
-                self.movement.move(self, player, destination, action, param_arg_dict)
+                self.movement.move(self, player, destination, action, param_arg_dict, clock)
             else:
                 self = action.perform_action(self, param_arg_dict)
         
@@ -438,7 +440,8 @@ class State(object):
         if self.is_goal_reached():
             return self, True
         
-        if not self.movement.animate: self.current_player = self.next_player()
+        if self.movement.mode == Mode.TRAVERSE:
+            self.current_player = self.next_player()
 
         return self, False
     

@@ -19,10 +19,7 @@ class Player(object):
         self.name = name
         self.pos = pos
         self.direction = direction
-        self.motion = False
         self.sprite_value = 0
-        self.destination = None
-        self.path = []
         self.action = None
         self.id = Player.id_counter
         Player.id_counter += 1
@@ -52,10 +49,4 @@ class Player(object):
             player (Player): The player object.
         """
         return Player.players[player_name]
-
-    def is_moving(self):
-        """
-        Returns True if the player is in motion, False otherwise.
-        """
-        return self.motion
         

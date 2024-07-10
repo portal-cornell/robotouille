@@ -358,8 +358,8 @@ class RobotouilleEnv(gym.Env):
     def set_state(self, state):
         self.observation_space = state
 
-    def step(self, actions, interactive):
-        obs, done = self.observation_space.step(actions)
+    def step(self, actions, interactive, clock=None):
+        obs, done = self.observation_space.step(actions, clock)
         return obs, 0, done, {}
 
     def reset(self, seed=None, options=None):
