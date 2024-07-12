@@ -90,4 +90,4 @@ The number associated with the string specifies which sprite in the spritesheet 
 
 Not every permutation of edge and corner adjacencies needs to be in the JSON. If a particular edge or corner string is not found in the JSON, then by default the value associated with `"0000"` will be chosen.
 
-It should also be noted the renderer ignores corners with foreign tiles when there is already an edge in the same space. For example, if a tile has a foreign tile on its eastern edge, then the corner string used to lookup the tile sprite will have the eastern corners cleared (e.g. be in the form `"00??"`). This reduces redundancy since a border along the eastern edge already covers both eastern corners.
+It should also be noted the renderer ignores corner information if the edge information makes it redundant. For example, if a tile has a foreign tile on its eastern edge, then the corner string used to lookup the tile sprite will have the eastern corners cleared (e.g. be in the form `"00??"`). This reduces redundancy since a border along the eastern edge already covers both eastern corners.
