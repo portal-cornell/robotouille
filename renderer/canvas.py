@@ -248,6 +248,7 @@ class RobotouilleCanvas:
         for t in tilings:
             catalogs.append(self._load_tiles_single(t))
         
+        # It's convenient to aggregate all the separate tilesheets into a single logical one for the rest of the code
         union_sprites = []
         union_mappings = {}
         for c in catalogs:
