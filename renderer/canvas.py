@@ -316,7 +316,6 @@ class RobotouilleCanvas:
         catalog["sprites"] = sprites
         catalog["mappings"] = mappings
         return catalog
-        #self.asset_directory[tiling] = catalog
     
     def _parse_abstract_tile_matrix(self, abstract_matrix, tiling_catalog):
         """
