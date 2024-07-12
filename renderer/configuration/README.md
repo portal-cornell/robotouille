@@ -77,6 +77,7 @@ Here we describe the format of the JSON files under `configuration`.
                 "assets" = A dictionary of images for the station. Currently, only one image is supported
                 {
                     "default" = The default image for the station
+                    "tile" = Stations can alternatively be given a tiling character which is rendered with the furniture tiling
                 }
             }
         }

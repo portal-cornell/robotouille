@@ -418,11 +418,35 @@ class RobotouilleCanvas:
         if not self.furniture_tileset:
             # load ground tile data
             self.furniture_tileset = self._load_tiles(self.config["floor"]["furniture"])
-            self.furniture_matrix = self._parse_abstract_tile_matrix(self.tiling["furniture"], self.furniture_tileset)
+            abstract_tile_matrix = self.tiling["furniture"]
+            abstract_tile_matrix = self._extract_stations_to_furniture(abstract_tile_matrix)
+            self.furniture_matrix = self._parse_abstract_tile_matrix(abstract_tile_matrix, self.furniture_tileset)
 
         sprites = self.furniture_tileset["sprites"]
         
         self._draw_tiles(surface, sprites, self.furniture_matrix)
+
+    def _choose_station_asset(self, station_image_name):
+        """
+        Helper function to get the asset name of a station. Stations imagery can
+        either be images or tiles. Images are preferred over tiles.
+
+        Args:
+            station_image_name (str): Name of the station
+
+        Returns:
+            asset_info (Dict): Dictionary where "name" maps to the name of the 
+            asset and "type" is "image" if the station is represented by an image
+            or "tile" if represented by a tile
+        """
+        station_image_name, _ = trim_item_ID(station_image_name)
+        station_config = self.config["station"]["entities"][station_image_name]
+        if "default" in station_config["assets"]:
+            return {"name": station_config["assets"]["default"], "type": "image"}
+        elif "tile" in station_config["assets"]:
+            return {"name": station_config["assets"]["tile"], "type": "tile"}
+        else:
+            raise RuntimeError("Empty station asset config: " + station_config)
 
     def _draw_stations(self, surface):
         """
@@ -437,9 +461,9 @@ class RobotouilleCanvas:
         for i, row in enumerate(self.layout):
             for j, col in enumerate(row):
                 if col is not None:
-                    while col[-1].isdigit():
-                        col = col[:-1]
-                    self._draw_image(surface, f"{col}.png", np.array([j, i]) * self.pix_square_size, self.pix_square_size)
+                    asset_info = self._choose_station_asset(col)
+                    if asset_info["type"] == "image":
+                        self._draw_image(surface, asset_info["name"], np.array([j, i]) * self.pix_square_size, self.pix_square_size)
 
     def _get_station_locations(self, layout):
         """
@@ -628,6 +652,28 @@ class RobotouilleCanvas:
                 container = literal.params[1].name
                 container_pos = self.player_pose["position"]
                 self._draw_container_image(surface, container, obs, container_pos * self.pix_square_size)
+    
+    def _extract_stations_to_furniture(self, abstract_tile_matrix):
+        """
+        Searches for all stations with single letter names and places corresponding tiles in the furniture layer.
+        It is assumed that stations with single letter names wish to undergo this processing step.
+        The tile letter chosen is the same as the name of the station.
+
+        Args:
+            abstract_tile_matrix (List[String]): List of strings whose characters represent abstract tiles
+
+        Returns:
+            asbtract_tile_matrix (List[List[String]]): matrix with furniture tiles added
+        """
+        abstract_tile_matrix = [[abstract_tile_matrix[i][j] for j in range(len(abstract_tile_matrix[i]))]for i in range(len(abstract_tile_matrix))]
+        for i, row in enumerate(self.layout):
+            for j, col in enumerate(row):
+                if col is not None:
+                    asset_info = self._choose_station_asset(col)
+                    if asset_info["type"] == "tile":
+                        abstract_tile_matrix[i][j] = asset_info["name"]
+        return abstract_tile_matrix
+
 
     def draw_to_surface(self, surface, obs):
         """
