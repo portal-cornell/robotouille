@@ -239,6 +239,10 @@ class RobotouilleCanvas:
 
         Args:
             tilings (List[String]: List of paths to the tiling asset folder
+
+        Returns:
+            sprites_mappings (Dict): Dictionary where key "sprites" maps to a list of all tile sprites 
+            and key "mappings" maps to a dictionary between edge corner configurations and the corresponding tile ID in the tilesheet
         """
         catalogs = []
         for t in tilings:
@@ -265,6 +269,11 @@ class RobotouilleCanvas:
 
         Args:
             tiling (String): Path to the tiling asset folder
+
+        Returns:
+            catalog (Dict): Dictionary where key "sprites" maps to a list of all tile sprites 
+            and key "mappings" maps to a dictionary between edge corner configurations and the corresponding tile ID in the tilesheet
+            and key "config" maps to the json for this tileset
         """
         # Load floor config
         tiling_config_path = "tileset/" + tiling + "/config.json" # Assumes the name of the json is standardized as config.json
