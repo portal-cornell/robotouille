@@ -333,7 +333,6 @@ class RobotouilleCanvas:
             for column in range(len(abstract_matrix[row])):
                 letter = abstract_matrix[row][column]
                 if not letter in mappings:
-                    raw_matrix[row][column] = -1
                     continue
 
                 N_wall = "1" if row == 0 or abstract_matrix[row - 1][column] != letter else "0"
