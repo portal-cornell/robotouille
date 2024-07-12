@@ -335,7 +335,9 @@ class RobotouilleCanvas:
                 if not letter in mappings:
                     continue
 
+                # Mark north wall if at top row or a foreign tile is above this tile
                 N_wall = "1" if row == 0 or abstract_matrix[row - 1][column] != letter else "0"
+                # Likewise for other sides and corners
                 S_wall = "1" if row == len(abstract_matrix) - 1 or abstract_matrix[row + 1][column] != letter else "0"
                 W_wall = "1" if column == 0 or abstract_matrix[row][column - 1] != letter else "0"
                 E_wall = "1" if column == len(abstract_matrix[row]) - 1 or abstract_matrix[row][column + 1] != letter else "0"
