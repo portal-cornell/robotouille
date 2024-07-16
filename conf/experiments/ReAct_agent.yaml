@@ -1,0 +1,18 @@
+# @package _global_
+defaults:
+  - override /game: base_game
+  - override /llm: base_llm
+
+game:
+  agent_name: ReAct
+  environment_name: "original"
+  seed: null # Fix environment to original
+
+llm:
+  llm_model: gpt-4-turbo
+  log_file: ${hydra:runtime.output_dir}/log_ReAct.txt
+  prompts:
+    action_proposal_prompt:
+      experiment_name: ReAct
+      prompt_description: initial
+      prompt_version: 1.0.0

@@ -71,12 +71,6 @@ class Predicate(object):
         """
         assert object in self.params, "Object not in predicate."
         index = self.params.index(object)
-        if str(index) not in self.language_descriptors:
-            print("oh no")
-            print(self.params)
-            print(object)
-            print(self)
-            print(self.language_descriptors)
         language_descriptor = self.language_descriptors[str(index)]
         sub_lambda = lambda x: self.params[int(x.group(1))].name # Substitutes {\d+} with the name of the object
         return re.sub(Predicate.LANGUAGE_DESCRIPTOR_REGEX, sub_lambda, language_descriptor)

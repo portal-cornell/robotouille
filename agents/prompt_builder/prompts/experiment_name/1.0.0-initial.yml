@@ -1,0 +1,19 @@
+version: 1.0.0
+experiment_name: experiment_name
+prompt_description: initial
+prompt_version: 1.0.0
+system: |
+  System message
+instructions: |
+  Instructions
+examples:
+- description: Explain what the following observation-response pair does (for readability)
+- observation: |
+    Observation
+- response: |
+    Response
+- description: Explain what this second observation-response pair does (for readability)
+- observation: |
+    Observation
+- response: |
+    Response

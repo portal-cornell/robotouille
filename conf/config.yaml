@@ -1,0 +1,3 @@
+defaults:
+  - llm: base_llm
+  - game: base_game
