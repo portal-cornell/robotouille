@@ -18,7 +18,6 @@ class Station(object):
         self.pos = pos
         self.id = Station.id_counter
         Station.id_counter += 1
-        Station.stations[name] = self
         
     def build_stations(environment_json):
         """
@@ -30,7 +29,8 @@ class Station(object):
         for station in environment_json["stations"]:
             name = station["name"]
             pos = (station["x"], station["y"])
-            Station(name, pos)
+            station_obj = Station(name, pos)
+            Station.stations[name] = station_obj
 
     def get_station_locations():
         """

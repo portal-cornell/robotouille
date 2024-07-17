@@ -2,10 +2,10 @@ from backend.movement.player import Player
 from backend.movement.station import Station
 from enum import Enum
 
-class PlayerData(object):
-        def __init__(self, path, time):
-            self.path = path
-            self.time = time
+class MetaData(object):
+    def __init__(self, path, time):
+        self.path = path
+        self.time = time
 
 class Mode(Enum):
     """
@@ -34,10 +34,10 @@ class Movement(object):
     """
 
     # (Int) The number of milliseconds it takes for a player to move one tile
-    MS_PER_TILE = 500
+    MS_PER_TILE = 100
 
-    # (Dict[str, PlayerData]) The player movement data, with the key being the player name
-    player_movement_data = {}
+    # (Dict[str, MetaData]) The player movement data, with the key being the player name
+    metadata = {}
 
     def __init__(self, layout, mode, environment_json):
         """
@@ -67,7 +67,7 @@ class Movement(object):
         possible_destinations = []
         other_station_locations = Station.get_station_locations()
         player_locations = [p.pos for p in Player.players.values() if p != player]
-        player_destinations = [data.path[-1] for name, data in Movement.player_movement_data.items() if data.path and name != player.name]
+        player_destinations = [data.path[-1] for name, data in Movement.metadata.items() if data.path and name != player.name]
         width, height = len(self.layout[0]), len(self.layout)
         for i, j in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
             next_pos = (destination[0] + i, destination[1] + j)
@@ -123,7 +123,7 @@ class Movement(object):
         assert current in destinations, "Player cannot reach the destination."
         return path
     
-    def move(self, state, player, destination, action, param_arg_dict, clock):
+    def _move(self, state, player, destination, action, param_arg_dict, clock):
         """
         Moves the player to the destination.
 
@@ -160,31 +160,35 @@ class Movement(object):
             player_obj.direction = (destination_pos[0] - player_obj.pos[0], destination_pos[1] - player_obj.pos[1])
             action.perform_action(state, param_arg_dict)
         else:
-            # Animate the movement by moving the player by one step in the path
+            # Animate the movement of the player by updating the player's position depending on the time
             prev_pos = path[0]
             next_pos = path[1]
-            data = PlayerData(path, 0)
-            Movement.player_movement_data[player.name] = data
+            data = MetaData(path, 0)
+            Movement.metadata[player.name] = data
             player_obj.direction = (next_pos[0] - prev_pos[0], next_pos[1] - prev_pos[1])
-            clock.tick(20)
-            clock.tick(20)
             data.time += clock.get_time()
             dt = data.time/Movement.MS_PER_TILE
             current_x = prev_pos[0] + dt * (next_pos[0] - prev_pos[0])
             current_y = prev_pos[1] + dt * (next_pos[1] - prev_pos[1])
             player_obj.pos = (current_x, current_y)
             player_obj.action = (action, param_arg_dict)
-        
-    def step(self, state, clock):
+
+    def _step_player(self, state, clock):
         """
-        This function represents one time step in the environment.
+        This helper function steps each player in the environment that is 
+        currently in motion.
 
         Args:
             state (State): The state of the environment.
             clock (pygame.time.Clock): The pygame clock.
+        
+        Modifies:
+            Player.players: Modifies the direction, pos, sprite_value, and 
+                action fields of the player.
+            Movement.metadata: Modifies the path and time fields of the player.
         """
         players_ending_movement = []
-        for name, data in Movement.player_movement_data.items():
+        for name, data in Movement.metadata.items():
             player = Player.players[name]
             next_pos = data.path[1]
             prev_pos = data.path[0]
@@ -209,7 +213,33 @@ class Movement(object):
                 player.sprite_value = 0
                 players_ending_movement.append(name)
         for name in players_ending_movement:
-            del Movement.player_movement_data[name]
+            del Movement.metadata[name]
+        
+    def step(self, state, clock, actions):
+        """
+        This function represents one time step in the environment.
+
+        Args:
+            state (State): The state of the environment.
+            clock (pygame.time.Clock): The pygame clock.
+            actions (List[Tuple[Action, Dictionary[str, Object]]): A list of
+                tuples where the first element is the action to perform, and the
+                second element is a dictionary of arguments for the action. The 
+                length of the list is the number of players, where actions[i] is
+                the action for player i. If player i is not performing an action,
+                actions[i] is None.
+        """
+        self._step_player(state, clock)
+
+        for action, param_arg_dict in actions:
+            if not action:
+                continue
+            # If the action is a movement action, use the movement module
+            if action.name == "move":
+                player = param_arg_dict["p1"]
+                destination = param_arg_dict["s2"]
+                self._move(state, player, destination, action, param_arg_dict, clock)
+        
 
     def is_player_moving(player_name):
         """
@@ -221,4 +251,4 @@ class Movement(object):
         Returns:
             is_moving (bool): True if the player is in motion, False otherwise.
         """
-        return player_name in Movement.player_movement_data
+        return player_name in Movement.metadata

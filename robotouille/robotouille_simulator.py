@@ -18,6 +18,7 @@ def simulator(environment_name: str, seed: int=42, noisy_randomization: bool=Fal
     players = obs.get_players()
     actions = []
     while not done:
+        renderer.render(obs, mode='human')
         pygame_events = pygame.event.get()
         mousedown_events = list(filter(lambda e: e.type == pygame.MOUSEBUTTONDOWN, pygame_events))
         keydown_events = list(filter(lambda e: e.type == pygame.KEYDOWN, pygame_events))

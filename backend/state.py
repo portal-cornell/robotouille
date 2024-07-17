@@ -420,20 +420,16 @@ class State(object):
             AssertionError: If the action is invalid with the given arguments in
             the given state.
         """
-        self.movement.step(self, clock)
-
         for action, param_arg_dict in actions:
             if not action:
                 continue
             assert action.is_valid(self, param_arg_dict)
-            # If the action is a movement action, use the movement module
-            if action.name == "move":
-                player = param_arg_dict["p1"]
-                destination = param_arg_dict["s2"]
-                self.movement.move(self, player, destination, action, param_arg_dict, clock)
-            else:
+            if action.name != "move":
                 self = action.perform_action(self, param_arg_dict)
         
+        self.movement.step(self, clock, actions)
+
+
         for special_effect in self.special_effects:
             special_effect.update(self)
         
