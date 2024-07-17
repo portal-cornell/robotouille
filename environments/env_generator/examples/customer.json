@@ -1,0 +1,103 @@
+{
+    "version": "1.1.0",
+    "width": 8,
+    "height": 8,
+    "config": {
+        "num_cuts": {
+            "lettuce": 3,
+            "default": 3
+        },
+        "cook_time": {
+            "patty": 3,
+            "default": 3
+        }
+    },
+    "gamemode": {
+        "name": "classic",
+        "time": 6000
+    },
+    "stations": [
+        {
+            "name": "table",
+            "x": 2,
+            "y": 5
+        },
+        {
+            "name": "stove",
+            "x": 3,
+            "y": 3
+        },
+        {
+            "name": "table",
+            "x": 3,
+            "y": 6
+        },
+        {
+            "name": "table",
+            "x": 5,
+            "y": 5
+        },
+        {
+            "name": "board",
+            "x": 6,
+            "y": 6
+        },
+        {
+            "name": "table",
+            "x": 7,
+            "y": 4
+        }
+    ],
+    "items": [
+        {
+            "name": "patty",
+            "x": 2,
+            "y": 5,
+            "stack-level": 0,
+            "predicates": ["iscookable"]
+        },
+        {
+            "name": "lettuce",
+            "x": 3,
+            "y": 6,
+            "stack-level": 0,
+            "predicates": ["iscuttable"]
+        },
+        {
+            "name": "bottombun",
+            "x": 5,
+            "y": 5,
+            "stack-level": 0
+        },
+        {
+            "name": "topbun",
+            "x": 7,
+            "y": 4,
+            "stack-level": 0
+        }
+    ],
+    "players": [
+        {
+            "name": "robot",
+            "x": 3,
+            "y": 2,
+            "direction": [0, 1]
+        }
+    ],
+    "customers": [
+        {
+            "name": "robot",
+            "x": 7,
+            "y": 0,
+            "direction": [-1, 0],
+            "order": {
+                    "name": "lettuceburger",
+                    "quantity": 1
+            },
+            "time_to_order": 3000,
+            "enter_time": 200
+        }
+    ],
+    "goal_description": "Serve the customer",
+    "goal": []
+}
