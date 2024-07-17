@@ -4,3 +4,4 @@
 **/outputs/
 **/.DS_Store
 **/*.egg-info
+.envrc

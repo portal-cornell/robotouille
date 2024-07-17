@@ -392,11 +392,20 @@ class LanguageSpace(gym.spaces.Text):
         """
         predicates = [pred for pred, is_true in state.predicates.items() if is_true]
         language_description = ""
+        # TODO(chalo2000): Separate Predicate and Action into PredicateDef and ActionDef
+        #                  to remove param_arg_dict and simplify retrieving the language 
+        #                  description of the action.
+        # Object descriptions
         for obj in state.objects:
             relevant_preds = [pred for pred in predicates if obj.name in str(pred)]
             language_descriptions = [pred.get_language_description(obj) for pred in relevant_preds]
             language_description += f"\n\n{obj.object_type.capitalize()} {obj.name}:\n"
             language_description += "\n".join(language_descriptions)
+        # Valid Actions
+        language_description += "\n\nValid Actions:\n"
+        _, str_valid_actions = state.get_valid_actions_and_str()
+        language_description += "\n".join(str_valid_actions)
+        # Goal
         language_description += f"\n\nGoal: {state.goal_description}"
         return language_description
     
@@ -466,7 +475,8 @@ class RobotouilleEnv(gym.Env):
         return obs, 0, done, {}
 
     def reset(self, seed=None, options=None):
-        return self.initial_state, {}
+        obs = LanguageSpace.state_to_language_description(self.initial_state)
+        return obs, {}
     
     def render(self, close=False):
         return self.renderer.render(self.current_state, self.render_mode, close=close)

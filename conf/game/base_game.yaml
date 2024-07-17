@@ -2,3 +2,4 @@ agent_name: "human"          # The name of the agent to use. See agents/__init__
 environment_name: "original" # The name of the environment to run. See environments/env_generator/examples for available environments
 seed: 42                     # The seed used to procedurally generate the environment
 noisy_randomization: false   # Whether to enable 'noisy randomization' for the environment. See environments/README.md for more information
+max_steps: 100               # The maximum number of steps to run the environment for

@@ -3,6 +3,7 @@ temperature: 0.7        # The temperature to use for sampling
 max_attempts: 10        # The maximum number of attempts to query the LLM for a valid response
 debug: False            # Whether to enable debug mode for the LLM (see LLM agent for specific behavior)
 sleep_time: 5           # The time to sleep between LLM queries
+max_feedback_steps: 5   # The maximum number of times to provide feedback for the LLM agent (before terminating)
 
 mock: False             # [gpt-cost-estimator] Whether to mock API calls
 completion_tokens: 1    # [gpt-cost-estimator] The number of completion tokens to output for a mocked call

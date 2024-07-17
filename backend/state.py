@@ -350,7 +350,7 @@ class State(object):
         valid for each action are appended to the lists for the relevant action.
 
         Returns:
-            valid_actions (Dictionary[Action, Dictionary[Str, Object]]): A
+            valid_actions (Dictionary[Action, List[Dictionary[Str, Object]]]): A
                 dictionary of valid actions for the state. The keys are the
                 actions, and the values are the parameter-argument dictionaries
                 for the actions.
@@ -363,6 +363,40 @@ class State(object):
                     valid_actions[action].append(arg)
 
         return valid_actions
+    
+    def get_valid_actions_and_str(self):
+        """
+        Gets all valid actions for the state as dictionaries and strings.
+
+        This is a temporary function until the Action class is split into a definition
+        and instance class (which would allow get_valid_actions() to be easily converted
+        to a string representation).
+
+        Both lists are returned in the same order for easily converting between the two.
+
+        Returns:
+            valid_actions (List[(Action, Dictionary[Str, Object]])): A list of valid action
+                + param_arg dicts tuples for the current state.
+            str_valid_actions (List[str]): A string list of valid actions for the state.
+        """
+        valid_actions_dict = {action:[] for action in self.actions}
+
+        for action, args in self.actions.items():
+            for arg in args:
+                if action.is_valid(self, arg):
+                    valid_actions_dict[action].append(arg)
+
+        valid_actions = []
+        str_valid_actions = []
+        for action, param_arg_dicts in valid_actions_dict.items():
+            ordered_params = action.get_all_params()
+            for param_arg_dict in param_arg_dicts:
+                param_args = [param_arg_dict[param.name].name for param in ordered_params]
+                valid_action = (action, param_arg_dict)
+                valid_actions.append(valid_action)
+                str_valid_action = f"{action.name}({','.join(param_args)})"
+                str_valid_actions.append(str_valid_action)
+        return valid_actions, str_valid_actions
     
     def get_valid_actions_for_player(self, player):
         """

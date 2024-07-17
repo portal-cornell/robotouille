@@ -38,4 +38,3 @@ instructions: |
   - Player: Robots, including you, that are present in the kitchen
   - Container: An object that can hold other objects, e.g. a pot or a pan
   - Meal: A mixture of ingredients contained within a Container
-examples:

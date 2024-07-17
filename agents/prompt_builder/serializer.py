@@ -55,7 +55,7 @@ def prompt_serializer_v1(prompt_dict):
     messages.append(system_msg)
     instructions_msg = {"role": "user", "content": prompt_dict["instructions"].strip('\n')}
     messages.append(instructions_msg)
-    for example in prompt_dict["examples"]:
+    for example in prompt_dict.get("examples", []):
         key, value = list(example.items())[0]
         if key == "observation":
             message = {"role": "user", "content": value.strip('\n')}
