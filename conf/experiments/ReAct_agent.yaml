@@ -7,7 +7,12 @@ game:
   agent_name: ReAct
   environment_name: "original"
   seed: null # Fix environment to original
-  max_steps: 10
+  max_steps: 30
+  render_mode: "rgb_array"
+
+  record: true
+  video_fps: 2
+  video_file: ${hydra:runtime.output_dir}/video_ReAct.mp4
 
 llm:
   llm_model: gpt-4-turbo

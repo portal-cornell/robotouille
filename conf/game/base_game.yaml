@@ -3,3 +3,9 @@ environment_name: "original" # The name of the environment to run. See environme
 seed: 42                     # The seed used to procedurally generate the environment
 noisy_randomization: false   # Whether to enable 'noisy randomization' for the environment. See environments/README.md for more information
 max_steps: 100               # The maximum number of steps to run the environment for
+render_mode: "human"         # The mode to render the environment in. Options: ['human', 'rgb_array']
+
+record: false                # Whether to record the environment. If true, the video will be saved to the path specified in video_file
+fourcc_str: 'mp4v'           # The fourcc string to use for the video codec. Defaults to mp4.
+video_fps: 60                # The frames per second to record the video at
+video_file: ???              # The name of the file to save a playback video to

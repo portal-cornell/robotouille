@@ -30,8 +30,7 @@ class RobotouilleRenderer:
         self.canvas = RobotouilleCanvas(config, layout, players, window_size)
         # The pygame window size.
         self.window_size = window_size
-        # The framerate of the renderer. This isn't too important since the renderer
-        # displays static drawings.
+        # The framerate of the renderer.
         self.render_fps = render_fps
         # The pygame window
         self.window = None
@@ -53,23 +52,26 @@ class RobotouilleRenderer:
         if self.clock is None and render_mode == "human":
             self.clock = pygame.time.Clock()
     
-    def _render_frame(self, obs, render_mode):
+    def _render_frame(self, state, render_mode):
         """
         This function renders a single frame of the game.
 
         The frame is drawn on the canvas before being copied to the pygame window if
         rendering in human mode or returned if rendering in rgb_array mode.
 
-        Args:
-            obs (State): The game state
-            render_mode (str): Either "human" or "rgb_array"
+        Parameters:
+            state (State):
+                The current game state
+            render_mode (str):
+                Either "human" or "rgb_array"
         
         Returns:
-            np.array: The RGB array of the frame (only if render_mode == "rgb_array")
+            frame (np.array):
+                The RGB array of the frame
         """
         self._init_setup(render_mode)
         surface = pygame.Surface(self.window_size)
-        self.canvas.draw_to_surface(surface, obs)
+        self.canvas.draw_to_surface(surface, state)
         if render_mode == "human":
             # The following line copies our drawings from `canvas` to the visible window
             self.window.blit(surface, surface.get_rect())
@@ -79,12 +81,11 @@ class RobotouilleRenderer:
             # We need to ensure that human-rendering occurs at the predefined framerate.
             # The following line will automatically add a delay to keep the framerate stable.
             self.clock.tick(self.render_fps)
-        else:  # rgb_array
-            return np.transpose(
-                np.array(pygame.surfarray.pixels3d(surface)), axes=(1, 0, 2)
-            )
+        return np.transpose(
+            np.array(pygame.surfarray.pixels3d(surface)), axes=(1, 0, 2)
+        )
 
-    def render(self, obs, mode='human', close=False):
+    def render(self, state, mode='human', close=False):
         """
         This function is called by PDDLGym environments to render the game state.
 
@@ -92,16 +93,19 @@ class RobotouilleRenderer:
         and the display. Since pygame doesn't close the window until the script
         ends, we also hide the window.
 
-        Args:
-            obs (State): The game state
-            mode (str): Either "human" or "rgb_array"
-            close (bool): Whether to close the pygame window
+        Parameters:
+            state (State):
+                The current game state
+            mode (str):
+                Either "human" or "rgb_array"
+            close (bool):
+                Whether to close the pygame window
         """
+        rendered_frame = self._render_frame(state, mode)
         if close:
             self.window = None
             self.clock = None
             pygame.display.set_mode(self.window_size, flags=pygame.HIDDEN) # Hide the window
             pygame.display.quit()
             pygame.quit()
-        else:
-            return self._render_frame(obs, mode)
+        return rendered_frame

@@ -447,7 +447,7 @@ class LanguageSpace(gym.spaces.Text):
 class RobotouilleEnv(gym.Env):
     metadata = {"render_modes": ["human", "rgb_array"], "render_fps": 60}
 
-    def __init__(self, domain_json, environment_json, renderer, render_mode="human", size=5):        
+    def __init__(self, domain_json, environment_json, renderer, size=5):        
         self.size = size
         self.window_size = 512
 
@@ -459,9 +459,6 @@ class RobotouilleEnv(gym.Env):
         self.action_space = language_space
 
         self.input_json = build_input_json(domain_json)
-
-        assert render_mode is None or render_mode in self.metadata["render_modes"]
-        self.render_mode = render_mode
 
         self.window = None
         self.clock = None
@@ -478,8 +475,9 @@ class RobotouilleEnv(gym.Env):
         obs = LanguageSpace.state_to_language_description(self.initial_state)
         return obs, {}
     
-    def render(self, close=False):
-        return self.renderer.render(self.current_state, self.render_mode, close=close)
+    def render(self, render_mode, close=False):
+        assert render_mode is None or render_mode in self.metadata["render_modes"]
+        return self.renderer.render(self.current_state, render_mode, close=close)
 
         
 

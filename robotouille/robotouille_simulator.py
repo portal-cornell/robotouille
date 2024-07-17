@@ -1,15 +1,20 @@
 import pygame
+from omegaconf import DictConfig
 from utils.robotouille_input import create_action_from_event
+from utils.video_recorder import record_video
 from robotouille.robotouille_env import create_robotouille_env
 
-def simulator(environment_name: str, seed: int=42, noisy_randomization: bool=False):
+def simulator(environment_name: str, seed: int=42, noisy_randomization: bool=False, game_cfg: DictConfig=None):
     # Your code for robotouille goes here
     env, json, renderer = create_robotouille_env(environment_name, seed, noisy_randomization)
     obs, info = env.reset()
-    env.render()
     done = False
     
+    imgs = []
     while not done:
+        img = env.render("human")
+        if game_cfg and game_cfg.record:
+            imgs.append(img)
         current_state = env.current_state
         # Construct action from input
         pygame_events = pygame.event.get()
@@ -28,6 +33,11 @@ def simulator(environment_name: str, seed: int=42, noisy_randomization: bool=Fal
             # Retry for keyboard input
             continue
         obs, reward, done, info = env.step(actions)
-        env.render()
         print(obs)
-    env.render(close=True)
+    img = env.render("human", close=True)
+    if game_cfg and game_cfg.record:
+        imgs.append(img)
+        filename = game_cfg.video_file
+        fourcc_str = game_cfg.fourcc_str
+        fps = env.renderer.render_fps
+        record_video(imgs, filename, fourcc_str, fps)

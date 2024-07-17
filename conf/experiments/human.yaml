@@ -1,0 +1,14 @@
+# @package _global_
+defaults:
+  - override /game: base_game
+  - override /llm: base_llm
+
+game:
+  agent_name: human
+  environment_name: "original"
+  seed: null # Fix environment to original
+  max_steps: 100
+  render_mode: "human"
+
+  record: true
+  video_file: ${hydra:runtime.output_dir}/video_human.mp4
