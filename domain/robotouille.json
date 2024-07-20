@@ -149,6 +149,13 @@
             }
         },
         {
+            "name": "iscooking",
+            "param_types": ["item"],
+            "language_descriptors": {
+                "0": "{0} is cooking"
+            }
+        },
+        {
             "name": "iscooked",
             "param_types": ["item"],
             "language_descriptors": {
@@ -556,6 +563,11 @@
                     "is_true": true
                 },
                 {
+                    "predicate": "iscooking",
+                    "params": ["i1"],
+                    "is_true": false
+                },
+                {
                     "predicate": "item_on",
                     "params": ["i1", "s1"],
                     "is_true": true
@@ -588,7 +600,13 @@
                             "is_true": true
                         }
                     ],
-                    "fx": [],
+                    "fx": [
+                        {
+                            "predicate": "iscooking",
+                            "params": ["i1"],
+                            "is_true": true
+                        }
+                    ],
                     "sfx": [
                         {
                             "type": "delayed",
