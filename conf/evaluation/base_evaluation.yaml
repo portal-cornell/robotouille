@@ -1,0 +1,7 @@
+evaluate: false         # Whether or not to evaluate over the following environments
+environment_names: [
+  "_easy_sandwich",
+  "_med_meat_sandwich",
+  "_hard_fries_sandwich"
+]
+testing_seeds: [42, 84, 126, 168, 210, 252, 294, 336, 378, 420]

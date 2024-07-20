@@ -12,7 +12,6 @@ import openai
 import re
 
 from copy import deepcopy
-from omegaconf import open_dict
 
 from .prompt_builder.prompt_llm import prompt_llm
 from .agent import Agent
@@ -37,9 +36,8 @@ class ReActAgent(Agent):
         # ReAct prompt
         assert kwargs["prompts"]["action_proposal_prompt"], "The action proposal prompt is missing."
         self.action_proposal_prompt_params = kwargs["prompts"].get("action_proposal_prompt", {})
-        with open_dict(self.action_proposal_prompt_params):
-            messages = Agent.fetch_messages(self.action_proposal_prompt_params)
-            self.action_proposal_prompt_params["messages"] = messages
+        messages = Agent.fetch_messages(self.action_proposal_prompt_params)
+        self.action_proposal_prompt_params["messages"] = messages
         self.action_feedback_msg = ""
         
         self.chat_history = []
@@ -88,7 +86,7 @@ class ReActAgent(Agent):
                     import pdb; pdb.set_trace()
                     assert len(truncated_history) > 2, "The starter user-assistant pair is too long."
                     # Remove one user-assistant pair from the history
-                    starter_messages = truncated_history[:2]
+                    starter_messages = truncated_history[:2] # Leave system and instruction messages
                     remaining_messages = truncated_history[4:]
                     truncated_history = starter_messages + remaining_messages
                 else:
@@ -127,16 +125,19 @@ class ReActAgent(Agent):
             if self.action_feedback_msg:
                 action_proposal_prompt += f"Error Feedback: {self.action_feedback_msg}\n"
                 self.action_feedback_msg = ""
+            action_proposal_prompt += obs
             # Get response from LLM
-            action_proposal_response, self.truncated_chat_history = self._prompt_llm(obs, self.action_proposal_prompt_params, history=self.truncated_chat_history)
+            action_proposal_response, self.truncated_chat_history = self._prompt_llm(action_proposal_prompt, self.action_proposal_prompt_params, history=self.truncated_chat_history)
             
             # Update and log user-assistant pair
             self._write_to_log(self.log_file, f"ACTION PROPOSAL PROMPT\n" + "-"*20)
-            self._write_to_log(self.log_file, obs)
-            self.chat_history.append(obs)
+            self._write_to_log(self.log_file, action_proposal_prompt)
+            self.chat_history.append(action_proposal_prompt)
+            self.truncated_chat_history.append(action_proposal_prompt)
             self._write_to_log(self.log_file, f"ACTION PROPOSAL RESPONSE\n" + "-"*20)
             self._write_to_log(self.log_file, action_proposal_response)
             self.chat_history.append(action_proposal_response)
+            self.truncated_chat_history.append(action_proposal_response)
 
             # Extract and return ACTION from LLM string response
             regex = r"Action:\s*(.+)"

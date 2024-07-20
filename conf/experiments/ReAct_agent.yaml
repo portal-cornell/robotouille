@@ -1,7 +1,13 @@
 # @package _global_
 defaults:
+  - override /evaluation: base_evaluation
   - override /game: base_game
   - override /llm: base_llm
+
+evaluation:
+  environment_names: ["_easy_sandwich", "_med_meat_sandwich"]
+  testing_seeds: [42]
+  log_dir: ${hydra:runtime.output_dir}/evaluation
 
 game:
   agent_name: ReAct
@@ -11,7 +17,7 @@ game:
   render_mode: "rgb_array"
 
   record: true
-  video_fps: 2
+  video_fps: 3
   video_file: ${hydra:runtime.output_dir}/video_ReAct.mp4
 
 llm:

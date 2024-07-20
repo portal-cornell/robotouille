@@ -35,6 +35,6 @@ def record_video(imgs, filename, fourcc_str, fps):
     height, width, _ = imgs[0].shape
     frame_size = (width, height)
     imgs = [cv2.cvtColor(img, cv2.COLOR_RGB2BGR) for img in imgs] # Convert RGB to cv2 BGR for correct colors
-    with VideoWriterContext(filename, fourcc, fps, frame_size) as video:
+    with VideoWriterContext(filename, fourcc, 3, frame_size) as video:
         for img in imgs:
             video.write(img)

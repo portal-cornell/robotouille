@@ -1,4 +1,4 @@
-llm_model: ???          # The name of the LLM model to use
+llm_model: null         # The name of the LLM model to use
 temperature: 0.7        # The temperature to use for sampling
 max_attempts: 10        # The maximum number of attempts to query the LLM for a valid response
 debug: False            # Whether to enable debug mode for the LLM (see LLM agent for specific behavior)
@@ -8,13 +8,13 @@ max_feedback_steps: 5   # The maximum number of times to provide feedback for th
 mock: False             # [gpt-cost-estimator] Whether to mock API calls
 completion_tokens: 1    # [gpt-cost-estimator] The number of completion tokens to output for a mocked call
 
-log_file: ???           # The name of the file to save the log to
+log_file: null          # The name of the file to save the log to
 
 prompts:
   action_proposal_prompt:
-    experiment_name: ???
-    prompt_description: ???
-    prompt_version: ???
+    experiment_name: null
+    prompt_description: null
+    prompt_version: null
     model: ${llm.llm_model}
     temperature: ${llm.temperature}
     max_attempts: ${llm.max_attempts}
