@@ -1,5 +1,6 @@
 import hydra
 import os
+import json
 
 from omegaconf import DictConfig, OmegaConf
 
@@ -32,27 +33,37 @@ def evaluate(cfg: DictConfig) -> None:
         cfg (DictConfig):
             The Hydra configuration for Robotouille.
     """
-    log_dir = cfg.evaluation.log_dir
-    os.makedirs(log_dir, exist_ok=True)
+    log_dir_path = cfg.evaluation.log_dir_path
+    os.makedirs(log_dir_path, exist_ok=True)
+    results = {}
     for environment_name in cfg.evaluation.environment_names:
         for seed in cfg.evaluation.testing_seeds:
-            log_subdir = os.path.join(log_dir, f"{environment_name}_{seed}")
+            log_subdir = os.path.join(log_dir_path, f"{environment_name}_{seed}")
             basefile_to_subdir_lambda = lambda file_path: os.path.join(log_subdir, os.path.basename(file_path))
             os.makedirs(log_subdir, exist_ok=True)
             kwargs = OmegaConf.to_container(cfg.game, resolve=True)
             kwargs['seed'] = seed
-            kwargs['video_file'] = basefile_to_subdir_lambda(kwargs['video_file'])
+            kwargs['video_path'] = basefile_to_subdir_lambda(kwargs['video_path'])
             kwargs['llm_kwargs'] = OmegaConf.to_container(cfg.llm, resolve=True)
-            kwargs['llm_kwargs']['log_file'] = basefile_to_subdir_lambda(kwargs['llm_kwargs']['log_file'])
+            kwargs['llm_kwargs']['log_path'] = basefile_to_subdir_lambda(kwargs['llm_kwargs']['log_path'])
             kwargs.pop('environment_name') # Unused for evaluation
             agent_name = kwargs.pop('agent_name')
-            run_robotouille(environment_name, agent_name, **kwargs)
+            done, steps = run_robotouille(environment_name, agent_name, **kwargs)
+            results[f"{environment_name}_{seed}"] = {'done': done, 'steps': steps}
+    accuracy = sum([result['done'] for result in results.values()]) / len(results)
+    average_steps = sum([result['steps'] for result in results.values()]) / len(results)
+    results["accuracy"] = accuracy
+    results["average_steps"] = average_steps
+    results_path = os.path.join(log_dir_path, os.path.basename(cfg.evaluation.results_path))
+    with open(results_path, 'w') as f:
+        f.write(json.dumps(results, indent=4))
 
 @hydra.main(version_base=None, config_path="conf", config_name="config")
 def main(cfg: DictConfig) -> None:
     if not cfg.evaluation.evaluate:
         play(cfg)
-    evaluate(cfg)
+    else:
+        evaluate(cfg)
 
 if __name__ == "__main__":
     main()

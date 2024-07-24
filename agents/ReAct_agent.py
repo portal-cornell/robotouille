@@ -29,21 +29,33 @@ class ReActAgent(Agent):
                 The keyword arguments for the agent. See `conf/llm` and `conf/experiments` for more details.
         """
         super().__init__(kwargs)
-        self.log_file = kwargs.get("log_file", None)
-        if self.log_file:
-            os.makedirs(os.path.dirname(self.log_file), exist_ok=True)
+        self.log_path = kwargs.get("log_path", None)
+        if self.log_path:
+            os.makedirs(os.path.dirname(self.log_path), exist_ok=True)
 
         # ReAct prompt
         assert kwargs["prompts"]["action_proposal_prompt"], "The action proposal prompt is missing."
         self.action_proposal_prompt_params = kwargs["prompts"].get("action_proposal_prompt", {})
         messages = Agent.fetch_messages(self.action_proposal_prompt_params)
         self.action_proposal_prompt_params["messages"] = messages
-        self.action_feedback_msg = ""
+        self.action_feedback_msg = "" # Error feedback to insert into the next prompt
         
+        # Complete chat history
         self.chat_history = []
-        self.truncated_chat_history = [] # Current chat history that fits within the context length
-        self.max_feedback_steps = kwargs.get("feedback_steps", 5) # Maximum number of feedback steps
-        
+        # Chat history that is truncated either by configuration or context length limits
+        self.truncated_chat_history = []
+        # Maximum number of attempts to provide feedback in case of errors
+        self.max_feedback_steps = kwargs.get("feedback_steps", 5)
+        # Whether or not to prompt the LLM with no history
+        self.is_no_history = kwargs.get("is_no_history", False)
+        # Whether or not to prompt the LLM with the last timestep action
+        self.is_last_action = kwargs.get("is_last_action", False)
+        # Whether or not to prompt the LLM with the last timestep reasoning and action
+        self.is_last_reasoning_action = kwargs.get("is_last_reasoning_action", False)
+        # Whether or not to prompt the LLM with the last timestep observation, reasoning, and action
+        self.is_last_obs_reasoning_action = kwargs.get("is_last_obs_reasoning_action", False)
+
+        # Whether the agent is done
         self.done = False
 
     def is_done(self):
@@ -83,7 +95,6 @@ class ReActAgent(Agent):
             except openai.BadRequestError as e:
                 error_code = e.code
                 if error_code == 'context_length_exceeded':
-                    import pdb; pdb.set_trace()
                     assert len(truncated_history) > 2, "The starter user-assistant pair is too long."
                     # Remove one user-assistant pair from the history
                     starter_messages = truncated_history[:2] # Leave system and instruction messages
@@ -93,18 +104,77 @@ class ReActAgent(Agent):
                     raise e # Raise other errors for user to handle
         return response, truncated_history
 
-    def _write_to_log(self, log_file, data):
+    def _write_to_log(self, log_path, data):
         """Writes data to a log file.
         
         Parameters:
-            log_file (str)
+            log_path (str)
                 The name of the log file to write to.
             data (str)
                 The data to write to the log file.
         """
-        with open(log_file, "a") as f:
+        with open(log_path, "a") as f:
             f.write(data + "\n\n")
     
+    def _regex_match(self, regex, string):
+        """Returns the first match of a regex in a string, or None
+        
+        Parameters:
+            regex (str)
+                The regex pattern to match.
+            string (str)
+                The string to search for the regex pattern.
+        
+        Returns:
+            match (Union[str, None])
+                The first match of the regex pattern in the string, or None if no match.
+        """
+        match = re.search(regex, string)
+        if not match:
+            return None
+        return match.group(1)
+    
+    def truncate_history(self, obs, reasoning, action, truncated_chat_history):
+        """Returns history truncated according to the configuration.
+        
+        This function allows for fine control over the history that is passed
+        to the LLM.
+
+        The following types of history include:
+        - No history
+        - Last timestep action
+        - Last timestep reasoning and action
+        - Last timestep observation, reasoning, and action
+        - Complete history
+
+        Parameters:
+            obs (str)
+                The observation of the environment in the current timestep.
+            reasoning (str)
+                The reasoning of the agent in the current timestep.
+            action (str)
+                The action of the agent in the current timestep.
+            truncated_chat_history (list)
+                The chat history containing at least the complete interaction in the last timestep.
+        
+        Returns:
+            new_truncated_chat_history (list)
+                The new chat history to pass to the LLM.
+        """
+        if self.is_no_history:
+            return []
+        omitted_observation = f"Previous Observation: Omitted"
+        previous_action = f"Previous Action: {action}"
+        if self.is_last_action:
+            return [omitted_observation, previous_action]
+        previous_reasoning = f"Previous Reasoning: {reasoning}\n"
+        if self.is_last_reasoning_action:
+            return [omitted_observation, previous_reasoning + previous_action]
+        previous_observation = f"Previous Observation: {obs}\n"
+        if self.is_last_obs_reasoning_action:
+            return [previous_observation, previous_reasoning + previous_action]
+        return truncated_chat_history # Return full history by default
+
     def propose_actions(self, obs, state):
         """Proposes an action(s) to take in order to reach the goal.
         
@@ -130,27 +200,37 @@ class ReActAgent(Agent):
             action_proposal_response, self.truncated_chat_history = self._prompt_llm(action_proposal_prompt, self.action_proposal_prompt_params, history=self.truncated_chat_history)
             
             # Update and log user-assistant pair
-            self._write_to_log(self.log_file, f"ACTION PROPOSAL PROMPT\n" + "-"*20)
-            self._write_to_log(self.log_file, action_proposal_prompt)
+            self._write_to_log(self.log_path, f"ACTION PROPOSAL PROMPT\n" + "-"*20)
+            self._write_to_log(self.log_path, action_proposal_prompt)
             self.chat_history.append(action_proposal_prompt)
             self.truncated_chat_history.append(action_proposal_prompt)
-            self._write_to_log(self.log_file, f"ACTION PROPOSAL RESPONSE\n" + "-"*20)
-            self._write_to_log(self.log_file, action_proposal_response)
+            self._write_to_log(self.log_path, f"ACTION PROPOSAL RESPONSE\n" + "-"*20)
+            self._write_to_log(self.log_path, action_proposal_response)
             self.chat_history.append(action_proposal_response)
             self.truncated_chat_history.append(action_proposal_response)
+            
+            # Extract reasoning
+            reasoning = self._regex_match(r"Reasoning:\s*(.+)", action_proposal_response)
+            if not reasoning:
+                self.action_feedback_msg = "The reasoning was malformed. Please provide a valid reasoning in the form 'Reasoning: <reasoning>'."
+                feedback_steps += 1
+                continue
 
-            # Extract and return ACTION from LLM string response
-            regex = r"Action:\s*(.+)"
-            match = re.search(regex, action_proposal_response)
-            if not match:
+            # Extract action
+            action = self._regex_match(r"Action:\s*(.+)", action_proposal_response)
+            if not reasoning:
                 self.action_feedback_msg = "The action was malformed. Please provide a valid action in the form 'Action: <action>'."
                 feedback_steps += 1
                 continue
-            action = match.group(1)
-            action = action.replace(" ", "") # Remove spaces
+
+            # Truncate history according to configuration
+            self.truncated_chat_history = self.truncate_history(obs, reasoning, action, self.truncated_chat_history)
+            
+            # Transform string action into valid action
             if action == ReActAgent.FINISH_ACTION:
                 self.done = True # Finish action; mark as done
                 return []
+            # TODO(chalo2000): Simplify code below by creating Robotouille ActionDef/Action class
             valid_actions, str_valid_actions = state.get_valid_actions_and_str()
             matching_str_action = list(filter(lambda x: x == action, str_valid_actions))
             if len(matching_str_action) == 0:

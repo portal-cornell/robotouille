@@ -1,3 +1,5 @@
+import re
+
 from backend.predicate import Predicate
 
 class Action(object):
@@ -13,27 +15,33 @@ class Action(object):
     is returned.
     """
 
-    def __init__(self, name, precons, immediate_effects, special_effects):
+    LANGUAGE_DESCRIPTION_REGEX = re.compile(r'\{(\w+)\}') # Matches {p1}, {s1}, {s2}, etc.
+
+    def __init__(self, name, precons, immediate_effects, special_effects, language_description=""):
         """
         Initializes an action object.
 
-        Args:
-            name (str): The name of the action.
-            precons (Dictionary[Predicate, bool]): The preconditions of the
-                action, where the key is the predicate with placeholder
-                parameters, and the value is a bool indicating whether the
-                predicate is negated or not.
-            immediate_effects (Dictionary[Predicate, bool]): The immediate
-                effects of the action, where the key is the predicate with
-                placeholder parameters, and the value is a bool indicating
+        Parameters:
+            name (str)
+                The name of the action.
+            precons (Dictionary[Predicate, bool])
+                The preconditions of the action, where the key is the predicate
+                with placeholder parameters, and the value is a bool indicating
                 whether the predicate is negated or not.
-            special_effects (List[SpecialEffect]): The special effects of the
-                action.
+            immediate_effects (Dictionary[Predicate, bool])
+                The immediate effects of the action, where the key is the predicate
+                with placeholder parameters, and the value is a bool indicating
+                whether the predicate is negated or not.
+            special_effects (List[SpecialEffect])
+                The special effects of the action.
+            language_description (str)
+                The language description of the action.
         """
         self.name = name
         self.precons = precons
         self.immediate_effects = immediate_effects
         self.special_effects = special_effects
+        self.language_description = language_description
 
     def __eq__(self, other):
         """
@@ -79,6 +87,23 @@ class Action(object):
         params += [param for effect in self.immediate_effects for param in effect.params]
         params += [effect.param for effect in self.special_effects]
         return list(set(params))
+    
+    def get_language_description(self, param_arg_dict):
+        """
+        Returns the language description of the action.
+
+        TODO(chalo2000): A separate ActionDef class and Action class will avoid the need for param_arg_dict.
+        Parameters:
+            param_arg_dict (Dictionary[str, Object]):
+                The dictionary that maps parameters to arguments.
+        Returns:
+            language_description (str): The language description of the action.
+        """
+        params = self.get_all_params()
+        assert len(params) == len(param_arg_dict), "Number of parameters and arguments do not match."
+        assert all([param.name in param_arg_dict.keys() for param in params]), "param_arg_dict missing parameters."
+        sub_lambda = lambda x: param_arg_dict[x.group(1)].name # Substitutes {\w+} with the name of the object
+        return re.sub(Action.LANGUAGE_DESCRIPTION_REGEX, sub_lambda, self.language_description)
     
     def is_valid(self, state, args):
         """

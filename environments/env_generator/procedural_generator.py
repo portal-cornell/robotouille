@@ -327,41 +327,31 @@ def _randomly_add_players(environment_json, players):
     player = players[0].copy()
     updated_environment_json = deepcopy(environment_json)
 
-    position_match = lambda other: other["x"] == player["x"] and other["y"] == player["y"]
-    facing_match = lambda other: other["x"] == player["x"] + player["direction"][0] and other["y"] == player["y"] + player["direction"][1]
-    conflicting_station = list(filter(position_match, updated_environment_json["stations"]))
-    faced_station = list(filter(facing_match, updated_environment_json["stations"]))
-    if not conflicting_station and faced_station:
-        # Player is in a valid position and direction
-        updated_environment_json["players"].append(player)
-    else:
-        # Force a player to be added
-        width, height = updated_environment_json["width"], updated_environment_json["height"]
-        added_player = False
-        for station in updated_environment_json["stations"]:
-            if added_player:
-                break
-            # print(f"Trying to add player to station {station['name']} at ({station['x']}, {station['y']})")
-            x, y = station["x"], station["y"]
-            other_station_pos = [(x, y + 1), (x, y - 1), (x + 1, y), (x - 1, y)]
-            for pos in other_station_pos:
-                # Check within bounds
-                if pos[0] >= 0 and pos[0] < width and pos[1] >= 0 and pos[1] < height:
-                    # Check if position is not on a station
-                    station_matcher = lambda s: s["x"] == pos[0] and s["y"] == pos[1]
-                    has_station = len(list(filter(station_matcher, updated_environment_json["stations"]))) > 0
-                    if not has_station:
-                        # Check if player can reach all other stations
-                        # TODO:
-                        environment_json_copy = deepcopy(updated_environment_json)
-                        player["x"], player["y"] = pos[0], pos[1]
-                        player["direction"] = [x - pos[0], y - pos[1]]
-                        environment_json_copy["players"].append(player)
-                        reachable = _are_stations_reachable(environment_json_copy)
-                        if reachable:
-                            updated_environment_json["players"].append(player)
-                            added_player = True
-                            break
+    width, height = updated_environment_json["width"], updated_environment_json["height"]
+    added_player = False
+    for station in updated_environment_json["stations"]:
+        if added_player:
+            break
+        # print(f"Trying to add player to station {station['name']} at ({station['x']}, {station['y']})")
+        x, y = station["x"], station["y"]
+        other_station_pos = [(x, y + 1), (x, y - 1), (x + 1, y), (x - 1, y)]
+        for pos in other_station_pos:
+            # Check within bounds
+            if pos[0] >= 0 and pos[0] < width and pos[1] >= 0 and pos[1] < height:
+                # Check if position is not on a station
+                station_matcher = lambda s: s["x"] == pos[0] and s["y"] == pos[1]
+                has_station = len(list(filter(station_matcher, updated_environment_json["stations"]))) > 0
+                if not has_station:
+                    # Check if player can reach all other stations
+                    environment_json_copy = deepcopy(updated_environment_json)
+                    player["x"], player["y"] = pos[0], pos[1]
+                    player["direction"] = [x - pos[0], y - pos[1]]
+                    environment_json_copy["players"].append(player)
+                    reachable = _are_stations_reachable(environment_json_copy)
+                    if reachable:
+                        updated_environment_json["players"].append(player)
+                        added_player = True
+                        break
     return updated_environment_json
 
 def _randomly_add_objects(environment_json, stations, items, players):

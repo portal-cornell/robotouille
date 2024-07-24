@@ -138,7 +138,8 @@ def _build_action_defs(domain_json, predicate_defs):
             action["immediate_fx"], param_objs, predicate_dict)
         special_effects = _build_special_effects(
             action["sfx"], param_objs, predicate_dict)
-        action_def = Action(name, precons, immediate_effects, special_effects)
+        language_description = action["language_description"]
+        action_def = Action(name, precons, immediate_effects, special_effects, language_description=language_description)
         action_defs.append(action_def)
 
     return action_defs

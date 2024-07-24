@@ -1,0 +1,37 @@
+# @package _global_
+defaults:
+  - override /evaluation: base_evaluation
+  - override /game: base_game
+  - override /llm: base_llm
+
+evaluation:
+  environment_names: [
+    "sequential/0_cheese_sandwich",
+    "sequential/1_lettuce_sandwich",
+    "sequential/2_lettuce_tomato_sandwich"
+  ]
+  testing_seeds: [42, 84, 126]
+  log_dir_path: ${hydra:runtime.output_dir}/evaluation
+
+game:
+  agent_name: ReAct
+  max_steps: 30
+  render_mode: "rgb_array"
+
+  record: true
+  video_fps: 3
+  video_path: ${hydra:runtime.output_dir}/video_ReAct.mp4
+
+llm:
+  llm_model: gpt-4o
+  log_path: ${hydra:runtime.output_dir}/log_ReAct.txt
+  prompts:
+    action_proposal_prompt:
+      experiment_name: ReAct
+      prompt_description: last-action
+      prompt_version: 1.2.0
+  # ReAct specific configuration
+  is_no_history: false
+  is_last_action: true
+  is_last_reasoning_action: false
+  is_last_obs_reasoning_action: false

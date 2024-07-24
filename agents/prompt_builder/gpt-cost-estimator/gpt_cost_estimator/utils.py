@@ -10,6 +10,7 @@ def num_tokens_from_messages(messages, model):
         print("Warning: model not found. Using cl100k_base encoding.")
         encoding = tiktoken.get_encoding("cl100k_base")
     if model in {
+        "gpt-4o",
         "gpt-4-turbo",
         "gpt-4-0613",
         "gpt-3.5-turbo-0613",

@@ -11,4 +11,4 @@ game:
   render_mode: "human"
 
   record: true
-  video_file: ${hydra:runtime.output_dir}/video_human.mp4
+  video_path: ${hydra:runtime.output_dir}/video_human.mp4

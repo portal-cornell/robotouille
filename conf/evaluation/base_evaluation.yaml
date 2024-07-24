@@ -5,3 +5,4 @@ environment_names: [
   "_hard_fries_sandwich"
 ]
 testing_seeds: [42, 84, 126, 168, 210, 252, 294, 336, 378, 420]
+results_path: ${hydra:runtime.output_dir}/results.json

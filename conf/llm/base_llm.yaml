@@ -8,7 +8,7 @@ max_feedback_steps: 5   # The maximum number of times to provide feedback for th
 mock: False             # [gpt-cost-estimator] Whether to mock API calls
 completion_tokens: 1    # [gpt-cost-estimator] The number of completion tokens to output for a mocked call
 
-log_file: null          # The name of the file to save the log to
+log_path: null          # The name of the file to save the log to
 
 prompts:
   action_proposal_prompt:

@@ -368,6 +368,8 @@ class State(object):
         """
         Gets all valid actions for the state as dictionaries and strings.
 
+        TODO(chalo2000): Temp until Action class split into definition and instance class.
+
         This is a temporary function until the Action class is split into a definition
         and instance class (which would allow get_valid_actions() to be easily converted
         to a string representation).
@@ -389,13 +391,11 @@ class State(object):
         valid_actions = []
         str_valid_actions = []
         for action, param_arg_dicts in valid_actions_dict.items():
-            ordered_params = action.get_all_params()
             for param_arg_dict in param_arg_dicts:
-                param_args = [param_arg_dict[param.name].name for param in ordered_params]
                 valid_action = (action, param_arg_dict)
                 valid_actions.append(valid_action)
-                str_valid_action = f"{action.name}({','.join(param_args)})"
-                str_valid_actions.append(str_valid_action)
+                str_valid_actions.append(action.get_language_description(param_arg_dict))
+        
         return valid_actions, str_valid_actions
     
     def get_valid_actions_for_player(self, player):
@@ -446,28 +446,29 @@ class State(object):
                 the action for player i. If player i is not performing an action,
                 actions[i] is None.
         
+        Side Effects:
+            - The current state is stepped to the next state with the provided actions
+        
         Returns:
-            new_state (State): The successor state.
             done (bool): True if the goal is reached, False otherwise.
 
         Raises:
             AssertionError: If the action is invalid with the given arguments in
             the given state.
         """
-        new_state = copy.deepcopy(self)
         for action, param_arg_dict in actions:
             if action is None:
                 continue
-            assert action.is_valid(new_state, param_arg_dict)
-            new_state = action.perform_action(new_state, param_arg_dict)
+            assert action.is_valid(self, param_arg_dict)
+            self = action.perform_action(self, param_arg_dict)
         
-        for special_effect in new_state.special_effects:
-            special_effect.update(new_state)
+        for special_effect in self.special_effects:
+            special_effect.update(self)
         
-        if new_state.is_goal_reached():
-            return new_state, True
+        if self.is_goal_reached():
+            return True
         
-        new_state.current_player = new_state.next_player()
+        self.current_player = self.next_player()
 
-        return new_state, False
+        return False
     

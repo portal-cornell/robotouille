@@ -1,5 +1,7 @@
-from backend.object import Object
 import re
+
+from backend.object import Object
+
 
 # TODO(chalo2000): Separate into PredicateDef and Predicate class to remove confusing param_args_dict
 class Predicate(object):
@@ -62,6 +64,9 @@ class Predicate(object):
         """
         Returns the language description given the provided object.
 
+        Parameters:
+            object (Object): The object to get the language description for.
+        
         Returns:
             language_description (str):
                 The language description for the provided object predicate.

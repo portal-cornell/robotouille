@@ -350,7 +350,8 @@
                     "is_true": false
                 }
             ],
-            "sfx": []
+            "sfx": [],
+            "language_description": "Move {p1} from {s1} to {s2}"
         },
         {
             "name": "pick-up-item",
@@ -408,7 +409,8 @@
                     "is_true": false
                 }
             ],
-            "sfx": []
+            "sfx": [],
+            "language_description": "Pick up {i1} from {s1} using {p1}"
         },
         {
             "name": "place-item",
@@ -461,7 +463,8 @@
                     "is_true": false
                 }
             ],
-            "sfx": []
+            "sfx": [],
+            "language_description": "Place {i1} on {s1} using {p1}"
         },
         {
             "name": "pick-up-container",
@@ -504,7 +507,8 @@
                     "is_true": true
                 }
             ],
-            "sfx": []
+            "sfx": [],
+            "language_description": "Pick up {c1} from {s1} using {p1}"
         },
         {
             "name": "place-container",
@@ -547,7 +551,8 @@
                     "is_true": false
                 }
             ],
-            "sfx": []
+            "sfx": [],
+            "language_description": "Place {c1} on {s1} using {p1}"
         },
         {
             "name": "cook",
@@ -616,13 +621,19 @@
                                     "predicate": "iscooked",
                                     "params": ["i1"],
                                     "is_true": true
+                                },
+                                {
+                                    "predicate": "iscooking",
+                                    "params": ["i1"],
+                                    "is_true": false
                                 }
                             ],
                             "sfx": []
                         }
                     ]
                 }
-            ]
+            ],
+            "language_description": "Cook {i1} on {s1} using {p1}"
         },
         {
             "name": "cut",
@@ -696,8 +707,8 @@
                     ],
                     "sfx": []
                 }
-            ]
-
+            ],
+            "language_description": "Cut {i1} on {s1} using {p1}"
         },
         {
             "name": "fry",
@@ -761,7 +772,8 @@
                         }
                     ]
                 }
-            ]
+            ],
+            "language_description": "Fry {i1} on {s1} using {p1}"
         },
         {
             "name": "fill-pot",
@@ -847,7 +859,8 @@
                         }
                     ]
                 }
-            ]
+            ],
+            "language_description": "Fill {c1} with water from {s1} using {p1}"
         },
         {
             "name": "boil-water",
@@ -916,7 +929,8 @@
                         }
                     ]
                 }
-            ]
+            ],
+            "language_description": "Boil {c1}'s contents on {s1} using {p1}"
         },
         {
             "name": "add-to",
@@ -974,7 +988,8 @@
                     "is_true": true
                 }
             ],
-            "sfx": []
+            "sfx": [],
+            "language_description": "Add {i1} into {c1} using {p1}"
         },
         {
             "name": "fill-bowl",
@@ -1037,7 +1052,8 @@
                     "is_true": true
                 }
             ],
-            "sfx": []
+            "sfx": [],
+            "language_description": "Fill {c1} with {c2}'s contents using {p1}"
         },
         {
             "name": "stack",
@@ -1095,7 +1111,8 @@
                     "is_true": false
                 }
             ],
-            "sfx": []
+            "sfx": [],
+            "language_description": "Stack {i1} on top of {i2} using {p1}"
         },
         {
             "name": "unstack",
@@ -1163,13 +1180,15 @@
                     "is_true": false
                 }
             ],
-            "sfx": []
+            "sfx": [],
+            "language_description": "Unstack {i1} from {i2} using {p1}"
         },
         {
             "name": "wait",
             "precons": [],
             "immediate_fx": [],
-            "sfx": []
+            "sfx": [],
+            "language_description": "Do nothing"
         }
     ]
 }

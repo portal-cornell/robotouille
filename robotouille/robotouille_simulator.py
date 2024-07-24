@@ -61,12 +61,18 @@ def run_robotouille(environment_name: str, agent_name: str, **kwargs: Dict[str, 
                     Whether to record a video of the run.
                 - fourcc_str (str):
                     The fourcc string to use for the video codec.
-                - video_file (str):
+                - video_path (str):
                     The filename for the file to save the video to.
                 - video_fps (int):
                     The frames per second for the video.
                 - llm_kwargs (Dict[str, Any]):
                     The kwargs for the LLM agent.
+    
+    Returns:
+        done (bool):
+            Whether the environment is done.
+        steps (int):
+            The number of steps taken in the environment.
     """
     # Initialize environment
     seed = kwargs.get('seed', None)
@@ -127,7 +133,9 @@ def run_robotouille(environment_name: str, agent_name: str, **kwargs: Dict[str, 
     img = env.render(render_mode, close=True)
     if record:
         imgs.append(img)
-        filename = kwargs.get('video_file', 'recorded_video.mp4')
+        filename = kwargs.get('video_path', 'recorded_video.mp4')
         fourcc_str = kwargs.get('fourcc_str', 'mp4v')
         fps = kwargs.get('video_fps', 3) # Videos with FPS < 3 on MP4 will appear corrupted (all green)
         record_video(imgs, filename, fourcc_str, fps)
+    
+    return done, steps
