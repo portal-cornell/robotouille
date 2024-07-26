@@ -19,6 +19,8 @@ from .agent import Agent
 class ReActAgent(Agent):
     """An agent that queries an LLM to think and act in an environment while receiving feedback."""
     
+    REASONING_REGEX = re.compile(r"^Reasoning:\s*(.+)Action:", re.M | re.S) # Everything up till Action
+    ACTION_REGEX = re.compile(r"^Action:\s*(.+)", re.M)
     FINISH_ACTION = "Finish"
 
     def __init__(self, kwargs):
@@ -210,14 +212,14 @@ class ReActAgent(Agent):
             self.truncated_chat_history.append(action_proposal_response)
             
             # Extract reasoning
-            reasoning = self._regex_match(r"Reasoning:\s*(.+)", action_proposal_response)
+            reasoning = self._regex_match(ReActAgent.REASONING_REGEX, action_proposal_response)
             if not reasoning:
                 self.action_feedback_msg = "The reasoning was malformed. Please provide a valid reasoning in the form 'Reasoning: <reasoning>'."
                 feedback_steps += 1
                 continue
 
             # Extract action
-            action = self._regex_match(r"Action:\s*(.+)", action_proposal_response)
+            action = self._regex_match(ReActAgent.ACTION_REGEX, action_proposal_response)
             if not reasoning:
                 self.action_feedback_msg = "The action was malformed. Please provide a valid action in the form 'Action: <action>'."
                 feedback_steps += 1

@@ -3,8 +3,9 @@ experiment_name: ReAct
 prompt_description: last-reasoning-action-mpc
 prompt_version: 1.3.1
 system: |
-  You are an agent exploring an environment with a goal to achieve. You will 
-  propose an action in the current state to make progress towards the goal.
+  You are an agent exploring a game environment with a goal to achieve. You will propose an 
+  action in the current state to make progress towards the goal. Follow the rules carefully
+  since the environment may have constraints that do not align with the real world.
 instructions: |
   You must propose an action given the current observation and valid actions and the last reasoning and action taken in the environment.
 
@@ -17,20 +18,26 @@ instructions: |
   - 'Observation' contains state information about objects in the environment and the goal
   - 'Valid Actions' is the list of actions you can take in the current state
   - 'Error Feedback' includes feedback about an invalid action taken in a previous interaction (not included in the history)
+    - This feedback is automated and shows if the action is either syntactically incorrect or does not exist in the valid actions list
+    - This feedback does not check for semantic correctness and should neither reinforce nor discourage the current strategy
 
   Always format your response as follows:
+  Past Interaction Analysis: ...
   Reasoning: ...
   Action: ...
 
   where:
-  - 'Reasoning' includes reasoning about the action you will propose to take
-    - If there is error feedback, reflect about why your previous response may have been invalid
-    - If there is no error feedback, reflect about learnings from the current observation and the last reasoning and action taken
-    - Include an explanation of how the last reasoning and action taken in the environment affects your current decision
+  - 'Past Interaction Analysis' includes an analysis of the previous reasoning and action
+    - Include an explanation of how this reasoning and action may affect your current decision
+    - Note the observation of the previous reasoning and action is omitted.
+  - 'Reasoning' includes reasoning about the action you will propose to take next
+    - Incorporate the past reasoning and action into your current reasoning
     - Include a complete step by step action plan to the goal to justify the next action you'll propose to take 
   - 'Action' is the action you propose to take in the environment
     - This action should be formatted exactly as it is in the environment description
     - This should be the first action in the plan you created in the Reasoning section
+  
+  Incorrectly formatted responses will lead to errors.
 
   Below is a description of the environment:
   You are a robot in a kitchen environment. The objects in the kitchen and your goal are described
@@ -42,10 +49,10 @@ instructions: |
   - Meal: A mixture of ingredients contained within a Container
 
   The rules of the environment are as follows:
-  - A Player can pick up a single Item at a time
+  - A Player can only hold a single Item at a time
   - An Item must be placed on a Station to perform an action on it
   - A Station must contain a single Item to perform an action on it
-  - Items can be stacked on top of one another
+  - Items can only be stacked on top of one another
   - A Container can hold multiple Items
   - A Meal can be transferred between Containers
 
@@ -53,6 +60,123 @@ instructions: |
   goals are intentionally underspecified so common sense reasoning is required to complete them. Specifically,
   it is important to consider
   - the minimal ingredients required to satisfy the request
-  - any preparation steps for the ingredients
+  - any preparation steps for the ingredients like cooking, cutting, etc.
 
   When the goal is achieved or a time limit is reached, the environment will end.
+
+  Follow this recipe guide to learn how to make food in Robotouille:
+  Sandwich - A slice of bread, followed by prepared ingredients, followed by another slice of bread.
+  Hamburger - A bottom bun, followed by prepared ingredients, followed by a top bun.
+  Soup - A pot of boiling water containing prepared ingredients served in a bowl.
+
+  Below is an example environment and the correct sequence of actions to achieve the goal:
+  Station table1:
+  table1 is a table
+  table1 has onion1
+  table1 has onion1 directly on top of it
+  table1 has no players at it
+
+  Station sink1:
+  sink1 is a sink
+  sink1 has cheese1
+  sink1 has cheese1 directly on top of it
+  sink1 has no players at it
+
+  Station board1:
+  board1 is a cutting board
+  stove3 has bottombun1
+  stove3 has bottombun1 directly on top of it
+  board1 has no players at it
+
+  Station table3:
+  table3 is a table
+  table3 is occupied by robot1
+  table3 has bread2
+  table3 has bread2 directly on top of it
+
+  Station table4:
+  table4 is a table
+  table4 has nothing on it
+  table4 has no players at it
+
+  Item onion1:
+  onion1 is an onion
+  onion1 can be cut on a cutting board
+  onion1 is at table1
+  onion1 is directly on top of table1
+  onion1 has nothing above it
+
+  Item cheese1:
+  cheese1 is a cheese slice
+  cheese1 is at sink1
+  cheese1 is directly on top of sink1
+  cheese1 has nothing above it
+
+  Item bread1:
+  bread1 is a bread slice
+  bread1 is at table3
+  bread1 is atop bread2
+  bread1 has nothing above it
+
+  Item bottombun1:
+  bottombun1 is a bottom bun
+  bottombun1 is at board1
+  bottombun1 is directly on top of board1
+  bottombun1 has nothing above it
+
+  Item bread2:
+  bread2 is a bread slice
+  bread2 is at table3
+  bread2 is directly on top of table3
+
+  Player robot1:
+  robot1 is a robot
+  robot1 is at table3
+  robot1 is holding nothing
+
+  Valid Actions:
+  Move robot1 from table3 to table1
+  Move robot1 from table3 to sink1
+  Move robot1 from table3 to board1
+  Move robot1 from table3 to table4
+  Unstack bread1 from bread2 using robot1
+  Do nothing
+
+  Goal: Prepare a onion cheese sandwich on a table
+
+  High-level description: To make a sandwich, 2 slices of bread are needed with cheese and onion in between them.
+  The onion can be cut on the cutting board so the bottom bun must be moved away. The bread slices are stacked on
+  top of one another and must be unstacked to place the ingredients in between them.
+
+  Correct sequence of actions:
+  # Clear the bottom bun from the cutting board
+  1. Move robot1 from table3 to board1
+  2. Pick up bottombun1 from board1 using robot1
+  3. Move robot1 from board1 to table4
+  4. Place bottombun1 on table4 using robot1
+  # Prepare the onion
+  5. Move robot1 from table4 to table1
+  6. Pick up onion1 from table1 using robot1
+  7. Move robot1 from table1 to board1
+  8. Place onion1 on board1 using robot1
+  9. Cut onion1 using robot1 (repeat until onion1 is cut)
+  # Separate the bread slices
+  10. Move robot1 from board1 to table3
+  11. Unstack bread1 from bread2 using robot1
+  12. Move robot1 from table3 to table1
+  13. Place bread1 on table1 using robot1
+  # Assemble the sandwich
+  14. Move robot1 from table1 to board1
+  15. Pick up onion1 from board1 using robot1
+  16. Move robot1 from board1 to table1
+  17. Stack onion1 on bread1 using robot1
+  18. Move robot1 from table1 to sink1
+  19. Pick up cheese1 from sink1 using robot1
+  20. Move robot1 from sink1 to table1
+  21. Stack cheese1 on onion1 using robot1
+  22. Move robot1 from table1 to board1
+  23. Pick up bread2 from table1 using robot1
+  24. Move robot1 from board1 to table1
+  25. Stack bread2 on cheese1 using robot1
+
+  This example is provided to make the rules of the environment clear. You will be provided a different scenario.
