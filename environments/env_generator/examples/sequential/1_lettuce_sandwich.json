@@ -20,6 +20,11 @@
         },
         {
             "name": "table",
+            "x": 0,
+            "y": 3
+        },
+        {
+            "name": "table",
             "x": 2,
             "y": 3
         },
@@ -44,8 +49,8 @@
         {
             "name": "bread",
             "x": 0,
-            "y": 1,
-            "stack-level": 1
+            "y": 3,
+            "stack-level": 0
         },
         {
             "name": "lettuce",

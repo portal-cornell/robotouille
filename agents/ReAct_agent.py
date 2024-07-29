@@ -23,14 +23,14 @@ class ReActAgent(Agent):
     ACTION_REGEX = re.compile(r"^Action:\s*(.+)", re.M)
     FINISH_ACTION = "Finish"
 
-    def __init__(self, kwargs):
+    def __init__(self, environment_name, kwargs):
         """Initializes the ReAct agent.
         
         Parameters:
             kwargs (dict)
                 The keyword arguments for the agent. See `conf/llm` and `conf/experiments` for more details.
         """
-        super().__init__(kwargs)
+        super().__init__(environment_name, kwargs)
         self.log_path = kwargs.get("log_path", None)
         if self.log_path:
             os.makedirs(os.path.dirname(self.log_path), exist_ok=True)
@@ -38,7 +38,8 @@ class ReActAgent(Agent):
         # ReAct prompt
         assert kwargs["prompts"]["action_proposal_prompt"], "The action proposal prompt is missing."
         self.action_proposal_prompt_params = kwargs["prompts"].get("action_proposal_prompt", {})
-        messages = Agent.fetch_messages(self.action_proposal_prompt_params)
+        self.num_examples = kwargs.get("num_examples", 0)
+        messages = Agent.fetch_messages(self.action_proposal_prompt_params, environment_name=environment_name, num_examples=self.num_examples)
         self.action_proposal_prompt_params["messages"] = messages
         self.action_feedback_msg = "" # Error feedback to insert into the next prompt
         
@@ -97,11 +98,8 @@ class ReActAgent(Agent):
             except openai.BadRequestError as e:
                 error_code = e.code
                 if error_code == 'context_length_exceeded':
-                    assert len(truncated_history) > 2, "The starter user-assistant pair is too long."
-                    # Remove one user-assistant pair from the history
-                    starter_messages = truncated_history[:2] # Leave system and instruction messages
-                    remaining_messages = truncated_history[4:]
-                    truncated_history = starter_messages + remaining_messages
+                    assert len(truncated_history) == 2, "The starter prompt is too long."
+                    truncated_history = truncated_history[2:] # Remove oldest user-assistant pair
                 else:
                     raise e # Raise other errors for user to handle
         return response, truncated_history
@@ -177,14 +175,16 @@ class ReActAgent(Agent):
             return [previous_observation, previous_reasoning + previous_action]
         return truncated_chat_history # Return full history by default
 
-    def propose_actions(self, obs, state):
+    def propose_actions(self, obs, env):
         """Proposes an action(s) to take in order to reach the goal.
+        
+        This function only proposes actions, it does not take steps in the environment.
         
         Parameters:
             obs (str)
                 A natural language observation of the current state of the environment.
-            state (State)
-                The current state of the environment to propose actions in.
+            env (object)
+                The environment to propose actions in.
         
         Returns:
             actions (list)
@@ -233,7 +233,7 @@ class ReActAgent(Agent):
                 self.done = True # Finish action; mark as done
                 return []
             # TODO(chalo2000): Simplify code below by creating Robotouille ActionDef/Action class
-            valid_actions, str_valid_actions = state.get_valid_actions_and_str()
+            valid_actions, str_valid_actions = env.current_state.get_valid_actions_and_str()
             matching_str_action = list(filter(lambda x: x == action, str_valid_actions))
             if len(matching_str_action) == 0:
                 self.action_feedback_msg = f"The action '{action}' is not valid. Please provide a valid action."

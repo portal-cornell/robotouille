@@ -4,7 +4,6 @@ from typing import Dict, Any
 
 from agents import NAME_TO_AGENT
 
-from utils.robotouille_input import create_action_from_event
 from utils.video_recorder import record_video
 from robotouille.robotouille_env import create_robotouille_env
 
@@ -77,11 +76,11 @@ def run_robotouille(environment_name: str, agent_name: str, **kwargs: Dict[str, 
     # Initialize environment
     seed = kwargs.get('seed', None)
     noisy_randomization = kwargs.get('noisy_randomization', False)
-    env, json, renderer = create_robotouille_env(environment_name, seed, noisy_randomization)
-
+    env = create_robotouille_env(environment_name, seed, noisy_randomization)
+    renderer = env.renderer
     # Initialize agent
     llm_kwargs = kwargs.get('llm_kwargs', {})
-    agent = None if agent_name == "human" else NAME_TO_AGENT[agent_name](llm_kwargs)
+    agent = NAME_TO_AGENT[agent_name](environment_name, llm_kwargs)
     agent_done_cond = lambda a: a.is_done() if a is not None else False
 
     render_mode = kwargs.get('render_mode', 'human')
@@ -93,33 +92,21 @@ def run_robotouille(environment_name: str, agent_name: str, **kwargs: Dict[str, 
     max_steps = kwargs.get('max_steps', 100)
     imgs = []
     while not done and not agent_done_cond(agent) and steps < max_steps:
-        current_state = env.current_state
+        
         img = env.render(render_mode)
         if record:
             imgs.append(img)
         
-        # Retrieve action
-        if agent is None:
-            # Retrieve action from human input
-            pygame_events = pygame.event.get()
-            # Mouse clicks for movement and pick/place stack/unstack
-            mousedown_events = list(filter(lambda e: e.type == pygame.MOUSEBUTTONDOWN, pygame_events))
-            # Keyboard events ('e' button) for cut/cook ('space' button) for noop
-            keydown_events = list(filter(lambda e: e.type == pygame.KEYDOWN, pygame_events))
-            action, param_arg_dict = create_action_from_event(current_state, mousedown_events+keydown_events, env.input_json, renderer)
-            if action is None:
-                # Retry for keyboard input
-                continue
-        else:
-            # Retrieve action from agent output
-            proposed_actions = agent.propose_actions(obs, current_state)
-            if len(proposed_actions) == 0:
-                steps += 1
-                continue
-            action, param_arg_dict = proposed_actions[0]
+        # Retrieve action from agent output
+        proposed_actions = agent.propose_actions(obs, env)
+        if len(proposed_actions) == 0:
+            # Reprompt agent for action
+            continue
+        action, param_arg_dict = proposed_actions[0]
         
         # Assign action to players
         actions = []
+        current_state = env.current_state
         for player in current_state.get_players():
             if player == current_state.current_player:
                 actions.append((action, param_arg_dict))

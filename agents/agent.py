@@ -8,15 +8,24 @@ To create a custom agent,
    - select_state
 3) modify the NAME_TO_AGENT dictionary in the __init__.py file with an option name and your custom class
 """
+import re
+
+from .in_context_examples.retrieve_example import retrieve_example
 
 from .prompt_builder.constants import PROMPT_HISTORY_PATH
 from .prompt_builder.serializer import serialize_into_messages
 from .prompt_builder.utils import get_prompt_path
 class Agent:
 
+    EXAMPLE_REQUEST_REGEX = re.compile(r"^Observation:\s*(.+?)\nReasoning:", re.M | re.S)
+    EXAMPLE_RESPONSE_REGEX = re.compile(r"(^Reasoning:\s*.+?\n\nAction:.+?)(?=Observation:|$)", re.M | re.S)
+
     @staticmethod
-    def fetch_messages(prompt_params):
+    def fetch_messages(prompt_params, environment_name=None, num_examples=0):
         """Fetches the messages for the prompt from the version control directory.
+
+        If the environment name is provided, in-context examples are fetched for
+        the environment.
 
         Parameters:
             prompt_params (Dict)
@@ -27,6 +36,10 @@ class Agent:
                         The description of the prompt.
                     prompt_version (str)
                         The version of the prompt.
+            environment_name (str)
+                The name of the environment to fetch examples for.
+            num_examples (int)
+                The number of examples to fetch.
 
         Returns:
             messages (List[Dict[str, str]])
@@ -37,15 +50,21 @@ class Agent:
         prompt_version = prompt_params["prompt_version"]
         prompt_path = get_prompt_path(PROMPT_HISTORY_PATH, experiment_name, prompt_description, prompt_version)
         messages = serialize_into_messages(prompt_path)
+        if environment_name and num_examples > 0:
+            examples = retrieve_example(environment_name, num_examples, Agent.EXAMPLE_REQUEST_REGEX, Agent.EXAMPLE_RESPONSE_REGEX)
+            messages += examples
         return messages
     
-    def __init__(self, kwargs):
+    def __init__(self, environment_name, kwargs):
         """Initializes the agent.
         
         Parameters:
+            environment_name (str)
+                The name of the environment to run.
             kwargs (Dict[Any, Any])
                 The keyword arguments for the agent.
         """
+        self.environment_name = environment_name
         self.kwargs = kwargs
 
     def is_done(self):
@@ -57,12 +76,16 @@ class Agent:
         """
         raise NotImplementedError
 
-    def propose_actions(self, obs):
+    def propose_actions(self, obs, env):
         """Proposes action(s) to take in order to reach the goal.
+        
+        This function only proposes actions, it does not take steps in the environment.
         
         Parameters:
             obs (object)
                 The observation of the environment.
+            env (object)
+                The environment to propose actions in.
         
         Raises:
             NotImplementedError

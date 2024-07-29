@@ -39,7 +39,7 @@ def evaluate(cfg: DictConfig) -> None:
     for environment_name in cfg.evaluation.environment_names:
         for seed in cfg.evaluation.testing_seeds:
             log_subdir = os.path.join(log_dir_path, f"{environment_name}_{seed}")
-            basefile_to_subdir_lambda = lambda file_path: os.path.join(log_subdir, os.path.basename(file_path))
+            basefile_to_subdir_lambda = lambda file_path: os.path.join(log_subdir, os.path.basename(file_path)) if file_path is not None else None
             os.makedirs(log_subdir, exist_ok=True)
             kwargs = OmegaConf.to_container(cfg.game, resolve=True)
             kwargs['seed'] = seed

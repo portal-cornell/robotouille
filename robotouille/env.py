@@ -396,11 +396,14 @@ class LanguageSpace(gym.spaces.Text):
         #                  to remove param_arg_dict and simplify retrieving the language 
         #                  description of the action.
         # Object descriptions
+        object_descriptions = []
         for obj in state.objects:
+            description_header = f"{obj.object_type.capitalize()} {obj.name}:"
             relevant_preds = [pred for pred in predicates if obj.name in str(pred)]
             language_descriptions = [pred.get_language_description(obj) for pred in relevant_preds]
-            language_description += f"\n\n{obj.object_type.capitalize()} {obj.name}:\n"
-            language_description += "\n".join(language_descriptions)
+            predicate_descriptions = "\n".join(language_descriptions)
+            object_descriptions.append(f"{description_header}\n{predicate_descriptions}")
+        language_description += "\n\n".join(object_descriptions)
         # Valid Actions
         language_description += "\n\nValid Actions:\n"
         _, str_valid_actions = state.get_valid_actions_and_str()
@@ -450,7 +453,8 @@ class RobotouilleEnv(gym.Env):
     def __init__(self, domain_json, environment_json, renderer, size=5):        
         self.size = size
         self.window_size = 512
-
+        
+        self.environment_json = environment_json
         self.initial_state = build_state(domain_json, environment_json)
         self.current_state = copy.deepcopy(self.initial_state)
 

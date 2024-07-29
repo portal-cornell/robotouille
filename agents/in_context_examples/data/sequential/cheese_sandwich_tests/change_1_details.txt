@@ -1,0 +1,1029 @@
+Interaction 1
+---------------
+
+
+Observation:
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station table1:
+table1 is a table
+table1 has nothing on it
+table1 has no players at it
+
+Station sink1:
+sink1 is a sink
+sink1 has cheese1
+sink1 has cheese1 directly on top of it
+sink1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has bread1
+table2 has bread1 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has bottombun1
+fryer1 has bottombun1 directly on top of it
+fryer1 has no players at it
+
+Station sink2:
+sink2 is a sink
+sink2 has lettuce1
+sink2 has lettuce1 directly on top of it
+sink2 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 has nothing on it
+stove2 has no players at it
+
+Station stove3:
+stove3 is a stove
+stove3 has bottombun2
+stove3 has bottombun2 directly on top of it
+stove3 has no players at it
+
+Station table3:
+table3 is a table
+table3 is occupied by robot1
+table3 has bread2
+table3 has bread2 directly on top of it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has nothing on it
+table5 has no players at it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at sink1
+cheese1 is directly on top of sink1
+cheese1 has nothing above it
+
+Item bread1:
+bread1 is a bread slice
+bread1 is at table2
+bread1 is directly on top of table2
+bread1 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at fryer1
+bottombun1 is directly on top of fryer1
+bottombun1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at sink2
+lettuce1 is directly on top of sink2
+lettuce1 has nothing above it
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at stove3
+bottombun2 is directly on top of stove3
+bottombun2 has nothing above it
+
+Item bread2:
+bread2 is a bread slice
+bread2 is at table3
+bread2 is directly on top of table3
+bread2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table3
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table3 to stove1
+Move robot1 from table3 to table1
+Move robot1 from table3 to sink1
+Move robot1 from table3 to table2
+Move robot1 from table3 to fryer1
+Move robot1 from table3 to sink2
+Move robot1 from table3 to stove2
+Move robot1 from table3 to stove3
+Move robot1 from table3 to table4
+Move robot1 from table3 to table5
+Pick up bread2 from table3 using robot1
+Do nothing
+
+Goal: Prepare a cheese sandwich on a table
+
+
+Reasoning: The goal is to make a cheese sandwich on a table. I need 2 slices of bread and a slice of cheese. Then, I need to stack the cheese on top of one of the bread slices and then stack the other bread slice on top of the cheese. I am currently at table3 which has bread2 on it. However, I can only pick up one item at a time. Therefore, I must pick up the cheese slice first to stack it on the bread. Since cheese1 is at sink1, I will move to sink1 to pick up cheese1.
+
+Action: Move robot1 from table3 to sink1
+
+
+Interaction 2
+---------------
+
+
+Observation:
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station table1:
+table1 is a table
+table1 has nothing on it
+table1 has no players at it
+
+Station sink1:
+sink1 is a sink
+sink1 is occupied by robot1
+sink1 has cheese1
+sink1 has cheese1 directly on top of it
+
+Station table2:
+table2 is a table
+table2 has bread1
+table2 has bread1 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has bottombun1
+fryer1 has bottombun1 directly on top of it
+fryer1 has no players at it
+
+Station sink2:
+sink2 is a sink
+sink2 has lettuce1
+sink2 has lettuce1 directly on top of it
+sink2 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 has nothing on it
+stove2 has no players at it
+
+Station stove3:
+stove3 is a stove
+stove3 has bottombun2
+stove3 has bottombun2 directly on top of it
+stove3 has no players at it
+
+Station table3:
+table3 is a table
+table3 has bread2
+table3 has bread2 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has nothing on it
+table5 has no players at it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at sink1
+cheese1 is directly on top of sink1
+cheese1 has nothing above it
+
+Item bread1:
+bread1 is a bread slice
+bread1 is at table2
+bread1 is directly on top of table2
+bread1 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at fryer1
+bottombun1 is directly on top of fryer1
+bottombun1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at sink2
+lettuce1 is directly on top of sink2
+lettuce1 has nothing above it
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at stove3
+bottombun2 is directly on top of stove3
+bottombun2 has nothing above it
+
+Item bread2:
+bread2 is a bread slice
+bread2 is at table3
+bread2 is directly on top of table3
+bread2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at sink1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from sink1 to stove1
+Move robot1 from sink1 to table1
+Move robot1 from sink1 to table2
+Move robot1 from sink1 to fryer1
+Move robot1 from sink1 to sink2
+Move robot1 from sink1 to stove2
+Move robot1 from sink1 to stove3
+Move robot1 from sink1 to table3
+Move robot1 from sink1 to table4
+Move robot1 from sink1 to table5
+Pick up cheese1 from sink1 using robot1
+Do nothing
+
+Goal: Prepare a cheese sandwich on a table
+
+
+Reasoning: I am at sink1 which contains cheese1. The goal is to prepare a cheese sandwich on a table  which requires cheese to be between two slices of bread. I must pick up cheese1 to stack it on a slice of bread and then stack the other slice of bread on top of the cheese. I will pick up cheese1 to stack it on bread1.
+
+Action: Pick up cheese1 from sink1 using robot1
+
+
+Interaction 3
+---------------
+
+
+Observation:
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station table1:
+table1 is a table
+table1 has nothing on it
+table1 has no players at it
+
+Station sink1:
+sink1 is a sink
+sink1 is occupied by robot1
+sink1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has bread1
+table2 has bread1 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has bottombun1
+fryer1 has bottombun1 directly on top of it
+fryer1 has no players at it
+
+Station sink2:
+sink2 is a sink
+sink2 has lettuce1
+sink2 has lettuce1 directly on top of it
+sink2 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 has nothing on it
+stove2 has no players at it
+
+Station stove3:
+stove3 is a stove
+stove3 has bottombun2
+stove3 has bottombun2 directly on top of it
+stove3 has no players at it
+
+Station table3:
+table3 is a table
+table3 has bread2
+table3 has bread2 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has nothing on it
+table5 has no players at it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is held by robot1
+
+Item bread1:
+bread1 is a bread slice
+bread1 is at table2
+bread1 is directly on top of table2
+bread1 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at fryer1
+bottombun1 is directly on top of fryer1
+bottombun1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at sink2
+lettuce1 is directly on top of sink2
+lettuce1 has nothing above it
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at stove3
+bottombun2 is directly on top of stove3
+bottombun2 has nothing above it
+
+Item bread2:
+bread2 is a bread slice
+bread2 is at table3
+bread2 is directly on top of table3
+bread2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at sink1
+robot1 is holding cheese1
+
+Valid Actions:
+Move robot1 from sink1 to stove1
+Move robot1 from sink1 to table1
+Move robot1 from sink1 to table2
+Move robot1 from sink1 to fryer1
+Move robot1 from sink1 to sink2
+Move robot1 from sink1 to stove2
+Move robot1 from sink1 to stove3
+Move robot1 from sink1 to table3
+Move robot1 from sink1 to table4
+Move robot1 from sink1 to table5
+Place cheese1 on sink1 using robot1
+Do nothing
+
+Goal: Prepare a cheese sandwich on a table
+
+
+Reasoning: I am holding cheese1 and the goal is to prepare a cheese sandwich on a table. I must first stack cheese1 on top of a bread slice to prepare a
+cheese sandwich. There are 2 bread slices in the environment, bread1 at table2 and bread2 at table3. Either bread slice can be used to stack cheese1 since they are both on tables. I will choose to move to table2 to stack cheese1 on bread1 and then pick up bread2 to stack it on top of the cheese.
+
+Action: Move robot1 from sink1 to table2
+
+
+Interaction 4
+---------------
+
+
+Observation:
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station table1:
+table1 is a table
+table1 has nothing on it
+table1 has no players at it
+
+Station sink1:
+sink1 is a sink
+sink1 has nothing on it
+sink1 has no players at it
+
+Station table2:
+table2 is a table
+table2 is occupied by robot1
+table2 has bread1
+table2 has bread1 directly on top of it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has bottombun1
+fryer1 has bottombun1 directly on top of it
+fryer1 has no players at it
+
+Station sink2:
+sink2 is a sink
+sink2 has lettuce1
+sink2 has lettuce1 directly on top of it
+sink2 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 has nothing on it
+stove2 has no players at it
+
+Station stove3:
+stove3 is a stove
+stove3 has bottombun2
+stove3 has bottombun2 directly on top of it
+stove3 has no players at it
+
+Station table3:
+table3 is a table
+table3 has bread2
+table3 has bread2 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has nothing on it
+table5 has no players at it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is held by robot1
+
+Item bread1:
+bread1 is a bread slice
+bread1 is at table2
+bread1 is directly on top of table2
+bread1 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at fryer1
+bottombun1 is directly on top of fryer1
+bottombun1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at sink2
+lettuce1 is directly on top of sink2
+lettuce1 has nothing above it
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at stove3
+bottombun2 is directly on top of stove3
+bottombun2 has nothing above it
+
+Item bread2:
+bread2 is a bread slice
+bread2 is at table3
+bread2 is directly on top of table3
+bread2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table2
+robot1 is holding cheese1
+
+Valid Actions:
+Move robot1 from table2 to stove1
+Move robot1 from table2 to table1
+Move robot1 from table2 to sink1
+Move robot1 from table2 to fryer1
+Move robot1 from table2 to sink2
+Move robot1 from table2 to stove2
+Move robot1 from table2 to stove3
+Move robot1 from table2 to table3
+Move robot1 from table2 to table4
+Move robot1 from table2 to table5
+Stack cheese1 on top of bread1 using robot1
+Do nothing
+
+Goal: Prepare a cheese sandwich on a table
+
+
+Reasoning: I am at table2 which has bread1 on it. I am holding cheese1 and the goal is to prepare a cheese sandwich on a table. Since bread1 is at a table, stacking cheese1 on top of bread1 will begin the prepation of a cheese sandwich on a table. The other slice of bread, bread2, is at table3. I will pick up bread2 after stacking cheese1 on bread1.
+
+Action: Stack cheese1 on top of bread1 using robot1
+
+
+Interaction 5
+---------------
+
+
+Observation:
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station table1:
+table1 is a table
+table1 has nothing on it
+table1 has no players at it
+
+Station sink1:
+sink1 is a sink
+sink1 has nothing on it
+sink1 has no players at it
+
+Station table2:
+table2 is a table
+table2 is occupied by robot1
+table2 has cheese1
+table2 has bread1
+table2 has bread1 directly on top of it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has bottombun1
+fryer1 has bottombun1 directly on top of it
+fryer1 has no players at it
+
+Station sink2:
+sink2 is a sink
+sink2 has lettuce1
+sink2 has lettuce1 directly on top of it
+sink2 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 has nothing on it
+stove2 has no players at it
+
+Station stove3:
+stove3 is a stove
+stove3 has bottombun2
+stove3 has bottombun2 directly on top of it
+stove3 has no players at it
+
+Station table3:
+table3 is a table
+table3 has bread2
+table3 has bread2 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has nothing on it
+table5 has no players at it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table2
+cheese1 has nothing above it
+cheese1 is directly on top of bread1
+
+Item bread1:
+bread1 is a bread slice
+bread1 is at table2
+bread1 is directly on top of table2
+bread1 is directly under cheese1
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at fryer1
+bottombun1 is directly on top of fryer1
+bottombun1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at sink2
+lettuce1 is directly on top of sink2
+lettuce1 has nothing above it
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at stove3
+bottombun2 is directly on top of stove3
+bottombun2 has nothing above it
+
+Item bread2:
+bread2 is a bread slice
+bread2 is at table3
+bread2 is directly on top of table3
+bread2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table2
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table2 to stove1
+Move robot1 from table2 to table1
+Move robot1 from table2 to sink1
+Move robot1 from table2 to fryer1
+Move robot1 from table2 to sink2
+Move robot1 from table2 to stove2
+Move robot1 from table2 to stove3
+Move robot1 from table2 to table3
+Move robot1 from table2 to table4
+Move robot1 from table2 to table5
+Unstack cheese1 from bread1 using robot1
+Do nothing
+
+Goal: Prepare a cheese sandwich on a table
+
+
+Reasoning: I am at table2 which has cheese1 stacked on top of bread1. The goal is to prepare a cheese sandwich on a table. The only remaining step is to stack another slice of bread on top of the cheese to complete the cheese sandwich. Since table3 has bread2, I will move to table3 to pick up bread2 to stack it on top of cheese1.
+
+Action: Move robot1 from table2 to table3
+
+
+Interaction 6
+---------------
+
+
+Observation:
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station table1:
+table1 is a table
+table1 has nothing on it
+table1 has no players at it
+
+Station sink1:
+sink1 is a sink
+sink1 has nothing on it
+sink1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has cheese1
+table2 has bread1
+table2 has bread1 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has bottombun1
+fryer1 has bottombun1 directly on top of it
+fryer1 has no players at it
+
+Station sink2:
+sink2 is a sink
+sink2 has lettuce1
+sink2 has lettuce1 directly on top of it
+sink2 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 has nothing on it
+stove2 has no players at it
+
+Station stove3:
+stove3 is a stove
+stove3 has bottombun2
+stove3 has bottombun2 directly on top of it
+stove3 has no players at it
+
+Station table3:
+table3 is a table
+table3 is occupied by robot1
+table3 has bread2
+table3 has bread2 directly on top of it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has nothing on it
+table5 has no players at it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table2
+cheese1 has nothing above it
+cheese1 is directly on top of bread1
+
+Item bread1:
+bread1 is a bread slice
+bread1 is at table2
+bread1 is directly on top of table2
+bread1 is directly under cheese1
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at fryer1
+bottombun1 is directly on top of fryer1
+bottombun1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at sink2
+lettuce1 is directly on top of sink2
+lettuce1 has nothing above it
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at stove3
+bottombun2 is directly on top of stove3
+bottombun2 has nothing above it
+
+Item bread2:
+bread2 is a bread slice
+bread2 is at table3
+bread2 is directly on top of table3
+bread2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table3
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table3 to stove1
+Move robot1 from table3 to table1
+Move robot1 from table3 to sink1
+Move robot1 from table3 to table2
+Move robot1 from table3 to fryer1
+Move robot1 from table3 to sink2
+Move robot1 from table3 to stove2
+Move robot1 from table3 to stove3
+Move robot1 from table3 to table4
+Move robot1 from table3 to table5
+Pick up bread2 from table3 using robot1
+Do nothing
+
+Goal: Prepare a cheese sandwich on a table
+
+
+Reasoning: I am at table3 which has bread2. The goal is to prepare a cheese sandwich on a table. table2 already has cheese1 stacked on top of bread1. The final step is to stack bread2 on top of cheese1 to complete the cheese sandwich. I will pick up bread2 to then stack it on top of cheese1.
+
+Action: Pick up bread2 from table3 using robot1
+
+
+Interaction 7
+---------------
+
+
+Observation:
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station table1:
+table1 is a table
+table1 has nothing on it
+table1 has no players at it
+
+Station sink1:
+sink1 is a sink
+sink1 has nothing on it
+sink1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has cheese1
+table2 has bread1
+table2 has bread1 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has bottombun1
+fryer1 has bottombun1 directly on top of it
+fryer1 has no players at it
+
+Station sink2:
+sink2 is a sink
+sink2 has lettuce1
+sink2 has lettuce1 directly on top of it
+sink2 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 has nothing on it
+stove2 has no players at it
+
+Station stove3:
+stove3 is a stove
+stove3 has bottombun2
+stove3 has bottombun2 directly on top of it
+stove3 has no players at it
+
+Station table3:
+table3 is a table
+table3 is occupied by robot1
+table3 has nothing on it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has nothing on it
+table5 has no players at it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table2
+cheese1 has nothing above it
+cheese1 is directly on top of bread1
+
+Item bread1:
+bread1 is a bread slice
+bread1 is at table2
+bread1 is directly on top of table2
+bread1 is directly under cheese1
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at fryer1
+bottombun1 is directly on top of fryer1
+bottombun1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at sink2
+lettuce1 is directly on top of sink2
+lettuce1 has nothing above it
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at stove3
+bottombun2 is directly on top of stove3
+bottombun2 has nothing above it
+
+Item bread2:
+bread2 is a bread slice
+bread2 is held by robot1
+
+Player robot1:
+robot1 is a robot
+robot1 is at table3
+robot1 is holding bread2
+
+Valid Actions:
+Move robot1 from table3 to stove1
+Move robot1 from table3 to table1
+Move robot1 from table3 to sink1
+Move robot1 from table3 to table2
+Move robot1 from table3 to fryer1
+Move robot1 from table3 to sink2
+Move robot1 from table3 to stove2
+Move robot1 from table3 to stove3
+Move robot1 from table3 to table4
+Move robot1 from table3 to table5
+Place bread2 on table3 using robot1
+Do nothing
+
+Goal: Prepare a cheese sandwich on a table
+
+
+Reasoning: I am at table3 holding bread2. The goal is to prepare a cheese sandwich on a table. table2 already has cheese1 stacked on top of bread1. The final step is to stack bread2 on top of cheese1 to complete the cheese sandwich. I will move to table2 to stack bread2 on top of cheese1.
+
+Action: Move robot1 from table3 to table2
+
+
+Interaction 8
+---------------
+
+
+Observation:
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station table1:
+table1 is a table
+table1 has nothing on it
+table1 has no players at it
+
+Station sink1:
+sink1 is a sink
+sink1 has nothing on it
+sink1 has no players at it
+
+Station table2:
+table2 is a table
+table2 is occupied by robot1
+table2 has cheese1
+table2 has bread1
+table2 has bread1 directly on top of it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has bottombun1
+fryer1 has bottombun1 directly on top of it
+fryer1 has no players at it
+
+Station sink2:
+sink2 is a sink
+sink2 has lettuce1
+sink2 has lettuce1 directly on top of it
+sink2 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 has nothing on it
+stove2 has no players at it
+
+Station stove3:
+stove3 is a stove
+stove3 has bottombun2
+stove3 has bottombun2 directly on top of it
+stove3 has no players at it
+
+Station table3:
+table3 is a table
+table3 has nothing on it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has nothing on it
+table5 has no players at it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table2
+cheese1 has nothing above it
+cheese1 is directly on top of bread1
+
+Item bread1:
+bread1 is a bread slice
+bread1 is at table2
+bread1 is directly on top of table2
+bread1 is directly under cheese1
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at fryer1
+bottombun1 is directly on top of fryer1
+bottombun1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at sink2
+lettuce1 is directly on top of sink2
+lettuce1 has nothing above it
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at stove3
+bottombun2 is directly on top of stove3
+bottombun2 has nothing above it
+
+Item bread2:
+bread2 is a bread slice
+bread2 is held by robot1
+
+Player robot1:
+robot1 is a robot
+robot1 is at table2
+robot1 is holding bread2
+
+Valid Actions:
+Move robot1 from table2 to stove1
+Move robot1 from table2 to table1
+Move robot1 from table2 to sink1
+Move robot1 from table2 to fryer1
+Move robot1 from table2 to sink2
+Move robot1 from table2 to stove2
+Move robot1 from table2 to stove3
+Move robot1 from table2 to table3
+Move robot1 from table2 to table4
+Move robot1 from table2 to table5
+Stack bread2 on top of cheese1 using robot1
+Do nothing
+
+Goal: Prepare a cheese sandwich on a table
+
+
+Reasoning: I am at table2 holding bread2. The goal is to prepare a cheese sandwich on a table. table2 already has cheese1 stacked on top of bread1. The final step is to stack bread2 on top of cheese1 to complete the cheese sandwich. I will stack bread2 on top of cheese1.
+
+Action: Stack bread2 on top of cheese1 using robot1
+
+

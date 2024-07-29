@@ -3,6 +3,15 @@ defaults:
   - override /game: base_game
   - override /llm: base_llm
 
+evaluation:
+  environment_names: [
+    "sequential/0_cheese_sandwich",
+    "sequential/1_lettuce_sandwich",
+    "sequential/2_lettuce_tomato_sandwich"
+  ]
+  testing_seeds: [24] # [42, 84, 126]
+  log_dir_path: ${hydra:runtime.output_dir}/evaluation
+
 game:
   agent_name: human
   environment_name: "original"
@@ -12,3 +21,7 @@ game:
 
   record: true
   video_path: ${hydra:runtime.output_dir}/video_human.mp4
+
+llm:
+  # Log path for 'agent' - human does not use LLM
+  log_path: ${hydra:runtime.output_dir}/in-context_example.txt

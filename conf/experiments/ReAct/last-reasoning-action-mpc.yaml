@@ -7,15 +7,15 @@ defaults:
 evaluation:
   environment_names: [
     "sequential/0_cheese_sandwich",
-    "sequential/1_lettuce_sandwich",
-    "sequential/2_lettuce_tomato_sandwich"
+    # "sequential/1_lettuce_sandwich",
+    # "sequential/2_lettuce_tomato_sandwich"
   ]
   testing_seeds: [42, 84, 126]
   log_dir_path: ${hydra:runtime.output_dir}/evaluation
 
 game:
   agent_name: ReAct
-  max_steps: 30
+  max_steps: 15
   render_mode: "rgb_array"
 
   record: true
@@ -25,6 +25,7 @@ game:
 llm:
   llm_model: gpt-4o
   log_path: ${hydra:runtime.output_dir}/log_ReAct.txt
+  num_examples: 1
   prompts:
     action_proposal_prompt:
       experiment_name: ReAct
