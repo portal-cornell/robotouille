@@ -80,7 +80,7 @@ def run_robotouille(environment_name: str, agent_name: str, **kwargs: Dict[str, 
     renderer = env.renderer
     # Initialize agent
     llm_kwargs = kwargs.get('llm_kwargs', {})
-    agent = NAME_TO_AGENT[agent_name](environment_name, llm_kwargs)
+    agent = NAME_TO_AGENT[agent_name](llm_kwargs)
     agent_done_cond = lambda a: a.is_done() if a is not None else False
 
     render_mode = kwargs.get('render_mode', 'human')

@@ -117,7 +117,11 @@ Do nothing
 Goal: Prepare a lettuce sandwich on a table
 
 
-Reasoning: ...
+Reasoning: The goal is to make a lettuce sandwich on a table. I need ingredients stacked from bottom to top: table -> bread -> lettuce -> bread
+
+1. The first ingredient is bread. I see bread1 on table1 and bread2 on table2. Since bread1 is on top of a table, it will serve as the base of the sandwich. I will leave it in place since it is already in the correct position.
+
+2. The second ingredient is lettuce. I see lettuce1 on fryer1. lettuce1 can be cut on a cutting board. I must cut lettuce1 fully before I can stack it on top of bread1. I will move robot1 to fryer1 to pick up lettuce1.
 
 Action: Move robot1 from table2 to fryer1
 
@@ -241,7 +245,11 @@ Do nothing
 Goal: Prepare a lettuce sandwich on a table
 
 
-Reasoning: ...
+Reasoning: The goal is to make a lettuce sandwich on a table. I need ingredients stacked from bottom to top: table -> bread -> lettuce -> bread
+
+1. The first ingredient is bread. I see bread1 on table1 and bread2 on table2. Since bread1 is on top of a table, it will serve as the base of the sandwich. I will leave it in place since it is already in the correct position.
+
+2. The second ingredient is lettuce. I see lettuce1 on fryer1. lettuce1 can be cut on a cutting board. I must cut lettuce1 fully before I can stack it on top of bread1. Since robot1 is at fryer1, I will use robot1 to pick up lettuce1.
 
 Action: Pick up lettuce1 from fryer1 using robot1
 
@@ -362,7 +370,11 @@ Do nothing
 Goal: Prepare a lettuce sandwich on a table
 
 
-Reasoning: ...
+Reasoning: The goal is to make a lettuce sandwich on a table. I need ingredients stacked from bottom to top: table -> bread -> lettuce -> bread
+
+1. The first ingredient is bread. I see bread1 on table1 and bread2 on table2. Since bread1 is on top of a table, it will serve as the base of the sandwich. I will leave it in place since it is already in the correct position.
+
+2. The second ingredient is lettuce. robot1 is holding lettuce1. lettuce1 can be cut on a cutting board. I must cut lettuce1 fully before I can stack it on top of bread1. I will move robot1 to board2 to place then cut lettuce1.
 
 Action: Move robot1 from fryer1 to board2
 
@@ -483,7 +495,11 @@ Do nothing
 Goal: Prepare a lettuce sandwich on a table
 
 
-Reasoning: ...
+Reasoning: The goal is to make a lettuce sandwich on a table. I need ingredients stacked from bottom to top: table -> bread -> lettuce -> bread
+
+1. The first ingredient is bread. I see bread1 on table1 and bread2 on table2. Since bread1 is on top of a table, it will serve as the base of the sandwich. I will leave it in place since it is already in the correct position.
+
+2. The second ingredient is lettuce. robot1 is holding lettuce1. lettuce1 can be cut on a cutting board. I must cut lettuce1 fully before I can stack it on top of bread1. Since robot1 is at board2, I will make it place lettuce1 on board2 to cut it.
 
 Action: Place lettuce1 on board2 using robot1
 
@@ -608,7 +624,11 @@ Do nothing
 Goal: Prepare a lettuce sandwich on a table
 
 
-Reasoning: ...
+Reasoning: The goal is to make a lettuce sandwich on a table. I need ingredients stacked from bottom to top: table -> bread -> lettuce -> bread
+
+1. The first ingredient is bread. I see bread1 on table1 and bread2 on table2. Since bread1 is on top of a table, it will serve as the base of the sandwich. I will leave it in place since it is already in the correct position.
+
+2. The second ingredient is lettuce. lettuce1 is on board2. lettuce1 can be cut on a cutting board. I must cut lettuce1 fully before I can stack it on top of bread1. Since robot1 is at board2 and lettuce1 is on board2, I will cut lettuce1.
 
 Action: Cut lettuce1 on board2 using robot1
 
@@ -733,7 +753,11 @@ Do nothing
 Goal: Prepare a lettuce sandwich on a table
 
 
-Reasoning: ...
+Reasoning: The goal is to make a lettuce sandwich on a table. I need ingredients stacked from bottom to top: table -> bread -> lettuce -> bread
+
+1. The first ingredient is bread. I see bread1 on table1 and bread2 on table2. Since bread1 is on top of a table, it will serve as the base of the sandwich. I will leave it in place since it is already in the correct position.
+
+2. The second ingredient is lettuce. lettuce1 is on board2. lettuce1 can be cut on a cutting board. I must cut lettuce1 fully before I can stack it on top of bread1. Since robot1 is at board2 and lettuce1 is on board2, I will continue to cut lettuce1.
 
 Action: Cut lettuce1 on board2 using robot1
 
@@ -858,7 +882,11 @@ Do nothing
 Goal: Prepare a lettuce sandwich on a table
 
 
-Reasoning: ...
+Reasoning: The goal is to make a lettuce sandwich on a table. I need ingredients stacked from bottom to top: table -> bread -> lettuce -> bread
+
+1. The first ingredient is bread. I see bread1 on table1 and bread2 on table2. Since bread1 is on top of a table, it will serve as the base of the sandwich. I will leave it in place since it is already in the correct position.
+
+2. The second ingredient is lettuce. lettuce1 is on board2. lettuce1 can be cut on a cutting board. I must cut lettuce1 fully before I can stack it on top of bread1. Since robot1 is at board2 and lettuce1 is on board2, I will continue to cut lettuce1.
 
 Action: Cut lettuce1 on board2 using robot1
 
@@ -984,7 +1012,11 @@ Do nothing
 Goal: Prepare a lettuce sandwich on a table
 
 
-Reasoning: ...
+Reasoning: The goal is to make a lettuce sandwich on a table. I need ingredients stacked from bottom to top: table -> bread -> lettuce -> bread
+
+1. The first ingredient is bread. I see bread1 on table1 and bread2 on table2. Since bread1 is on top of a table, it will serve as the base of the sandwich. I will leave it in place since it is already in the correct position.
+
+2. The second ingredient is lettuce. lettuce1 is on board2. lettuce1 has been cut. I must stack lettuce on top of bread1. Since robot1 is at board2 and lettuce1 is cut and on board2, I will pick up lettuce1.
 
 Action: Pick up lettuce1 from board2 using robot1
 
@@ -1106,7 +1138,11 @@ Do nothing
 Goal: Prepare a lettuce sandwich on a table
 
 
-Reasoning: ...
+Reasoning: The goal is to make a lettuce sandwich on a table. I need ingredients stacked from bottom to top: table -> bread -> lettuce -> bread
+
+1. The first ingredient is bread. I see bread1 on table1 and bread2 on table2. Since bread1 is on top of a table, it will serve as the base of the sandwich. I will leave it in place since it is already in the correct position.
+
+2. The second ingredient is lettuce. robot1 is holding lettuce1. lettuce1 has been cut. I must stack lettuce on top of bread1. Since robot1 is at board2, I will move it to table1 to stack lettuce1 on top of bread1.
 
 Action: Move robot1 from board2 to table1
 
@@ -1228,7 +1264,11 @@ Do nothing
 Goal: Prepare a lettuce sandwich on a table
 
 
-Reasoning: ...
+Reasoning: The goal is to make a lettuce sandwich on a table. I need ingredients stacked from bottom to top: table -> bread -> lettuce -> bread
+
+1. The first ingredient is bread. I see bread1 on table1 and bread2 on table2. Since bread1 is on top of a table, it will serve as the base of the sandwich. I will leave it in place since it is already in the correct position.
+
+2. The second ingredient is lettuce. robot1 is holding lettuce1. lettuce1 has been cut. I must stack lettuce on top of bread1. Since robot1 is at table1, I will use it to stack lettuce1 on top of bread1.
 
 Action: Stack lettuce1 on top of bread1 using robot1
 
@@ -1353,7 +1393,13 @@ Do nothing
 Goal: Prepare a lettuce sandwich on a table
 
 
-Reasoning: ...
+Reasoning: The goal is to make a lettuce sandwich on a table. I need ingredients stacked from bottom to top: table -> bread -> lettuce -> bread
+
+1. The first ingredient is bread. I see bread1 on table1 and bread2 on table2. Since bread1 is on top of a table, it will serve as the base of the sandwich. I will leave it in place since it is already in the correct position.
+
+2. The second ingredient is lettuce. lettuce1 is stacked on top of bread1. lettuce1 has been cut. I will leave it in place since it is already prepared and in the correct position.
+
+3. The third ingredient is bread. I see bread2 on table2. I must stack bread2 on top of lettuce1. Since robot1 is at table1 and bread2 is on table2, I will move robot1 to table2 to stack bread2 on top of lettuce1.
 
 Action: Move robot1 from table1 to table2
 
@@ -1478,7 +1524,13 @@ Do nothing
 Goal: Prepare a lettuce sandwich on a table
 
 
-Reasoning: ...
+Reasoning: The goal is to make a lettuce sandwich on a table. I need ingredients stacked from bottom to top: table -> bread -> lettuce -> bread
+
+1. The first ingredient is bread. I see bread1 on table1 and bread2 on table2. Since bread1 is on top of a table, it will serve as the base of the sandwich. I will leave it in place since it is already in the correct position.
+
+2. The second ingredient is lettuce. lettuce1 is stacked on top of bread1. lettuce1 has been cut. I will leave it in place since it is already prepared and in the correct position.
+
+3. The third ingredient is bread. I see bread2 on table2. I must stack bread2 on top of lettuce1. Since robot1 is at table2 and bread2 is on table2, I will pick up bread2.
 
 Action: Pick up bread2 from table2 using robot1
 
@@ -1600,7 +1652,13 @@ Do nothing
 Goal: Prepare a lettuce sandwich on a table
 
 
-Reasoning: ...
+Reasoning: The goal is to make a lettuce sandwich on a table. I need ingredients stacked from bottom to top: table -> bread -> lettuce -> bread
+
+1. The first ingredient is bread. I see bread1 on table1 and bread2 on table2. Since bread1 is on top of a table, it will serve as the base of the sandwich. I will leave it in place since it is already in the correct position.
+
+2. The second ingredient is lettuce. lettuce1 is stacked on top of bread1. lettuce1 has been cut. I will leave it in place since it is already prepared and in the correct position.
+
+3. The third ingredient is bread. robot1 is holding bread2. I must stack bread2 on top of lettuce1. Since lettuce1 is on table1 and bread2 is held by robot1, I will move robot1 to table1 to stack bread2 on top of lettuce1.
 
 Action: Move robot1 from table2 to table1
 
@@ -1722,7 +1780,13 @@ Do nothing
 Goal: Prepare a lettuce sandwich on a table
 
 
-Reasoning: ...
+Reasoning: The goal is to make a lettuce sandwich on a table. I need ingredients stacked from bottom to top: table -> bread -> lettuce -> bread
+
+1. The first ingredient is bread. I see bread1 on table1 and bread2 on table2. Since bread1 is on top of a table, it will serve as the base of the sandwich. I will leave it in place since it is already in the correct position.
+
+2. The second ingredient is lettuce. lettuce1 is stacked on top of bread1. lettuce1 has been cut. I will leave it in place since it is already prepared and in the correct position.
+
+3. The third ingredient is bread. robot1 is holding bread2. I must stack bread2 on top of lettuce1. Since robot1 is at table1 and holding bread2, I will stack bread2 on top of lettuce1.
 
 Action: Stack bread2 on top of lettuce1 using robot1
 

@@ -3,12 +3,12 @@ import random
 
 from .constants import EXAMPLES_PATH
 
-def retrieve_example(example_dir, num_examples, request_regex, response_regex):
+def retrieve_example(example_dir_path, num_examples, request_regex, response_regex):
     """Retrieves examples from the example directory.
 
     Parameters:
-        example_dir (str)
-            The directory containing the examples.
+        example_dir_path (str)
+            The relative path of the directory containing the in-context examples.
         num_examples (int)
             The number of examples to retrieve.
         request_regex (re.Pattern)
@@ -20,7 +20,7 @@ def retrieve_example(example_dir, num_examples, request_regex, response_regex):
         examples (List[Dict[str, str]])
             The examples to query the LLM with.
     """
-    example_path = os.path.join(EXAMPLES_PATH, example_dir)
+    example_path = os.path.join(EXAMPLES_PATH, example_dir_path)
     example_files = os.listdir(example_path)
     sampled_files = random.sample(example_files, max(num_examples, len(example_files)))
     examples = []

@@ -4,13 +4,19 @@ max_attempts: 10        # The maximum number of attempts to query the LLM for a 
 debug: False            # Whether to enable debug mode for the LLM (see LLM agent for specific behavior)
 sleep_time: 5           # The time to sleep between LLM queries
 max_feedback_steps: 5   # The maximum number of times to provide feedback for the LLM agent (before terminating)
-num_examples: 0         # The number of in-context examples to use for the LLM agent
 
+# In-context examples
+num_examples: 0         # The number of in-context examples to use for the LLM agent
+example_dir_path: null  # The directory containing the in-context examples
+
+# GPT Cost Estimator
 mock: False             # [gpt-cost-estimator] Whether to mock API calls
 completion_tokens: 1    # [gpt-cost-estimator] The number of completion tokens to output for a mocked call
 
+# Logging
 log_path: null          # The name of the file to save the log to
 
+# Prompts
 prompts:
   action_proposal_prompt:
     experiment_name: null

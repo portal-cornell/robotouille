@@ -23,14 +23,14 @@ class ReActAgent(Agent):
     ACTION_REGEX = re.compile(r"^Action:\s*(.+)", re.M)
     FINISH_ACTION = "Finish"
 
-    def __init__(self, environment_name, kwargs):
+    def __init__(self, kwargs):
         """Initializes the ReAct agent.
         
         Parameters:
             kwargs (dict)
                 The keyword arguments for the agent. See `conf/llm` and `conf/experiments` for more details.
         """
-        super().__init__(environment_name, kwargs)
+        super().__init__(kwargs)
         self.log_path = kwargs.get("log_path", None)
         if self.log_path:
             os.makedirs(os.path.dirname(self.log_path), exist_ok=True)
@@ -38,8 +38,9 @@ class ReActAgent(Agent):
         # ReAct prompt
         assert kwargs["prompts"]["action_proposal_prompt"], "The action proposal prompt is missing."
         self.action_proposal_prompt_params = kwargs["prompts"].get("action_proposal_prompt", {})
-        self.num_examples = kwargs.get("num_examples", 0)
-        messages = Agent.fetch_messages(self.action_proposal_prompt_params, environment_name=environment_name, num_examples=self.num_examples)
+        num_examples = kwargs.get("num_examples", 0)
+        example_dir_path = kwargs.get("example_dir_path", None)
+        messages = Agent.fetch_messages(self.action_proposal_prompt_params, example_dir_path=example_dir_path, num_examples=num_examples)
         self.action_proposal_prompt_params["messages"] = messages
         self.action_feedback_msg = "" # Error feedback to insert into the next prompt
         

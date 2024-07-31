@@ -14,7 +14,7 @@ from .agent import Agent
 class Human(Agent):
     """A class for human control"""
 
-    def __init__(self, environment_name, kwargs):
+    def __init__(self, kwargs):
         """Initializes the human 'agent'.
 
         We use the term 'agent' loosely here, as this class is for human input.
@@ -23,7 +23,7 @@ class Human(Agent):
             kwargs (dict)
                 The keyword arguments for the agent. See `conf/llm` and `conf/experiments` for more details.
         """
-        super().__init__(environment_name, kwargs)
+        super().__init__(kwargs)
         self.log_path = kwargs.get("log_path", None)
         if self.log_path:
             os.makedirs(os.path.dirname(self.log_path), exist_ok=True)
