@@ -22,20 +22,6 @@
             }
         },
         {
-            "name": "pick-up-container",
-            "input_instructions": {
-                "button": "left",
-                "click_on": "s1"
-            }
-        },
-        {
-            "name": "place-container",
-            "input_instructions": {
-                "button": "left",
-                "click_on": "s1"
-            }
-        },
-        {
             "name": "stack",
             "input_instructions": {
                 "button": "left",
@@ -44,6 +30,20 @@
         },
         {
             "name": "unstack",
+            "input_instructions": {
+                "button": "left",
+                "click_on": "s1"
+            }
+        },
+        {
+            "name": "stack_on_container",
+            "input_instructions": {
+                "button": "left",
+                "click_on": "s1"
+            }
+        },
+        {
+            "name": "unstack_from_container",
             "input_instructions": {
                 "button": "left",
                 "click_on": "s1"
@@ -95,6 +95,20 @@
         },
         {
             "name": "fill-bowl",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "pick-up-container",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "place-container",
             "input_instructions": {
                 "key": "e",
                 "at": "s1"

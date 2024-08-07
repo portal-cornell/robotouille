@@ -14,7 +14,7 @@
     },
     "gamemode": {
         "name": "classic",
-        "time": 6000
+        "time": 60000
     },
     "stations": [
         {
@@ -46,6 +46,11 @@
             "name": "table",
             "x": 7,
             "y": 4
+        },
+        {
+            "name": "customertable",
+            "x": 1,
+            "y": 1
         }
     ],
     "items": [
@@ -84,20 +89,31 @@
             "direction": [0, 1]
         }
     ],
+    "meals": [],
+    "containers": [
+        {
+            "name": "bowl",
+            "x": 6,
+            "y": 6
+        }
+    ],
     "customers": [
         {
-            "name": "robot",
+            "name": "customer",
             "x": 7,
             "y": 0,
             "direction": [-1, 0],
-            "order": {
-                    "name": "lettuceburger",
-                    "quantity": 1
-            },
-            "time_to_order": 3000,
-            "enter_time": 200
+            "order": "lettuceburger",
+            "time_to_serve": 45000,
+            "enter_time": 5000
         }
     ],
     "goal_description": "Serve the customer",
-    "goal": []
+    "goal": [
+        {
+            "predicate": "customer_served",
+            "args": ["customer"],
+            "ids": [1]
+        }
+    ]
 }

@@ -13,7 +13,7 @@ class RobotouilleRenderer:
     provides that function but also setups up the pygame window to allow for rendering.
     """
 
-    def __init__(self,  config_filename, layout=[], players=[], window_size=np.array([512,512]), render_fps=60):
+    def __init__(self,  config_filename, layout=[], players=[], customers=[], window_size=np.array([512,512]), render_fps=60):
         """
         Initializes the renderer.
 
@@ -27,7 +27,7 @@ class RobotouilleRenderer:
         with open(os.path.join(CONFIG_DIR, config_filename), "r") as f:
             config = json.load(f)
         # The canvas is responsible for drawing the game state on a pygame surface.
-        self.canvas = RobotouilleCanvas(config, layout, players, window_size)
+        self.canvas = RobotouilleCanvas(config, layout, players, customers, window_size)
         # The pygame window size.
         self.window_size = window_size
         # The framerate of the renderer. This isn't too important since the renderer

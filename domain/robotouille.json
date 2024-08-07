@@ -4,11 +4,17 @@
 
     "input_json": "domain/input.json",
 
-    "object_types": ["station", "item", "player", "container", "meal"],
+    "recipe_json": "domain/recipes.json",
+
+    "object_types": ["station", "item", "player", "container", "meal", "customer"],
 
     "predicate_defs": [
         {
             "name": "istable",
+            "param_types": ["station"]
+        },
+        {
+            "name": "iscustomertable",
             "param_types": ["station"]
         },
         {
@@ -120,6 +126,22 @@
             "param_types": ["player", "station"]
         },
         {
+            "name": "customer_loc",
+            "param_types": ["customer", "station"]
+        },
+        {
+            "name": "customer_served",
+            "param_types": ["customer"]
+        },
+        {
+            "name": "table_occupied",
+            "param_types": ["station"]
+        },
+        {
+            "name": "customer_in_game",
+            "param_types": ["customer"]
+        },
+        {
             "name": "item_at",
             "param_types": ["item", "station"]
         },
@@ -181,7 +203,7 @@
         }
     ],
 
-    "action_defs": [
+    "player_action_defs": [
         {
             "name": "move",
             "precons": [
@@ -1076,6 +1098,11 @@
                     "predicate": "container_clear",
                     "params": ["c1"],
                     "is_true": false
+                },
+                {
+                    "predicate": "item_at",
+                    "params": ["i1", "s1"],
+                    "is_true": true
                 }
             ],
             "sfx": []
@@ -1134,6 +1161,11 @@
                     "predicate": "container_clear",
                     "params": ["c1"],
                     "is_true": true
+                },
+                {
+                    "predicate": "item_at",
+                    "params": ["i1", "s1"],
+                    "is_true": false
                 }
             ],
             "sfx": []
@@ -1148,6 +1180,80 @@
             "name": "wait",
             "precons": [],
             "immediate_fx": [],
+            "sfx": []
+        }
+    ],
+
+    "npc_action_defs": [
+        {
+            "name": "customer_move",
+            "precons": [
+                {
+                    "predicate": "table_occupied",
+                    "params": ["s1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "iscustomertable",
+                    "params": ["s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "customer_in_game",
+                    "params": ["c1"],
+                    "is_true": false
+                }
+            ],
+            "immediate_fx": [
+                {
+                    "predicate": "customer_loc",
+                    "params": ["c1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "table_occupied",
+                    "params": ["s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "customer_in_game",
+                    "params": ["c1"],
+                    "is_true": true
+                }
+            ],
+            "sfx": []
+        },
+        {
+            "name": "customer_leave",
+            "precons": [
+                {
+                    "predicate": "customer_in_game",
+                    "params": ["c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "customer_loc",
+                    "params": ["c1", "s1"],
+                    "is_true": true
+                }
+            ],
+            "immediate_fx": [
+                {
+                    "predicate": "customer_loc",
+                    "params": ["c1", "s1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "customer_in_game",
+                    "params": ["c1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "table_occupied",
+                    "params": ["s1"],
+                    "is_true": false
+                }
+            ],
             "sfx": []
         }
     ]

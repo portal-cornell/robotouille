@@ -19,6 +19,7 @@ class State(object):
         self.objects = []
         self.predicates = {}
         self.actions = {}
+        self.npc_actions = {}
         self.goal = []
         self.special_effects = []
         self.param_objs = {}
@@ -92,7 +93,7 @@ class State(object):
 
         return predicates
     
-    def _build_actions(self, domain, objects):
+    def _build_actions(self, objects):
         """
         Builds a dictionary of all actions for the state.
 
@@ -102,29 +103,40 @@ class State(object):
         action.
 
         Args:
-            domain (Domain): The domain of the game.
             objects (List[Object]): The objects in the state.
 
         Returns:
-            actions (Dictionary[Action, Dictionary[str, Object]]): A 
+            player_actions (Dictionary[Action, Dictionary[str, Object]]): A 
                 dictionary of valid actions for the state. The keys are the 
                 actions, and the values are the arguments for the actions.
+            npc_actions (Dictionary[Action, Dictionary[str, Object]]): A
+                dictionary of valid NPC actions for the state. The keys are the
+                actions, and the values are the arguments for the actions.
         """
-        object_dict = self._build_object_dictionary(domain, objects)
+        object_dict = self._build_object_dictionary(self.domain, objects)
         actions = {}
+        npc_actions = {}
+
+        all_domain_actions = self.domain.actions + self.domain.npc_actions
         
-        for action in self.domain.actions:
+        for action in all_domain_actions:
             params = action.get_all_params()
             param_objects = [object_dict[param.object_type] for param in params]
             param_combinations = list(itertools.product(*param_objects))
-            actions[action] = []
+            if action in self.domain.actions:
+                actions[action] = []
+            else:
+                npc_actions[action] = []
             for combination in param_combinations:
                 # If combination repeats an object, skip it
                 if len(set(combination)) != len(combination):
                     continue
                 args = {param.name:combination[params.index(param)] for param in params}
-                actions[action].append(args)
-        return actions
+                if action in self.domain.actions:
+                    actions[action].append(args)
+                else:
+                    npc_actions[action].append(args)
+        return actions, npc_actions
     
     def get_players(self):
         """
@@ -134,6 +146,15 @@ class State(object):
             players (List[Object]): The player objects in the state.
         """
         return [obj for obj in self.objects if obj.object_type == "player"]
+
+    def get_customers(self):
+        """
+        Returns the customer objects in the state.
+
+        Returns:
+            customers (List[Object]): The customer objects in the state.
+        """
+        return [obj for obj in self.objects if obj.object_type == "customer"]
 
     def initialize(self, domain, objects, true_predicates, all_goals, special_effects=[]):
         """
@@ -181,7 +202,7 @@ class State(object):
         self.objects = objects
         self.current_player = self.get_players()[0]
         self.predicates = predicates
-        self.actions = self._build_actions(domain, objects)
+        self.actions, self.npc_actions = self._build_actions(objects)
         self.goal = all_goals
         self.special_effects = special_effects
 
@@ -297,7 +318,7 @@ class State(object):
         # necessary predicates and actions instead of building from scratch
         true_predicates = {predicate for predicate, value in self.predicates.items() if value}
         self.predicates = self._build_predicates(self.domain, self.objects, true_predicates)
-        self.actions = self._build_actions(self.domain, self.objects)
+        self.actions, self.npc_actions = self._build_actions(self.domain, self.objects)
         return new_obj
 
     def delete_object(self, obj):
@@ -316,7 +337,7 @@ class State(object):
         # necessary predicates and actions instead of building from scratch
         true_predicates = {predicate for predicate, value in self.predicates.items() if value}
         self.predicates = self._build_predicates(self.domain, self.objects, true_predicates)
-        self.actions = self._build_actions(self.domain, self.objects)
+        self.actions, self.npc_actions = self._build_actions(self.domain, self.objects)
 
     def is_goal_reached(self):
         """
@@ -413,6 +434,8 @@ class State(object):
             AssertionError: If the action is invalid with the given arguments in
             the given state.
         """
+        print(self.predicates)
+        # print(actions)
         for action, param_arg_dict in actions:
             if not action:
                 continue

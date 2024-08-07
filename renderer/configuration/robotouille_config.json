@@ -10,6 +10,15 @@
         }
     },
 
+    "customer": {
+        "robot": {
+            "front": "robot_front.png",
+            "back": "robot_back.png",
+            "left": "robot_left.png",
+            "right": "robot_right.png"
+        }
+    },
+
     "floor": "floorkitchen.png",
 
     "item": {
