@@ -5,12 +5,30 @@ defaults:
 
 evaluation:
   environment_names: [
-    # "sequential/0_cheese_sandwich",
-    # "sequential/1_lettuce_sandwich",
-    # "sequential/2_lettuce_tomato_sandwich",
-    "sequential/7_two_lettuce_chicken_sandwich"
+    "sequential/0_cheese_sandwich",
+    "sequential/1_lettuce_sandwich",
+    "sequential/2_lettuce_tomato_sandwich",
+    "sequential/3_burger",
+    "sequential/4_cheeseburger",
+    "sequential/5_double_cheeseburger",
+    "sequential/6_lettuce_tomato_cheeseburger",
+    "sequential/7_two_lettuce_chicken_sandwich",
+    "sequential/8_two_lettuce_tomato_burger",
+    "sequential/9_onion_cheese_burger_and_lettuce_tomato_chicken_sandwich",
   ]
-  testing_seeds: [42] # 84, 126]
+  optimal_steps: [
+    8,
+    14,
+    24,
+    8,
+    15,
+    23,
+    36,
+    44,
+    63,
+    57,
+  ]
+  testing_seeds: [null] # 84, 126]
   log_dir_path: ${hydra:runtime.output_dir}/evaluation
 
 game:
@@ -18,6 +36,7 @@ game:
   environment_name: "original"
   seed: null # Fix environment to original
   max_steps: 100
+  max_step_multiplier: 1.5
   render_mode: "human"
 
   record: true

@@ -8,15 +8,34 @@ evaluation:
   environment_names: [
     # "sequential/0_cheese_sandwich",
     # "sequential/1_lettuce_sandwich",
-    # "sequential/2_lettuce_tomato_sandwich"
-    "sequential/7_two_lettuce_chicken_sandwich"
+    # "sequential/2_lettuce_tomato_sandwich",
+    # "sequential/3_burger",
+    # "sequential/4_cheeseburger",
+    # "sequential/5_double_cheeseburger",
+    # "sequential/6_lettuce_tomato_cheeseburger",
+    # "sequential/7_two_lettuce_chicken_sandwich"
+    # "sequential/8_two_lettuce_tomato_burger",
+    "sequential/9_onion_cheese_burger_and_lettuce_tomato_chicken_sandwich",
+  ]
+  optimal_steps: [
+    # 8,
+    # 14,
+    # 24,
+    # 8,
+    # 15,
+    # 23,
+    # 36,
+    # 44,
+    # 63,
+    57,
   ]
   testing_seeds: [42, 84, 126]
   log_dir_path: ${hydra:runtime.output_dir}/evaluation
 
 game:
   agent_name: ReAct
-  max_steps: 40
+  max_steps: null
+  max_step_multiplier: 1.5
   render_mode: "rgb_array"
 
   record: true
@@ -27,7 +46,7 @@ llm:
   llm_model: gpt-4o
   log_path: ${hydra:runtime.output_dir}/log_ReAct.txt
   num_examples: 1
-  example_dir_path: examples
+  example_dir_path: examples_omitted_obs
   prompts:
     action_proposal_prompt:
       experiment_name: ReAct

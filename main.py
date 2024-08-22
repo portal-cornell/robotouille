@@ -36,12 +36,16 @@ def evaluate(cfg: DictConfig) -> None:
     log_dir_path = cfg.evaluation.log_dir_path
     os.makedirs(log_dir_path, exist_ok=True)
     results = {}
-    for environment_name in cfg.evaluation.environment_names:
+    environment_names = cfg.evaluation.environment_names
+    optimal_steps = cfg.evaluation.optimal_steps
+    for environment_name, max_steps in zip(environment_names, optimal_steps):
         for seed in cfg.evaluation.testing_seeds:
             log_subdir = os.path.join(log_dir_path, f"{environment_name}_{seed}")
             basefile_to_subdir_lambda = lambda file_path: os.path.join(log_subdir, os.path.basename(file_path)) if file_path is not None else None
             os.makedirs(log_subdir, exist_ok=True)
             kwargs = OmegaConf.to_container(cfg.game, resolve=True)
+            kwargs['max_steps'] = max_steps if kwargs.get('max_steps') is None else kwargs['max_steps']
+            kwargs['max_steps'] *= kwargs.get('max_step_multiplier', 1)
             kwargs['seed'] = seed
             kwargs['video_path'] = basefile_to_subdir_lambda(kwargs['video_path'])
             kwargs['llm_kwargs'] = OmegaConf.to_container(cfg.llm, resolve=True)
@@ -49,7 +53,7 @@ def evaluate(cfg: DictConfig) -> None:
             kwargs.pop('environment_name') # Unused for evaluation
             agent_name = kwargs.pop('agent_name')
             done, steps = run_robotouille(environment_name, agent_name, **kwargs)
-            results[f"{environment_name}_{seed}"] = {'done': done, 'steps': steps}
+            results[f"{environment_name}_{seed}"] = {'done': done, 'steps': steps, 'max_steps': kwargs['max_steps']}
     accuracy = sum([result['done'] for result in results.values()]) / len(results)
     average_steps = sum([result['steps'] for result in results.values()]) / len(results)
     results["accuracy"] = accuracy

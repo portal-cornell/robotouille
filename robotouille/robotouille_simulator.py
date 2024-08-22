@@ -1,3 +1,4 @@
+import math
 import pygame
 from omegaconf import DictConfig
 from typing import Dict, Any
@@ -89,7 +90,15 @@ def run_robotouille(environment_name: str, agent_name: str, **kwargs: Dict[str, 
     obs, info = env.reset()
     done = False
     steps = 0
-    max_steps = kwargs.get('max_steps', 100)
+    if kwargs.get('max_steps'):
+        max_steps = kwargs.get('max_steps')
+    elif kwargs.get('max_steps_multiplier'):
+        agent = NAME_TO_AGENT['bfs'](None)
+        optimal_plan = agent.propose_actions(obs, env)
+        max_steps = math.ceil(len(optimal_plan) * kwargs.get('max_steps_multiplier'))
+        import pdb; pdb.set_trace()
+    else:
+        assert False, "Must provide either max_steps or max_steps_multiplier in kwargs"
     imgs = []
     while not done and not agent_done_cond(agent) and steps < max_steps:
         
