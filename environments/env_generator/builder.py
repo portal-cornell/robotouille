@@ -3,7 +3,7 @@ import json
 import os
 import copy
 import itertools
-from .object_enums import Item, Player, Station, Container, Meal, str_to_typed_enum, TYPES
+from .object_enums import Item, Player, Station, Container, Meal, Customer, str_to_typed_enum, TYPES
 from .procedural_generator import randomize_environment
 import random
 
@@ -15,8 +15,9 @@ ITEM_FIELD = "items"
 PLAYER_FIELD = "players"
 MEAL_FIELD = "meals"
 CONTAINER_FIELD = "containers"
+CUSTOMER_FIELD = "customers"
 
-ENTITY_FIELDS = [STATION_FIELD, ITEM_FIELD, PLAYER_FIELD, CONTAINER_FIELD, MEAL_FIELD]
+ENTITY_FIELDS = [STATION_FIELD, ITEM_FIELD, PLAYER_FIELD, CONTAINER_FIELD, MEAL_FIELD, CUSTOMER_FIELD]
 
 def entity_to_entity_field(entity):
     """
@@ -44,6 +45,7 @@ def entity_to_entity_field(entity):
         elif isinstance(typed_enum, Player): return PLAYER_FIELD
         elif isinstance(typed_enum, Meal): return MEAL_FIELD
         elif isinstance(typed_enum, Container): return CONTAINER_FIELD
+        elif isinstance(typed_enum, Customer): return CUSTOMER_FIELD
     except ValueError:
         # Convert wild card entities into entity fields
         if entity == STATION_FIELD[:-1]: return STATION_FIELD
@@ -51,6 +53,7 @@ def entity_to_entity_field(entity):
         elif entity == PLAYER_FIELD[:-1]: return PLAYER_FIELD
         elif entity == MEAL_FIELD[:-1]: return MEAL_FIELD
         elif entity == CONTAINER_FIELD[:-1]: return CONTAINER_FIELD
+        elif entity == CUSTOMER_FIELD[:-1]: return CUSTOMER_FIELD
     raise ValueError(f"Cannot convert {entity} into an entity field.")
 
 def load_environment(json_filename, seed=None):
@@ -243,7 +246,7 @@ def build_stacking_predicates(environment_dict):
         stacking_predicates_str += f"    (clear {items[-1]['name']})\n"
     return stacking_predicates_str
 
-def create_unique_and_combination_preds(environment_dict):
+def create_unique_and_combination_preds(environment_dict, goals):
     """
     Creates lists of unique and combination predicates from an environment dictionary.
 
@@ -277,6 +280,7 @@ def create_unique_and_combination_preds(environment_dict):
 
     Args:
         environment_dict (dict): Dictionary containing the initial stations, items, and player location.
+        goals (list(dict)): List of dictionaries containing information about each goal predicate
 
     Returns:
         unique_preds (list): List of unique predicates.
@@ -286,7 +290,7 @@ def create_unique_and_combination_preds(environment_dict):
     unique_preds = [] # Predicates whose arguments refer to unique entities
     combination_preds = [] # Predicates whose arguments refer to a particular item type
     combination_dict = {} # Dictionary to prepare combination predicates
-    for goal in environment_dict["goal"]: # Check out an example under the `examples` directory for JSON structure
+    for goal in goals: # Check out an example under the `examples` directory for JSON structure
         pred = [goal["predicate"]]
         unique_pred = True
         for i, arg in enumerate(goal["args"]):
@@ -379,7 +383,7 @@ def build_goal(environment_dict):
         goal (str): PDDL goal string.
     """
     goal =  "   (or\n"
-    unique_preds, combination_preds, combination_dict = create_unique_and_combination_preds(environment_dict)
+    unique_preds, combination_preds, combination_dict = create_unique_and_combination_preds(environment_dict, environment_dict["goal"])
     combinations, id_order = create_combinations(combination_dict)
     # assert len(combinations) > 0, "Object in goal missing from environment"
     for combination in combinations:

@@ -28,6 +28,6 @@ def simulator(environment_name: str, seed: int=42, noisy_randomization: bool=Fal
         if not interactive and action is None:
             # Retry for keyboard input
             continue
-        obs, reward, done, info = env.step(actions, interactive=interactive)
+        obs, reward, done, info = env.step(pygame.time, actions, interactive=interactive)
         renderer.render(obs, mode='human')
     renderer.render(obs, close=True)

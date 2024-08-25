@@ -4,11 +4,17 @@
 
     "input_json": "domain/input.json",
 
-    "object_types": ["station", "item", "player", "container", "meal"],
+    "recipe_json": "domain/recipes.json",
+
+    "object_types": ["station", "item", "player", "container", "meal", "customer"],
 
     "predicate_defs": [
         {
             "name": "istable",
+            "param_types": ["station"]
+        },
+        {
+            "name": "iscustomertable",
             "param_types": ["station"]
         },
         {
@@ -120,6 +126,22 @@
             "param_types": ["player", "station"]
         },
         {
+            "name": "customer_loc",
+            "param_types": ["customer", "station"]
+        },
+        {
+            "name": "customer_served",
+            "param_types": ["customer"]
+        },
+        {
+            "name": "table_occupied",
+            "param_types": ["station"]
+        },
+        {
+            "name": "customer_in_game",
+            "param_types": ["customer"]
+        },
+        {
             "name": "item_at",
             "param_types": ["item", "station"]
         },
@@ -133,6 +155,10 @@
         },
         {
             "name": "container_empty",
+            "param_types": ["container"]
+        },
+        {
+            "name": "container_clear",
             "param_types": ["container"]
         },
         {
@@ -170,10 +196,14 @@
         {
             "name": "container_at",
             "param_types": ["container", "station"]
+        },
+        {
+            "name": "atop_container",
+            "param_types": ["item", "container"]
         }
     ],
 
-    "action_defs": [
+    "player_action_defs": [
         {
             "name": "move",
             "precons": [
@@ -1015,9 +1045,215 @@
             "sfx": []
         },
         {
+            "name": "stack_on_container",
+            "precons":[
+                {
+                    "predicate": "has_item",
+                    "params": ["p1", "i1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "container_clear",
+                    "params": ["c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "container_empty",
+                    "params": ["c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "loc",
+                    "params": ["p1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "container_at",
+                    "params": ["c1", "s1"],
+                    "is_true": true
+                }
+            ],
+            "immediate_fx": [
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "atop_container",
+                    "params": ["i1", "c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "clear",
+                    "params": ["i1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "has_item",
+                    "params": ["p1", "i1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "container_clear",
+                    "params": ["c1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "item_at",
+                    "params": ["i1", "s1"],
+                    "is_true": true
+                }
+            ],
+            "sfx": []
+        },
+        {
+            "name": "unstack_from_container",
+            "precons": [
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "clear",
+                    "params": ["i1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "atop_container",
+                    "params": ["i1", "c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "loc",
+                    "params": ["p1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "container_at",
+                    "params": ["c1", "s1"],
+                    "is_true": true
+                }
+            ],
+            "immediate_fx": [
+                {
+                    "predicate": "has_item",
+                    "params": ["p1", "i1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "clear",
+                    "params": ["i1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "atop_container",
+                    "params": ["i1", "c1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "container_clear",
+                    "params": ["c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "item_at",
+                    "params": ["i1", "s1"],
+                    "is_true": false
+                }
+            ],
+            "sfx": []
+        },
+        {
             "name": "wait",
             "precons": [],
             "immediate_fx": [],
+            "sfx": []
+        },
+        {
+            "name": "wait",
+            "precons": [],
+            "immediate_fx": [],
+            "sfx": []
+        }
+    ],
+
+    "npc_action_defs": [
+        {
+            "name": "customer_move",
+            "precons": [
+                {
+                    "predicate": "table_occupied",
+                    "params": ["s1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "iscustomertable",
+                    "params": ["s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "customer_in_game",
+                    "params": ["c1"],
+                    "is_true": false
+                }
+            ],
+            "immediate_fx": [
+                {
+                    "predicate": "customer_loc",
+                    "params": ["c1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "table_occupied",
+                    "params": ["s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "customer_in_game",
+                    "params": ["c1"],
+                    "is_true": true
+                }
+            ],
+            "sfx": []
+        },
+        {
+            "name": "customer_leave",
+            "precons": [
+                {
+                    "predicate": "customer_in_game",
+                    "params": ["c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "customer_loc",
+                    "params": ["c1", "s1"],
+                    "is_true": true
+                }
+            ],
+            "immediate_fx": [
+                {
+                    "predicate": "customer_loc",
+                    "params": ["c1", "s1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "customer_in_game",
+                    "params": ["c1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "table_occupied",
+                    "params": ["s1"],
+                    "is_true": false
+                }
+            ],
             "sfx": []
         }
     ]

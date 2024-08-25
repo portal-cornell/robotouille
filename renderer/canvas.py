@@ -13,7 +13,7 @@ class RobotouilleCanvas:
     # The directory containing the assets
     ASSETS_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets")
 
-    def __init__(self, config, layout, players, window_size=np.array([512,512])):
+    def __init__(self, config, layout, players, customers, window_size=np.array([512,512])):
         """
         Initializes the canvas.
 
@@ -28,6 +28,10 @@ class RobotouilleCanvas:
         for player in players:
             player_pos = (player["x"], len(layout) - player["y"] - 1)
             self.player_pose[player["name"]] = {"position": player_pos, "direction": tuple(player["direction"])}
+        self.customer_pose = {}
+        for customer in customers:
+            customer_pos = (customer["x"], len(layout) - customer["y"] - 1)
+            self.customer_pose[customer["name"]] = {"position": customer_pos, "direction": tuple(customer["direction"])}
         grid_dimensions = np.array([len(layout[0]), len(layout)])
         # The scaling factor for a grid square
         self.pix_square_size = window_size / grid_dimensions
@@ -50,6 +54,23 @@ class RobotouilleCanvas:
             for j, col in enumerate(row):
                 if col == station_name:
                     return np.array([j, i], dtype=float)
+                
+    def _get_container_position(self, container_name, obs):
+        """
+        Gets the position of a container.
+        
+        Args:
+            container_name (str): Name of the container
+        
+        Returns:
+            position (np.array): (x, y) position of the container
+        """
+        for literal, is_true in obs.predicates.items():
+            if is_true and literal.name == "container_at" and literal.params[0].name == container_name:
+                return self._get_station_position(literal.params[1].name)
+            if is_true and literal.name == "has_container" and literal.params[1].name == container_name:
+                player = literal.params[0].name
+                return np.array(self.player_pose[player]["position"], dtype=float)
 
     def _draw_image(self, surface, image_name, position, scale):
         """
@@ -320,12 +341,13 @@ class RobotouilleCanvas:
                     queue.append((next_position, curr_position))
         assert False, "Player could not be moved to station"
 
-    def _get_player_image_name(self, direction):
+    def _get_player_or_customer_image_name(self, direction, type):
         """
         Returns the image name of the player given their direction.
 
         Args:
             direction (tuple): Unit vector of the player's direction
+            type (str): Type of the entity (player or customer)
         
         Returns:
             image_name (str): Image name of the player
@@ -334,14 +356,14 @@ class RobotouilleCanvas:
             AssertionError: If the direction is invalid
         """
         if direction == (0, 1):
-            return self.config["player"]["robot"]["back"]
+            return self.config[type]["robot"]["back"]
         elif direction == (0, -1):
-            return self.config["player"]["robot"]["front"]
+            return self.config[type]["robot"]["front"]
         elif direction == (1, 0):
-            return self.config["player"]["robot"]["right"]
+            return self.config[type]["robot"]["right"]
         elif direction == (-1, 0):
-            return self.config["player"]["robot"]["left"]
-        assert False, "Invalid player direction"
+            return self.config[type]["robot"]["left"]
+        assert False, "Invalid direction"
     
     def _draw_player(self, surface, obs):
         """
@@ -364,13 +386,34 @@ class RobotouilleCanvas:
                     self.player_pose[player.name] = {"position": player_pos, "direction": player_direction}
                     #pos[1] += 1 # place the player below the station
                     #player_pos = pos
-                    robot_image_name = self._get_player_image_name(player_direction)
+                    robot_image_name = self._get_player_or_customer_image_name(player_direction, "player")
                     self._draw_image(surface, robot_image_name, player_pos * self.pix_square_size, self.pix_square_size)
                 if is_true and literal.name == "has_item" and literal.params[0].name == player.name:
                     player_pos = self.player_pose[player.name]["position"]
                     held_item_name = literal.params[1].name
             if held_item_name:
                 self._draw_item_image(surface, held_item_name, obs, player_pos * self.pix_square_size)
+
+    def draw_customer(self, surface, obs):
+        """
+        Draws the customer on the canvas.
+
+        Args:
+            surface (pygame.Surface): Surface to draw on
+            obs (State): Game state predicates
+        """
+        customers = obs.get_customers()
+        for customer in customers:
+            customer_pos = None
+            for literal, is_true in obs.predicates.items():
+                if is_true and literal.name == "customer_loc" and literal.params[0].name == customer.name:
+                    customer_station = literal.params[1].name
+                    station_pos = self._get_station_position(customer_station)
+                    customer_pos = self.customer_pose[customer.name]["position"]
+                    customer_pos, customer_direction = self._move_player_to_station(customer_pos, tuple(station_pos), self.layout)
+                    self.customer_pose[customer.name] = {"position": customer_pos, "direction": customer_direction}
+                    robot_image_name = self._get_player_or_customer_image_name(customer_direction, "customer")
+                    self._draw_image(surface, robot_image_name, customer_pos * self.pix_square_size, self.pix_square_size)
 
     def _draw_item(self, surface, obs):
         """
@@ -399,7 +442,15 @@ class RobotouilleCanvas:
             if is_true and literal.name == 'atop':
                 stack = (literal.params[0].name, literal.params[1].name)
                 stack_list.append(stack)
-        
+            if is_true and literal.name == "atop_container":
+                item = literal.params[0].name
+                container = literal.params[1].name
+                stack_number[item] = 1
+                container_pos = self._get_container_position(container, obs)
+                # Place the item slightly above the container
+                container_pos[1] -= station_item_offset
+                self._draw_item_image(surface, item, obs, container_pos * self.pix_square_size)
+
         # Add stacked items
         while len(stack_list) > 0:
             i = 0
@@ -458,5 +509,6 @@ class RobotouilleCanvas:
         self._draw_floor(surface)
         self._draw_stations(surface)
         self._draw_player(surface, obs)
-        self._draw_item(surface, obs)
+        self.draw_customer(surface, obs)
         self._draw_container(surface, obs)
+        self._draw_item(surface, obs)

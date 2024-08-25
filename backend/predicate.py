@@ -40,6 +40,10 @@ class Predicate(object):
         for param in params:
             object_type = types[params.index(param)]
             if param.object_type != object_type:
+                print(name)
+                print(types)
+                print(param.object_type)
+                print(param.name)
                 raise ValueError("Type of parameter does not match type.")
             
         self.name = name
