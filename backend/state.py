@@ -255,6 +255,18 @@ class State(object):
         """
         assert predicate in self.predicates
         self.predicates[predicate] = value
+
+    def get_true_predicates_by_name(self, name):
+        """
+        Returns a list of predicates with a given name if they are true. 
+
+        Args:
+            name (str): The name of the predicates to get.
+
+        Returns:
+            predicates (List[Predicate]): A list of predicates with the given name.
+        """
+        return [predicate for predicate, value in self.predicates.items() if predicate.name == name and value]
     
     def update_special_effect(self, special_effect, arg, param_arg_dict):
         """
@@ -434,8 +446,6 @@ class State(object):
             AssertionError: If the action is invalid with the given arguments in
             the given state.
         """
-        print(self.predicates)
-        # print(actions)
         for action, param_arg_dict in actions:
             if not action:
                 continue
@@ -449,6 +459,8 @@ class State(object):
             return self, True
         
         self.current_player = self.next_player()
+
+        print(self.predicates)
 
         return self, False
     
