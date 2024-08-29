@@ -82,7 +82,7 @@
             "direction": [0, -1]
         }
     ],
-    "goal_description": "Prepare a double cheeseburger on a table (two patties and two cheese slices interleaved starting with a patty)",
+    "goal_description": "Prepare a double cheeseburger on a table which contains two patties and two cheese slices interleaved (starting with a patty)",
     "goal": [
         {
             "predicate": "item_on",

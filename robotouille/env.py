@@ -2,6 +2,7 @@ import copy
 import gym
 import json
 import random
+import re
 import string
 
 from backend.predicate import Predicate
@@ -397,9 +398,10 @@ class LanguageSpace(gym.spaces.Text):
         #                  description of the action.
         # Object descriptions
         object_descriptions = []
+        pred_parser = lambda x: [s.strip() for s in re.findall(r'\(([^()]+)\)', str(x))]
         for obj in state.objects:
             description_header = f"{obj.object_type.capitalize()} {obj.name}:"
-            relevant_preds = [pred for pred in predicates if obj.name in str(pred)]
+            relevant_preds = [pred for pred in predicates if obj.name in pred_parser(pred)]
             language_descriptions = [pred.get_language_description(obj) for pred in relevant_preds]
             predicate_descriptions = "\n".join(language_descriptions)
             object_descriptions.append(f"{description_header}\n{predicate_descriptions}")

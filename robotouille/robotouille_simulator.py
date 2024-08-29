@@ -96,7 +96,6 @@ def run_robotouille(environment_name: str, agent_name: str, **kwargs: Dict[str, 
         agent = NAME_TO_AGENT['bfs'](None)
         optimal_plan = agent.propose_actions(obs, env)
         max_steps = math.ceil(len(optimal_plan) * kwargs.get('max_steps_multiplier'))
-        import pdb; pdb.set_trace()
     else:
         assert False, "Must provide either max_steps or max_steps_multiplier in kwargs"
     imgs = []

@@ -40,10 +40,10 @@ instructions: |
   - Meal: A mixture of ingredients contained within a Container
 
   The rules of the environment are as follows:
-  - A Player can pick up a single Item at a time
+  - A Player can only hold a single Item at a time
   - An Item must be placed on a Station to perform an action on it
   - A Station must contain a single Item to perform an action on it
-  - Items can be stacked on top of one another
+  - Items can only be stacked on top of one another
   - A Container can hold multiple Items
   - A Meal can be transferred between Containers
 
@@ -51,6 +51,11 @@ instructions: |
   goals are intentionally underspecified so common sense reasoning is required to complete them. Specifically,
   it is important to consider
   - the minimal ingredients required to satisfy the request
-  - any preparation steps for the ingredients
+  - any preparation steps for the ingredients like cooking, cutting, etc.
 
   When the goal is achieved or a time limit is reached, the environment will end.
+
+  Follow this recipe guide to learn how to make food in Robotouille:
+  Sandwich - A slice of bread, stacked on prepared ingredients, stacked on another slice of bread.
+  Hamburger - A bottom bun, stacked on prepared ingredients, stacked on a top bun.
+  Soup - A pot of boiling water containing prepared ingredients served in a bowl.
