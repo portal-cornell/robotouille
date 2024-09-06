@@ -951,11 +951,6 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "iscut",
-                    "params": ["i1"],
-                    "is_true": true
-                },
-                {
                     "predicate": "loc",
                     "params": ["p1", "s1"],
                     "is_true": true

@@ -398,7 +398,7 @@ class LanguageSpace(gym.spaces.Text):
         #                  description of the action.
         # Object descriptions
         object_descriptions = []
-        pred_parser = lambda x: [s.strip() for s in re.findall(r'\(([^()]+)\)', str(x))]
+        pred_parser = lambda x: [s.strip() for s in re.findall(r'\(([^()]+)\)', str(x))[0].split(',')]
         for obj in state.objects:
             description_header = f"{obj.object_type.capitalize()} {obj.name}:"
             relevant_preds = [pred for pred in predicates if obj.name in pred_parser(pred)]

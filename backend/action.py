@@ -100,7 +100,6 @@ class Action(object):
             language_description (str): The language description of the action.
         """
         params = self.get_all_params()
-        assert len(params) == len(param_arg_dict), "Number of parameters and arguments do not match."
         assert all([param.name in param_arg_dict.keys() for param in params]), "param_arg_dict missing parameters."
         sub_lambda = lambda x: param_arg_dict[x.group(1)].name # Substitutes {\w+} with the name of the object
         return re.sub(Action.LANGUAGE_DESCRIPTION_REGEX, sub_lambda, self.language_description)

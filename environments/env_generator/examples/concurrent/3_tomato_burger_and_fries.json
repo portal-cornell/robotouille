@@ -4,11 +4,9 @@
     "height": 5,
     "config": {
         "num_cuts": {
-            "lettuce": 3,
             "default": 3
         },
         "cook_time": {
-            "patty": 3,
             "default": 3
         }
     },
@@ -34,6 +32,11 @@
             "y": 1
         },
         {
+            "name": "table",
+            "x": 3,
+            "y": 3
+        },
+        {
             "name": "fryer",
             "x": 3,
             "y": 1
@@ -42,11 +45,6 @@
             "name": "table",
             "x": 4,
             "y": 1
-        },
-        {
-            "name": "table",
-            "x": 3,
-            "y": 3
         }
     ],
     "items": [
@@ -63,17 +61,18 @@
             "stack-level": 1
         },
         {
-            "name": "cheese",
+            "name": "potato",
             "x": 2,
             "y": 3,
-            "stack-level": 0
+            "stack-level": 0,
+            "predicates": ["iscuttable", "isfryableifcut"]
         },
         {
-            "name": "potato",
+            "name": "tomato",
             "x": 4,
             "y": 1,
             "stack-level": 0,
-            "predicates": ["iscuttable", "isfryableifcut"]
+            "predicates": ["iscuttable"]
         },
         {
             "name": "patty",
@@ -91,7 +90,7 @@
             "direction": [0, -1]
         }
     ],
-    "goal_description": "Prepare a cheeseburger on one table and fries on another",
+    "goal_description": "Prepare a tomato burger and fries on separate tables",
     "goal": [
         {
             "predicate": "item_on",
@@ -99,18 +98,23 @@
             "ids": [1, 2]
         },
         {
-            "predicate": "item_at",
-            "args": ["cheese", "table"],
-            "ids": [3, 2]
-        },
-        {
             "predicate": "iscooked",
             "args": ["patty"],
-            "ids": [4]
+            "ids": [3]
         },
         {
             "predicate": "item_at",
             "args": ["patty", "table"],
+            "ids": [3, 2]
+        },
+        {
+            "predicate": "iscut",
+            "args": ["tomato"],
+            "ids": [4]
+        },
+        {
+            "predicate": "item_at",
+            "args": ["tomato", "table"],
             "ids": [4, 2]
         },
         {
@@ -134,7 +138,7 @@
             "ids": [6]
         },
         {
-            "predicate": "item_at",
+            "predicate": "item_on",
             "args": ["potato", "table"],
             "ids": [6, 7]
         }

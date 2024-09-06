@@ -25,6 +25,7 @@ def _generate_random_objects(width, height):
     Returns:
         stations (list): A list of stations to add to the environment.
         items (list): A list of items to add to the environment.
+        containers (list): A list of containers to add to the environment.
         players (list): A list of players to add to the environment.
     """
     num_stations = random.randrange(0, width * height)    
@@ -35,8 +36,10 @@ def _generate_random_objects(width, height):
     items = [{"name": ITEM_WILDCARD, "x": random.choice(stations)["x"], "y": random.choice(stations)["y"], "stack-level": 0} for _ in range(num_items)]
     items = _apply_lambdas(items, [_update_item_name])
     
-    players = [] # There should only be one player in the environment which is already in the environment JSON
-    return stations, items, players
+    containers = [] # No new containers should be added to the environment to maximize items
+    players = [] # Players count should be determined within the environment JSON
+
+    return stations, items, containers, players
 
 def _build_station_layout(grid_size, stations):
     """
@@ -256,7 +259,7 @@ def _randomly_add_items(environment_json, items):
         items (list): A list of items to attempt adding to the environment.
     
     Returns:
-        updated_environment_json (dict): The updated environment JSON with the randomly added stations.
+        updated_environment_json (dict): The updated environment JSON with the randomly added items.
     """
     updated_environment_json = deepcopy(environment_json)
     item_loc_candidates = updated_environment_json["stations"] + updated_environment_json["players"]
@@ -354,7 +357,90 @@ def _randomly_add_players(environment_json, players):
                         break
     return updated_environment_json
 
-def _randomly_add_objects(environment_json, stations, items, players):
+def _randomly_add_containers(environment_json, containers):
+    """
+    Returns an environment JSON with randomly placed containers in the environment.
+
+    This function will attempt to add containers into the environment until
+    there are no more containers to add. An attempt may fail if the container's
+    location conflicts with anothers. It'll also fail if the container's location
+    is not on a station or player. Finally, a container cannot occupy an item's
+    position.
+
+    If a container has a FORCE_ADD tag, then it will eventually be added to the
+    environment. If its location conflicts with another container, then it will
+    replace the container. If its location is not on a station, then another
+    attempt will be made to add it.
+
+    Args:
+        environment_json (dict): The environment JSON to add items to.
+        containers (list): A list of containers to attempt adding to the environment.
+    
+    Returns:
+        updated_environment_json (dict): The updated environment JSON with the randomly added containers.
+    """
+    updated_environment_json = deepcopy(environment_json)
+    container_loc_candidates = updated_environment_json["stations"] + updated_environment_json["players"]
+    for container in containers:
+        position_match = lambda other: other["x"] == container["x"] and other["y"] == container["y"]
+        matched_candidate = list(filter(position_match, container_loc_candidates)) # Empty or one element
+        conflicting_item = list(filter(position_match, updated_environment_json["items"])) # Empty or one element
+        conflicting_container = list(filter(position_match, updated_environment_json["containers"])) # Empty or one element
+        conflicting_object = conflicting_item + conflicting_container
+        if matched_candidate and not conflicting_object and (container.get(FROZEN_TAG_NAME) or matched_candidate[0].get(FROZEN_TAG_NAME) is None):
+            # Directly add container to environment
+            updated_environment_json["containers"].append(container)
+            # print("Added container {} at ({}, {})".format(container["name"], container["x"], container["y"]))
+        elif container.get(FORCE_ADD_TAG_NAME):
+            if container.get(FROZEN_TAG_NAME):
+                # Add item to environment immediately if it is frozen
+                updated_environment_json["containers"].append(container)
+                # print("Added frozen container {} at ({}, {})".format(container["name"], container["x"], container["y"]))
+            elif matched_candidate and conflicting_item and not conflicting_item[0].get(FORCE_ADD_TAG_NAME):
+                # Replace conflicting items with FORCE_ADD containers which are necessary to add. Exclude conflicting items that were forced added.
+                conflicting_item_index = updated_environment_json["items"].index(conflicting_item[0])
+                container["x"], container["y"] = conflicting_item[0]["x"], conflicting_item[0]["y"]
+                updated_environment_json["items"][conflicting_item_index] = container
+                # print("Item replacement: {} at ({}, {})".format(container["name"], container["x"], container["y"]))
+            elif matched_candidate and conflicting_container and not conflicting_container[0].get(FORCE_ADD_TAG_NAME):
+                # Replace conflicting containers with FORCE_ADD containers which are necessary to add. Exclude conflicting containers that were forced added.
+                conflicting_container_index = updated_environment_json["containers"].index(conflicting_container[0])
+                container["x"], container["y"] = conflicting_container[0]["x"], conflicting_container[0]["y"]
+                updated_environment_json["containers"][conflicting_container_index] = container
+                # print("Container replacement: {} at ({}, {})".format(container["name"], container["x"], container["y"]))
+            else:
+                # Replace a container from a candidate (or place on an empty station)
+                added = False
+                for candidate in container_loc_candidates:
+                    occupied_container_lambd = lambda container: container["x"] == candidate["x"] and container["y"] == candidate["y"]
+                    occupied_container = list(filter(occupied_container_lambd, updated_environment_json["containers"]))
+                    occupied_item = list(filter(occupied_container_lambd, updated_environment_json["items"]))
+                    occupied_object = occupied_container + occupied_item
+                    if len(occupied_object) == 0 and candidate.get(FROZEN_TAG_NAME) is None:
+                        # Place the container on the candidate
+                        container["x"], container["y"] = candidate["x"], candidate["y"]
+                        updated_environment_json["containers"].append(container)
+                        added = True
+                        break
+                    elif occupied_container and occupied_container[0].get(FORCE_ADD_TAG_NAME) is None:
+                        # Replace the container with the FORCE_ADD container
+                        occupied_container_index = updated_environment_json["containers"].index(occupied_container[0])
+                        container["x"], container["y"] = occupied_container[0]["x"], occupied_container[0]["y"]
+                        updated_environment_json["containers"][occupied_container_index] = container
+                        added = True
+                        break
+                    elif occupied_item and occupied_item[0].get(FORCE_ADD_TAG_NAME) is None:
+                        # Replace the item with the FORCE_ADD container
+                        updated_environment_json["items"].remove(occupied_item[0])
+                        container["x"], container["y"] = occupied_item[0]["x"], occupied_item[0]["y"]
+                        updated_environment_json["containers"].append(container)
+                        added = True
+                        break
+                assert added, "Container force add failed"
+                #print("Fail container add: {} at ({}, {}) {}".format(container["name"], container["x"], container["y"], "[FORCE]" if container.get(FORCE_ADD_TAG_NAME) else ""))
+    return updated_environment_json
+
+def _randomly_add_objects(environment_json, stations, items, containers, players):
     """
     Returns an environment JSON with randomly placed objects in the environment.
 
@@ -367,6 +453,7 @@ def _randomly_add_objects(environment_json, stations, items, players):
         environment_json (dict): The environment JSON to place objects in.
         stations (list): A list of stations to add.
         items (list): A list of items to add.
+        containers (list): A list of containers to add.
         players (list): A list of players to add.
 
     Returns:
@@ -382,6 +469,9 @@ def _randomly_add_objects(environment_json, stations, items, players):
     new_environment_json = _randomly_add_items(new_environment_json, items)
     # print("Added items")
     # print(new_environment_json["items"])
+    new_environment_json = _randomly_add_containers(new_environment_json, containers)
+    # print("Added containers")
+    # print(new_environment_json["containers"])
     return new_environment_json
 
 def _apply_lambdas(iterables, lambdas):
@@ -569,16 +659,18 @@ def _randomize_and_tag_objects(environment_json):
     Returns:
         stations (list): A list of stations with random positions and FORCE_ADD tags.
         items (list): A list of items with random positions and FORCE_ADD tags.
+        containers (list): A list of containers with random positions and FORCE_ADD tags.
         players (list): A list of players with random positions and directions and FORCE_ADD tags.
     """
     width, height = environment_json["width"], environment_json["height"]
     randomize_position = lambda obj: obj.update({"x": random.randrange(0, width), "y": random.randrange(0, height)})
     set_mustadd = lambda obj: obj.update({FORCE_ADD_TAG_NAME: True})
-    stations = _apply_lambdas(environment_json["stations"], [randomize_position, set_mustadd, _update_station_name])
-    items = _apply_lambdas(environment_json["items"], [randomize_position, set_mustadd, _update_item_name])
+    stations = _apply_lambdas(environment_json.get("stations", []), [randomize_position, set_mustadd, _update_station_name])
+    items = _apply_lambdas(environment_json.get("items", []), [randomize_position, set_mustadd, _update_item_name])
+    containers = _apply_lambdas(environment_json.get("containers", []), [randomize_position, set_mustadd])
     randomize_direction = lambda obj: obj.update({"direction": random.choice([[0,1], [1,0], [0,-1], [-1,0]])})
-    players = _apply_lambdas(environment_json["players"], [randomize_position, randomize_direction, set_mustadd])
-    return stations, items, players
+    players = _apply_lambdas(environment_json.get("players", []), [randomize_position, randomize_direction, set_mustadd])
+    return stations, items, containers, players
 
 def randomize_environment(environment_json, seed, noisy_randomization=False):
     """
@@ -610,21 +702,23 @@ def randomize_environment(environment_json, seed, noisy_randomization=False):
     new_environment_json = deepcopy(environment_json)
     new_environment_json["stations"] = []
     new_environment_json["items"] = []
+    new_environment_json["containers"] = []
     new_environment_json["players"] = []
     width, height = new_environment_json["width"], new_environment_json["height"]
-    stations, items, players = _generate_random_objects(width, height)
+    stations, items, containers, players = _generate_random_objects(width, height)
     if noisy_randomization:
         # Move existing objects in groups
-        existing_stations, existing_items, existing_players = _randomize_and_freeze_objects(environment_json)
+        existing_stations, existing_items, existing_players = _randomize_and_freeze_objects(environment_json) # TODO(chalo2000): Support containers
         # Add frozen objects first to avoid conflicts
         stations = existing_stations + stations
         items = existing_items + items
         players = existing_players + players
     else:
         # Prepare existing objects (from environment_json) to be randomly moved
-        existing_stations, existing_items, existing_players = _randomize_and_tag_objects(environment_json)
+        existing_stations, existing_items, existing_containers, existing_players = _randomize_and_tag_objects(environment_json)
         stations += existing_stations
         items += existing_items
+        containers += existing_containers
         players += existing_players
-    new_environment_json = _randomly_add_objects(new_environment_json, stations, items, players)
+    new_environment_json = _randomly_add_objects(new_environment_json, stations, items, containers, players)
     return new_environment_json

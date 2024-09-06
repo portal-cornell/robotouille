@@ -24,23 +24,13 @@
             "y": 3
         },
         {
-            "name": "stove",
-            "x": 1,
-            "y": 1
-        },
-        {
             "name": "board",
             "x": 2,
             "y": 1
         },
         {
-            "name": "fryer",
+            "name": "stove",
             "x": 3,
-            "y": 1
-        },
-        {
-            "name": "table",
-            "x": 4,
             "y": 1
         },
         {
@@ -51,36 +41,30 @@
     ],
     "items": [
         {
-            "name": "bottombun",
+            "name": "bread",
             "x": 0,
             "y": 1,
             "stack-level": 0
         },
         {
-            "name": "topbun",
+            "name": "bread",
             "x": 0,
             "y": 1,
             "stack-level": 1
         },
         {
-            "name": "cheese",
+            "name": "chicken",
             "x": 2,
-            "y": 3,
-            "stack-level": 0
-        },
-        {
-            "name": "potato",
-            "x": 4,
-            "y": 1,
-            "stack-level": 0,
-            "predicates": ["iscuttable", "isfryableifcut"]
-        },
-        {
-            "name": "patty",
-            "x": 3,
             "y": 3,
             "stack-level": 0,
             "predicates": ["iscookable"]
+        },
+        {
+            "name": "onion",
+            "x": 3,
+            "y": 3,
+            "stack-level": 0,
+            "predicates": ["iscuttable"]
         }
     ],
     "players": [
@@ -91,52 +75,42 @@
             "direction": [0, -1]
         }
     ],
-    "goal_description": "Prepare a cheeseburger on one table and fries on another",
+    "goal_description": "Prepare an onion chicken sandwich on a table",
     "goal": [
         {
             "predicate": "item_on",
-            "args": ["bottombun", "table"],
+            "args": ["bread", "table"],
             "ids": [1, 2]
         },
         {
+            "predicate": "iscooked",
+            "args": ["chicken"],
+            "ids": [3]
+        },
+        {
             "predicate": "item_at",
-            "args": ["cheese", "table"],
+            "args": ["chicken", "table"],
             "ids": [3, 2]
         },
         {
-            "predicate": "iscooked",
-            "args": ["patty"],
+            "predicate": "iscut",
+            "args": ["onion"],
             "ids": [4]
         },
         {
             "predicate": "item_at",
-            "args": ["patty", "table"],
+            "args": ["onion", "table"],
             "ids": [4, 2]
         },
         {
             "predicate": "item_at",
-            "args": ["topbun", "table"],
+            "args": ["bread", "table"],
             "ids": [5, 2]
         },
         {
             "predicate": "clear",
-            "args": ["topbun"],
+            "args": ["bread"],
             "ids": [5]
-        },
-        {
-            "predicate": "iscut",
-            "args": ["potato"],
-            "ids": [6]
-        },
-        {
-            "predicate": "isfried",
-            "args": ["potato"],
-            "ids": [6]
-        },
-        {
-            "predicate": "item_at",
-            "args": ["potato", "table"],
-            "ids": [6, 7]
         }
     ]
 }
