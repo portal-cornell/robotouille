@@ -17,11 +17,8 @@ from .prompt_builder.serializer import serialize_into_messages
 from .prompt_builder.utils import get_prompt_path
 class Agent:
 
-    EXAMPLE_REQUEST_REGEX = re.compile(r"^Observation:\s*(.+?)\nReasoning:", re.M | re.S)
-    EXAMPLE_RESPONSE_REGEX = re.compile(r"(^Reasoning:\s*.+?\n\nAction:.+?)(?=Observation:|$)", re.M | re.S)
-
     @staticmethod
-    def fetch_messages(prompt_params, example_dir_path=None, num_examples=0):
+    def fetch_messages(prompt_params, request_regex, response_regex, example_dir_path=None, num_examples=0):
         """Fetches the messages for the prompt from the version control directory.
 
         If the environment name is provided, in-context examples are fetched for
@@ -36,6 +33,10 @@ class Agent:
                         The description of the prompt.
                     prompt_version (str)
                         The version of the prompt.
+            request_regex (Pattern)
+                The regex pattern to match the request in the example.
+            response_regex (Pattern)
+                The regex pattern to match the response in the example.
             example_dir_path (str)
                 The name of the directory containing the in-context examples
             num_examples (int)
@@ -51,7 +52,7 @@ class Agent:
         prompt_path = get_prompt_path(PROMPT_HISTORY_PATH, experiment_name, prompt_description, prompt_version)
         messages = serialize_into_messages(prompt_path)
         if example_dir_path and num_examples > 0:
-            examples = retrieve_example(example_dir_path, num_examples, Agent.EXAMPLE_REQUEST_REGEX, Agent.EXAMPLE_RESPONSE_REGEX)
+            examples = retrieve_example(example_dir_path, num_examples, request_regex, response_regex)
             messages += examples
         return messages
     

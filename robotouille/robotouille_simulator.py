@@ -99,18 +99,23 @@ def run_robotouille(environment_name: str, agent_name: str, **kwargs: Dict[str, 
     else:
         assert False, "Must provide either max_steps or max_steps_multiplier in kwargs"
     imgs = []
+    queued_actions = []
     while not done and not agent_done_cond(agent) and steps < max_steps:
         
         img = env.render(render_mode)
         if record:
             imgs.append(img)
         
-        # Retrieve action from agent output
-        proposed_actions = agent.propose_actions(obs, env)
-        if len(proposed_actions) == 0:
-            # Reprompt agent for action
-            continue
-        action, param_arg_dict = proposed_actions[0]
+        if len(queued_actions) == 0:
+            # Retrieve action(s) from agent output
+            proposed_actions = agent.propose_actions(obs, env)
+            if len(proposed_actions) == 0:
+                # Reprompt agent for action(s)
+                continue
+            action, param_arg_dict = proposed_actions[0]
+            queued_actions = proposed_actions[1:]
+        else:
+            action, param_arg_dict = queued_actions.pop(0)
         
         # Assign action to players
         actions = []

@@ -399,8 +399,9 @@ def _randomly_add_containers(environment_json, containers):
             elif matched_candidate and conflicting_item and not conflicting_item[0].get(FORCE_ADD_TAG_NAME):
                 # Replace conflicting items with FORCE_ADD containers which are necessary to add. Exclude conflicting items that were forced added.
                 conflicting_item_index = updated_environment_json["items"].index(conflicting_item[0])
-                container["x"], container["y"] = conflicting_item[0]["x"], conflicting_item[0]["y"]
-                updated_environment_json["items"][conflicting_item_index] = container
+                item = updated_environment_json["items"].pop(conflicting_item_index)
+                container["x"], container["y"] = item[0]["x"], item[0]["y"]
+                updated_environment_json["containers"].append(container)
                 # print("Item replacement: {} at ({}, {})".format(container["name"], container["x"], container["y"]))
             elif matched_candidate and conflicting_container and not conflicting_container[0].get(FORCE_ADD_TAG_NAME):
                 # Replace conflicting containers with FORCE_ADD containers which are necessary to add. Exclude conflicting containers that were forced added.

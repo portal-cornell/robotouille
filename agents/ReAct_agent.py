@@ -19,6 +19,9 @@ from .agent import Agent
 class ReActAgent(Agent):
     """An agent that queries an LLM to think and act in an environment while receiving feedback."""
     
+    EXAMPLE_REQUEST_REGEX = re.compile(r"^Observation:\s*(.+?)\nReasoning:", re.M | re.S)
+    EXAMPLE_RESPONSE_REGEX = re.compile(r"(^Reasoning:\s*.+?\n\nAction:.+?)(?=Observation:|$)", re.M | re.S)
+
     REASONING_REGEX = re.compile(r"^Reasoning:\s*(.+)Action:", re.M | re.S) # Everything up till Action
     ACTION_REGEX = re.compile(r"^Action:\s*(.+)", re.M)
     FINISH_ACTION = "Finish"
@@ -40,7 +43,13 @@ class ReActAgent(Agent):
         self.action_proposal_prompt_params = kwargs["prompts"].get("action_proposal_prompt", {})
         num_examples = kwargs.get("num_examples", 0)
         example_dir_path = kwargs.get("example_dir_path", None)
-        messages = Agent.fetch_messages(self.action_proposal_prompt_params, example_dir_path=example_dir_path, num_examples=num_examples)
+        messages = Agent.fetch_messages(
+            self.action_proposal_prompt_params,
+            ReActAgent.EXAMPLE_REQUEST_REGEX,
+            ReActAgent.EXAMPLE_RESPONSE_REGEX,
+            example_dir_path=example_dir_path,
+            num_examples=num_examples
+        )
         self.action_proposal_prompt_params["messages"] = messages
         self.action_feedback_msg = "" # Error feedback to insert into the next prompt
         
