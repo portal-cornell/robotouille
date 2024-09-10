@@ -1,0 +1,76 @@
+# @package _global_
+defaults:
+  - override /evaluation: base_evaluation
+  - override /game: base_game
+  - override /llm: base_llm
+
+evaluation:
+  environment_names: [
+    "sequential/0_cheese_sandwich",
+    # "sequential/1_lettuce_sandwich",
+    # "sequential/2_lettuce_tomato_sandwich",
+    # "sequential/3_burger",
+    # "sequential/4_cheeseburger",
+    # "sequential/5_double_cheeseburger",
+    # "sequential/6_lettuce_tomato_cheeseburger",
+    # "sequential/7_two_lettuce_chicken_sandwich"
+    # "sequential/8_two_lettuce_tomato_burger",
+    # "sequential/9_onion_cheese_burger_and_lettuce_tomato_chicken_sandwich",
+
+    # "concurrent/0_cheese_chicken_sandwich",
+    # "concurrent/1_lettuce_chicken_sandwich",
+    # "concurrent/2_lettuce_tomato_fried_chicken_sandwich",
+    # "concurrent/3_tomato_burger_and_fries",
+    # "concurrent/4_onion_cheese_burger_and_fried_onion",
+    # "concurrent/5_potato_soup",
+    # "concurrent/6_onion_soup",
+    # "concurrent/7_tomato_soup_and_lettuce_chicken_sandwich",
+    # "concurrent/8_onion_tomato_soup_and_two_chicken_sandwich",
+    # "concurrent/9_onion_potato_soup_and_fried_onion_ring_lettuce_burger_and_onion_cheese_sandwich"
+  ]
+  optimal_steps: [
+    10,
+    # 14,
+    # 24,
+    # 10,
+    # 15,
+    # 23,
+    # 36,
+    # 44,
+    # 63,
+    # 57,
+
+    # 21,
+    # 27,
+    # 37,
+    # 42,
+    # 46,
+    # 19,
+    # 42,
+    # 46,
+    # 68,
+    # 82
+  ]
+  testing_seeds: [42] #, 84, 126, 168, 210, 252, 294, 336, 378, 420]
+  log_dir_path: ${hydra:runtime.output_dir}/evaluation
+
+game:
+  agent_name: io-cot
+  max_steps: null
+  max_step_multiplier: 1.5
+  render_mode: "rgb_array"
+
+  record: true
+  video_fps: 3
+  video_path: ${hydra:runtime.output_dir}/video_ReAct.mp4
+
+llm:
+  llm_model: gpt-4o
+  log_path: ${hydra:runtime.output_dir}/log_ReAct.txt
+  num_examples: 1
+  example_dir_path: io-cot-sequential_examples # io-cot-concurrent_examples
+  prompts:
+    action_proposal_prompt:
+      experiment_name: IO
+      prompt_description: io-cot
+      prompt_version: 1.1.0

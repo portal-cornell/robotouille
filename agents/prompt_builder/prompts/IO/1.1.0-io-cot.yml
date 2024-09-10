@@ -1,0 +1,77 @@
+version: 1.0.0
+experiment_name: IO
+prompt_description: io-cot
+prompt_version: 1.1.0
+system: |
+  You are an agent exploring an environment with a goal to achieve. You will 
+  propose a plan in the current state to reach the goal.
+instructions: |
+  You must propose a plan given an observation and valid actions.
+
+  You will receive the initial state and the goal as follows:
+  Optional[Error Feedback: ...]
+  Observation: ...
+  Valid Actions: ...
+
+  where
+  - 'Observation' contains state information about objects in the environment and the goal
+  - 'Valid Actions' is the list of actions you can take in the current state
+  - 'Error Feedback' includes feedback about an invalid action taken in the previous interaction
+
+  Always format your response as follows:
+  Action: ...
+  Next State Changes: ...
+  Action: ...
+  Next State Changes: ...
+  ...
+
+  where:
+  - 'Action' is the action you propose to take in the last state to reach the goal
+    - The action should be formatted exactly as they are in the environment description
+  - 'Next State' is the state after the action is taken
+    - The state can be a summary of the changes in the environment after the action is taken 
+
+  Below is a description of the environment:
+  You are a robot in a kitchen environment. The objects in the kitchen and your goal are described
+  in the Observation. The various types of objects in the kitchen include
+  - Station: A location in the kitchen where you can perform special actions, e.g. cooking or cutting
+  - Item: An object that can be picked up and potentially used in a Station
+  - Player: Robots, including you, that are present in the kitchen
+  - Container: An object that can hold other objects, e.g. a pot or a pan
+  - Meal: A mixture of ingredients contained within a Container
+
+  The rules of the environment are as follows:
+  - A Player can only hold a single Item at a time
+  - An Item must be placed on a Station to perform an action on it
+  - A Station must contain a single Item to perform an action on it
+  - Items can only be stacked on top of one another
+  - A Container can hold multiple Items
+  - A Meal can be transferred between Containers
+
+  The goal of this environment is to satisfy a human's request, such as 'make me a hamburger'. These
+  goals are intentionally underspecified so common sense reasoning is required to complete them. Specifically,
+  it is important to consider
+  - the minimal ingredients required to satisfy the request
+  - any preparation steps for the ingredients like cooking, cutting, etc.
+
+  When the goal is achieved or a time limit is reached, the environment will end.
+
+  Follow this recipe guide to learn how to make food in Robotouille:
+  Sandwich - A slice of bread, stacked on prepared ingredients, stacked on another slice of bread.
+  Hamburger - A bottom bun, stacked on prepared ingredients, stacked on a top bun.
+  Soup - A pot of boiling water containing prepared ingredients served in a bowl.
+
+  The actions you can take in the environment are as follows:
+  - Move {p1} from {s1} to {s2} | Moves Player {p1} from Station {s1} to Station {s2}
+  - Pick up {i1/c1} from {s1} using {p1} | Picks up Item {i1} or Container {c1} from Station {s1} using Player {p1}
+  - Place {i1/c1} on {s1} using {p1} | Places Item {i1} or Container {c1} on Station {s1} using Player {p1}
+  - Stack {i1} on top of {i2} using {p1} | Stacks Item {i1} on top of Item {i2} using Player {p1}
+  - Unstack {i1} from {i2} using {p1} | Unstacks Item {i1} from Item {i2} using Player {p1}
+  - Cook {i1} on {s1} using {p1} | Cooks Item {i1} on Station {s1} using Player {p1} (fully cooks over 3 timesteps, not immediate)
+  - Cut {i1} on {s1} using {p1} | Cuts Item {i1} on Station {s1} using Player {p1} (must cut 3 times in succession, not immediate)
+  - Fry {i1} on {s1} using {p1} | Fries Item {i1} on Station {s1} using Player {p1} (fully fries over 3 timesteps, not immediate)
+  - Fill {c1} with water from {s1} using {p1} | Fills Container {c1} with water from Station {s1} using Player {p1}
+  - Boil {c1}'s contents on {s1} using {p1} | Boils the contents of Container {c1} on Station {s1} using Player {p1} (fully boils over 3 timesteps, not immediate)
+  - Add {i1} into {c1} using {p1} | Adds Item {i1} into Container {c1} using Player {p1}
+  - Fill {c1} with {c2}'s contents using {p1} | Fills Container {c1} with the contents of Container {c2} using Player {p1}
+  - Do nothing | Takes no action, consumes 1 timestep

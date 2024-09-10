@@ -1,6 +1,6 @@
 """
-This module contains the IOAgent class. This LLM agent outputs an entire
-action sequence given an observation of the environment.
+This module contains the IOCoTAgent class. This LLM agent outputs an entire
+action sequence and interleaved next state estimations given an observation of the environment.
 """
 import os
 import openai
@@ -11,13 +11,13 @@ from copy import deepcopy
 from .prompt_builder.prompt_llm import prompt_llm
 from .agent import Agent
 
-class IOAgent(Agent):
-    """An agent that queries an LLM and outputs a plan given an observation."""
+class IOCoTAgent(Agent):
+    """An agent that queries an LLM and outputs a plan with interleaved next state estimations given an observation."""
 
-    EXAMPLE_REQUEST_REGEX = re.compile(r"^Observation:\s*(.+?)Plan:", re.M | re.S)
-    EXAMPLE_RESPONSE_REGEX = re.compile(r"(^Plan:\s*\n.+)", re.M | re.S)
+    EXAMPLE_REQUEST_REGEX = re.compile(r"^Observation:\s*(.+?)Action:", re.M | re.S)
+    EXAMPLE_RESPONSE_REGEX = re.compile(r"(^Action:\s*.+)", re.M | re.S)
     
-    PLAN_REGEX = re.compile(r"^Plan:\s*(.+)", re.M | re.S)
+    ACTION_REGEX = re.compile(r"^Action:\s*(.+)", re.M)
 
     def __init__(self, kwargs):
         """Initializes the IO agent.
@@ -36,7 +36,7 @@ class IOAgent(Agent):
         self.action_proposal_prompt_params = kwargs["prompts"].get("action_proposal_prompt", {})
         num_examples = kwargs.get("num_examples", 0)
         example_dir_path = kwargs.get("example_dir_path", None)
-        messages = Agent.fetch_messages(self.action_proposal_prompt_params, IOAgent.EXAMPLE_REQUEST_REGEX, IOAgent.EXAMPLE_RESPONSE_REGEX, example_dir_path=example_dir_path, num_examples=num_examples)
+        messages = Agent.fetch_messages(self.action_proposal_prompt_params, IOCoTAgent.EXAMPLE_REQUEST_REGEX, IOCoTAgent.EXAMPLE_RESPONSE_REGEX, example_dir_path=example_dir_path, num_examples=num_examples)
         self.action_proposal_prompt_params["messages"] = messages
         self.action_feedback_msg = "" # Error feedback to insert into the next prompt
         
@@ -102,24 +102,6 @@ class IOAgent(Agent):
         """
         with open(log_path, "a") as f:
             f.write(data + "\n\n")
-    
-    def _regex_match(self, regex, string):
-        """Returns the first match of a regex in a string, or None
-        
-        Parameters:
-            regex (str)
-                The regex pattern to match.
-            string (str)
-                The string to search for the regex pattern.
-        
-        Returns:
-            match (Union[str, None])
-                The first match of the regex pattern in the string, or None if no match.
-        """
-        match = re.search(regex, string)
-        if not match:
-            return None
-        return match.group(1)
 
     def propose_actions(self, obs, env):
         """Proposes an action(s) to take in order to reach the goal.
@@ -152,16 +134,15 @@ class IOAgent(Agent):
         self.chat_history.append(action_proposal_response)
             
         # Extract actions
-        actions = self._regex_match(IOAgent.PLAN_REGEX, action_proposal_response)
-        if not actions:
-            # IO misformatted output - terminate
+        parsed_actions = [action.strip() for action in re.findall(IOCoTAgent.ACTION_REGEX, action_proposal_response)]
+        if not parsed_actions:
+            # IO CoT misformatted output - terminate
             self.done = True
             return []
 
         # Transform string action into valid action
         # TODO(chalo2000): Simplify code below by creating Robotouille ActionDef/Action class
         env_copy = deepcopy(env)
-        parsed_actions = [action.strip() for action in actions.split("\n")]
         matching_actions = []
         for action in parsed_actions:
             valid_actions, str_valid_actions = env_copy.current_state.get_valid_actions_and_str()

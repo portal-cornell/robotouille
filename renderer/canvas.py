@@ -1,6 +1,8 @@
 import os
 import pygame
 import numpy as np
+from copy import deepcopy
+
 from utils.robotouille_utils import trim_item_ID
 
 class RobotouilleCanvas:
@@ -35,7 +37,20 @@ class RobotouilleCanvas:
         self.asset_directory = {}
         # A dictionary which maps floor, players, items, and stations to their assets and constants
         self.config = config
+    
+    def __deepcopy__(self, memo):
+        """
+        This function is called by the deepcopy function in the copy module.
 
+        This function carries over references to objects that are not deepcopyable (PyGame surfaces)
+        """
+        new_canvas = RobotouilleCanvas(self.config, self.layout, [], np.array([1,1]))
+        new_canvas.player_pose = deepcopy(self.player_pose, memo)
+        new_canvas.pix_square_size = self.pix_square_size # Constant
+        new_canvas.asset_directory = self.asset_directory # References to PyGame surfaces
+        memo[id(self)] = new_canvas
+        return new_canvas
+        
     def _get_station_position(self, station_name):
         """
         Gets the position of a station.
