@@ -8,6 +8,17 @@ import openai
 from openai.types.chat.chat_completion import ChatCompletion
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
+import google.generativeai as genai
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+
+import anthropic # API key automatically retrieved from ANTHROPIC_API_KEY
+ANTHROPIC_MODELS = [
+        "claude-3-5-sonnet-20240620",
+        "claude-3-opus-20240229",
+        "claude-3-sonnet-20240229",
+        "claude-3-haiku-20240307"
+    ]
+
 from gpt_cost_estimator import CostEstimator
 
 import logging
@@ -24,6 +35,53 @@ def get_openai_llms():
     openai_models = client.models.list()
     openai_llm_names = [model.id for model in openai_models if 'gpt' in model.id]
     return openai_llm_names
+
+def convert_to_google_message(messages):
+    """Converts the messages to the Google format.
+
+    Parameters:
+        messages (List[Dict[str, str]])
+            The messages to convert to the Google format.
+    
+    Returns:
+        google_messages (List[Dict[str, str]])
+            The messages in the Google format.
+    """
+    system_msg = messages[0]
+    google_messages = [
+        {
+            "role": "user", 
+            "parts": f"{system_msg['content']}\n{messages[1]['content']}"
+        }
+    ]
+    for message in messages[2:]:
+        role = "model" if message["role"] == "assistant" else "user"
+        google_messages.append({"role": role, "parts": message["content"]})
+    return google_messages
+
+def convert_to_alternating_role_messages(messages):
+    """Converts the messages to alternating role messages.
+
+    Enforces that messages are in alternating user-assistant roles. This is
+    used for Anthropic's chat API and open-source LLMs like LLama2.
+
+    Parameters:
+        messages (List[Dict[str, str]])
+            The messages to convert to alternating role messages.
+    
+    Returns:
+        alternating_role_messages (List[Dict[str, str]])
+            The messages in alternating role messages.
+    """
+    new_messages = [messages[0]]
+    last_role = messages[0]["role"]
+    for message in messages[1:]:
+        if last_role == message["role"]:
+            new_messages[-1]["content"] += f"\n{message['content']}"
+        else:
+            new_messages.append(message)
+        last_role = message["role"]
+    return new_messages
 
 @CostEstimator()
 def call_openai_chat(messages=[], model="gpt-3.5-turbo", temperature=0.0, max_attempts=10, sleep_time=5, **kwargs):
@@ -158,7 +216,24 @@ def prompt_llm(user_prompt, messages, model, temperature, history=[], **kwargs):
         elif isinstance(response, dict):
             # Mocked response
             response = response['choices'][0]['message']['content']
-            
+    elif f"models/{model}" in [m.name for m in genai.list_models()]:
+        google_model = genai.GenerativeModel(model)
+        google_messages = convert_to_google_message(messages)
+        chat = google_model.start_chat(history=google_messages)
+        response = chat.send_message(user_prompt)
+        response = response.text
+    elif model in ANTHROPIC_MODELS:
+        client = anthropic.Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+        system_msg = messages[0]["content"]
+        anthropic_messages = convert_to_alternating_role_messages(messages[1:])
+        anthropic_messages.append({"role": "user", "content": user_prompt})
+        response = client.messages.create(
+            model=model,
+            max_tokens=2048,
+            system=system_msg,
+            messages=anthropic_messages
+        )
+        response = response.content[0].text
     else:
         # TODO(chalo2000): Support open LLM models
         raise NotImplementedError(f"Model {model} is not supported.")
