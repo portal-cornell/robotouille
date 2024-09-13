@@ -147,6 +147,12 @@
                 },
                 "constants": {}
             },
+            "counter": {
+                "assets": {
+                    "tile": "C"
+                },
+                "constants": {}
+            },
             "board": {
                 "assets": {
                     "default": "board.png"

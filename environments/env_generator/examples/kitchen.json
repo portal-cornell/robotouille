@@ -19,7 +19,7 @@
         "CCCCC"],
     "stations": [
         {
-            "name": "table",
+            "name": "counter",
             "x": 0,
             "y": 3
         },
@@ -29,12 +29,12 @@
             "y": 4
         },
         {
-            "name": "table",
+            "name": "counter",
             "x": 0,
             "y": 1
         },
         {
-            "name": "table",
+            "name": "counter",
             "x": 2,
             "y": 4
         },
@@ -47,6 +47,31 @@
             "name": "table",
             "x": 3,
             "y": 1
+        },
+        {
+            "name": "counter",
+            "x": 0,
+            "y": 4
+        },
+        {
+            "name": "counter",
+            "x": 3,
+            "y": 4
+        },
+        {
+            "name": "table",
+            "x": 2,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 3,
+            "y": 2
+        },
+        {
+            "name": "table",
+            "x": 2,
+            "y": 2
         }
     ],
     "items": [

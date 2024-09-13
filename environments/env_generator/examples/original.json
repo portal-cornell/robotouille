@@ -49,6 +49,16 @@
             "name": "table",
             "x": 5,
             "y": 2
+        },
+        {
+            "name": "counter",
+            "x": 3,
+            "y": 1
+        },
+        {
+            "name": "counter",
+            "x": 3,
+            "y": 0
         }
     ],
     "items": [
