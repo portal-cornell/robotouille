@@ -57,7 +57,6 @@ Here we describe the format of the JSON files under `examples`.
     "flooring" = Tiling of of the environment
     {
         "ground" = String matrix of ground tile types
-        "furniture" = (Optional) String matrix of furniture tile types
     },
     "stations" = A list of station objects in the environment
     [
