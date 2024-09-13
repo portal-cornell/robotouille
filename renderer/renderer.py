@@ -29,7 +29,7 @@ class RobotouilleRenderer:
             config = json.load(f)
         # Empty tiling if not provided
         if not tiling and layout:
-            tiling = {"ground": ["*" * len(layout[0])] * len(layout), "furniture": ["*" * len(layout[0])] * len(layout)}
+            tiling = {"furniture": ["*" * len(layout[0])] * len(layout)}
         # The canvas is responsible for drawing the game state on a pygame surface.
         self.canvas = RobotouilleCanvas(config, layout, tiling, players[0], window_size)
         # The pygame window size.

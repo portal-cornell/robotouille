@@ -54,10 +54,7 @@ Here we describe the format of the JSON files under `examples`.
             "default: <COOK_TIME>
         }
     }
-    "flooring" = Tiling of of the environment
-    {
-        "ground" = String matrix of ground tile types
-    },
+    "flooring" = (Optional) String matrix of ground tile types (see tileset README)
     "stations" = A list of station objects in the environment
     [
         {

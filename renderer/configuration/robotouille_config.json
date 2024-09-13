@@ -12,7 +12,8 @@
 
     "floor": {
         "ground": ["tileset_flooring"],
-        "furniture": ["tileset_table", "tileset_counter"]
+        "furniture": ["tileset_table", "tileset_counter"],
+        "default": "floorkitchen.png"
     },
 
     "item": {

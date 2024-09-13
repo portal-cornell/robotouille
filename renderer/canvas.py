@@ -383,7 +383,6 @@ class RobotouilleCanvas:
         clamped_pix_square_size = np.ceil(self.pix_square_size) # Necessary to avoid 1 pixel gaps from decimals
         for row in range(len(self.layout)):
             for col in range(len(self.layout[0])):
-                #self._draw_image(surface, sprites[47], np.array([col, row]) * clamped_pix_square_size, clamped_pix_square_size)
                 # draws the image directly instead of calling _draw_images since tile sprites are not individually in asset_directory
                 image = pygame.transform.smoothscale(sprites[raw_tile_matrix[row][col]], clamped_pix_square_size)
                 surface.blit(image, np.array([col, row]) * clamped_pix_square_size)
@@ -400,9 +399,19 @@ class RobotouilleCanvas:
             surface (pygame.Surface): Surface to draw on
         """
         if not self.ground_tileset:
-            # load ground tile data
-            self.ground_tileset = self._load_tiles(self.config["floor"]["ground"])
-            self.ground_matrix = self._parse_abstract_tile_matrix(self.tiling["ground"], self.ground_tileset)
+            # Check if the environment has a defined custom ground tiling
+            if "ground" in self.tiling:
+                # load ground tile data
+                self.ground_tileset = self._load_tiles(self.config["floor"]["ground"])
+                self.ground_matrix = self._parse_abstract_tile_matrix(self.tiling["ground"], self.ground_tileset)
+            else:
+                # Otherwise, fill floor with default tile
+                floor_image_name = self.config["floor"]["default"]
+                clamped_pix_square_size = np.ceil(self.pix_square_size) # Necessary to avoid 1 pixel gaps from decimals
+                for row in range(len(self.layout)):
+                    for col in range(len(self.layout[0])):
+                        self._draw_image(surface, floor_image_name, np.array([col, row]) * clamped_pix_square_size, clamped_pix_square_size)
+                return
 
         sprites = self.ground_tileset["sprites"]
         

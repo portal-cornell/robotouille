@@ -26,7 +26,12 @@ def _parse_renderer_layout(environment_json):
         x, y = station["x"], height - station["y"] - 1 # Origin is in the bottom left corner
         layout[y][x] = station["name"]
 
-    tiling = {"ground": environment_json["ground"], "furniture": ["*" * len(layout[0])] * len(layout)}
+    tiling = {
+        "furniture": ["*" * len(layout[0])] * len(layout)
+    }
+
+    if "ground" in environment_json:
+        tiling["ground"] = environment_json["ground"]
     
     return layout, tiling
 
