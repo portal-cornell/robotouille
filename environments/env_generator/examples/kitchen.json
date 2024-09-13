@@ -11,14 +11,12 @@
             "default": 3
         }
     },
-    "flooring":{
-        "ground": [
+    "ground": [
         "CCCCC",
         "CCCCC",
         "CCWWW",
         "CCWWW",
-        "CCCCC"]
-    },
+        "CCCCC"],
     "stations": [
         {
             "name": "table",

@@ -12,15 +12,13 @@
             "default": 3
         }
     },
-    "flooring":{
-        "ground": [
+    "ground": [
         "CCCCCC",
         "CCCCCC",
         "CCWWWW",
         "CCWWCW",
         "CCWWWW",
-        "CCCCCC"]
-    },
+        "CCCCCC"],
     "stations": [
         {
             "name": "table",

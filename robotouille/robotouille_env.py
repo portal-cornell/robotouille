@@ -25,11 +25,10 @@ def _parse_renderer_layout(environment_json):
     for station in stations:
         x, y = station["x"], height - station["y"] - 1 # Origin is in the bottom left corner
         layout[y][x] = station["name"]
+
+    tiling = {"ground": environment_json["ground"], "furniture": ["*" * len(layout[0])] * len(layout)}
     
-    if "furniture" not in environment_json["flooring"]:
-        environment_json["flooring"]["furniture"] = ["*" * width] * height
-    
-    return layout, environment_json["flooring"]
+    return layout, tiling
 
 def _procedurally_generate(environment_json, seed, noisy_randomization):
     """
