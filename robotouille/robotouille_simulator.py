@@ -15,7 +15,7 @@ import traceback
 SIMULATE_LATENCY = False
 SIMULATED_LATENCY_DURATION = 0.25
 
-def simulator(environment_name: str, seed: int=42, role: str="client", display_server: bool=False, host: str="ws://localhost:8765", recording: str="", noisy_randomization: bool=False):
+def simulator(environment_name: str, seed: int=42, role: str="simulator", display_server: bool=False, host: str="ws://localhost:8765", recording: str="", noisy_randomization: bool=False):
     if recording != "" and role != "replay" and role != "render":
         role = "replay"
     if role == "server":
@@ -28,6 +28,8 @@ def simulator(environment_name: str, seed: int=42, role: str="client", display_s
         replay(recording)
     elif role == "render":
         render(recording)
+    elif role == "simulator":
+        simulate(environment_name, seed, noisy_randomization)
     else:
         print("Invalid role:", role)
 
@@ -257,3 +259,32 @@ def render(recording_name: str):
         video_writer.append_data(frame)
     renderer.render(obs, close=True)
     video_writer.close()
+
+def simulate(environment_name, seed, noisy_randomization):
+    # Your code for robotouille goes here
+    env, json, renderer = create_robotouille_env(environment_name, seed, noisy_randomization)
+    obs, info = env.reset()
+    renderer.render(obs, mode='human')
+    done = False
+    interactive = False # Set to True to interact with the environment through terminal REPL (ignores input)
+    
+    while not done:
+        # Construct action from input
+        pygame_events = pygame.event.get()
+        # Mouse clicks for movement and pick/place stack/unstack
+        mousedown_events = list(filter(lambda e: e.type == pygame.MOUSEBUTTONDOWN, pygame_events))
+        # Keyboard events ('e' button) for cut/cook ('space' button) for noop
+        keydown_events = list(filter(lambda e: e.type == pygame.KEYDOWN, pygame_events))
+        actions = []
+        action, args = create_action_from_control(env, obs, obs.current_player, mousedown_events+keydown_events, renderer)
+        for player in obs.get_players():
+            if player == obs.current_player:
+                actions.append((action, args))
+            else:
+                actions.append((None, None))
+        if not interactive and action is None:
+            # Retry for keyboard input
+            continue
+        obs, reward, done, info = env.step(actions, interactive=interactive)
+        renderer.render(obs, mode='human')
+    renderer.render(obs, close=True)
