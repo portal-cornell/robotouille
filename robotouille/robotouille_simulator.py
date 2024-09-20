@@ -75,7 +75,7 @@ async def server_loop(environment_name: str, seed: int=42, noisy_randomization: 
 
             while not done:
                 # Wait for messages from any client
-                # lol this is causing a memory leak
+                # TODO(aac77): make more robust
                 receive_tasks = {asyncio.create_task(q.get()): client for client, q in connections.items()}
                 finished_tasks, pending_tasks = await asyncio.wait(receive_tasks.keys(), return_when=asyncio.FIRST_COMPLETED)
                 
@@ -88,14 +88,12 @@ async def server_loop(environment_name: str, seed: int=42, noisy_randomization: 
                 for task in finished_tasks:
                     message = task.result()
                     client = receive_tasks[task]
-                    #print(f"Received: {message} from {client.remote_address}")
                     encoded_action = json.loads(message)
                     action = pickle.loads(base64.b64decode(encoded_action))
 
                     actions[sockets_to_playerID[client]] = action
 
                 
-                #print((action, args))
                 if SIMULATE_LATENCY:
                     time.sleep(SIMULATED_LATENCY_DURATION)
 
@@ -138,7 +136,7 @@ async def server_loop(environment_name: str, seed: int=42, noisy_randomization: 
                 pickle.dump(recording, f)
     
     async def handle_connection(websocket):
-        # simple lobby code; will break if anyone disconnects, probably has race conditions lol, etc.
+        # TODO(aac77): make more robust
         print("Hello client", websocket)
         q = asyncio.Queue()
         waiting_queue[websocket] = q
@@ -148,11 +146,6 @@ async def server_loop(environment_name: str, seed: int=42, noisy_randomization: 
             asyncio.create_task(simulator(connections))
         async for message in websocket:
             await q.put(message)
-
-    #start_server = websockets.serve(handle_connection, "0.0.0.0", 8765)
-
-    #asyncio.get_event_loop().run_until_complete(start_server)
-    #asyncio.get_event_loop().run_forever()
 
     if event == None:
         event = asyncio.Event()
@@ -176,13 +169,13 @@ async def client_loop(environment_name: str, seed: int = 42, host: str="ws://loc
             keydown_events = list(filter(lambda e: e.type == pygame.KEYDOWN, pygame_events))
             action, args = create_action_from_control(env, shared_state["obs"], player, mousedown_events + keydown_events, renderer)
 
+            # Use this to simulate disconnect
             online = not (pygame.key.get_mods() & pygame.KMOD_CAPS)
 
             if action is not None:
                 if online:
                     encoded_action = base64.b64encode(pickle.dumps((action, args))).decode('utf-8')
                     await websocket.send(json.dumps(encoded_action))
-                #shared_state["obs"], reward, done, info = env.step(action=action, interactive=True)
             renderer.render(env.get_state(), mode='human')
 
             await asyncio.sleep(0)  # Yield control to allow other tasks to run
