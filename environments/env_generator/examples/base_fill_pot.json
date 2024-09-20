@@ -14,21 +14,13 @@
     },
     "stations": [
         {
-            "name": "stove",
+            "name": "sink",
             "x": 0,
             "y": 1,
             "id": "A"
         }
     ],
-    "items": [
-        {
-            "name": "tomato",
-            "x": 0,
-            "y": 0,
-            "id": "c",
-            "predicates": ["iscut"]
-        }
-    ],
+    "items": [],
     "players": [
         {
             "name": "robot",
@@ -37,28 +29,21 @@
             "direction": [0, 1]
         }
     ],
-    "meals": [
-        {
-            "name": "water",
-            "x": 0,
-            "y": 1,
-            "id": "b",
-            "predicates": ["isboiling"]
-        }
-    ],
+    "meals": [],
     "containers": [
         {
             "name": "pot",
             "x": 0,
             "y": 1,
-            "id": "a"
+            "id": "a",
+            "meal_id": []
         }
     ],
     "goal": [
         {
-            "predicate": "addedto",
-            "args": ["tomato", "water"],
-            "ids": ["c", "b"]
+            "predicate": "in",
+            "args": ["water", "pot"],
+            "ids": [1, 2]
         }
     ]
 }

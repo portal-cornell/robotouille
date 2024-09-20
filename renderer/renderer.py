@@ -31,7 +31,7 @@ class RobotouilleRenderer:
         if not tiling and layout:
             tiling = {"furniture": ["*" * len(layout[0])] * len(layout)}
         # The canvas is responsible for drawing the game state on a pygame surface.
-        self.canvas = RobotouilleCanvas(config, layout, tiling, players[0], window_size)
+        self.canvas = RobotouilleCanvas(config, layout, tiling, players, window_size)
         # The pygame window size.
         self.window_size = window_size
         # The framerate of the renderer. This isn't too important since the renderer
