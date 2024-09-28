@@ -122,7 +122,13 @@
                     }
                 },
                 "constants": {}
-            } 
+            } ,
+            "blendercup": {
+                "assets": {
+                    "default": "blender_empty.png"
+                },
+                "constants": {}
+            }
         }
     },
 
@@ -156,6 +162,12 @@
             "board": {
                 "assets": {
                     "default": "board.png"
+                },
+                "constants": {}
+            },
+            "blender": {
+                "assets": {
+                    "default": "blender_inactive.png"
                 },
                 "constants": {}
             }
