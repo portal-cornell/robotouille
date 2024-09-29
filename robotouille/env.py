@@ -302,7 +302,7 @@ def build_state(domain_json, environment_json):
     true_predicates += build_stacking_predicates(environment_json)
     goal = build_goal(environment_json)
 
-    state = State().initialize(domain, objects, true_predicates, goal)
+    state = State().initialize(domain, objects, true_predicates, goal, [])
 
     return state
 
