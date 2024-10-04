@@ -1,6 +1,5 @@
 {
     "version": "1.0.0",
-
     "player": {
         "robot": {
             "front": "robot_front.png",
@@ -9,16 +8,19 @@
             "right": "robot_right.png"
         }
     },
-
     "floor": {
-        "ground": ["tileset_flooring"],
-        "furniture": ["tileset_table", "tileset_counter"],
+        "ground": [
+            "tileset_flooring"
+        ],
+        "furniture": [
+            "tileset_table",
+            "tileset_counter"
+        ],
         "default": "floorkitchen.png"
     },
-
     "item": {
         "constants": {
-            "STATION_ITEM_OFFSET" : 0.25,
+            "STATION_ITEM_OFFSET": 0.25,
             "X_SCALE_FACTOR": 0.125,
             "Y_SCALE_FACTOR": 0.75
         },
@@ -54,11 +56,15 @@
                     "default": "chicken.png",
                     "cooked": {
                         "asset": "cookedchicken.png",
-                        "predicates": ["iscooked"]
+                        "predicates": [
+                            "iscooked"
+                        ]
                     },
                     "fried": {
                         "asset": "friedchicken.png",
-                        "predicates": ["isfried"]
+                        "predicates": [
+                            "isfried"
+                        ]
                     }
                 },
                 "constants": {}
@@ -68,7 +74,9 @@
                     "default": "patty.png",
                     "cooked": {
                         "asset": "cookedpatty.png",
-                        "predicates": ["iscooked"]
+                        "predicates": [
+                            "iscooked"
+                        ]
                     }
                 },
                 "constants": {}
@@ -78,7 +86,9 @@
                     "default": "lettuce.png",
                     "cut": {
                         "asset": "cutlettuce.png",
-                        "predicates": ["iscut"]
+                        "predicates": [
+                            "iscut"
+                        ]
                     }
                 },
                 "constants": {}
@@ -88,15 +98,20 @@
                     "default": "onion.png",
                     "cut": {
                         "asset": "cutonion.png",
-                        "predicates": ["iscut"]
+                        "predicates": [
+                            "iscut"
+                        ]
                     },
                     "fried": {
                         "asset": "friedonion.png",
-                        "predicates": ["iscut", "isfried"]
+                        "predicates": [
+                            "iscut",
+                            "isfried"
+                        ]
                     }
                 },
                 "constants": {
-                    "STACK_OFFSET":-0.05
+                    "STACK_OFFSET": -0.05
                 }
             },
             "potato": {
@@ -104,11 +119,16 @@
                     "default": "potato.png",
                     "cut": {
                         "asset": "cutpotato.png",
-                        "predicates": ["iscut"]
+                        "predicates": [
+                            "iscut"
+                        ]
                     },
                     "fried": {
                         "asset": "friedpotato.png",
-                        "predicates": ["iscut", "isfried"]
+                        "predicates": [
+                            "iscut",
+                            "isfried"
+                        ]
                     }
                 },
                 "constants": {}
@@ -118,22 +138,19 @@
                     "default": "tomato.png",
                     "cut": {
                         "asset": "cuttomato.png",
-                        "predicates": ["iscut"]
+                        "predicates": [
+                            "iscut"
+                        ]
                     }
-                },
-                "constants": {}
-            } ,
-            "blendercup": {
-                "assets": {
-                    "default": "blender_empty.png"
                 },
                 "constants": {}
             }
         }
     },
-
     "station": {
-        "constants": {},
+        "constants": {
+            "STATION_OFFSET": 1
+        },
         "entities": {
             "fryer": {
                 "assets": {
@@ -169,14 +186,15 @@
                 "assets": {
                     "default": "blender_inactive.png"
                 },
-                "constants": {}
+                "constants": {
+                    "STATION_OFFSET": 0.5
+                }
             }
         }
     },
-
     "container": {
         "constants": {
-            "STATION_CONTAINER_OFFSET" : 0.25,
+            "STATION_CONTAINER_OFFSET": 0.25,
             "X_SCALE_FACTOR": 0.125,
             "Y_SCALE_FACTOR": 0.75
         },
@@ -189,14 +207,30 @@
                         "boiling": {
                             "asset": "pot_water_boil.png",
                             "predicates": [
-                                {"name": "isboiling", "params": ["water"]}
+                                {
+                                    "name": "isboiling",
+                                    "params": [
+                                        "water"
+                                    ]
+                                }
                             ]
                         },
                         "soup": {
                             "asset": "pot_soup.png",
                             "predicates": [
-                                {"name": "isboiling", "params": ["water"]},
-                                {"name": "addedto", "params": ["", "water"]}
+                                {
+                                    "name": "isboiling",
+                                    "params": [
+                                        "water"
+                                    ]
+                                },
+                                {
+                                    "name": "addedto",
+                                    "params": [
+                                        "",
+                                        "water"
+                                    ]
+                                }
                             ]
                         }
                     }
@@ -211,15 +245,25 @@
                         "soup": {
                             "asset": "bowl_soup.png",
                             "predicates": [
-                                {"name": "addedto", "params": ["", "water"]}
+                                {
+                                    "name": "addedto",
+                                    "params": [
+                                        "",
+                                        "water"
+                                    ]
+                                }
                             ]
                         }
                     }
                 },
                 "constants": {}
+            },
+            "blendercup": {
+                "assets": {
+                    "default": "blender_empty.png"
+                },
+                "constants": {}
             }
         }
     }
-
-
 }
