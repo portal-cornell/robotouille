@@ -476,8 +476,8 @@ class RobotouilleCanvas:
                 if col is not None:
                     asset_info = self._choose_station_asset(col)
                     if asset_info["type"] == "image":
-                        station_without_id = col[:-1] # TODO: remove id without function
-                        offset = self.config["station"]["entities"][station_without_id]["constants"].get("STATION_OFFSET", station_offset)
+                        name, _ = trim_item_ID(col)
+                        offset = self.config["station"]["entities"][name]["constants"].get("STATION_OFFSET", station_offset)
                         self._draw_image(surface, asset_info["name"], np.array([j, i * offset]) * self.pix_square_size, self.pix_square_size)
 
 
@@ -663,8 +663,8 @@ class RobotouilleCanvas:
                 container = literal.params[0].name
                 station = literal.params[1].name
                 container_pos = self._get_station_position(station)
-                container_without_id = container[:-1] # NEED TO CHANGE LATER
-                container_pos[1] -= self.config["container"]["entities"][container_without_id]["constants"].get("STATION_CONTAINER_OFFSET", station_container_offset)
+                name, _ = trim_item_ID(container)
+                container_pos[1] -= self.config["container"]["entities"][name]["constants"].get("STATION_CONTAINER_OFFSET", station_container_offset)
                 self._draw_container_image(surface, container, obs, container_pos * self.pix_square_size)
             if is_true and literal.name == "has_container":
                 container = literal.params[1].name
@@ -694,24 +694,33 @@ class RobotouilleCanvas:
                     if asset_info["type"] == "tile":
                         abstract_tile_matrix[i][j] = asset_info["name"]
                     else:
-                        stations.append((i,j))
+                        name, _ = trim_item_ID(col)
+                        stations.append((i,j, name))
         
         directions = [(1,0), (0,1), (-1,0), (0, -1)]
 
-        def inRange(x,y):
-            return 0 <= x < len(abstract_tile_matrix) and  0 <= y < len(abstract_tile_matrix[0]) 
-
-        for (x,y) in stations:
+        row = len(abstract_tile_matrix)
+        col = len(abstract_tile_matrix[0])
+        for (x,y, station_name) in stations:
             tables = 0
             counters = 0
-            for dx,dy in directions:
-                if inRange(dx + x ,dy + y):
+            underneath = self.config["station"]["entities"][station_name]["constants"].get("underneath", None)
+
+            if underneath is None:
+                continue 
+            
+            # counts the number of adjacent tables and counters
+            for dx,dy in directions: 
+                if 0 <= dx + x < row and 0 <= dy + y < col:
                     if abstract_tile_matrix[dx + x][dy +y] == 'T':
                         tables += 1
                     elif abstract_tile_matrix[dx + x][dy +y] == 'C':
-                        counters += 1
-            # should be based on the station at this position; which will be from json    
-            abstract_tile_matrix[x][y] = 'C' if counters > tables else 'T'
+                        counters += 1 
+            
+            if counters or tables:
+                abstract_tile_matrix[x][y] = 'C' if counters > tables else 'T'
+            else:
+                abstract_tile_matrix[x][y] = underneath
 
         return abstract_tile_matrix
 

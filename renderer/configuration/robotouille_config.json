@@ -156,7 +156,9 @@
                 "assets": {
                     "default": "fryer.png"
                 },
-                "constants": {}
+                "constants": {
+                    "underneath": "T"
+                }
             },
             "stove": {
                 "assets": {
@@ -180,14 +182,17 @@
                 "assets": {
                     "default": "board.png"
                 },
-                "constants": {}
+                "constants": {
+                    "underneath": "T"
+                }
             },
             "blender": {
                 "assets": {
                     "default": "blender_inactive.png"
                 },
                 "constants": {
-                    "STATION_OFFSET": 0.5
+                    "STATION_OFFSET": 0.5,
+                    "underneath": "C"
                 }
             }
         }
@@ -262,7 +267,9 @@
                 "assets": {
                     "default": "blender_empty.png"
                 },
-                "constants": {}
+                "constants": {
+                    "STATION_CONTAINER_OFFSET": 0.5
+                }
             }
         }
     }
