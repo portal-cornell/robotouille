@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robotouille</title>
+</head>
+<body>
+    <h1>Welcome to Robotouille!</h1>
+    <p>Click the button below to start the game:</p>
+    <button onclick="startGame()">Start Game</button>
+    <p id="status"></p>
+
+    <script>
+        function startGame() {
+            // Send a request to start the game
+            fetch('/start_game')
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('status').innerText = data;
+                })
+                .catch(err => {
+                    document.getElementById('status').innerText = "Error starting the game: " + err;
+                });
+        }
+    </script>
+</body>
+</html>
