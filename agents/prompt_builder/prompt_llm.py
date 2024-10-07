@@ -7,6 +7,7 @@ import time
 import openai
 from openai.types.chat.chat_completion import ChatCompletion
 openai.api_key = os.getenv("OPENAI_API_KEY")
+OPENAI_MODELS = []
 
 import google.generativeai as genai
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
@@ -31,10 +32,12 @@ def get_openai_llms():
         openai_llm_names (List[str])
             The available OpenAI LLMs compatible with the Chat API.
     """
-    client = openai.OpenAI()
-    openai_models = client.models.list()
-    openai_llm_names = [model.id for model in openai_models if 'gpt' in model.id]
-    return openai_llm_names
+    global OPENAI_MODELS
+    if len(OPENAI_MODELS) == 0:
+        client = openai.OpenAI()
+        openai_models = client.models.list()
+        OPENAI_MODELS = [model.id for model in openai_models if 'gpt' in model.id]
+    return OPENAI_MODELS
 
 def convert_to_google_message(messages):
     """Converts the messages to the Google format.

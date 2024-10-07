@@ -67,6 +67,9 @@ class ReActAgent(Agent):
         self.is_last_reasoning_action = kwargs.get("is_last_reasoning_action", False)
         # Whether or not to prompt the LLM with the last timestep observation, reasoning, and action
         self.is_last_obs_reasoning_action = kwargs.get("is_last_obs_reasoning_action", False)
+        
+        # Whether or not to include a prior while prompting
+        self.prior = kwargs.get("prior", None)
 
         # Whether the agent is done
         self.done = False
@@ -208,6 +211,9 @@ class ReActAgent(Agent):
                 action_proposal_prompt += f"Error Feedback: {self.action_feedback_msg}\n"
                 self.action_feedback_msg = ""
             action_proposal_prompt += obs
+
+            if self.prior:
+                action_proposal_prompt += f"\n\n{self.prior}"
             # Get response from LLM
             action_proposal_response, self.truncated_chat_history = self._prompt_llm(action_proposal_prompt, self.action_proposal_prompt_params, history=self.truncated_chat_history)
             
@@ -230,10 +236,11 @@ class ReActAgent(Agent):
 
             # Extract action
             action = self._regex_match(ReActAgent.ACTION_REGEX, action_proposal_response)
-            if not reasoning:
+            if not action:
                 self.action_feedback_msg = "The action was malformed. Please provide a valid action in the form 'Action: <action>'."
                 feedback_steps += 1
                 continue
+            action = action.strip()
 
             # Truncate history according to configuration
             self.truncated_chat_history = self.truncate_history(obs, reasoning, action, self.truncated_chat_history)
