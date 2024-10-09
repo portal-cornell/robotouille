@@ -478,7 +478,7 @@ class RobotouilleCanvas:
                     if asset_info["type"] == "image":
                         name, _ = trim_item_ID(col)
                         offset = self.config["station"]["entities"][name]["constants"].get("STATION_OFFSET", station_offset)
-                        self._draw_image(surface, asset_info["name"], np.array([j, i * offset]) * self.pix_square_size, self.pix_square_size)
+                        self._draw_image(surface, asset_info["name"], np.array([j, i - offset]) * self.pix_square_size, self.pix_square_size)
 
 
     def _get_station_locations(self, layout):

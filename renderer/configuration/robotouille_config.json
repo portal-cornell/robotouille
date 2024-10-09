@@ -128,7 +128,7 @@
 
     "station": {
         "constants": {
-            "STATION_OFFSET": 1
+            "STATION_OFFSET": 0
         },
         "entities": {
             "fryer": {
@@ -162,6 +162,7 @@
                     "default": "board.png"
                 },
                 "constants": {
+                    "STATION_OFFSET": 0.16,
                     "underneath": "T"
                 }
             },
