@@ -192,7 +192,7 @@
                 },
                 "constants": {
                     "STATION_OFFSET": 0.5,
-                    "underneath": "C"
+                    "underneath": "T"
                 }
             }
         }

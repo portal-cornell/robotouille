@@ -672,31 +672,23 @@ class RobotouilleCanvas:
                 container_pos = self.player_pose[player]["position"]
                 self._draw_container_image(surface, container, obs, container_pos * self.pix_square_size)
     
-    def _extract_stations_to_furniture(self, abstract_tile_matrix):
+    def _add_platforms_underneath_stations(self, stations, abstract_tile_matrix):
         """
-        Searches for all stations with single letter names and places corresponding tiles in the furniture layer.
-        It is assumed that stations with single letter names wish to undergo this processing step.
-        The tile letter chosen is the same as the name of the station.
+        If the "underneath" constant is not present for a station, the station remains unchanged. 
+        Otherwise, platforms (tables or counters) are placed underneath the station based on the 
+        number of adjacent platforms or the preconfigured "underneath" constant if no adjacent 
+        platforms are found.
 
         Args:
-            abstract_tile_matrix (List[String]): List of strings whose characters represent abstract tiles
+            stations (List[Tuple[int, int, str]]): List of tuples, where each tuple contains the coordinates 
+                (x, y) of the station and the station's name.
+            abstract_tile_matrix (List[List[str]]): A matrix where each element represents a tile in the layout. 
+                'T' represents a table, 'C' represents a counter.
 
-        Returns:
-            asbtract_tile_matrix (List[List[String]]): matrix with furniture tiles added
+        Side effects:
+            Updates abstract_tile_matrix with platforms (tables or counters) added 
+            underneath the apprioriate stations.
         """
-
-        stations = []
-        abstract_tile_matrix = [[abstract_tile_matrix[i][j] for j in range(len(abstract_tile_matrix[i]))]for i in range(len(abstract_tile_matrix))]
-        for i, row in enumerate(self.layout):
-            for j, col in enumerate(row):
-                if col is not None:
-                    asset_info = self._choose_station_asset(col)
-                    if asset_info["type"] == "tile":
-                        abstract_tile_matrix[i][j] = asset_info["name"]
-                    else:
-                        name, _ = trim_item_ID(col)
-                        stations.append((i,j, name))
-        
         directions = [(1,0), (0,1), (-1,0), (0, -1)]
 
         row = len(abstract_tile_matrix)
@@ -722,6 +714,32 @@ class RobotouilleCanvas:
             else:
                 abstract_tile_matrix[x][y] = underneath
 
+    def _extract_stations_to_furniture(self, abstract_tile_matrix):
+        """
+        Searches for all stations with single letter names and places corresponding tiles in the furniture layer.
+        It is assumed that stations with single letter names wish to undergo this processing step.
+        The tile letter chosen is the same as the name of the station.
+
+        Args:
+            abstract_tile_matrix (List[String]): List of strings whose characters represent abstract tiles
+
+        Returns:
+        
+            asbtract_tile_matrix (List[List[String]]): matrix with furniture tiles added
+        """
+
+        stations = []
+        abstract_tile_matrix = [[abstract_tile_matrix[i][j] for j in range(len(abstract_tile_matrix[i]))]for i in range(len(abstract_tile_matrix))]
+        for i, row in enumerate(self.layout):
+            for j, col in enumerate(row):
+                if col is not None:
+                    asset_info = self._choose_station_asset(col)
+                    if asset_info["type"] == "tile":
+                        abstract_tile_matrix[i][j] = asset_info["name"]
+                    else:
+                        name, _ = trim_item_ID(col)
+                        stations.append((i,j, name))
+        self._add_platforms_underneath_stations(stations, abstract_tile_matrix)
         return abstract_tile_matrix
 
 
