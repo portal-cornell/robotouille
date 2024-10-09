@@ -22,10 +22,12 @@ class Station(Enum):
     FRYER = "fryer"
     SINK = "sink"
     COUNTER = "counter"
+    BLENDER = "blender"
 
 class Container(Enum):
     POT = "pot"
     BOWL = "bowl"
+    BLENDERCUP = "blendercup"
 
 class Meal(Enum):
     WATER = "water"
