@@ -14,7 +14,7 @@ import traceback
 import networking.server as robotouille_server
 import networking.client as robotouille_client
 
-def simulator(environment_name: str, seed: int=42, role: str="simulator", display_server: bool=False, host: str="ws://localhost:8765", recording: str="", noisy_randomization: bool=False):
+def simulator(environment_name: str, seed: int=42, noisy_randomization: bool=False, role: str="local", display_server: bool=False, host: str="ws://localhost:8765", recording: str=""):
     if recording != "" and role != "replay" and role != "render":
         role = "replay"
     if role == "server":
@@ -27,7 +27,7 @@ def simulator(environment_name: str, seed: int=42, role: str="simulator", displa
         replay(recording)
     elif role == "render":
         render(recording)
-    elif role == "simulator":
+    elif role == "local":
         simulate(environment_name, seed, noisy_randomization)
     else:
         print("Invalid role:", role)
