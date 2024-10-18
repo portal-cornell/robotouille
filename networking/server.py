@@ -4,6 +4,7 @@ import pickle
 import base64
 import websockets
 import time
+import traceback
 from pathlib import Path
 from datetime import datetime
 from robotouille.robotouille_env import create_robotouille_env

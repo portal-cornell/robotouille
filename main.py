@@ -12,7 +12,7 @@ parser.add_argument("--noisy_randomization", action="store_true", help="Whether 
 parser.add_argument("--role", help="\"local\" for vanilla simulator, \"client\" if client, \"server\" if server, \"single\" if single-player, \"replay\" if replaying, \"render\" if rendering video", default="local")
 parser.add_argument("--server_display", action="store_true", help="Whether to show the game window as server (ignored for other roles)")
 parser.add_argument("--host", help="Host to connect to", default="ws://localhost:8765")
-parser.add_argument("--replay", help="Recording to replay", default="")
+parser.add_argument("--recording", help="Recording to replay", default="")
 args = parser.parse_args()
 
-simulator(args.environment_name, args.seed, args.noisy_randomization, args.role, args.server_display, args.host, args.replay)
+simulator(args.environment_name, args.seed, args.noisy_randomization, args.role, args.server_display, args.host, args.recording)
