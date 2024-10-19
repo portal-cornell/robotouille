@@ -674,6 +674,8 @@ class RobotouilleCanvas:
     
     def _add_platforms_underneath_stations(self, stations, abstract_tile_matrix):
         """
+        This helper adds a counter or a table underneath a station.
+
         If the "underneath" constant is not present for a station, the station remains unchanged. 
         Otherwise, platforms (tables or counters) are placed underneath the station based on the 
         number of adjacent platforms or the preconfigured "underneath" constant if no adjacent 
