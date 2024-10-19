@@ -36,18 +36,14 @@ while running:
     # Transition logic based on current_screen
     if current_screen == MAIN_MENU:
         main_menu.update()
-        if main_menu.next_screen == SETTINGS:
-            current_screen = SETTINGS
+        if main_menu.next_screen is not None:
+            current_screen = main_menu.next_screen 
             main_menu.set_next_screen(None) 
-
-        elif main_menu.next_screen == GAME:
-            current_screen = GAME
-            main_menu.set_next_screen(None)
 
     elif current_screen == SETTINGS:
         settings.update()
-        if settings.next_screen == MAIN_MENU:
-            current_screen = MAIN_MENU
+        if settings.next_screen is not None:
+            current_screen = settings.next_screen
             settings.set_next_screen(None) 
         
     elif current_screen == GAME:
