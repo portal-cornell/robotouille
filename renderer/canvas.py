@@ -469,12 +469,17 @@ class RobotouilleCanvas:
         Args:
             surface (pygame.Surface): Surface to draw on
         """
+        
+        station_offset = self.config["station"]["constants"]["STATION_OFFSET"]
         for i, row in enumerate(self.layout):
             for j, col in enumerate(row):
                 if col is not None:
                     asset_info = self._choose_station_asset(col)
                     if asset_info["type"] == "image":
-                        self._draw_image(surface, asset_info["name"], np.array([j, i]) * self.pix_square_size, self.pix_square_size)
+                        name, _ = trim_item_ID(col)
+                        offset = self.config["station"]["entities"][name]["constants"].get("STATION_OFFSET", station_offset)
+                        self._draw_image(surface, asset_info["name"], np.array([j, i - offset]) * self.pix_square_size, self.pix_square_size)
+
 
     def _get_station_locations(self, layout):
         """
@@ -653,13 +658,13 @@ class RobotouilleCanvas:
             Draws the containers to surface
         """
         station_container_offset = self.config["container"]["constants"]["STATION_CONTAINER_OFFSET"]
-
         for literal, is_true in obs.predicates.items():
             if is_true and literal.name == "container_at":
                 container = literal.params[0].name
                 station = literal.params[1].name
                 container_pos = self._get_station_position(station)
-                container_pos[1] -= station_container_offset
+                name, _ = trim_item_ID(container)
+                container_pos[1] -= self.config["container"]["entities"][name]["constants"].get("STATION_CONTAINER_OFFSET", station_container_offset)
                 self._draw_container_image(surface, container, obs, container_pos * self.pix_square_size)
             if is_true and literal.name == "has_container":
                 container = literal.params[1].name
@@ -667,6 +672,50 @@ class RobotouilleCanvas:
                 container_pos = self.player_pose[player]["position"]
                 self._draw_container_image(surface, container, obs, container_pos * self.pix_square_size)
     
+    def _add_platforms_underneath_stations(self, stations, abstract_tile_matrix):
+        """
+        This helper adds a counter or a table underneath a station.
+
+        If the "underneath" constant is not present for a station, the station remains unchanged. 
+        Otherwise, platforms (tables or counters) are placed underneath the station based on the 
+        number of adjacent platforms or the preconfigured "underneath" constant if no adjacent 
+        platforms are found.
+
+        Args:
+            stations (List[Tuple[int, int, str]]): List of tuples, where each tuple contains the coordinates 
+                (x, y) of the station and the station's name.
+            abstract_tile_matrix (List[List[str]]): A matrix where each element represents a tile in the layout. 
+                'T' represents a table, 'C' represents a counter.
+
+        Side effects:
+            Updates abstract_tile_matrix with platforms (tables or counters) added 
+            underneath the apprioriate stations.
+        """
+        directions = [(1,0), (0,1), (-1,0), (0, -1)]
+
+        row = len(abstract_tile_matrix)
+        col = len(abstract_tile_matrix[0])
+        for (x,y, station_name) in stations:
+            tables = 0
+            counters = 0
+            underneath = self.config["station"]["entities"][station_name]["constants"].get("underneath", None)
+
+            if underneath is None:
+                continue 
+            
+            # counts the number of adjacent tables and counters
+            for dx,dy in directions: 
+                if 0 <= dx + x < row and 0 <= dy + y < col:
+                    if abstract_tile_matrix[dx + x][dy +y] == 'T':
+                        tables += 1
+                    elif abstract_tile_matrix[dx + x][dy +y] == 'C':
+                        counters += 1 
+            
+            if counters or tables:
+                abstract_tile_matrix[x][y] = 'C' if counters > tables else 'T'
+            else:
+                abstract_tile_matrix[x][y] = underneath
+
     def _extract_stations_to_furniture(self, abstract_tile_matrix):
         """
         Searches for all stations with single letter names and places corresponding tiles in the furniture layer.
@@ -677,8 +726,11 @@ class RobotouilleCanvas:
             abstract_tile_matrix (List[String]): List of strings whose characters represent abstract tiles
 
         Returns:
+        
             asbtract_tile_matrix (List[List[String]]): matrix with furniture tiles added
         """
+
+        stations = []
         abstract_tile_matrix = [[abstract_tile_matrix[i][j] for j in range(len(abstract_tile_matrix[i]))]for i in range(len(abstract_tile_matrix))]
         for i, row in enumerate(self.layout):
             for j, col in enumerate(row):
@@ -686,6 +738,10 @@ class RobotouilleCanvas:
                     asset_info = self._choose_station_asset(col)
                     if asset_info["type"] == "tile":
                         abstract_tile_matrix[i][j] = asset_info["name"]
+                    else:
+                        name, _ = trim_item_ID(col)
+                        stations.append((i,j, name))
+        self._add_platforms_underneath_stations(stations, abstract_tile_matrix)
         return abstract_tile_matrix
 
 
