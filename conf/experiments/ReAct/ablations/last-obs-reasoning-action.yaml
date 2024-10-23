@@ -10,12 +10,14 @@ evaluation:
     "sequential/1_lettuce_sandwich",
     "sequential/2_lettuce_tomato_sandwich"
   ]
+  optimal_steps: [10, 14, 24]
   testing_seeds: [42, 84, 126]
   log_dir_path: ${hydra:runtime.output_dir}/evaluation
 
 game:
   agent_name: ReAct
-  max_steps: 30
+  max_steps: null
+  max_step_multiplier: 1.5
   render_mode: "rgb_array"
 
   record: true
