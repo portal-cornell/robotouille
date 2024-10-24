@@ -9,7 +9,7 @@
   </a>
   
   <p align="center">
-    A customizable multi-task cooking environment for LLM agents!
+    A customizable cooking environment for stress testing LLM agents!
     <br />
     <br />
     <a href="https://github.com/portal-cornell/robotouille/issues">Request Feature</a>

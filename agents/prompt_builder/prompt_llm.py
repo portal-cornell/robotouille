@@ -1,5 +1,8 @@
 """
-This module acts as a wrapper for OpenAI's chat API.
+This module acts as a wrapper for LLMs including
+- OpenAI GPTs
+- Google Gemini
+- Anthropic Claude
 """
 import os
 import time
