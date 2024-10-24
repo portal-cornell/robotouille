@@ -209,6 +209,12 @@
             "x": 0,
             "y": 0,
             "direction": [0, 1]
+        },
+        {
+            "name": "robot",
+            "x": 1,
+            "y": 0,
+            "direction": [0, 1]
         }
     ],
     "meals": [],
