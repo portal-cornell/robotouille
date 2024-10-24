@@ -5,6 +5,7 @@ defaults:
   - override /llm: base_llm
 
 evaluation:
+  evaluate: true
   environment_names: [
     "sequential/0_cheese_sandwich",
     "sequential/1_lettuce_sandwich",

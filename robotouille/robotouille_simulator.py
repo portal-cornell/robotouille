@@ -67,6 +67,8 @@ def run_robotouille(environment_name: str, agent_name: str, **kwargs: Dict[str, 
                     The frames per second for the video.
                 - llm_kwargs (Dict[str, Any]):
                     The kwargs for the LLM agent.
+                    - log_path (str):
+                        The path to the log file to write to.
     
     Returns:
         done (bool):

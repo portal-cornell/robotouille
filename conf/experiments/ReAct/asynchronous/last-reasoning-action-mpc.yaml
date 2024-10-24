@@ -5,6 +5,7 @@ defaults:
   - override /llm: base_llm
 
 evaluation:
+  evaluate: true
   environment_names: [
     "asynchronous/0_cheese_chicken_sandwich",
     "asynchronous/1_lettuce_chicken_sandwich",

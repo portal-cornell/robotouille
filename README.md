@@ -9,7 +9,7 @@
   </a>
   
   <p align="center">
-    A customizable multi-task cooking environment!
+    A customizable multi-task cooking environment for LLM agents!
     <br />
     <br />
     <a href="https://github.com/portal-cornell/robotouille/issues">Request Feature</a>
@@ -57,9 +57,12 @@
   <img src="README_assets/cheese_burger.gif" alt="Robot making a cheese burger in a custom-made kitchen" width="250" height="250"/>
 </p>
 
-Robots will be involved in every part of our lives in the near future so we need to teach them how to perform complex tasks. Humans break apart complex tasks like making hamburgers into smaller subtasks like cutting lettuce and cooking patties. We can teach robots to do the same by showing them how to perform easier tasks subtasks and then combine those subtasks to perform harder tasks. We created Robotouille so we can stress test this idea through an easily customizable cooking environment where the task possibilities are endless!
+Robotouille is a simulator for cooking diverse recipes designed to stress test LLM agents in the ability to perform asynchronous planning by handling time delays, diverse long-horizon tasks, and multiple agents. With a wide variety of ingredients and a procedural generator, Robotouille offers endless combinations for creating unique cooking scenarios. Each scenario's rules and layout are defined in JSON files, enabling rapid development and easy customization to suit your needs. Additionally, a gaming interface is provided to facilitate collaboration between LLM agents and humans.
 
-Check out our paper, [Demo2Code: From Summarizing Demonstrations to Synthesizing Code via Extended Chain-of-Thought](https://portal-cornell.github.io/demo2code-webpage/), to learn how we used Robotouille to teach robots to perform tasks that humans demonstrate to them using Large Language Models (LLMs).
+Check out the following papers where we've used Robotouille!
+- [Robotouille: An Asynchronous Planning Benchmark for LLM Agents](https://portal-cornell.github.io/robotouille/)
+- [Demo2Code: From Summarizing Demonstrations to Synthesizing Code via Extended Chain-of-Thought](https://portal-cornell.github.io/demo2code/)
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -74,8 +77,16 @@ It is super easy to get started by trying out an existing environment or creatin
 
 1. Create and activate your virtual environment
    ```sh
-   python3 -m venv <venv-name>
-   source <venv-name>/bin/activate
+   # Python venv module
+   python -m venv robotouille
+   source robotouille/bin/activate
+   # Conda (must have anaconda installed)
+   conda create --name robotouille python=3.9
+   conda activate robotouille
+   # Pyenv (must have pyenv and pyenv-virtualenv installed)
+   pyenv install 3.9
+   pyenv virtualenv 3.9 robotouille
+   pyenv activate robotouille
    ```
 2. Install Robotouille and its dependencies
    ```sh
@@ -87,20 +98,23 @@ It is super easy to get started by trying out an existing environment or creatin
    ```
    or import the simulator to any code by adding
    ```python
-   from robotouille import simulator
+   from robotouille import run_robotouille
    
-   simulator("original")
+   run_robotouille("original", "human", max_steps=10)
    ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Usage
 
+### Running an LLM Agent
+Refer to the `README.md` under `agents/` for details on how to run an LLM agent in Robotouille.
+
 ### Use Existing Environments
 
 To play an existing environment, you can choose from the JSON files under `environments/env_generator/examples/`. For example, to play the `high_level_lettuce_burger` environment, simply run
 ```sh
-python main.py --environment_name high_level_lettuce_burger
+python main.py ++game.environment_name=high_level_lettuce_burger
 ```
 
 You can interact with the environment with keyboard and mouse, using the following keys:
@@ -110,14 +124,13 @@ You can interact with the environment with keyboard and mouse, using the followi
 
 If you would like to procedurally generate an environment based off a JSON file, run the following commands
 ```sh
-python main.py --environment_name high_level_lettuce_burger --seed 42
-python main.py --environment_name high_level_lettuce_burger --seed 42 --noisy_randomization
+python main.py ++game.environment_name=high_level_lettuce_burger ++game.seed=42
 ```
-Refer to the `README.md` under `environments/env_generator` for details on procedural generation.
+Refer to the `README.md` under `environments/env_generator/` for details on procedural generation.
 
 ### Create your own Environment!
 
-To create your own environment, add another example into `environments/env_generator/examples/`. Follow the `README.md` under `environments/env_generator` for details on how to customize the environment JSON. If you would like to modify the transitions of the environment entirely, refer to `robotouille.pddl` under `environments`. We currently have limited support for customization through the PDDL for non-Markovian actions (cut / cook) and for rendering new objects / actions but plan to add more support in the future. Please contact gg387@cornell.edu for more details if interested.
+To create your own environment, add another example into `environments/env_generator/examples/`. Follow the `README.md` under `environments/env_generator/` for details on how to customize the environment JSON. If you would like to modify the transitions of the environment entirely, refer to `robotouille.json` under `environments`. We are always adding more objects and transitions into Robotouille to increase the diversity of tasks. Please contact gg387@cornell.edu for more details if interested in contributing or learning more.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -135,7 +148,9 @@ We appreciate all contributions to Robotouille. Bug fixes are always welcome, bu
 <!-- BUILT WITH -->
 ## Built With
 
-We build atop [PDDLGym](https://github.com/tomsilver/pddlgym) which converts a PDDL domain and problem file into a [Gym](https://www.gymlibrary.dev/index.html) environment. We render and take keyboard input using [PyGame](https://www.pygame.org/docs/), building on the [tutorial](https://www.gymlibrary.dev/content/environment_creation/) for making custom gym environments.
+We build atop [Gym](https://www.gymlibrary.dev/index.html) environment and we render and take keyboard input using [PyGame](https://www.pygame.org/docs/), building on the [tutorial](https://www.gymlibrary.dev/content/environment_creation/) for making custom gym environments.
+
+[Currently broken [#37](https://github.com/portal-cornell/robotouille/issues/37)] We also support [PDDLGym](https://github.com/tomsilver/pddlgym); we programatically translate Robotouille into a PDDL domain and problem file which PDDLGym converts into a Gym environment.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

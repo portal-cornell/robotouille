@@ -46,12 +46,15 @@ class Human(Agent):
     def _write_to_log(self, log_path, data):
         """Writes data to a log file.
         
+        If the log path is not provided, this function does nothing.
+
         Parameters:
             log_path (str)
                 The name of the log file to write to.
             data (str)
                 The data to write to the log file.
         """
+        if not log_path: return
         with open(log_path, "a") as f:
             f.write(data + "\n")
 
