@@ -1,10 +1,9 @@
 from robotouille import simulator
 import argparse
 import pygame
-from frontend.constants import SETTINGS, MAIN_MENU, GAME  # Import specific constants
-from frontend.main_menu import MenuScreen  # Import MenuScreen class
-from frontend.settings import SettingScreen  # Import SettingScreen class
-
+from frontend.constants import SETTINGS, MAIN_MENU, GAME  
+from frontend.main_menu import MenuScreen  
+from frontend.settings import SettingScreen  
 
 
 parser = argparse.ArgumentParser()
@@ -13,8 +12,6 @@ parser.add_argument("--seed", help="The seed to use for the environment.", defau
 parser.add_argument("--noisy_randomization", action="store_true", help="Whether to use 'noisy randomization' for procedural generation")
 args = parser.parse_args()
 
-
-# Screen logic 
 
 pygame.init()
 screen = pygame.display.set_mode((800, 600))
@@ -49,8 +46,7 @@ while running:
     elif current_screen == GAME:
         simulator(args.environment_name, args.seed, args.noisy_randomization)
 
-    # This line updates the screen display for the latest changes
-    pygame.display.flip()  # Ensures the display is updated after rendering
+    pygame.display.flip()  
 
 pygame.quit()
 

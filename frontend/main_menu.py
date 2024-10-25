@@ -1,38 +1,50 @@
 import pygame
-from frontend import constants
+from frontend import constants, screen, image, button
+import os
+# Set up the assets directory
+ASSETS_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "main_menu")
 
-class MenuScreen:
+class MenuScreen(screen.ScreenInterface):
     def __init__(self, screen):
         """Initialize the main menu screen."""
+        super().__init__()
         self.screen = screen
-        self.active = False
-        self.next_screen = None
+        
+        # load asset paths then images
+        background_path = os.path.join(ASSETS_DIRECTORY, "background.png")
+        start_button_path = os.path.join(ASSETS_DIRECTORY, "start_button.png")
 
-        # Define screen size and other attributes
-        self.screen.fill(constants.BLUE)
-        self.font = pygame.font.SysFont(None, 55)
-        self.text = self.font.render("Main Menu", True, constants.WHITE)
+        background_image =  pygame.image.load(background_path).convert_alpha()
+        start_button_image = pygame.image.load(start_button_path).convert_alpha()
+        
+        # calculate the scale factor 
+        screen_width, screen_height = self.screen.get_size()
+        img_width, img_height = background_image.get_size()
+        width_scale = screen_width / img_width
+        height_scale = screen_height / img_height
+        scale_factor = min(width_scale, height_scale)  
 
-    def set_active(self, active):
-        """Set the screen as active or inactive."""
-        self.active = active
 
-    def set_next_screen(self, next_screen):
-        """Set the next screen to transition to."""
-        self.next_screen = next_screen
+        self.background = image.Image(screen, background_image, 0, 0, scale_factor)
+        self.start_button = button.Button(screen, start_button_image, 0.5, 0.5, scale_factor, hover_color=constants.GREY)
 
-    def update(self):
-        """Update the screen while it's active and handle keypress events."""
-        self.screen.fill(constants.BLUE)
-        self.screen.blit(self.text, (100, 100))
+    def draw(self):
+        """Draws all the screen components."""
+        self.background.draw()
+        self.start_button.draw()
         pygame.display.flip()
 
-        # Handle keypresses specific to the main menu
+    def update(self):
+        """Update the screen and handle events."""
+        self.draw()
+        # Handle events
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+            elif self.start_button.is_clicked(event):
+                self.set_next_screen(constants.GAME)
+
+        # Handle keypresses 
         keys = pygame.key.get_pressed()
         if keys[pygame.K_s]:
-            # Transition to the settings screen
             self.set_next_screen(constants.SETTINGS)
-
-        elif keys[pygame.K_r]:
-            # Call the simulator function (trigger transition to game)
-            self.set_next_screen(constants.GAME)
