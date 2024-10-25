@@ -19,13 +19,13 @@ class MenuScreen(screen.ScreenInterface):
         
         # calculate the scale factor 
         screen_width, screen_height = self.screen.get_size()
-        img_width, img_height = background_image.get_size()
+        img_width, img_height = 1440, 1024
         width_scale = screen_width / img_width
         height_scale = screen_height / img_height
         scale_factor = min(width_scale, height_scale)  
 
 
-        self.background = image.Image(screen, background_image, 0, 0, scale_factor)
+        self.background = image.Image(screen, background_image, 0, 0, scale_factor, anchor = "topleft")
         self.start_button = button.Button(screen, start_button_image, 0.5, 0.5, scale_factor, hover_color=constants.GREY)
 
     def draw(self):
