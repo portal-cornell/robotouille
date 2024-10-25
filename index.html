@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="APRICOT: Active Preference Learning and Constraint-Aware Task Planning with LLMs">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Robotouille: An Asynchronous Planning Benchmark for LLM Agents</title>
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QR88D4MJ0H"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+  
+    gtag('config', 'G-QR88D4MJ0H');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/icon.jpg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-body flex-container">
+    <img src="./static/images/portal_logo.png" width="10%">
+    <img src="./static/images/cornell_logo.png" width="25%" style="float: right">
+  </div>
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">Robotouille: An Asynchronous Planning <br> Benchmark for LLM Agents</h1>
+        
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://gonzalogonzalezpumariega.com">Gonzalo Gonzalez-Pumariega</a>,</span>
+            <span class="author-block">
+                <a href="https://portal.cs.cornell.edu/people/">Leong Su Yean</a>,</span>
+            <span class="author-block">
+                <a href="https://portal.cs.cornell.edu/people/">Neha Sunkara</a>,</span>
+            <span class="author-block">
+                <a href="https://www.sanjibanchoudhury.com/">Sanjiban Choudhury</a>            
+          </div>
+
+          <div class="column has-text-centered">
+            
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href=""
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper (TBD)</span>
+                </a>
+              </span>
+              <!-- arXiv Link. -->
+              <span class="link-block">
+                <a href=""
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv (TBD)</span>
+                </a>
+              </span>
+              <!-- twitter Link. -->
+              <span class="link-block">
+                <a href=""
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-x-twitter"></i>
+                  </span>
+                  <span>Summary (TBD)</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href=""
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-code"></i>
+                  </span>
+                  <span>Code (TBD)</span>
+                </a>
+              </span>
+            <!-- Annotations Link. -->
+            <span class="link-block">
+                <a href=""
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pen"></i>
+                  </span>
+                  <span>Annotations (TBD)</span>
+                </a>
+              </span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero">
+    <div class="hero-body">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered">
+                <div class="column has-text-centered">
+                    <img src="./static/images/robotouille_main.png" width="80%">
+                </div>
+            </div>
+            <div class="column has-text-centered">
+                <p> <b>Robotouille</b> benchmarks LLM agents on <b>asynchronous planning</b> through diverse long-horizon tasks with time delays. In asynchronous planning, agents must reason about the order in which subtasks are completed to optimally complete a task. </p>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- reduce line spacing below -->
+
+<section class="section">
+    <div class="container is-max-desktop">
+        <!-- Abstract. -->
+        <div class="columns is-centered has-text-centered">
+            <div class="column is-four-fifths">
+                <h2 class="title is-3">Abstract</h2>
+                <div class="content has-text-justified">
+                    <p>Effective asynchronous planning — or the ability to efficiently reason and 
+                        plan over states and actions that must happen in parallel or sequentially — 
+                        is essential for agents that must account for time delays, reason over diverse
+                        long-horizon tasks, and collaborate with other agents. While large language model
+                        (LLM) agents show promise in high-level task planning, current benchmarks focus
+                        primarily on short-horizon tasks and do not evaluate such asynchronous planning
+                        capabilities.
+                        <br>
+                        <br>
+                        We introduce <b>Robotouille</b>, a challenging benchmark environment designed to test 
+                        LLM agents' ability to handle synchronous, asynchronous, and multi-agent scenarios.
+                        These datasets present increasingly complex planning challenges, surpassing existing
+                        benchmarks by requiring agents to manage overlapping task dependencies, time delays,
+                        and collaboration. Our results show that ReAct gpt4-o achieves 47% on synchronous
+                        tasks but only 11% on asynchronous tasks, highlighting significant room for
+                        improvement. We further analyze failure modes, demonstrating the need for LLM agents
+                        to better incorporate long-horizon feedback and self-audit their reasoning during
+                        task execution.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Overview</h2>
+        <!-- <div class="publication-video"> -->
+          
+          <p style="text-align: left;">
+            <b>Robotouille</b> environments are procedurally generated to include a variety of items 
+            and stations for an agent to use to complete the given task. An agent is provided with
+            a language description of [1] the items and stations in the environment [2] predicate
+            states such as "stove1 has patty1 on top of it" [3] the valid actions at the current
+            state and [4] the goal of the environment.</p>            
+      </div>
+    </div>
+    <br>
+
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-three-fifths">
+        <h2 class="title is-3">Synchronous Example</h2>
+          <video width="100%" height="100%" autoplay loop muted>
+            <source src="./static/videos/synchronous_run.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <br>
+          <br>
+          <p><b>Make a lettuce tomato cheeseburger</b></p>
+          <br>
+          <img src="./static/images/lettuce_tomato_cheeseburger.png">
+          <br>
+          <br>
+          <p><b>Lettuce Tomato Cheeseburger <br> Dependency Graph</b></p>
+      </div>
+      <div class="column is-three-fifths">
+        <h2 class="title is-3">Asynchronous Example</h2>
+          <video width="100%" height="100%" autoplay loop muted>
+            <source src="./static/videos/asynchronous_run.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <br>
+          <br>
+          <p><b>Make a lettuce tomato fried chicken sandwich</b></p>
+          <br>
+          <img src="./static/images/lettuce_tomato_fried_chicken_sandwich.png" style="height:25%">
+          <br>
+          <br>
+          <p><b>Lettuce Tomato Fried Chicken Sandwich <br> Dependency Graph</b></p>
+      </div>
+    </div>
+    <br>
+
+    <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+            <p style="text-align: left;">
+                <b>Robotouille</b> is entirely defined through domain and problem JSONs, inspired 
+                from PDDL. <b>Domain JSONs</b> are used to define new state predicates and action 
+                preconditions and transition effects. <b>Problem JSONs</b> are used to define the 
+                initial states and objects along with the task to complete. Below are some 
+                examples where (a) and (b) are closest to PDDL, (c) augments actions with 
+                additional effects, and (d) allows for more flexible goal specification.</p>
+                <br>
+                <img src="./static/images/jsons.png">        
+        </div>
+      </div>
+      <br>
+
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Results</h2>
+          <p style="text-align: left;">Our best agent baseline, <b>gpt4-o ReAct</b>, achieves 47% accuracy on synchronous 
+            tasks and 11% accuracy on asynchronous tasks as shown below. We procedurally generate
+            10 environments for 10 tasks for a total of 100 problems per setting. Performance drops
+            drastically in the asynchronous environment even for Tasks 1-3 which are similar to
+            those in the synchronous environment.</p>
+          <img src="./static/images/results.png">
+          <br>
+          <br>
+          <p style="text-align: left;">
+            We also analyze the dominant failure modes of <b>gpt4-o ReAct</b>. We manually 
+            annotate LLM hallucinations as <i>uncertainty in the Markov Decision Process (MDP)</i>
+            in the piechart below. We observe that the agent is most uncertain about the goal
+            (G) and then the transition function (T) for the synchronous setting while the
+            inverse is true for the asynchronous setting. We find the increase in rule violations
+            for the asynchronous setting to be due to the increased number of stations necessary
+            for tasks, highlighting the need to improve LLM agent's abilities to verify they are
+            following constraints.
+          </p>
+          <img src="./static/images/failure_modes.png">
+      </div>
+    </div>
+    <br>
+
+<section class="section">
+  <div class="container is-max-desktop">
+
+    <div class="columns is-centered has-text-centered">
+      <div class="column" id="Paper">
+        <h2 class="title is-3">Paper</h2>
+    <div class="paper-thumbnail">
+        <a href="https://arxiv.org/abs/2402.18796.pdf">
+            <img class="layered-paper-big" width="100%" src="./static/images/preview_robotouille.png" alt="Paper thumbnail"/>
+        </a>
+    </div>
+    <div class="paper-info">
+        <h3 class="title is-4" style="text-align: center;">BibTex</h3>
+        <pre style="overflow-x:hidden; text-wrap:wrap; white-space: pre-wrap;">
+          <code>
+          TODO
+          </code>
+        </pre> 
+      </div>
+    </div>
+  </div>
+</section>
+
+<br>
+
+
+<footer class="footer">
+  <div class="container">
+    <!-- <div class="content has-text-centered">
+      <a class="icon-link"
+         href="./static/videos/nerfies_paper.pdf">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="https://github.com/keunhong" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div> -->
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content has-text-centered">
+          <p>
+            Website template borrowed from <a
+              href="https://github.com/nerfies/nerfies.github.io">NeRFies</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

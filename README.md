@@ -1,1 +1,3 @@
-# overcooked-sim
+# Robotouille
+
+The Github page for the Robotouille project.
