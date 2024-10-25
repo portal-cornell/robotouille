@@ -240,32 +240,27 @@
             "y": 5
         }
     ],
-    "goal_description": "Make a potato tomato chicken soup and a potato cheese onion soup.",
+    "goal_description": "Make a potato tomato chicken soup with cut tomato and cooked chicken and a potato cheese onion soup with cut onions served in bowls on separate table.",
     "goal": [
         {
             "predicate": "in",
             "args": ["water", "bowl"],
-            "ids": [1, 6]
-        },
-        {
-            "predicate": "addedto",
-            "args": ["tomato", "water"],
-            "ids": [3, 1]
+            "ids": [1, 2]
         },
         {
             "predicate": "addedto",
             "args": ["potato", "water"],
-            "ids": [4, 1]
-        },
-        {
-            "predicate": "addedto",
-            "args": ["chicken", "water"],
-            "ids": [5, 1]
+            "ids": [3, 1]
         },
         {
             "predicate": "iscut",
             "args": ["tomato"],
-            "ids": [3]
+            "ids": [4]
+        },
+        {
+            "predicate": "addedto",
+            "args": ["tomato", "water"],
+            "ids": [4, 1]
         },
         {
             "predicate": "iscooked",
@@ -273,29 +268,44 @@
             "ids": [5]
         },
         {
+            "predicate": "addedto",
+            "args": ["chicken", "water"],
+            "ids": [5, 1]
+        },
+        {
+            "predicate": "container_at",
+            "args": ["bowl", "table"],
+            "ids": [2, 6]
+        },
+        {
             "predicate": "in",
             "args": ["water", "bowl"],
-            "ids": [2, 7]
+            "ids": [7, 8]
         },
         {
             "predicate": "addedto",
             "args": ["potato", "water"],
-            "ids": [8, 2]
+            "ids": [9, 7]
         },
         {
             "predicate": "addedto",
             "args": ["cheese", "water"],
-            "ids": [9, 2]
-        },
-        {
-            "predicate": "addedto",
-            "args": ["onion", "water"],
-            "ids": [10, 2]
+            "ids": [10, 7]
         },
         {
             "predicate": "iscut",
             "args": ["onion"],
-            "ids": [10]
+            "ids": [11]
+        },
+        {
+            "predicate": "addedto",
+            "args": ["onion", "water"],
+            "ids": [11, 7]
+        },
+        {
+            "predicate": "container_at",
+            "args": ["bowl", "table"],
+            "ids": [8, 12]
         }
     ]
 }

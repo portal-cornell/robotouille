@@ -83,14 +83,12 @@
         {
             "name": "pot",
             "x": 2,
-            "y": 1,
-            "id": "a"
+            "y": 1
         },
         {
             "name": "bowl",
             "x": 0,
-            "y": 3,
-            "id": "b"
+            "y": 3
         }
     ],
     "players": [
@@ -107,37 +105,42 @@
             "direction": [0, 1]
         }
     ],
-    "goal_description": "Make an onion potato tomato soup.",
+    "goal_description": "Make an onion potato tomato soup with a cut onion, a whole potato, and a cut tomato then serve into a bowl on a table.",
     "goal": [
         {
             "predicate": "in",
             "args": ["water", "bowl"],
-            "ids": [1, "b"]
+            "ids": [1, 2]
         },
         {
             "predicate": "addedto",
             "args": ["tomato", "water"],
-            "ids": [2, 1]
-        },
-        {
-            "predicate": "addedto",
-            "args": ["onion", "water"],
             "ids": [3, 1]
         },
         {
             "predicate": "addedto",
-            "args": ["potato", "water"],
+            "args": ["onion", "water"],
             "ids": [4, 1]
+        },
+        {
+            "predicate": "addedto",
+            "args": ["potato", "water"],
+            "ids": [5, 1]
         },
         {
             "predicate": "iscut",
             "args": ["tomato"],
-            "ids": [2]
+            "ids": [3]
         },
         {
             "predicate": "iscut",
             "args": ["onion"],
-            "ids": [3]
+            "ids": [4]
+        },
+        {
+            "predicate": "container_at",
+            "args": ["bowl", "table"],
+            "ids": [2, 6]
         }
     ]
 }

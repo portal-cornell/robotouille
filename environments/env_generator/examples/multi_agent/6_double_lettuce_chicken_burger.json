@@ -120,7 +120,7 @@
             "direction": [0, 1]
         }
     ],
-    "goal_description": "Make a double lettuce chicken sandwich.",
+    "goal_description": "Make a double lettuce chicken sandwich (chicken interleaved with lettuce starting with chicken) on a table.",
     "goal": [
         {
             "predicate": "iscut",

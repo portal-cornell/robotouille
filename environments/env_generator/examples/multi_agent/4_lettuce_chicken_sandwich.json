@@ -126,7 +126,7 @@
             "direction": [0, 1]
         }
     ],
-    "goal_description": "Make a lettuce sandwich with lettuce on top of the chicken.",
+    "goal_description": "Make a lettuce chicken sandwich on a table with lettuce on top of chicken.",
     "goal": [
         {
             "predicate": "iscut",
@@ -134,34 +134,29 @@
             "ids": [1]
         },
         {
-            "predicate": "iscooked",
-            "args": ["chicken"],
-            "ids": [2]
+            "predicate": "atop",
+            "args": ["bread", "lettuce"],
+            "ids": [2, 1]
         },
         {
-            "predicate": "clear",
-            "args": ["bread"],
+            "predicate": "iscooked",
+            "args": ["chicken"],
             "ids": [3]
+        },
+        {
+            "predicate": "atop",
+            "args": ["lettuce", "chicken"],
+            "ids": [2, 3]
+        },
+        {
+            "predicate": "atop",
+            "args": ["chicken", "bread"],
+            "ids": [3, 4]
         },
         {
             "predicate": "item_on",
             "args": ["bread", "table"],
             "ids": [4, 5]
-        },
-        {
-            "predicate": "item_at",
-            "args": ["bread", "table"],
-            "ids": [3, 5]
-        },
-        {
-            "predicate": "item_at",
-            "args": ["lettuce", "table"],
-            "ids": [1, 5]
-        },
-        {
-            "predicate": "item_at",
-            "args": ["chicken", "table"],
-            "ids": [2, 5]
         }
     ]
 }
