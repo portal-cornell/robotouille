@@ -23,6 +23,7 @@ class Player(object):
         self.action = None
         self.id = Player.id_counter
         Player.id_counter += 1
+        Player.players[name] = self
 
     def build_players(environment_json):
         """
@@ -35,8 +36,7 @@ class Player(object):
             name = player["name"]
             pos = (player["x"], player["y"])
             direction = (player["direction"][0], player["direction"][1])
-            player_obj = Player(name, pos, direction)
-            Player.players[name] = player_obj
+            Player(name, pos, direction)
     
     def get_player(player_name):
         """

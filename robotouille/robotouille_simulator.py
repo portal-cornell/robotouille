@@ -6,9 +6,8 @@ from backend.movement.player import Player
 from backend.movement.movement import Movement, Mode
 
 
-def simulator(environment_name: str, seed: int=42, noisy_randomization: bool=False):
+def simulator(environment_name: str, seed: int=42, noisy_randomization: bool=False, movement_mode: str='traverse'):
     # Your code for robotouille goes here
-    movement_mode = Mode.TRAVERSE
     env, json, renderer = create_robotouille_env(environment_name, movement_mode, seed, noisy_randomization)
     obs, info = env.reset()
     renderer.render(obs, mode='human')

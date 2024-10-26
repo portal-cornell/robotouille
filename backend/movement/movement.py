@@ -3,7 +3,18 @@ from backend.movement.station import Station
 from enum import Enum
 
 class MetaData(object):
+    """
+    This class represents the metadata of a player's movement. 
+    """
     def __init__(self, path, time):
+        """
+        Initializes the metadata object.
+
+        Args:
+            path (list[Tuple]): The path to the destination. Each 
+                element in the list is a tuple representing the (x, y) position.
+            time (int): The time elapsed since the movement started.
+        """
         self.path = path
         self.time = time
 
@@ -11,8 +22,8 @@ class Mode(Enum):
     """
     This class represents the different movement modes in Robotouille.
     """
-    IMMEDIATE = 0 # The player moves immediately to the destination
-    TRAVERSE = 1 # The player traverses to the destination
+    IMMEDIATE = "immediate" # The player moves immediately to the destination
+    TRAVERSE = "traverse" # The player traverses to the destination
     
 
 class Movement(object):
@@ -45,11 +56,11 @@ class Movement(object):
         
         Args:
             layout (list): The layout of the environment.
-            mode (Mode): The movement mode of the game.
+            mode (str): The movement mode.
             environment_json (dict): The environment JSON.
         """
         self.layout = layout
-        self.mode = mode
+        self.mode = Mode(mode)
         Player.build_players(environment_json)
         Station.build_stations(environment_json)
     
