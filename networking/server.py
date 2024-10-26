@@ -49,7 +49,7 @@ async def server_loop(environment_name: str, seed: int=42, noisy_randomization: 
 
             while not done:
                 # Wait for messages from any client
-                # TODO(aac77): 
+                # TODO(aac77): #41
                 # currently cannot handle disconnected clients
                 # cannot handle invalid messages
                 # pickle needs to removed for security
@@ -113,7 +113,7 @@ async def server_loop(environment_name: str, seed: int=42, noisy_randomization: 
                 pickle.dump(recording, f)
     
     async def handle_connection(websocket):
-        # TODO(aac77):
+        # TODO(aac77): $41
         # cannot handle disconnections
         print("Hello client", websocket)
         q = asyncio.Queue()
