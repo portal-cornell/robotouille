@@ -426,6 +426,7 @@ class State(object):
             return self, True
         
         self.current_player = self.next_player()
-
+        # TODO: DEBUGGING
+        print(self.predicates)
         return self, False
     

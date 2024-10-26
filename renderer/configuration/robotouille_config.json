@@ -122,7 +122,30 @@
                     }
                 },
                 "constants": {}
-            } 
+            },
+            "egg_yolk": {
+                "assets": {
+                    "default": "rawegg.png",
+                    "fried": {
+                        "asset": "friedegg.png",
+                        "predicates": ["isfried"]
+                    }
+                },
+                "constants": {}
+            },
+            "egg": {
+                "assets": {
+                    "default": "egg.png",
+                    "cracked": {
+                        "asset": "eggshell.png",
+                        "predicates": "iscracked"
+                    }
+                },
+                "constants": {
+                    "X_SCALE_FACTOR": 0.125,
+                    "Y_SCALE_FACTOR": 0.2
+                }
+            }
         }
     },
 
@@ -205,6 +228,16 @@
                     }
                 },
                 "constants": {}
+            },
+            "pan": {
+                "assets": {
+                    "default": "fryingpan.png"
+                }
+            },
+            "egg_carton": {
+                "assets": {
+                    "default": "eggcarton.png"
+                }
             }
         }
     }

@@ -11,6 +11,8 @@ class Item(Enum):
     ONION = "onion"
     CHICKEN = "chicken"
     POTATO = "potato"
+    EGG_YOLK = "egg_yolk"
+    EGG = "egg"
 
 class Player(Enum):
     ROBOT = "robot"
@@ -26,6 +28,8 @@ class Station(Enum):
 class Container(Enum):
     POT = "pot"
     BOWL = "bowl"
+    PAN = "pan"
+    EGG_CARTON = "egg_carton"
 
 class Meal(Enum):
     WATER = "water"
