@@ -211,11 +211,6 @@
                     "predicate": "loc",
                     "params": ["p1", "s1"],
                     "is_true": true
-                },
-                {
-                    "predicate": "vacant",
-                    "params": ["s2"],
-                    "is_true": true
                 }
             ],
             "immediate_fx": [
@@ -227,16 +222,6 @@
                 {
                     "predicate": "loc",
                     "params": ["p1", "s1"],
-                    "is_true": false
-                },
-                {
-                    "predicate": "vacant",
-                    "params": ["s1"],
-                    "is_true": true
-                },
-                {
-                    "predicate": "vacant",
-                    "params": ["s2"],
                     "is_true": false
                 }
             ],

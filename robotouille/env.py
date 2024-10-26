@@ -1,5 +1,8 @@
 from backend.object import Object
 from backend.state import State
+from backend.movement.movement import Movement
+from environments.env_generator.builder import entity_to_entity_field, create_unique_and_combination_preds, create_combinations
+import copy
 from domain.domain_builder import build_domain
 from backend.gamemodes.classic import Classic
 from .env_utils import build_identity_predicates, build_location_predicates, build_stacking_predicates, build_goal
@@ -7,13 +10,15 @@ import gym
 import json
 
 
-def build_state(domain_json, environment_json):
+def build_state(domain_json, environment_json, layout, animate):
     """
     This function is a temporary solution to building the state.
 
     Args:
         domain_json (dict): Dictionary containing the domain name, object types, predicate definitions, and action definitions.
         environment_json (dict): Dictionary containing the initial stations, items, and player location.
+        layout (list): A 2D list of station names representing where stations are in the environment.
+        animate (bool): Whether or not to animate the movement of the players.
 
     Returns:
         state (State): The state.
@@ -35,7 +40,9 @@ def build_state(domain_json, environment_json):
     true_predicates += build_stacking_predicates(environment_json)
     goal = build_goal(environment_json, environment_json["goal"])
 
-    state = State().initialize(domain, objects, true_predicates, goal)
+    movement = Movement(layout, animate, environment_json)
+
+    state = State().initialize(domain, objects, true_predicates, goal, movement)
 
     return state
 
@@ -82,11 +89,11 @@ def build_gamemode(environment_json, domain_json, state):
 class RobotouilleEnv(gym.Env):
     metadata = {"render_modes": ["human", "rgb_array"], "render_fps": 60}
 
-    def __init__(self, domain_json, environment_json, render_fn, render_mode=None, size=5):        
+    def __init__(self, domain_json, environment_json, render_fn, layout, animate, render_mode=None, size=5):        
         self.size = size
         self.window_size = 512
 
-        initial_state = build_state(domain_json, environment_json)
+        initial_state = build_state(domain_json, environment_json, layout, animate)
 
         self.initial_state = initial_state
 
@@ -103,6 +110,12 @@ class RobotouilleEnv(gym.Env):
         self.clock = None
 
         self.render_fn = render_fn
+
+    def get_state(self):
+        return self.observation_space
+    
+    def set_state(self, state):
+        self.observation_space = state
 
     def step(self, time, actions, interactive):
         obs, done = self.gamemode.step(time, actions)
