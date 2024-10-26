@@ -24,7 +24,7 @@ class SettingScreen(screen.ScreenInterface):
         height_scale = screen_height / img_height
         scale_factor = min(width_scale, height_scale)  
 
-        self.background = image.Image(screen, background_image, 0, 0, scale_factor, anchor = "topleft")
+        self.background = image.Image(screen, background_image, 0.5, 0.5, scale_factor)
         self.back_arrow = button.Button(screen, back_arrow_image, 64/img_width, 860/img_height, scale_factor, hover_color=constants.GREY)
 
     
@@ -40,8 +40,6 @@ class SettingScreen(screen.ScreenInterface):
 
         # Handle events
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-            elif self.back_arrow.is_clicked(event):
+            if self.back_arrow.is_clicked(event):
                 self.set_next_screen(constants.MAIN_MENU)
 

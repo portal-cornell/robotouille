@@ -12,6 +12,11 @@ def simulator(environment_name: str, seed: int=42, noisy_randomization: bool=Fal
     interactive = False # Set to True to interact with the environment through terminal REPL (ignores input)
     
     while not done:
+        # Handle keypresses 
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_q]:
+            return True
+        
         # Construct action from input
         pygame_events = pygame.event.get()
         # Mouse clicks for movement and pick/place stack/unstack

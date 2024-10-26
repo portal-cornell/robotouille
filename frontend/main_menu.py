@@ -25,7 +25,7 @@ class MenuScreen(screen.ScreenInterface):
         scale_factor = min(width_scale, height_scale)  
 
 
-        self.background = image.Image(screen, background_image, 0, 0, scale_factor, anchor = "topleft")
+        self.background = image.Image(screen, background_image, 0.5, 0.5, scale_factor)
         self.start_button = button.Button(screen, start_button_image, 0.5, 0.5, scale_factor, hover_color=constants.GREY)
 
     def draw(self):
@@ -39,9 +39,7 @@ class MenuScreen(screen.ScreenInterface):
         self.draw()
         # Handle events
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-            elif self.start_button.is_clicked(event):
+            if self.start_button.is_clicked(event):
                 self.set_next_screen(constants.GAME)
 
         # Handle keypresses 

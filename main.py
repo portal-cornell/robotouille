@@ -14,7 +14,8 @@ args = parser.parse_args()
 
 
 pygame.init()
-screen = pygame.display.set_mode((800, 600))
+screen_size = (800, 600)
+screen = pygame.display.set_mode(screen_size)
 pygame.display.set_caption("Game")
 
 # Create the screens
@@ -44,8 +45,9 @@ while running:
             settings.set_next_screen(None) 
         
     elif current_screen == GAME:
-        simulator(args.environment_name, args.seed, args.noisy_randomization)
-
+        if simulator(args.environment_name, args.seed, args.noisy_randomization):
+            current_screen = MAIN_MENU
+            screen = pygame.display.set_mode(screen_size)
     pygame.display.flip()  
 
 pygame.quit()

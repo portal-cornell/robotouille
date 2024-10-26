@@ -33,13 +33,11 @@ class Image:
         x = int(screen_width * self.x_percent)
         y = int(screen_height * self.y_percent)
         
-        # Set the position based on the anchor
         if self.anchor == "center":
             self.rect = self.image.get_rect(center=(x, y))
-        else:  # Default to "topleft"
+        else:  
             self.rect = self.image.get_rect(topleft=(x, y))
-
-        # Update the x and y coordinates for drawing
+            
         self.x, self.y = self.rect.topleft
 
     def draw(self):
