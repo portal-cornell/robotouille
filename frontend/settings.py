@@ -24,8 +24,14 @@ class SettingScreen(screen.ScreenInterface):
         height_scale = screen_height / img_height
         scale_factor = min(width_scale, height_scale)  
 
+        background_width = background_image.get_width() * scale_factor
+        background_height = background_image.get_height() * scale_factor
+
+        offset_x = (screen_width - background_width) / (2 * screen_width)
+        offset_y = (screen_height - background_height) / (2 * screen_height)
+
         self.background = image.Image(screen, background_image, 0.5, 0.5, scale_factor)
-        self.back_arrow = button.Button(screen, back_arrow_image, 64/img_width, 860/img_height, scale_factor, hover_color=constants.GREY)
+        self.back_arrow = button.Button(screen, back_arrow_image, offset_x + 64/img_width, offset_y + 860/img_height, scale_factor)
 
     
     def draw(self):
@@ -36,6 +42,7 @@ class SettingScreen(screen.ScreenInterface):
 
     def update(self):
         """Update the screen and handle keypress events."""
+        super().update() 
         self.draw()
 
         # Handle events

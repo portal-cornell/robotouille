@@ -24,9 +24,14 @@ class MenuScreen(screen.ScreenInterface):
         height_scale = screen_height / img_height
         scale_factor = min(width_scale, height_scale)  
 
+        background_width = background_image.get_width() * scale_factor
+        background_height = background_image.get_height() * scale_factor
+
+        offset_x = (screen_width - background_width) / (2 * screen_width)
+        offset_y = (screen_height - background_height) / (2 * screen_height)
 
         self.background = image.Image(screen, background_image, 0.5, 0.5, scale_factor)
-        self.start_button = button.Button(screen, start_button_image, 0.5, 0.5, scale_factor, hover_color=constants.GREY)
+        self.start_button = button.Button(screen, start_button_image, 0.5, 0.5, scale_factor)
 
     def draw(self):
         """Draws all the screen components."""
@@ -36,6 +41,7 @@ class MenuScreen(screen.ScreenInterface):
 
     def update(self):
         """Update the screen and handle events."""
+        super().update() 
         self.draw()
         # Handle events
         for event in pygame.event.get():

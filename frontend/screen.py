@@ -14,7 +14,6 @@ class ScreenInterface(ABC):
         """Draws all the screen components."""
         pass
 
-    @abstractmethod
     def update(self):
         """Update the screen and handle keypress events."""
-        pass
+        self.screen.fill((0, 0, 0))  # Clear screen after changing the state
