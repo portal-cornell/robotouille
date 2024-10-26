@@ -3,6 +3,7 @@ import pygame
 import numpy as np
 from utils.robotouille_utils import trim_item_ID
 from backend.movement.player import Player
+from backend.customer import Customer
 import json
 
 class RobotouilleCanvas:
@@ -82,7 +83,8 @@ class RobotouilleCanvas:
                 return self._get_station_position(literal.params[1].name)
             if is_true and literal.name == "has_container" and literal.params[1].name == container_name:
                 player = literal.params[0].name
-                return np.array(self.player_pose[player]["position"], dtype=float)
+                player_obj = Player.players[player]
+                return np.array([player_obj.pos[0], len(self.layout) - player_obj.pos[1] - 1], dtype=float)
 
     def _draw_image(self, surface, image_name, position, scale):
         """
@@ -542,7 +544,7 @@ class RobotouilleCanvas:
             player_obj = Player.players[player.name]
             player_pos = (player_obj.pos[0], len(self.layout) - player_obj.pos[1] - 1)
             # Get the sprite list for the player's direction
-            robot_sprite = self._get_player_sprite(player_obj.direction)
+            robot_sprite = self._get_player_or_customer_image_name(player_obj.direction, "player")
             if player_obj.sprite_value >= len(robot_sprite):
                 player_obj.sprite_value = 0
             # Get the image name of the player
@@ -554,16 +556,6 @@ class RobotouilleCanvas:
 
             # Check if the player is holding an item or container
             for literal, is_true in obs.predicates.items():
-                if is_true and literal.name == "loc" and literal.params[0].name == player.name:
-                    player_station = literal.params[1].name
-                    station_pos = self._get_station_position(player_station)
-                    player_pos = self.player_pose[player.name]["position"]
-                    player_pos, player_direction = self._move_player_to_station(player_pos, tuple(station_pos), self.layout)
-                    self.player_pose[player.name] = {"position": player_pos, "direction": player_direction}
-                    #pos[1] += 1 # place the player below the station
-                    #player_pos = pos
-                    robot_image_name = self._get_player_or_customer_image_name(player_direction, "player")
-                    self._draw_image(surface, robot_image_name, player_pos * self.pix_square_size, self.pix_square_size)
                 if is_true and literal.name == "has_item" and literal.params[0].name == player.name:
                     held_item_name = literal.params[1].name
                 if is_true and literal.name == "has_container" and literal.params[0].name == player.name:
@@ -572,6 +564,9 @@ class RobotouilleCanvas:
             if held_item_name:
                 self._draw_item_image(surface, held_item_name, obs, player_pos * self.pix_square_size)
             if held_container_name:
+                has_container_offset = self.config["container"]["constants"]["HAS_CONTAINER_OFFSET"]
+                player_pos = np.array(player_pos, dtype=float)
+                player_pos[1] -= has_container_offset
                 self._draw_container_image(surface, held_container_name, obs, player_pos * self.pix_square_size)
 
     def draw_customer(self, surface, obs):
@@ -584,16 +579,17 @@ class RobotouilleCanvas:
         """
         customers = obs.get_customers()
         for customer in customers:
-            customer_pos = None
-            for literal, is_true in obs.predicates.items():
-                if is_true and literal.name == "customer_loc" and literal.params[0].name == customer.name:
-                    customer_station = literal.params[1].name
-                    station_pos = self._get_station_position(customer_station)
-                    customer_pos = self.customer_pose[customer.name]["position"]
-                    customer_pos, customer_direction = self._move_player_to_station(customer_pos, tuple(station_pos), self.layout)
-                    self.customer_pose[customer.name] = {"position": customer_pos, "direction": customer_direction}
-                    robot_image_name = self._get_player_or_customer_image_name(customer_direction, "customer")
-                    self._draw_image(surface, robot_image_name, customer_pos * self.pix_square_size, self.pix_square_size)
+            # Get the customer object to access information about direction and position
+            customer_obj = Customer.customers[customer.name]
+            player_pos = (customer_obj.pos[0], len(self.layout) - customer_obj.pos[1] - 1)
+            # Get the sprite list for the player's direction
+            robot_sprite = self._get_player_or_customer_image_name(customer_obj.direction, "customer")
+            if customer_obj.sprite_value >= len(robot_sprite):
+                customer_obj.sprite_value = 0
+            # Get the image name of the player
+            robot_image_name = robot_sprite[customer_obj.sprite_value]
+            # Draw the player
+            self._draw_image(surface, robot_image_name, player_pos * self.pix_square_size, self.pix_square_size)
 
     def _draw_item(self, surface, obs):
         """
@@ -610,6 +606,7 @@ class RobotouilleCanvas:
         stack_list = [] # In the form (x, y) such that x is stacked on y
         stack_number = {} # Stores the item item and current stack number
         station_item_offset = self.config["item"]["constants"]["STATION_ITEM_OFFSET"]
+        container_item_offset = self.config["item"]["constants"]["CONTAINER_ITEM_OFFSET"]
         for literal, is_true in obs.predicates.items():
             if is_true and literal.name == "item_on":
                 item = literal.params[0].name
@@ -628,7 +625,7 @@ class RobotouilleCanvas:
                 stack_number[item] = 1
                 container_pos = self._get_container_position(container, obs)
                 # Place the item slightly above the container
-                container_pos[1] -= station_item_offset
+                container_pos[1] -= container_item_offset
                 self._draw_item_image(surface, item, obs, container_pos * self.pix_square_size)
 
         # Add stacked items
@@ -640,15 +637,22 @@ class RobotouilleCanvas:
                     stack_list.remove(stack_list[i])
                     stack_number[item_above] = stack_number[item_below] + 1
                     # Get location of station
+                    is_at_container = False
                     for literal, is_true in obs.predicates.items():
-                        if is_true and literal.name == "item_at" and literal.params[0].name == item_below:
-                            station_pos = self._get_station_position(literal.params[1].name)
+                        if is_true and literal.name == "at_station" and literal.params[0].name == item_below:
+                            station_or_container_pos = self._get_station_position(literal.params[1].name)
+                            break
+                        if is_true and literal.name == "at_container" and literal.params[0].name == item_below:
+                            station_or_container_pos = self._get_container_position(literal.params[1].name, obs)
+                            is_at_container = True
                             break
                     item_name, _ = trim_item_ID(item_above)
                     # Check if item has a stack offset
                     stack_offset = self.config["item"]["entities"][item_name]["constants"].get("STACK_OFFSET", 0)
-                    station_pos[1] -= station_item_offset + 0.1 * (stack_number[item_above] - 1) + stack_offset
-                    self._draw_item_image(surface, item_above, obs, station_pos * self.pix_square_size)
+                    station_or_container_pos[1] -= station_item_offset + 0.1 * (stack_number[item_above] - 1) + stack_offset
+                    if is_at_container:
+                        station_or_container_pos[1] -= 0.5 * container_item_offset
+                    self._draw_item_image(surface, item_above, obs, station_or_container_pos * self.pix_square_size)
                 else:
                     i += 1
 

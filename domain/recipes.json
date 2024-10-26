@@ -26,6 +26,16 @@
                 "predicate": "atop",
                 "args": ["patty", "bottombun"],
                 "ids": [2, 4]
+            },
+            {
+                "predicate": "atop_container",
+                "args": ["bottombun", "bowl"],
+                "ids": [4, 5]
+            },
+            {
+                "predicate": "container_at",
+                "args": ["bowl", "customertable"],
+                "ids": [5, 6]
             }
         ]
     }

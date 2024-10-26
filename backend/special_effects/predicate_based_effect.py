@@ -9,11 +9,11 @@ class MultiEffect(SpecialEffect):
 
     For example, when picking up a container with an undetermined number of 
     objects, the condition predicate would be:
-        - "item_at_container" predicate is true
+        - "at_station_container" predicate is true
 
     Then, all objects that are atop the container would be picked up, and their
     location would be updated. Then, the effect predicate would be:
-        - "item_at" predicate is set to false
+        - "at_station" predicate is set to false
     """
     def __init__(self, param, filter_dict, effects, special_effects, arg=None):
         """

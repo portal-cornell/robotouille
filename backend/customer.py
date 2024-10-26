@@ -28,7 +28,6 @@ class Customer(object):
                 in milliseconds.
         """
         self.id = Customer.id_counter
-        Customer.id_counter += 1
         self.name = name
         self.pos = pos
         self.direction = direction
@@ -36,6 +35,11 @@ class Customer(object):
         self.time_to_serve = time_to_serve
         self.enter_time = enter_time
         self.has_been_served = False
+        self.in_game = True
+        self.sprite_value = 0
+        self.action = None
+        Customer.id_counter += 1
+        Customer.customers[name] = self
 
     def build_order(order_name, environment_json, recipe_json):
         """
@@ -76,7 +80,6 @@ class Customer(object):
             time_to_serve = customer["time_to_serve"]
             enter_time = customer["enter_time"]
             customer = Customer(name, pos, direction, order, time_to_serve, enter_time)
-            Customer.customers[customer.id] = customer
             customer_obj = Object(customer.name, "customer")
             customers.append(customer_obj)
         return customers
@@ -160,9 +163,13 @@ class Customer(object):
             state (State): The game state.
 
         Returns:
-            state (State): The updated game state.
+            action (Tuple[Action, Dictionary[str, Object]]): The action performed
+                by the customer.
         """
         table_to_move_to = None
+
+        if self.action:
+            return None
 
         if self._is_at_table(state):
             clock = time.Clock()
@@ -172,7 +179,7 @@ class Customer(object):
                 
         elif self not in Customer.customer_queue and time.get_ticks() >= self.enter_time:
             Customer.customer_queue.append(self)
-
+        
         elif len(Customer.customer_queue) > 0:
             if Customer.customer_queue[0] == self:
                 table_to_move_to = self._get_empty_table(state)
@@ -181,23 +188,19 @@ class Customer(object):
 
         # Customer can either leave or move to a table, but not both
         assert not (self.has_been_served and table_to_move_to)
-        # print(self.name)
-        # print(table_to_move_to.name) if table_to_move_to else print("None")
 
         for action, param_arg_dict_list in state.npc_actions.items():
-            # print("action: " + action.name)
             for param_arg_dict in param_arg_dict_list:
-                # print(param_arg_dict)
-                if self.has_been_served and action.name == "customer_leave" and \
-                    param_arg_dict["c1"].name == self.name:
+                if self.has_been_served and self.in_game and \
+                    action.name == "customer_leave" and \
+                        param_arg_dict["c1"].name == self.name and \
+                            param_arg_dict["s2"].name == "customerspawn1":
                     assert action.is_valid(state, param_arg_dict)
-                    return action.perform_action(state, param_arg_dict)
+                    self.in_game = False
+                    return (action, param_arg_dict)
                 if table_to_move_to and action.name == "customer_move" and \
                     param_arg_dict["c1"].name == self.name and \
-                        param_arg_dict["s1"].name == table_to_move_to.name:
-                    # print("YESSSSSSSS")
+                        param_arg_dict["s2"].name == table_to_move_to.name:
                     assert action.is_valid(state, param_arg_dict)
-                    # print("customer moved to table" + table_to_move_to.name)
-                    return action.perform_action(state, param_arg_dict)
-            
-        return state
+                    return (action, param_arg_dict)
+        return None

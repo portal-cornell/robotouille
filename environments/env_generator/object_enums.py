@@ -22,6 +22,7 @@ class Station(Enum):
     FRYER = "fryer"
     SINK = "sink"
     CUSTOMERTABLE = "customertable"
+    CUSTOMERSPAWN = "customerspawn"
     COUNTER = "counter"
     BLENDER = "blender"
 

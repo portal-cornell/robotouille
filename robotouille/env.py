@@ -10,15 +10,13 @@ import gym
 import json
 
 
-def build_state(domain_json, environment_json, layout, animate):
+def build_state(domain_json, environment_json):
     """
     This function is a temporary solution to building the state.
 
     Args:
         domain_json (dict): Dictionary containing the domain name, object types, predicate definitions, and action definitions.
         environment_json (dict): Dictionary containing the initial stations, items, and player location.
-        layout (list): A 2D list of station names representing where stations are in the environment.
-        animate (bool): Whether or not to animate the movement of the players.
 
     Returns:
         state (State): The state.
@@ -40,9 +38,7 @@ def build_state(domain_json, environment_json, layout, animate):
     true_predicates += build_stacking_predicates(environment_json)
     goal = build_goal(environment_json, environment_json["goal"])
 
-    movement = Movement(layout, animate, environment_json)
-
-    state = State().initialize(domain, objects, true_predicates, goal, movement)
+    state = State().initialize(domain, objects, true_predicates, goal)
 
     return state
 
@@ -63,7 +59,7 @@ def build_input_json(domain_json):
 
     return input_json
 
-def build_gamemode(environment_json, domain_json, state):
+def build_gamemode(environment_json, domain_json, state, layout, animate):
     """
     This function builds the gamemode of the environment. 
 
@@ -71,6 +67,8 @@ def build_gamemode(environment_json, domain_json, state):
         environment_json (dict): The environment dictionary
         domain_json (dict): The domain dictionary
         state (State): The state of the environment
+        layout (list): A 2D list of station names representing where stations are in the environment.
+        animate (bool): Whether or not to animate the movement of the players.
 
     Returns:
         gamemode(GameMode): The gamemmode of the environment
@@ -82,8 +80,10 @@ def build_gamemode(environment_json, domain_json, state):
     with open(recipe_json_name, "r") as recipe_json_file:
         recipe_json = json.load(recipe_json_file)
 
+    movement = Movement(layout, animate, environment_json)
+
     if name == "classic":
-        return Classic(state, environment_json, recipe_json)
+        return Classic(state, environment_json, recipe_json, movement)
     return None
 
 class RobotouilleEnv(gym.Env):
@@ -93,11 +93,11 @@ class RobotouilleEnv(gym.Env):
         self.size = size
         self.window_size = 512
 
-        initial_state = build_state(domain_json, environment_json, layout, animate)
+        initial_state = build_state(domain_json, environment_json)
 
         self.initial_state = initial_state
 
-        self.gamemode = build_gamemode(environment_json, domain_json, initial_state)
+        self.gamemode = build_gamemode(environment_json, domain_json, initial_state, layout, animate)
 
         self.action_space = initial_state.domain.actions
 
@@ -117,8 +117,8 @@ class RobotouilleEnv(gym.Env):
     def set_state(self, state):
         self.observation_space = state
 
-    def step(self, time, actions, interactive):
-        obs, done = self.gamemode.step(time, actions)
+    def step(self, actions, clock, time, interactive):
+        obs, done = self.gamemode.step(actions, clock, time)
         return obs, 0, done, {}
 
     def reset(self, seed=None, options=None):

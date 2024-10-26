@@ -44,7 +44,7 @@ def simulator(environment_name: str, seed: int=42, noisy_randomization: bool=Fal
 
         # If all players have made an action, step the environments
         if len(actions) == len(players):
-            obs, reward, done, info = env.step(pygame.time, actions, interactive=interactive)
+            obs, reward, done, info = env.step(actions, renderer.clock, pygame.time, interactive=interactive)
             renderer.render(obs, mode='human')
             actions = []
 

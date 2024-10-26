@@ -23,6 +23,11 @@
             "y": 5
         },
         {
+            "name": "table",
+            "x": 1,
+            "y": 5
+        },
+        {
             "name": "stove",
             "x": 3,
             "y": 3
@@ -50,6 +55,11 @@
         {
             "name": "customertable",
             "x": 1,
+            "y": 1
+        },
+        {
+            "name": "customerspawn",
+            "x": 7,
             "y": 1
         }
     ],
@@ -93,8 +103,8 @@
     "containers": [
         {
             "name": "bowl",
-            "x": 6,
-            "y": 6
+            "x": 1,
+            "y": 5
         }
     ],
     "customers": [

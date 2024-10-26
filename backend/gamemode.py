@@ -5,7 +5,7 @@ class GameMode(object):
     and keeps track of their score. 
     """
     
-    def __init__(self, state, environment_json, recipe_json):
+    def __init__(self, state, environment_json, recipe_json, movement):
         """
         Initializes the GameMode object.
 
@@ -13,10 +13,12 @@ class GameMode(object):
             state (State): The game state.
             environment_json (dict): The environment dictionary.
             recipe_json (dict): The recipe dictionary.
+            movement (Movement): The movement object.
         """
         self.score = 0
         self.win = False
         self.state = state
+        self.movement = movement
         Customer.build_customers(environment_json, recipe_json)
 
 

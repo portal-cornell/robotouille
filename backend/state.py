@@ -2,7 +2,7 @@ from backend.predicate import Predicate
 from backend.object import Object
 from backend.object import Object
 from utils.robotouille_utils import trim_item_ID
-from backend.movement.movement import Mode
+# from backend.movement.movement import Mode
 import itertools
 
 class State(object):
@@ -158,7 +158,7 @@ class State(object):
         """
         return [obj for obj in self.objects if obj.object_type == "customer"]
       
-    def initialize(self, domain, objects, true_predicates, all_goals, movement, special_effects=[]):
+    def initialize(self, domain, objects, true_predicates, all_goals, special_effects=[]):
         """
         Initializes a state object.
 
@@ -176,8 +176,6 @@ class State(object):
             true_predicates (Set[Predicate]): The predicates that are true in
                 the state, as defined by the problem file. 
             all_goals (List[List[Predicate]]): The goal predicates of the game. 
-            movement (Movement): The movement object that handles the movement
-                of players in the state.
             special_effects (List[Special_effects]): The special effects that 
                 are active in the state.
 
@@ -208,7 +206,6 @@ class State(object):
         self.predicates = predicates
         self.actions, self.npc_actions = self._build_actions(objects)
         self.goal = all_goals
-        self.movement = movement
         self.special_effects = special_effects
 
         return self
@@ -431,7 +428,7 @@ class State(object):
         next_index = (current_index + 1) % len(players)
         return players[next_index]
 
-    def step(self, actions, clock):
+    def step(self, actions):
         """
         Steps the state forward by applying the effects of the action.
 
@@ -442,8 +439,6 @@ class State(object):
                 length of the list is the number of players, where actions[i] is
                 the action for player i. If player i is not performing an action,
                 actions[i] is None.
-            clock (pygame.time.Clock): The clock object to control the framerate
-                of the game.
         
         Returns:
             new_state (State): The successor state.
@@ -459,9 +454,6 @@ class State(object):
             assert action.is_valid(self, param_arg_dict)
             if action.name != "move":
                 self = action.perform_action(self, param_arg_dict)
-        
-        self.movement.step(self, clock, actions)
-
 
         for special_effect in self.special_effects:
             special_effect.update(self)
@@ -469,10 +461,6 @@ class State(object):
         if self.is_goal_reached():
             return self, True
         
-        if self.movement.mode == Mode.TRAVERSE:
-            self.current_player = self.next_player()
-
-        print(self.predicates)
 
         return self, False
     

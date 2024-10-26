@@ -22,14 +22,28 @@
             }
         },
         {
-            "name": "stack",
+            "name": "stack-on-bottom-item",
             "input_instructions": {
                 "button": "left",
                 "click_on": "s1"
             }
         },
         {
-            "name": "unstack",
+            "name": "unstack-from-bottom-item",
+            "input_instructions": {
+                "button": "left",
+                "click_on": "s1"
+            }
+        },
+        {
+            "name": "stack-onto-station-stack",
+            "input_instructions": {
+                "button": "left",
+                "click_on": "s1"
+            }
+        },
+        {
+            "name": "unstack-from-station-stack",
             "input_instructions": {
                 "button": "left",
                 "click_on": "s1"
@@ -44,6 +58,20 @@
         },
         {
             "name": "unstack_from_container",
+            "input_instructions": {
+                "button": "left",
+                "click_on": "s1"
+            }
+        },
+        {
+            "name": "stack-onto-container-stack",
+            "input_instructions": {
+                "button": "left",
+                "click_on": "s1"
+            }
+        },
+        {
+            "name": "unstack-from-container-stack",
             "input_instructions": {
                 "button": "left",
                 "click_on": "s1"
