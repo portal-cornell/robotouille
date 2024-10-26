@@ -10,7 +10,11 @@
         }
     },
 
-    "floor": "floorkitchen.png",
+    "floor": {
+        "ground": ["tileset_flooring"],
+        "furniture": ["tileset_table", "tileset_counter"],
+        "default": "floorkitchen.png"
+    },
 
     "item": {
         "constants": {
@@ -123,13 +127,17 @@
     },
 
     "station": {
-        "constants": {},
+        "constants": {
+            "STATION_OFFSET": 0
+        },
         "entities": {
             "fryer": {
                 "assets": {
                     "default": "fryer.png"
                 },
-                "constants": {}
+                "constants": {
+                    "underneath": "T"
+                }
             },
             "stove": {
                 "assets": {
@@ -139,7 +147,13 @@
             },
             "table": {
                 "assets": {
-                    "default": "table.png"
+                    "tile": "T"
+                },
+                "constants": {}
+            },
+            "counter": {
+                "assets": {
+                    "tile": "C"
                 },
                 "constants": {}
             },
@@ -147,7 +161,19 @@
                 "assets": {
                     "default": "board.png"
                 },
-                "constants": {}
+                "constants": {
+                    "STATION_OFFSET": 0.16,
+                    "underneath": "T"
+                }
+            },
+            "blender": {
+                "assets": {
+                    "default": "blender_inactive.png"
+                },
+                "constants": {
+                    "STATION_OFFSET": 0.5,
+                    "underneath": "T"
+                }
             }
         }
     },
@@ -195,6 +221,14 @@
                     }
                 },
                 "constants": {}
+            },
+            "blendercup": {
+                "assets": {
+                    "default": "blender_empty.png"
+                },
+                "constants": {
+                    "STATION_CONTAINER_OFFSET": 0.5
+                }
             }
         }
     }
