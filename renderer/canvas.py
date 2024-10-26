@@ -607,6 +607,15 @@ class RobotouilleCanvas:
         """
         station_container_offset = self.config["container"]["constants"]["STATION_CONTAINER_OFFSET"]
         for literal, is_true in obs.predicates.items():
+            station_container_offset = self.config["container"]["constants"]["STATION_CONTAINER_OFFSET"]
+        for literal, is_true in obs.predicates.items():
+            if is_true and literal.name == "container_at":
+                container = literal.params[0].name
+                station = literal.params[1].name
+                container_pos = self._get_station_position(station)
+                name, _ = trim_item_ID(container)
+                container_pos[1] -= self.config["container"]["entities"][name]["constants"].get("STATION_CONTAINER_OFFSET", station_container_offset)
+                self._draw_container_image(surface, container, obs, container_pos * self.pix_square_size)
             if is_true and literal.name == "has_container":
                 container = literal.params[1].name
                 player = literal.params[0].name
