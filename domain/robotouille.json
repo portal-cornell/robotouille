@@ -1127,7 +1127,7 @@
             "name": "pan-fry",
             "precons": [
                 {
-                    "predicate": "isfryer",
+                    "predicate": "isstove",
                     "params": ["s1"],
                     "is_true": true
                 },
