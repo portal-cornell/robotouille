@@ -12,10 +12,10 @@
 
     "customer": {
         "robot": {
-            "front": ["robot_front_1.png", "robot_front_2.png", "robot_front_3.png", "robot_front_4.png"],
-            "back": ["robot_back_1.png", "robot_back_2.png", "robot_back_3.png", "robot_back_4.png"],
-            "left": ["robot_left_1.png", "robot_left_2.png", "robot_left_3.png", "robot_left_4.png"],
-            "right": ["robot_right_1.png", "robot_right_2.png", "robot_right_3.png", "robot_right_4.png"]
+            "front": ["customer_temp.png", "customer_temp.png", "customer_temp.png", "customer_temp.png"],
+            "back": ["customer_temp.png", "customer_temp.png", "customer_temp.png", "customer_temp.png"],
+            "left": ["customer_temp.png", "customer_temp.png", "customer_temp.png", "customer_temp.png"],
+            "right": ["customer_temp.png", "customer_temp.png", "customer_temp.png", "customer_temp.png"]
         }
     },
 
@@ -210,8 +210,7 @@
         "constants": {
             "STATION_CONTAINER_OFFSET" : 0.25,
             "X_SCALE_FACTOR": 0.125,
-            "Y_SCALE_FACTOR": 0.75,
-            "HAS_CONTAINER_OFFSET": 0.25
+            "Y_SCALE_FACTOR": 0.75
         },
         "entities": {
             "pot": {

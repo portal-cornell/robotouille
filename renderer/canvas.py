@@ -564,9 +564,6 @@ class RobotouilleCanvas:
             if held_item_name:
                 self._draw_item_image(surface, held_item_name, obs, player_pos * self.pix_square_size)
             if held_container_name:
-                has_container_offset = self.config["container"]["constants"]["HAS_CONTAINER_OFFSET"]
-                player_pos = np.array(player_pos, dtype=float)
-                player_pos[1] -= has_container_offset
                 self._draw_container_image(surface, held_container_name, obs, player_pos * self.pix_square_size)
 
     def draw_customer(self, surface, obs):
