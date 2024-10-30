@@ -378,6 +378,72 @@ class RobotouilleCanvas:
                     chosen_asset = meal_config["default"]
 
         return chosen_asset
+
+    def _choose_condiment_asset(self, condiment_image_name, obs):
+        """
+        Helper function to choose the condiment asset based on the current
+        true predicates in the state.
+
+        Args:
+            condiment_image_name (str): Name of the condiment
+            obs (List[Literal]): Game state predicates
+
+        Returns:
+            chosen_asset (str): Name of the chosen asset
+        """
+        condiment_image_name, condiment_id = trim_item_ID(condiment_image_name)
+        condiment_config = self.config["condiment"]["entities"]["ketchupbottle.png"]
+
+
+        # Get the name of the condiment
+        condiment_name = None
+        for literal, is_true in obs.predicates.items():
+            if is_true and literal.name == "in" and literal.params[1].name == condiment_image_name + condiment_id:
+                condiment_name = literal.params[0].name
+                break
+        print(condiment_name)
+        # If there is no condiment, use the default asset
+        if condiment_name is None:
+            return condiment_config["assets"]["default"]
+
+        # If there is a meal in the container, choose the asset based on the meal
+        # Find the predicates of the meal in the current game state
+        item_predicates = {}
+        for literal, is_true in obs.predicates.items():
+            if is_true:
+                literal_args = [param.name for param in literal.params]
+                if condiment_name in literal_args:
+                    item_predicates[literal.name] = [param.name for param in literal.params]
+
+        condiment_name, _ = trim_item_ID(condiment_name)
+        max_matches = 0
+        condiment_config = condiment_config["assets"][condiment_name]
+        chosen_asset = condiment_config["default"]
+        for asset in condiment_config:
+            if asset == "default":
+                continue
+            matches = 0
+            # Find the number of matches between the current predicates and the meal's predicates
+            for predicate in condiment_config[asset]["predicates"]:
+                if predicate["name"] in item_predicates:
+                    params = []
+                    pred_params = [trim_item_ID(param)[0] for param in item_predicates[predicate["name"]]]
+                    for param in predicate["params"]:
+                        if param == "":
+                            param = pred_params[predicate["params"].index("")]
+                        params.append(param)
+                    if params == pred_params:
+                        matches += 1
+
+            # If all predicates are true, choose the asset with the most matches
+            if matches == len(condiment_config[asset]["predicates"]):
+                if matches > max_matches:
+                    max_matches = matches
+                    chosen_asset = condiment_config[asset]["asset"]
+                elif matches == max_matches:
+                    chosen_asset = condiment_config["default"]
+
+        return chosen_asset
     
     def _draw_container_image(self, surface, container_name, obs, position):
         """
@@ -394,6 +460,22 @@ class RobotouilleCanvas:
         y_scale_factor = self.config["container"]["constants"]["Y_SCALE_FACTOR"]
 
         self._draw_image(surface, f"{container_image_name}", position + self.pix_square_size * x_scale_factor, self.pix_square_size * y_scale_factor)
+
+    def _draw_condiment_image(self, surface, condiment_name, obs, position):
+        """
+        Helper to draw a condiment image on the canvas.
+
+        Args:
+            surface (pygame.Surface): Surface to draw on
+            condiment_name (str): Name of the condiment
+            obs (List[Literal]): Game state predicates
+            position (np.array): (x, y) position of the condiment (with pix_square_size factor accounted for)
+        """
+        condiment_image_name = self._choose_condiment_asset(condiment_name, obs)
+        x_scale_factor = self.config["condiment"]["constants"]["X_SCALE_FACTOR"]
+        y_scale_factor = self.config["condiment"]["constants"]["Y_SCALE_FACTOR"]
+
+        self._draw_image(surface, f"{condiment_image_name}", position + self.pix_square_size * x_scale_factor, self.pix_square_size * y_scale_factor)
 
     def _draw_floor(self, surface):
         """
@@ -530,6 +612,7 @@ class RobotouilleCanvas:
             robot_image_name = robot_sprite[player_obj.sprite_value]
             held_item_name = None
             held_container_name = None
+            held_condiment_name = None
             # Draw the player
             self._draw_image(surface, robot_image_name, player_pos * self.pix_square_size, self.pix_square_size)
 
@@ -539,11 +622,16 @@ class RobotouilleCanvas:
                     held_item_name = literal.params[1].name
                 if is_true and literal.name == "has_container" and literal.params[0].name == player.name:
                     held_container_name = literal.params[1].name
+                if is_true and literal.name == "has_condiment" and literal.params[0].name == player.name:
+                    held_condiment_name = literal.params[1].name
             # Draw the item or container the player is holding
             if held_item_name:
                 self._draw_item_image(surface, held_item_name, obs, player_pos * self.pix_square_size)
             if held_container_name:
                 self._draw_container_image(surface, held_container_name, obs, player_pos * self.pix_square_size)
+            if held_container_name:
+                self._draw_condiment_image(surface, held_condiment_name, obs, player_pos * self.pix_square_size)
+
 
     def _draw_item(self, surface, obs):
         """
@@ -615,6 +703,31 @@ class RobotouilleCanvas:
                 name, _ = trim_item_ID(container)
                 container_pos[1] -= self.config["container"]["entities"][name]["constants"].get("STATION_CONTAINER_OFFSET", station_container_offset)
                 self._draw_container_image(surface, container, obs, container_pos * self.pix_square_size)
+
+    def _draw_condiment(self, surface, obs):
+        """
+        This helper draws condiments on the canvas.
+
+        Args:
+            surface (pygame.Surface): Surface to draw on
+            obs (State): Game state predicates
+
+        Side effects:
+            Draws the condiments to surface
+        """
+        station_condiment_offset = self.config["condiment"]["constants"]["STATION_CONDIMENT_OFFSET"]
+        for literal, is_true in obs.predicates.items():
+            # print(literal)
+            # print(is_true)
+            station_condiment_offset = self.config["condiment"]["constants"]["STATION_CONDIMENT_OFFSET"]
+            if is_true and literal.name == "condiment_at":
+                # print("here")
+                condiment = literal.params[0].name
+                station = literal.params[1].name
+                condiment_pos = self._get_station_position(station)
+                name, _ = trim_item_ID(condiment)
+                condiment_pos[1] -= self.config["condiment"]["entities"][name]["constants"].get("STATION_CONDIMENT_OFFSET", station_condiment_offset)
+                self._draw_condiment_image(surface, condiment, obs, condiment_pos * self.pix_square_size)
     
     def _add_platforms_underneath_stations(self, stations, abstract_tile_matrix):
         """
@@ -702,3 +815,4 @@ class RobotouilleCanvas:
         self._draw_player(surface, obs)
         self._draw_item(surface, obs)
         self._draw_container(surface, obs)
+        self._draw_condiment(surface, obs)
