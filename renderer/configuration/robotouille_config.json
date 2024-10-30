@@ -88,19 +88,19 @@
                     "default": "hotdog.png",
                     "grilled": {
                         "asset": "grilledhotdog.png",
-                        "predicates": ["isgrilled"]
-                    },
-                    "has_ketchup": {
-                        "asset": "ketchup.png",
-                        "predicates": ["has_ketchup"]
-                    },
-                    "has_mustard": {
-                        "asset": "mustard.png",
-                        "predicates": ["has_mustard"]
-                    },
-                    "has_ketchup_mustard": {
-                        "asset": "ketchupmustard.png",
-                        "predicates": ["has_ketchup_mustard"]
+                        "predicates": ["isgrilled"],
+                        "has_ketchup": {
+                            "asset": "ketchup.png",
+                            "predicates": ["has_ketchup"]
+                        },
+                        "has_mustard": {
+                            "asset": "mustard.png",
+                            "predicates": ["has_mustard"]
+                        },
+                        "has_ketchup_mustard": {
+                            "asset": "ketchupmustard.png",
+                            "predicates": ["has_ketchup_mustard"]
+                        }
                     }
                 },
                 "constants": {
@@ -285,23 +285,17 @@
             "Y_SCALE_FACTOR": 0.75
         },
         "entities": {
-            "ketchup": {
+            "ketchupbottle": {
                 "assets": {
                     "default": "ketchupbottle.png",
-                    "ketchup_mustard": {
-                        "asset": "ketchupmustard.png",
-                        "predicates": ["has_ketchup_mustard"]
-                    }
+                    "predicates": ["isketchup"]
                 },
                 "constants": {}
             },
-            "mustard": {
+            "mustardbottle": {
                 "assets": {
                     "default": "mustardbottle.png",
-                    "ketchup_mustard": {
-                        "asset": "ketchupmustard.png",
-                        "predicates": ["has_ketchup_mustard"]
-                    }
+                    "predicates": ["ismustard"]
                 },
                 "constants": {}
             }

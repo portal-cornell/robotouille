@@ -132,7 +132,10 @@ class RobotouilleCanvas:
                     chosen_asset = asset_config[asset]["asset"]
                 elif matches == max_matches:
                     chosen_asset = asset_config["default"]
-
+            if asset == "grilled":
+                for predicate in asset_config[asset]:
+                    if predicate in item_predicates:
+                        return asset_config[asset][predicate]["asset"]
         return chosen_asset
 
     def _draw_item_image(self, surface, item_name, obs, position):
@@ -378,72 +381,6 @@ class RobotouilleCanvas:
                     chosen_asset = meal_config["default"]
 
         return chosen_asset
-
-    def _choose_condiment_asset(self, condiment_image_name, obs):
-        """
-        Helper function to choose the condiment asset based on the current
-        true predicates in the state.
-
-        Args:
-            condiment_image_name (str): Name of the condiment
-            obs (List[Literal]): Game state predicates
-
-        Returns:
-            chosen_asset (str): Name of the chosen asset
-        """
-        condiment_image_name, condiment_id = trim_item_ID(condiment_image_name)
-        condiment_config = self.config["condiment"]["entities"]["ketchupbottle.png"]
-
-
-        # Get the name of the condiment
-        condiment_name = None
-        for literal, is_true in obs.predicates.items():
-            if is_true and literal.name == "in" and literal.params[1].name == condiment_image_name + condiment_id:
-                condiment_name = literal.params[0].name
-                break
-        print(condiment_name)
-        # If there is no condiment, use the default asset
-        if condiment_name is None:
-            return condiment_config["assets"]["default"]
-
-        # If there is a meal in the container, choose the asset based on the meal
-        # Find the predicates of the meal in the current game state
-        item_predicates = {}
-        for literal, is_true in obs.predicates.items():
-            if is_true:
-                literal_args = [param.name for param in literal.params]
-                if condiment_name in literal_args:
-                    item_predicates[literal.name] = [param.name for param in literal.params]
-
-        condiment_name, _ = trim_item_ID(condiment_name)
-        max_matches = 0
-        condiment_config = condiment_config["assets"][condiment_name]
-        chosen_asset = condiment_config["default"]
-        for asset in condiment_config:
-            if asset == "default":
-                continue
-            matches = 0
-            # Find the number of matches between the current predicates and the meal's predicates
-            for predicate in condiment_config[asset]["predicates"]:
-                if predicate["name"] in item_predicates:
-                    params = []
-                    pred_params = [trim_item_ID(param)[0] for param in item_predicates[predicate["name"]]]
-                    for param in predicate["params"]:
-                        if param == "":
-                            param = pred_params[predicate["params"].index("")]
-                        params.append(param)
-                    if params == pred_params:
-                        matches += 1
-
-            # If all predicates are true, choose the asset with the most matches
-            if matches == len(condiment_config[asset]["predicates"]):
-                if matches > max_matches:
-                    max_matches = matches
-                    chosen_asset = condiment_config[asset]["asset"]
-                elif matches == max_matches:
-                    chosen_asset = condiment_config["default"]
-
-        return chosen_asset
     
     def _draw_container_image(self, surface, container_name, obs, position):
         """
@@ -471,7 +408,8 @@ class RobotouilleCanvas:
             obs (List[Literal]): Game state predicates
             position (np.array): (x, y) position of the condiment (with pix_square_size factor accounted for)
         """
-        condiment_image_name = self._choose_condiment_asset(condiment_name, obs)
+        trimmed_condiment_name, condiment_ID = trim_item_ID(condiment_name)
+        condiment_image_name = self.config["condiment"]["entities"][trimmed_condiment_name]["assets"]["default"]
         x_scale_factor = self.config["condiment"]["constants"]["X_SCALE_FACTOR"]
         y_scale_factor = self.config["condiment"]["constants"]["Y_SCALE_FACTOR"]
 
@@ -629,7 +567,7 @@ class RobotouilleCanvas:
                 self._draw_item_image(surface, held_item_name, obs, player_pos * self.pix_square_size)
             if held_container_name:
                 self._draw_container_image(surface, held_container_name, obs, player_pos * self.pix_square_size)
-            if held_container_name:
+            if held_condiment_name:
                 self._draw_condiment_image(surface, held_condiment_name, obs, player_pos * self.pix_square_size)
 
 
@@ -717,11 +655,8 @@ class RobotouilleCanvas:
         """
         station_condiment_offset = self.config["condiment"]["constants"]["STATION_CONDIMENT_OFFSET"]
         for literal, is_true in obs.predicates.items():
-            # print(literal)
-            # print(is_true)
             station_condiment_offset = self.config["condiment"]["constants"]["STATION_CONDIMENT_OFFSET"]
             if is_true and literal.name == "condiment_at":
-                # print("here")
                 condiment = literal.params[0].name
                 station = literal.params[1].name
                 condiment_pos = self._get_station_position(station)
