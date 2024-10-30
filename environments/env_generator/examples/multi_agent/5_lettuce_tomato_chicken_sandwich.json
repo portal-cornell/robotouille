@@ -44,7 +44,7 @@
             "y": 3
         },
         {
-            "name": "table",
+            "name": "board",
             "x": 1,
             "y": 3
         },
@@ -89,13 +89,6 @@
             "x": 0,
             "y": 3,
             "stack-level": 0
-        },
-        {
-            "name": "onion",
-            "x": 1,
-            "y": 3,
-            "stack-level": 0,
-            "predicates": ["iscuttable"]
         },
         {
             "name": "tomato",

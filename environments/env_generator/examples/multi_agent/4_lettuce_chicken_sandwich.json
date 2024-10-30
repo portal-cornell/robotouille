@@ -146,7 +146,7 @@
         {
             "predicate": "atop",
             "args": ["lettuce", "chicken"],
-            "ids": [2, 3]
+            "ids": [1, 3]
         },
         {
             "predicate": "atop",

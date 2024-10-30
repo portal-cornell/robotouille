@@ -123,8 +123,8 @@
     "goal_description": "Make a double lettuce chicken sandwich (chicken interleaved with lettuce starting with chicken) on a table.",
     "goal": [
         {
-            "predicate": "iscut",
-            "args": ["lettuce"],
+            "predicate": "clear",
+            "args": ["bread"],
             "ids": [1]
         },
         {
@@ -133,39 +133,44 @@
             "ids": [2]
         },
         {
+            "predicate": "atop",
+            "args": ["bread", "lettuce"],
+            "ids": [1, 2]
+        },
+        {
             "predicate": "iscooked",
             "args": ["chicken"],
             "ids": [3]
         },
         {
-            "predicate": "iscooked",
-            "args": ["chicken"],
+            "predicate": "atop",
+            "args": ["lettuce", "chicken"],
+            "ids": [2, 3]
+        },
+        {
+            "predicate": "iscut",
+            "args": ["lettuce"],
             "ids": [4]
         },
         {
             "predicate": "atop",
-            "args": ["bread", "lettuce"],
-            "ids": [5, 1]
-        },
-        {
-            "predicate": "atop",
-            "args": ["lettuce", "chicken"],
-            "ids": [1, 3]
-        },
-        {
-            "predicate": "atop",
             "args": ["chicken", "lettuce"],
-            "ids": [3, 2]
+            "ids": [3, 4]
+        },
+        {
+            "predicate": "iscooked",
+            "args": ["chicken"],
+            "ids": [5]
         },
         {
             "predicate": "atop",
             "args": ["lettuce", "chicken"],
-            "ids": [2, 4]
+            "ids": [4, 5]
         },
         {
             "predicate": "atop",
             "args": ["chicken", "bread"],
-            "ids": [4, 6]
+            "ids": [5, 6]
         },
         {
             "predicate": "item_on",
