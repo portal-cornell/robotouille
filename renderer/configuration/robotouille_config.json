@@ -138,12 +138,17 @@
                     "default": "egg.png",
                     "cracked": {
                         "asset": "eggshell.png",
-                        "predicates": "iscracked"
+                        "predicates": ["iscracked"]
                     }
                 },
                 "constants": {
                     "X_SCALE_FACTOR": 0.125,
                     "Y_SCALE_FACTOR": 0.2
+                }
+            },
+            "pan": {
+                "assets": {
+                    "default": "fryingpan.png"
                 }
             }
         }
@@ -228,11 +233,6 @@
                     }
                 },
                 "constants": {}
-            },
-            "pan": {
-                "assets": {
-                    "default": "fryingpan.png"
-                }
             },
             "egg_carton": {
                 "assets": {

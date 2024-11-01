@@ -189,11 +189,7 @@
         },
         {
             "name": "ispan",
-            "param_types": ["container"]
-        },
-        {
-            "name": "in_container",
-            "param_types": ["item", "container"]
+            "param_types": ["item"]
         },
         {
             "name": "iscrackable",
@@ -1062,18 +1058,13 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "container_empty",
-                    "params": ["c1"],
-                    "is_true": true
-                },
-                {
                     "predicate": "loc",
                     "params": ["p1", "s1"],
                     "is_true": true
                 },
                 {
-                    "predicate": "container_at",
-                    "params": ["c1", "s1"],
+                    "predicate": "item_at",
+                    "params": ["i2", "s1"],
                     "is_true": true
                 },
                 {
@@ -1083,42 +1074,60 @@
                 },
                 {
                     "predicate": "clear",
-                    "params": ["i1"],
+                    "params": ["i2"],
                     "is_true": true
                 }
+                
             ],
             "immediate_fx": [
+                
+                {
+                    "predicate": "iscrackable",
+                    "params": ["i1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "clear",
+                    "params": ["i2"],
+                    "is_true": false
+                },
                 {
                     "predicate": "iscracked",
                     "params": ["i1"],
                     "is_true": true
-                },
-                {
-                    "predicate": "has_item",
-                    "params": ["p1", "i1"],
-                    "is_true": false
-                },
-                {
-                    "predicate": "in_container",
-                    "params": ["i2", "c1"],
-                    "is_true": true
-                },
-                {
-                    "predicate": "container_empty",
-                    "params": ["c1"],
-                    "is_true": false
                 }
             ],
             "sfx": [
                 {
                     "type": "creation",
-                    "param": "c1",
+                    "param": "i2",
                     "created_obj": {
-                        "name": "egg-yolk",
+                        "name": "egg_yolk",
                         "type": "item",
-                        "param": "i2"
+                        "param": "i3"
                     },
-                    "fx": [],
+                    "fx": [
+                        {
+                            "predicate": "atop",
+                            "params": ["i3", "i2"],
+                            "is_true": true
+                        },
+                        {
+                            "predicate": "item_at",
+                            "params": ["i3", "s1"],
+                            "is_true": true
+                        },
+                        {
+                            "predicate": "isfryable",
+                            "params": ["i3"],
+                            "is_true": true
+                        },
+                        {
+                            "predicate": "clear",
+                            "params": ["i3"],
+                            "is_true": true
+                        }
+                    ],
                     "sfx": []
                 }
             ]
@@ -1137,8 +1146,8 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "in_container",
-                    "params": ["i1", "c1"],
+                    "predicate": "item_on",
+                    "params": ["i2", "s1"],
                     "is_true": true
                 },
                 {
@@ -1150,6 +1159,16 @@
                     "predicate": "nothing",
                     "params": ["p1"],
                     "is_true": true
+                },
+                {
+                    "predicate": "atop",
+                    "params": ["i1", "i2"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "item_at",
+                    "params": ["i1", "s1"],
+                    "is_true": true
                 }
             ],
             "immediate_fx": [],
@@ -1159,8 +1178,8 @@
                     "param": "i1",
                     "conditions": [
                         {
-                            "predicate": "in_container",
-                            "params": ["i1", "c1"],
+                            "predicate": "item_on",
+                            "params": ["i2", "s1"],
                             "is_true": true
                         }
                     ],
