@@ -83,7 +83,7 @@
     "goal description": "Make a hot dog and add ketchup and mustard on it.",
     "goal": [
         {
-            "predicate": "has_mustard",
+            "predicate": "has_ketchup_mustard",
             "args": ["hotdog"],
             "ids": ["a"]
         },
