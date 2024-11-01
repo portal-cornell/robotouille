@@ -27,7 +27,10 @@
                 "assets": {
                     "default": "bottombun.png"
                 },
-                "constants": {}
+                "constants": {
+                    "X_SCALE_FACTOR": 0.50,
+                    "Y_SCALE_FACTOR": 0.1
+                }
             },
             "topbun": {
                 "assets": {
@@ -90,15 +93,15 @@
                         "asset": "grilledhotdog.png",
                         "predicates": ["isgrilled"],
                         "has_ketchup": {
-                            "asset": "ketchup.png",
+                            "asset": "ketchup_hotdog.png",
                             "predicates": ["has_ketchup"]
                         },
                         "has_mustard": {
-                            "asset": "mustard.png",
+                            "asset": "mustard_hotdog.png",
                             "predicates": ["has_mustard"]
                         },
                         "has_ketchup_mustard": {
-                            "asset": "ketchupmustard.png",
+                            "asset": "ketchup_mustard_hotdog.png",
                             "predicates": ["has_ketchup_mustard"]
                         }
                     }

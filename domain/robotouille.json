@@ -1293,6 +1293,11 @@
                     "is_true": true
                 },
                 {
+                    "predicate": "isgrilled",
+                    "params": ["i1"],
+                    "is_true": true
+                },
+                {
                     "predicate": "loc",
                     "params": ["p1", "s1"],
                     "is_true": true
@@ -1353,6 +1358,11 @@
                 {
                     "predicate": "ismustard",
                     "params": ["cd1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "isgrilled",
+                    "params": ["i1"],
                     "is_true": true
                 },
                 {
