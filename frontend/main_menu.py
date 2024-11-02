@@ -45,7 +45,7 @@ class MenuScreen(screen.ScreenInterface):
         self.draw()
         # Handle events
         for event in pygame.event.get():
-            if self.start_button.is_clicked(event):
+            if self.start_button.handle_event(event):
                 self.set_next_screen(constants.GAME)
 
         # Handle keypresses 

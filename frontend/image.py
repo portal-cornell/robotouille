@@ -1,5 +1,4 @@
 import pygame
-import pygame
 
 class Image:
     def __init__(self, screen, image_source, x_percent, y_percent, scale_factor=1.0, anchor="center"):
@@ -26,6 +25,18 @@ class Image:
         self.x_percent = x_percent
         self.y_percent = y_percent
         self.anchor = anchor
+        self.update_position()
+
+    def set_percentage(self, new_x_percent = None, new_y_percent= None):
+        """
+        Update the x and y position percentages and recalculate the position.
+        
+        Parameters:
+        - new_x_percent: New horizontal position as a percentage of screen width.
+        - new_y_percent: New vertical position as a percentage of screen height.
+        """
+        if new_x_percent: self.x_percent = new_x_percent
+        if new_y_percent: self.y_percent = new_y_percent
         self.update_position()
 
     def update_position(self):
