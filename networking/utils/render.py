@@ -11,7 +11,7 @@ def render(recording_name: str):
     with open(p / (recording_name + '.pkl'), 'rb') as f:
         recording = pickle.load(f)
     
-    env, _, renderer = create_robotouille_env(recording["environment_name"], recording["seed"], recording["noisy_randomization"])
+    env, _, renderer = create_robotouille_env(recording["environment_name"], recording["movement_mode"], recording["seed"], recording["noisy_randomization"])
     obs, _ = env.reset()
     frame = renderer.render(obs, mode='rgb_array')
 

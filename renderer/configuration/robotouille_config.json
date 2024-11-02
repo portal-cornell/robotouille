@@ -1,16 +1,20 @@
 {
-    "version": "1.0.0",
+    "version": "1.0.1",
 
     "player": {
         "robot": {
-            "front": "robot_front.png",
-            "back": "robot_back.png",
-            "left": "robot_left.png",
-            "right": "robot_right.png"
+            "front": ["robot_front_1.png", "robot_front_2.png", "robot_front_3.png", "robot_front_4.png"],
+            "back": ["robot_back_1.png", "robot_back_2.png", "robot_back_3.png", "robot_back_4.png"],
+            "left": ["robot_left_1.png", "robot_left_2.png", "robot_left_3.png", "robot_left_4.png"],
+            "right": ["robot_right_1.png", "robot_right_2.png", "robot_right_3.png", "robot_right_4.png"]
         }
     },
 
-    "floor": "floorkitchen.png",
+    "floor": {
+        "ground": ["tileset_flooring"],
+        "furniture": ["tileset_table", "tileset_counter"],
+        "default": "floorkitchen.png"
+    },
 
     "item": {
         "constants": {
@@ -123,13 +127,17 @@
     },
 
     "station": {
-        "constants": {},
+        "constants": {
+            "STATION_OFFSET": 0
+        },
         "entities": {
             "fryer": {
                 "assets": {
                     "default": "fryer.png"
                 },
-                "constants": {}
+                "constants": {
+                    "underneath": "T"
+                }
             },
             "stove": {
                 "assets": {
@@ -139,13 +147,37 @@
             },
             "table": {
                 "assets": {
-                    "default": "table.png"
+                    "tile": "T"
+                },
+                "constants": {}
+            },
+            "counter": {
+                "assets": {
+                    "tile": "C"
                 },
                 "constants": {}
             },
             "board": {
                 "assets": {
                     "default": "board.png"
+                },
+                "constants": {
+                    "STATION_OFFSET": 0.16,
+                    "underneath": "T"
+                }
+            },
+            "blender": {
+                "assets": {
+                    "default": "blender_inactive.png"
+                },
+                "constants": {
+                    "STATION_OFFSET": 0.5,
+                    "underneath": "T"
+                }
+            },
+            "sink": {
+                "assets": {
+                    "default": "sink.png"
                 },
                 "constants": {}
             }
@@ -195,6 +227,14 @@
                     }
                 },
                 "constants": {}
+            },
+            "blendercup": {
+                "assets": {
+                    "default": "blender_empty.png"
+                },
+                "constants": {
+                    "STATION_CONTAINER_OFFSET": 0.5
+                }
             }
         }
     }

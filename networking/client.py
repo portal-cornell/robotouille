@@ -7,10 +7,10 @@ import pygame
 from robotouille.robotouille_env import create_robotouille_env
 from utils.robotouille_input import create_action_from_control
 
-def run_client(environment_name: str, seed: int = 42, host: str="ws://localhost:8765", noisy_randomization: bool = False):
-    asyncio.run(client_loop(environment_name, seed, host, noisy_randomization))
+def run_client(environment_name: str, seed: int = 42, noisy_randomization: bool = False, movement_mode: str='traverse', host: str="ws://localhost:8765"):
+    asyncio.run(client_loop(environment_name, seed, noisy_randomization, movement_mode, host))
 
-async def client_loop(environment_name: str, seed: int = 42, host: str="ws://localhost:8765", noisy_randomization: bool = False):
+async def client_loop(environment_name: str, seed: int = 42, noisy_randomization: bool = False, movement_mode: str='traverse', host: str="ws://localhost:8765"):
     uri = host
 
     async def send_actions(websocket, shared_state):
@@ -46,7 +46,7 @@ async def client_loop(environment_name: str, seed: int = 42, host: str="ws://loc
             shared_state["obs"] = pickle.loads(base64.b64decode(data["obs"]))
 
     async with websockets.connect(uri) as websocket:
-        env, _, renderer = create_robotouille_env(environment_name, seed, noisy_randomization)
+        env, _, renderer = create_robotouille_env(environment_name, movement_mode, seed, noisy_randomization)
         obs, info = env.reset()
         shared_state = {"done": False, "env": env, "renderer": renderer, "obs": obs, "player": None}
         print("In lobby")

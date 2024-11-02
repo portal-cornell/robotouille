@@ -1,0 +1,18 @@
+2024-11-02 02:18:23,105 - Server started
+2024-11-02 02:18:23,115 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:8000
+2024-11-02 02:18:23,115 - [33mPress CTRL+C to quit[0m
+2024-11-02 02:19:10,547 - Successful login for existing user: alan1001chen@gmail.com from 127.0.0.1
+2024-11-02 02:19:10,563 - 127.0.0.1 - - [02/Nov/2024 02:19:10] "POST /api/login HTTP/1.1" 200 -
+2024-11-02 02:19:44,459 - New user registered and logged in: aac77@cornell.edu from 127.0.0.1
+2024-11-02 02:19:44,459 - 127.0.0.1 - - [02/Nov/2024 02:19:44] "POST /api/login HTTP/1.1" 200 -
+2024-11-02 12:23:57,061 - Server started
+2024-11-02 12:23:57,073 - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:8000
+2024-11-02 12:23:57,084 - [33mPress CTRL+C to quit[0m
+2024-11-02 12:24:10,846 - Successful login for existing user: alan1001chen@gmail.com from 127.0.0.1
+2024-11-02 12:24:10,854 - 127.0.0.1 - - [02/Nov/2024 12:24:10] "POST /api/login HTTP/1.1" 200 -
+2024-11-02 12:24:27,158 - Username updated for user alan1001chen@gmail.com to robotouille lover from 127.0.0.1
+2024-11-02 12:24:27,158 - 127.0.0.1 - - [02/Nov/2024 12:24:27] "POST /api/update_username HTTP/1.1" 200 -
+2024-11-02 12:24:51,251 - Successful login for existing user: alan1001chen@gmail.com from 127.0.0.1
+2024-11-02 12:24:51,264 - 127.0.0.1 - - [02/Nov/2024 12:24:51] "POST /api/login HTTP/1.1" 200 -

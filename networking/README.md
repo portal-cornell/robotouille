@@ -35,7 +35,7 @@ python main.py --role server
 
 To render active games:
 ```sh
-python main.py --role server --server_display
+python main.py --role server --display_server
 ```
 
 ## Client
