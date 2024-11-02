@@ -11,6 +11,9 @@ class Item(Enum):
     ONION = "onion"
     CHICKEN = "chicken"
     POTATO = "potato"
+    STEAK = "steak"
+    WATERMELON = "watermelon"
+    PAN = "pan"
 
 class Player(Enum):
     ROBOT = "robot"
