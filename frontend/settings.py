@@ -25,8 +25,6 @@ class SettingScreen(screen.ScreenInterface):
         slider_fg_image = pygame.image.load(slider_fg_path).convert_alpha()
         slider_knob_image = pygame.image.load(slider_knob_path).convert_alpha()
         
-        
-        # calculate the scale factor 
         screen_width, screen_height = self.screen.get_size()
         img_width, img_height = 1440, 1024
         width_scale = screen_width / img_width
@@ -41,20 +39,15 @@ class SettingScreen(screen.ScreenInterface):
 
         # position all scene objects
         self.background = image.Image(screen, background_image, 0.5, 0.5, scale_factor)
-        self.back_arrow = button.Button(screen, back_arrow_image, offset_x + 64/img_width, offset_y + 860/img_height, scale_factor)
+        self.back_arrow = button.Button(screen, back_arrow_image, back_arrow_image, back_arrow_image, offset_x + 64/img_width, offset_y + 860/img_height, scale_factor)
 
         self.slider = slider.Slider(screen, slider_bg_image, slider_fg_image, slider_knob_image, 600 * scale_factor, 40 * scale_factor, 
             0.5, 0.5, scale_factor)
-
-        self.percent = 1
-
-
-    
+        
     def draw(self):
         """Draws all the screen components."""
-        # self.background.draw()
-        # self.back_arrow.draw()
-        self.slider.set_value(self.percent)
+        self.background.draw()
+        self.back_arrow.draw()
         self.slider.draw()
         pygame.display.flip()
 
@@ -62,9 +55,10 @@ class SettingScreen(screen.ScreenInterface):
         """Update the screen and handle keypress events."""
         super().update() 
         self.draw()
-        self.percent -= 0.001
+
         # Handle events
         for event in pygame.event.get():
             if self.back_arrow.handle_event(event):
                 self.set_next_screen(constants.MAIN_MENU)
+            self.slider.handle_event(event)
 

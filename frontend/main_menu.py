@@ -31,7 +31,7 @@ class MenuScreen(screen.ScreenInterface):
         offset_y = (screen_height - background_height) / (2 * screen_height)
 
         self.background = image.Image(screen, background_image, 0.5, 0.5, scale_factor)
-        self.start_button = button.Button(screen, start_button_image, 0.5, 0.5, scale_factor)
+        self.start_button = button.Button(screen, start_button_image, start_button_image, start_button_image, 0.5, 0.5, scale_factor)
 
     def draw(self):
         """Draws all the screen components."""
