@@ -106,6 +106,20 @@
                 "key": "space",
                 "at": null
             }
+        },
+        {
+            "name": "crack-egg",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "pan-fry",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
         }
     ]
 }
