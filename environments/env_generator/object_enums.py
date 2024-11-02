@@ -13,6 +13,8 @@ class Item(Enum):
     POTATO = "potato"
     HOTDOG = "hotdog"
     BUN = "bun"
+    SALMON = "salmon"
+    TURKEY = "turkey"
 
 class Player(Enum):
     ROBOT = "robot"
@@ -26,6 +28,7 @@ class Station(Enum):
     COUNTER = "counter"
     BLENDER = "blender"
     GRILL = "grill"
+    OVEN = "oven"
 
 class Container(Enum):
     POT = "pot"
@@ -40,6 +43,7 @@ class Meal(Enum):
 class Condiment(Enum):
     KETCHUP = "ketchupbottle"
     MUSTARD = "mustardbottle"
+    SALT = "salt"
 TYPES = {"item": Item, "player": Player, "station": Station, "container": Container, "meal": Meal, "condiment": Condiment}
 
 def str_to_typed_enum(s):

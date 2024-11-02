@@ -110,6 +110,30 @@
                     "STACK_OFFSET": -0.1
                 }
             },
+            "turkey": {
+                "assets": {
+                    "default": "turkey.png",
+                    "roasted": {
+                        "asset": "roastedturkey.png",
+                        "predicates": ["isroasted"]
+                    }
+                },
+                "constants": {}
+            },
+            "salmon": {
+                "assets": {
+                    "default": "salmon.png",
+                    "grilled": {
+                        "asset": "grilledsalmon.png",
+                        "predicates": ["isgrilled"],
+                        "has_salt": {
+                            "asset": "grilledsaltedsalmon.png",
+                            "predicates": ["has_salt"]
+                        }
+                    }
+                },
+                "constants": {}
+            },
             "lettuce": {
                 "assets": {
                     "default": "lettuce.png",
@@ -185,6 +209,12 @@
             "grill": {
                 "assets": {
                     "default": "grill.png"
+                },
+                "constants": {}
+            },
+            "oven": {
+                "assets": {
+                    "default": "oven.png"
                 },
                 "constants": {}
             },
@@ -299,6 +329,13 @@
                 "assets": {
                     "default": "mustardbottle.png",
                     "predicates": ["ismustard"]
+                },
+                "constants": {}
+            },
+            "salt": {
+                "assets": {
+                    "default": "salt.png",
+                    "predicates": ["issalt"]
                 },
                 "constants": {}
             }

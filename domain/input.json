@@ -87,6 +87,13 @@
             }
         },
         {
+            "name": "roast",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
             "name": "cut",
             "input_instructions": {
                 "key": "e",
@@ -144,6 +151,13 @@
         },
         {
             "name": "add-mustard",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "add-salt",
             "input_instructions": {
                 "key": "e",
                 "at": "s1"
