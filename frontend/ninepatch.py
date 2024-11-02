@@ -91,21 +91,19 @@ class NinePatch:
         - The center is scaled both horizontally and vertically to fill the remaining area.
         """
         left, right, top, bottom = self.padding
-        x, y = self.x, self.y
+        x, y = int(self.x), int(self.y)
 
-        center_w = max(0, self.width - left - right)
-        center_h = max(0, self.height - top - bottom)
+        center_w = max(0, int(self.width) - left - right)
+        center_h = max(0, int(self.height) - top - bottom)
 
-        x_positions = {'left': x, 'center': x + left, 'right': x + self.width - right}
-        y_positions = {'top': y, 'center': y + top, 'bottom': y + self.height - bottom}
+        x_positions = {'left': x, 'center': x + left, 'right': x + int(self.width) - right}
+        y_positions = {'top': y, 'center': y + top, 'bottom': y + int(self.height) - bottom}
 
-        # Draw corners
         self.screen.blit(self.slices['top_left'], (x_positions['left'], y_positions['top']))
         self.screen.blit(self.slices['top_right'], (x_positions['right'], y_positions['top']))
         self.screen.blit(self.slices['bottom_left'], (x_positions['left'], y_positions['bottom']))
         self.screen.blit(self.slices['bottom_right'], (x_positions['right'], y_positions['bottom']))
 
-      
         if center_w > 0:
             top_edge = pygame.transform.scale(self.slices['top'], (center_w, top))
             bottom_edge = pygame.transform.scale(self.slices['bottom'], (center_w, bottom))

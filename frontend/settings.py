@@ -9,21 +9,24 @@ class SettingScreen(screen.ScreenInterface):
         """Initialize the settings screen."""
         super().__init__() 
         self.screen = screen
+        self.screen.fill(constants.CYAN)
 
-         # load asset paths then images
+        # load asset paths then images
         background_path = os.path.join(ASSETS_DIRECTORY, "background.png")
         back_arrow_path = os.path.join(ASSETS_DIRECTORY, "back_arrow.png")
 
         slider_bg_path = os.path.join(ASSETS_DIRECTORY, "sliderback.png")
         slider_fg_path = os.path.join(ASSETS_DIRECTORY, "sliderfore.png")
-        slider_knob_path = os.path.join(ASSETS_DIRECTORY, "knob.png")
+        # slider_knob_path = os.path.join(ASSETS_DIRECTORY, "knob.png")
+        border_path = os.path.join(ASSETS_DIRECTORY, "border.png")
 
         background_image = pygame.image.load(background_path).convert_alpha()
         back_arrow_image = pygame.image.load(back_arrow_path).convert_alpha()
 
         slider_bg_image = pygame.image.load(slider_bg_path).convert_alpha()
         slider_fg_image = pygame.image.load(slider_fg_path).convert_alpha()
-        slider_knob_image = pygame.image.load(slider_knob_path).convert_alpha()
+        # slider_knob_image = pygame.image.load(slider_knob_path).convert_alpha()
+        border_image = pygame.image.load(border_path).convert_alpha()
         
         screen_width, screen_height = self.screen.get_size()
         img_width, img_height = 1440, 1024
@@ -41,18 +44,23 @@ class SettingScreen(screen.ScreenInterface):
         self.background = image.Image(screen, background_image, 0.5, 0.5, scale_factor)
         self.back_arrow = button.Button(screen, back_arrow_image, back_arrow_image, back_arrow_image, offset_x + 64/img_width, offset_y + 860/img_height, scale_factor)
 
-        self.sliderSFX = slider.Slider(screen, slider_bg_image, slider_fg_image, slider_knob_image, 442.01 * scale_factor, 44.91 * scale_factor, 
+        self.sliderSFX = slider.Slider(screen, slider_bg_image, slider_fg_image, 442.01 * scale_factor, 44.91 * scale_factor, 
             offset_x + 342.005/img_width, offset_y + 459.455/img_height, scale_factor)
         
-        self.sliderVolume = slider.Slider(screen, slider_bg_image, slider_fg_image, slider_knob_image, 442.01 * scale_factor, 44.91 * scale_factor,
+        self.sliderVolume = slider.Slider(screen, slider_bg_image, slider_fg_image, 442.01 * scale_factor, 44.91 * scale_factor,
             offset_x + 343/img_width, offset_y + 274.195/img_height, scale_factor)
         
+        self.borderVolume = image.Image(screen, border_image, offset_x + 343/img_width, offset_y + 274.195/img_height, scale_factor)
+        self.borderSFX = image.Image(screen, border_image,  offset_x + 342.005/img_width, offset_y + 459.455/img_height, scale_factor)
+
     def draw(self):
         """Draws all the screen components."""
         self.background.draw()
         self.back_arrow.draw()
         self.sliderSFX.draw()
         self.sliderVolume.draw()
+        self.borderSFX.draw()
+        self.borderVolume.draw()
         pygame.display.flip()
 
     def update(self):

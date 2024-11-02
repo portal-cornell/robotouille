@@ -2,7 +2,7 @@ import pygame
 from frontend import ninepatch, image
 
 class Slider:
-    def __init__(self, screen, background_image, foreground_image, knob_image, width, height, x_percent, y_percent, scale_factor=1.0, filled_percent=0.5):
+    def __init__(self, screen, background_image, foreground_image, width, height, x_percent, y_percent, scale_factor=1.0, filled_percent=0.5, knob_image= None):
         """
         Initialize a Slider object.
         """
@@ -18,8 +18,17 @@ class Slider:
         self.y = screen_height * y_percent - height / 2
 
         self.background = ninepatch.NinePatch(screen, background_image, self.x, self.y, width, height)
-        self.foreground = ninepatch.NinePatch(screen, foreground_image, self.x, self.y, width, height)
-        self.knob = image.Image(screen, knob_image, x_percent, y_percent, scale_factor, anchor="center")
+
+        buffer = 10
+        foreground_width = width - buffer
+        foreground_height = height - buffer
+        foreground_x = self.x + buffer/2  
+        foreground_y = self.y + buffer/2 
+
+        self.foreground = ninepatch.NinePatch(screen, foreground_image, foreground_x, foreground_y, foreground_width, foreground_height)
+        self.knob = None
+        if knob_image: self.knob = image.Image(screen, knob_image, x_percent, y_percent, scale_factor, anchor="center")
+
         self.setValue(filled_percent)
 
     def setValue(self, value):
@@ -33,16 +42,22 @@ class Slider:
         """
         Update the knob's position based on the slider value.
         """
-        filled_width = self.width * self.slider_value
-        knob_x_percent = self.x_percent + (filled_width - self.width / 2) / self.screen.get_width()
-        self.knob.set_percentage(new_x_percent=knob_x_percent)
+        if self.knob:
+            filled_width = self.width * self.slider_value
+            knob_x_percent = self.x_percent + (filled_width - self.width / 2) / self.screen.get_width()
+            self.knob.set_percentage(new_x_percent=knob_x_percent)
 
     def draw(self):
+        """
+        Draw the slider components: background, foreground, and knob.
+        """
         self.background.draw()
-        filled_width = self.width * self.slider_value
+        
+        filled_width = (self.width - 10) * self.slider_value
         self.foreground.set_width(filled_width)
         self.foreground.draw()
-        self.knob.draw()
+        
+        if self.knob: self.knob.draw()
 
     def handle_event(self, event):
         """
@@ -52,7 +67,7 @@ class Slider:
             if pygame.mouse.get_pressed()[0]: 
                 mouse_x, mouse_y = event.pos
                 if self.is_mouse_over_slider(mouse_x, mouse_y):
-                    new_value = (mouse_x - self.x) / self.width
+                    new_value = (mouse_x - (self.x + 5)) / (self.width - 10)
                     self.setValue(new_value)
 
     def is_mouse_over_slider(self, mouse_x, mouse_y):
