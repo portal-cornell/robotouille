@@ -41,14 +41,18 @@ class SettingScreen(screen.ScreenInterface):
         self.background = image.Image(screen, background_image, 0.5, 0.5, scale_factor)
         self.back_arrow = button.Button(screen, back_arrow_image, back_arrow_image, back_arrow_image, offset_x + 64/img_width, offset_y + 860/img_height, scale_factor)
 
-        self.slider = slider.Slider(screen, slider_bg_image, slider_fg_image, slider_knob_image, 600 * scale_factor, 40 * scale_factor, 
-            0.5, 0.5, scale_factor)
+        self.sliderSFX = slider.Slider(screen, slider_bg_image, slider_fg_image, slider_knob_image, 442.01 * scale_factor, 44.91 * scale_factor, 
+            offset_x + 342.005/img_width, offset_y + 459.455/img_height, scale_factor)
+        
+        self.sliderVolume = slider.Slider(screen, slider_bg_image, slider_fg_image, slider_knob_image, 442.01 * scale_factor, 44.91 * scale_factor,
+            offset_x + 343/img_width, offset_y + 274.195/img_height, scale_factor)
         
     def draw(self):
         """Draws all the screen components."""
         self.background.draw()
         self.back_arrow.draw()
-        self.slider.draw()
+        self.sliderSFX.draw()
+        self.sliderVolume.draw()
         pygame.display.flip()
 
     def update(self):
@@ -60,5 +64,6 @@ class SettingScreen(screen.ScreenInterface):
         for event in pygame.event.get():
             if self.back_arrow.handle_event(event):
                 self.set_next_screen(constants.MAIN_MENU)
-            self.slider.handle_event(event)
+            self.sliderSFX.handle_event(event)
+            self.sliderVolume.handle_event(event)
 

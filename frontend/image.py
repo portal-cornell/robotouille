@@ -18,8 +18,8 @@ class Image:
         
         # Scale the image based on the scale factor
         original_width, original_height = self.image.get_size()
-        scaled_width = int(original_width * scale_factor)
-        scaled_height = int(original_height * scale_factor)
+        scaled_width = original_width * scale_factor
+        scaled_height = original_height * scale_factor
         self.image = pygame.transform.scale(self.image, (scaled_width, scaled_height))
 
         self.x_percent = x_percent

@@ -1,7 +1,7 @@
 import pygame
 
 class NinePatch:
-    def __init__(self, screen, image_source, x, y, width, height, padding=(0, 0, 0, 0)):
+    def __init__(self, screen, image_source, x, y, width, height, padding=(10, 10, 10, 10)):
         """
         Initialize a NinePatch object.
 
