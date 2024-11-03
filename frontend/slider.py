@@ -38,6 +38,12 @@ class Slider:
         self.slider_value = max(0.0, min(1.0, value))
         self.update_knob_position()
 
+    def getValue(self):
+        """
+        Get the slider's value (filled percentage).
+        """
+        return self.slider_value 
+        
     def update_knob_position(self):
         """
         Update the knob's position based on the slider value.
