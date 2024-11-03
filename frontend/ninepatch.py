@@ -5,14 +5,14 @@ class NinePatch:
         """
         Initialize a NinePatch object.
 
-        Parameters:
-        - screen (pygame.Surface): The screen on which to draw the NinePatch.
-        - image_source (pygame.Surface): The source image to slice and scale.
-        - x (float): The x-coordinate of the top-left corner of the NinePatch on the screen.
-        - y (float): The y-coordinate of the top-left corner of the NinePatch on the screen.
-        - width (int): The total width of the NinePatch to be drawn.
-        - height (int): The total height of the NinePatch to be drawn.
-        - padding (tuple): Padding values (left, right, top, bottom) that define the borders for slicing the image.
+        Args:
+            screen (pygame.Surface): The screen on which to draw the NinePatch.
+            image_source (pygame.Surface): The source image to slice and scale.
+            x (float): The x-coordinate of the top-left corner of the NinePatch on the screen.
+            y (float): The y-coordinate of the top-left corner of the NinePatch on the screen.
+            width (int): The total width of the NinePatch to be drawn.
+            height (int): The total height of the NinePatch to be drawn.
+            padding (tuple): Padding values (left, right, top, bottom) that define the borders for slicing the image.
         """
         self.screen = screen
         self.image_source = image_source
@@ -29,16 +29,7 @@ class NinePatch:
         Divides the source image into 9 parts based on padding values.
 
         Returns:
-        dict: A dictionary containing the nine slices:
-            - 'top_left': Top-left corner slice
-            - 'top': Top edge slice
-            - 'top_right': Top-right corner slice
-            - 'left': Left edge slice
-            - 'center': Center slice
-            - 'right': Right edge slice
-            - 'bottom_left': Bottom-left corner slice
-            - 'bottom': Bottom edge slice
-            - 'bottom_right': Bottom-right corner slice
+            slices (dict): A dictionary containing the source image divided into nine parts:
         """
         left, right, top, bottom = self.padding
         img_w, img_h = self.img_width, self.img_height
@@ -68,7 +59,7 @@ class NinePatch:
         Set a new width for the NinePatch image, keeping the top-left position fixed.
 
         Parameters:
-        - new_width (int): The new width of the NinePatch.
+            new_width (int): The new width of the NinePatch.
         """
         self.width = new_width
 
@@ -77,18 +68,13 @@ class NinePatch:
         Set a new height for the NinePatch image, keeping the top-left position fixed.
 
         Parameters:
-        - new_height (int): The new height of the NinePatch.
+            new_height (int): The new height of the NinePatch.
         """
         self.height = new_height
 
     def draw(self):
         """
         Draws the NinePatch image on the screen by scaling and positioning each slice based on the specified width, height, and padding.
-        
-        Ensures that:
-        - Corners remain unscaled.
-        - Edges are scaled only along one dimension (width or height).
-        - The center is scaled both horizontally and vertically to fill the remaining area.
         """
         left, right, top, bottom = self.padding
         x, y = int(self.x), int(self.y)

@@ -89,18 +89,22 @@ class SettingScreen(screen.ScreenInterface):
         for event in pygame.event.get():
             if self.back_arrow.handle_event(event):
                 self.set_next_screen(constants.MAIN_MENU)
-                
-            if self.VolumeMinus.handle_event(event):
-                self.sliderVolume.setValue(self.sliderVolume.getValue() - 0.1)
-            elif self.VolumePlus.handle_event(event):
-                self.sliderVolume.setValue(self.sliderVolume.getValue() + 0.1)
+            
+            if self.VolumeMinus.in_bound():
+                if self.VolumeMinus.handle_event(event):
+                    self.sliderVolume.setValue(self.sliderVolume.getValue() - 0.1)
+            elif self.VolumePlus.in_bound():
+                if self.VolumePlus.handle_event(event):
+                    self.sliderVolume.setValue(self.sliderVolume.getValue() + 0.1)
             else:
                 self.sliderVolume.handle_event(event)
 
-            if self.SFXMinus.handle_event(event):
-                self.sliderSFX.setValue(self.sliderSFX.getValue() - 0.1)
-            elif self.SFXPlus.handle_event(event):
-                self.sliderSFX.setValue(self.sliderSFX.getValue() + 0.1)
+            if self.SFXMinus.in_bound():
+                if self.SFXMinus.handle_event(event):
+                    self.sliderSFX.setValue(self.sliderSFX.getValue() - 0.1)
+            elif self.SFXPlus.in_bound():
+                if self.SFXPlus.handle_event(event):
+                    self.sliderSFX.setValue(self.sliderSFX.getValue() + 0.1)
             else:
                 self.sliderSFX.handle_event(event)
 
