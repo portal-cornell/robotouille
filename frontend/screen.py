@@ -18,6 +18,7 @@ class ScreenInterface(ABC):
 
         self.offset_x = (screen_width - background_width) / (2 * screen_width)
         self.offset_y = (screen_height - background_height) / (2 * screen_height)
+        self.load_assets()
 
     def set_next_screen(self, next_screen):
         """Set the next screen to transition to."""
@@ -33,7 +34,13 @@ class ScreenInterface(ABC):
     def draw(self):
         """Draws all the screen components."""
         pass
+    
+    @abstractmethod
+    def load_assets(self):
+        """Load necessary assets."""
+        pass
 
     def update(self):
         """Update the screen and handle keypress events."""
         self.screen.fill((0, 0, 0))  # Clear screen after changing the state
+    

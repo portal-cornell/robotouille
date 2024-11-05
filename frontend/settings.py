@@ -3,61 +3,77 @@ from frontend import constants, screen, image, button, slider, textbox
 import os 
 # Set up the assets directory
 ASSETS_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "settings")
-GENERAL_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend")
+SHARED_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "shared")
 
 class SettingScreen(screen.ScreenInterface):
     def __init__(self, screen):
         """Initialize the settings screen."""
         super().__init__(screen) 
 
-        font_path = os.path.join(GENERAL_DIRECTORY, "hug.ttf")
-        font = pygame.font.Font(font_path, 48)
+        self.zero_star_count = 0
+        self.one_star_count = 0
+        self.two_star_count = 0
+        self.three_star_count = 0
+    
+        self.back_arrow = button.Button(screen, self.back_arrow_image, self.back_arrow_image, self.back_arrow_image, self.x_percent(64), self.y_percent(860), self.scale_factor)
+        self.pencil = button.Button(screen, self.pencil_image, self.pencil_image, self.pencil_image, self.x_percent(1148.93), self.y_percent(173.525), self.scale_factor)
+        self.profile = image.Image(screen, self.profile_image, self.x_percent(780.5), self.y_percent(169.5), self.scale_factor)
 
-        # load asset paths then images
-        # background_path = os.path.join(ASSETS_DIRECTORY, "background.png")
+        self.sliderSFX = slider.Slider(screen, self.slider_bg_image, self.slider_fg_image, 442.01 * self.scale_factor, 44.91 * self.scale_factor, 
+                                       self.x_percent(342.005), self.y_percent(459.455), self.scale_factor)
+        self.sliderVolume = slider.Slider(screen, self.slider_bg_image, self.slider_fg_image, 442.01 * self.scale_factor, 44.91 * self.scale_factor,
+                                          self.x_percent(343), self.y_percent(274.195), self.scale_factor)
+        
+        self.VolumeMinus = button.Button(screen, self.minus_image, self.minus_image, self.minus_image, self.x_percent(144.505), self.y_percent(274.455), self.scale_factor)
+        self.VolumePlus = button.Button(screen, self.plus_image, self.plus_image, self.plus_image, self.x_percent(541.505), self.y_percent(274.455), self.scale_factor)
+        self.SFXMinus = button.Button(screen, self.minus_image, self.minus_image, self.minus_image, self.x_percent(143.505), self.y_percent(459.455), self.scale_factor)
+        self.SFXPlus = button.Button(screen, self.plus_image, self.plus_image, self.plus_image, self.x_percent(540.505), self.y_percent(459.455), self.scale_factor)
+
+        self.name = textbox.Textbox(screen, "name", self.font, self.x_percent(983), self.y_percent(169) , 188 * self.scale_factor, 72 * self.scale_factor)
+        self.music = textbox.Textbox(screen, "MUSIC", self.font, self.x_percent(327), self.y_percent(211) , 188 * self.scale_factor, 72 * self.scale_factor)
+        self.sfx = textbox.Textbox(screen, "SFX", self.font, self.x_percent(327), self.y_percent(401) , 188 * self.scale_factor, 72 * self.scale_factor)
+        self.zero_star = textbox.Textbox(screen, str(self.zero_star_count), self.font, self.x_percent(1148), self.y_percent(449) , 188 * self.scale_factor, 72 * self.scale_factor)
+        self.one_star = textbox.Textbox(screen,  str(self.one_star_count), self.font, self.x_percent(1148), self.y_percent(568) , 188 * self.scale_factor, 72 * self.scale_factor)
+        self.two_star = textbox.Textbox(screen,  str(self.two_star_count), self.font, self.x_percent(1148), self.y_percent(683) , 188 * self.scale_factor, 72 * self.scale_factor)
+        self.three_star = textbox.Textbox(screen,  str(self.three_star_count), self.font, self.x_percent(1148), self.y_percent(780) , 188 * self.scale_factor, 72 * self.scale_factor)
+
+        self.tutorial = button.Button(screen, self.start_button_image, self.start_hover_button_image, 
+                                            self.start_pressed_button_image, 
+                                            self.x_percent(350), self.y_percent(601), self.scale_factor, text = "TUTORIAL", 
+                                            font = self.font, text_color=constants.WHITE)
+        self.credits = button.Button(screen, self.start_button_image, self.start_hover_button_image, 
+                                            self.start_pressed_button_image, 
+                                            self.x_percent(350), self.y_percent(738), self.scale_factor, text = "CREDITS", 
+                                            font = self.font, text_color=constants.WHITE)
+        
+    def load_assets(self):
+        font_path = os.path.join(SHARED_DIRECTORY, "hug.ttf")
+        self.font = pygame.font.Font(font_path, int(60 * self.scale_factor))
+
+        # Construct Paths
         back_arrow_path = os.path.join(ASSETS_DIRECTORY, "back_arrow.png")
-
         slider_bg_path = os.path.join(ASSETS_DIRECTORY, "sliderback.png")
         slider_fg_path = os.path.join(ASSETS_DIRECTORY, "sliderfore.png")
-        # slider_knob_path = os.path.join(ASSETS_DIRECTORY, "knob.png")
         minus_path = os.path.join(ASSETS_DIRECTORY, "minus.png")
         plus_path = os.path.join(ASSETS_DIRECTORY, "plus.png")
         profile_path = os.path.join(ASSETS_DIRECTORY, "button_profile.png")
         pencil_path = os.path.join(ASSETS_DIRECTORY, "pencil.png")
+        start_button_path = os.path.join(SHARED_DIRECTORY, "button_b.png")
+        start_hover_button_path = os.path.join(SHARED_DIRECTORY, "button_b_h.png")
+        start_pressed_button_path = os.path.join(SHARED_DIRECTORY, "button_b_p.png")
 
-        # background_image = pygame.image.load(background_path).convert_alpha()
-        back_arrow_image = pygame.image.load(back_arrow_path).convert_alpha()
+        # images
+        self.start_button_image = pygame.image.load(start_button_path).convert_alpha()
+        self.start_hover_button_image = pygame.image.load(start_hover_button_path).convert_alpha()
+        self.start_pressed_button_image = pygame.image.load(start_pressed_button_path).convert_alpha()
+        self.back_arrow_image = pygame.image.load(back_arrow_path).convert_alpha()
+        self.slider_bg_image = pygame.image.load(slider_bg_path).convert_alpha()
+        self.slider_fg_image = pygame.image.load(slider_fg_path).convert_alpha()
+        self.plus_image = pygame.image.load(plus_path).convert_alpha()
+        self.minus_image = pygame.image.load(minus_path).convert_alpha()
+        self.profile_image = pygame.image.load(profile_path).convert_alpha()
+        self.pencil_image = pygame.image.load(pencil_path).convert_alpha()
 
-        slider_bg_image = pygame.image.load(slider_bg_path).convert_alpha()
-        slider_fg_image = pygame.image.load(slider_fg_path).convert_alpha()
-        # slider_knob_image = pygame.image.load(slider_knob_path).convert_alpha()
-        plus_image = pygame.image.load(plus_path).convert_alpha()
-        minus_image = pygame.image.load(minus_path).convert_alpha()
-        profile_image = pygame.image.load(profile_path).convert_alpha()
-        pencil_image = pygame.image.load(pencil_path).convert_alpha()
-    
-
-        # backgrounds
-        # self.background = image.Image(screen, background_image, 0.5, 0.5, self.scale_factor)
-        self.back_arrow = button.Button(screen, back_arrow_image, back_arrow_image, back_arrow_image, self.x_percent(64), self.y_percent(860), self.scale_factor)
-        self.pencil = button.Button(screen, pencil_image, pencil_image, pencil_image, self.x_percent(1148.93), self.y_percent(173.525), self.scale_factor)
-        self.profile = image.Image(screen, profile_image, self.x_percent(780.5), self.y_percent(169.5), self.scale_factor)
-
-        # sliders
-        self.sliderSFX = slider.Slider(screen, slider_bg_image, slider_fg_image, 442.01 * self.scale_factor, 44.91 * self.scale_factor, 
-                                       self.x_percent(342.005), self.y_percent(459.455), self.scale_factor)
-        self.sliderVolume = slider.Slider(screen, slider_bg_image, slider_fg_image, 442.01 * self.scale_factor, 44.91 * self.scale_factor,
-                                          self.x_percent(343), self.y_percent(274.195), self.scale_factor)
-        
-        # volume buttons 
-        self.VolumeMinus = button.Button(screen, minus_image, minus_image, minus_image, self.x_percent(144.505), self.y_percent(274.455), self.scale_factor)
-        self.VolumePlus = button.Button(screen, plus_image, plus_image, plus_image, self.x_percent(541.505), self.y_percent(274.455), self.scale_factor)
-        self.SFXMinus = button.Button(screen, minus_image, minus_image, minus_image, self.x_percent(143.505), self.y_percent(459.455), self.scale_factor)
-        self.SFXPlus = button.Button(screen, plus_image, plus_image, plus_image, self.x_percent(540.505), self.y_percent(459.455), self.scale_factor)
-
-        self.name = textbox.Textbox(screen, "name", font, self.x_percent(983), self.y_percent(169) , 188 * self.scale_factor, 72 * self.scale_factor)
-        
-        
     def draw(self):
         """Draws all the screen components."""
         # self.background.draw()
@@ -73,7 +89,34 @@ class SettingScreen(screen.ScreenInterface):
         self.VolumeMinus.draw()
         self.SFXPlus.draw()
         self.SFXMinus.draw()
+        
         self.name.draw()
+        self.tutorial.draw()
+        self.credits.draw()
+        self.music.draw()
+        self.sfx.draw()
+        self.zero_star.draw()
+        self.one_star.draw()
+        self.two_star.draw()
+        self.three_star.draw()
+
+
+    def increment_zero_star(self):
+        self.zero_star_count += 1
+        self.zero_star.set_text(str(self.zero_star_count))
+    
+    def increment_one_star(self):
+        self.one_star_count += 1
+        self.one_star.set_text(str(self.one_star_count))
+        
+    def increment_two_star(self):
+        self.two_star_count += 1
+        self.two_star.set_text(str(self.two_star_count))
+
+    def increment_three_star(self):
+        self.three_star_count += 1
+        self.three_star.set_text(str(self.three_star_count))
+
 
     def update(self):
         """Update the screen and handle keypress events."""
@@ -107,6 +150,3 @@ class SettingScreen(screen.ScreenInterface):
             if self.pencil.handle_event(event):
                 self.name.toggle_editing() 
             self.name.handle_event(event)
-
-
-

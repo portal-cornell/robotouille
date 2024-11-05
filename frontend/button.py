@@ -47,8 +47,7 @@ class Button(node.Node):
                 self.is_pressed_outside = False
             else:
                 self.is_pressed = False
-                self.is_pressed_outside = True
-                
+                self.is_pressed_outside = True 
         elif event.type == pygame.MOUSEBUTTONUP:
             if self.is_pressed and self.in_bound():
                 self.is_pressed = False
@@ -58,6 +57,5 @@ class Button(node.Node):
             self.is_pressed_outside = False
         else:
             self.is_pressed = False
-
         return False  
 

@@ -1,9 +1,8 @@
 from robotouille import simulator
 import argparse
 import pygame
-from frontend.constants import SETTINGS, MAIN_MENU, GAME  
-from frontend.main_menu import MenuScreen  
-from frontend.settings import SettingScreen  
+from frontend.constants import SETTINGS, MAIN_MENU, GAME, ENDGAME, LOADING, LOGO, MATCHMAKING
+from frontend import main_menu, settings, loading, logo, endgame, matchmaking
 
 
 parser = argparse.ArgumentParser()
@@ -19,42 +18,37 @@ screen_size = (1440, 1024)
 screen = pygame.display.set_mode(screen_size)
 pygame.display.set_caption("Game")
 
-# Create the screens
-main_menu = MenuScreen(screen)
-settings = SettingScreen(screen)
+screens = {
+    MAIN_MENU: main_menu.MenuScreen(screen),
+    SETTINGS: settings.SettingScreen(screen),
+    LOGO: logo.LogoScreen(screen),
+    LOADING: loading.LoadingScreen(screen),
+    ENDGAME: endgame.EndScreen(screen),
+    MATCHMAKING: matchmaking.MatchMakingScreen(screen)
+}
 
-# Initialize the current screen state; could also make this hold the current screen instead
-current_screen = MAIN_MENU
+current_screen = LOGO
 clock = pygame.time.Clock()
 running = True
+
+def update_screen():
+    global current_screen
+    if current_screen in screens:
+        screen_obj = screens[current_screen]
+        screen_obj.update()
+        if screen_obj.next_screen is not None:
+            current_screen = screen_obj.next_screen
+            screen_obj.set_next_screen(None)
+
 while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-
-    # Transition logic based on current_screen
-    if current_screen == MAIN_MENU:
-        main_menu.update()
-        if main_menu.next_screen is not None:
-            current_screen = main_menu.next_screen 
-            main_menu.set_next_screen(None) 
-
-    elif current_screen == SETTINGS:
-        settings.update()
-        if settings.next_screen is not None:
-            current_screen = settings.next_screen
-            settings.set_next_screen(None) 
-        
-    elif current_screen == GAME:
+    if current_screen == GAME:
         if simulator(args.environment_name, args.seed, args.noisy_randomization):
             current_screen = MAIN_MENU
             screen = pygame.display.set_mode(screen_size)
-    pygame.event.pump()
-    pygame.display.flip()  
-    clock.tick(60)
+    else:
+        update_screen()
+
+    pygame.display.flip()
+    # clock.tick(60)
+    
 pygame.quit()
-
-
-
-
-   

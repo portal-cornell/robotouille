@@ -26,3 +26,12 @@ class Image(node.Node):
 
     def draw(self):
         self.screen.blit(self.image, (self.x, self.y))
+
+    def set_alpha(self, alpha):
+        """
+        Set the transparency level of the image.
+
+        Args:
+            alpha (int): Transparency level (0 to 255), where 0 is fully transparent and 255 is fully opaque.
+        """
+        self.image.set_alpha(alpha)
