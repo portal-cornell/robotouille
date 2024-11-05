@@ -8,3 +8,7 @@ CYAN = (225, 242, 249)
 MAIN_MENU = 'main_menu'
 SETTINGS = 'settings'
 GAME = 'game'
+ENDGAME = 'end_game'
+LOADING = 'loading'
+LOGO = 'logo'
+MATCHMAKING = 'matchmaking'

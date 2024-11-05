@@ -30,6 +30,7 @@ class Slider:
         if knob_image: self.knob = image.Image(screen, knob_image, x_percent, y_percent, scale_factor, anchor="center")
 
         self.setValue(filled_percent)
+        self.moving = False
 
     def setValue(self, value):
         """
@@ -75,7 +76,15 @@ class Slider:
                 if self.is_mouse_over_slider(mouse_x, mouse_y):
                     new_value = (mouse_x - (self.x + 5)) / (self.width - 10)
                     self.setValue(new_value)
+                    self.moving = True
+            else:
+                self.moving = False 
+        else:
+            self.moving = False 
 
+    def is_moving(self):
+        return self.moving
+    
     def is_mouse_over_slider(self, mouse_x, mouse_y):
         """
         Check if the mouse is over the slider's area.

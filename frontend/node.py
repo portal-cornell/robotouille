@@ -1,10 +1,17 @@
 from abc import ABC, abstractmethod
-from frontend import constants
 
 class Node(ABC):
-    def __init__(self, screen, image, x_percent, y_percent, anchor="center"):
+    def __init__(self, screen, surface, x_percent, y_percent, anchor="center"):
+        """
+        Args:
+            screen (pygame.Surface): The screen on which to draw the NinePatch.
+            image_source (pygame.Surface): A temp surface, used to determine the boundaries
+            x (float): The x-coordinate of the top-left corner of the NinePatch on the screen.
+            y (float): The y-coordinate of the top-left corner of the NinePatch on the screen.
+            anchor (str): Positioning anchor, either "topleft" or "center".
+        """
         self.screen = screen
-        self.temp = image
+        self.surface = surface
         self.x_percent = x_percent
         self.y_percent = y_percent
         self.anchor = anchor
@@ -31,9 +38,9 @@ class Node(ABC):
         y = int(screen_height * self.y_percent)
         
         if self.anchor == "center":
-            self.rect = self.temp.get_rect(center=(x, y))
+            self.rect = self.surface.get_rect(center=(x, y))
         else:  
-            self.rect = self.temp.get_rect(topleft=(x, y))
+            self.rect = self.surface.get_rect(topleft=(x, y))
             
         self.x, self.y = self.rect.topleft
 

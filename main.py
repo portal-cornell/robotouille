@@ -25,7 +25,7 @@ settings = SettingScreen(screen)
 
 # Initialize the current screen state; could also make this hold the current screen instead
 current_screen = MAIN_MENU
-
+clock = pygame.time.Clock()
 running = True
 while running:
     for event in pygame.event.get():
@@ -50,7 +50,7 @@ while running:
             current_screen = MAIN_MENU
             screen = pygame.display.set_mode(screen_size)
     pygame.display.flip()  
-
+    # clock.tick(60)
 pygame.quit()
 
 

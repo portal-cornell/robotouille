@@ -29,7 +29,7 @@ class NinePatch:
         Divides the source image into 9 parts based on padding values.
 
         Returns:
-            slices (dict): A dictionary containing the source image divided into nine parts:
+            slices (dict): A dictionary containing the source image divided into nine parts.
         """
         left, right, top, bottom = self.padding
         img_w, img_h = self.img_width, self.img_height
@@ -85,18 +85,20 @@ class NinePatch:
         x_positions = {'left': x, 'center': x + left, 'right': x + int(self.width) - right}
         y_positions = {'top': y, 'center': y + top, 'bottom': y + int(self.height) - bottom}
 
-        self.screen.blit(self.slices['top_left'], (x_positions['left'], y_positions['top']))
-        self.screen.blit(self.slices['top_right'], (x_positions['right'], y_positions['top']))
-        self.screen.blit(self.slices['bottom_left'], (x_positions['left'], y_positions['bottom']))
-        self.screen.blit(self.slices['bottom_right'], (x_positions['right'], y_positions['bottom']))
+        if self.width >= left + right:
+            if self.height >= top + bottom:
+                self.screen.blit(self.slices['top_left'], (x_positions['left'], y_positions['top']))
+                self.screen.blit(self.slices['top_right'], (x_positions['right'], y_positions['top']))
+                self.screen.blit(self.slices['bottom_left'], (x_positions['left'], y_positions['bottom']))
+                self.screen.blit(self.slices['bottom_right'], (x_positions['right'], y_positions['bottom']))
 
-        if center_w > 0:
+        if center_w > 0 and self.height >= top + bottom:
             top_edge = pygame.transform.scale(self.slices['top'], (center_w, top))
             bottom_edge = pygame.transform.scale(self.slices['bottom'], (center_w, bottom))
             self.screen.blit(top_edge, (x_positions['center'], y_positions['top']))
             self.screen.blit(bottom_edge, (x_positions['center'], y_positions['bottom']))
 
-        if center_h > 0:
+        if center_h > 0 and self.width >= left + right:
             left_edge = pygame.transform.scale(self.slices['left'], (left, center_h))
             right_edge = pygame.transform.scale(self.slices['right'], (right, center_h))
             self.screen.blit(left_edge, (x_positions['left'], y_positions['center']))
