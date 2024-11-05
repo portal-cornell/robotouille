@@ -49,8 +49,9 @@ while running:
         if simulator(args.environment_name, args.seed, args.noisy_randomization):
             current_screen = MAIN_MENU
             screen = pygame.display.set_mode(screen_size)
+    pygame.event.pump()
     pygame.display.flip()  
-    # clock.tick(60)
+    clock.tick(60)
 pygame.quit()
 
 

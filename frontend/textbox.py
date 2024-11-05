@@ -16,7 +16,7 @@ class Textbox(node.Node):
         self.update_text_rect()
 
     def update_text_rect(self):
-        """Render the text (with cursor if editing) and update rectangle dimensions and position."""
+        """Render the text and update rectangle dimensions and position."""
         if self.font:
             self.text_surface = self.font.render(self.text, True, self.text_color)
             scaled_size = (int(self.text_surface.get_width() * self.scale_factor),
@@ -38,12 +38,9 @@ class Textbox(node.Node):
         """Handle key events for editing the textbox text."""
         if event.type == pygame.KEYDOWN and self.is_editing:
             if event.key == pygame.K_BACKSPACE:
-                self.text = self.text[:-1]
+                self.set_text(self.text[:-1])
             elif event.unicode.isalnum(): 
-                self.text += event.unicode
-            else:
-                return
-            self.update_text_rect() 
+                self.set_text(self.text + event.unicode)
 
     def toggle_editing(self):
         """Toggle editing mode."""
