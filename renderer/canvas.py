@@ -588,6 +588,22 @@ class RobotouilleCanvas:
             # Draw the player
             self._draw_image(surface, robot_image_name, player_pos * self.pix_square_size, self.pix_square_size)
 
+    def _find_held_containers(self, obs):
+        """
+        Finds the containers held by the player.
+
+        Args:
+            obs (State): Game state predicates
+
+        Returns:
+            held_containers (List[str]): List of container names held by the player
+        """
+        held_containers = []
+        for literal, is_true in obs.predicates.items():
+            if is_true and literal.name == "has_container":
+                held_containers.append(literal.params[1].name)
+        return held_containers
+
     def _draw_item(self, surface, obs):
         """
         This helper draws item on the canvas.
@@ -600,6 +616,7 @@ class RobotouilleCanvas:
             surface (pygame.Surface): Surface to draw on
             obs (State): Game state predicates
         """
+        held_containers = self._find_held_containers(obs)
         stack_list = [] # In the form (x, y) such that x is stacked on y
         stack_number = {} # Stores the item item and current stack number
         station_item_offset = self.config["item"]["constants"]["STATION_ITEM_OFFSET"]
@@ -623,6 +640,8 @@ class RobotouilleCanvas:
                 container_pos = self._get_container_position(container, obs)
                 # Place the item slightly above the container
                 container_pos[1] -= container_item_offset
+                if container in held_containers:
+                    container_pos[1] += 0.75 * container_item_offset
                 self._draw_item_image(surface, item, obs, container_pos * self.pix_square_size)
 
         # Add stacked items
@@ -635,6 +654,7 @@ class RobotouilleCanvas:
                     stack_number[item_above] = stack_number[item_below] + 1
                     # Get location of station
                     is_at_container = False
+                    container = None
                     for literal, is_true in obs.predicates.items():
                         if is_true and literal.name == "at_station" and literal.params[0].name == item_below:
                             station_or_container_pos = self._get_station_position(literal.params[1].name)
@@ -642,13 +662,16 @@ class RobotouilleCanvas:
                         if is_true and literal.name == "at_container" and literal.params[0].name == item_below:
                             station_or_container_pos = self._get_container_position(literal.params[1].name, obs)
                             is_at_container = True
+                            container = literal.params[1].name
                             break
                     item_name, _ = trim_item_ID(item_above)
                     # Check if item has a stack offset
                     stack_offset = self.config["item"]["entities"][item_name]["constants"].get("STACK_OFFSET", 0)
                     station_or_container_pos[1] -= station_item_offset + 0.1 * (stack_number[item_above] - 1) + stack_offset
                     if is_at_container:
-                        station_or_container_pos[1] -= 0.5 * container_item_offset
+                        station_or_container_pos[1] -= 0.3 * container_item_offset
+                    if container in held_containers:
+                        station_or_container_pos[1] += 0.75 * container_item_offset
                     self._draw_item_image(surface, item_above, obs, station_or_container_pos * self.pix_square_size)
                 else:
                     i += 1
