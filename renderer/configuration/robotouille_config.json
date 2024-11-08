@@ -20,7 +20,8 @@
         "constants": {
             "STATION_ITEM_OFFSET" : 0.25,
             "X_SCALE_FACTOR": 0.125,
-            "Y_SCALE_FACTOR": 0.75
+            "Y_SCALE_FACTOR": 0.75,
+            "CONTAINER_ITEM_OFFSET": 0.35
         },
         "entities": {
             "bottombun": {
@@ -145,11 +146,6 @@
                     "X_SCALE_FACTOR": 0.125,
                     "Y_SCALE_FACTOR": 0.2
                 }
-            },
-            "pan": {
-                "assets": {
-                    "default": "fryingpan.png"
-                }
             }
         }
     },
@@ -260,7 +256,8 @@
             "egg_carton": {
                 "assets": {
                     "default": "eggcarton.png"
-                }
+                },
+                "constants": {}
             },
             "blendercup": {
                 "assets": {
@@ -269,6 +266,12 @@
                 "constants": {
                     "STATION_CONTAINER_OFFSET": 0.5
                 }
+            },
+            "pan": {
+                "assets": {
+                    "default": "fryingpan.png"
+                },
+                "constants": {}
             }
         }
     }

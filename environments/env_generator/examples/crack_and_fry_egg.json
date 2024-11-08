@@ -32,15 +32,17 @@
             "y": 1,
             "stack-level": 0,
             "predicates": ["iscrackable"]
-        },
+        }
+    ],
+    "containers": [
         {
             "name": "pan",
             "x": 1,
             "y": 1,
-            "stack-level": 0,
             "predicates": []
         }
     ],
+    "meals": [],
     "players": [
         {
             "name": "robot",
