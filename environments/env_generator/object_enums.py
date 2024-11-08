@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class Item(Enum):
     BOTTOMBUN = "bottombun"
     LETTUCE = "lettuce"
@@ -13,10 +14,11 @@ class Item(Enum):
     POTATO = "potato"
     STEAK = "steak"
     WATERMELON = "watermelon"
-    PAN = "pan"
+
 
 class Player(Enum):
     ROBOT = "robot"
+
 
 class Station(Enum):
     BOARD = "board"
@@ -27,17 +29,27 @@ class Station(Enum):
     COUNTER = "counter"
     BLENDER = "blender"
 
+
 class Container(Enum):
     POT = "pot"
     BOWL = "bowl"
     BLENDERCUP = "blendercup"
+
 
 class Meal(Enum):
     WATER = "water"
     BOILING_WATER = "boiling_water"
     SOUP = "soup"
 
-TYPES = {"item": Item, "player": Player, "station": Station, "container": Container, "meal": Meal}
+
+TYPES = {
+    "item": Item,
+    "player": Player,
+    "station": Station,
+    "container": Container,
+    "meal": Meal,
+}
+
 
 def str_to_typed_enum(s):
     """
@@ -45,10 +57,10 @@ def str_to_typed_enum(s):
 
     Args:
         s (str): String to convert.
-    
+
     Raises:
         ValueError: If the string cannot be converted into any of the typed enums.
-    
+
     Returns:
         typed_enum (Enum): Enum of the string.
     """
