@@ -15,7 +15,7 @@
             "y": 1
         },
         {
-            "name": "oven",
+            "name": "stove",
             "x": 2,
             "y": 1,
             "id": "A"
@@ -26,7 +26,7 @@
             "y": 0
         },
         {
-            "name": "oven",
+            "name": "stove",
             "x": 2,
             "y": 0,
             "id": "B"

@@ -32,7 +32,7 @@
             "param_types": ["station"]
         },
         {
-            "name": "isoven",
+            "name": "oven_on",
             "param_types": ["station"]
         },
         {
@@ -398,32 +398,153 @@
                     "is_true": false
                 }
             ],
-            "sfx": [
+            "sfx": []
+        },
+        {
+            "name": "put-in-oven",
+            "precons": [
                 {
-                    "type": "conditional",
-                    "param": "i1",
-                    "conditions": [
-                        {
-                            "predicate": "isoven",
-                            "params": ["s1"],
-                            "is_true": true
-                        }
-                    ],
-                    "fx": [
-                        {
-                            "predicate": "item_on",
-                            "params": ["i1", "s1"],
-                            "is_true": false
-                        },
-                        {
-                            "predicate": "item_in",
-                            "params": ["i1", "s1"],
-                            "is_true": true
-                        }
-                    ],
-                    "sfx": []
+                    "predicate": "has_item",
+                    "params": ["p1", "i1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "isroastable",
+                    "params": ["i1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "loc",
+                    "params": ["p1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "isstove",
+                    "params": ["s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "station_empty",
+                    "params": ["s1"],
+                    "is_true": true
                 }
-            ]
+            ],
+            "immediate_fx": [
+                {
+                    "predicate": "oven_on",
+                    "params": ["s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "item_in",
+                    "params": ["i1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "item_on",
+                    "params": ["i1", "s1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "has_item",
+                    "params": ["p1", "i1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "station_empty",
+                    "params": ["s1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "clear",
+                    "params": ["i1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "item_at",
+                    "params": ["i1", "s1"],
+                    "is_true": true
+                }
+            ],
+            "sfx": []
+        },
+        {
+            "name": "take-out-item",
+            "precons": [
+                {
+                    "predicate": "isstove",
+                    "params": ["s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "isroasted",
+                    "params": ["i1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "item_in",
+                    "params": ["i1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "item_at",
+                    "params": ["i1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "loc",
+                    "params": ["p1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "clear",
+                    "params": ["i1"],
+                    "is_true": true
+                }
+            ],
+            "immediate_fx": [
+                {
+                    "predicate": "item_in",
+                    "params": ["i1", "s1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "has_item",
+                    "params": ["p1", "i1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "station_empty",
+                    "params": ["s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "item_at",
+                    "params": ["i1", "s1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "clear",
+                    "params": ["i1"],
+                    "is_true": false
+                }
+            ],
+            "sfx": []
         },
         {
             "name": "pick-up-container",
@@ -793,7 +914,12 @@
             "name": "roast",
             "precons": [
                 {
-                    "predicate": "isoven",
+                    "predicate": "isstove",
+                    "params": ["s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "oven_on",
                     "params": ["s1"],
                     "is_true": true
                 },
@@ -852,14 +978,14 @@
                                     "is_true": true
                                 },
                                 {
-                                    "predicate": "item_in",
-                                    "params": ["i1" ,"s1"],
+                                    "predicate": "isroastable",
+                                    "params": ["i1"],
                                     "is_true": false
                                 },
                                 {
-                                    "predicate": "item_on",
-                                    "params": ["i1", "s1"],
-                                    "is_true": true
+                                    "predicate": "oven_on",
+                                    "params": ["s1"],
+                                    "is_true": false
                                 }
                             ],
                             "sfx": []

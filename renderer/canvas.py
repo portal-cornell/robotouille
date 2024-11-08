@@ -114,7 +114,7 @@ class RobotouilleCanvas:
         
         item_config = self.config["item"]["entities"][item_image_name]
 
-        # Find the the asset with most matches to current game state. If two or 
+        # Find the asset with most matches to current game state. If two or
         # more assets have the same number of matches, the default asset is used. 
         max_matches = 0
         asset_config = item_config["assets"]
@@ -444,7 +444,7 @@ class RobotouilleCanvas:
         
         self._draw_tiles(surface, sprites, self.ground_matrix)
 
-    def _draw_furniture(self, surface):
+    def _draw_furniture(self, surface, obs):
         """
         Draw the furniture on the canvas.
 
@@ -455,14 +455,14 @@ class RobotouilleCanvas:
             # load ground tile data
             self.furniture_tileset = self._load_tiles(self.config["floor"]["furniture"])
             abstract_tile_matrix = self.tiling["furniture"]
-            abstract_tile_matrix = self._extract_stations_to_furniture(abstract_tile_matrix)
+            abstract_tile_matrix = self._extract_stations_to_furniture(abstract_tile_matrix, obs)
             self.furniture_matrix = self._parse_abstract_tile_matrix(abstract_tile_matrix, self.furniture_tileset)
 
         sprites = self.furniture_tileset["sprites"]
         
         self._draw_tiles(surface, sprites, self.furniture_matrix)
 
-    def _choose_station_asset(self, station_image_name):
+    def _choose_station_asset(self, station_image_name, obs):
         """
         Helper function to get the asset name of a station. Stations imagery can
         either be images or tiles. Images are preferred over tiles.
@@ -475,16 +475,42 @@ class RobotouilleCanvas:
             asset and "type" is "image" if the station is represented by an image
             or "tile" if represented by a tile
         """
-        station_image_name, _ = trim_item_ID(station_image_name)
+        # Get the name of the station and store its id
+        station_image_name, station_id = trim_item_ID(station_image_name)
         station_config = self.config["station"]["entities"][station_image_name]
+
+        # Get predicates of station in current game state
+        station_predicates = []
+        for literal, is_true in obs.predicates.items():
+            if is_true and literal.params[0].name == station_image_name + station_id:
+                station_predicates.append(literal.name)
+
+        # Find the asset with most matches to current game state. If two or
+        # more assets have the same number of matches, the default asset is used.
         if "default" in station_config["assets"]:
-            return {"name": station_config["assets"]["default"], "type": "image"}
+            max_matches = 0
+            asset_config = station_config["assets"]
+            chosen_asset = asset_config["default"]
+            for asset in asset_config:
+                if asset == "default":
+                    continue
+                matches = 0
+                for predicate in asset_config[asset]["predicates"]:
+                    if predicate in station_predicates:
+                        matches += 1
+                if all(predicate in station_predicates for predicate in asset_config[asset]["predicates"]):
+                    if matches > max_matches:
+                        max_matches = matches
+                        chosen_asset = asset_config[asset]["asset"]
+                    elif matches == max_matches:
+                        chosen_asset = asset_config["default"]
+            return {"name": chosen_asset, "type": "image"}
         elif "tile" in station_config["assets"]:
             return {"name": station_config["assets"]["tile"], "type": "tile"}
         else:
             raise RuntimeError("Empty station asset config: " + station_config)
 
-    def _draw_stations(self, surface):
+    def _draw_stations(self, surface, obs):
         """
         Draws the stations on the canvas.
         
@@ -499,7 +525,7 @@ class RobotouilleCanvas:
         for i, row in enumerate(self.layout):
             for j, col in enumerate(row):
                 if col is not None:
-                    asset_info = self._choose_station_asset(col)
+                    asset_info = self._choose_station_asset(col, obs)
                     if asset_info["type"] == "image":
                         name, _ = trim_item_ID(col)
                         offset = self.config["station"]["entities"][name]["constants"].get("STATION_OFFSET", station_offset)
@@ -708,7 +734,7 @@ class RobotouilleCanvas:
             else:
                 abstract_tile_matrix[x][y] = underneath
 
-    def _extract_stations_to_furniture(self, abstract_tile_matrix):
+    def _extract_stations_to_furniture(self, abstract_tile_matrix, obs):
         """
         Searches for all stations with single letter names and places corresponding tiles in the furniture layer.
         It is assumed that stations with single letter names wish to undergo this processing step.
@@ -727,7 +753,7 @@ class RobotouilleCanvas:
         for i, row in enumerate(self.layout):
             for j, col in enumerate(row):
                 if col is not None:
-                    asset_info = self._choose_station_asset(col)
+                    asset_info = self._choose_station_asset(col, obs)
                     if asset_info["type"] == "tile":
                         abstract_tile_matrix[i][j] = asset_info["name"]
                     else:
@@ -745,8 +771,8 @@ class RobotouilleCanvas:
             obs (List[Literal]): Game state predicates
         """
         self._draw_floor(surface)
-        self._draw_furniture(surface)
-        self._draw_stations(surface)
+        self._draw_furniture(surface, obs)
+        self._draw_stations(surface, obs)
         self._draw_player(surface, obs)
         self._draw_item(surface, obs)
         self._draw_container(surface, obs)

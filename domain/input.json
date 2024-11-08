@@ -66,6 +66,20 @@
     ],
     "keyboard_actions": [
         {
+            "name": "put-in-oven",
+            "input_instructions": {
+                "key": "p",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "take-out-item",
+            "input_instructions": {
+                "key": "p",
+                "at": "s1"
+            }
+        },
+        {
             "name": "cook",
             "input_instructions": {
                 "key": "e",

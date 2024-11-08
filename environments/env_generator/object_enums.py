@@ -28,7 +28,6 @@ class Station(Enum):
     COUNTER = "counter"
     BLENDER = "blender"
     GRILL = "grill"
-    OVEN = "oven"
 
 class Container(Enum):
     POT = "pot"

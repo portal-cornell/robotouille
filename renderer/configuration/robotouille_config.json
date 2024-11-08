@@ -202,19 +202,17 @@
             },
             "stove": {
                 "assets": {
-                    "default": "stove.png"
+                    "default": "stove_oven.png",
+                    "oven_on": {
+                        "asset": "oven_on.png",
+                        "predicates": ["oven_on"]
+                    }
                 },
                 "constants": {}
             },
             "grill": {
                 "assets": {
                     "default": "grill.png"
-                },
-                "constants": {}
-            },
-            "oven": {
-                "assets": {
-                    "default": "oven.png"
                 },
                 "constants": {}
             },
