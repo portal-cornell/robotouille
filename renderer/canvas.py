@@ -566,6 +566,22 @@ class RobotouilleCanvas:
             if held_container_name:
                 self._draw_container_image(surface, held_container_name, obs, player_pos * self.pix_square_size)
 
+    def _get_customers_in_game(self, obs):
+        """
+        Get the customers in the game.
+
+        Args:
+            obs (State): Game state predicates
+
+        Returns:
+            customers (List[str]): List of customer names in the game
+        """
+        customers = []
+        for literal, is_true in obs.predicates.items():
+            if is_true and literal.name == "customer_in_game":
+                customers.append(literal.params[0].name)
+        return customers
+
     def draw_customer(self, surface, obs):
         """
         Draws the customer on the canvas.
@@ -574,10 +590,10 @@ class RobotouilleCanvas:
             surface (pygame.Surface): Surface to draw on
             obs (State): Game state predicates
         """
-        customers = obs.get_customers()
+        customers = self._get_customers_in_game(obs)
         for customer in customers:
             # Get the customer object to access information about direction and position
-            customer_obj = Customer.customers[customer.name]
+            customer_obj = Customer.customers[customer]
             player_pos = (customer_obj.pos[0], len(self.layout) - customer_obj.pos[1] - 1)
             # Get the sprite list for the player's direction
             robot_sprite = self._get_player_or_customer_image_name(customer_obj.direction, "customer")

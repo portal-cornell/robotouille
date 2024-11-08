@@ -452,7 +452,7 @@ class State(object):
             if not action:
                 continue
             assert action.is_valid(self, param_arg_dict)
-            if action.name != "move":
+            if action.name not in ["move", "customer_move", "customer_leave"]:
                 self = action.perform_action(self, param_arg_dict)
 
         for special_effect in self.special_effects:

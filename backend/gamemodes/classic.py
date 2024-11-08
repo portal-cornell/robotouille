@@ -55,13 +55,14 @@ class Classic(GameMode):
             new_state (State): The successor state.
             done (bool): True if the goal is reached, False otherwise.
         """
-        new_state, done = self.state.step(actions)
         
         for customer in self.customers.values():
             action = customer.step(time, self.state)
     
             if action is not None:
                 actions.append(action)
+
+        new_state, done = self.state.step(actions)
 
         self.movement.step(new_state, clock, actions)
 

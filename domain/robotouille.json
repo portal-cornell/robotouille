@@ -1461,6 +1461,24 @@
 
     "npc_action_defs": [
         {
+            "name": "customer_enter",
+            "precons": [
+                {
+                    "predicate": "customer_in_game",
+                    "params": ["c1"],
+                    "is_true": false
+                }
+            ],
+            "immediate_fx": [
+                {
+                    "predicate": "customer_in_game",
+                    "params": ["c1"],
+                    "is_true": true
+                }
+            ],
+            "sfx": []
+        },
+        {
             "name": "customer_move",
             "precons": [
                 {
@@ -1472,11 +1490,6 @@
                     "predicate": "iscustomertable",
                     "params": ["s2"],
                     "is_true": true
-                },
-                {
-                    "predicate": "customer_in_game",
-                    "params": ["c1"],
-                    "is_true": false
                 }
             ],
             "immediate_fx": [
@@ -1488,11 +1501,6 @@
                 {
                     "predicate": "table_occupied",
                     "params": ["s2"],
-                    "is_true": true
-                },
-                {
-                    "predicate": "customer_in_game",
-                    "params": ["c1"],
                     "is_true": true
                 }
             ],

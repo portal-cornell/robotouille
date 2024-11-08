@@ -1,4 +1,5 @@
 from backend.object import Object
+from backend.predicate import Predicate
 from robotouille.env_utils import build_goal
 
 class Customer(object):
@@ -35,7 +36,8 @@ class Customer(object):
         self.time_to_serve = time_to_serve
         self.enter_time = enter_time
         self.has_been_served = False
-        self.in_game = True
+        self.in_game = False
+        self.has_left_queue = False
         self.sprite_value = 0
         self.action = None
         Customer.id_counter += 1
@@ -119,8 +121,14 @@ class Customer(object):
             table (Object): Returns the first empty table or None if no tables
                 are available.
         """
+        customer_tables = []
+
         for predicate, value in state.predicates.items():
-            if predicate.name == "table_occupied" and not value:
+            if predicate.name == "iscustomertable" and value:
+                customer_tables.append(predicate.params[0])
+
+        for predicate, value in state.predicates.items():
+            if predicate.name == "table_occupied" and not value and predicate.params[0] in customer_tables:
                 return predicate.params[0]
         return None
 
@@ -177,8 +185,16 @@ class Customer(object):
             if self.order_is_satisfied(state):
                 self.has_been_served = True
                 
-        elif self not in Customer.customer_queue and time.get_ticks() >= self.enter_time:
+        elif not self.has_left_queue and self not in Customer.customer_queue \
+            and time.get_ticks() >= self.enter_time:
             Customer.customer_queue.append(self)
+            for action, param_arg_dict_list in state.npc_actions.items():
+                if action.name == "customer_enter":
+                    for param_arg_dict in param_arg_dict_list:
+                        if param_arg_dict["c1"].name == self.name:
+                            assert action.is_valid(state, param_arg_dict)
+                            self.in_game = True
+                            return (action, param_arg_dict)
         
         elif len(Customer.customer_queue) > 0:
             if Customer.customer_queue[0] == self:
@@ -191,16 +207,12 @@ class Customer(object):
 
         for action, param_arg_dict_list in state.npc_actions.items():
             for param_arg_dict in param_arg_dict_list:
-                if self.has_been_served and self.in_game and \
-                    action.name == "customer_leave" and \
-                        param_arg_dict["c1"].name == self.name and \
-                            param_arg_dict["s2"].name == "customerspawn1":
+                if self.has_been_served and self.in_game and action.name == "customer_leave" and param_arg_dict["c1"].name == self.name and param_arg_dict["s2"].name == "customerspawn1":
                     assert action.is_valid(state, param_arg_dict)
                     self.in_game = False
                     return (action, param_arg_dict)
-                if table_to_move_to and action.name == "customer_move" and \
-                    param_arg_dict["c1"].name == self.name and \
-                        param_arg_dict["s2"].name == table_to_move_to.name:
+                if table_to_move_to and action.name == "customer_move" and param_arg_dict["c1"].name == self.name and param_arg_dict["s2"].name == table_to_move_to.name:
                     assert action.is_valid(state, param_arg_dict)
+                    self.has_left_queue = True
                     return (action, param_arg_dict)
         return None

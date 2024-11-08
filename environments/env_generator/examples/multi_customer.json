@@ -116,6 +116,15 @@
             "order": "lettuceburger",
             "time_to_serve": 45000,
             "enter_time": 5000
+        },
+        {
+            "name": "customer",
+            "x": 7,
+            "y": 0,
+            "direction": [-1, 0],
+            "order": "lettuceburger",
+            "time_to_serve": 1000000,
+            "enter_time": 10000
         }
     ],
     "goal_description": "Serve the customer",

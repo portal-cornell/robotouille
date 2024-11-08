@@ -88,7 +88,7 @@ class Movement(object):
         possible_destinations = []
         other_station_locations = Station.get_station_locations()
         player_customer_locations = [p.pos for p in Player.players.values() if p != player]
-        player_customer_locations += [c.pos for c in Customer.customers.values() if c != customer]
+        player_customer_locations += [c.pos for c in Customer.customers.values() if c != customer and c.in_game]
         # player_customer_destinations = [data.path[-1] for name, data in Movement.metadata.items() if data.path and name != player.name and name != customer.name]
         player_customer_destinations = []
         for name, data in Movement.metadata.items():
