@@ -7,6 +7,13 @@ ASSETS_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."
 
 class LogoScreen(screen.ScreenInterface):
     def __init__(self, screen):
+        """
+        Initialize the Logo Screen.
+
+        Args:
+           screen (pygame.Surface): The display surface where the logo screen components will be drawn.
+        """
+        
         super().__init__(screen)
         self.screen = screen
         self.fade_alpha = 0  
@@ -47,4 +54,4 @@ class LogoScreen(screen.ScreenInterface):
         self.draw()
         # Handle events
         if self.fade_in_complete:
-            self.set_next_screen(constants.MAIN_MENU)
+            self.set_next_screen(constants.LOADING)

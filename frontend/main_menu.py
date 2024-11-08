@@ -7,18 +7,28 @@ SHARED_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."
 
 class MenuScreen(screen.ScreenInterface):
     def __init__(self, screen):
-        """Initialize the main menu screen."""
+        """
+        Initialize the Main Menu Screen.
+
+        Args:
+           screen (pygame.Surface): The display surface where the main menu screen components will be drawn.
+        """
         super().__init__(screen)
         self.background = image.Image(screen, self.background_image, 0.5, 0.5, self.scale_factor)
         self.start_button = button.Button(screen, self.start_button_image, 
-                                            self.start_hover_button_image, self.start_pressed_button_image, 
-                                            self.x_percent(720), self.y_percent(392),
-                                            self.scale_factor, text = "START", font = self.font, text_color=constants.WHITE)
-        self.setting_button = button.Button(screen, self.start_button_image, self.start_hover_button_image, 
-                                            self.start_pressed_button_image, 
-                                            self.x_percent(720), self.y_percent(524), self.scale_factor, text = "SETTINGS", 
-                                            font = self.font, text_color=constants.WHITE)
+                                            self.x_percent(720), self.y_percent(392), self.scale_factor, 
+                                            hover_image_source= self.start_hover_button_image,
+                                            pressed_image_source= self.start_pressed_button_image, 
+                                            text = "START", font = self.font, text_color=constants.WHITE)
+        self.setting_button = button.Button(screen, self.start_button_image, 
+                                            self.x_percent(720), self.y_percent(524), self.scale_factor,
+                                            hover_image_source= self.start_hover_button_image, 
+                                            pressed_image_source= self.start_pressed_button_image, 
+                                            text = "SETTINGS", font = self.font, text_color=constants.WHITE)
     def load_assets(self):
+        """
+        Loads necessary assets.
+        """
         # load asset paths then images
         background_path = os.path.join(ASSETS_DIRECTORY, "background.png")
         start_button_path = os.path.join(SHARED_DIRECTORY, "button_b.png")
@@ -42,7 +52,7 @@ class MenuScreen(screen.ScreenInterface):
     def update(self):
         """Update the screen and handle events."""
         super().update() 
-        self.draw()
+
         # Handle events
         for event in pygame.event.get():
             if self.start_button.handle_event(event):

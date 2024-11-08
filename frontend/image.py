@@ -7,12 +7,12 @@ class Image(node.Node):
         Initialize an Image object.
 
         Args:
-            screen: Pygame screen to draw the image on.
-            image_source: Loaded image object.
-            x_percent: Horizontal position as a percentage of screen width.
-            y_percent: Vertical position as a percentage of screen height.
-            scale_factor: Factor by which to scale the image.
-            anchor: Positioning anchor, either "topleft" or "center".
+            screen (pygame.Surface): Pygame screen to draw the image on.
+            image_source (pygame.Surface): Loaded image object.
+            x_percent (float): Horizontal position as a percentage of screen width.
+            y_percent (float): Vertical position as a percentage of screen height.
+            scale_factor (float): Factor by which to scale the image.
+            anchor (str): Positioning anchor, either "topleft" or "center".
         """
         super().__init__(screen, image_source, x_percent, y_percent, anchor)
 
@@ -25,6 +25,7 @@ class Image(node.Node):
         self.image = pygame.transform.scale(self.image, (scaled_width, scaled_height))
 
     def draw(self):
+        """Draws the image to the screen."""
         self.screen.blit(self.image, (self.x, self.y))
 
     def set_alpha(self, alpha):

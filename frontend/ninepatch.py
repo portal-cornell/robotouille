@@ -58,7 +58,7 @@ class NinePatch:
         """
         Set a new width for the NinePatch image, keeping the top-left position fixed.
 
-        Parameters:
+        Args:
             new_width (int): The new width of the NinePatch.
         """
         self.width = new_width
@@ -67,7 +67,7 @@ class NinePatch:
         """
         Set a new height for the NinePatch image, keeping the top-left position fixed.
 
-        Parameters:
+        Args:
             new_height (int): The new height of the NinePatch.
         """
         self.height = new_height

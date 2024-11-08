@@ -49,6 +49,7 @@ while running:
         update_screen()
 
     pygame.display.flip()
+    # pygame.event.pump()
     # clock.tick(60)
     
 pygame.quit()
