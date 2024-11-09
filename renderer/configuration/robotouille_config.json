@@ -230,7 +230,18 @@
             },
             "blendercup": {
                 "assets": {
-                    "default": "blender_empty.png"
+                    "default": "blender_empty.png",
+                    "shake": {
+                        "default": "blender_empty.png",
+                        "full": {
+                            "asset": "blender_full.png",
+                            "predicates": [
+                                {"name": "addedto"}
+                            ]
+                        }
+
+                    }
+
                 },
                 "constants": {
                     "STATION_CONTAINER_OFFSET": 0.5

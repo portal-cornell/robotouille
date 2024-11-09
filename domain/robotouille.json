@@ -170,6 +170,10 @@
         {
             "name": "container_at",
             "param_types": ["container", "station"]
+        },
+        {
+            "name": "isblender",
+            "param_types": ["container"]
         }
     ],
 
@@ -1003,6 +1007,93 @@
             "name": "wait",
             "precons": [],
             "immediate_fx": [],
+            "sfx": []
+        },
+        {
+            "name": "fill-blender",
+            "precons": [
+                {
+                    "predicate": "isblender",
+                    "params": ["c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "container_at",
+                    "params": ["c1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "loc",
+                    "params": ["p1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "container_empty",
+                    "params": ["c1"],
+                    "is_true": true
+                }
+                
+            ],
+            "immediate_fx": [
+                {
+                    "predicate": "in",
+                    "params": ["m1", "c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "container_empty",
+                    "params": ["c1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "container_empty",
+                    "params": ["c2"],
+                    "is_true": true
+                }
+            ],
+            "sfx": []
+        },
+        {
+            "name": "add-to-blender",
+            "precons": [
+                {
+                    "predicate": "isblender",
+                    "params": ["c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "iscut",
+                    "params": ["i1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "loc",
+                    "params": ["p1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "container_at",
+                    "params": ["c1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "has_item",
+                    "params": ["p1", "i1"],
+                    "is_true": true
+                }
+            ],
+            "immediate_fx": [
+                {
+                    "predicate": "has_item",
+                    "params": ["p1", "i1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
+                    "is_true": true
+                }
+            ],
             "sfx": []
         }
     ]
