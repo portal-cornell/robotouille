@@ -1,11 +1,13 @@
 import pygame
-from frontend import constants, screen, image, button, slider
-import os
+from frontend.constants import *
+from frontend.image import Image
+from frontend.slider import Slider
+from frontend.screen import ScreenInterface
+
 # Set up the assets directory
 ASSETS_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "loading")
-SHARED_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "shared")
 
-class LoadingScreen(screen.ScreenInterface):
+class LoadingScreen(ScreenInterface):
     def __init__(self, screen):
         """
         Initialize the Loading Screen.
@@ -15,8 +17,8 @@ class LoadingScreen(screen.ScreenInterface):
         """
         super().__init__(screen)
         self.percent = 0
-        self.background = image.Image(screen, self.background_image, 0.5, 0.5, self.scale_factor)
-        self.loading_bar = slider.Slider(screen, self.progress_border_image, self.progress_bar_image,
+        self.background = Image(screen, self.background_image, 0.5, 0.5, self.scale_factor)
+        self.loading_bar = Slider(screen, self.progress_border_image, self.progress_bar_image,
                                          573 * self.scale_factor, 93 * self.scale_factor, 539 * self.scale_factor, 61 * self.scale_factor,
                                          0.5, 0.75, filled_percent= self.percent)
     
@@ -54,7 +56,7 @@ class LoadingScreen(screen.ScreenInterface):
         super().update() 
 
         if self.percent >= 1:
-            self.set_next_screen(constants.MAIN_MENU)
+            self.set_next_screen(MAIN_MENU)
         
         self.percent += 0.01
         self.loading_bar.setValue(self.percent)

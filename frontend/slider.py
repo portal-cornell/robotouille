@@ -1,5 +1,6 @@
 import pygame
-from frontend import ninepatch, image
+from frontend.ninepatch import NinePatch
+from frontend.image import Image
 
 class Slider:
     def __init__(self, screen, background_image, foreground_image, background_width, background_height, 
@@ -32,16 +33,16 @@ class Slider:
         self.x = screen_width * x_percent - background_width / 2
         self.y = screen_height * y_percent - background_height / 2
 
-        self.background = ninepatch.NinePatch(screen, background_image, self.x, self.y, background_width, background_height)
+        self.background = NinePatch(screen, background_image, self.x, self.y, background_width, background_height)
         
         # Set the foreground's position
         self.foreground_x = self.x + (background_width - foreground_width) / 2
         self.foreground_y = self.y + (background_height - foreground_height) / 2
-        self.foreground = ninepatch.NinePatch(screen, foreground_image, self.foreground_x, self.foreground_y, foreground_width, foreground_height)
+        self.foreground = NinePatch(screen, foreground_image, self.foreground_x, self.foreground_y, foreground_width, foreground_height)
 
         self.knob = None
         if knob_image:
-            self.knob = image.Image(screen, knob_image, x_percent, y_percent, scale_factor, anchor="center")
+            self.knob = Image(screen, knob_image, x_percent, y_percent, self.scale_factor, anchor="center")
 
         self.setValue(filled_percent)
         self.moving = False

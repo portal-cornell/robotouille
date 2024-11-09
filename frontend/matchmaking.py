@@ -1,11 +1,16 @@
 import pygame
-from frontend import constants, screen, image, button
-import os
+from frontend.constants import *
+from frontend.button import Button
+from frontend.image import Image
+from frontend.slider import Slider
+from frontend.textbox import Textbox
+from frontend.editable_textbox import EditableTextbox
+from frontend.screen import ScreenInterface
+
 # Set up the assets directory
 ASSETS_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "main_menu")
-SHARED_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "shared")
 
-class MatchMakingScreen(screen.ScreenInterface):
+class MatchMakingScreen(ScreenInterface):
     def __init__(self, screen):
         pass
     

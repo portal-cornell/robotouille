@@ -1,23 +1,28 @@
 import pygame
-from frontend import textbox
+from frontend.textbox import Textbox
+from frontend.constants import FONT_PATH
 
-class EditableTextbox(textbox.Textbox):
-    def __init__(self, screen, text, font, x_percent, y_percent, width, height, text_color=(0, 0, 255), scale_factor=1.0):
+class EditableTextbox(Textbox):
+    def __init__(self, screen, text, x_percent, y_percent, width, height, text_color=(0, 0, 255), font_path=FONT_PATH, font_size= 60, scale_factor=1.0, align_text="center", anchor="center"):
         """
         Initialize a Editable Textbox (user's can modify the content inside the textbox) object.
 
         Args:
             screen (pygame.Surface): The main display surface where the textbox will be rendered.
             text (str): The text to be displayed within the textbox.
-            font (pygame.font.Font): The font used to render the text.
             x_percent (float): X-axis position as a percentage of the screen width. Controls the horizontal placement of the rectangle.
             y_percent (float): Y-axis position as a percentage of the screen height. Controls the vertical placement of the rectangle.
             width (int): The width of the textbox rectangle.
             height (int): The height of the textbox rectangle.
             text_color (tuple, optional): The RGB color of the text. Defaults to blue.
+            font_path (str): The path to the font used to render the text.
+            font_size (int): The size of the font.
             scale_factor (float, optional): Scale factor for resizing the text. Defaults to 1.0.
+            align_text (str, optional): The alignment of the text within the textbox. Options are "left", "center", or "right". Defaults to "center".
+            anchor (str, optional): Determines how the textbox rectangle is anchored on the screen. Options are "center" or "topleft". Defaults to "center".
         """
-        super().__init__(screen, text, font, x_percent, y_percent, width, height, text_color, scale_factor)
+        
+        super().__init__(screen, text, x_percent, y_percent, width, height, text_color, font_path, font_size, scale_factor, align_text, anchor)
         self.is_editing = False
         self.old = self.text
 

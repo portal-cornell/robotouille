@@ -1,8 +1,10 @@
 import pygame
-from frontend import image, node
+from frontend.image import Image
+from frontend.node import Node
+from frontend.constants import FONT_PATH
 
-class Button(node.Node):
-    def __init__(self, screen, normal_image_source, x_percent, y_percent, scale_factor=1.0, hover_image_source = None, pressed_image_source = None, text=None, font=None, text_color=(0, 0, 0), anchor="center"):
+class Button(Node):
+    def __init__(self, screen, normal_image_source, x_percent, y_percent, scale_factor=1.0, hover_image_source = None, pressed_image_source = None, text=None, font_path=FONT_PATH, font_size= 60, text_color=(0, 0, 0), anchor="center"):
         """
         Initialize a Button instance.
 
@@ -10,28 +12,29 @@ class Button(node.Node):
         If the button has text on top, must provide text and font.
 
         Args:
-           screen (pygame.Surface): The screen where the button will be displayed.
-           normal_image_source (pygame.Surface): Image of the button's normal state.
-           hover_image_source (pygame.Surface): Image of the button's hover state.
-           pressed_image_source (pygame.Surface): Image of the button's pressed state.
-           x_percent (float): The horizontal position of the button as a percentage of the screen width.
-           y_percent (float): The vertical position of the button as a percentage of the screen height.
-           scale_factor (float): Scaling factor for the button images. Defaults to 1.0.
-           text (str): Optional text to display on the button.
-           font (pygame.font.Font): Optional font for rendering the button's text.
-           text_color (tuple): Color of the text in RGB format. Defaults to black.
-           anchor (str): Anchor point for positioning. Defaults to "center".
+            screen (pygame.Surface): The screen where the button will be displayed.
+            normal_image_source (pygame.Surface): Image of the button's normal state.
+            hover_image_source (pygame.Surface): Image of the button's hover state.
+            pressed_image_source (pygame.Surface): Image of the button's pressed state.
+            x_percent (float): The horizontal position of the button as a percentage of the screen width.
+            y_percent (float): The vertical position of the button as a percentage of the screen height.
+            scale_factor (float): Scaling factor for the button images. Defaults to 1.0.
+            text (str): Optional text to display on the button.
+            font_path (str): The path to the font used to render the text.
+            font_size (int): The size of the font.
+            text_color (tuple): Color of the text in RGB format. Defaults to black.
+            anchor (str): Anchor point for positioning. Defaults to "center".
         """
         super().__init__(screen, normal_image_source, x_percent, y_percent, anchor)
 
-        self.normal_image = image.Image(screen, normal_image_source, x_percent, y_percent, scale_factor)
+        self.normal_image = Image(screen, normal_image_source, x_percent, y_percent, scale_factor)
         
-        self.hover_image = image.Image(screen, hover_image_source if hover_image_source else normal_image_source, x_percent, y_percent, scale_factor)
-        self.pressed_image = image.Image(screen, pressed_image_source if pressed_image_source else normal_image_source, x_percent, y_percent, scale_factor)
+        self.hover_image = Image(screen, hover_image_source if hover_image_source else normal_image_source, x_percent, y_percent, scale_factor)
+        self.pressed_image = Image(screen, pressed_image_source if pressed_image_source else normal_image_source, x_percent, y_percent, scale_factor)
 
         self.current_image = self.normal_image
         self.text = text
-        self.font = font
+        self.font = pygame.font.Font(font_path, int(font_size * scale_factor))
         self.text_color = text_color
         self.is_pressed = False
         self.is_pressed_outside = False

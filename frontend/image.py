@@ -1,7 +1,7 @@
 import pygame
-from frontend import node
+from frontend.node import Node
 
-class Image(node.Node):
+class Image(Node):
     def __init__(self, screen, image_source, x_percent, y_percent, scale_factor=1.0, anchor="center"):
         """
         Initialize an Image object.

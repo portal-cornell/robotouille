@@ -1,3 +1,5 @@
+import os 
+
 # constants.py
 BLUE = (0, 0, 255)
 GREY = (100, 100, 100)
@@ -12,3 +14,9 @@ ENDGAME = 'end_game'
 LOADING = 'loading'
 LOGO = 'logo'
 MATCHMAKING = 'matchmaking'
+
+SHARED_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "shared")
+
+
+FONT_PATH = os.path.join(SHARED_DIRECTORY, "hug.ttf")
+

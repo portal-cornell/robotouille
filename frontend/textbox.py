@@ -1,9 +1,10 @@
 import pygame
-from frontend import node
+from frontend.node import Node
+from frontend.constants import FONT_PATH
 
-class Textbox(node.Node):
-    def __init__(self, screen, text, font, x_percent, y_percent, width, height, 
-                 text_color=(0, 0, 255), scale_factor=1.0, align_text="center", anchor="center"):
+class Textbox(Node):
+    def __init__(self, screen, text, x_percent, y_percent, width, height, 
+                 text_color=(0, 0, 255), font_path=FONT_PATH, font_size= 60, scale_factor=1.0, align_text="center", anchor="center"):
         
         """
         Initialize a Textbox object.
@@ -11,12 +12,13 @@ class Textbox(node.Node):
         Args:
             screen (pygame.Surface): The main display surface where the textbox will be rendered.
             text (str): The text to be displayed within the textbox.
-            font (pygame.font.Font): The font used to render the text.
             x_percent (float): X-axis position as a percentage of the screen width. Controls the horizontal placement of the rectangle.
             y_percent (float): Y-axis position as a percentage of the screen height. Controls the vertical placement of the rectangle.
             width (int): The width of the textbox rectangle.
             height (int): The height of the textbox rectangle.
             text_color (tuple, optional): The RGB color of the text. Defaults to blue.
+            font_path (str): The path to the font used to render the text.
+            font_size (int): The size of the font.
             scale_factor (float, optional): Scale factor for resizing the text. Defaults to 1.0.
             align_text (str, optional): The alignment of the text within the textbox. Options are "left", "center", or "right". Defaults to "center".
             anchor (str, optional): Determines how the textbox rectangle is anchored on the screen. Options are "center" or "topleft". Defaults to "center".
@@ -26,7 +28,7 @@ class Textbox(node.Node):
         
         
         self.text = text
-        self.font = font
+        self.font = pygame.font.Font(font_path, int(font_size * scale_factor))
         self.text_color = text_color
         self.scale_factor = scale_factor
         self.align_text = align_text

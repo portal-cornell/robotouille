@@ -1,11 +1,16 @@
 import pygame
-from frontend import constants, screen, image, button, slider, textbox, editable_textbox
-import os 
+from frontend.constants import *
+from frontend.button import Button
+from frontend.image import Image
+from frontend.slider import Slider
+from frontend.textbox import Textbox
+from frontend.editable_textbox import EditableTextbox
+from frontend.screen import ScreenInterface
+
 # Set up the assets directory
 ASSETS_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "settings")
-SHARED_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "shared")
 
-class SettingScreen(screen.ScreenInterface):
+class SettingScreen(ScreenInterface):
     def __init__(self, screen):
         """
         Initialize the settings screen.
@@ -20,50 +25,48 @@ class SettingScreen(screen.ScreenInterface):
         self.two_star_count = 0
         self.three_star_count = 0
     
-        self.back_arrow = button.Button(screen, self.back_arrow_image, self.x_percent(64), self.y_percent(860), self.scale_factor)
-        self.pencil = button.Button(screen, self.pencil_image, self.x_percent(1148.93), self.y_percent(173.525), self.scale_factor)
-        self.profile = image.Image(screen, self.profile_image, self.x_percent(780.5), self.y_percent(169.5), self.scale_factor)
+        self.back_arrow = Button(screen, self.back_arrow_image, self.x_percent(64), self.y_percent(860), self.scale_factor)
+        self.pencil = Button(screen, self.pencil_image, self.x_percent(1148.93), self.y_percent(173.525), self.scale_factor)
+        self.profile = Image(screen, self.profile_image, self.x_percent(780.5), self.y_percent(169.5), self.scale_factor)
 
-        self.sliderSFX = slider.Slider(screen, self.slider_bg_image, self.slider_fg_image, 442.01 * self.scale_factor, 44.91 * self.scale_factor, 390 * self.scale_factor, 31.19 * self.scale_factor,
+        self.sliderSFX = Slider(screen, self.slider_bg_image, self.slider_fg_image, 442.01 * self.scale_factor, 44.91 * self.scale_factor, 390 * self.scale_factor, 31.19 * self.scale_factor,
                                        self.x_percent(342.005), self.y_percent(459.455))
-        self.sliderVolume = slider.Slider(screen, self.slider_bg_image, self.slider_fg_image, 442.01 * self.scale_factor, 44.91 * self.scale_factor, 390 * self.scale_factor, 31.19 * self.scale_factor,
+        self.sliderVolume = Slider(screen, self.slider_bg_image, self.slider_fg_image, 442.01 * self.scale_factor, 44.91 * self.scale_factor, 390 * self.scale_factor, 31.19 * self.scale_factor,
                                           self.x_percent(343), self.y_percent(274.195))
         
-        self.VolumeMinus = button.Button(screen, self.minus_image, self.x_percent(144.505), self.y_percent(274.455), self.scale_factor)
-        self.VolumePlus = button.Button(screen, self.plus_image, self.x_percent(541.505), self.y_percent(274.455), self.scale_factor)
-        self.SFXMinus = button.Button(screen, self.minus_image, self.x_percent(143.505), self.y_percent(459.455), self.scale_factor)
-        self.SFXPlus = button.Button(screen, self.plus_image, self.x_percent(540.505), self.y_percent(459.455), self.scale_factor)
+        self.VolumeMinus = Button(screen, self.minus_image, self.x_percent(144.505), self.y_percent(274.455), self.scale_factor)
+        self.VolumePlus = Button(screen, self.plus_image, self.x_percent(541.505), self.y_percent(274.455), self.scale_factor)
+        self.SFXMinus = Button(screen, self.minus_image, self.x_percent(143.505), self.y_percent(459.455), self.scale_factor)
+        self.SFXPlus = Button(screen, self.plus_image, self.x_percent(540.505), self.y_percent(459.455), self.scale_factor)
 
-        self.name = editable_textbox.EditableTextbox(screen, "name", self.font, self.x_percent(983), self.y_percent(169) , 188 * self.scale_factor, 72 * self.scale_factor)
-        self.music = textbox.Textbox(screen, "MUSIC", self.font, self.x_percent(327), self.y_percent(211) , 188 * self.scale_factor, 72 * self.scale_factor)
-        self.sfx = textbox.Textbox(screen, "SFX", self.font, self.x_percent(327), self.y_percent(401) , 188 * self.scale_factor, 72 * self.scale_factor)
-        self.zero_star_score = textbox.Textbox(screen, str(self.zero_star_count), self.font, self.x_percent(1148), self.y_percent(449) , 188 * self.scale_factor, 72 * self.scale_factor)
-        self.one_star_score = textbox.Textbox(screen,  str(self.one_star_count), self.font, self.x_percent(1148), self.y_percent(568) , 188 * self.scale_factor, 72 * self.scale_factor)
-        self.two_star_score = textbox.Textbox(screen,  str(self.two_star_count), self.font, self.x_percent(1148), self.y_percent(683) , 188 * self.scale_factor, 72 * self.scale_factor)
-        self.three_star_score = textbox.Textbox(screen,  str(self.three_star_count), self.font, self.x_percent(1148), self.y_percent(780) , 188 * self.scale_factor, 72 * self.scale_factor)
+        self.name = EditableTextbox(screen, "name", self.x_percent(983), self.y_percent(169) , 188 * self.scale_factor, 72 * self.scale_factor, align_text="left")
+        self.music = Textbox(screen, "MUSIC", self.x_percent(327), self.y_percent(211) , 188 * self.scale_factor, 72 * self.scale_factor)
+        self.sfx = Textbox(screen, "SFX", self.x_percent(327), self.y_percent(401) , 188 * self.scale_factor, 72 * self.scale_factor)
+        self.zero_star_score = Textbox(screen, str(self.zero_star_count), self.x_percent(1148), self.y_percent(449) , 188 * self.scale_factor, 72 * self.scale_factor)
+        self.one_star_score = Textbox(screen,  str(self.one_star_count), self.x_percent(1148), self.y_percent(568) , 188 * self.scale_factor, 72 * self.scale_factor)
+        self.two_star_score = Textbox(screen,  str(self.two_star_count), self.x_percent(1148), self.y_percent(683) , 188 * self.scale_factor, 72 * self.scale_factor)
+        self.three_star_score = Textbox(screen,  str(self.three_star_count), self.x_percent(1148), self.y_percent(780) , 188 * self.scale_factor, 72 * self.scale_factor)
 
-        self.tutorial = button.Button(screen, self.start_button_image,
+        self.tutorial = Button(screen, self.start_button_image,
                                             self.x_percent(350), self.y_percent(601), self.scale_factor,
                                             hover_image_source= self.start_hover_button_image, 
                                             pressed_image_source= self.start_pressed_button_image, 
-                                            text = "TUTORIAL", font = self.font, text_color=constants.WHITE)
-        self.credits = button.Button(screen, self.start_button_image,
+                                            text = "TUTORIAL", font_path=FONT_PATH, font_size=60, text_color=WHITE)
+        self.credits = Button(screen, self.start_button_image,
                                             self.x_percent(350), self.y_percent(738), self.scale_factor, 
                                             hover_image_source= self.start_hover_button_image, 
                                             pressed_image_source= self.start_pressed_button_image, 
-                                            text = "CREDITS", font = self.font, text_color=constants.WHITE)
+                                            text = "CREDITS", font_path=FONT_PATH, font_size=60, text_color=WHITE)
 
-        self.zero_star = image.Image(screen, self.zero_star_image, self.x_percent(888.5), self.y_percent(449), self.scale_factor)
-        self.one_star = image.Image(screen, self.one_star_image, self.x_percent(888.5), self.y_percent(568), self.scale_factor)
-        self.two_star = image.Image(screen, self.two_star_image, self.x_percent(888.5), self.y_percent(683), self.scale_factor)
-        self.three_star = image.Image(screen, self.three_star_image, self.x_percent(888.5), self.y_percent(780), self.scale_factor)
+        self.zero_star = Image(screen, self.zero_star_image, self.x_percent(888.5), self.y_percent(449), self.scale_factor)
+        self.one_star = Image(screen, self.one_star_image, self.x_percent(888.5), self.y_percent(568), self.scale_factor)
+        self.two_star = Image(screen, self.two_star_image, self.x_percent(888.5), self.y_percent(683), self.scale_factor)
+        self.three_star = Image(screen, self.three_star_image, self.x_percent(888.5), self.y_percent(780), self.scale_factor)
 
 
         
     def load_assets(self):
         """Load necessary assets."""
-        font_path = os.path.join(SHARED_DIRECTORY, "hug.ttf")
-        self.font = pygame.font.Font(font_path, int(60 * self.scale_factor))
 
         # Construct Paths
         back_arrow_path = os.path.join(SHARED_DIRECTORY, "back_arrow.png")
@@ -102,7 +105,7 @@ class SettingScreen(screen.ScreenInterface):
     def draw(self):
         """Draws all the screen components."""
         # self.background.draw()
-        self.screen.fill(constants.CYAN)
+        self.screen.fill(CYAN)
         self.profile.draw()
         self.pencil.draw()
         self.back_arrow.draw()
@@ -167,10 +170,9 @@ class SettingScreen(screen.ScreenInterface):
         """
         super().update() 
 
-        # Handle events
         for event in pygame.event.get():
             if self.back_arrow.handle_event(event):
-                self.set_next_screen(constants.MAIN_MENU)
+                self.set_next_screen(MAIN_MENU)
             
             if self.VolumeMinus.in_bound() and not self.sliderVolume.is_moving():
                 if self.VolumeMinus.handle_event(event):
@@ -190,7 +192,4 @@ class SettingScreen(screen.ScreenInterface):
             else:
                 self.sliderSFX.handle_event(event)
 
-            # handle textbox
-            # if self.pencil.handle_event(event):
-                # self.name.toggle_editing() 
             self.name.handle_event(event)

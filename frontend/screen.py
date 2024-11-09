@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from frontend import constants
 
 class ScreenInterface(ABC):
     def __init__(self, screen, width = 1440, height = 1024):

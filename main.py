@@ -2,7 +2,12 @@ from robotouille import simulator
 import argparse
 import pygame
 from frontend.constants import SETTINGS, MAIN_MENU, GAME, ENDGAME, LOADING, LOGO, MATCHMAKING
-from frontend import main_menu, settings, loading, logo, endgame, matchmaking
+from frontend.main_menu import MenuScreen
+from frontend.settings import SettingScreen
+from frontend.loading import LoadingScreen
+from frontend.logo import LogoScreen
+from frontend.endgame import EndScreen
+from frontend.matchmaking import MatchMakingScreen
 
 
 parser = argparse.ArgumentParser()
@@ -19,12 +24,12 @@ screen = pygame.display.set_mode(screen_size)
 pygame.display.set_caption("Game")
 
 screens = {
-    MAIN_MENU: main_menu.MenuScreen(screen),
-    SETTINGS: settings.SettingScreen(screen),
-    LOGO: logo.LogoScreen(screen),
-    LOADING: loading.LoadingScreen(screen),
-    ENDGAME: endgame.EndScreen(screen),
-    MATCHMAKING: matchmaking.MatchMakingScreen(screen)
+    MAIN_MENU: MenuScreen(screen),
+    SETTINGS: SettingScreen(screen),
+    LOGO: LogoScreen(screen),
+    LOADING: LoadingScreen(screen),
+    ENDGAME: EndScreen(screen),
+    MATCHMAKING: MatchMakingScreen(screen)
 }
 
 current_screen = LOGO
