@@ -1,96 +1,96 @@
 {
-    "version": "1.0.0",
-    "width": 5,
-    "height": 5,
-    "config": {
-        "num_cuts": {
-            "watermelon": 3,
-            "default": 3
-        },
-        "cook_time": {
-            "patty": 3,
-            "default": 3
-        }
+  "version": "1.0.0",
+  "width": 5,
+  "height": 5,
+  "config": {
+    "num_cuts": {
+      "watermelon": 3,
+      "default": 3
     },
-    "stations": [
-        {
-            "name": "table",
-            "x": 0,
-            "y": 1
-        },
-        {
-            "name": "stove",
-            "x": 2,
-            "y": 1,
-            "id": "A"
-        },
-        {
-            "name": "table",
-            "x": 0,
-            "y": 0
-        },
-        {
-            "name": "stove",
-            "x": 2,
-            "y": 0,
-            "id": "B"
-        },
-        {
-            "name": "board",
-            "x": 3,
-            "y": 3,
-            "id": "C"
-        }
-    ],
-    "items": [
-        {
-            "name": "steak",
-            "x": 0,
-            "y": 1,
-            "stack-level": 0,
-            "predicates": ["iscookable"],
-            "id": "a"
-        },
-        {
-            "name": "steak",
-            "x": 0,
-            "y": 0,
-            "stack-level": 0,
-            "predicates": ["iscookable"],
-            "id": "b"
-        },
-        {
-            "name": "watermelon",
-            "x": 3,
-            "y": 3,
-            "stack-level": 0,
-            "predicates": ["iscuttable"],
-            "id": "c"
-        } 
-    ],
-    "players": [
-        {
-            "name": "robot",
-            "x": 0,
-            "y": 0,
-            "direction": [0, 1]
-        }
-    ],
-    "goal": [
-        {
-            "predicate": "iscut",
-            "args": ["watermelon"],
-            "ids": ["c"]
-        },
-        {
-            "predicate": "iscooked",
-            "args": ["steak"],
-            "ids": ["a"]
-        },
-        {
-            "predicate": "iscooked",
-            "args": ["steak"],
-            "ids": ["b"]
-        }
-    ]
+    "cook_time": {
+      "patty": 3,
+      "default": 3
+    }
+  },
+  "stations": [
+    {
+      "name": "table",
+      "x": 0,
+      "y": 1
+    },
+    {
+      "name": "stove",
+      "x": 2,
+      "y": 1,
+      "id": "A"
+    },
+    {
+      "name": "table",
+      "x": 0,
+      "y": 0
+    },
+    {
+      "name": "stove",
+      "x": 2,
+      "y": 0,
+      "id": "B"
+    },
+    {
+      "name": "board",
+      "x": 3,
+      "y": 3,
+      "id": "C"
+    }
+  ],
+  "items": [
+    {
+      "name": "steak",
+      "x": 0,
+      "y": 1,
+      "stack-level": 0,
+      "predicates": ["iscookable"],
+      "id": "a"
+    },
+    {
+      "name": "steak",
+      "x": 0,
+      "y": 0,
+      "stack-level": 0,
+      "predicates": ["iscookable"],
+      "id": "b"
+    },
+    {
+      "name": "watermelon",
+      "x": 3,
+      "y": 3,
+      "stack-level": 0,
+      "predicates": ["iscuttable"],
+      "id": "c"
+    }
+  ],
+  "players": [
+    {
+      "name": "robot",
+      "x": 3,
+      "y": 2,
+      "direction": [0, 1]
+    }
+  ],
+  "goal": [
+    {
+      "predicate": "iscut",
+      "args": ["watermelon"],
+      "ids": ["c"]
+    },
+    {
+      "predicate": "iscooked",
+      "args": ["steak"],
+      "ids": ["a"]
+    },
+    {
+      "predicate": "iscooked",
+      "args": ["steak"],
+      "ids": ["b"]
+    }
+  ]
 }
