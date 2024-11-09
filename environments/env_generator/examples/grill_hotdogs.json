@@ -38,7 +38,7 @@
             "x": 0,
             "y": 1,
             "stack-level": 0,
-            "predicates": ["isgrillable"],
+            "predicates": ["isgrillable", "ketchupifgrilled", "mustardifgrilled"],
             "id": "a"
         },
         {
@@ -46,7 +46,7 @@
             "x": 0,
             "y": 0,
             "stack-level": 0,
-            "predicates": ["isgrillable"],
+            "predicates": ["isgrillable", "ketchupifgrilled", "mustardifgrilled"],
             "id": "b"
         }
     ],

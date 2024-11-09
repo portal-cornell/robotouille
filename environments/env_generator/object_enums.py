@@ -40,6 +40,7 @@ class Meal(Enum):
 class Condiment(Enum):
     KETCHUP = "ketchupbottle"
     MUSTARD = "mustardbottle"
+
 TYPES = {"item": Item, "player": Player, "station": Station, "container": Container, "meal": Meal, "condiment": Condiment}
 
 def str_to_typed_enum(s):

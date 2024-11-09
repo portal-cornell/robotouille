@@ -4,7 +4,7 @@
     "height": 3,
     "config": {
         "cook_time": {
-            "bun": 3,
+            "hotdog": 3,
             "default": 3
         }
     },
@@ -26,27 +26,28 @@
             "y": 0
         },
         {
-            "name": "grill",
+            "name": "table",
             "x": 2,
-            "y": 0,
-            "id": "B"
+            "y": 0
         }
     ],
     "items": [
         {
-            "name": "bun",
+            "name": "hotdog",
             "x": 0,
             "y": 1,
             "stack-level": 0,
-            "predicates": ["istoastable"],
+            "predicates": ["isgrillable", "ketchupifgrilled", "mustardifgrilled"],
             "id": "a"
-        },
+        }
+    ],
+    "condiments": [
         {
-            "name": "bun",
+            "name": "mustardbottle",
             "x": 0,
             "y": 0,
             "stack-level": 0,
-            "predicates": ["istoastable"],
+            "predicates": ["ismustard"],
             "id": "b"
         }
     ],
@@ -58,16 +59,17 @@
             "direction": [-1, 0]
         }
     ],
+    "goal description": "Grill a hot dog and add mustard on it.",
     "goal": [
         {
-            "predicate": "istoasted",
-            "args": ["bun"],
+            "predicate": "has_mustard",
+            "args": ["hotdog"],
             "ids": ["a"]
         },
         {
-            "predicate": "istoasted",
-            "args": ["bun"],
-            "ids": ["b"]
+            "predicate": "isgrilled",
+            "args": ["hotdog"],
+            "ids": ["a"]
         }
     ]
 }

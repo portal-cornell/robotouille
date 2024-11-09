@@ -91,19 +91,19 @@
                     "default": "hotdog.png",
                     "grilled": {
                         "asset": "grilledhotdog.png",
-                        "predicates": ["isgrilled"],
-                        "has_ketchup": {
-                            "asset": "ketchup_hotdog.png",
-                            "predicates": ["has_ketchup"]
-                        },
-                        "has_mustard": {
-                            "asset": "mustard_hotdog.png",
-                            "predicates": ["has_mustard"]
-                        },
-                        "has_ketchup_mustard": {
-                            "asset": "ketchup_mustard_hotdog.png",
-                            "predicates": ["has_ketchup_mustard"]
-                        }
+                        "predicates": ["isgrilled"]
+                    },
+                    "has_ketchup": {
+                        "asset": "ketchup_hotdog.png",
+                        "predicates": ["isgrilled","has_ketchup"]
+                    },
+                    "has_mustard": {
+                        "asset": "mustard_hotdog.png",
+                        "predicates": ["isgrilled","has_mustard"]
+                    },
+                    "has_ketchup_mustard": {
+                        "asset": "ketchup_mustard_hotdog.png",
+                        "predicates": ["isgrilled","has_ketchup", "has_mustard"]
                     }
                 },
                 "constants": {

@@ -140,7 +140,19 @@
             "param_types": ["item"]
         },
         {
-            "name": "has_ketchup_mustard",
+            "name": "can_add_ketchup",
+            "param_types": ["item"]
+        },
+        {
+            "name": "can_add_mustard",
+            "param_types": ["item"]
+        },
+        {
+            "name": "ketchupifgrilled",
+            "param_types": ["item"]
+        },
+        {
+            "name": "mustardifgrilled",
             "param_types": ["item"]
         },
         {
@@ -665,6 +677,54 @@
                             "sfx": []
                         }
                     ]
+                },
+                {
+                    "type": "conditional",
+                    "param": "i1",
+                    "conditions": [
+                        {
+                            "predicate": "ketchupifgrilled",
+                            "params": ["i1"],
+                            "is_true": true
+                        },
+                        {
+                            "predicate": "isgrilled",
+                            "params": ["i1"],
+                            "is_true": true
+                        }
+                    ],
+                    "fx": [
+                        {
+                            "predicate": "can_add_ketchup",
+                            "params": ["i1"],
+                            "is_true": true
+                        }
+                    ],
+                    "sfx": []
+                },
+                {
+                    "type": "conditional",
+                    "param": "i1",
+                    "conditions": [
+                        {
+                            "predicate": "mustardifgrilled",
+                            "params": ["i1"],
+                            "is_true": true
+                        },
+                        {
+                            "predicate": "isgrilled",
+                            "params": ["i1"],
+                            "is_true": true
+                        }
+                    ],
+                    "fx": [
+                        {
+                            "predicate": "can_add_mustard",
+                            "params": ["i1"],
+                            "is_true": true
+                        }
+                    ],
+                    "sfx": []
                 }
             ]
         },
@@ -1293,7 +1353,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "isgrilled",
+                    "predicate": "can_add_ketchup",
                     "params": ["i1"],
                     "is_true": true
                 },
@@ -1315,37 +1375,7 @@
                     "is_true": true
                 }
             ],
-            "sfx": [
-                {
-                    "type": "conditional",
-                    "param": "i1",
-                    "conditions": [
-                        {
-                            "predicate": "has_mustard",
-                            "params": ["i1"],
-                            "is_true": true
-                        }
-                    ],
-                    "fx": [
-                        {
-                            "predicate": "has_ketchup_mustard",
-                            "params": ["i1"],
-                            "is_true": true
-                        },
-                        {
-                            "predicate": "has_ketchup",
-                            "params": ["i1"],
-                            "is_true": false
-                        },
-                        {
-                            "predicate": "has_mustard",
-                            "params": ["i1"],
-                            "is_true": false
-                        }
-                    ],
-                    "sfx": []
-                }
-            ]
+            "sfx": []
         },
         {
             "name": "add-mustard",
@@ -1361,7 +1391,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "isgrilled",
+                    "predicate": "can_add_mustard",
                     "params": ["i1"],
                     "is_true": true
                 },
@@ -1383,37 +1413,7 @@
                     "is_true": true
                 }
             ],
-            "sfx": [
-                {
-                    "type": "conditional",
-                    "param": "i1",
-                    "conditions": [
-                        {
-                            "predicate": "has_ketchup",
-                            "params": ["i1"],
-                            "is_true": true
-                        }
-                    ],
-                    "fx": [
-                        {
-                            "predicate": "has_ketchup_mustard",
-                            "params": ["i1"],
-                            "is_true": true
-                        },
-                        {
-                            "predicate": "has_ketchup",
-                            "params": ["i1"],
-                            "is_true": false
-                        },
-                        {
-                            "predicate": "has_mustard",
-                            "params": ["i1"],
-                            "is_true": false
-                        }
-                    ],
-                    "sfx": []
-                }
-            ]
+            "sfx": []
         }
     ]
 }
