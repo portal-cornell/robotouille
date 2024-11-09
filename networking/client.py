@@ -7,10 +7,10 @@ import pygame
 from robotouille.robotouille_env import create_robotouille_env
 from utils.robotouille_input import create_action_from_control
 
-def run_client(environment_name: str, seed: int = 42, noisy_randomization: bool = False, movement_mode: str='traverse', host: str="ws://localhost:8765"):
+def run_client(environment_name: str, seed: int, noisy_randomization: bool, movement_mode: str, host: str="ws://localhost:8765"):
     asyncio.run(client_loop(environment_name, seed, noisy_randomization, movement_mode, host))
 
-async def client_loop(environment_name: str, seed: int = 42, noisy_randomization: bool = False, movement_mode: str='traverse', host: str="ws://localhost:8765"):
+async def client_loop(environment_name: str, seed: int, noisy_randomization: bool, movement_mode: str, host: str="ws://localhost:8765"):
     uri = host
 
     async def send_actions(websocket, shared_state):
@@ -32,7 +32,7 @@ async def client_loop(environment_name: str, seed: int = 42, noisy_randomization
                 if online:
                     encoded_action = base64.b64encode(pickle.dumps((action, args))).decode('utf-8')
                     await websocket.send(json.dumps(encoded_action))
-            renderer.render(env.get_state(), mode='human')
+            renderer.render(shared_state["obs"], mode='human')
 
             await asyncio.sleep(0)  # Yield control to allow other tasks to run
 
