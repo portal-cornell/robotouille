@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from frontend import constants
 
 class ScreenInterface(ABC):
-    def __init__(self, screen):
+    def __init__(self, screen, width = 1440, height = 1024):
         """
         Initialize the ScreenInterface instance.
 
@@ -11,19 +11,21 @@ class ScreenInterface(ABC):
 
         Args:
            screen (pygame.Surface): The display surface where screen components will be drawn.
+           width (float): The width of the Figma screen
+           height (float): The height of the Figma screen
         """
         # Screen identifiers, should be MAIN_MENU, SETTINGS, etc
         self.next_screen = None
 
         self.screen = screen
         screen_width, screen_height = self.screen.get_size()
-        self.img_width, self.img_height = 1440, 1024
+        self.img_width, self.img_height = width, height
         width_scale = screen_width / self.img_width
         height_scale = screen_height / self.img_height
         self.scale_factor = min(width_scale, height_scale)  
 
-        background_width = self.scale_factor * 1440
-        background_height = self.scale_factor * 1024
+        background_width = self.scale_factor * width
+        background_height = self.scale_factor * height
 
         self.offset_x = (screen_width - background_width) / (2 * screen_width)
         self.offset_y = (screen_height - background_height) / (2 * screen_height)

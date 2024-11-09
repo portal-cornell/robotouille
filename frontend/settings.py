@@ -1,5 +1,5 @@
 import pygame
-from frontend import constants, screen, image, button, slider, textbox
+from frontend import constants, screen, image, button, slider, textbox, editable_textbox
 import os 
 # Set up the assets directory
 ASSETS_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "settings")
@@ -34,7 +34,7 @@ class SettingScreen(screen.ScreenInterface):
         self.SFXMinus = button.Button(screen, self.minus_image, self.x_percent(143.505), self.y_percent(459.455), self.scale_factor)
         self.SFXPlus = button.Button(screen, self.plus_image, self.x_percent(540.505), self.y_percent(459.455), self.scale_factor)
 
-        self.name = textbox.Textbox(screen, "name", self.font, self.x_percent(983), self.y_percent(169) , 188 * self.scale_factor, 72 * self.scale_factor)
+        self.name = editable_textbox.EditableTextbox(screen, "name", self.font, self.x_percent(983), self.y_percent(169) , 188 * self.scale_factor, 72 * self.scale_factor)
         self.music = textbox.Textbox(screen, "MUSIC", self.font, self.x_percent(327), self.y_percent(211) , 188 * self.scale_factor, 72 * self.scale_factor)
         self.sfx = textbox.Textbox(screen, "SFX", self.font, self.x_percent(327), self.y_percent(401) , 188 * self.scale_factor, 72 * self.scale_factor)
         self.zero_star_score = textbox.Textbox(screen, str(self.zero_star_count), self.font, self.x_percent(1148), self.y_percent(449) , 188 * self.scale_factor, 72 * self.scale_factor)
@@ -66,7 +66,7 @@ class SettingScreen(screen.ScreenInterface):
         self.font = pygame.font.Font(font_path, int(60 * self.scale_factor))
 
         # Construct Paths
-        back_arrow_path = os.path.join(ASSETS_DIRECTORY, "back_arrow.png")
+        back_arrow_path = os.path.join(SHARED_DIRECTORY, "back_arrow.png")
         slider_bg_path = os.path.join(ASSETS_DIRECTORY, "sliderback.png")
         slider_fg_path = os.path.join(ASSETS_DIRECTORY, "sliderfore.png")
         minus_path = os.path.join(ASSETS_DIRECTORY, "minus.png")
@@ -191,6 +191,6 @@ class SettingScreen(screen.ScreenInterface):
                 self.sliderSFX.handle_event(event)
 
             # handle textbox
-            if self.pencil.handle_event(event):
-                self.name.toggle_editing() 
+            # if self.pencil.handle_event(event):
+                # self.name.toggle_editing() 
             self.name.handle_event(event)
