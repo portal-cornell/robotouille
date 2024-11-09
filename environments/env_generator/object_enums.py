@@ -11,6 +11,8 @@ class Item(Enum):
     ONION = "onion"
     CHICKEN = "chicken"
     POTATO = "potato"
+    HOTDOG = "hotdog"
+    BUN = "bun"
 
 class Player(Enum):
     ROBOT = "robot"
@@ -23,6 +25,7 @@ class Station(Enum):
     SINK = "sink"
     COUNTER = "counter"
     BLENDER = "blender"
+    GRILL = "grill"
 
 class Container(Enum):
     POT = "pot"
@@ -34,7 +37,11 @@ class Meal(Enum):
     BOILING_WATER = "boiling_water"
     SOUP = "soup"
 
-TYPES = {"item": Item, "player": Player, "station": Station, "container": Container, "meal": Meal}
+class Condiment(Enum):
+    KETCHUP = "ketchupbottle"
+    MUSTARD = "mustardbottle"
+
+TYPES = {"item": Item, "player": Player, "station": Station, "container": Container, "meal": Meal, "condiment": Condiment}
 
 def str_to_typed_enum(s):
     """
@@ -49,7 +56,7 @@ def str_to_typed_enum(s):
     Returns:
         typed_enum (Enum): Enum of the string.
     """
-    for typed_enum in [Item, Player, Station, Container, Meal]:
+    for typed_enum in [Item, Player, Station, Container, Meal, Condiment]:
         try:
             return typed_enum(s)
         except ValueError:
