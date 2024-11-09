@@ -6,6 +6,7 @@ import websockets
 import pygame
 from robotouille.robotouille_env import create_robotouille_env
 from utils.robotouille_input import create_action_from_control
+from backend.movement.player import Player
 
 def run_client(environment_name: str, seed: int, noisy_randomization: bool, movement_mode: str, host: str="ws://localhost:8765"):
     asyncio.run(client_loop(environment_name, seed, noisy_randomization, movement_mode, host))
@@ -44,6 +45,7 @@ async def client_loop(environment_name: str, seed: int, noisy_randomization: boo
             
             shared_state["env"].set_state(pickle.loads(base64.b64decode(data["env"])))
             shared_state["obs"] = pickle.loads(base64.b64decode(data["obs"]))
+            Player.players = pickle.loads(base64.b64decode(data["players"]))
 
     async with websockets.connect(uri) as websocket:
         env, _, renderer = create_robotouille_env(environment_name, movement_mode, seed, noisy_randomization)

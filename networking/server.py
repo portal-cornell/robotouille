@@ -16,7 +16,7 @@ from backend.movement.movement import Movement
 SIMULATE_LATENCY = False
 SIMULATED_LATENCY_DURATION = 0.25
 
-UPDATE_INTERVAL = 1/60
+UPDATE_INTERVAL = 1/25
 
 def run_server(environment_name: str, seed: int, noisy_randomization: bool, movement_mode: str, display_server: bool=False, event: asyncio.Event=None):
     asyncio.run(server_loop(environment_name, seed, noisy_randomization, movement_mode, display_server, event))
@@ -43,6 +43,7 @@ async def server_loop(environment_name: str, seed: int, noisy_randomization: boo
             obs, info = env.reset()
             if display_server:
                 renderer.render(obs, mode='human')
+                renderer.render_fps = 0
             done = False
             interactive = False  # Adjust based on client commands later if needed
 
@@ -115,7 +116,8 @@ async def server_loop(environment_name: str, seed: int, noisy_randomization: boo
                 
                 env_data = base64.b64encode(pickle.dumps(env.get_state())).decode('utf-8')
                 obs_data = base64.b64encode(pickle.dumps(obs)).decode('utf-8')
-                reply = json.dumps({"env": env_data, "obs": obs_data, "done": done})
+                player_data = base64.b64encode(pickle.dumps(Player.players)).decode('utf-8')
+                reply = json.dumps({"env": env_data, "obs": obs_data, "players": player_data, "done": done})
                 
                 await asyncio.gather(*(websocket.send(reply) for websocket in connections.keys()))
                 
