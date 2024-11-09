@@ -168,6 +168,14 @@
             "param_types": ["item"]
         },
         {
+            "name": "can_add_salt",
+            "param_types": ["item"]
+        },
+        {
+            "name": "saltifgrilled",
+            "param_types": ["item"]
+        },
+        {
             "name": "ispot",
             "param_types": ["container"]
         },
@@ -843,6 +851,30 @@
                             "sfx": []
                         }
                     ]
+                },
+                {
+                    "type": "conditional",
+                    "param": "i1",
+                    "conditions": [
+                        {
+                            "predicate": "saltifgrilled",
+                            "params": ["i1"],
+                            "is_true": true
+                        },
+                        {
+                            "predicate": "isgrilled",
+                            "params": ["i1"],
+                            "is_true": true
+                        }
+                    ],
+                    "fx": [
+                        {
+                            "predicate": "can_add_salt",
+                            "params": ["i1"],
+                            "is_true": true
+                        }
+                    ],
+                    "sfx": []
                 }
             ]
         },
@@ -1691,7 +1723,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "isgrilled",
+                    "predicate": "can_add_salt",
                     "params": ["i1"],
                     "is_true": true
                 },

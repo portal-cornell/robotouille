@@ -38,7 +38,7 @@
             "x": 0,
             "y": 1,
             "stack-level": 0,
-            "predicates": ["isgrillable"],
+            "predicates": ["isgrillable", "saltifgrilled"],
             "id": "a"
         },
         {
@@ -46,7 +46,7 @@
             "x": 0,
             "y": 0,
             "stack-level": 0,
-            "predicates": ["isgrillable"],
+            "predicates": ["isgrillable", "saltifgrilled"],
             "id": "b"
         }
     ],
@@ -58,6 +58,7 @@
             "direction": [-1, 0]
         }
     ],
+    "goal description": "Grill two salmons.",
     "goal": [
         {
             "predicate": "isgrilled",

@@ -125,11 +125,11 @@
                     "default": "salmon.png",
                     "grilled": {
                         "asset": "grilledsalmon.png",
-                        "predicates": ["isgrilled"],
-                        "has_salt": {
-                            "asset": "grilledsaltedsalmon.png",
-                            "predicates": ["has_salt"]
-                        }
+                        "predicates": ["isgrilled"]
+                    },
+                    "has_salt": {
+                        "asset": "grilledsaltedsalmon.png",
+                        "predicates": ["isgrilled","has_salt"]
                     }
                 },
                 "constants": {}
