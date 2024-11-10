@@ -1,8 +1,6 @@
 from backend.object import Object
 from backend.state import State
 from backend.movement.movement import Movement
-from environments.env_generator.builder import entity_to_entity_field, create_unique_and_combination_preds, create_combinations
-import copy
 from domain.domain_builder import build_domain
 from backend.gamemodes.classic import Classic
 from .env_utils import build_identity_predicates, build_location_predicates, build_stacking_predicates, build_goal

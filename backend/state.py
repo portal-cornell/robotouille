@@ -2,7 +2,6 @@ from backend.predicate import Predicate
 from backend.object import Object
 from backend.object import Object
 from utils.robotouille_utils import trim_item_ID
-# from backend.movement.movement import Mode
 import itertools
 
 class State(object):
@@ -257,18 +256,6 @@ class State(object):
         """
         assert predicate in self.predicates
         self.predicates[predicate] = value
-
-    def get_true_predicates_by_name(self, name):
-        """
-        Returns a list of predicates with a given name if they are true. 
-
-        Args:
-            name (str): The name of the predicates to get.
-
-        Returns:
-            predicates (List[Predicate]): A list of predicates with the given name.
-        """
-        return [predicate for predicate, value in self.predicates.items() if predicate.name == name and value]
     
     def update_special_effect(self, special_effect, arg, param_arg_dict):
         """
@@ -332,7 +319,7 @@ class State(object):
         # necessary predicates and actions instead of building from scratch
         true_predicates = {predicate for predicate, value in self.predicates.items() if value}
         self.predicates = self._build_predicates(self.domain, self.objects, true_predicates)
-        self.actions, self.npc_actions = self._build_actions(self.domain, self.objects)
+        self.actions, self.npc_actions = self._build_actions(self.objects)
         return new_obj
 
     def delete_object(self, obj):

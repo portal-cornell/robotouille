@@ -74,16 +74,17 @@ class Customer(object):
             Adds customers to Customer.customers
         """
         customers = []
-        for customer in environment_json["customers"]:
-            name = customer["name"]
-            pos = (customer["x"], customer["y"])
-            direction = (customer["direction"][0], customer["direction"][1])
-            order = Customer.build_order(customer["order"], environment_json, recipe_json)
-            time_to_serve = customer["time_to_serve"]
-            enter_time = customer["enter_time"]
-            customer = Customer(name, pos, direction, order, time_to_serve, enter_time)
-            customer_obj = Object(customer.name, "customer")
-            customers.append(customer_obj)
+        if environment_json.get("customers"):
+            for customer in environment_json["customers"]:
+                name = customer["name"]
+                pos = (customer["x"], customer["y"])
+                direction = (customer["direction"][0], customer["direction"][1])
+                order = Customer.build_order(customer["order"], environment_json, recipe_json)
+                time_to_serve = customer["time_to_serve"]
+                enter_time = customer["enter_time"]
+                customer = Customer(name, pos, direction, order, time_to_serve, enter_time)
+                customer_obj = Object(customer.name, "customer")
+                customers.append(customer_obj)
         return customers
 
     def get_order(self):

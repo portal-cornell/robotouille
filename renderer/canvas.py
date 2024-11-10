@@ -33,9 +33,10 @@ class RobotouilleCanvas:
             player_pos = (player["x"], len(layout) - player["y"] - 1)
             self.player_pose[player["name"]] = {"position": player_pos, "direction": tuple(player["direction"])}
         self.customer_pose = {}
-        for customer in customers:
-            customer_pos = (customer["x"], len(layout) - customer["y"] - 1)
-            self.customer_pose[customer["name"]] = {"position": customer_pos, "direction": tuple(customer["direction"])}
+        if customers:
+            for customer in customers:
+                customer_pos = (customer["x"], len(layout) - customer["y"] - 1)
+                self.customer_pose[customer["name"]] = {"position": customer_pos, "direction": tuple(customer["direction"])}
 
         grid_dimensions = np.array([len(layout[0]), len(layout)])
         # The scaling factor for a grid square

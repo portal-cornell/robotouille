@@ -62,9 +62,9 @@ class Classic(GameMode):
             if action is not None:
                 actions.append(action)
 
-        new_state, done = self.state.step(actions)
+        self.movement.step(self.state, clock, actions)
 
-        self.movement.step(new_state, clock, actions)
+        new_state, done = self.state.step(actions)
 
         if self.movement.mode == Mode.TRAVERSE:
             new_state.current_player = new_state.next_player()

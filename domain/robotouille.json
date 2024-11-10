@@ -758,6 +758,11 @@
                     "predicate": "nothing",
                     "params": ["p1"],
                     "is_true": true
+                },
+                {
+                    "predicate": "isboiling",
+                    "params": ["m1"],
+                    "is_true": false
                 }
             ],
             "immediate_fx": [],
