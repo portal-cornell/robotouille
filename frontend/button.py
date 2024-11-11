@@ -25,10 +25,8 @@ class Button(Node):
             text_color (tuple): Color of the text in RGB format. Defaults to black.
             anchor (str): Anchor point for positioning. Defaults to "center".
         """
-        super().__init__(screen, normal_image_source, x_percent, y_percent, anchor)
-
         self.normal_image = Image(screen, normal_image_source, x_percent, y_percent, scale_factor)
-        
+        super().__init__(screen, self.normal_image.image, x_percent, y_percent, anchor)
         self.hover_image = Image(screen, hover_image_source if hover_image_source else normal_image_source, x_percent, y_percent, scale_factor)
         self.pressed_image = Image(screen, pressed_image_source if pressed_image_source else normal_image_source, x_percent, y_percent, scale_factor)
 

@@ -42,7 +42,7 @@ class ScreenInterface(ABC):
         """
         self.next_screen = next_screen
 
-    def x_percent(self, value):
+    def x_percent(self, value, anchor="center"):
         """
         Convert a horizontal position value to a percentage-based coordinate, adjusted for any offset.
 
@@ -52,9 +52,13 @@ class ScreenInterface(ABC):
         Returns:
            (float): Adjusted x-coordinate as a percentage of the screen width.
         """
-        return self.offset_x + value / self.img_width
+        if anchor == "center":
+            return (value / self.img_width)
+        if anchor == "topleft":
+            return self.offset_x + (value / self.img_width)
+        raise Exception("bad anchor")
 
-    def y_percent(self, value):
+    def y_percent(self, value, anchor="center"):
         """
         Convert a vertical position value to a percentage-based coordinate, adjusted for any offset.
 
@@ -64,8 +68,11 @@ class ScreenInterface(ABC):
         Returns:
            (float): Adjusted y-coordinate as a percentage of the screen height.
         """
-        return self.offset_y + value / self.img_height
-
+        if anchor == "center":
+            return value / self.img_height
+        if anchor == "topleft":
+            return self.offset_y + (value / self.img_height)
+        raise Exception("bad anchor")
     @abstractmethod
     def draw(self):
         """

@@ -33,14 +33,14 @@ class Node(ABC):
         """
         Given the x and y position percentages and calculate the position.
         """
-        screen_width, screen_height = self.screen.get_size()
-        x = int(screen_width * self.x_percent)
-        y = int(screen_height * self.y_percent)
+        self.screen_width, self.screen_height = self.screen.get_size()
+        x_coord = int(self.screen_width * self.x_percent)
+        y_coord = int(self.screen_height * self.y_percent)
         
         if self.anchor == "center":
-            self.rect = self.surface.get_rect(center=(x, y))
+            self.rect = self.surface.get_rect(center=(x_coord, y_coord))
         else:  
-            self.rect = self.surface.get_rect(topleft=(x, y))
+            self.rect = self.surface.get_rect(topleft=(x_coord, y_coord))
             
         self.x, self.y = self.rect.topleft
 

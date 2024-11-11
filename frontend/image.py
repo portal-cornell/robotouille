@@ -14,15 +14,17 @@ class Image(Node):
             scale_factor (float): Factor by which to scale the image.
             anchor (str): Positioning anchor, either "topleft" or "center".
         """
-        super().__init__(screen, image_source, x_percent, y_percent, anchor)
-
         self.image = image_source
+        self.scale_factor = scale_factor
         
         # Scale the image based on the scale factor
         original_width, original_height = self.image.get_size()
         scaled_width = original_width * scale_factor
         scaled_height = original_height * scale_factor
-        self.image = pygame.transform.scale(self.image, (scaled_width, scaled_height))
+        self.image = pygame.transform.scale(image_source, (scaled_width, scaled_height))
+        super().__init__(screen, self.image, x_percent, y_percent, anchor)
+
+     
 
     def draw(self):
         """Draws the image to the screen."""

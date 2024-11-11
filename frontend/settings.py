@@ -29,23 +29,23 @@ class SettingScreen(ScreenInterface):
         self.pencil = Button(screen, self.pencil_image, self.x_percent(1148.93), self.y_percent(173.525), self.scale_factor)
         self.profile = Image(screen, self.profile_image, self.x_percent(780.5), self.y_percent(169.5), self.scale_factor)
 
-        self.sliderSFX = Slider(screen, self.slider_bg_image, self.slider_fg_image, 442.01 * self.scale_factor, 44.91 * self.scale_factor, 390 * self.scale_factor, 31.19 * self.scale_factor,
-                                       self.x_percent(342.005), self.y_percent(459.455))
-        self.sliderVolume = Slider(screen, self.slider_bg_image, self.slider_fg_image, 442.01 * self.scale_factor, 44.91 * self.scale_factor, 390 * self.scale_factor, 31.19 * self.scale_factor,
-                                          self.x_percent(343), self.y_percent(274.195))
+        self.sliderSFX = Slider(screen, self.slider_bg_image, self.slider_fg_image, 442.01, 44.91, 390, 31.19,
+                                       self.x_percent(342.005), self.y_percent(459.455), scale_factor= self.scale_factor)
+        self.sliderVolume = Slider(screen, self.slider_bg_image, self.slider_fg_image, 442.01, 44.91, 390, 31.19,
+                                          self.x_percent(343), self.y_percent(274.195), scale_factor= self.scale_factor)
         
         self.VolumeMinus = Button(screen, self.minus_image, self.x_percent(144.505), self.y_percent(274.455), self.scale_factor)
         self.VolumePlus = Button(screen, self.plus_image, self.x_percent(541.505), self.y_percent(274.455), self.scale_factor)
         self.SFXMinus = Button(screen, self.minus_image, self.x_percent(143.505), self.y_percent(459.455), self.scale_factor)
         self.SFXPlus = Button(screen, self.plus_image, self.x_percent(540.505), self.y_percent(459.455), self.scale_factor)
 
-        self.name = EditableTextbox(screen, "name", self.x_percent(983), self.y_percent(169) , 188 * self.scale_factor, 72 * self.scale_factor, align_text="left")
-        self.music = Textbox(screen, "MUSIC", self.x_percent(327), self.y_percent(211) , 188 * self.scale_factor, 72 * self.scale_factor)
-        self.sfx = Textbox(screen, "SFX", self.x_percent(327), self.y_percent(401) , 188 * self.scale_factor, 72 * self.scale_factor)
-        self.zero_star_score = Textbox(screen, str(self.zero_star_count), self.x_percent(1148), self.y_percent(449) , 188 * self.scale_factor, 72 * self.scale_factor)
-        self.one_star_score = Textbox(screen,  str(self.one_star_count), self.x_percent(1148), self.y_percent(568) , 188 * self.scale_factor, 72 * self.scale_factor)
-        self.two_star_score = Textbox(screen,  str(self.two_star_count), self.x_percent(1148), self.y_percent(683) , 188 * self.scale_factor, 72 * self.scale_factor)
-        self.three_star_score = Textbox(screen,  str(self.three_star_count), self.x_percent(1148), self.y_percent(780) , 188 * self.scale_factor, 72 * self.scale_factor)
+        self.name = EditableTextbox(screen, "name", self.x_percent(983), self.y_percent(169) , 188, 72, align_text="left", scale_factor= self.scale_factor)
+        self.music = Textbox(screen, "MUSIC", self.x_percent(327), self.y_percent(211) , 188, 72, scale_factor= self.scale_factor)
+        self.sfx = Textbox(screen, "SFX", self.x_percent(327), self.y_percent(401), 188, 72, scale_factor= self.scale_factor)
+        self.zero_star_score = Textbox(screen, str(self.zero_star_count), self.x_percent(1148), self.y_percent(449) , 188, 72, scale_factor= self.scale_factor)
+        self.one_star_score = Textbox(screen,  str(self.one_star_count), self.x_percent(1148), self.y_percent(568) , 188, 72, scale_factor= self.scale_factor)
+        self.two_star_score = Textbox(screen,  str(self.two_star_count), self.x_percent(1148), self.y_percent(683), 188, 72, scale_factor= self.scale_factor)
+        self.three_star_score = Textbox(screen,  str(self.three_star_count), self.x_percent(1148), self.y_percent(780) , 188, 72, scale_factor= self.scale_factor)
 
         self.tutorial = Button(screen, self.start_button_image,
                                             self.x_percent(350), self.y_percent(601), self.scale_factor,

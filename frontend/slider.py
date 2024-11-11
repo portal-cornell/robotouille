@@ -4,7 +4,7 @@ from frontend.image import Image
 
 class Slider:
     def __init__(self, screen, background_image, foreground_image, background_width, background_height, 
-                 foreground_width, foreground_height, x_percent, y_percent, filled_percent=0.5, knob_image=None):
+                 foreground_width, foreground_height, x_percent, y_percent, scale_factor=1, filled_percent=0.5, knob_image=None):
         """
         Initialize a Slider object.
 
@@ -22,23 +22,22 @@ class Slider:
            knob_image (pygame.Surface, optional): Knob image. Defaults to None.
         """
         self.screen = screen
-        self.background_width = background_width
-        self.background_height = background_height
-        self.foreground_width = foreground_width
-        self.foreground_height = foreground_height
+        self.background_width = background_width * scale_factor
+        self.background_height = background_height * scale_factor
+        self.foreground_width = foreground_width * scale_factor
+        self.foreground_height = foreground_height * scale_factor
         self.x_percent = x_percent
         self.y_percent = y_percent
+        self.scale_factor = scale_factor
 
         screen_width, screen_height = self.screen.get_size()
-        self.x = screen_width * x_percent - background_width / 2
-        self.y = screen_height * y_percent - background_height / 2
-
-        self.background = NinePatch(screen, background_image, self.x, self.y, background_width, background_height)
+        self.x = (screen_width * x_percent) - (self.background_width / 2)
+        self.y = (screen_height * y_percent) - (self.background_height / 2)
+        self.background = NinePatch(screen, background_image, self.x, self.y, self.background_width, self.background_height)
         
-        # Set the foreground's position
-        self.foreground_x = self.x + (background_width - foreground_width) / 2
-        self.foreground_y = self.y + (background_height - foreground_height) / 2
-        self.foreground = NinePatch(screen, foreground_image, self.foreground_x, self.foreground_y, foreground_width, foreground_height)
+        self.foreground_x = self.x + (self.background_width - self.foreground_width) / 2
+        self.foreground_y = self.y + (self.background_height - self.foreground_height) / 2
+        self.foreground = NinePatch(screen, foreground_image, self.foreground_x, self.foreground_y, self.foreground_width, self.foreground_height)
 
         self.knob = None
         if knob_image:

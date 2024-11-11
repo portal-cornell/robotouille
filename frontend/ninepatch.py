@@ -23,6 +23,10 @@ class NinePatch:
         self.padding = padding
         self.img_width, self.img_height = self.image_source.get_size()
         self.slices = self.slice_image()
+    
+    def set_position(self, x, y):
+        self.x = x
+        self.y = y
 
     def slice_image(self):
         """

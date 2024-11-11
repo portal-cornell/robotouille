@@ -24,7 +24,7 @@ class Textbox(Node):
             anchor (str, optional): Determines how the textbox rectangle is anchored on the screen. Options are "center" or "topleft". Defaults to "center".
         """
 
-        super().__init__(screen, pygame.Surface((width, height), pygame.SRCALPHA), x_percent, y_percent)
+        super().__init__(screen, pygame.Surface((width * scale_factor, height* scale_factor), pygame.SRCALPHA), x_percent, y_percent)
         
         
         self.text = text
