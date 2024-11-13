@@ -3,6 +3,7 @@ import pygame
 import numpy as np
 from utils.robotouille_utils import trim_item_ID
 import json
+import sys
 
 class RobotouilleCanvas:
     """
@@ -192,9 +193,17 @@ class RobotouilleCanvas:
             and key "config" maps to the json for this tileset
         """
         # Load floor config
-        tiling_config_path = "tileset/" + tiling + "/config.json" # Assumes the name of the json is standardized as config.json
+        '''tiling_config_path = "tileset/" + tiling + "/config.json" # Assumes the name of the json is standardized as config.json
         with open(os.path.join(RobotouilleCanvas.ASSETS_DIRECTORY, tiling_config_path), "r") as f:
+            tiling_config = json.load(f)'''
+        BASE_PATH = getattr(sys, '_MEIPASS', os.path.abspath("."))
+        ASSETS_DIRECTORY = os.path.join(BASE_PATH, "assets")
+        tiling_config_path = os.path.join(self.ASSETS_DIRECTORY, "tileset", tiling, "config.json")
+
+        # Open and load the JSON file
+        with open(tiling_config_path, "r") as f:
             tiling_config = json.load(f)
+
 
         # Load and slice flooring spritesheet
         spritesheet_path = "tileset/" + tiling + "/" + tiling_config["asset"]

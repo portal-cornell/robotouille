@@ -5,6 +5,8 @@ from environments.env_generator import builder
 from environments.env_generator import procedural_generator
 from robotouille.env import RobotouilleEnv
 import json
+import sys
+import os
 
 def _parse_renderer_layout(environment_json):
     """
@@ -86,7 +88,9 @@ def create_robotouille_env(problem_filename, seed=None, noisy_randomization=Fals
     problem_string, environment_json = builder.build_problem(environment_json) # IDs objects in environment
     renderer = RobotouilleRenderer(config_filename=config_filename, layout=layout, tiling=tiling, players=environment_json["players"])
     render_fn = renderer.render
-    domain_filename = "domain/robotouille.json"
+    #domain_filename = "domain/robotouille.json"
+    base_path = getattr(sys, '_MEIPASS', os.path.abspath("."))
+    domain_filename = os.path.join(base_path, "domain", "robotouille.json")
     with open(domain_filename, "r") as domain_file:
         domain_json = json.load(domain_file)
     env = RobotouilleEnv(domain_json, environment_json, render_fn)

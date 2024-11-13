@@ -1,4 +1,4 @@
-from robotouille import simulator
+from robotouille.robotouille_simulator import simulator
 import argparse
 
 parser = argparse.ArgumentParser()

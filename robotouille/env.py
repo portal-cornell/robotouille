@@ -8,6 +8,8 @@ from domain.domain_builder import build_domain
 from utils.robotouille_utils import trim_item_ID
 import gym
 import json
+import os
+import sys
     
 def build_identity_predicates(environment_dict, entity_fields):
     """
@@ -316,12 +318,26 @@ def build_input_json(domain_json):
     Returns:
         input_json (dict): The input JSON.
     """
-    input_json_name = domain_json["input_json"]
+    #input_json_name = domain_json["input_json"]
 
+    #with open(input_json_name, "r") as input_json_file:
+     #   input_json = json.load(input_json_file)
+
+    #return input_json
+    base_path = getattr(sys, '_MEIPASS', os.path.abspath("."))
+    
+    # Ensure that domain_json["input_json"] only contains the filename, not the "domain" folder
+    input_json_filename = os.path.basename(domain_json["input_json"])  # Extract just the filename
+
+    # Construct the full path for the input JSON file
+    input_json_name = os.path.join(base_path, "domain", input_json_filename)
+
+    # Open and read the JSON file
     with open(input_json_name, "r") as input_json_file:
         input_json = json.load(input_json_file)
 
     return input_json
+    
 
 class RobotouilleEnv(gym.Env):
     metadata = {"render_modes": ["human", "rgb_array"], "render_fps": 60}

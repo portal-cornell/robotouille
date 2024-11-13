@@ -1,0 +1,16 @@
+Metadata-Version: 2.1
+Name: gym-notices
+Version: 0.0.8
+Summary: Notices for gym
+Home-page: https://github.com/Farama-Foundation/gym-notices
+Author: Jordan Terry
+Author-email: jkterry0@farama.org
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Description-Content-Type: text/markdown
+License-File: LICENSE.txt
+
+# Gym Notices
+
+This repository hosts notices for Gym that may be displayed on import on internet connected systems, in order to give notices if versions have major reproducibility issues, are very old and need to be upgraded (e.g. there's been issues with researchers using 4 year old versions of Gym for no reason), or other similar issues. If you're using a current version of Gym and nothing extraordinary happens, you'll never see a message from this, but I want start including the option to prevent future issues. By pulling the error messages from a public git repository, there's absolute transparency and versioning in the process.
