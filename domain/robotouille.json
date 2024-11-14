@@ -32,6 +32,10 @@
             "param_types": ["station"]
         },
         {
+            "name": "isbatter_station",
+            "param_types": ["station"]
+        },
+        {
             "name": "oven_on",
             "param_types": ["station"]
         },
@@ -88,6 +92,10 @@
             "param_types": ["item"]
         },
         {
+            "name": "isfryableifbattered",
+            "param_types": ["item"]
+        },
+        {
             "name": "isfried",
             "param_types": ["item"]
         },
@@ -124,6 +132,10 @@
             "param_types": ["item"]
         },
         {
+            "name": "isshrimp",
+            "param_types": ["item"]
+        },
+        {
             "name": "isgrillable",
             "param_types": ["item"]
         },
@@ -136,6 +148,10 @@
             "param_types": ["item"]
         },
         {
+            "name": "isbatterable",
+            "param_types": ["item"]
+        },
+        {
             "name": "isgrilled",
             "param_types": ["item"]
         },
@@ -145,6 +161,10 @@
         },
         {
             "name": "isroasted",
+            "param_types": ["item"]
+        },
+        {
+            "name": "isbattered",
             "param_types": ["item"]
         },
         {
@@ -1100,6 +1120,74 @@
                 }
             ]
 
+        },
+        {
+            "name": "batter",
+            "precons": [
+                {
+                    "predicate": "isbatterable",
+                    "params": ["i1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "isbatter_station",
+                    "params": ["s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "loc",
+                    "params": ["p1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "item_on",
+                    "params": ["i1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "item_at",
+                    "params": ["i1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "clear",
+                    "params": ["i1"],
+                    "is_true": true
+                }
+            ],
+            "immediate_fx": [
+                {
+                    "predicate": "isbattered",
+                    "params": ["i1"],
+                    "is_true": true
+                }
+            ],
+            "sfx": [
+                {
+                    "type": "conditional",
+                    "param": "i1",
+                    "conditions": [
+                        {
+                            "predicate": "isfryableifbattered",
+                            "params": ["i1"],
+                            "is_true": true
+                        },
+                        {
+                            "predicate": "isbattered",
+                            "params": ["i1"],
+                            "is_true": true
+                        }
+                    ],
+                    "fx": [
+                        {
+                            "predicate": "isfryable",
+                            "params": ["i1"],
+                            "is_true": true
+                        }
+                    ],
+                    "sfx": []
+                }
+            ]
         },
         {
             "name": "fry",

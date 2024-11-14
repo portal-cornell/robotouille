@@ -80,6 +80,13 @@
             }
         },
         {
+            "name": "batter",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
             "name": "cook",
             "input_instructions": {
                 "key": "e",

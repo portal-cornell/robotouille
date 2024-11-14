@@ -15,6 +15,7 @@ class Item(Enum):
     BUN = "bun"
     SALMON = "salmon"
     TURKEY = "turkey"
+    SHRIMP = "shrimp"
 
 class Player(Enum):
     ROBOT = "robot"
@@ -28,6 +29,7 @@ class Station(Enum):
     COUNTER = "counter"
     BLENDER = "blender"
     GRILL = "grill"
+    BATTER_STATION = "batter_station"
 
 class Container(Enum):
     POT = "pot"

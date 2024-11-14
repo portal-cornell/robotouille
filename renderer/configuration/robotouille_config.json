@@ -134,6 +134,22 @@
                 },
                 "constants": {}
             },
+            "shrimp": {
+                "assets": {
+                    "default": "shrimp.png",
+                    "battered": {
+                        "asset": "battered_shrimp.png",
+                        "predicates": ["isbattered"]
+                    },
+                    "fried": {
+                        "asset": "fried_shrimp.png",
+                        "predicates": ["isbattered","isfried"]
+                    }
+                },
+                "constants": {
+                    "STACK_OFFSET": -0.1
+                }
+            },
             "lettuce": {
                 "assets": {
                     "default": "lettuce.png",
@@ -207,6 +223,12 @@
                         "asset": "oven_on.png",
                         "predicates": ["oven_on"]
                     }
+                },
+                "constants": {}
+            },
+            "batter_station": {
+                "assets": {
+                    "default": "batter_station.png"
                 },
                 "constants": {}
             },
