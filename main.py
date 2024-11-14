@@ -31,7 +31,7 @@ screens = {
     MATCHMAKING: MatchMakingScreen(screen)
 }
 
-current_screen = ENDGAME
+current_screen = LOGO
 clock = pygame.time.Clock()
 running = True
 
