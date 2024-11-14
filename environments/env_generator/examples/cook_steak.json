@@ -1,0 +1,77 @@
+{
+    "version": "1.0.0",
+    "width": 3,
+    "height": 3,
+    "config": {
+        "num_cuts": {
+            "lettuce": 3,
+            "default": 3
+        },
+        "cook_time": {
+            "patty": 3,
+            "default": 3
+        }
+    },
+    "stations": [
+        {
+            "name": "table",
+            "x": 0,
+            "y": 1
+        },
+        {
+            "name": "stove",
+            "x": 2,
+            "y": 1,
+            "id": "A"
+        },
+        {
+            "name": "table",
+            "x": 0,
+            "y": 0
+        },
+        {
+            "name": "stove",
+            "x": 2,
+            "y": 0,
+            "id": "B"
+        }
+    ],
+    "items": [
+        {
+            "name": "steak",
+            "x": 0,
+            "y": 1,
+            "stack-level": 0,
+            "predicates": ["iscookable"],
+            "id": "a"
+        },
+        {
+            "name": "steak",
+            "x": 0,
+            "y": 0,
+            "stack-level": 0,
+            "predicates": ["iscookable"],
+            "id": "b"
+        }
+    ],
+    "players": [
+        {
+            "name": "robot",
+            "x": 1,
+            "y": 0,
+            "direction": [-1, 0]
+        }
+    ],
+    "goal": [
+        {
+            "predicate": "iscooked",
+            "args": ["steak"],
+            "ids": ["a"]
+        },
+        {
+            "predicate": "iscooked",
+            "args": ["steak"],
+            "ids": ["b"]
+        }
+    ]
+}

@@ -122,6 +122,26 @@
                     }
                 },
                 "constants": {}
+            },
+            "watermelon": {
+                "assets": {
+                    "default": "watermelon.png",
+                    "cut": {
+                        "asset": "watermelonslices.png",
+                        "predicates": ["iscut"]
+                    }
+                },
+                "constants": {}
+            },
+            "steak": {
+                "assets": {
+                    "default": "steak.png",
+                    "cooked": {
+                        "asset": "cookedsteak.png",
+                        "predicates": ["iscooked"]
+                    }
+                },
+                "constants": {}
             } 
         }
     },
