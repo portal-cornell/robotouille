@@ -73,3 +73,7 @@ class Textbox(Node):
         """Update the text and refresh the text surface."""
         self.text = new_text
         self.update_text_rect()
+
+    def get_text(self):
+        """Get text string"""
+        return self.text

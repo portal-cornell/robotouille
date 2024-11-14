@@ -19,9 +19,9 @@ class Image(Node):
         
         # Scale the image based on the scale factor
         original_width, original_height = self.image.get_size()
-        scaled_width = original_width * scale_factor
-        scaled_height = original_height * scale_factor
-        self.image = pygame.transform.scale(image_source, (scaled_width, scaled_height))
+        self.scaled_width = original_width * scale_factor
+        self.scaled_height = original_height * scale_factor
+        self.image = pygame.transform.scale(image_source, (self.scaled_width, self.scaled_height))
         super().__init__(screen, self.image, x_percent, y_percent, anchor)
 
      
@@ -38,3 +38,6 @@ class Image(Node):
             alpha (int): Transparency level (0 to 255), where 0 is fully transparent and 255 is fully opaque.
         """
         self.image.set_alpha(alpha)
+
+    def set_image(self, image):
+        self.image = pygame.transform.scale(image, (self.scaled_width, self.scaled_height))

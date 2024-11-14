@@ -1,6 +1,8 @@
 import os 
 
 # constants.py
+MAX_PLAYERS = 4
+
 BLUE = (0, 0, 255)
 GREY = (100, 100, 100)
 WHITE = (255, 255, 255)

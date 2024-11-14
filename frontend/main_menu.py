@@ -55,6 +55,6 @@ class MenuScreen(ScreenInterface):
         # Handle events
         for event in pygame.event.get():
             if self.start_button.handle_event(event):
-                self.set_next_screen(GAME)
+                self.set_next_screen(MATCHMAKING)
             if self.setting_button.handle_event(event):
                 self.set_next_screen(SETTINGS)

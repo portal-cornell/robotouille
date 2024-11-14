@@ -50,6 +50,8 @@ while running:
             current_screen = MAIN_MENU
             screen = pygame.display.set_mode(screen_size)
     else:
+        if current_screen == MATCHMAKING:
+            screens[current_screen].setPlayers(["Player1", "Player2"])
         update_screen()
 
     pygame.display.flip()
