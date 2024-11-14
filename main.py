@@ -31,7 +31,7 @@ screens = {
     MATCHMAKING: MatchMakingScreen(screen)
 }
 
-current_screen = LOGO
+current_screen = ENDGAME
 clock = pygame.time.Clock()
 running = True
 
@@ -52,6 +52,12 @@ while running:
     else:
         if current_screen == MATCHMAKING:
             screens[current_screen].setPlayers(["Player1", "Player2"])
+        
+        if current_screen == ENDGAME:
+            screens[current_screen].createProfile([(1,  "Player 1"), (2, "Player 1"), (3, "Player 1")])
+            screens[current_screen].setStars(1)
+            screens[current_screen].setCoin(12)
+            screens[current_screen].setBell(121)
         update_screen()
 
     pygame.display.flip()
