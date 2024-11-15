@@ -39,7 +39,7 @@ class RobotouilleRenderer:
         # displays static drawings.
         self.render_fps = render_fps
         # The pygame window
-        self.window = None
+        # self.window = None
         # The pygame clock
         self.clock = None
     
@@ -50,11 +50,12 @@ class RobotouilleRenderer:
         Args:
             render_mode (str): Either "human" or "rgb_array"
         """
-        if self.window is None and render_mode == "human":
-            pygame.init()
-            pygame.display.init()
-            self.window = pygame.display.set_mode(self.window_size)
-            pygame.display.set_caption('Robotouille Simulator')
+        # if self.window is None and render_mode == "human":
+        #     pygame.init()
+        #     pygame.display.init()
+        #     # self.window = 
+        pygame.display.set_mode(self.window_size)
+        #     pygame.display.set_caption('Robotouille Simulator')
         if self.clock is None and render_mode == "human":
             self.clock = pygame.time.Clock()
     

@@ -53,7 +53,9 @@ class PauseScreen(ScreenInterface):
     def toggle(self):
         self.hide = not self.hide
 
-
+    def is_active(self):
+        return not self.hide
+    
     def update(self):
         """Update the screen and handle events."""
         self.draw()

@@ -5,18 +5,18 @@ from frontend.pause import PauseScreen
 
 def simulator(surface, screen_size, environment_name: str, seed: int=42, noisy_randomization: bool=False):
     # Your code for robotouille goes here
-    env, json, renderer = create_robotouille_env(environment_name, surface, seed, noisy_randomization)
+    intermediate = pygame.Surface((512,512))
+    env, json, renderer = create_robotouille_env(environment_name, intermediate, seed, noisy_randomization)
     obs, info = env.reset()
     renderer.render(obs, mode='human')
     done = False
     interactive = False # Set to True to interact with the environment through terminal REPL (ignores input)
 
-    screen_size = surface.get_size()
+    screen_size = intermediate.get_size()
     pause = PauseScreen(screen_size)
-    
+    flag = True
     while not done:
         # Handle keypresses 
-        flag = False
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_q:
@@ -48,7 +48,9 @@ def simulator(surface, screen_size, environment_name: str, seed: int=42, noisy_r
 
         obs, reward, done, info = env.step(actions, interactive=interactive)
         renderer.render(obs, mode='human')
-        surface.blit(pause.get_screen(), (0, 0))
+        intermediate.blit(pause.get_screen(), (0, 0))
+        surface.blit(intermediate, (0,0))
         pygame.display.flip()
+        flag = False
 
     renderer.render(obs, close=True)
