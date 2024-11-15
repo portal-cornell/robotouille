@@ -11,22 +11,22 @@ from frontend.screen import ScreenInterface
 ASSETS_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "endgame")
 
 class EndScreen(ScreenInterface):
-    def __init__(self, screen):
+    def __init__(self, window_size):
         """Initialize the end screen with UI components.
 
         Args:
             screen (pygame.Surface): The display surface where the end game screen components will be drawn.
         """
-        super().__init__(screen)
-        self.background = Image(screen, self.background_image, 0.5, 0.5, self.scale_factor)
-        self.level_complete = Textbox(screen, "LEVEL FINISHED", self.x_percent(720.5), self.y_percent(124.5), 615, 96, font_size=80, scale_factor=self.scale_factor)
-        self.quit = Button(screen, self.blue_buton_image, 
+        super().__init__(pygame.Surface(window_size))
+        self.background = Image(self.screen, self.background_image, 0.5, 0.5, self.scale_factor)
+        self.level_complete = Textbox(self.screen, "LEVEL FINISHED", self.x_percent(720.5), self.y_percent(124.5), 615, 96, font_size=80, scale_factor=self.scale_factor)
+        self.quit = Button(self.screen, self.blue_buton_image, 
                                             self.x_percent(397), self.y_percent(868), self.scale_factor, 
                                             hover_image_source= self.blue_hover_button_image,
                                             pressed_image_source= self.blue_pressed_button_image, 
                                             font_size=40,
                                             text = "QUIT", text_color=WHITE, anchor="center")
-        self.play_again = Button(screen, self.red_button_image, 
+        self.play_again = Button(self.screen, self.red_button_image, 
                                             self.x_percent(1044), self.y_percent(868), self.scale_factor, 
                                             hover_image_source= self.red_hover_button_image,
                                             pressed_image_source= self.red_pressed_button_image, 
@@ -38,10 +38,10 @@ class EndScreen(ScreenInterface):
             Image(self.screen, self.star_empty_image, self.x_percent(720.5), self.y_percent(263.26), self.scale_factor),
             Image(self.screen, self.star_empty_image, self.x_percent(981.74), self.y_percent(263.26), self.scale_factor),
         ]
-        self.coins = Image(screen, self.coin_image, self.x_percent(479), self.y_percent(431), self.scale_factor)
-        self.coins_text = Textbox(screen, "213", self.x_percent(577), self.y_percent(431), 188, 72, font_size=40, scale_factor=self.scale_factor)
-        self.bells = Image(screen, self.bell_image, self.x_percent(881.5), self.y_percent(438.74), self.scale_factor)
-        self.bells_text = Textbox(screen, "214", self.x_percent(984), self.y_percent(430), 188, 72, font_size=40, scale_factor=self.scale_factor)
+        self.coins = Image(self.screen, self.coin_image, self.x_percent(479), self.y_percent(431), self.scale_factor)
+        self.coins_text = Textbox(self.screen, "213", self.x_percent(577), self.y_percent(431), 188, 72, font_size=40, scale_factor=self.scale_factor)
+        self.bells = Image(self.screen, self.bell_image, self.x_percent(881.5), self.y_percent(438.74), self.scale_factor)
+        self.bells_text = Textbox(self.screen, "214", self.x_percent(984), self.y_percent(430), 188, 72, font_size=40, scale_factor=self.scale_factor)
 
     def createOneProfile(self, players):
         """Create UI elements for a single player profile.

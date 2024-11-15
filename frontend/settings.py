@@ -11,57 +11,57 @@ from frontend.screen import ScreenInterface
 ASSETS_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "settings")
 
 class SettingScreen(ScreenInterface):
-    def __init__(self, screen):
+    def __init__(self, window_size):
         """
         Initialize the settings screen.
 
         Args:
-           screen (pygame.Surface): The display surface where the settings screen components will be drawn.
+           screen (pygame.Surface): The display surface where the settings self.screen components will be drawn.
         """
-        super().__init__(screen) 
+        super().__init__(pygame.Surface(window_size, pygame.SRCALPHA)) 
 
         self.zero_star_count = 0
         self.one_star_count = 0
         self.two_star_count = 0
         self.three_star_count = 0
     
-        self.back_arrow = Button(screen, self.back_arrow_image, self.x_percent(64), self.y_percent(860), self.scale_factor)
-        self.pencil = Button(screen, self.pencil_image, self.x_percent(1148.93), self.y_percent(173.525), self.scale_factor)
-        self.profile = Image(screen, self.profile_image, self.x_percent(780.5), self.y_percent(169.5), self.scale_factor)
+        self.back_arrow = Button(self.screen, self.back_arrow_image, self.x_percent(64), self.y_percent(860), self.scale_factor)
+        self.pencil = Button(self.screen, self.pencil_image, self.x_percent(1148.93), self.y_percent(173.525), self.scale_factor)
+        self.profile = Image(self.screen, self.profile_image, self.x_percent(780.5), self.y_percent(169.5), self.scale_factor)
 
-        self.sliderSFX = Slider(screen, self.slider_bg_image, self.slider_fg_image, 442.01, 44.91, 390, 31.19,
+        self.sliderSFX = Slider(self.screen, self.slider_bg_image, self.slider_fg_image, 442.01, 44.91, 390, 31.19,
                                        self.x_percent(342.005), self.y_percent(459.455), scale_factor= self.scale_factor)
-        self.sliderVolume = Slider(screen, self.slider_bg_image, self.slider_fg_image, 442.01, 44.91, 390, 31.19,
+        self.sliderVolume = Slider(self.screen, self.slider_bg_image, self.slider_fg_image, 442.01, 44.91, 390, 31.19,
                                           self.x_percent(343), self.y_percent(274.195), scale_factor= self.scale_factor)
         
-        self.VolumeMinus = Button(screen, self.minus_image, self.x_percent(144.505), self.y_percent(274.455), self.scale_factor)
-        self.VolumePlus = Button(screen, self.plus_image, self.x_percent(541.505), self.y_percent(274.455), self.scale_factor)
-        self.SFXMinus = Button(screen, self.minus_image, self.x_percent(143.505), self.y_percent(459.455), self.scale_factor)
-        self.SFXPlus = Button(screen, self.plus_image, self.x_percent(540.505), self.y_percent(459.455), self.scale_factor)
+        self.VolumeMinus = Button(self.screen, self.minus_image, self.x_percent(144.505), self.y_percent(274.455), self.scale_factor)
+        self.VolumePlus = Button(self.screen, self.plus_image, self.x_percent(541.505), self.y_percent(274.455), self.scale_factor)
+        self.SFXMinus = Button(self.screen, self.minus_image, self.x_percent(143.505), self.y_percent(459.455), self.scale_factor)
+        self.SFXPlus = Button(self.screen, self.plus_image, self.x_percent(540.505), self.y_percent(459.455), self.scale_factor)
 
-        self.name = EditableTextbox(screen, "name", self.x_percent(983), self.y_percent(169) , 188, 72, align_text="left", scale_factor= self.scale_factor)
-        self.music = Textbox(screen, "MUSIC", self.x_percent(327), self.y_percent(211) , 188, 72, scale_factor= self.scale_factor)
-        self.sfx = Textbox(screen, "SFX", self.x_percent(327), self.y_percent(401), 188, 72, scale_factor= self.scale_factor)
-        self.zero_star_score = Textbox(screen, str(self.zero_star_count), self.x_percent(1148), self.y_percent(449) , 188, 72, scale_factor= self.scale_factor)
-        self.one_star_score = Textbox(screen,  str(self.one_star_count), self.x_percent(1148), self.y_percent(568) , 188, 72, scale_factor= self.scale_factor)
-        self.two_star_score = Textbox(screen,  str(self.two_star_count), self.x_percent(1148), self.y_percent(683), 188, 72, scale_factor= self.scale_factor)
-        self.three_star_score = Textbox(screen,  str(self.three_star_count), self.x_percent(1148), self.y_percent(780) , 188, 72, scale_factor= self.scale_factor)
+        self.name = EditableTextbox(self.screen, "name", self.x_percent(983), self.y_percent(169) , 188, 72, align_text="left", scale_factor= self.scale_factor)
+        self.music = Textbox(self.screen, "MUSIC", self.x_percent(327), self.y_percent(211) , 188, 72, scale_factor= self.scale_factor)
+        self.sfx = Textbox(self.screen, "SFX", self.x_percent(327), self.y_percent(401), 188, 72, scale_factor= self.scale_factor)
+        self.zero_star_score = Textbox(self.screen, str(self.zero_star_count), self.x_percent(1148), self.y_percent(449) , 188, 72, scale_factor= self.scale_factor)
+        self.one_star_score = Textbox(self.screen,  str(self.one_star_count), self.x_percent(1148), self.y_percent(568) , 188, 72, scale_factor= self.scale_factor)
+        self.two_star_score = Textbox(self.screen,  str(self.two_star_count), self.x_percent(1148), self.y_percent(683), 188, 72, scale_factor= self.scale_factor)
+        self.three_star_score = Textbox(self.screen,  str(self.three_star_count), self.x_percent(1148), self.y_percent(780) , 188, 72, scale_factor= self.scale_factor)
 
-        self.tutorial = Button(screen, self.start_button_image,
+        self.tutorial = Button(self.screen, self.start_button_image,
                                             self.x_percent(350), self.y_percent(601), self.scale_factor,
                                             hover_image_source= self.start_hover_button_image, 
                                             pressed_image_source= self.start_pressed_button_image, 
                                             text = "TUTORIAL", font_path=FONT_PATH, font_size=60, text_color=WHITE)
-        self.credits = Button(screen, self.start_button_image,
+        self.credits = Button(self.screen, self.start_button_image,
                                             self.x_percent(350), self.y_percent(738), self.scale_factor, 
                                             hover_image_source= self.start_hover_button_image, 
                                             pressed_image_source= self.start_pressed_button_image, 
                                             text = "CREDITS", font_path=FONT_PATH, font_size=60, text_color=WHITE)
 
-        self.zero_star = Image(screen, self.zero_star_image, self.x_percent(888.5), self.y_percent(449), self.scale_factor)
-        self.one_star = Image(screen, self.one_star_image, self.x_percent(888.5), self.y_percent(568), self.scale_factor)
-        self.two_star = Image(screen, self.two_star_image, self.x_percent(888.5), self.y_percent(683), self.scale_factor)
-        self.three_star = Image(screen, self.three_star_image, self.x_percent(888.5), self.y_percent(780), self.scale_factor)
+        self.zero_star = Image(self.screen, self.zero_star_image, self.x_percent(888.5), self.y_percent(449), self.scale_factor)
+        self.one_star = Image(self.screen, self.one_star_image, self.x_percent(888.5), self.y_percent(568), self.scale_factor)
+        self.two_star = Image(self.screen, self.two_star_image, self.x_percent(888.5), self.y_percent(683), self.scale_factor)
+        self.three_star = Image(self.screen, self.three_star_image, self.x_percent(888.5), self.y_percent(780), self.scale_factor)
 
 
         
@@ -103,7 +103,7 @@ class SettingScreen(ScreenInterface):
         
 
     def draw(self):
-        """Draws all the screen components."""
+        """Draws all the self.screen components."""
         # self.background.draw()
         self.screen.fill(CYAN)
         self.profile.draw()
@@ -166,7 +166,7 @@ class SettingScreen(ScreenInterface):
 
     def update(self):
         """
-        Update the settings screen and handle events.
+        Update the settings self.screen and handle events.
         """
         super().update() 
 

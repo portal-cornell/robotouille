@@ -8,17 +8,17 @@ from frontend.screen import ScreenInterface
 ASSETS_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "loading")
 
 class LoadingScreen(ScreenInterface):
-    def __init__(self, screen):
+    def __init__(self, window_size):
         """
         Initialize the Loading Screen.
 
         Args:
            screen (pygame.Surface): The display surface where the loading screen components will be drawn.
         """
-        super().__init__(screen)
+        super().__init__(pygame.Surface(window_size))
         self.percent = 0
-        self.background = Image(screen, self.background_image, 0.5, 0.5, self.scale_factor)
-        self.loading_bar = Slider(screen, self.progress_border_image, self.progress_bar_image,
+        self.background = Image(self.screen, self.background_image, 0.5, 0.5, self.scale_factor)
+        self.loading_bar = Slider(self.screen, self.progress_border_image, self.progress_bar_image,
                                          573 * self.scale_factor, 93 * self.scale_factor, 539 * self.scale_factor, 61 * self.scale_factor,
                                          0.5, 0.75, filled_percent= self.percent)
     

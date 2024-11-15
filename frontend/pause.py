@@ -9,18 +9,20 @@ from frontend.screen import ScreenInterface
 ASSETS_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "pause_screen")
 
 class PauseScreen(ScreenInterface):
-    def __init__(self, screen):
+    def __init__(self, window_size):
         """
         Initialize the Main Menu Screen.
 
         Args:
             screen (pygame.Surface): The display surface where the main menu screen components will be drawn.
         """
-        super().__init__(screen)
-        self.background = Image(screen, self.background_image, self.x_percent(482 + 475.76/2), self.y_percent(209 + 572.94/2), self.scale_factor)
-        self.title = Image(screen, self.title_image, self.x_percent(727), self.y_percent(218), self.scale_factor)
-        self.pause_title = Textbox(self.screen,"PAUSED", self.x_percent(727), self.y_percent(218), 188, 72, font_size=40, scale_factor=self.scale_factor), 
-        self.background = Image(screen, self.background_image, 0.5, 0.5, self.scale_factor)
+        super().__init__(pygame.Surface(window_size, pygame.SRCALPHA))
+        self.background = Image(self.screen, self.background_image, self.x_percent(482, anchor="topleft"), self.y_percent(209, anchor="topleft"), self.scale_factor, anchor="topleft")
+        self.title = Image(self.screen, self.title_image, self.x_percent(614, anchor="topleft"), self.y_percent(179, anchor="topleft"), self.scale_factor, anchor="topleft")
+        self.pause_title = Textbox(self.screen,"PAUSED", self.x_percent(655, anchor="topleft"), self.y_percent(194, anchor="topleft"), 143, 48, font_size=40, scale_factor=self.scale_factor, anchor="topleft")
+        self.hide = True
+        self.p_key_was_pressed = False
+
         self.hide = True
         self.p_key_was_pressed = False
 
@@ -41,15 +43,19 @@ class PauseScreen(ScreenInterface):
     
     def draw(self):
         """Draws all the screen components."""
-        self.background.draw()
-        self.title.draw()
+        if not self.hide:
+            self.background.draw()
+            self.title.draw()
+            self.pause_title.draw()
+        else:
+            self.screen.fill((0, 0, 0, 0))
 
     def toggle(self):
         self.hide = not self.hide
-        print('toggle', self.hide)
+
 
     def update(self):
         """Update the screen and handle events."""
-        if not self.hide:
-            self.draw()
+        self.draw()
+
     

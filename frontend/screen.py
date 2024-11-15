@@ -21,6 +21,7 @@ class ScreenInterface(ABC):
         self.img_width, self.img_height = width, height
         width_scale = screen_width / self.img_width
         height_scale = screen_height / self.img_height
+
         self.scale_factor = min(width_scale, height_scale)  
 
         background_width = self.scale_factor * width
@@ -28,6 +29,7 @@ class ScreenInterface(ABC):
 
         self.offset_x = (screen_width - background_width) / (2 * screen_width)
         self.offset_y = (screen_height - background_height) / (2 * screen_height)
+
         self.load_assets()
 
     def set_next_screen(self, next_screen):
@@ -97,5 +99,5 @@ class ScreenInterface(ABC):
         self.screen.fill((0, 0, 0))
         self.draw()
 
-    def getScreen(self):
+    def get_screen(self):
         return self.screen

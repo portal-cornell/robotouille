@@ -8,8 +8,6 @@ from frontend.loading import LoadingScreen
 from frontend.logo import LogoScreen
 from frontend.endgame import EndScreen
 from frontend.matchmaking import MatchMakingScreen
-from frontend.pause import PauseScreen
-
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--environment_name", help="The name of the environment to create.", default="original")
@@ -20,16 +18,17 @@ args = parser.parse_args()
 
 pygame.init()
 screen_size = (1440, 1024)
+# screen_size = (512, 512)
 screen = pygame.display.set_mode(screen_size)
 pygame.display.set_caption("Game")
 
 screens = {
-    MAIN_MENU: MenuScreen(screen),
-    SETTINGS: SettingScreen(screen),
-    LOGO: LogoScreen(screen),
-    LOADING: LoadingScreen(screen),
-    ENDGAME: EndScreen(screen),
-    MATCHMAKING: MatchMakingScreen(screen)
+    MAIN_MENU: MenuScreen(screen_size),
+    SETTINGS: SettingScreen(screen_size),
+    LOGO: LogoScreen(screen_size),
+    LOADING: LoadingScreen(screen_size),
+    ENDGAME: EndScreen(screen_size),
+    MATCHMAKING: MatchMakingScreen(screen_size)
 }
 
 current_screen = LOGO
@@ -41,13 +40,15 @@ def update_screen():
     if current_screen in screens:
         screen_obj = screens[current_screen]
         screen_obj.update()
+        # scaled = pygame.transform.scale(screen_obj.get_screen(), (300, 100))
+        screen.blit(screen_obj.get_screen(), (0, 0))
         if screen_obj.next_screen is not None:
             current_screen = screen_obj.next_screen
             screen_obj.set_next_screen(None)
 
 while running:
     if current_screen == GAME:
-        if simulator(screen, args.environment_name, args.seed, args.noisy_randomization):
+        if simulator(screen, screen_size, args.environment_name, args.seed, args.noisy_randomization):
             current_screen = MAIN_MENU
             screen = pygame.display.set_mode(screen_size)
     else:

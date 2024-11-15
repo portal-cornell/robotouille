@@ -7,7 +7,7 @@ from frontend.screen import ScreenInterface
 ASSETS_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend")
 
 class LogoScreen(ScreenInterface):
-    def __init__(self, screen):
+    def __init__(self, window_size):
         """
         Initialize the Logo Screen.
 
@@ -15,7 +15,7 @@ class LogoScreen(ScreenInterface):
            screen (pygame.Surface): The display surface where the logo screen components will be drawn.
         """
         
-        super().__init__(screen)
+        super().__init__(pygame.Surface(window_size))
         self.fade_alpha = 0  
         self.fade_in_duration = 500 
         self.delay = 1000 

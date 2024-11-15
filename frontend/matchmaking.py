@@ -9,15 +9,15 @@ from frontend.screen import ScreenInterface
 ASSETS_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "matchmaking")
 
 class MatchMakingScreen(ScreenInterface):
-    def __init__(self, screen):
+    def __init__(self, window_size):
         """
         Initialize the Lobby Screen.
 
         Args:
             screen (pygame.Surface): The display surface where the lobby screen components will be drawn.
         """
-        super().__init__(screen)
-        self.background = Image(screen, self.background_image, 0.5, 0.5, self.scale_factor)
+        super().__init__(pygame.Surface(window_size))
+        self.background = Image(self.screen, self.background_image, 0.5, 0.5, self.scale_factor)
         self.players = [
             {"name": Textbox(self.screen,"", self.x_percent(291), self.y_percent(577), 188, 72, font_size=40, scale_factor=self.scale_factor),
               "icon": Image(self.screen, self.empty_profile_image, self.x_percent(291), self.y_percent(426), self.scale_factor)},
