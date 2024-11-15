@@ -76,6 +76,13 @@ class MatchMakingScreen(ScreenInterface):
     def update(self):
         """Update the screen and handle events."""
         super().update()
+        
         if self.count == MAX_PLAYERS:
             self.set_next_screen(GAME)
-        # move to main_menu or game
+            
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_q:
+                    self.set_next_screen(MAIN_MENU)
+                elif event.key == pygame.K_g:
+                    self.set_next_screen(GAME)

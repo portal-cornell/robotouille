@@ -13,7 +13,7 @@ class RobotouilleRenderer:
     provides that function but also setups up the pygame window to allow for rendering.
     """
 
-    def __init__(self,  config_filename, layout=[], tiling=None, players=[], window_size=np.array([512,512]), render_fps=60):
+    def __init__(self, surface, config_filename, layout=[], tiling=None, players=[], window_size=np.array([512,512]), render_fps=60):
         """
         Initializes the renderer.
 
@@ -23,6 +23,7 @@ class RobotouilleRenderer:
             window_size (np.array): (width, height) of the window
             render_fps (int): Framerate of the renderer
         """
+        self.surface = surface
         # Opens the configuration file to be used in the canvas.
         CONFIG_DIR = os.path.join(os.path.dirname(__file__), "configuration")
         with open(os.path.join(CONFIG_DIR, config_filename), "r") as f:
@@ -72,11 +73,10 @@ class RobotouilleRenderer:
             np.array: The RGB array of the frame (only if render_mode == "rgb_array")
         """
         self._init_setup(render_mode)
-        surface = pygame.Surface(self.window_size)
-        self.canvas.draw_to_surface(surface, obs)
+        self.canvas.draw_to_surface(self.surface, obs)
         if render_mode == "human":
             # The following line copies our drawings from `canvas` to the visible window
-            self.window.blit(surface, surface.get_rect())
+            # self.window.blit(self.surface, self.surface.get_rect())
             pygame.event.pump()
             pygame.display.update()
 
@@ -85,7 +85,7 @@ class RobotouilleRenderer:
             self.clock.tick(self.render_fps)
         else:  # rgb_array
             return np.transpose(
-                np.array(pygame.surfarray.pixels3d(surface)), axes=(1, 0, 2)
+                np.array(pygame.surfarray.pixels3d(self.surface)), axes=(1, 0, 2)
             )
 
     def render(self, obs, mode='human', close=False):

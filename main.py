@@ -8,6 +8,7 @@ from frontend.loading import LoadingScreen
 from frontend.logo import LogoScreen
 from frontend.endgame import EndScreen
 from frontend.matchmaking import MatchMakingScreen
+from frontend.pause import PauseScreen
 
 
 parser = argparse.ArgumentParser()
@@ -46,7 +47,7 @@ def update_screen():
 
 while running:
     if current_screen == GAME:
-        if simulator(args.environment_name, args.seed, args.noisy_randomization):
+        if simulator(screen, args.environment_name, args.seed, args.noisy_randomization):
             current_screen = MAIN_MENU
             screen = pygame.display.set_mode(screen_size)
     else:

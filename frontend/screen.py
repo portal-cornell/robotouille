@@ -96,3 +96,6 @@ class ScreenInterface(ABC):
         """
         self.screen.fill((0, 0, 0))
         self.draw()
+
+    def getScreen(self):
+        return self.screen
