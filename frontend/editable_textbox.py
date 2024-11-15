@@ -1,9 +1,10 @@
 import pygame
 from frontend.textbox import Textbox
 from frontend.constants import FONT_PATH
+from frontend.constants import *
 
 class EditableTextbox(Textbox):
-    def __init__(self, screen, text, x_percent, y_percent, width, height, text_color=(0, 0, 255), font_path=FONT_PATH, font_size= 60, scale_factor=1.0, align_text="center", anchor="topleft"):
+    def __init__(self, screen, text, x_percent, y_percent, width, height, text_color=GREY, font_path=FONT_PATH, font_size= 60, scale_factor=1.0, align_text="center", anchor="topleft"):
         """
         Initialize a Editable Textbox (user's can modify the content inside the textbox) object.
 
@@ -59,7 +60,8 @@ class EditableTextbox(Textbox):
         self.is_editing = not self.is_editing
         if self.is_editing:
             self.old = self.text  
-            self.background_color = (255, 255, 255, 255)  
+            self.text_color = LIGHT_GREY
         else:
-            self.background_color = (255, 255, 255, 0) 
+            self.text_color = GREY
             self.confirmText() 
+        self.update_text_rect()
