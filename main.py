@@ -49,9 +49,8 @@ def update_screen():
 
 while running:
     if current_screen == GAME:
-        if simulator(screen, screen_size, args.environment_name, args.seed, args.noisy_randomization):
-            current_screen = ENDGAME
-            screen = pygame.display.set_mode(screen_size)
+        current_screen = simulator(screen, args.environment_name, args.seed, args.noisy_randomization)
+        screen = pygame.display.set_mode(screen_size)
     else:
         if current_screen == MATCHMAKING:
             screens[current_screen].setPlayers(["Player1", "Player2"])

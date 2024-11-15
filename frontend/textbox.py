@@ -64,7 +64,7 @@ class Textbox(Node):
 
     def draw(self):
         """Draw the background and aligned text surface within the anchored rectangle on the screen."""
-        # self.surface.fill(self.background_color)
+        self.surface.fill(self.background_color)
         if self.text_rect:
             self.surface.blit(self.text_surface, self.text_rect)
         self.screen.blit(self.surface, self.rect)

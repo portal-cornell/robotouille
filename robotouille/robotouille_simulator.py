@@ -2,8 +2,9 @@ import pygame
 from utils.robotouille_input import create_action_from_control
 from robotouille.robotouille_env import create_robotouille_env
 from frontend.pause import PauseScreen
+from frontend.constants import *
 
-def simulator(surface, screen_size, environment_name: str, seed: int=42, noisy_randomization: bool=False):
+def simulator(surface, environment_name: str, seed: int=42, noisy_randomization: bool=False):
     # Your code for robotouille goes here
     env, json, renderer = create_robotouille_env(environment_name, seed, noisy_randomization)
     obs, info = env.reset()
@@ -24,18 +25,22 @@ def simulator(surface, screen_size, environment_name: str, seed: int=42, noisy_r
         # Keyboard events ('e' button) for cut/cook ('space' button) for noop
         keydown_events = list(filter(lambda e: e.type == pygame.KEYDOWN, pygame_events))
 
-
         # Handle keypresses 
         for event in pygame_events:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_q:
-                    return True
+                    return ENDGAME
                 if event.key == pygame.K_p:
                     flag = True
                     pause.toggle()
-                
 
+        if pause.next_screen is not None:
+            current_screen = pause.next_screen
+            pause.set_next_screen(None)
+            return current_screen
 
+        pause.update(pygame_events)  
+             
         actions = []
         action, args = create_action_from_control(env, obs, obs.current_player, mousedown_events+keydown_events, renderer)
         for player in obs.get_players():
@@ -48,12 +53,9 @@ def simulator(surface, screen_size, environment_name: str, seed: int=42, noisy_r
             # Retry for keyboard input
             continue
 
-
-        if interactive or action:
+        if interactive or action and not pause.is_active():
             obs, reward, done, info = env.step(actions, interactive=interactive)
             renderer.render(obs, mode='human')
-        if flag:
-            pause.update()  
             
         intermediate.fill((0, 0, 0))
         intermediate.blit(renderer.surface, (0, 0))

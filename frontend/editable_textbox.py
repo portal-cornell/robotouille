@@ -4,7 +4,7 @@ from frontend.constants import FONT_PATH
 from frontend.constants import *
 
 class EditableTextbox(Textbox):
-    def __init__(self, screen, text, x_percent, y_percent, width, height, text_color=GREY, font_path=FONT_PATH, font_size= 60, scale_factor=1.0, align_text="center", anchor="topleft"):
+    def __init__(self, screen, text, x_percent, y_percent, width, height, char_limit = 10, text_color=GREY, font_path=FONT_PATH, font_size= 60, scale_factor=1.0, align_text="center", anchor="topleft"):
         """
         Initialize a Editable Textbox (user's can modify the content inside the textbox) object.
 
@@ -15,7 +15,8 @@ class EditableTextbox(Textbox):
             y_percent (float): Y-axis position as a percentage of the screen height. Controls the vertical placement of the rectangle.
             width (int): The width of the textbox rectangle.
             height (int): The height of the textbox rectangle.
-            text_color (tuple, optional): The RGB color of the text. Defaults to blue.
+            char_limit (int): Max number of characters in textbox
+            text_color (tuple, optional): The RGB color of the text. Defaults to Grey.
             font_path (str): The path to the font used to render the text.
             font_size (int): The size of the font.
             scale_factor (float): Scale factor for resizing the text. Defaults to 1.0.
@@ -25,12 +26,25 @@ class EditableTextbox(Textbox):
         
         super().__init__(screen, text, x_percent, y_percent, width, height, text_color, font_path, font_size, scale_factor, align_text, anchor)
         self.is_editing = False
+        self.original_font_size = int(font_size * scale_factor)
+        self.font_path = font_path
         self.old = self.text
+        self.char_limit = char_limit
 
     def set_text(self, new_text):
-        """Update the text and refresh the text surface."""
+        """Update the text, adjust font size, and refresh the text surface."""
         self.text = new_text
+        self.adjust_font_size()
         self.update_text_rect()
+    
+    def adjust_font_size(self):
+        """Dynamically adjust font size to ensure text fits within the textbox width."""
+        current_font_size = self.original_font_size
+        self.font = pygame.font.Font(self.font_path, current_font_size)
+        
+        while self.font.size(self.text)[0] > self.surface.get_width() and current_font_size > 10:
+            current_font_size -= 1
+            self.font = pygame.font.Font(self.font_path, current_font_size)
     
     def handle_event(self, event):
         """Handle key and mouse events for editing the textbox text."""
@@ -43,12 +57,12 @@ class EditableTextbox(Textbox):
                 self.toggle_editing()
             elif event.key == pygame.K_BACKSPACE:
                 self.set_text(self.text[:-1])
-            elif event.unicode.isalnum(): 
+            elif event.unicode.isalnum() and len(self.text) < self.char_limit: 
                 self.set_text(self.text + event.unicode)
     
     def is_good(self):
         """Check if the current text is valid."""
-        return False 
+        return len(self.text) > 0
     
     def confirmText(self):
         """Confirm the text. If not valid, revert to old text and prompt confirmation."""

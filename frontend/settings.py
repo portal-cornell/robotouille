@@ -39,7 +39,7 @@ class SettingScreen(ScreenInterface):
         self.SFXPlus = Button(self.screen, self.plus_image, self.x_percent(519), self.y_percent(437), self.scale_factor, anchor="topleft")
 
         self.name_bg = Image(self.screen, self.name_bg_image, self.x_percent(917), self.y_percent(132), self.scale_factor, anchor="topleft")
-        self.name = EditableTextbox(self.screen, "name", self.x_percent(928), self.y_percent(139) , 188, 72, align_text="left", scale_factor= self.scale_factor)
+        self.name = EditableTextbox(self.screen, "name", self.x_percent(928), self.y_percent(139) , 355, 72, align_text="left", scale_factor= self.scale_factor)
         self.music = Textbox(self.screen, "MUSIC", self.x_percent(233), self.y_percent(175) , 188, 72, scale_factor= self.scale_factor, anchor="topleft")
         self.sfx = Textbox(self.screen, "SFX", self.x_percent(233), self.y_percent(365), 188, 72, scale_factor= self.scale_factor, anchor="topleft")
         self.zero_star_score = Textbox(self.screen, str(self.zero_star_count), self.x_percent(1115), self.y_percent(413) , 188, 72, scale_factor= self.scale_factor, anchor="topleft")

@@ -1,6 +1,7 @@
 import os 
 
-# constants.py
+DEBUG = True
+
 MAX_PLAYERS = 4
 
 BLUE = (0, 0, 255)

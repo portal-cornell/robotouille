@@ -1,6 +1,7 @@
 import pygame
 from frontend.image import Image
 from frontend.node import Node
+from frontend.constants import *
 from frontend.textbox import Textbox
 from frontend.constants import FONT_PATH
 
@@ -61,6 +62,10 @@ class Button(Node):
         self.current_image.draw()
         if self.text:
             self.text.draw()
+
+        if DEBUG:
+            pygame.draw.rect(self.screen, (255, 0, 0), self.rect, 2)  # Draw a red outline of the clickable region
+
             
     def in_bound(self):
         """

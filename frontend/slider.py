@@ -2,6 +2,7 @@ import pygame
 from frontend.ninepatch import NinePatch
 from frontend.image import Image
 from frontend.node import Node
+from frontend.constants import *
 
 class Slider(Node):
     def __init__(self, screen, background_image, foreground_image, background_width, background_height, 
@@ -85,6 +86,9 @@ class Slider(Node):
         
         if self.knob:
             self.knob.draw()
+
+        if DEBUG:
+            pygame.draw.rect(self.screen, (255, 0, 0), (self.x, self.y, self.background_width, self.background_height), 2)  # Red outline for clickable region
 
     def handle_event(self, event):
         """
