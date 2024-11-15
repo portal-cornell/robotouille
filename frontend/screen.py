@@ -44,7 +44,7 @@ class ScreenInterface(ABC):
         """
         self.next_screen = next_screen
 
-    def x_percent(self, value, anchor="center"):
+    def x_percent(self, value):
         """
         Convert a horizontal position value to a scaled screen coordinate, adjusted for the offset.
 
@@ -56,13 +56,9 @@ class ScreenInterface(ABC):
            (float): Adjusted x-coordinate as a percentage of the screen width.
         """
         scaled_x = self.scale_factor * value
-        if anchor == "center":
-            return self.offset_x + (scaled_x/ self.screen_width)
-        if anchor == "topleft":
-            return (scaled_x/ self.screen_width)
-        raise ValueError("Invalid anchor. Use 'center' or 'topleft'.")
+        return self.offset_x + (scaled_x/ self.screen_width)
 
-    def y_percent(self, value, anchor="center"):
+    def y_percent(self, value):
         """
         Convert a vertical position value to a scaled screen coordinate, adjusted for the offset.
 
@@ -74,11 +70,7 @@ class ScreenInterface(ABC):
            (float): Adjusted y-coordinate as a percentage of the screen height.
         """
         scaled_y = self.scale_factor * value
-        if anchor == "center":
-            return self.offset_y + (scaled_y/ self.screen_height)
-        if anchor == "topleft":
-            return (scaled_y/ self.screen_height)
-        raise ValueError("Invalid anchor. Use 'center' or 'topleft'.")
+        return self.offset_y + (scaled_y/ self.screen_width)
 
     
     @abstractmethod
@@ -106,4 +98,7 @@ class ScreenInterface(ABC):
         self.draw()
 
     def get_screen(self):
+        """
+        Returns the screen surface to draw onto canvas
+        """
         return self.screen

@@ -13,10 +13,10 @@ class MenuScreen(ScreenInterface):
         Initialize the Main Menu Screen.
 
         Args:
-            screen (pygame.Surface): The display surface where the main menu screen components will be drawn.
+            window_size (tuple): (width, height) of the window
         """
         super().__init__(pygame.Surface(window_size))
-        self.background = Image(self.screen, self.background_image, 0.5, 0.5, self.scale_factor)
+        self.background = Image(self.screen, self.background_image, 0.5, 0.5, self.scale_factor, anchor="center")
         self.start_button = Button(self.screen, self.start_button_image, 
                                             self.x_percent(720), self.y_percent(392), self.scale_factor, 
                                             hover_image_source= self.start_hover_button_image,

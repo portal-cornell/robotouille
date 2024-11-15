@@ -12,7 +12,7 @@ class LogoScreen(ScreenInterface):
         Initialize the Logo Screen.
 
         Args:
-           screen (pygame.Surface): The display surface where the logo screen components will be drawn.
+           window_size (tuple): (width, height) of the window
         """
         
         super().__init__(pygame.Surface(window_size))
@@ -22,7 +22,7 @@ class LogoScreen(ScreenInterface):
         self.start_time = None  
         self.fade_in_complete = False 
         self.load_assets()
-        self.background = Image(self.screen, self.background_image, 0.5, 0.5, self.scale_factor)
+        self.background = Image(self.screen, self.background_image, self.x_percent(0), self.y_percent(0) , self.scale_factor, anchor="topleft")
         self.background.set_alpha(0) 
 
         

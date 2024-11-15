@@ -3,7 +3,7 @@ from frontend.textbox import Textbox
 from frontend.constants import FONT_PATH
 
 class EditableTextbox(Textbox):
-    def __init__(self, screen, text, x_percent, y_percent, width, height, text_color=(0, 0, 255), font_path=FONT_PATH, font_size= 60, scale_factor=1.0, align_text="center", anchor="center"):
+    def __init__(self, screen, text, x_percent, y_percent, width, height, text_color=(0, 0, 255), font_path=FONT_PATH, font_size= 60, scale_factor=1.0, align_text="center", anchor="topleft"):
         """
         Initialize a Editable Textbox (user's can modify the content inside the textbox) object.
 
@@ -17,9 +17,9 @@ class EditableTextbox(Textbox):
             text_color (tuple, optional): The RGB color of the text. Defaults to blue.
             font_path (str): The path to the font used to render the text.
             font_size (int): The size of the font.
-            scale_factor (float, optional): Scale factor for resizing the text. Defaults to 1.0.
-            align_text (str, optional): The alignment of the text within the textbox. Options are "left", "center", or "right". Defaults to "center".
-            anchor (str, optional): Determines how the textbox rectangle is anchored on the screen. Options are "center" or "topleft". Defaults to "center".
+            scale_factor (float): Scale factor for resizing the text. Defaults to 1.0.
+            align_text (str): The alignment of the text within the textbox. Options are "left", "center", or "right". Defaults to "center".
+            anchor (str): Determines how the textbox rectangle is anchored on the screen. Options are "center" or "topleft". Defaults to "topleft".
         """
         
         super().__init__(screen, text, x_percent, y_percent, width, height, text_color, font_path, font_size, scale_factor, align_text, anchor)

@@ -2,7 +2,7 @@ import pygame
 from frontend.node import Node
 
 class Image(Node):
-    def __init__(self, screen, image_source, x_percent, y_percent, scale_factor=1.0, anchor="center"):
+    def __init__(self, screen, image_source, x_percent, y_percent, scale_factor=1.0, anchor="topleft"):
         """
         Initialize an Image object.
 
@@ -11,8 +11,8 @@ class Image(Node):
             image_source (pygame.Surface): Loaded image object.
             x_percent (float): Horizontal position as a percentage of screen width.
             y_percent (float): Vertical position as a percentage of screen height.
-            scale_factor (float): Factor by which to scale the image.
-            anchor (str): Positioning anchor, either "topleft" or "center".
+            scale_factor (float): Factor by which to scale the image. Defaults to 1.s
+            anchor (str): Positioning anchor, either "topleft" or "center". Defaults to "topleft".
         """
         self.image = image_source
         self.scale_factor = scale_factor

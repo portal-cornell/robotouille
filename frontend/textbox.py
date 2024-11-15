@@ -4,7 +4,7 @@ from frontend.constants import FONT_PATH
 
 class Textbox(Node):
     def __init__(self, screen, text, x_percent, y_percent, width, height, 
-                 text_color=(0, 0, 255), font_path=FONT_PATH, font_size= 60, scale_factor=1.0, align_text="center", anchor="center"):
+                 text_color=(0, 0, 255), font_path=FONT_PATH, font_size= 60, scale_factor=1.0, align_text="center", anchor="topleft"):
         
         """
         Initialize a Textbox object.
@@ -16,12 +16,12 @@ class Textbox(Node):
             y_percent (float): Y-axis position as a percentage of the screen height. Controls the vertical placement of the rectangle.
             width (int): The width of the textbox rectangle.
             height (int): The height of the textbox rectangle.
-            text_color (tuple, optional): The RGB color of the text. Defaults to blue.
+            text_color (tuple): The RGB color of the text. Defaults to blue.
             font_path (str): The path to the font used to render the text.
             font_size (int): The size of the font.
-            scale_factor (float, optional): Scale factor for resizing the text. Defaults to 1.0.
-            align_text (str, optional): The alignment of the text within the textbox. Options are "left", "center", or "right". Defaults to "center".
-            anchor (str, optional): Determines how the textbox rectangle is anchored on the screen. Options are "center" or "topleft". Defaults to "center".
+            scale_factor (float): Scale factor for resizing the text. Defaults to 1.0.
+            align_text (str): The alignment of the text within the textbox. Options are "left", "center", or "right". Defaults to "center".
+            anchor (str): Determines how the textbox rectangle is anchored on the screen. Options are "center" or "topleft". Defaults to "topleft".
         """
 
         super().__init__(screen, pygame.Surface((width * scale_factor, height* scale_factor), pygame.SRCALPHA), x_percent, y_percent)

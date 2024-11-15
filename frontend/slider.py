@@ -5,7 +5,7 @@ from frontend.node import Node
 
 class Slider(Node):
     def __init__(self, screen, background_image, foreground_image, background_width, background_height, 
-                 foreground_width, foreground_height, x_percent, y_percent, scale_factor=1, filled_percent=0.5, knob_image=None, anchor = "center"):
+                 foreground_width, foreground_height, x_percent, y_percent, scale_factor=1, filled_percent=0.5, knob_image=None, anchor = "topleft"):
         """
         Initialize a Slider object.
 
@@ -19,10 +19,10 @@ class Slider(Node):
             foreground_height (float): Height of the foreground in pixels.
             x_percent (float): X position as a percentage of the screen width.
             y_percent (float): Y position as a percentage of the screen height.
-            scale_factor (float, optional): Scale factor for resizing the images. Defaults to 1.0.
+            scale_factor (float): Scale factor for resizing the images. Defaults to 1.0.
             filled_percent (float): Initial filled percentage of the slider (0 to 1). Defaults to 0.5.
-            knob_image (pygame.Surface, optional): Knob image. Defaults to None.
-            anchor (str, optional): Determines how the textbox rectangle is anchored on the screen. Options are "center" or "topleft". Defaults to "center".
+            knob_image (pygame.Surface): Knob image. Defaults to None.
+            anchor (str): Determines how the textbox rectangle is anchored on the screen. Options are "center" or "topleft". Defaults to "topleft".
         """
 
         self.background_width = background_width * scale_factor

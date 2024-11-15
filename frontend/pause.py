@@ -14,12 +14,12 @@ class PauseScreen(ScreenInterface):
         Initialize the Main Menu Screen.
 
         Args:
-            screen (pygame.Surface): The display surface where the main menu screen components will be drawn.
+            window_size (tuple): (width, height) of the window
         """
         super().__init__(pygame.Surface(window_size, pygame.SRCALPHA))
-        self.background = Image(self.screen, self.background_image, self.x_percent(482, anchor="topleft"), self.y_percent(209, anchor="topleft"), self.scale_factor, anchor="topleft")
-        self.title = Image(self.screen, self.title_image, self.x_percent(614, anchor="topleft"), self.y_percent(179, anchor="topleft"), self.scale_factor, anchor="topleft")
-        self.pause_title = Textbox(self.screen,"PAUSED", self.x_percent(655, anchor="topleft"), self.y_percent(194, anchor="topleft"), 143, 48, font_size=40, scale_factor=self.scale_factor, anchor="topleft")
+        self.background = Image(self.screen, self.background_image, self.x_percent(482), self.y_percent(209), self.scale_factor, anchor="topleft")
+        self.title = Image(self.screen, self.title_image, self.x_percent(614), self.y_percent(179), self.scale_factor, anchor="topleft")
+        self.pause_title = Textbox(self.screen,"PAUSED", self.x_percent(655), self.y_percent(194), 143, 48, font_size=40, scale_factor=self.scale_factor, anchor="topleft")
         self.hide = True
         self.p_key_was_pressed = False
 

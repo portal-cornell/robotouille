@@ -49,7 +49,7 @@ def update_screen():
 while running:
     if current_screen == GAME:
         if simulator(screen, screen_size, args.environment_name, args.seed, args.noisy_randomization):
-            current_screen = MAIN_MENU
+            current_screen = ENDGAME
             screen = pygame.display.set_mode(screen_size)
     else:
         if current_screen == MATCHMAKING:

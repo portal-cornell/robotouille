@@ -5,7 +5,7 @@ from frontend.textbox import Textbox
 from frontend.constants import FONT_PATH
 
 class Button(Node):
-    def __init__(self, screen, normal_image_source, x_percent, y_percent, scale_factor=1.0, hover_image_source = None, pressed_image_source = None, text=None, font_path=FONT_PATH, font_size= 60, text_color=(0, 0, 0), anchor="center"):
+    def __init__(self, screen, normal_image_source, x_percent, y_percent, scale_factor=1.0, hover_image_source = None, pressed_image_source = None, text=None, font_path=FONT_PATH, font_size= 60, text_color=(0, 0, 0), anchor="topleft"):
         """
         Initialize a Button instance.
 
@@ -20,7 +20,7 @@ class Button(Node):
             x_percent (float): The horizontal position of the button as a percentage of the screen width.
             y_percent (float): The vertical position of the button as a percentage of the screen height.
             scale_factor (float): Scaling factor for the button images. Defaults to 1.0.
-            text (str): Optional text to display on the button.
+            text (str): text to display on the button.
             font_path (str): The path to the font used to render the text.
             font_size (int): The size of the font.
             text_color (tuple): Color of the text in RGB format. Defaults to black.

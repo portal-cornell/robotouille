@@ -15,11 +15,11 @@ class EndScreen(ScreenInterface):
         """Initialize the end screen with UI components.
 
         Args:
-            screen (pygame.Surface): The display surface where the end game screen components will be drawn.
+            window_size (tuple): (width, height) of the window
         """
         super().__init__(pygame.Surface(window_size))
-        self.background = Image(self.screen, self.background_image, 0.5, 0.5, self.scale_factor)
-        self.level_complete = Textbox(self.screen, "LEVEL FINISHED", self.x_percent(720.5), self.y_percent(124.5), 615, 96, font_size=80, scale_factor=self.scale_factor)
+        self.background = Image(self.screen, self.background_image, 0.5, 0.5, self.scale_factor, anchor="center")
+        self.level_complete = Textbox(self.screen, "LEVEL FINISHED", self.x_percent(720.5), self.y_percent(124.5), 615, 96, font_size=80, scale_factor=self.scale_factor, anchor="center")
         self.quit = Button(self.screen, self.blue_buton_image, 
                                             self.x_percent(397), self.y_percent(868), self.scale_factor, 
                                             hover_image_source= self.blue_hover_button_image,
@@ -34,14 +34,14 @@ class EndScreen(ScreenInterface):
                                             text = "PLAY AGAIN", text_color=WHITE, anchor="center")
         self.profiles = {}
         self.stars = [
-            Image(self.screen, self.star_empty_image, self.x_percent(459.26), self.y_percent(263.26), self.scale_factor),
-            Image(self.screen, self.star_empty_image, self.x_percent(720.5), self.y_percent(263.26), self.scale_factor),
-            Image(self.screen, self.star_empty_image, self.x_percent(981.74), self.y_percent(263.26), self.scale_factor),
+            Image(self.screen, self.star_empty_image, self.x_percent(459.26), self.y_percent(263.26), self.scale_factor, anchor="center"),
+            Image(self.screen, self.star_empty_image, self.x_percent(720.5), self.y_percent(263.26), self.scale_factor, anchor="center"),
+            Image(self.screen, self.star_empty_image, self.x_percent(981.74), self.y_percent(263.26), self.scale_factor, anchor="center"),
         ]
-        self.coins = Image(self.screen, self.coin_image, self.x_percent(479), self.y_percent(431), self.scale_factor)
-        self.coins_text = Textbox(self.screen, "213", self.x_percent(577), self.y_percent(431), 188, 72, font_size=40, scale_factor=self.scale_factor)
-        self.bells = Image(self.screen, self.bell_image, self.x_percent(881.5), self.y_percent(438.74), self.scale_factor)
-        self.bells_text = Textbox(self.screen, "214", self.x_percent(984), self.y_percent(430), 188, 72, font_size=40, scale_factor=self.scale_factor)
+        self.coins = Image(self.screen, self.coin_image, self.x_percent(479), self.y_percent(431), self.scale_factor, anchor="center")
+        self.coins_text = Textbox(self.screen, "213", self.x_percent(577), self.y_percent(431), 188, 72, font_size=40, scale_factor=self.scale_factor, anchor="center")
+        self.bells = Image(self.screen, self.bell_image, self.x_percent(881.5), self.y_percent(438.74), self.scale_factor, anchor="center")
+        self.bells_text = Textbox(self.screen, "214", self.x_percent(984), self.y_percent(430), 188, 72, font_size=40, scale_factor=self.scale_factor, anchor="center")
 
     def createOneProfile(self, players):
         """Create UI elements for a single player profile.
@@ -51,9 +51,9 @@ class EndScreen(ScreenInterface):
                 A list containing one player tuple in the format (player_id, player_name).
         """
         self.profiles[players[0][0]] = {
-            "profile":Image(self.screen, self.profile_image, 0.5, self.y_percent(616.5), self.scale_factor),
-            "name": Textbox(self.screen,players[0][1], 0.5, self.y_percent(697), 188, 72, font_size=40, scale_factor=self.scale_factor, text_color=WHITE),
-            "status":Image(self.screen, self.pending_image, 0.5 + self.x_percent(107.5), self.y_percent(503), self.scale_factor)
+            "profile":Image(self.screen, self.profile_image, 0.5, self.y_percent(616.5), self.scale_factor, anchor="center"),
+            "name": Textbox(self.screen,players[0][1], 0.5, self.y_percent(697), 188, 72, font_size=40, scale_factor=self.scale_factor, text_color=WHITE, anchor="center"),
+            "status":Image(self.screen, self.pending_image, 0.5 + self.x_percent(107.5), self.y_percent(503), self.scale_factor, anchor="center")
             }
 
     def createTwoProfile(self, players):
@@ -63,14 +63,14 @@ class EndScreen(ScreenInterface):
             players (list of tuples): A list containing one player tuple in the format (player_id, player_name).
         """
         self.profiles[players[0][0]] = {
-            "profile":Image(self.screen, self.profile_image, self.x_percent(556.5), self.y_percent(616.5), self.scale_factor),
-            "name": Textbox(self.screen,players[0][1], self.x_percent(556.5), self.y_percent(697), 188, 72, font_size=40, scale_factor=self.scale_factor, text_color=WHITE),
-            "status":Image(self.screen, self.pending_image, self.x_percent(664), self.y_percent(503), self.scale_factor)
+            "profile":Image(self.screen, self.profile_image, self.x_percent(556.5), self.y_percent(616.5), self.scale_factor, anchor="center"),
+            "name": Textbox(self.screen,players[0][1], self.x_percent(556.5), self.y_percent(697), 188, 72, font_size=40, scale_factor=self.scale_factor, text_color=WHITE, anchor="center"),
+            "status":Image(self.screen, self.pending_image, self.x_percent(664), self.y_percent(503), self.scale_factor, anchor="center")
             }
         self.profiles[players[1][0]] = {
-            "profile":Image(self.screen, self.profile_image, self.x_percent(869.5), self.y_percent(616.5), self.scale_factor),
-            "name": Textbox(self.screen,players[0][1], self.x_percent(869.5), self.y_percent(697), 188, 72, font_size=40, scale_factor=self.scale_factor, text_color=WHITE),
-            "status":Image(self.screen, self.pending_image, self.x_percent(976.5), self.y_percent(503), self.scale_factor)
+            "profile":Image(self.screen, self.profile_image, self.x_percent(869.5), self.y_percent(616.5), self.scale_factor, anchor="center"),
+            "name": Textbox(self.screen,players[0][1], self.x_percent(869.5), self.y_percent(697), 188, 72, font_size=40, scale_factor=self.scale_factor, text_color=WHITE, anchor="center"),
+            "status":Image(self.screen, self.pending_image, self.x_percent(976.5), self.y_percent(503), self.scale_factor, anchor="center")
             }
 
     def createThreeProfile(self, players):
@@ -80,19 +80,19 @@ class EndScreen(ScreenInterface):
             players (list of tuples): A list containing one player tuple in the format (player_id, player_name).
         """
         self.profiles[players[0][0]] = {
-            "profile": Image(self.screen, self.profile_image, self.x_percent(398.5), self.y_percent(616.5), self.scale_factor),
-            "name": Textbox(self.screen, players[0][1], self.x_percent(398.5), self.y_percent(697), 188, 72, font_size=40, scale_factor=self.scale_factor, text_color=WHITE),
-            "status": Image(self.screen, self.pending_image, self.x_percent(506), self.y_percent(503), self.scale_factor)
+            "profile": Image(self.screen, self.profile_image, self.x_percent(398.5), self.y_percent(616.5), self.scale_factor, anchor="center"),
+            "name": Textbox(self.screen, players[0][1], self.x_percent(398.5), self.y_percent(697), 188, 72, font_size=40, scale_factor=self.scale_factor, text_color=WHITE, anchor="center"),
+            "status": Image(self.screen, self.pending_image, self.x_percent(506), self.y_percent(503), self.scale_factor, anchor="center")
         }
         self.profiles[players[1][0]] = {
-            "profile": Image(self.screen, self.profile_image, self.x_percent(711.5), self.y_percent(616.5), self.scale_factor),
-            "name": Textbox(self.screen, players[1][1], self.x_percent(711.5), self.y_percent(697), 188, 72, font_size=40, scale_factor=self.scale_factor, text_color=WHITE),
-            "status": Image(self.screen, self.pending_image, self.x_percent(818.5), self.y_percent(503), self.scale_factor)
+            "profile": Image(self.screen, self.profile_image, self.x_percent(711.5), self.y_percent(616.5), self.scale_factor, anchor="center"),
+            "name": Textbox(self.screen, players[1][1], self.x_percent(711.5), self.y_percent(697), 188, 72, font_size=40, scale_factor=self.scale_factor, text_color=WHITE, anchor="center"),
+            "status": Image(self.screen, self.pending_image, self.x_percent(818.5), self.y_percent(503), self.scale_factor, anchor="center")
         }
         self.profiles[players[2][0]] = {
-            "profile": Image(self.screen, self.profile_image, self.x_percent(1026.5), self.y_percent(616.5), self.scale_factor),
-            "name": Textbox(self.screen, players[2][1], self.x_percent(1026.5), self.y_percent(697), 188, 72, font_size=40, scale_factor=self.scale_factor, text_color=WHITE),
-            "status": Image(self.screen, self.pending_image, self.x_percent(1133.5), self.y_percent(503), self.scale_factor)
+            "profile": Image(self.screen, self.profile_image, self.x_percent(1026.5), self.y_percent(616.5), self.scale_factor, anchor="center"),
+            "name": Textbox(self.screen, players[2][1], self.x_percent(1026.5), self.y_percent(697), 188, 72, font_size=40, scale_factor=self.scale_factor, text_color=WHITE, anchor="center"),
+            "status": Image(self.screen, self.pending_image, self.x_percent(1133.5), self.y_percent(503), self.scale_factor, anchor="center")
         }
 
     def createFourProfile(self, players):
@@ -102,24 +102,24 @@ class EndScreen(ScreenInterface):
             players (list of tuples): A list containing one player tuple in the format (player_id, player_name).
         """
         self.profiles[players[0][0]] = {
-            "profile": Image(self.screen, self.profile_image, self.x_percent(239.5), self.y_percent(616.5), self.scale_factor),
-            "name": Textbox(self.screen, players[0][1], self.x_percent(239.5), self.y_percent(697), 188, 72, font_size=40, scale_factor=self.scale_factor, text_color=WHITE),
-            "status": Image(self.screen, self.pending_image, self.x_percent(347), self.y_percent(503), self.scale_factor)
+            "profile": Image(self.screen, self.profile_image, self.x_percent(239.5), self.y_percent(616.5), self.scale_factor, anchor="center"),
+            "name": Textbox(self.screen, players[0][1], self.x_percent(239.5), self.y_percent(697), 188, 72, font_size=40, scale_factor=self.scale_factor, text_color=WHITE, anchor="center"),
+            "status": Image(self.screen, self.pending_image, self.x_percent(347), self.y_percent(503), self.scale_factor, anchor="center")
         }
         self.profiles[players[1][0]] = {
-            "profile": Image(self.screen, self.profile_image, self.x_percent(552.5), self.y_percent(616.5), self.scale_factor),
-            "name": Textbox(self.screen, players[1][1], self.x_percent(552.5), self.y_percent(697), 188, 72, font_size=40, scale_factor=self.scale_factor, text_color=WHITE),
-            "status": Image(self.screen, self.pending_image, self.x_percent(660), self.y_percent(503), self.scale_factor)
+            "profile": Image(self.screen, self.profile_image, self.x_percent(552.5), self.y_percent(616.5), self.scale_factor, anchor="center"),
+            "name": Textbox(self.screen, players[1][1], self.x_percent(552.5), self.y_percent(697), 188, 72, font_size=40, scale_factor=self.scale_factor, text_color=WHITE, anchor="center"),
+            "status": Image(self.screen, self.pending_image, self.x_percent(660), self.y_percent(503), self.scale_factor, anchor="center")
         }
         self.profiles[players[2][0]] = {
-            "profile": Image(self.screen, self.profile_image, self.x_percent(865.5), self.y_percent(616.5), self.scale_factor),
-            "name": Textbox(self.screen,players[2][1], self.x_percent(865.5), self.y_percent(697), 188, 72, font_size=40, scale_factor=self.scale_factor, text_color=WHITE),
-            "status": Image(self.screen, self.pending_image, self.x_percent(973), self.y_percent(503), self.scale_factor)
+            "profile": Image(self.screen, self.profile_image, self.x_percent(865.5), self.y_percent(616.5), self.scale_factor, anchor="center"),
+            "name": Textbox(self.screen,players[2][1], self.x_percent(865.5), self.y_percent(697), 188, 72, font_size=40, scale_factor=self.scale_factor, text_color=WHITE, anchor="center"),
+            "status": Image(self.screen, self.pending_image, self.x_percent(973), self.y_percent(503), self.scale_factor, anchor="center")
         }
         self.profiles[players[3][0]] = {
-            "profile": Image(self.screen, self.profile_image, self.x_percent(1178.5), self.y_percent(616.5), self.scale_factor),
-            "name": Textbox(self.screen, players[3][1], self.x_percent(1178.5), self.y_percent(697), 188, 72, font_size=40, scale_factor=self.scale_factor, text_color=WHITE),
-            "status": Image(self.screen, self.pending_image, self.x_percent(1286), self.y_percent(503), self.scale_factor)
+            "profile": Image(self.screen, self.profile_image, self.x_percent(1178.5), self.y_percent(616.5), self.scale_factor, anchor="center"),
+            "name": Textbox(self.screen, players[3][1], self.x_percent(1178.5), self.y_percent(697), 188, 72, font_size=40, scale_factor=self.scale_factor, text_color=WHITE, anchor="center"),
+            "status": Image(self.screen, self.pending_image, self.x_percent(1286), self.y_percent(503), self.scale_factor, anchor="center")
         }
 
     def createProfile(self, players):
