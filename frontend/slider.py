@@ -1,43 +1,42 @@
 import pygame
 from frontend.ninepatch import NinePatch
 from frontend.image import Image
+from frontend.node import Node
 
-class Slider:
+class Slider(Node):
     def __init__(self, screen, background_image, foreground_image, background_width, background_height, 
-                 foreground_width, foreground_height, x_percent, y_percent, scale_factor=1, filled_percent=0.5, knob_image=None):
+                 foreground_width, foreground_height, x_percent, y_percent, scale_factor=1, filled_percent=0.5, knob_image=None, anchor = "center"):
         """
         Initialize a Slider object.
 
         Args:
-           screen (pygame.Surface): The display surface where the slider will be drawn.
-           background_image (pygame.Surface): Background image of the slider.
-           foreground_image (pygame.Surface): Foreground image of the slider.
-           background_width (float): Width of the background in pixels.
-           background_height (float): Height of the background in pixels.
-           foreground_width (float): Width of the foreground in pixels.
-           foreground_height (float): Height of the foreground in pixels.
-           x_percent (float): X position as a percentage of the screen width.
-           y_percent (float): Y position as a percentage of the screen height.
-           filled_percent (float): Initial filled percentage of the slider (0 to 1). Defaults to 0.5.
-           knob_image (pygame.Surface, optional): Knob image. Defaults to None.
+            screen (pygame.Surface): The display surface where the slider will be drawn.
+            background_image (pygame.Surface): Background image of the slider.
+            foreground_image (pygame.Surface): Foreground image of the slider.
+            background_width (float): Width of the background in pixels.
+            background_height (float): Height of the background in pixels.
+            foreground_width (float): Width of the foreground in pixels.
+            foreground_height (float): Height of the foreground in pixels.
+            x_percent (float): X position as a percentage of the screen width.
+            y_percent (float): Y position as a percentage of the screen height.
+            scale_factor (float, optional): Scale factor for resizing the images. Defaults to 1.0.
+            filled_percent (float): Initial filled percentage of the slider (0 to 1). Defaults to 0.5.
+            knob_image (pygame.Surface, optional): Knob image. Defaults to None.
+            anchor (str, optional): Determines how the textbox rectangle is anchored on the screen. Options are "center" or "topleft". Defaults to "center".
         """
-        self.screen = screen
+
         self.background_width = background_width * scale_factor
         self.background_height = background_height * scale_factor
         self.foreground_width = foreground_width * scale_factor
         self.foreground_height = foreground_height * scale_factor
-        self.x_percent = x_percent
-        self.y_percent = y_percent
+        super().__init__(screen, pygame.Surface((int(self.background_width), int(self.background_height))), x_percent, y_percent, anchor)
         self.scale_factor = scale_factor
 
-        screen_width, screen_height = self.screen.get_size()
-        self.x = (screen_width * x_percent) - (self.background_width / 2)
-        self.y = (screen_height * y_percent) - (self.background_height / 2)
-        self.background = NinePatch(screen, background_image, self.x, self.y, self.background_width, self.background_height)
+        self.background = NinePatch(screen, background_image, self.x, self.y, self.background_width, self.background_height, scale_factor=self.scale_factor)
         
         self.foreground_x = self.x + (self.background_width - self.foreground_width) / 2
         self.foreground_y = self.y + (self.background_height - self.foreground_height) / 2
-        self.foreground = NinePatch(screen, foreground_image, self.foreground_x, self.foreground_y, self.foreground_width, self.foreground_height)
+        self.foreground = NinePatch(screen, foreground_image, self.foreground_x, self.foreground_y, self.foreground_width, self.foreground_height, scale_factor=self.scale_factor)
 
         self.knob = None
         if knob_image:

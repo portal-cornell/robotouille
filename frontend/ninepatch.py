@@ -3,7 +3,7 @@ import pygame
 class NinePatch:
     def __init__(self, screen, image_source, x, y, width, height, padding=(10, 10, 10, 10), scale_factor = 1):
         """
-        Initialize a NinePatch object.
+        Initialize a NinePatch object. ONLY SUPPORTS "topleft' ANCHOR.
 
         Args:
             screen (pygame.Surface): The screen on which to draw the NinePatch.
@@ -12,7 +12,8 @@ class NinePatch:
             y (float): The y-coordinate of the top-left corner of the NinePatch on the screen.
             width (int): The total width of the NinePatch to be drawn.
             height (int): The total height of the NinePatch to be drawn.
-            padding (tuple): Padding values (left, right, top, bottom) that define the borders for slicing the image.
+            padding (tuple): Padding values (left, right, top, bottom) that define the borders for slicing the UNSCALED image.
+            scale_factor (float, optional): Scale factor for resizing the images. Defaults to 1.0.
         """
         self.screen = screen
         self.image_source = image_source
@@ -21,7 +22,13 @@ class NinePatch:
         self.width = width
         self.height = height
         self.padding = padding
+        self.image_source = pygame.transform.scale(
+            image_source,
+            (int(image_source.get_width() * scale_factor), int(image_source.get_height() * scale_factor))
+        )
         self.img_width, self.img_height = self.image_source.get_size()
+        self.padding = tuple(int(p * scale_factor) for p in padding)
+        self.scale_factor = scale_factor
         self.slices = self.slice_image()
     
     def set_position(self, x, y):
