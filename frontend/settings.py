@@ -24,7 +24,8 @@ class SettingScreen(ScreenInterface):
         self.one_star_count = 0
         self.two_star_count = 0
         self.three_star_count = 0
-    
+        
+        self.background = Image(self.screen, self.background_image, 0.5, 0.5, self.scale_factor)
         self.back_arrow = Button(self.screen, self.back_arrow_image, self.x_percent(64), self.y_percent(860), self.scale_factor)
         self.pencil = Button(self.screen, self.pencil_image, self.x_percent(1148.93), self.y_percent(173.525), self.scale_factor)
         self.profile = Image(self.screen, self.profile_image, self.x_percent(780.5), self.y_percent(169.5), self.scale_factor)
@@ -69,6 +70,7 @@ class SettingScreen(ScreenInterface):
         """Load necessary assets."""
 
         # Construct Paths
+        background_path = os.path.join(SHARED_DIRECTORY, "background.png")
         back_arrow_path = os.path.join(SHARED_DIRECTORY, "back_arrow.png")
         slider_bg_path = os.path.join(ASSETS_DIRECTORY, "sliderback.png")
         slider_fg_path = os.path.join(ASSETS_DIRECTORY, "sliderfore.png")
@@ -86,6 +88,7 @@ class SettingScreen(ScreenInterface):
         
 
         # images
+        self.background_image = pygame.image.load(background_path).convert_alpha()
         self.start_button_image = pygame.image.load(start_button_path).convert_alpha()
         self.start_hover_button_image = pygame.image.load(start_hover_button_path).convert_alpha()
         self.start_pressed_button_image = pygame.image.load(start_pressed_button_path).convert_alpha()
@@ -104,8 +107,8 @@ class SettingScreen(ScreenInterface):
 
     def draw(self):
         """Draws all the self.screen components."""
-        # self.background.draw()
-        self.screen.fill(CYAN)
+        self.background.draw()
+        # self.screen.fill(CYAN)
         self.profile.draw()
         self.pencil.draw()
         self.back_arrow.draw()

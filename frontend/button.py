@@ -1,6 +1,7 @@
 import pygame
 from frontend.image import Image
 from frontend.node import Node
+from frontend.textbox import Textbox
 from frontend.constants import FONT_PATH
 
 class Button(Node):
@@ -23,17 +24,22 @@ class Button(Node):
             font_path (str): The path to the font used to render the text.
             font_size (int): The size of the font.
             text_color (tuple): Color of the text in RGB format. Defaults to black.
-            anchor (str): Anchor point for positioning. Defaults to "center".
+            anchor (str): Anchor point for positioning. Defaults to "topleft".
         """
-        self.normal_image = Image(screen, normal_image_source, x_percent, y_percent, scale_factor)
+        self.normal_image = Image(screen, normal_image_source, x_percent, y_percent, scale_factor, anchor=anchor)
         super().__init__(screen, self.normal_image.image, x_percent, y_percent, anchor)
-        self.hover_image = Image(screen, hover_image_source if hover_image_source else normal_image_source, x_percent, y_percent, scale_factor)
-        self.pressed_image = Image(screen, pressed_image_source if pressed_image_source else normal_image_source, x_percent, y_percent, scale_factor)
 
+        self.text = None
+
+        width, height = self.rect.width, self.rect.height
+        if text is not None:
+            self.text = Textbox(screen, text, x_percent, y_percent, width, height, text_color=text_color, font_path=font_path, font_size=font_size * scale_factor, anchor=anchor)
+
+
+        self.hover_image = Image(screen, hover_image_source if hover_image_source else normal_image_source, x_percent, y_percent, scale_factor, anchor=anchor)
+        self.pressed_image = Image(screen, pressed_image_source if pressed_image_source else normal_image_source, x_percent, y_percent, scale_factor, anchor=anchor)
         self.current_image = self.normal_image
-        self.text = text
-        self.font = pygame.font.Font(font_path, int(font_size * scale_factor))
-        self.text_color = text_color
+       
         self.is_pressed = False
         self.is_pressed_outside = False
 
@@ -53,11 +59,9 @@ class Button(Node):
             self.current_image = self.normal_image
 
         self.current_image.draw()
-        if self.text and self.font:
-            text_surface = self.font.render(self.text, True, self.text_color)
-            text_rect = text_surface.get_rect(center=self.rect.center)
-            self.screen.blit(text_surface, text_rect)
-
+        if self.text:
+            self.text.draw()
+            
     def in_bound(self):
         """
         Check if the mouse is over the button.
