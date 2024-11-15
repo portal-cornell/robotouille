@@ -230,7 +230,10 @@
                 "assets": {
                     "default": "batter_station.png"
                 },
-                "constants": {}
+                "constants": {
+                    "STATION_OFFSET": 0.16,
+                    "underneath": "T"
+                }
             },
             "grill": {
                 "assets": {
