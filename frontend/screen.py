@@ -70,7 +70,7 @@ class ScreenInterface(ABC):
            (float): Adjusted y-coordinate as a percentage of the screen height.
         """
         scaled_y = self.scale_factor * value
-        return self.offset_y + (scaled_y/ self.screen_width)
+        return self.offset_y + (scaled_y/ self.screen_height)
 
     
     @abstractmethod

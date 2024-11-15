@@ -10,10 +10,11 @@ def simulator(surface, screen_size, environment_name: str, seed: int=42, noisy_r
     renderer.render(obs, mode='human')
     done = False
     interactive = False # Set to True to interact with the environment through terminal REPL (ignores input)
-    intermediate = pygame.Surface((512,512))
-    screen_size = intermediate.get_size()
+    screen_size = surface.get_size()
+    intermediate = pygame.Surface(screen_size)
     pause = PauseScreen(screen_size)
     flag = True
+    clock = pygame.time.Clock()
     
     while not done:
         # Construct action from input
@@ -53,11 +54,18 @@ def simulator(surface, screen_size, environment_name: str, seed: int=42, noisy_r
             renderer.render(obs, mode='human')
         if flag:
             pause.update()  
+            
+        intermediate.fill((0, 0, 0))
         intermediate.blit(renderer.surface, (0, 0))
         intermediate.blit(pause.get_screen(), (0, 0))
 
         surface.blit(intermediate, (0,0))
         pygame.display.flip()
+
+        # surface.blit(intermediate, intermediate.get_rect())
+        # pygame.event.pump()
+        # pygame.display.update()
         flag = False
+        clock.tick(60)
 
     renderer.render(obs, close=True)

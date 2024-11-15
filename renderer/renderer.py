@@ -42,6 +42,7 @@ class RobotouilleRenderer:
         # self.window = None
         # The pygame clock
         self.clock = None
+        pygame.display.set_mode(self.window_size)
     
     def _init_setup(self, render_mode):
         """
@@ -54,7 +55,7 @@ class RobotouilleRenderer:
         #     pygame.init()
         #     pygame.display.init()
         #     # self.window = 
-        pygame.display.set_mode(self.window_size)
+        # pygame.display.set_mode(self.window_size)
         #     pygame.display.set_caption('Robotouille Simulator')
         if self.clock is None and render_mode == "human":
             self.clock = pygame.time.Clock()
@@ -78,8 +79,8 @@ class RobotouilleRenderer:
         if render_mode == "human":
             # The following line copies our drawings from `canvas` to the visible window
             # self.window.blit(self.surface, self.surface.get_rect())
-            pygame.event.pump()
-            pygame.display.update()
+            # pygame.event.pump()
+            # pygame.display.update()
 
             # We need to ensure that human-rendering occurs at the predefined framerate.
             # The following line will automatically add a delay to keep the framerate stable.
@@ -103,10 +104,10 @@ class RobotouilleRenderer:
             close (bool): Whether to close the pygame window
         """
         if close:
-            self.window = None
+            # self.window = None
             self.clock = None
-            pygame.display.set_mode(self.window_size, flags=pygame.HIDDEN) # Hide the window
-            pygame.display.quit()
-            pygame.quit()
+            # pygame.display.set_mode(self.window_size, flags=pygame.HIDDEN) # Hide the window
+            # pygame.display.quit()
+            # pygame.quit()
         else:
             return self._render_frame(obs, mode)

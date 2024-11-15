@@ -19,7 +19,7 @@ args = parser.parse_args()
 pygame.init()
 pygame.display.init()
 screen_size = (1440, 1024)
-screen_size = (512, 512)
+# screen_size = (512, 512)
 screen = pygame.display.set_mode(screen_size)
 pygame.display.set_caption('Robotouille Simulator')
 
