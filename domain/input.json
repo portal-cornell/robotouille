@@ -106,6 +106,34 @@
                 "key": "space",
                 "at": null
             }
+        },
+        {
+            "name": "pour",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "add_to_blender",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "blend",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "fill_cup",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
         }
     ]
 }

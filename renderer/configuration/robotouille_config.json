@@ -122,7 +122,34 @@
                     }
                 },
                 "constants": {}
-            } 
+            },
+            "banana": {
+                "assets": {
+                    "default": "banana.png",
+                    "cut": {
+                        "asset": "cut_banana.png",
+                        "predicates": ["iscut"]
+                    }
+                },
+                "constants": {}
+            },
+            "wholemilk": {
+                "assets": {
+                    "default": "milk_whole.png"
+                },
+                "predicates": ["pourable"],
+                "constants": {}
+            },
+            "strawberry": {
+                "assets": {
+                    "default": "strawberry.png",
+                    "cut": {
+                        "asset": "slicedstrawberry.png",
+                        "predicates": ["iscut"]
+                    }
+                },
+                "constants": {}
+            }
         }
     },
 
@@ -231,20 +258,35 @@
             "blendercup": {
                 "assets": {
                     "default": "blender_empty.png",
-                    "shake": {
-                        "default": "blender_empty.png",
-                        "full": {
+                    "filled": {
+                        "default": "blender_full.png",
+                        "blended": {
                             "asset": "blender_full.png",
                             "predicates": [
-                                {"name": "addedto"}
+                                {"name": "isblended", "params": ["blendercup"]}
                             ]
                         }
-
                     }
-
                 },
                 "constants": {
                     "STATION_CONTAINER_OFFSET": 0.5
+                }
+            },
+            "smoothiecup": {
+                "assets": {
+                    "default": "smoothiecup.png",
+                    "filled": {
+                        "default": "strawberrysmoothie.png",
+                        "smoothie": {
+                            "asset": "strawberrysmoothie.png",
+                            "predicates": [
+                                {"name": "filled", "params": ["smoothiecup"]}
+                            ]
+                        }
+                    }
+                },
+                "constants": {
+                    "STATION_CONTAINER_OFFSET": 0.25
                 }
             }
         }
