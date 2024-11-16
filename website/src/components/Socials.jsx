@@ -1,43 +1,32 @@
 import React from "react";
-import steam from "../assets/socials/steam.png";
-import instagram from "../assets/socials/instagram.png";
-import twitter from "../assets/socials/twitter.png";
+import SteamIcon from "../assets/socials/steam.png";
+import InstagramIcon from "../assets/socials/instagram.png";
+import TwitterIcon from "../assets/socials/twitter.png";
 
-const Socials = ({ colorClass }) => {
+const Socials = () => {
   return (
     <div className="flex justify-center space-x-8 mt-5">
       {/* Instagram */}
       <a
         href="https://www.instagram.com/robotouille_game/?hl=en"
-        className={`flex items-center justify-center ${colorClass}`}
         target="_blank"
         rel="noopener noreferrer"
       >
-        <img
-          src={instagram}
-          alt="Instagram"
-          className={`w-8 h-8 ${colorClass}`}
-        />
+        <img src={InstagramIcon} alt="Instagram" className="w-10 h-10" />
       </a>
 
       {/* Twitter */}
       <a
         href="https://x.com/RobotouilleGame"
-        className={`flex items-center justify-center ${colorClass}`}
         target="_blank"
         rel="noopener noreferrer"
       >
-        <img src={twitter} alt="Twitter" className={`w-8 h-8 ${colorClass}`} />
+        <img src={TwitterIcon} alt="Twitter" className="w-10 h-10" />
       </a>
 
       {/* Steam */}
-      <a
-        href="#"
-        className={`flex items-center justify-center ${colorClass}`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <img src={steam} alt="Steam" className={`w-8 h-8 ${colorClass}`} />
+      <a href="#" target="_blank" rel="noopener noreferrer">
+        <img src={SteamIcon} alt="Steam" className="w-10 h-10" />
       </a>
     </div>
   );

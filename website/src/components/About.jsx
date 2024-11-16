@@ -2,7 +2,7 @@ import React from "react";
 
 const About = () => {
   return (
-    <div className="bg-primary-lighterRed text-white font-roboto-slab p-6 rounded-lg shadow-2xl max-w-3xl mx-auto my-8">
+    <div className="bg-primary-darkRed text-white font-roboto-slab p-6 rounded-lg shadow-2xl max-w-3xl mx-auto my-8">
       <h2 className="text-lg font-semibold text-left mb-2">
         About Robotouille
       </h2>

@@ -12,8 +12,8 @@ const App = () => {
     <>
       <div className="pt-[4.75rem] lg:pt-[5.25rem] overflow-hidden min-h-screen bg-primary-blue">
         <Title />
-        <main className="px-4">
-          <Socials colorClass="text-red-500" />
+        <main>
+          <Socials />
           <YoutubeVideo />
           <About />
           <Team />
