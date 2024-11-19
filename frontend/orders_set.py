@@ -3,7 +3,7 @@ from frontend.screen import ScreenInterface
 from frontend.orders import Order
 
 # Set up the assets directory
-ASSETS_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "pause_screen")
+ASSETS_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "pause_screen"))
 
 class OrdersCollection(ScreenInterface):
     def __init__(self, window_size):

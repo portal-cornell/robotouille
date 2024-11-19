@@ -20,7 +20,7 @@ LOADING = 'loading'
 LOGO = 'logo'
 MATCHMAKING = 'matchmaking'
 
-SHARED_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "shared")
+SHARED_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "shared"))
 
 
 FONT_PATH = os.path.join(SHARED_DIRECTORY, "hug.ttf")

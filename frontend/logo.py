@@ -4,7 +4,7 @@ from frontend.image import Image
 from frontend.screen import ScreenInterface
 
 # Set up the assets directory
-ASSETS_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend")
+ASSETS_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend"))
 
 class LogoScreen(ScreenInterface):
     def __init__(self, window_size):

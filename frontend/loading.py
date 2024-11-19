@@ -5,7 +5,7 @@ from frontend.slider import Slider
 from frontend.screen import ScreenInterface
 
 # Set up the assets directory
-ASSETS_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "loading")
+ASSETS_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "loading"))
 
 class LoadingScreen(ScreenInterface):
     ASSET = {}
@@ -59,7 +59,7 @@ class LoadingScreen(ScreenInterface):
         self.count = 0
         for root, _, files in os.walk(self.directory):
             for file in files:
-                file_path = os.path.join(root, file)
+                file_path = os.path.abspath(os.path.join(root, file))
                 # relative_path = os.path.relpath(file_path, directory)
                 self.count += 1
                 self.set_loading_percent((self.count/self.total)/2)

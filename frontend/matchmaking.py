@@ -7,7 +7,7 @@ from frontend.screen import ScreenInterface
 from frontend.loading import LoadingScreen
 
 # Set up the assets directory
-ASSETS_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "matchmaking")
+ASSETS_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "matchmaking"))
 
 class MatchMakingScreen(ScreenInterface):
     def __init__(self, window_size):
