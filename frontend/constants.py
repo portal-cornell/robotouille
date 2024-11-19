@@ -1,6 +1,6 @@
 import os 
 
-DEBUG = True
+DEBUG = False
 
 MAX_PLAYERS = 4
 

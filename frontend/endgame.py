@@ -6,6 +6,7 @@ from frontend.slider import Slider
 from frontend.textbox import Textbox
 from frontend.editable_textbox import EditableTextbox
 from frontend.screen import ScreenInterface
+from frontend.loading import LoadingScreen
 
 # Set up the assets directory
 ASSETS_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "endgame")
@@ -17,10 +18,10 @@ class EndScreen(ScreenInterface):
         Args:
             window_size (tuple): (width, height) of the window
         """
-        super().__init__(pygame.Surface(window_size))
+        super().__init__(window_size) 
         self.background = Image(self.screen, self.background_image, 0.5, 0.5, self.scale_factor, anchor="center")
         self.level_complete = Textbox(self.screen, "LEVEL FINISHED", self.x_percent(720.5), self.y_percent(124.5), 615, 96, font_size=80, scale_factor=self.scale_factor, anchor="center")
-        self.quit = Button(self.screen, self.blue_buton_image, 
+        self.quit = Button(self.screen, self.blue_button_image, 
                                             self.x_percent(397), self.y_percent(868), self.scale_factor, 
                                             hover_image_source= self.blue_hover_button_image,
                                             pressed_image_source= self.blue_pressed_button_image, 
@@ -201,22 +202,22 @@ class EndScreen(ScreenInterface):
         red_hover_button_path = os.path.join(SHARED_DIRECTORY, "button_r_h.png")
         red_pressed_button_path = os.path.join(SHARED_DIRECTORY, "button_r_p.png")
 
-        self.background_image = pygame.image.load(background_path).convert_alpha()
-        self.profile_image = pygame.image.load(profile_path).convert_alpha()
-        self.bell_image = pygame.image.load(bell_path).convert_alpha()
-        self.coin_image = pygame.image.load(coin_path).convert_alpha()
-        self.pending_image = pygame.image.load(pending_path).convert_alpha()
-        self.yes_image = pygame.image.load(yes_path).convert_alpha()
-        self.no_image = pygame.image.load(no_path).convert_alpha()
-        self.star_full_image = pygame.image.load(star_full_path).convert_alpha()
-        self.star_empty_image = pygame.image.load(star_empty_path).convert_alpha()
-        
-        self.blue_buton_image = pygame.image.load(blue_button_path).convert_alpha()
-        self.blue_hover_button_image = pygame.image.load(blue_hover_button_path).convert_alpha()
-        self.blue_pressed_button_image = pygame.image.load(blue_pressed_button_path).convert_alpha()
-        self.red_button_image = pygame.image.load(red_button_path).convert_alpha()
-        self.red_hover_button_image = pygame.image.load(red_hover_button_path).convert_alpha()
-        self.red_pressed_button_image = pygame.image.load(red_pressed_button_path).convert_alpha()
+        self.background_image = LoadingScreen.ASSET[background_path]
+        self.profile_image = LoadingScreen.ASSET[profile_path]
+        self.bell_image = LoadingScreen.ASSET[bell_path]
+        self.coin_image = LoadingScreen.ASSET[coin_path]
+        self.pending_image = LoadingScreen.ASSET[pending_path]
+        self.yes_image = LoadingScreen.ASSET[yes_path]
+        self.no_image = LoadingScreen.ASSET[no_path]
+        self.star_full_image = LoadingScreen.ASSET[star_full_path]
+        self.star_empty_image = LoadingScreen.ASSET[star_empty_path]
+
+        self.blue_button_image = LoadingScreen.ASSET[blue_button_path]
+        self.blue_hover_button_image = LoadingScreen.ASSET[blue_hover_button_path]
+        self.blue_pressed_button_image = LoadingScreen.ASSET[blue_pressed_button_path]
+        self.red_button_image = LoadingScreen.ASSET[red_button_path]
+        self.red_hover_button_image = LoadingScreen.ASSET[red_hover_button_path]
+        self.red_pressed_button_image = LoadingScreen.ASSET[red_pressed_button_path]
     
 
     def update(self):
@@ -226,6 +227,7 @@ class EndScreen(ScreenInterface):
         # Handle events
         for event in pygame.event.get():
             if self.play_again.handle_event(event):
-                pass
+                self.set_next_screen(GAME)
             if self.quit.handle_event(event):
                 self.set_next_screen(MAIN_MENU)
+            

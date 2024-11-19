@@ -8,6 +8,7 @@ from frontend.screen import ScreenInterface
 ASSETS_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "loading")
 
 class LoadingScreen(ScreenInterface):
+    ASSET = {}
     def __init__(self, window_size):
         """
         Initialize the Loading Screen.
@@ -15,7 +16,16 @@ class LoadingScreen(ScreenInterface):
         Args:
            window_size (tuple): (width, height) of the window
         """
-        super().__init__(pygame.Surface(window_size))
+        super().__init__(window_size) 
+        self.count = 0
+        self.total = 0
+        self.directory = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets")
+        for _, _, files in os.walk(self.directory):
+            for file in files:
+                if file.lower().endswith((".png")):
+                    self.total += 1
+
+
         self.percent = 0
         self.background = Image(self.screen, self.background_image, 0.5, 0.5, self.scale_factor, anchor="center")
         self.loading_bar = Slider(self.screen, self.progress_border_image, self.progress_bar_image,
@@ -28,7 +38,7 @@ class LoadingScreen(ScreenInterface):
         self.loading_bar.draw()
     
     def load_assets(self):
-        """Load necessary assets."""
+        """Load immediate necessary assets."""
         background_path = os.path.join(ASSETS_DIRECTORY, "background.png")
         progress_bar_path = os.path.join(ASSETS_DIRECTORY, "progress_bar.png")
         progress_border_path = os.path.join(ASSETS_DIRECTORY, "progress_border.png")
@@ -36,6 +46,31 @@ class LoadingScreen(ScreenInterface):
         self.background_image =  pygame.image.load(background_path).convert_alpha()
         self.progress_bar_image =  pygame.image.load(progress_bar_path).convert_alpha()
         self.progress_border_image =  pygame.image.load(progress_border_path).convert_alpha()
+
+
+    def load_all_assets(self):
+        """
+        Recursively load all assets from the asset directory.
+        """
+
+        if self.count >= self.total:
+            return 
+        
+        self.count = 0
+        for root, _, files in os.walk(self.directory):
+            for file in files:
+                file_path = os.path.join(root, file)
+                # relative_path = os.path.relpath(file_path, directory)
+                self.count += 1
+                self.set_loading_percent((self.count/self.total)/2)
+                if file.lower().endswith(".png"):
+                    LoadingScreen.ASSET[file_path] = pygame.image.load(file_path).convert_alpha()
+                
+                # elif file.lower().endswith(".ttf"):
+                #     LoadingScreen.ASSET[relative_path] = pygame.font.Font(file_path, 60)
+                
+                # else:
+                #     print(f"Skipping unsupported file type: {file_path}")
 
     def set_loading_percent(self, value):
         """
@@ -54,6 +89,8 @@ class LoadingScreen(ScreenInterface):
     def update(self):
         """Update the screen and handle events."""
         super().update() 
+
+        self.load_all_assets()
 
         if self.percent >= 1:
             self.set_next_screen(MAIN_MENU)

@@ -24,12 +24,8 @@ screen = pygame.display.set_mode(screen_size)
 pygame.display.set_caption('Robotouille Simulator')
 
 screens = {
-    MAIN_MENU: MenuScreen(screen_size),
-    SETTINGS: SettingScreen(screen_size),
     LOGO: LogoScreen(screen_size),
     LOADING: LoadingScreen(screen_size),
-    ENDGAME: EndScreen(screen_size),
-    MATCHMAKING: MatchMakingScreen(screen_size)
 }
 
 current_screen = LOGO
@@ -41,8 +37,14 @@ def update_screen():
     if current_screen in screens:
         screen_obj = screens[current_screen]
         screen_obj.update()
-        # scaled = pygame.transform.scale(screen_obj.get_screen(), (300, 100))
         screen.blit(screen_obj.get_screen(), (0, 0))
+
+        if current_screen == LOADING and screen_obj.next_screen is not None:
+            screens[MAIN_MENU] = MenuScreen(screen_size)
+            screens[SETTINGS] = SettingScreen(screen_size)
+            screens[ENDGAME] = EndScreen(screen_size)
+            screens[MATCHMAKING] = MatchMakingScreen(screen_size)
+
         if screen_obj.next_screen is not None:
             current_screen = screen_obj.next_screen
             screen_obj.set_next_screen(None)

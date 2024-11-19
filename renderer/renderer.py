@@ -4,6 +4,7 @@ import os
 import json
 
 from .canvas import RobotouilleCanvas
+from frontend.orders_set import OrdersCollection
 
 class RobotouilleRenderer:
     """
@@ -43,6 +44,7 @@ class RobotouilleRenderer:
         # The pygame clock
         self.clock = None
         pygame.display.set_mode(self.window_size)
+        self.orders = OrdersCollection(window_size)
     
     def _init_setup(self, render_mode):
         """
@@ -76,6 +78,7 @@ class RobotouilleRenderer:
         """
         self._init_setup(render_mode)
         self.canvas.draw_to_surface(self.surface, obs)
+        self.surface.blit(self.orders.get_screen(), (0,0))
         if render_mode == "human":
             # The following line copies our drawings from `canvas` to the visible window
             # self.window.blit(self.surface, self.surface.get_rect())

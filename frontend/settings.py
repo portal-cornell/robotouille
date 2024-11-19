@@ -6,6 +6,7 @@ from frontend.slider import Slider
 from frontend.textbox import Textbox
 from frontend.editable_textbox import EditableTextbox
 from frontend.screen import ScreenInterface
+from frontend.loading import LoadingScreen
 
 # Set up the assets directory
 ASSETS_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "settings")
@@ -18,7 +19,7 @@ class SettingScreen(ScreenInterface):
         Args:
            window_size (tuple): (width, height) of the window
         """
-        super().__init__(pygame.Surface(window_size, pygame.SRCALPHA)) 
+        super().__init__(window_size) 
 
         self.zero_star_count = 0
         self.one_star_count = 0
@@ -87,21 +88,22 @@ class SettingScreen(ScreenInterface):
         
 
         # images
-        self.background_image = pygame.image.load(background_path).convert_alpha()
-        self.start_button_image = pygame.image.load(start_button_path).convert_alpha()
-        self.start_hover_button_image = pygame.image.load(start_hover_button_path).convert_alpha()
-        self.start_pressed_button_image = pygame.image.load(start_pressed_button_path).convert_alpha()
-        self.back_arrow_image = pygame.image.load(back_arrow_path).convert_alpha()
-        self.slider_bg_image = pygame.image.load(slider_bg_path).convert_alpha()
-        self.slider_fg_image = pygame.image.load(slider_fg_path).convert_alpha()
-        self.plus_image = pygame.image.load(plus_path).convert_alpha()
-        self.minus_image = pygame.image.load(minus_path).convert_alpha()
-        self.profile_image = pygame.image.load(profile_path).convert_alpha()
-        self.name_bg_image = pygame.image.load(name_bg_path).convert_alpha()
-        self.zero_star_image = pygame.image.load(zero_star_path).convert_alpha()
-        self.one_star_image = pygame.image.load(one_star_path).convert_alpha()
-        self.two_star_image = pygame.image.load(two_star_path).convert_alpha()
-        self.three_star_image = pygame.image.load(three_star_path).convert_alpha()
+        self.background_image = LoadingScreen.ASSET[background_path]
+        self.start_button_image = LoadingScreen.ASSET[start_button_path]
+        self.start_hover_button_image = LoadingScreen.ASSET[start_hover_button_path]
+        self.start_pressed_button_image = LoadingScreen.ASSET[start_pressed_button_path]
+        self.back_arrow_image = LoadingScreen.ASSET[back_arrow_path]
+        self.slider_bg_image = LoadingScreen.ASSET[slider_bg_path]
+        self.slider_fg_image = LoadingScreen.ASSET[slider_fg_path]
+        self.plus_image = LoadingScreen.ASSET[plus_path]
+        self.minus_image = LoadingScreen.ASSET[minus_path]
+        self.profile_image = LoadingScreen.ASSET[profile_path]
+        self.name_bg_image = LoadingScreen.ASSET[name_bg_path]
+        self.zero_star_image = LoadingScreen.ASSET[zero_star_path]
+        self.one_star_image = LoadingScreen.ASSET[one_star_path]
+        self.two_star_image = LoadingScreen.ASSET[two_star_path]
+        self.three_star_image = LoadingScreen.ASSET[three_star_path]
+
         
 
     def draw(self):

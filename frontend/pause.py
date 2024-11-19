@@ -5,6 +5,7 @@ from frontend.slider import Slider
 from frontend.textbox import Textbox
 from frontend.image import Image
 from frontend.screen import ScreenInterface
+from frontend.loading import LoadingScreen
 
 # Set up the assets directory
 ASSETS_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "pause_screen")
@@ -17,7 +18,7 @@ class PauseScreen(ScreenInterface):
         Args:
             window_size (tuple): (width, height) of the window
         """
-        super().__init__(pygame.Surface(window_size, pygame.SRCALPHA))
+        super().__init__(window_size)
         self.background = Image(self.screen, self.background_image, self.x_percent(482), self.y_percent(209), self.scale_factor, anchor="topleft")
         self.title = Image(self.screen, self.title_image, self.x_percent(614), self.y_percent(179), self.scale_factor, anchor="topleft")
         self.pause_title = Textbox(self.screen,"PAUSED", self.x_percent(655), self.y_percent(194), 143, 48, font_size=40, scale_factor=self.scale_factor, anchor="topleft")
@@ -57,16 +58,17 @@ class PauseScreen(ScreenInterface):
         minus_path = os.path.join(ASSETS_DIRECTORY, "minus.png")
         plus_path = os.path.join(ASSETS_DIRECTORY, "plus.png")
 
-        self.background_image = pygame.image.load(background_path).convert_alpha()
-        self.title_image = pygame.image.load(title_path).convert_alpha()
-        self.bar_fg_image = pygame.image.load(bar_foreground_path).convert_alpha()
-        self.bar_bg_image = pygame.image.load(bar_background_path).convert_alpha()
-        
-        self.retry_image = pygame.image.load(retry_path).convert_alpha()
-        self.back_image = pygame.image.load(back_path).convert_alpha()
-        self.resume_image = pygame.image.load(resume_path).convert_alpha()
-        self.minus_image = pygame.image.load(minus_path).convert_alpha()
-        self.plus_image = pygame.image.load(plus_path).convert_alpha()
+        self.background_image = LoadingScreen.ASSET[background_path]
+        self.title_image = LoadingScreen.ASSET[title_path]
+        self.bar_fg_image = LoadingScreen.ASSET[bar_foreground_path]
+        self.bar_bg_image = LoadingScreen.ASSET[bar_background_path]
+
+        self.retry_image = LoadingScreen.ASSET[retry_path]
+        self.back_image = LoadingScreen.ASSET[back_path]
+        self.resume_image = LoadingScreen.ASSET[resume_path]
+        self.minus_image = LoadingScreen.ASSET[minus_path]
+        self.plus_image = LoadingScreen.ASSET[plus_path]
+
     
     def draw(self):
         """Draws all the screen components."""

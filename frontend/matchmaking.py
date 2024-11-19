@@ -4,6 +4,7 @@ from frontend.button import Button
 from frontend.image import Image
 from frontend.textbox import Textbox
 from frontend.screen import ScreenInterface
+from frontend.loading import LoadingScreen
 
 # Set up the assets directory
 ASSETS_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "matchmaking")
@@ -16,7 +17,7 @@ class MatchMakingScreen(ScreenInterface):
         Args:
             window_size (tuple): (width, height) of the window
         """
-        super().__init__(pygame.Surface(window_size))
+        super().__init__(window_size) 
         self.background = Image(self.screen, self.background_image, 0.5, 0.5, self.scale_factor, anchor="center")
         self.players = [
             {"name": Textbox(self.screen,"", self.x_percent(291), self.y_percent(577), 188, 72, font_size=40, scale_factor=self.scale_factor, anchor="center"),
@@ -37,9 +38,10 @@ class MatchMakingScreen(ScreenInterface):
         empty_path = os.path.join(ASSETS_DIRECTORY, "empty.png")
         profile_path = os.path.join(ASSETS_DIRECTORY, "profile.png")
 
-        self.background_image = pygame.image.load(background_path).convert_alpha()
-        self.empty_profile_image = pygame.image.load(empty_path).convert_alpha()
-        self.profile_image = pygame.image.load(profile_path).convert_alpha()
+        self.background_image = LoadingScreen.ASSET[background_path]
+        self.empty_profile_image = LoadingScreen.ASSET[empty_path]
+        self.profile_image = LoadingScreen.ASSET[profile_path]
+
 
 
     def setPlayers(self, existing_players):

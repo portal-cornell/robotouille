@@ -3,6 +3,7 @@ from frontend.constants import *
 from frontend.button import Button
 from frontend.image import Image
 from frontend.screen import ScreenInterface
+from frontend.loading import LoadingScreen
 
 # Set up the assets directory
 ASSETS_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "main_menu")
@@ -15,7 +16,7 @@ class MenuScreen(ScreenInterface):
         Args:
             window_size (tuple): (width, height) of the window
         """
-        super().__init__(pygame.Surface(window_size))
+        super().__init__(window_size) 
         self.background = Image(self.screen, self.background_image, 0.5, 0.5, self.scale_factor, anchor="center")
         self.start_button = Button(self.screen, self.start_button_image, 
                                             self.x_percent(720), self.y_percent(392), self.scale_factor, 
@@ -37,10 +38,10 @@ class MenuScreen(ScreenInterface):
         start_hover_button_path = os.path.join(SHARED_DIRECTORY, "button_b_h.png")
         start_pressed_button_path = os.path.join(SHARED_DIRECTORY, "button_b_p.png")
 
-        self.background_image =  pygame.image.load(background_path).convert_alpha()
-        self.start_button_image = pygame.image.load(start_button_path).convert_alpha()
-        self.start_hover_button_image = pygame.image.load(start_hover_button_path).convert_alpha()
-        self.start_pressed_button_image = pygame.image.load(start_pressed_button_path).convert_alpha()
+        self.background_image = LoadingScreen.ASSET[background_path]
+        self.start_button_image = LoadingScreen.ASSET[start_button_path]
+        self.start_hover_button_image = LoadingScreen.ASSET[start_hover_button_path]
+        self.start_pressed_button_image = LoadingScreen.ASSET[start_pressed_button_path]
     
     def draw(self):
         """Draws all the screen components."""

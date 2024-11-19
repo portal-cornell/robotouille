@@ -15,7 +15,7 @@ class LogoScreen(ScreenInterface):
            window_size (tuple): (width, height) of the window
         """
         
-        super().__init__(pygame.Surface(window_size))
+        super().__init__(window_size) 
         self.fade_alpha = 0  
         self.fade_in_duration = 500 
         self.delay = 1000 
@@ -51,8 +51,7 @@ class LogoScreen(ScreenInterface):
 
     def update(self):
         """Update the screen and handle events."""
+        self.screen.fill((0, 0, 0))
         super().update() 
-        self.draw()
-        # Handle events
         if self.fade_in_complete:
             self.set_next_screen(LOADING)

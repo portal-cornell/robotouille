@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
+import pygame
 
 class ScreenInterface(ABC):
-    def __init__(self, screen, width = 1440, height = 1024):
+    def __init__(self, window_size, width = 1440, height = 1024):
         """
         Initialize the ScreenInterface instance.
 
@@ -16,7 +17,7 @@ class ScreenInterface(ABC):
         # Screen identifiers, should be MAIN_MENU, SETTINGS, etc
         self.next_screen = None
 
-        self.screen = screen
+        self.screen = pygame.Surface(window_size, pygame.SRCALPHA)
         self.screen_width, self.screen_height = self.screen.get_size()
         self.img_width, self.img_height = width, height
         width_scale = self.screen_width / self.img_width
@@ -94,7 +95,6 @@ class ScreenInterface(ABC):
         """
         Update the screen state and handle any events.
         """
-        self.screen.fill((0, 0, 0))
         self.draw()
 
     def get_screen(self):
