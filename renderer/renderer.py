@@ -42,7 +42,7 @@ class RobotouilleRenderer:
         # The pygame window
         # self.window = None
         # The pygame clock
-        self.clock = None
+        # self.clock = None
         pygame.display.set_mode(self.window_size)
         self.orders = OrdersCollection(window_size)
     
@@ -59,8 +59,8 @@ class RobotouilleRenderer:
         #     # self.window = 
         # pygame.display.set_mode(self.window_size)
         #     pygame.display.set_caption('Robotouille Simulator')
-        if self.clock is None and render_mode == "human":
-            self.clock = pygame.time.Clock()
+        # if self.clock is None and render_mode == "human":
+        #     self.clock = pygame.time.Clock()
     
     def _render_frame(self, obs, render_mode):
         """
@@ -76,7 +76,7 @@ class RobotouilleRenderer:
         Returns:
             np.array: The RGB array of the frame (only if render_mode == "rgb_array")
         """
-        self._init_setup(render_mode)
+        # self._init_setup(render_mode)
         self.canvas.draw_to_surface(self.surface, obs)
         self.surface.blit(self.orders.get_screen(), (0,0))
         if render_mode == "human":
@@ -87,7 +87,8 @@ class RobotouilleRenderer:
 
             # We need to ensure that human-rendering occurs at the predefined framerate.
             # The following line will automatically add a delay to keep the framerate stable.
-            self.clock.tick(self.render_fps)
+            # self.clock.tick(self.render_fps)
+            pass
         else:  # rgb_array
             return np.transpose(
                 np.array(pygame.surfarray.pixels3d(self.surface)), axes=(1, 0, 2)
@@ -106,11 +107,11 @@ class RobotouilleRenderer:
             mode (str): Either "human" or "rgb_array"
             close (bool): Whether to close the pygame window
         """
-        if close:
+        if not close:
             # self.window = None
-            self.clock = None
+            # self.clock = None
             # pygame.display.set_mode(self.window_size, flags=pygame.HIDDEN) # Hide the window
             # pygame.display.quit()
             # pygame.quit()
-        else:
+        # else:
             return self._render_frame(obs, mode)

@@ -58,7 +58,7 @@ def _procedurally_generate(environment_json, seed, noisy_randomization):
             seed += 1
     return generated_environment_json
 
-def create_robotouille_env(problem_filename, seed=None, noisy_randomization=False):
+def create_robotouille_env(problem_filename, animate, seed=None, noisy_randomization=False):
     """
     Creates and returns an Robotouille environment.
 
@@ -67,6 +67,7 @@ def create_robotouille_env(problem_filename, seed=None, noisy_randomization=Fals
 
     Args:
         problem_filename (str): The name of the problem file (without extension).
+        animate (bool): Whether or not to enable animate mode.
         seed (int): The seed to be used for randomization or None for the pre-created environment.
         noisy_randomization (bool): Whether or not to use noisy randomization.
     
@@ -89,5 +90,5 @@ def create_robotouille_env(problem_filename, seed=None, noisy_randomization=Fals
     domain_filename = "domain/robotouille.json"
     with open(domain_filename, "r") as domain_file:
         domain_json = json.load(domain_file)
-    env = RobotouilleEnv(domain_json, environment_json, render_fn)
+    env = RobotouilleEnv(domain_json, environment_json, render_fn, layout, animate)
     return env, environment_json, renderer
