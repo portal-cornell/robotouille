@@ -94,6 +94,13 @@
             }
         },
         {
+            "name": "cook-on-oven",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
             "name": "grill",
             "input_instructions": {
                 "key": "e",
@@ -109,6 +116,13 @@
         },
         {
             "name": "roast",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "bake",
             "input_instructions": {
                 "key": "e",
                 "at": "s1"
@@ -137,6 +151,13 @@
         },
         {
             "name": "boil-water",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "boil-water-on-oven",
             "input_instructions": {
                 "key": "e",
                 "at": "s1"
@@ -181,6 +202,20 @@
             "name": "add-salt",
             "input_instructions": {
                 "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "roll-triangle",
+            "input_instructions": {
+                "key": "t",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "shape",
+            "input_instructions": {
+                "key": "m",
                 "at": "s1"
             }
         }

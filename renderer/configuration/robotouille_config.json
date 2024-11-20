@@ -150,6 +150,31 @@
                     "STACK_OFFSET": -0.1
                 }
             },
+
+            "croissant": {
+                "assets": {
+                    "default": "dough.png",
+                    "triangle": {
+                        "asset": "triangle.png",
+                        "predicates": ["istriangle"]
+                    },
+                    "shaped": {
+                        "asset": "croissant.png",
+                        "predicates": ["isshaped"]
+                    },
+                    "baked": {
+                        "asset": "baked_croissant.png",
+                        "predicates": ["isshaped","isbaked"]
+                    }
+                },
+                "constants": {}
+            },
+            "rollingpin": {
+                "assets": {
+                    "default": "rollingpin.png"
+                },
+                "constants": {}
+            },
             "lettuce": {
                 "assets": {
                     "default": "lettuce.png",
@@ -218,7 +243,13 @@
             },
             "stove": {
                 "assets": {
-                    "default": "stove_oven.png",
+                    "default": "stove.png"
+                },
+                "constants": {}
+            },
+            "oven": {
+                "assets": {
+                    "default": "oven.png",
                     "oven_on": {
                         "asset": "oven_on.png",
                         "predicates": ["oven_on"]

@@ -4,7 +4,6 @@
     "height": 3,
     "config": {
         "cook_time": {
-            "turkey": 3,
             "default": 3
         }
     },
@@ -15,7 +14,7 @@
             "y": 1
         },
         {
-            "name": "oven",
+            "name": "table",
             "x": 2,
             "y": 1,
             "id": "A"
@@ -26,7 +25,7 @@
             "y": 0
         },
         {
-            "name": "oven",
+            "name": "table",
             "x": 2,
             "y": 0,
             "id": "B"
@@ -34,20 +33,12 @@
     ],
     "items": [
         {
-            "name": "turkey",
+            "name": "croissant",
             "x": 0,
             "y": 1,
             "stack-level": 0,
-            "predicates": ["isroastable"],
+            "predicates": ["istriangle", "isshapeable"],
             "id": "a"
-        },
-        {
-            "name": "turkey",
-            "x": 0,
-            "y": 0,
-            "stack-level": 0,
-            "predicates": ["isroastable"],
-            "id": "b"
         }
     ],
     "players": [
@@ -58,27 +49,12 @@
             "direction": [-1, 0]
         }
     ],
-    "goal description": "Roast two turkeys.",
+    "goal description": "Shape the triangle dough into a croissant.",
     "goal": [
         {
-            "predicate": "isroasted",
-            "args": ["turkey"],
+            "predicate": "isshaped",
+            "args": ["croissant"],
             "ids": ["a"]
-        },
-        {
-            "predicate": "isroasted",
-            "args": ["turkey"],
-            "ids": ["b"]
-        },
-        {
-          "predicate": "item_at",
-          "args": ["turkey", "table"],
-          "ids": ["a", 1]
-        },
-        {
-          "predicate": "item_at",
-          "args": ["turkey", "table"],
-          "ids": ["b", 2]
         }
     ]
 }

@@ -4,7 +4,7 @@
     "height": 3,
     "config": {
         "cook_time": {
-            "turkey": 3,
+            "croissant": 3,
             "default": 3
         }
     },
@@ -34,19 +34,19 @@
     ],
     "items": [
         {
-            "name": "turkey",
+            "name": "croissant",
             "x": 0,
             "y": 1,
             "stack-level": 0,
-            "predicates": ["isroastable"],
+            "predicates": ["isshaped","isbakeable"],
             "id": "a"
         },
         {
-            "name": "turkey",
+            "name": "croissant",
             "x": 0,
             "y": 0,
             "stack-level": 0,
-            "predicates": ["isroastable"],
+            "predicates": ["isshaped","isbakeable"],
             "id": "b"
         }
     ],
@@ -58,26 +58,26 @@
             "direction": [-1, 0]
         }
     ],
-    "goal description": "Roast two turkeys.",
+    "goal description": "Bake two croissants.",
     "goal": [
         {
-            "predicate": "isroasted",
-            "args": ["turkey"],
+            "predicate": "isbaked",
+            "args": ["croissant"],
             "ids": ["a"]
         },
         {
-            "predicate": "isroasted",
-            "args": ["turkey"],
+            "predicate": "isbaked",
+            "args": ["croissant"],
             "ids": ["b"]
         },
         {
           "predicate": "item_at",
-          "args": ["turkey", "table"],
+          "args": ["croissant", "table"],
           "ids": ["a", 1]
         },
         {
           "predicate": "item_at",
-          "args": ["turkey", "table"],
+          "args": ["croissant", "table"],
           "ids": ["b", 2]
         }
     ]

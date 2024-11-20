@@ -16,6 +16,8 @@ class Item(Enum):
     SALMON = "salmon"
     TURKEY = "turkey"
     SHRIMP = "shrimp"
+    CROISSANT = "croissant"
+    ROLLINGPIN = "rollingpin"
 
 class Player(Enum):
     ROBOT = "robot"
@@ -23,6 +25,7 @@ class Player(Enum):
 class Station(Enum):
     BOARD = "board"
     STOVE = "stove"
+    OVEN = "oven"
     TABLE = "table"
     FRYER = "fryer"
     SINK = "sink"
