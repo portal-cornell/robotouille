@@ -43,10 +43,10 @@ class Slider(Node):
         if knob_image:
             self.knob = Image(screen, knob_image, x_percent, y_percent, self.scale_factor, anchor="center")
 
-        self.setValue(filled_percent)
+        self.set_value(filled_percent)
         self.moving = False
 
-    def setValue(self, value):
+    def set_value(self, value):
         """
         Set the slider's value (filled percentage), ensuring it is between 0 and 1.
 
@@ -56,7 +56,7 @@ class Slider(Node):
         self.slider_value = max(0.0, min(1.0, value))
         self.update_knob_position()
 
-    def getValue(self):
+    def get_value(self):
         """
         Get the slider's current value (filled percentage).
 
@@ -103,7 +103,7 @@ class Slider(Node):
                 mouse_x, mouse_y = event.pos
                 if self.is_mouse_over_slider(mouse_x, mouse_y):
                     new_value = (mouse_x - (self.x + (self.background_width - self.foreground_width) / 2)) / self.foreground_width
-                    self.setValue(new_value)
+                    self.set_value(new_value)
                     self.moving = True
             else:
                 self.moving = False 

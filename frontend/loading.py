@@ -84,7 +84,7 @@ class LoadingScreen(ScreenInterface):
         """
 
         self.percent = value
-        self.loading_bar.setValue(self.percent)
+        self.loading_bar.set_value(self.percent)
 
     def update(self):
         """Update the screen and handle events."""
@@ -96,6 +96,6 @@ class LoadingScreen(ScreenInterface):
             self.set_next_screen(MAIN_MENU)
         
         self.percent += 0.01
-        self.loading_bar.setValue(self.percent)
+        self.loading_bar.set_value(self.percent)
 
         

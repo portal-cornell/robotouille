@@ -123,19 +123,19 @@ class PauseScreen(ScreenInterface):
             
             if self.music_plus.in_bound() and not self.music_slider.is_moving():
                 if self.music_plus.handle_event(event):
-                    self.music_slider.setValue(self.music_slider.getValue() + 0.1)
+                    self.music_slider.set_value(self.music_slider.get_value() + 0.1)
             elif self.music_plus.in_bound() and not self.music_slider.is_moving():
                 if self.music_plus.handle_event(event):
-                    self.music_slider.setValue(self.music_slider.getValue() - 0.1)
+                    self.music_slider.set_value(self.music_slider.get_value() - 0.1)
             else:
                 self.music_slider.handle_event(event)
     
             if self.sfx_minus.in_bound() and not self.sfx_slider.is_moving():
                 if self.sfx_minus.handle_event(event):
-                    self.sfx_slider.setValue(self.sfx_slider.getValue() - 0.1)
+                    self.sfx_slider.set_value(self.sfx_slider.get_value() - 0.1)
             elif self.sfx_plus.in_bound() and not self.sfx_slider.is_moving():
                 if self.sfx_plus.handle_event(event):
-                    self.sfx_slider.setValue(self.sfx_slider.getValue() + 0.1)
+                    self.sfx_slider.set_value(self.sfx_slider.get_value() + 0.1)
             else:
                 self.sfx_slider.handle_event(event)
 

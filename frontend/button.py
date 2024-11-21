@@ -42,7 +42,6 @@ class Button(Node):
         self.current_image = self.normal_image
        
         self.is_pressed = False
-        self.is_pressed_outside = False
 
     def draw(self):
         """
@@ -83,7 +82,7 @@ class Button(Node):
         Returns:
            (bool) True if the button is hovered and no outside click is active; False otherwise.
         """
-        return self.in_bound() and not self.is_pressed_outside
+        return self.in_bound() and not self.is_pressed
 
     def handle_event(self, event):
         """
@@ -101,17 +100,10 @@ class Button(Node):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if self.in_bound():
                 self.is_pressed = True
-                self.is_pressed_outside = False
             else:
                 self.is_pressed = False
-                self.is_pressed_outside = True 
         elif event.type == pygame.MOUSEBUTTONUP:
-            if self.is_pressed and self.in_bound():
+            if self.is_pressed:
                 self.is_pressed = False
-                self.is_pressed_outside = False
-                return True  
-            self.is_pressed = False
-            self.is_pressed_outside = False
-        else:
-            self.is_pressed = False
+                return self.in_bound()
         return False  

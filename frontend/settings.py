@@ -179,19 +179,19 @@ class SettingScreen(ScreenInterface):
             
             if self.VolumeMinus.in_bound() and not self.sliderVolume.is_moving():
                 if self.VolumeMinus.handle_event(event):
-                    self.sliderVolume.setValue(self.sliderVolume.getValue() - 0.1)
+                    self.sliderVolume.set_value(self.sliderVolume.get_value() - 0.1)
             elif self.VolumePlus.in_bound() and not self.sliderVolume.is_moving():
                 if self.VolumePlus.handle_event(event):
-                    self.sliderVolume.setValue(self.sliderVolume.getValue() + 0.1)
+                    self.sliderVolume.set_value(self.sliderVolume.get_value() + 0.1)
             else:
                 self.sliderVolume.handle_event(event)
     
             if self.SFXMinus.in_bound() and not self.sliderSFX.is_moving():
                 if self.SFXMinus.handle_event(event):
-                    self.sliderSFX.setValue(self.sliderSFX.getValue() - 0.1)
+                    self.sliderSFX.set_value(self.sliderSFX.get_value() - 0.1)
             elif self.SFXPlus.in_bound() and not self.sliderSFX.is_moving():
                 if self.SFXPlus.handle_event(event):
-                    self.sliderSFX.setValue(self.sliderSFX.getValue() + 0.1)
+                    self.sliderSFX.set_value(self.sliderSFX.get_value() + 0.1)
             else:
                 self.sliderSFX.handle_event(event)
 
