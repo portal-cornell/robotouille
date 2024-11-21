@@ -1,4 +1,4 @@
-from robotouille import simulator
+from robotouille.robotouille_simulator import RobotouilleSimulator
 import argparse
 import pygame
 from frontend.constants import SETTINGS, MAIN_MENU, GAME, ENDGAME, LOADING, LOGO, MATCHMAKING
@@ -32,6 +32,7 @@ screens = {
 current_screen = LOGO
 clock = pygame.time.Clock()
 running = True
+simulator_instance = None
 
 def update_screen():
     global current_screen
@@ -52,8 +53,19 @@ def update_screen():
 
 while running:
     if current_screen == GAME:
-        current_screen = simulator(screen, args.environment_name, args.seed, args.noisy_randomization, args.movement_mode)
-        screen = pygame.display.set_mode(screen_size)
+        if simulator_instance is None:
+            simulator_instance = RobotouilleSimulator(
+                    canvas=screen,
+                    environment_name=args.environment_name,
+                    seed=args.seed,
+                    noisy_randomization=args.noisy_randomization,
+                    movement_mode=args.movement_mode
+                )
+        nxt = simulator_instance.update()
+        if nxt is not None:
+            current_screen = nxt
+            simulator_instance = None 
+            screen = pygame.display.set_mode(screen_size)
     else:
         if current_screen == MATCHMAKING:
             screens[current_screen].setPlayers(["Player1", "Player2"])
