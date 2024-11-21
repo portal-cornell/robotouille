@@ -1,13 +1,14 @@
 from robotouille import simulator
 import argparse
 import pygame
-from frontend.constants import SETTINGS, MAIN_MENU, GAME, ENDGAME, LOADING, LOGO, MATCHMAKING
+from frontend.constants import SETTINGS, MAIN_MENU, GAME, ENDGAME, LOADING, LOGO, MATCHMAKING, LEVEL_EDITOR
 from frontend.main_menu import MenuScreen
 from frontend.settings import SettingScreen
 from frontend.loading import LoadingScreen
 from frontend.logo import LogoScreen
 from frontend.endgame import EndScreen
 from frontend.matchmaking import MatchMakingScreen
+from frontend.level_editor import LevelEditorScreen
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--environment_name", help="The name of the environment to create.", default="original")
@@ -45,6 +46,7 @@ def update_screen():
             screens[SETTINGS] = SettingScreen(screen_size)
             screens[ENDGAME] = EndScreen(screen_size)
             screens[MATCHMAKING] = MatchMakingScreen(screen_size)
+            screens[LEVEL_EDITOR] = LevelEditorScreen(screen_size)
 
         if screen_obj.next_screen is not None:
             current_screen = screen_obj.next_screen
