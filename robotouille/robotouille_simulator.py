@@ -9,7 +9,8 @@ from backend.movement.movement import Movement, Mode
 
 
 class RobotouilleSimulator:
-    def __init__(self, canvas, environment_name: str, seed: int = 42, noisy_randomization: bool = False, movement_mode: str = 'traverse'):
+    def __init__(self, canvas, environment_name: str, seed: int = 42, noisy_randomization: bool = False, movement_mode: str = 'traverse', human = True):
+        self.human = human
         self.canvas = canvas
         self.env, self.json, self.renderer = create_robotouille_env(environment_name, movement_mode, seed, noisy_randomization)
         self.obs, self.info = self.env.reset()
@@ -29,13 +30,9 @@ class RobotouilleSimulator:
         self.canvas.blit(self.surface, (0, 0))
         self.clock.tick(60)
 
-    def update(self):
-        if self.done:
-            self.renderer.render(self.obs, close=True)
-            return ENDGAME
-        
-        self.draw()
-        pygame_events = pygame.event.get()
+    def handle_pause(self, pygame_events):
+        if not self.human:
+            return
         for event in pygame_events:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_q:
@@ -49,6 +46,16 @@ class RobotouilleSimulator:
             return current_screen
 
         self.pause.update(pygame_events)
+
+    def update(self):
+        if self.done:
+            self.renderer.render(self.obs, close=True)
+            return ENDGAME if self.human else None
+        
+        pygame_events = pygame.event.get()
+            
+        self.draw()
+        self.handle_pause(pygame_events)
 
         mousedown_events = list(filter(lambda e: e.type == pygame.MOUSEBUTTONDOWN, pygame_events))
         keydown_events = list(filter(lambda e: e.type == pygame.KEYDOWN, pygame_events))

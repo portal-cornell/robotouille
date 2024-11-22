@@ -39,10 +39,6 @@ class RobotouilleRenderer:
         # The framerate of the renderer. This isn't too important since the renderer
         # displays static drawings.
         self.render_fps = render_fps
-        # The pygame window
-        # self.window = None
-        # The pygame clock
-        # self.clock = None
         pygame.display.set_mode(self.window_size)
         self.orders = OrdersCollection(window_size)
     

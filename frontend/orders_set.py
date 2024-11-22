@@ -8,7 +8,7 @@ ASSETS_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(
 class OrdersCollection(ScreenInterface):
     def __init__(self, window_size):
         """
-        Initialize the Main Menu Screen.
+        Initialize the Order Screen.
 
         Args:
             window_size (tuple): (width, height) of the window
