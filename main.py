@@ -53,6 +53,7 @@ def game():
                 screen_obj.set_next_screen(None)
 
     while running:
+        screen.fill((0,0,0))
         if current_screen == GAME:
             if simulator_instance is None:
                 simulator_instance = RobotouilleSimulator(
@@ -97,6 +98,7 @@ def research():
     )
     
     while not simulator_instance.done:
+        screen.fill((0,0,0))
         simulator_instance.update()
         pygame.display.flip()
         

@@ -6,7 +6,7 @@ from frontend.constants import *
 
 class Slider(Node):
     def __init__(self, screen, background_image, foreground_image, background_width, background_height, 
-                 foreground_width, foreground_height, x_percent, y_percent, scale_factor=1, filled_percent=0.5, knob_image=None, anchor = "topleft"):
+                 foreground_width, foreground_height, x_percent, y_percent, foreground_padding=(10, 10, 10, 10), background_padding=(10, 10, 10, 10), scale_factor=1, filled_percent=0.5, knob_image=None, anchor = "topleft"):
         """
         Initialize a Slider object.
 
@@ -20,6 +20,8 @@ class Slider(Node):
             foreground_height (float): Height of the foreground in pixels.
             x_percent (float): X position as a percentage of the screen width.
             y_percent (float): Y position as a percentage of the screen height.
+            foreground_padding (tuple): Padding values (left, right, top, bottom) that define the borders for slicing the UNSCALED image.
+            background_padding (tuple): Padding values (left, right, top, bottom) that define the borders for slicing the UNSCALED image.
             scale_factor (float): Scale factor for resizing the images. Defaults to 1.0.
             filled_percent (float): Initial filled percentage of the slider (0 to 1). Defaults to 0.5.
             knob_image (pygame.Surface): Knob image. Defaults to None.
@@ -33,11 +35,11 @@ class Slider(Node):
         super().__init__(screen, pygame.Surface((int(self.background_width), int(self.background_height))), x_percent, y_percent, anchor)
         self.scale_factor = scale_factor
 
-        self.background = NinePatch(screen, background_image, self.x, self.y, self.background_width, self.background_height, scale_factor=self.scale_factor)
+        self.background = NinePatch(screen, background_image, self.x, self.y, self.background_width, self.background_height, scale_factor=self.scale_factor, padding=background_padding)
         
         self.foreground_x = self.x + (self.background_width - self.foreground_width) / 2
         self.foreground_y = self.y + (self.background_height - self.foreground_height) / 2
-        self.foreground = NinePatch(screen, foreground_image, self.foreground_x, self.foreground_y, self.foreground_width, self.foreground_height, scale_factor=self.scale_factor)
+        self.foreground = NinePatch(screen, foreground_image, self.foreground_x, self.foreground_y, self.foreground_width, self.foreground_height, scale_factor=self.scale_factor, padding=foreground_padding)
 
         self.knob = None
         if knob_image:
@@ -88,7 +90,7 @@ class Slider(Node):
             self.knob.draw()
 
         if DEBUG:
-            pygame.draw.rect(self.screen, (255, 0, 0), (self.x, self.y, self.background_width, self.background_height), 2)  # Red outline for clickable region
+            pygame.draw.rect(self.screen, (255, 0, 0), (self.x, self.y, self.background_width, self.background_height), 2)  
 
     def handle_event(self, event):
         """
