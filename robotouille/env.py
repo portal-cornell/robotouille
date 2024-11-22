@@ -306,7 +306,7 @@ def build_state(domain_json, environment_json, layout, animate):
 
     movement = Movement(layout, animate, environment_json)
 
-    state = State().initialize(domain, objects, true_predicates, goal, movement)
+    state = State().initialize(domain, objects, true_predicates, goal, movement, [])
 
     return state
 

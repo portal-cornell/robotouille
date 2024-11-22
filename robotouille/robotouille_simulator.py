@@ -5,8 +5,33 @@ from robotouille.robotouille_env import create_robotouille_env
 from backend.movement.player import Player
 from backend.movement.movement import Movement, Mode
 
+import networking.server as robotouille_server
+import networking.client as robotouille_client
+import networking.utils.single_player as robotouille_single_player
+import networking.utils.replay as robotouille_replay
+import networking.utils.render as robotouille_render
 
-def simulator(environment_name: str, seed: int=42, noisy_randomization: bool=False, movement_mode: str='traverse'):
+def simulator(environment_name: str, seed: int=42, noisy_randomization: bool=False, movement_mode: str='traverse', role: str="local", display_server: bool=False, host: str="ws://localhost:8765", recording: str=""):
+    # We assume that if a recording is provided, then the user would like to replay it
+    if recording != "" and role != "replay" and role != "render":
+        role = "replay"
+    
+    if role == "local":
+        simulate(environment_name, seed, noisy_randomization, movement_mode)
+    elif role == "server":
+        robotouille_server.run_server(environment_name, seed, noisy_randomization, movement_mode, display_server)
+    elif role == "client":
+        robotouille_client.run_client(environment_name, seed, noisy_randomization, movement_mode, host)
+    elif role == "single":
+        robotouille_single_player.run_single(environment_name, seed, noisy_randomization, movement_mode)
+    elif role == "replay":
+        robotouille_replay.run_replay(recording)
+    elif role == "render":
+        robotouille_render.run_render(recording)
+    else:
+        print("Invalid role:", role)
+
+def simulate(environment_name, seed, noisy_randomization, movement_mode):
     # Your code for robotouille goes here
     env, json, renderer = create_robotouille_env(environment_name, movement_mode, seed, noisy_randomization)
     obs, info = env.reset()
