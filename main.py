@@ -32,7 +32,6 @@ def game():
     }
 
     current_screen = LOGO
-    clock = pygame.time.Clock()
     running = True
     simulator_instance = None
 
@@ -103,4 +102,4 @@ def research():
         
     pygame.quit()
 
-research()
+game()

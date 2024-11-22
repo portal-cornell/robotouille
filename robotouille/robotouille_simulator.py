@@ -9,7 +9,20 @@ from backend.movement.movement import Movement, Mode
 
 
 class RobotouilleSimulator:
-    def __init__(self, canvas, environment_name: str, seed: int = 42, noisy_randomization: bool = False, movement_mode: str = 'traverse', human = True):
+    def __init__(self, canvas, environment_name: str, seed: int = 42, noisy_randomization: bool = False, movement_mode: str = 'traverse', human = True, render_fps=60):
+        """
+        Initialize the Robotouille simulator.
+
+        Args:
+            canvas (pygame.Surface): The main display canvas.
+            environment_name (str): The name of the environment to load.
+            seed (int): Seed for randomization (default: 42).
+            noisy_randomization (bool): Whether to introduce noise into randomization (default: False).
+            movement_mode (str): The movement mode for the environment (default: 'traverse').
+            human (bool): Whether a human player is controlling the game (default: True).
+            render_fps (int): Frames per second for rendering (default: 60).
+        """
+
         self.human = human
         self.canvas = canvas
         self.env, self.json, self.renderer = create_robotouille_env(environment_name, movement_mode, seed, noisy_randomization)
@@ -22,15 +35,29 @@ class RobotouilleSimulator:
         self.clock = pygame.time.Clock()
         self.players = self.obs.get_players()
         self.actions = []
+        self.render_fps = render_fps
+
 
     def draw(self):
+        """
+        Renders the current state of the game environment and pause screen onto the canvas.
+        """
+
         self.renderer.render(self.obs, mode='human')
         self.surface.blit(self.renderer.surface, (0, 0))
         self.surface.blit(self.pause.get_screen(), (0, 0))
         self.canvas.blit(self.surface, (0, 0))
-        self.clock.tick(60)
+        self.clock.tick(self.render_fps)
+
 
     def handle_pause(self, pygame_events):
+        """
+        Handles pause functionality, including toggling the pause screen and switching game states.
+
+        Args:
+            pygame_events (list): List of pygame events to handle.
+        """
+
         if not self.human:
             return
         for event in pygame_events:
@@ -47,7 +74,15 @@ class RobotouilleSimulator:
 
         self.pause.update(pygame_events)
 
+
     def update(self):
+        """
+        Main update loop for the simulation. Handles rendering, input, and game logic.
+
+        Returns:
+            str or None: Returns the next game state (`ENDGAME`) if finished, otherwise None.
+        """
+        
         if self.done:
             self.renderer.render(self.obs, close=True)
             return ENDGAME if self.human else None
