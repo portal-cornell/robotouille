@@ -1556,6 +1556,11 @@
                     "is_true": true
                 },
                 {
+                    "predicate": "at_station",
+                    "params": ["i1", "s1"],
+                    "is_true": true
+                },
+                {
                     "predicate": "loc",
                     "params": ["p1", "s1"],
                     "is_true": true
