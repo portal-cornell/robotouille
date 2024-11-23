@@ -123,7 +123,37 @@
                     }
                 },
                 "constants": {}
-            } 
+            },
+            "salmon": {
+                "assets": {
+                    "default": "salmon.png",
+                    "cut": {
+                        "asset": "cutsalmon.png",
+                        "predicates": ["iscut"]
+                    }
+                },
+                "constants": {}
+            },
+            "cucumber": {
+                "assets": {
+                    "default": "cucumber.png",
+                    "cut": {
+                        "asset": "cutcucumber.png",
+                        "predicates": ["iscut"]
+                    }
+                },
+                "constants": {}
+            },
+            "rice": {
+                "assets": {
+                    "default": "rice.png",
+                    "cooked": {
+                        "asset": "cookedrice.png",
+                        "predicates": ["iscooked"]
+                    }
+                },
+                "constants": {}
+            }   
         }
     },
 
@@ -238,6 +268,17 @@
             "blendercup": {
                 "assets": {
                     "default": "blender_empty.png"
+                },
+                "constants": {
+                    "STATION_CONTAINER_OFFSET": 0.5
+                }
+            },
+            "seaweed": {
+                "assets": {
+                    "default": "seaweed.png",
+                    "sushi": {
+                        "default": "sushi.png"
+                    }
                 },
                 "constants": {
                     "STATION_CONTAINER_OFFSET": 0.5

@@ -136,16 +136,16 @@
             }
         },
         {
-            "name": "crack-egg",
+            "name": "roll",
             "input_instructions": {
-                "key": "e",
+                "key": "r",
                 "at": "s1"
             }
         },
         {
-            "name": "pan-fry",
+            "name": "add-to-seaweed",
             "input_instructions": {
-                "key": "e",
+                "key": "r",
                 "at": "s1"
             }
         }
