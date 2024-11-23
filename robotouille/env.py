@@ -102,7 +102,7 @@ def build_station_location_predicates(environment_dict):
         match = False
         # Check if there are any items or containers at the station
         for field in ["items", "containers"]:
-            predicate = "item_at" if field == "items" else "container_at"
+            predicate = "at_station" if field == "items" else "container_at"
             for entity in environment_dict.get(field, []):
                 x = entity["x"]
                 y = entity["y"]
@@ -182,9 +182,7 @@ def build_location_predicates(environment_dict):
 def build_stacking_predicates(environment_dict):
     """
     Build stacking predicates from an environment dictionary.
-
-    These include the (clear), (on) and (atop) predicates.
-
+    These include the (clear), (item_on), (atop), (container_clear), and (atop_container) predicates.
     Args:
         environment_dict (dict): Dictionary containing the initial stations, items, and player location.
     
@@ -193,6 +191,7 @@ def build_stacking_predicates(environment_dict):
     """
     stacking_predicates = []
     stacks = {}
+    containers = {}
     # Sort items into stacks ordered by stacking order
     sorting_key = lambda item: item["stack-level"]
     if not environment_dict.get("items"): return stacking_predicates
@@ -202,11 +201,22 @@ def build_stacking_predicates(environment_dict):
                 stacks[station["name"]] = stacks.get(station["name"], []) + [item]
                 stacks[station["name"]].sort(key=sorting_key)
                 break
+    # Check if any of the stacks include a container
+    for container in environment_dict.get("containers", []):
+        for station in environment_dict["stations"]:
+            if container["x"] == station["x"] and container["y"] == station["y"]:
+                containers[station["name"]] = container
+                break
     # Add stacking predicates
     for station_name, items in stacks.items():
         station_obj = Object(station_name, "station")
         first_item_obj = Object(items[0]["name"], "item")
-        pred = Predicate().initialize("item_on", ["item", "station"], [first_item_obj, station_obj])
+        if containers.get(station_name):
+            container_obj = Object(containers[station_name]["name"], "container")
+            pred = Predicate().initialize("atop_container", ["item", "container"], [first_item_obj, container_obj])
+            containers.pop(station_name)
+        else:
+            pred = Predicate().initialize("item_on", ["item", "station"], [first_item_obj, station_obj])
         stacking_predicates.append(pred)
         for i in range(1, len(items)):
             obj = Object(items[i]["name"], "item")
@@ -216,6 +226,14 @@ def build_stacking_predicates(environment_dict):
         last_obj = Object(items[-1]["name"], "item")
         pred = Predicate().initialize("clear", ["item"], [last_obj])
         stacking_predicates.append(pred)
+
+    # Add container clear predicates
+    for station_name, container in containers.items():
+        station_obj = Object(station_name, "station")
+        container_obj = Object(container["name"], "container")
+        pred = Predicate().initialize("container_clear", ["container"], [container_obj])
+        stacking_predicates.append(pred)
+
     return stacking_predicates
 
 def create_conjunction(predicates):

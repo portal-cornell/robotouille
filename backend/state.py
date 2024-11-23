@@ -436,6 +436,8 @@ class State(object):
         if self.is_goal_reached():
             return self, True
         
+        # TODO: DEBUGGING
+
         if self.movement.mode == Mode.TRAVERSE:
             self.current_player = self.next_player()
 
