@@ -258,14 +258,8 @@
             "blendercup": {
                 "assets": {
                     "default": "blender_empty.png",
-                    "filled": {
-                        "default": "blender_full.png",
-                        "blended": {
-                            "asset": "blender_full.png",
-                            "predicates": [
-                                {"name": "isblended", "params": ["blendercup"]}
-                            ]
-                        }
+                    "smoothie": {
+                        "default": "blender_full.png"
                     }
                 },
                 "constants": {
@@ -275,14 +269,8 @@
             "smoothiecup": {
                 "assets": {
                     "default": "smoothiecup.png",
-                    "filled": {
-                        "default": "strawberrysmoothie.png",
-                        "smoothie": {
-                            "asset": "strawberrysmoothie.png",
-                            "predicates": [
-                                {"name": "filled", "params": ["smoothiecup"]}
-                            ]
-                        }
+                    "smoothie": {
+                        "default": "strawberrysmoothie.png"
                     }
                 },
                 "constants": {

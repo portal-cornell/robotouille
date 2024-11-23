@@ -42,6 +42,7 @@ class Meal(Enum):
     WATER = "water"
     BOILING_WATER = "boiling_water"
     SOUP = "soup"
+    SMOOTHIE = "smoothie"
 
 
 TYPES = {

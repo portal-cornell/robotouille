@@ -197,15 +197,15 @@
         },
         {
             "name": "isblended",
-            "param_types": ["container"]
-        },
-        {
-            "name": "has_smoothie",
-            "param_types": ["container"]
+            "param_types": ["meal"]
         },
         {
             "name": "issmoothiecup",
             "param_types": ["container"]
+        },
+        {
+            "name": "issmoothie",
+            "param_types": ["meal"]
         }
     ],
 
@@ -1088,7 +1088,35 @@
                     "is_true": true
                 }
            ],
-           "sfx": []
+           "sfx": [
+                {
+                    "type": "creation",
+                    "param": "c1",
+                    "created_obj": {
+                        "name": "smoothie",
+                        "type": "meal",
+                        "param": "m1"
+                    },
+                    "fx": [
+                        {
+                            "predicate": "issmoothie",
+                            "params": ["m1"],
+                            "is_true": true
+                        },
+                        {
+                            "predicate": "in",
+                            "params": ["m1", "c1"],
+                            "is_true": true
+                        },
+                        {
+                            "predicate": "container_empty",
+                            "params": ["c1"],
+                            "is_true": false
+                        }
+                    ],
+                    "sfx": []
+                }
+           ]
 
         },
         {
@@ -1110,6 +1138,11 @@
                     "is_true": true
                 },
                 {
+                    "predicate": "in",
+                    "params": ["m1", "c1"],
+                    "is_true": true
+                },
+                {
                     "predicate": "loc",
                     "params": ["p1", "s1"],
                     "is_true": true
@@ -1123,11 +1156,6 @@
                     "predicate": "has_item",
                     "params": ["p1", "i1"],
                     "is_true": true
-                },
-                {
-                    "predicate": "addedtocontainer",
-                    "params": ["i1", "c1"],
-                    "is_true": false
                 }
             ],
             "immediate_fx": [
@@ -1137,13 +1165,13 @@
                     "is_true": false
                 },
                 {
-                    "predicate": "nothing",
-                    "params": ["p1"],
+                    "predicate": "addedto",
+                    "params": ["i1", "m1"],
                     "is_true": true
                 },
                 {
-                    "predicate": "addedtocontainer",
-                    "params": ["i1", "c1"],
+                    "predicate": "nothing",
+                    "params": ["p1"],
                     "is_true": true
                 }
             ],
@@ -1163,8 +1191,13 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "addedtocontainer",
-                    "params": ["i1", "c1"],
+                    "predicate": "addedto",
+                    "params": ["i1", "m1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "in",
+                    "params": ["m1", "c1"],
                     "is_true": true
                 },
                 {
@@ -1198,7 +1231,7 @@
                             "fx": [
                                 {
                                     "predicate": "isblended",
-                                    "params": ["c1"],
+                                    "params": ["m1"],
                                     "is_true": true
                                 }
                             ],
@@ -1212,13 +1245,23 @@
             "name": "fill_cup",
             "precons": [
                 {
-                    "predicate": "has_container",
-                    "params": ["p1", "c1"],
+                    "predicate": "issmoothiecup",
+                    "params": ["c1"],
                     "is_true": true
                 },
                 {
-                    "predicate": "isblended",
-                    "params": ["c1"],
+                    "predicate": "isblendercup",
+                    "params": ["c2"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "container_at",
+                    "params": ["c1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "in",
+                    "params": ["m1", "c2"],
                     "is_true": true
                 },
                 {
@@ -1227,15 +1270,40 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "container_at",
-                    "params": ["c2", "s1"],
+                    "predicate": "container_empty",
+                    "params": ["c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "has_container",
+                    "params": ["p1", "c2"],
                     "is_true": true
                 }
             ],
             "immediate_fx": [
                 {
-                    "predicate": "filled",
+                    "predicate": "in",
+                    "params": ["m1", "c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "in",
+                    "params": ["m1", "c2"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "container_empty",
+                    "params": ["c1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "container_empty",
                     "params": ["c2"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "filled",
+                    "params": ["c1"],
                     "is_true": true
                 }
             ],
