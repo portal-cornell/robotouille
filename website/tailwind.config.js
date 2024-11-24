@@ -10,6 +10,10 @@ export default {
   ],
   theme: {
     extend: {
+      clipPath: {
+        "ribbon-tail-left": "polygon(100% 0, 0 50%, 100% 100%)",
+        "ribbon-tail-right": "polygon(0 0, 100% 50%, 0 100%)",
+      },
       colors: {
         textShadow: {
           default: "2px 2px 4px rgba(0, 0, 0, 0.5)", // Customize as needed
@@ -17,6 +21,7 @@ export default {
           lg: "4px 4px 8px rgba(0, 0, 0, 0.5)", // Larger shadow
         },
         primary: {
+          hoverBlue: "#0096D7",
           blue: "#E0F2FA",
           lighterRed: "#e27168",
           red: "#DF6258",

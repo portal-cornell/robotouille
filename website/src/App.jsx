@@ -1,26 +1,52 @@
-import Download from "./components/Download";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import Title from "./components/Title";
 import Socials from "./components/Socials";
 import YoutubeVideo from "./components/YoutubeVideo";
-import About from "./components/About";
-import Team from "./components/Team";
+import Download from "./components/Download";
+import About from "./pages/About";
+import Team from "./pages/Team";
 import Footer from "./components/Footer";
+import Leaderboard from "./pages/Leaderboard";
 
 const App = () => {
   return (
-    <>
-      <div className="pt-[4.75rem] lg:pt-[5.25rem] overflow-hidden min-h-screen bg-primary-blue">
+    <Router>
+      {/* Header is displayed on all pages */}
+      <Header />
+      <div className="pt-[7.5rem] lg:pt-[8rem] overflow-hidden min-h-screen bg-primary-blue">
         <Title />
-        <main>
-          <Socials />
-          <YoutubeVideo />
-          <About />
-          <Team />
-          <Footer />
-        </main>
+        <Socials />
+
+        <Routes>
+          {/* Home Page */}
+          <Route
+            path="/"
+            element={
+              <>
+                <main>
+                  <YoutubeVideo />
+                  <div className="flex justify-center items-center mt-10 mb-10">
+                    <Download />
+                  </div>
+                </main>
+              </>
+            }
+          />
+
+          {/* About Page */}
+          <Route path="/about" element={<About />} />
+
+          {/* Team Page */}
+          <Route path="/team" element={<Team />} />
+
+          {/* Leaderboard Page */}
+          <Route path="/leaderboard" element={<Leaderboard />} />
+        </Routes>
       </div>
-    </>
+      <Footer />
+    </Router>
   );
 };
 

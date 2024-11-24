@@ -11,7 +11,7 @@ const Footer = () => {
     <div
       className="w-full bg-cover px-0 py-10 flex flex-col justify-between items-center relative"
       style={{
-        backgroundImage: `url(${tile})`, // Background image
+        backgroundImage: `url(${tile})`,
       }}
     >
       {/* Main Content: Left and Right Sections */}
