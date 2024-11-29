@@ -19,23 +19,23 @@
     "stations": [
         {
             "name": "table",
-            "x": 2,
+            "x": 1,
             "y": 5
         },
         {
             "name": "table",
-            "x": 1,
+            "x": 2,
             "y": 5
         },
         {
             "name": "stove",
             "x": 3,
-            "y": 3
+            "y": 5
         },
         {
             "name": "table",
-            "x": 3,
-            "y": 6
+            "x": 4,
+            "y": 5
         },
         {
             "name": "table",
@@ -43,14 +43,39 @@
             "y": 5
         },
         {
-            "name": "board",
+            "name": "table",
             "x": 6,
-            "y": 6
+            "y": 5
         },
         {
             "name": "table",
-            "x": 7,
-            "y": 4
+            "x": 1,
+            "y": 7
+        },
+        {
+            "name": "table",
+            "x": 2,
+            "y": 7
+        },
+        {
+            "name": "board",
+            "x": 3,
+            "y": 7
+        },
+        {
+            "name": "table",
+            "x": 4,
+            "y": 7
+        },
+        {
+            "name": "table",
+            "x": 5,
+            "y": 7
+        },
+        {
+            "name": "table",
+            "x": 6,
+            "y": 7
         },
         {
             "name": "customertable",
@@ -72,9 +97,23 @@
             "predicates": ["iscookable"]
         },
         {
+            "name": "patty",
+            "x": 4,
+            "y": 5,
+            "stack-level": 0,
+            "predicates": ["iscookable"]
+        },
+        {
             "name": "lettuce",
-            "x": 3,
-            "y": 6,
+            "x": 2,
+            "y": 7,
+            "stack-level": 0,
+            "predicates": ["iscuttable"]
+        },
+        {
+            "name": "lettuce",
+            "x": 4,
+            "y": 7,
             "stack-level": 0,
             "predicates": ["iscuttable"]
         },
@@ -86,16 +125,28 @@
         },
         {
             "name": "topbun",
-            "x": 7,
-            "y": 4,
+            "x": 5,
+            "y": 7,
+            "stack-level": 0
+        },
+        {
+            "name": "bottombun",
+            "x": 6,
+            "y": 5,
+            "stack-level": 0
+        },
+        {
+            "name": "topbun",
+            "x": 6,
+            "y": 7,
             "stack-level": 0
         }
     ],
     "players": [
         {
             "name": "robot",
-            "x": 3,
-            "y": 2,
+            "x": 1,
+            "y": 4,
             "direction": [0, 1]
         }
     ],

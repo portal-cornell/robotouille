@@ -138,6 +138,10 @@
             "param_types": ["customer"]
         },
         {
+            "name": "customer_has_eaten",
+            "param_types": ["customer"]
+        },
+        {
             "name": "table_occupied",
             "param_types": ["station"]
         },
@@ -464,6 +468,11 @@
                     "predicate": "nothing",
                     "params": ["p1"],
                     "is_true": true
+                },
+                {
+                    "predicate": "iscooked",
+                    "params": ["i1"],
+                    "is_true": false
                 }
             ],
             "immediate_fx": [],
@@ -528,6 +537,11 @@
                     "predicate": "nothing",
                     "params": ["p1"],
                     "is_true": true
+                },
+                {
+                    "predicate": "iscut",
+                    "params": ["i1"],
+                    "is_true": false
                 }
             ],
             "immediate_fx": [],
@@ -603,6 +617,11 @@
                     "predicate": "nothing",
                     "params": ["p1"],
                     "is_true": true
+                },
+                {
+                    "predicate": "isfried",
+                    "params": ["i1"],
+                    "is_true": false
                 }
             ],
             "immediate_fx": [],
@@ -1470,14 +1489,14 @@
             "precons": [
                 {
                     "predicate": "customer_in_game",
-                    "params": ["c1"],
+                    "params": ["npc1"],
                     "is_true": false
                 }
             ],
             "immediate_fx": [
                 {
                     "predicate": "customer_in_game",
-                    "params": ["c1"],
+                    "params": ["npc1"],
                     "is_true": true
                 }
             ],
@@ -1500,7 +1519,7 @@
             "immediate_fx": [
                 {
                     "predicate": "customer_loc",
-                    "params": ["c1", "s2"],
+                    "params": ["npc1", "s2"],
                     "is_true": true
                 },
                 {
@@ -1512,11 +1531,80 @@
             "sfx": []
         },
         {
+            "name": "customer_eat",
+            "precons": [
+                {
+                    "predicate": "customer_in_game",
+                    "params": ["npc1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "iscustomertable",
+                    "params": ["s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "customer_loc",
+                    "params": ["npc1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "table_occupied",
+                    "params": ["s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "container_at",
+                    "params": ["c1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "customer_has_eaten",
+                    "params": ["npc1"],
+                    "is_true": false
+                }
+            ],
+            "immediate_fx":[],
+            "sfx":[
+                {
+                    "type": "repetitive",
+                    "param": "c1",
+                    "fx": [
+                        {
+                            "predicate": "container_empty",
+                            "params": ["c1"],
+                            "is_true": true
+                        }
+                    ],
+                    "sfx": [
+                        {
+                            "type": "parametrized_deletion",
+                            "param": "c1",
+                            "predicate": "at_container",
+                            "fx": [
+                                {
+                                    "predicate": "customer_has_eaten",
+                                    "params": ["npc1"],
+                                    "is_true": true
+                                },
+                                {
+                                    "predicate": "container_clear",
+                                    "params": ["c1"],
+                                    "is_true": true
+                                }
+                            ],
+                            "sfx": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             "name": "customer_leave",
             "precons": [
                 {
                     "predicate": "customer_in_game",
-                    "params": ["c1"],
+                    "params": ["npc1"],
                     "is_true": true
                 },
                 {
@@ -1526,24 +1614,24 @@
                 },
                 {
                     "predicate": "customer_loc",
-                    "params": ["c1", "s1"],
+                    "params": ["npc1", "s1"],
                     "is_true": true
                 }
             ],
             "immediate_fx": [
                 {
                     "predicate": "customer_loc",
-                    "params": ["c1", "s1"],
+                    "params": ["npc1", "s1"],
                     "is_true": false
                 },
                 {
                     "predicate": "customer_loc",
-                    "params": ["c1", "s2"],
+                    "params": ["npc1", "s2"],
                     "is_true": true
                 },
                 {
                     "predicate": "customer_in_game",
-                    "params": ["c1"],
+                    "params": ["npc1"],
                     "is_true": false
                 },
                 {
@@ -1553,7 +1641,7 @@
                 },
                 {
                     "predicate": "customer_served",
-                    "params": ["c1"],
+                    "params": ["npc1"],
                     "is_true": true
                 }
             ],

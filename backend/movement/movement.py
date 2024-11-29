@@ -288,11 +288,11 @@ class Movement(object):
                 destination = param_arg_dict["s2"]
                 self._move(state, player, None, destination, action, param_arg_dict, clock)
             elif action.name == "customer_move":
-                customer = param_arg_dict["c1"]
+                customer = param_arg_dict["npc1"]
                 destination = param_arg_dict["s2"]
                 self._move(state, None, customer, destination, action, param_arg_dict, clock)
             elif action.name == "customer_leave":
-                customer = param_arg_dict["c1"]
+                customer = param_arg_dict["npc1"]
                 destination = param_arg_dict["s2"]
                 self._move(state, None, customer, destination, action, param_arg_dict, clock)
         

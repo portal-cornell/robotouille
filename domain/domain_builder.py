@@ -7,6 +7,7 @@ from backend.special_effects.repetitive_effect import RepetitiveEffect
 from backend.special_effects.conditional_effect import ConditionalEffect
 from backend.special_effects.creation_effect import CreationEffect
 from backend.special_effects.deletion_effect import DeletionEffect
+from backend.special_effects.parametrized_deletion_effect import ParametrizedDeletionEffect
 
 
 def _build_predicate_defs(input_json):
@@ -104,6 +105,9 @@ def _build_special_effects(defn, param_objs, predicate_dict):
             sfx = CreationEffect(param_obj, (created_obj_param, created_obj), effects, nested_sfx)        
         elif special_effect["type"] == "deletion":
             sfx = DeletionEffect(param_obj, effects, nested_sfx)    
+        elif special_effect["type"] == "parametrized_deletion":
+            predicate = predicate_dict[special_effect["predicate"]]
+            sfx = ParametrizedDeletionEffect(param_obj, predicate, effects, nested_sfx)
         special_effects.append(sfx)
 
     return special_effects

@@ -36,7 +36,6 @@ class Classic(GameMode):
             self.win = True
             self.score = 1
 
-    #TODO: GameMode has a step that steps the state, players, and customers, etc.
     def step(self, actions, clock, time):
         """
         Steps the game mode.
@@ -62,9 +61,9 @@ class Classic(GameMode):
             if action is not None:
                 actions.append(action)
 
-        self.movement.step(self.state, clock, actions)
-
         new_state, done = self.state.step(actions)
+
+        self.movement.step(self.state, clock, actions)
 
         if self.movement.mode == Mode.TRAVERSE:
             new_state.current_player = new_state.next_player()
