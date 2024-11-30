@@ -1,0 +1,55 @@
+{
+  "version": "1.0.0",
+  "width": 3,
+  "height": 3,
+  "config": {},
+  "stations": [
+      {
+          "name": "table",
+          "x": 0,
+          "y": 1
+      },
+      {
+          "name": "table",
+          "x": 2,
+          "y": 1
+      },
+      {
+          "name": "table",
+          "x": 0,
+          "y": 0
+      },
+      {
+          "name": "table",
+          "x": 2,
+          "y": 0
+      }
+  ],
+  "items": [],
+  "meals": [],
+  "containers": [
+      {
+          "name": "eggcarton",
+          "x": 2,
+          "y": 1,
+          "id": "b"
+      }
+  ],
+  "condiments": [],
+  "players": [
+      {
+          "name": "robot",
+          "x": 1,
+          "y": 0,
+          "direction": [1, 0]
+      }
+  ],
+  "goal_description": "",
+  "goal": [
+      {
+          "predicate": "has_item",
+          "args": ["player", "egg"],
+          "ids": [1, 2]
+      }
+  ]
+}

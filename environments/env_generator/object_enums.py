@@ -18,6 +18,8 @@ class Item(Enum):
     SHRIMP = "shrimp"
     CROISSANT = "croissant"
     ROLLINGPIN = "rollingpin"
+    EGG = "egg"
+    PANCAKE = "pancake"
 
 class Player(Enum):
     ROBOT = "robot"
@@ -38,16 +40,21 @@ class Container(Enum):
     POT = "pot"
     BOWL = "bowl"
     BLENDERCUP = "blendercup"
+    FRYINGPAN = "fryingpan"
+    EGGCARTON = "eggcarton"
 
 class Meal(Enum):
     WATER = "water"
     BOILING_WATER = "boiling_water"
     SOUP = "soup"
+    PANCAKEBATTER = "pancakebatter"
 
 class Condiment(Enum):
     KETCHUP = "ketchupbottle"
     MUSTARD = "mustardbottle"
     SALT = "salt"
+    MILKCARTON = "milkcarton"
+    FLOURBAG = "flourbag"
 TYPES = {"item": Item, "player": Player, "station": Station, "container": Container, "meal": Meal, "condiment": Condiment}
 
 def str_to_typed_enum(s):

@@ -150,7 +150,6 @@
                     "STACK_OFFSET": -0.1
                 }
             },
-
             "croissant": {
                 "assets": {
                     "default": "dough.png",
@@ -224,7 +223,13 @@
                     }
                 },
                 "constants": {}
-            } 
+            },
+            "egg": {
+                "assets": {
+                    "default": "egg.png"
+                },
+                "constants": {}
+            }
         }
     },
 
@@ -295,7 +300,7 @@
             },
             "blender": {
                 "assets": {
-                    "default": "blender_inactive.png"
+                    "default": "blender_active.png"
                 },
                 "constants": {
                     "STATION_OFFSET": 0.5,
@@ -357,11 +362,64 @@
             },
             "blendercup": {
                 "assets": {
-                    "default": "blender_empty.png"
+                    "default": "blender_empty.png",
+                    "pancakebatter": {
+                        "default": "blender_full.png",
+                        "flour": {
+                            "asset": "pancake_batter.png",
+                            "predicates": [{"name": "addedcontent",
+                                "params": ["flourbag", "pancakebatter"]
+                            }]
+                        },
+                        "egg": {
+                            "asset": "pancake_batter.png",
+                            "predicates": [
+                                {"name": "addedcontent", "params": ["flourbag", "pancakebatter"]},
+                                {"name": "addedto", "params": ["egg", "pancakebatter"]}
+                            ]
+                        },
+                        "blended": {
+                            "asset": "milk_flour.png",
+                            "predicates": [
+                                {"name": "isblended", "params": ["pancakebatter"]},
+                                {"name": "addedcontent", "params": ["flourbag", "pancakebatter"]},
+                                {"name": "addedto", "params": ["egg", "pancakebatter"]}
+                            ]
+                        }
+                    }
                 },
                 "constants": {
                     "STATION_CONTAINER_OFFSET": 0.5
                 }
+            },
+            "fryingpan": {
+                "assets": {
+                    "default": "fryingpan.png",
+                    "pancakebatter": {
+                        "default": "fryingpan.png",
+                        "uncooked": {
+                            "asset": "pancake.png",
+                            "predicates": [
+                                {"name": "in", "params": ["pancakebatter", "fryingpan"]}
+                            ]
+                        },
+                        "cooked": {
+                            "asset": "cooked_pancake.png",
+                            "predicates": [
+                                {"name": "cooked", "params": ["pancakebatter"]},
+                                {"name": "in", "params": ["pancakebatter", "fryingpan"]}
+
+                            ]
+                        }
+                    }
+                },
+                "constants": {}
+            },
+            "eggcarton": {
+                "assets": {
+                    "default": "eggcarton.png"
+                },
+                "constants": {}
             }
         }
     },
@@ -390,6 +448,20 @@
                 "assets": {
                     "default": "salt.png",
                     "predicates": ["issalt"]
+                },
+                "constants": {}
+            },
+            "milkcarton": {
+                "assets": {
+                    "default": "milk_whole.png",
+                    "predicates": ["ismilkcarton"]
+                },
+                "constants": {}
+            },
+            "flourbag": {
+                "assets": {
+                    "default": "flourbag.png",
+                    "predicates": ["isflourbag"]
                 },
                 "constants": {}
             }

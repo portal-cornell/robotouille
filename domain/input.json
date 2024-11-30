@@ -150,9 +150,23 @@
             }
         },
         {
+            "name": "create-pancakebatter",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
             "name": "boil-water",
             "input_instructions": {
                 "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "blend",
+            "input_instructions": {
+                "key": "b",
                 "at": "s1"
             }
         },
@@ -171,7 +185,35 @@
             }
         },
         {
+            "name": "add-content",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "take-out-egg",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
             "name": "fill-bowl",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "fill-pan",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "pan-cook",
             "input_instructions": {
                 "key": "e",
                 "at": "s1"

@@ -438,5 +438,6 @@ class State(object):
         
         if self.movement.mode == Mode.TRAVERSE:
             self.current_player = self.next_player()
+        print(self.predicates)
         return self, False
     
