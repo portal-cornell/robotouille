@@ -4,12 +4,13 @@ from frontend.image import Image
 from frontend.slider import Slider
 from frontend.screen import ScreenInterface
 import os
+from collections import defaultdict
 
 # Set up the assets directory
 ASSETS_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "loading"))
 
 class LoadingScreen(ScreenInterface):
-    ASSET = {}
+    ASSET = defaultdict(lambda: defaultdict())
     def __init__(self, window_size):
         """
         Initialize the Loading Screen.
@@ -59,12 +60,13 @@ class LoadingScreen(ScreenInterface):
         
         self.count = 0
         for root, _, files in os.walk(self.directory):
+            root_path = os.path.abspath(root)
             for file in files:
                 file_path = os.path.abspath(os.path.join(root, file))
                 self.count += 1
                 self.set_loading_percent((self.count/self.total)/2)
                 if file.lower().endswith(".png"):
-                    LoadingScreen.ASSET[file_path] = pygame.image.load(file_path).convert_alpha()
+                    LoadingScreen.ASSET[root_path][file] = pygame.image.load(file_path).convert_alpha()
 
 
     def set_loading_percent(self, value):

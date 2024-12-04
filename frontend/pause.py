@@ -46,27 +46,16 @@ class PauseScreen(ScreenInterface):
         Loads necessary assets.
         """
         # load asset paths then images
-        background_path = os.path.join(ASSETS_DIRECTORY, "background.png")
-        title_path = os.path.join(ASSETS_DIRECTORY, "title.png")
-        bar_foreground_path = os.path.join(ASSETS_DIRECTORY, "bar_foreground.png")
-        bar_background_path = os.path.join(ASSETS_DIRECTORY, "bar_background.png")
-        retry_path = os.path.join(ASSETS_DIRECTORY, "replay-button.png")
-        back_path = os.path.join(ASSETS_DIRECTORY, "exit-button.png")
-        resume_path = os.path.join(ASSETS_DIRECTORY, "play.png")
-        minus_path = os.path.join(ASSETS_DIRECTORY, "minus.png")
-        plus_path = os.path.join(ASSETS_DIRECTORY, "plus.png")
+        self.background_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["background.png"]
+        self.title_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["title.png"]
+        self.bar_fg_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["bar_foreground.png"]
+        self.bar_bg_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["bar_background.png"]
 
-        self.background_image = LoadingScreen.ASSET[background_path]
-        self.title_image = LoadingScreen.ASSET[title_path]
-        self.bar_fg_image = LoadingScreen.ASSET[bar_foreground_path]
-        self.bar_bg_image = LoadingScreen.ASSET[bar_background_path]
-
-        self.retry_image = LoadingScreen.ASSET[retry_path]
-        self.back_image = LoadingScreen.ASSET[back_path]
-        self.resume_image = LoadingScreen.ASSET[resume_path]
-        self.minus_image = LoadingScreen.ASSET[minus_path]
-        self.plus_image = LoadingScreen.ASSET[plus_path]
-
+        self.retry_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["replay-button.png"]
+        self.back_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["exit-button.png"]
+        self.resume_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["play.png"]
+        self.minus_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["minus.png"]
+        self.plus_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["plus.png"]
     
     def draw(self):
         """Draws all the screen components."""

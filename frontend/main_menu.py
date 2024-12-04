@@ -33,16 +33,10 @@ class MenuScreen(ScreenInterface):
         """
         Loads necessary assets.
         """
-        # load asset paths then images
-        background_path = os.path.join(ASSETS_DIRECTORY, "background.png")
-        start_button_path = os.path.join(SHARED_DIRECTORY, "button_b.png")
-        start_hover_button_path = os.path.join(SHARED_DIRECTORY, "button_b_h.png")
-        start_pressed_button_path = os.path.join(SHARED_DIRECTORY, "button_b_p.png")
-
-        self.background_image = LoadingScreen.ASSET[background_path]
-        self.start_button_image = LoadingScreen.ASSET[start_button_path]
-        self.start_hover_button_image = LoadingScreen.ASSET[start_hover_button_path]
-        self.start_pressed_button_image = LoadingScreen.ASSET[start_pressed_button_path]
+        self.background_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["background.png"]
+        self.start_button_image = LoadingScreen.ASSET[SHARED_DIRECTORY]["button_b.png"]
+        self.start_hover_button_image = LoadingScreen.ASSET[SHARED_DIRECTORY]["button_b_h.png"]
+        self.start_pressed_button_image = LoadingScreen.ASSET[SHARED_DIRECTORY]["button_b_p.png"]
     
     def draw(self):
         """Draws all the screen components."""

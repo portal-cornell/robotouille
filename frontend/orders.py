@@ -51,10 +51,8 @@ class Order:
         Loads necessary assets.
         """
         # load asset paths then images
-        background_path = os.path.join(ASSETS_DIRECTORY, "background.png")
-        profile_path = os.path.join(ASSETS_DIRECTORY, "customer-profile.png")
-        self.background_image = LoadingScreen.ASSET[background_path]
-        self.profile_image = LoadingScreen.ASSET[profile_path]
+        self.background_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["background.png"]
+        self.profile_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["customer-profile.png"]
 
     
     def draw(self):

@@ -69,44 +69,23 @@ class SettingScreen(ScreenInterface):
         
     def load_assets(self):
         """Load necessary assets."""
-
-        # Construct Paths
-        background_path = os.path.join(SHARED_DIRECTORY, "background.png")
-        back_arrow_path = os.path.join(SHARED_DIRECTORY, "back_arrow.png")
-        slider_bg_path = os.path.join(ASSETS_DIRECTORY, "sliderback.png")
-        slider_fg_path = os.path.join(ASSETS_DIRECTORY, "sliderfore.png")
-        minus_path = os.path.join(ASSETS_DIRECTORY, "minus.png")
-        plus_path = os.path.join(ASSETS_DIRECTORY, "plus.png")
-        profile_path = os.path.join(ASSETS_DIRECTORY, "button_profile.png")
-        name_bg_path = os.path.join(ASSETS_DIRECTORY, "name_bg.png")
-        start_button_path = os.path.join(SHARED_DIRECTORY, "button_b.png")
-        start_hover_button_path = os.path.join(SHARED_DIRECTORY, "button_b_h.png")
-        start_pressed_button_path = os.path.join(SHARED_DIRECTORY, "button_b_p.png")
-        zero_star_path = os.path.join(ASSETS_DIRECTORY, "zero_star.png")
-        one_star_path = os.path.join(ASSETS_DIRECTORY, "one_star.png")
-        two_star_path = os.path.join(ASSETS_DIRECTORY, "two_star.png")
-        three_star_path = os.path.join(ASSETS_DIRECTORY, "three_star.png")
+        # Images
+        self.background_image = LoadingScreen.ASSET[SHARED_DIRECTORY]["background.png"]
+        self.back_arrow_image = LoadingScreen.ASSET[SHARED_DIRECTORY]["back_arrow.png"]
+        self.slider_bg_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["sliderback.png"]
+        self.slider_fg_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["sliderfore.png"]
+        self.minus_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["minus.png"]
+        self.plus_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["plus.png"]
+        self.profile_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["button_profile.png"]
+        self.name_bg_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["name_bg.png"]
+        self.start_button_image = LoadingScreen.ASSET[SHARED_DIRECTORY]["button_b.png"]
+        self.start_hover_button_image = LoadingScreen.ASSET[SHARED_DIRECTORY]["button_b_h.png"]
+        self.start_pressed_button_image = LoadingScreen.ASSET[SHARED_DIRECTORY]["button_b_p.png"]
+        self.zero_star_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["zero_star.png"]
+        self.one_star_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["one_star.png"]
+        self.two_star_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["two_star.png"]
+        self.three_star_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["three_star.png"]
         
-
-        # images
-        self.background_image = LoadingScreen.ASSET[background_path]
-        self.start_button_image = LoadingScreen.ASSET[start_button_path]
-        self.start_hover_button_image = LoadingScreen.ASSET[start_hover_button_path]
-        self.start_pressed_button_image = LoadingScreen.ASSET[start_pressed_button_path]
-        self.back_arrow_image = LoadingScreen.ASSET[back_arrow_path]
-        self.slider_bg_image = LoadingScreen.ASSET[slider_bg_path]
-        self.slider_fg_image = LoadingScreen.ASSET[slider_fg_path]
-        self.plus_image = LoadingScreen.ASSET[plus_path]
-        self.minus_image = LoadingScreen.ASSET[minus_path]
-        self.profile_image = LoadingScreen.ASSET[profile_path]
-        self.name_bg_image = LoadingScreen.ASSET[name_bg_path]
-        self.zero_star_image = LoadingScreen.ASSET[zero_star_path]
-        self.one_star_image = LoadingScreen.ASSET[one_star_path]
-        self.two_star_image = LoadingScreen.ASSET[two_star_path]
-        self.three_star_image = LoadingScreen.ASSET[three_star_path]
-
-        
-
     def draw(self):
         """Draws all the self.screen components."""
         self.background.draw()

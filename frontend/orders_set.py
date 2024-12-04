@@ -15,9 +15,9 @@ class OrdersCollection(ScreenInterface):
         """
         super().__init__(window_size)
         self.orders = {}
-        self.addOrder(1, Order(window_size))
-        self.addOrder(2, Order(window_size))
-        self.addOrder(3, Order(window_size))
+        self.add_order(1, Order(window_size))
+        self.add_order(2, Order(window_size))
+        self.add_order(3, Order(window_size))
 
 
     def load_assets(self):
@@ -27,7 +27,7 @@ class OrdersCollection(ScreenInterface):
         pass
 
 
-    def addOrder(self, customerid, order):
+    def add_order(self, customerid, order):
         """
         Add a new order to the collection.
 

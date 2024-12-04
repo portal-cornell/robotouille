@@ -185,39 +185,22 @@ class EndScreen(ScreenInterface):
 
     def load_assets(self):
         """Load necessary assets."""
-        background_path = os.path.join(SHARED_DIRECTORY, "background.png")
-        profile_path = os.path.join(ASSETS_DIRECTORY, "profile.png")
-        bell_path = os.path.join(ASSETS_DIRECTORY, "bell.png")
-        coin_path = os.path.join(ASSETS_DIRECTORY, "coin.png")
-        pending_path = os.path.join(ASSETS_DIRECTORY, "pending.png")
-        yes_path = os.path.join(ASSETS_DIRECTORY, "yes.png")
-        no_path = os.path.join(ASSETS_DIRECTORY, "no.png")
-        star_full_path = os.path.join(ASSETS_DIRECTORY, "star_full.png")
-        star_empty_path = os.path.join(ASSETS_DIRECTORY, "star_empty.png")
-        blue_button_path = os.path.join(SHARED_DIRECTORY, "button_b.png")
-        blue_hover_button_path = os.path.join(SHARED_DIRECTORY, "button_b_h.png")
-        blue_pressed_button_path = os.path.join(SHARED_DIRECTORY, "button_b_p.png")
-        red_button_path = os.path.join(SHARED_DIRECTORY, "button_r.png")
-        red_hover_button_path = os.path.join(SHARED_DIRECTORY, "button_r_h.png")
-        red_pressed_button_path = os.path.join(SHARED_DIRECTORY, "button_r_p.png")
+        self.background_image = LoadingScreen.ASSET[SHARED_DIRECTORY]["background.png"]
+        self.profile_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["profile.png"]
+        self.bell_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["bell.png"]
+        self.coin_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["coin.png"]
+        self.pending_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["pending.png"]
+        self.yes_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["yes.png"]
+        self.no_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["no.png"]
+        self.star_full_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["star_full.png"]
+        self.star_empty_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["star_empty.png"]
 
-        self.background_image = LoadingScreen.ASSET[background_path]
-        self.profile_image = LoadingScreen.ASSET[profile_path]
-        self.bell_image = LoadingScreen.ASSET[bell_path]
-        self.coin_image = LoadingScreen.ASSET[coin_path]
-        self.pending_image = LoadingScreen.ASSET[pending_path]
-        self.yes_image = LoadingScreen.ASSET[yes_path]
-        self.no_image = LoadingScreen.ASSET[no_path]
-        self.star_full_image = LoadingScreen.ASSET[star_full_path]
-        self.star_empty_image = LoadingScreen.ASSET[star_empty_path]
-
-        self.blue_button_image = LoadingScreen.ASSET[blue_button_path]
-        self.blue_hover_button_image = LoadingScreen.ASSET[blue_hover_button_path]
-        self.blue_pressed_button_image = LoadingScreen.ASSET[blue_pressed_button_path]
-        self.red_button_image = LoadingScreen.ASSET[red_button_path]
-        self.red_hover_button_image = LoadingScreen.ASSET[red_hover_button_path]
-        self.red_pressed_button_image = LoadingScreen.ASSET[red_pressed_button_path]
-    
+        self.blue_button_image = LoadingScreen.ASSET[SHARED_DIRECTORY]["button_b.png"]
+        self.blue_hover_button_image = LoadingScreen.ASSET[SHARED_DIRECTORY]["button_b_h.png"]
+        self.blue_pressed_button_image = LoadingScreen.ASSET[SHARED_DIRECTORY]["button_b_p.png"]
+        self.red_button_image = LoadingScreen.ASSET[SHARED_DIRECTORY]["button_r.png"]
+        self.red_hover_button_image = LoadingScreen.ASSET[SHARED_DIRECTORY]["button_r_h.png"]
+        self.red_pressed_button_image = LoadingScreen.ASSET[SHARED_DIRECTORY]["button_r_p.png"]
 
     def update(self):
         """Update the screen and handle events."""
