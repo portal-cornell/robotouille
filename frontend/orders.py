@@ -1,7 +1,7 @@
 import pygame
-from frontend.constants import *
 from frontend.image import Image
 from frontend.loading import LoadingScreen
+import os
 
 # Set up the assets directory
 ASSETS_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "orders"))

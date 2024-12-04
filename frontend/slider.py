@@ -2,7 +2,7 @@ import pygame
 from frontend.ninepatch import NinePatch
 from frontend.image import Image
 from frontend.node import Node
-from frontend.constants import *
+from frontend.constants import DEBUG
 
 class Slider(Node):
     def __init__(self, screen, background_image, foreground_image, background_width, background_height, 

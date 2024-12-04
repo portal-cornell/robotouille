@@ -1,7 +1,7 @@
 import pygame
 from frontend.image import Image
 from frontend.node import Node
-from frontend.constants import *
+from frontend.constants import DEBUG
 from frontend.textbox import Textbox
 from frontend.constants import FONT_PATH
 

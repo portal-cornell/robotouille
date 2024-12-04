@@ -1,12 +1,11 @@
 import pygame
-from frontend.constants import *
+from frontend.constants import WHITE, SHARED_DIRECTORY, GAME, MAIN_MENU
 from frontend.button import Button
 from frontend.image import Image
-from frontend.slider import Slider
 from frontend.textbox import Textbox
-from frontend.editable_textbox import EditableTextbox
 from frontend.screen import ScreenInterface
 from frontend.loading import LoadingScreen
+import os
 
 # Set up the assets directory
 ASSETS_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "endgame"))

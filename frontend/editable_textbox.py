@@ -1,7 +1,7 @@
 import pygame
 from frontend.textbox import Textbox
 from frontend.constants import FONT_PATH
-from frontend.constants import *
+from frontend.constants import GREY, LIGHT_GREY
 
 class EditableTextbox(Textbox):
     def __init__(self, screen, text, x_percent, y_percent, width, height, char_limit = 10, text_color=GREY, font_path=FONT_PATH, font_size= 60, scale_factor=1.0, align_text="center", anchor="topleft"):
