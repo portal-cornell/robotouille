@@ -63,11 +63,14 @@ def game():
                         noisy_randomization=args.noisy_randomization,
                         movement_mode=args.movement_mode
                     )
-            nxt = simulator_instance.update()
-            if nxt is not None:
-                current_screen = nxt
+                
+            simulator_instance.update()
+            if simulator_instance.next_screen is not None:
+                current_screen = simulator_instance.next_screen
+                simulator_instance.set_next_screen(None)
                 simulator_instance = None 
                 screen = pygame.display.set_mode(screen_size)
+
         else:
             if current_screen == MATCHMAKING:
                 screens[current_screen].set_players(["Player1", "Player2"])

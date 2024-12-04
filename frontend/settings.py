@@ -30,15 +30,15 @@ class SettingScreen(ScreenInterface):
         self.back_arrow = Button(self.screen, self.back_arrow_image, self.x_percent(64), self.y_percent(860), self.scale_factor, anchor="topleft")
         self.profile = Image(self.screen, self.profile_image, self.x_percent(746), self.y_percent(109), self.scale_factor, anchor="topleft")
 
-        self.sliderSFX = Slider(self.screen, self.slider_bg_image, self.slider_fg_image, 442.01, 44.91, 390, 31.19,
+        self.sfx_slider = Slider(self.screen, self.slider_bg_image, self.slider_fg_image, 442.01, 44.91, 390, 31.19,
                                        self.x_percent(122), self.y_percent(437), scale_factor= self.scale_factor, anchor="topleft")
-        self.sliderVolume = Slider(self.screen, self.slider_bg_image, self.slider_fg_image, 442.01, 44.91, 390, 31.19,
+        self.music_slider = Slider(self.screen, self.slider_bg_image, self.slider_fg_image, 442.01, 44.91, 390, 31.19,
                                           self.x_percent(122), self.y_percent(252), scale_factor= self.scale_factor, anchor="topleft")
         
-        self.VolumeMinus = Button(self.screen, self.minus_image, self.x_percent(122), self.y_percent(252), self.scale_factor, anchor="topleft")
-        self.VolumePlus = Button(self.screen, self.plus_image, self.x_percent(519), self.y_percent(252), self.scale_factor, anchor="topleft")
-        self.SFXMinus = Button(self.screen, self.minus_image, self.x_percent(122), self.y_percent(437), self.scale_factor, anchor="topleft")
-        self.SFXPlus = Button(self.screen, self.plus_image, self.x_percent(519), self.y_percent(437), self.scale_factor, anchor="topleft")
+        self.music_minus_button = Button(self.screen, self.minus_image, self.x_percent(122), self.y_percent(252), self.scale_factor, anchor="topleft")
+        self.music_plus_button = Button(self.screen, self.plus_image, self.x_percent(519), self.y_percent(252), self.scale_factor, anchor="topleft")
+        self.sfx_minus_button = Button(self.screen, self.minus_image, self.x_percent(122), self.y_percent(437), self.scale_factor, anchor="topleft")
+        self.sfx_plus_button = Button(self.screen, self.plus_image, self.x_percent(519), self.y_percent(437), self.scale_factor, anchor="topleft")
 
         self.name_bg = Image(self.screen, self.name_bg_image, self.x_percent(917), self.y_percent(132), self.scale_factor, anchor="topleft")
         self.name = EditableTextbox(self.screen, "name", self.x_percent(928), self.y_percent(139) , 355, 72, align_text="left", scale_factor= self.scale_factor)
@@ -93,12 +93,12 @@ class SettingScreen(ScreenInterface):
         self.back_arrow.draw()
 
         # volume & sfx 
-        self.sliderSFX.draw()
-        self.sliderVolume.draw()
-        self.VolumePlus.draw()
-        self.VolumeMinus.draw()
-        self.SFXPlus.draw()
-        self.SFXMinus.draw()
+        self.sfx_slider.draw()
+        self.music_slider.draw()
+        self.music_plus_button.draw()
+        self.music_minus_button.draw()
+        self.sfx_plus_button.draw()
+        self.sfx_minus_button.draw()
         
         self.name_bg.draw()
         self.name.draw()
@@ -157,22 +157,26 @@ class SettingScreen(ScreenInterface):
             if self.back_arrow.handle_event(event):
                 self.set_next_screen(MAIN_MENU)
             
-            if self.VolumeMinus.in_bound() and not self.sliderVolume.is_moving():
-                if self.VolumeMinus.handle_event(event):
-                    self.sliderVolume.set_value(self.sliderVolume.get_value() - 0.1)
-            elif self.VolumePlus.in_bound() and not self.sliderVolume.is_moving():
-                if self.VolumePlus.handle_event(event):
-                    self.sliderVolume.set_value(self.sliderVolume.get_value() + 0.1)
+            # Increase/decrease volume if music plus button and music minus button is pressed
+            if self.music_minus_button.in_bound() and not self.music_slider.is_moving():
+                if self.music_minus_button.handle_event(event):
+                    self.music_slider.set_value(self.music_slider.get_value() - 0.1)
+            elif self.music_plus_button.in_bound() and not self.music_slider.is_moving():
+                if self.music_plus_button.handle_event(event):
+                    self.music_slider.set_value(self.music_slider.get_value() + 0.1)
             else:
-                self.sliderVolume.handle_event(event)
+                # Increase/decrease muisc volume if slider is moved
+                self.music_slider.handle_event(event)
     
-            if self.SFXMinus.in_bound() and not self.sliderSFX.is_moving():
-                if self.SFXMinus.handle_event(event):
-                    self.sliderSFX.set_value(self.sliderSFX.get_value() - 0.1)
-            elif self.SFXPlus.in_bound() and not self.sliderSFX.is_moving():
-                if self.SFXPlus.handle_event(event):
-                    self.sliderSFX.set_value(self.sliderSFX.get_value() + 0.1)
+            # Increase/decrease sfx volume if plus button and music minus button is pressed
+            if self.sfx_minus_button.in_bound() and not self.sfx_slider.is_moving():
+                if self.sfx_minus_button.handle_event(event):
+                    self.sfx_slider.set_value(self.sfx_slider.get_value() - 0.1)
+            elif self.sfx_plus_button.in_bound() and not self.sfx_slider.is_moving():
+                if self.sfx_plus_button.handle_event(event):
+                    self.sfx_slider.set_value(self.sfx_slider.get_value() + 0.1)
             else:
-                self.sliderSFX.handle_event(event)
+                # Increase/decrease sfx volume if slider is moved
+                self.sfx_slider.handle_event(event)
 
             self.name.handle_event(event)

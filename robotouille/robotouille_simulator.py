@@ -36,7 +36,19 @@ class RobotouilleSimulator:
         self.players = self.obs.get_players()
         self.actions = []
         self.render_fps = render_fps
+        self.next_screen = None
+    
+    def set_next_screen(self, next_screen):
+        """
+        Set the next screen for transition.
 
+        Specifies the screen that should be displayed after the current screen.
+
+        Args:
+           next_screen (str): Identifier for the next screen (e.g., `MAIN_MENU`, `SETTINGS`).
+
+        """
+        self.next_screen = next_screen
 
     def draw(self):
         """
@@ -80,13 +92,18 @@ class RobotouilleSimulator:
         """
         Main update loop for the simulation. Handles rendering, input, and game logic.
 
-        Returns:
-            str or None: Returns the next game state (`ENDGAME`) if finished, otherwise None.
         """
         
         if self.done:
             self.renderer.render(self.obs, close=True)
-            return ENDGAME if self.human else None
+            self.next_screen = ENDGAME
+            return
+        
+        if self.pause.next_screen is not None:
+            self.next_screen = self.pause.next_screen
+            self.pause.set_next_screen(None)
+            self.pause.toggle()
+            return
         
         pygame_events = pygame.event.get()
             

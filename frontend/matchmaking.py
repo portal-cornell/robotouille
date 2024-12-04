@@ -78,7 +78,9 @@ class MatchMakingScreen(ScreenInterface):
         # TODO: Temprorary behavior. Q used to switch to leave match making and G used to start game
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
+                # Transitions to Main Menu when key Q is pressed.
                 if event.key == pygame.K_q:
                     self.set_next_screen(MAIN_MENU)
+                 # Transitions to the Game when key G is pressed.
                 elif event.key == pygame.K_g:
                     self.set_next_screen(GAME)

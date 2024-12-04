@@ -20,13 +20,13 @@ class EndScreen(ScreenInterface):
         super().__init__(window_size) 
         self.background = Image(self.screen, self.background_image, 0.5, 0.5, self.scale_factor, anchor="center")
         self.level_complete = Textbox(self.screen, "LEVEL FINISHED", self.x_percent(720.5), self.y_percent(124.5), 615, 96, font_size=80, scale_factor=self.scale_factor, anchor="center")
-        self.quit = Button(self.screen, self.blue_button_image, 
+        self.quit_button = Button(self.screen, self.blue_button_image, 
                                             self.x_percent(397), self.y_percent(868), self.scale_factor, 
                                             hover_image_source= self.blue_hover_button_image,
                                             pressed_image_source= self.blue_pressed_button_image, 
                                             font_size=40,
                                             text = "QUIT", text_color=WHITE, anchor="center")
-        self.play_again = Button(self.screen, self.red_button_image, 
+        self.play_again_button = Button(self.screen, self.red_button_image, 
                                             self.x_percent(1044), self.y_percent(868), self.scale_factor, 
                                             hover_image_source= self.red_hover_button_image,
                                             pressed_image_source= self.red_pressed_button_image, 
@@ -170,8 +170,8 @@ class EndScreen(ScreenInterface):
         """Draws all the screen components."""
         self.background.draw()
         self.level_complete.draw()
-        self.quit.draw()
-        self.play_again.draw()
+        self.quit_button.draw()
+        self.play_again_button.draw()
         for star in self.stars:
             star.draw()
         for id in self.profiles:
@@ -208,8 +208,10 @@ class EndScreen(ScreenInterface):
 
         # Handle events
         for event in pygame.event.get():
-            if self.play_again.handle_event(event):
+            # Restarts level if play_again_button is pressed
+            if self.play_again_button.handle_event(event):
                 self.set_next_screen(GAME)
-            if self.quit.handle_event(event):
+             # Return to main menu when quit_button is pressed
+            if self.quit_button.handle_event(event):
                 self.set_next_screen(MAIN_MENU)
             
