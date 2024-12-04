@@ -15,35 +15,49 @@ class LogoScreen(ScreenInterface):
         Args:
            window_size (tuple): (width, height) of the window
         """
-        
-        super().__init__(window_size) 
-        self.fade_alpha = 0  
-        self.fade_in_duration = 500 
-        self.delay = 1000 
-        self.start_time = None  
-        self.fade_in_complete = False 
+        super().__init__(window_size)
+        self.fade_alpha = 0
+        self.fade_in_duration = 500
+        self.fade_out_duration = 500
+        self.delay = 1000
+        self.wait = 1000
+        self.start_time = None
+        self.fade_in_complete = False
+        self.fade_out_started = False
+        self.fade_out_complete = False
         self.load_assets()
-        self.background = Image(self.screen, self.background_image, self.x_percent(0), self.y_percent(0) , self.scale_factor, anchor="topleft")
-        self.background.set_alpha(0) 
+        self.background = Image(self.screen, self.background_image, self.x_percent(0), self.y_percent(0), self.scale_factor, anchor="topleft")
+        self.background.set_alpha(0)
 
-        
     def draw(self):
-        """Draws all the screen components with a fade-in effect."""
+        """Draws all the screen components with fade-in and fade-out effects."""
         if self.start_time is None:
-            self.start_time = pygame.time.get_ticks() 
+            self.start_time = pygame.time.get_ticks()
 
         elapsed_time = pygame.time.get_ticks() - self.start_time
 
-        if elapsed_time > self.delay:
-            fade_in_time = elapsed_time - self.delay
-            alpha = min(255, int(255 * (fade_in_time / self.fade_in_duration)))  
+        if not self.fade_in_complete:  # Fade in
+            if elapsed_time > self.delay:
+                fade_in_time = elapsed_time - self.delay
+                alpha = min(255, int(255 * (fade_in_time / self.fade_in_duration)))
+                if alpha >= 255:
+                    self.fade_in_complete = True
+                    self.start_time = pygame.time.get_ticks()  
+                self.background.set_alpha(alpha)
 
-            if alpha >= 255:
-                self.fade_in_complete = True
-
+        elif not self.fade_out_started:  # wait
+            if elapsed_time > self.wait:
+                self.fade_out_started = True
+                self.start_time = pygame.time.get_ticks() 
+                
+        else:  # Fade out
+            fade_out_time = pygame.time.get_ticks() - self.start_time
+            alpha = max(0, 255 - int(255 * (fade_out_time / self.fade_out_duration)))
+            if alpha <= 0:
+                self.fade_out_complete = True
             self.background.set_alpha(alpha)
-            self.background.draw()
- 
+
+        self.background.draw()
 
     def load_assets(self):
         """Load necessary assets."""
@@ -53,6 +67,6 @@ class LogoScreen(ScreenInterface):
     def update(self):
         """Update the screen and handle events."""
         self.screen.fill((0, 0, 0))
-        super().update() 
-        if self.fade_in_complete:
+        super().update()
+        if self.fade_out_complete:
             self.set_next_screen(LOADING)
