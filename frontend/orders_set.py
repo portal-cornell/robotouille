@@ -6,7 +6,7 @@ from frontend.orders import Order
 ASSETS_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "pause_screen"))
 
 class OrdersCollection(ScreenInterface):
-    def __init__(self, window_size):
+    def __init__(self, window_size, config):
         """
         Initialize the OrdersCollection screen.  This class manage and display a collection of orders in the game.
 
@@ -15,9 +15,9 @@ class OrdersCollection(ScreenInterface):
         """
         super().__init__(window_size)
         self.orders = {}
-        self.addOrder(1, Order(window_size))
-        self.addOrder(2, Order(window_size))
-        self.addOrder(3, Order(window_size))
+        self.addOrder(1, Order(window_size, config))
+        self.addOrder(2, Order(window_size, config))
+        self.addOrder(3, Order(window_size, config))
 
 
     def load_assets(self):

@@ -2,7 +2,7 @@ import pygame
 import numpy as np
 import os
 import json
-
+from frontend.orders_set import OrdersCollection
 from .canvas import RobotouilleCanvas
 
 class RobotouilleRenderer:
@@ -37,7 +37,9 @@ class RobotouilleRenderer:
         # The framerate of the renderer. This isn't too important since the renderer
         # displays static drawings.
         pygame.display.set_mode(self.window_size)
-    
+
+        self.orders = OrdersCollection(window_size, config)
+
     def _render_frame(self, obs, render_mode):
         """
         This function renders a single frame of the game.
@@ -53,6 +55,8 @@ class RobotouilleRenderer:
             np.array: The RGB array of the frame (only if render_mode == "rgb_array")
         """
         self.canvas.draw_to_surface(self.surface, obs)
+        self.orders.draw()
+        self.surface.blit(self.orders.get_screen(), (0,0))
         if not render_mode == "human":
             return np.transpose(
                 np.array(pygame.surfarray.pixels3d(self.surface)), axes=(1, 0, 2)

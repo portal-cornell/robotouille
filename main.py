@@ -104,4 +104,5 @@ def research():
         
     pygame.quit()
 
-game()
+# game()
+research()
