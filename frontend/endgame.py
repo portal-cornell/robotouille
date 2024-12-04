@@ -43,7 +43,7 @@ class EndScreen(ScreenInterface):
         self.bells = Image(self.screen, self.bell_image, self.x_percent(881.5), self.y_percent(438.74), self.scale_factor, anchor="center")
         self.bells_text = Textbox(self.screen, "214", self.x_percent(984), self.y_percent(430), 188, 72, font_size=40, scale_factor=self.scale_factor, anchor="center")
 
-    def createOneProfile(self, players):
+    def create_one_profile(self, players):
         """Create UI elements for a single player profile.
 
         Args:
@@ -56,7 +56,7 @@ class EndScreen(ScreenInterface):
             "status":Image(self.screen, self.pending_image, 0.5 + self.x_percent(107.5), self.y_percent(503), self.scale_factor, anchor="center")
             }
 
-    def createTwoProfile(self, players):
+    def create_two_profile(self, players):
         """Create UI elements for a two player profile.
 
         Args:
@@ -73,7 +73,7 @@ class EndScreen(ScreenInterface):
             "status":Image(self.screen, self.pending_image, self.x_percent(976.5), self.y_percent(503), self.scale_factor, anchor="center")
             }
 
-    def createThreeProfile(self, players):
+    def create_three_profile(self, players):
         """Create UI elements for a Three player profile.
 
         Args:
@@ -95,7 +95,7 @@ class EndScreen(ScreenInterface):
             "status": Image(self.screen, self.pending_image, self.x_percent(1133.5), self.y_percent(503), self.scale_factor, anchor="center")
         }
 
-    def createFourProfile(self, players):
+    def create_four_profile(self, players):
         """Create UI elements for a Four player profile.
 
         Args:
@@ -122,22 +122,22 @@ class EndScreen(ScreenInterface):
             "status": Image(self.screen, self.pending_image, self.x_percent(1286), self.y_percent(503), self.scale_factor, anchor="center")
         }
 
-    def createProfile(self, players):
+    def create_profile(self, players):
         """Create UI elements for each player.
 
         Args:
             players (list of tuples): A list containing one player tuple in the format (player_id, player_name). Max length is 4
         """
         if len(players) == 1:
-            self.createOneProfile(players)
+            self.create_one_profile(players)
         elif len(players) == 2:
-            self.createTwoProfile(players)
+            self.create_two_profile(players)
         elif len(players) == 3:
-            self.createThreeProfile(players)
+            self.create_three_profile(players)
         else:
-            self.createFourProfile(players)
+            self.create_four_profile(players)
 
-    def setStars(self, count):
+    def set_stars(self, count):
         """Set the number of stars to display as filled.
 
         Args:
@@ -150,7 +150,7 @@ class EndScreen(ScreenInterface):
             else:
                 self.stars[i].set_image(self.star_empty_image)
 
-    def setCoin(self, value):
+    def set_coin(self, value):
         """Update the displayed coin value.
 
         Args:
@@ -158,7 +158,7 @@ class EndScreen(ScreenInterface):
         """
         self.coins_text.set_text(str(value))
     
-    def setBell(self, value):
+    def set_bell(self, value):
         """Update the displayed bell value.
 
         Args:

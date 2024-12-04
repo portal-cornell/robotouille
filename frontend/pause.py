@@ -41,9 +41,6 @@ class PauseScreen(ScreenInterface):
         self.hide = True
         self.p_key_was_pressed = False
 
-        self.hide = True
-        self.p_key_was_pressed = False
-
     def load_assets(self):
         """
         Loads necessary assets.

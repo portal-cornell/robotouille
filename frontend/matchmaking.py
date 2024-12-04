@@ -52,7 +52,7 @@ class MatchMakingScreen(ScreenInterface):
             existing_players (list of dict): List of players to add, each with 'name' and 'icon'.
         """
 
-        if len(existing_players) >= MAX_PLAYERS :
+        if len(existing_players) >= MAX_PLAYERS:
             raise Exception("To many players")
         
         self.count = len(existing_players)
@@ -81,7 +81,8 @@ class MatchMakingScreen(ScreenInterface):
         
         if self.count == MAX_PLAYERS:
             self.set_next_screen(GAME)
-            
+        
+        # TODO: Temprorary behavior. Q used to switch to leave match making and G used to start game
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_q:

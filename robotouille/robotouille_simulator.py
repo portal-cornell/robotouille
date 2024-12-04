@@ -47,6 +47,7 @@ class RobotouilleSimulator:
         self.surface.blit(self.renderer.surface, (0, 0))
         self.surface.blit(self.pause.get_screen(), (0, 0))
         self.canvas.blit(self.surface, (0, 0))
+        # The framerate of the renderer. This isn't too important since the renderer
         self.clock.tick(self.render_fps)
 
 
