@@ -1,5 +1,8 @@
 import React from "react";
 import aboutHeader from "../assets/about-header.png";
+import cheeseBurger from "../assets/cheese_burger.gif";
+import kitchen from "../assets/kitchen.gif";
+import lettucetomatoburger from "../assets/lettuce_tomato_burger.gif";
 
 const About = () => {
   return (
@@ -13,6 +16,7 @@ const About = () => {
         />
       </div>
 
+      {/* About Text */}
       <div className="p-6">
         <h2 className="text-lg font-semibold text-left mb-4">
           About Robotouille
@@ -25,8 +29,27 @@ const About = () => {
           same by showing them how to perform easier tasks subtasks and then
           combine those subtasks to perform harder tasks. We created Robotouille
           so we can stress test this idea through an easily customizable cooking
-          environment where the task possibilities are endless! ....
+          environment where the task possibilities are endless!
         </p>
+      </div>
+
+      {/* GIF Section */}
+      <div className="flex justify-between items-center gap-4 p-6">
+        <img
+          src={cheeseBurger}
+          alt="Cheeseburger"
+          className="w-1/3 rounded-lg shadow-lg"
+        />
+        <img
+          src={kitchen}
+          alt="Kitchen"
+          className="w-1/3 rounded-lg shadow-lg"
+        />
+        <img
+          src={lettucetomatoburger}
+          alt="Lettuce Tomato Burger"
+          className="w-1/3 rounded-lg shadow-lg"
+        />
       </div>
     </div>
   );
