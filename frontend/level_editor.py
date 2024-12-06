@@ -21,6 +21,8 @@ class LevelEditorScreen(ScreenInterface):
         self.offset_x = 0
         self.offset_y = 0
         self.zoom = 1.0
+        self.is_dragging = False
+        self.last_mouse_pos = None
 
         self.selected_item = None
         self.grid_items = [[None for _ in range(self.grid_width)] for _ in range(self.grid_height)]
@@ -28,7 +30,7 @@ class LevelEditorScreen(ScreenInterface):
         # Initialize pygame_gui manager
         self.ui_manager = pygame_gui.UIManager(window_size)
 
-        # Sidebar Panel
+        # Sidebar Panel - Positioned to the far right
         self.sidebar_panel = UIPanel(
             relative_rect=pygame.Rect(self.screen_width - 220, 0, 220, self.screen_height),
             manager=self.ui_manager,
@@ -91,12 +93,15 @@ class LevelEditorScreen(ScreenInterface):
 
         # Handle grid interactions
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 1:  # Left click
+            if event.button == 1:  # Left click for panning or item placement
                 x, y = event.pos
-                grid_x = int((x - self.offset_x) / (self.cell_size * self.zoom))
-                grid_y = int((y - self.offset_y) / (self.cell_size * self.zoom))
-                if 0 <= grid_x < self.grid_width and 0 <= grid_y < self.grid_height:
-                    self.grid_items[grid_y][grid_x] = self.selected_item
+                if x < self.screen_width - 220:  # Click outside the sidebar
+                    grid_x = int((x - self.offset_x) / (self.cell_size * self.zoom))
+                    grid_y = int((y - self.offset_y) / (self.cell_size * self.zoom))
+                    if 0 <= grid_x < self.grid_width and 0 <= grid_y < self.grid_height:
+                        self.grid_items[grid_y][grid_x] = self.selected_item
+                self.is_dragging = True
+                self.last_mouse_pos = event.pos
 
             elif event.button == 3:  # Right click to remove
                 x, y = event.pos
@@ -105,9 +110,30 @@ class LevelEditorScreen(ScreenInterface):
                 if 0 <= grid_x < self.grid_width and 0 <= grid_y < self.grid_height:
                     self.grid_items[grid_y][grid_x] = None
 
+        elif event.type == pygame.MOUSEMOTION:
+            if self.is_dragging:
+                # Calculate movement and adjust offsets
+                dx, dy = event.rel
+                self.offset_x += dx
+                self.offset_y += dy
+
+        elif event.type == pygame.MOUSEBUTTONUP:
+            if event.button == 1:  # Release dragging
+                self.is_dragging = False
+
         elif event.type == pygame.MOUSEWHEEL:
+            # Adjust zoom
+            old_zoom = self.zoom
             self.zoom += event.y * 0.1
             self.zoom = max(0.5, min(2.0, self.zoom))  # Clamp zoom level
+
+            # Adjust offset to zoom around mouse cursor
+            mouse_x, mouse_y = pygame.mouse.get_pos()
+            mouse_grid_x = (mouse_x - self.offset_x) / (self.cell_size * old_zoom)
+            mouse_grid_y = (mouse_y - self.offset_y) / (self.cell_size * old_zoom)
+
+            self.offset_x = mouse_x - mouse_grid_x * self.cell_size * self.zoom
+            self.offset_y = mouse_y - mouse_grid_y * self.cell_size * self.zoom
 
     def draw(self):
         """Draw grid and UI components."""
