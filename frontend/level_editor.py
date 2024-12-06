@@ -44,8 +44,7 @@ class LevelEditorScreen(ScreenInterface):
 
     def load_assets(self):
         """Load necessary assets."""
-        background_path = os.path.join(SHARED_DIRECTORY, "background.png")
-        self.background_image = LoadingScreen.ASSET[background_path]
+        self.background_image = LoadingScreen.ASSET[SHARED_DIRECTORY]["background.png"]
 
     def draw(self):
         """Draws all the screen components."""

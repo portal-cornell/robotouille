@@ -1,9 +1,10 @@
 import pygame
-from frontend.constants import *
+from frontend.constants import WHITE, SHARED_DIRECTORY, MATCHMAKING, SETTINGS, LEVEL_EDITOR
 from frontend.button import Button
 from frontend.image import Image
 from frontend.screen import ScreenInterface
 from frontend.loading import LoadingScreen
+import os
 
 # Set up the assets directory
 ASSETS_DIRECTORY = os.path.abspath(
@@ -40,16 +41,10 @@ class MenuScreen(ScreenInterface):
         """
         Loads necessary assets.
         """
-        # load asset paths then images
-        background_path = os.path.join(ASSETS_DIRECTORY, "background.png")
-        start_button_path = os.path.join(SHARED_DIRECTORY, "button_b.png")
-        start_hover_button_path = os.path.join(SHARED_DIRECTORY, "button_b_h.png")
-        start_pressed_button_path = os.path.join(SHARED_DIRECTORY, "button_b_p.png")
-
-        self.background_image = LoadingScreen.ASSET[background_path]
-        self.start_button_image = LoadingScreen.ASSET[start_button_path]
-        self.start_hover_button_image = LoadingScreen.ASSET[start_hover_button_path]
-        self.start_pressed_button_image = LoadingScreen.ASSET[start_pressed_button_path]
+        self.background_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["background.png"]
+        self.start_button_image = LoadingScreen.ASSET[SHARED_DIRECTORY]["button_b.png"]
+        self.start_hover_button_image = LoadingScreen.ASSET[SHARED_DIRECTORY]["button_b_h.png"]
+        self.start_pressed_button_image = LoadingScreen.ASSET[SHARED_DIRECTORY]["button_b_p.png"]
 
     def draw(self):
         """Draws all the screen components."""
@@ -64,8 +59,10 @@ class MenuScreen(ScreenInterface):
 
         # Handle events
         for event in pygame.event.get():
+            # Transitions to Matchmaking when start_button is pressed.
             if self.start_button.handle_event(event):
                 self.set_next_screen(MATCHMAKING)
+            # ransitions to Settings when setting_button is pressed.
             if self.setting_button.handle_event(event):
                 self.set_next_screen(SETTINGS)
             if self.editor_button.handle_event(event):

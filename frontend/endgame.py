@@ -1,12 +1,11 @@
 import pygame
-from frontend.constants import *
+from frontend.constants import WHITE, SHARED_DIRECTORY, GAME, MAIN_MENU
 from frontend.button import Button
 from frontend.image import Image
-from frontend.slider import Slider
 from frontend.textbox import Textbox
-from frontend.editable_textbox import EditableTextbox
 from frontend.screen import ScreenInterface
 from frontend.loading import LoadingScreen
+import os
 
 # Set up the assets directory
 ASSETS_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "endgame"))
@@ -21,13 +20,13 @@ class EndScreen(ScreenInterface):
         super().__init__(window_size) 
         self.background = Image(self.screen, self.background_image, 0.5, 0.5, self.scale_factor, anchor="center")
         self.level_complete = Textbox(self.screen, "LEVEL FINISHED", self.x_percent(720.5), self.y_percent(124.5), 615, 96, font_size=80, scale_factor=self.scale_factor, anchor="center")
-        self.quit = Button(self.screen, self.blue_button_image, 
+        self.quit_button = Button(self.screen, self.blue_button_image, 
                                             self.x_percent(397), self.y_percent(868), self.scale_factor, 
                                             hover_image_source= self.blue_hover_button_image,
                                             pressed_image_source= self.blue_pressed_button_image, 
                                             font_size=40,
                                             text = "QUIT", text_color=WHITE, anchor="center")
-        self.play_again = Button(self.screen, self.red_button_image, 
+        self.play_again_button = Button(self.screen, self.red_button_image, 
                                             self.x_percent(1044), self.y_percent(868), self.scale_factor, 
                                             hover_image_source= self.red_hover_button_image,
                                             pressed_image_source= self.red_pressed_button_image, 
@@ -44,7 +43,7 @@ class EndScreen(ScreenInterface):
         self.bells = Image(self.screen, self.bell_image, self.x_percent(881.5), self.y_percent(438.74), self.scale_factor, anchor="center")
         self.bells_text = Textbox(self.screen, "214", self.x_percent(984), self.y_percent(430), 188, 72, font_size=40, scale_factor=self.scale_factor, anchor="center")
 
-    def createOneProfile(self, players):
+    def create_one_profile(self, players):
         """Create UI elements for a single player profile.
 
         Args:
@@ -57,7 +56,7 @@ class EndScreen(ScreenInterface):
             "status":Image(self.screen, self.pending_image, 0.5 + self.x_percent(107.5), self.y_percent(503), self.scale_factor, anchor="center")
             }
 
-    def createTwoProfile(self, players):
+    def create_two_profile(self, players):
         """Create UI elements for a two player profile.
 
         Args:
@@ -74,7 +73,7 @@ class EndScreen(ScreenInterface):
             "status":Image(self.screen, self.pending_image, self.x_percent(976.5), self.y_percent(503), self.scale_factor, anchor="center")
             }
 
-    def createThreeProfile(self, players):
+    def create_three_profile(self, players):
         """Create UI elements for a Three player profile.
 
         Args:
@@ -96,7 +95,7 @@ class EndScreen(ScreenInterface):
             "status": Image(self.screen, self.pending_image, self.x_percent(1133.5), self.y_percent(503), self.scale_factor, anchor="center")
         }
 
-    def createFourProfile(self, players):
+    def create_four_profile(self, players):
         """Create UI elements for a Four player profile.
 
         Args:
@@ -123,22 +122,22 @@ class EndScreen(ScreenInterface):
             "status": Image(self.screen, self.pending_image, self.x_percent(1286), self.y_percent(503), self.scale_factor, anchor="center")
         }
 
-    def createProfile(self, players):
+    def create_profile(self, players):
         """Create UI elements for each player.
 
         Args:
             players (list of tuples): A list containing one player tuple in the format (player_id, player_name). Max length is 4
         """
         if len(players) == 1:
-            self.createOneProfile(players)
+            self.create_one_profile(players)
         elif len(players) == 2:
-            self.createTwoProfile(players)
+            self.create_two_profile(players)
         elif len(players) == 3:
-            self.createThreeProfile(players)
+            self.create_three_profile(players)
         else:
-            self.createFourProfile(players)
+            self.create_four_profile(players)
 
-    def setStars(self, count):
+    def set_stars(self, count):
         """Set the number of stars to display as filled.
 
         Args:
@@ -151,7 +150,7 @@ class EndScreen(ScreenInterface):
             else:
                 self.stars[i].set_image(self.star_empty_image)
 
-    def setCoin(self, value):
+    def set_coin(self, value):
         """Update the displayed coin value.
 
         Args:
@@ -159,7 +158,7 @@ class EndScreen(ScreenInterface):
         """
         self.coins_text.set_text(str(value))
     
-    def setBell(self, value):
+    def set_bell(self, value):
         """Update the displayed bell value.
 
         Args:
@@ -171,8 +170,8 @@ class EndScreen(ScreenInterface):
         """Draws all the screen components."""
         self.background.draw()
         self.level_complete.draw()
-        self.quit.draw()
-        self.play_again.draw()
+        self.quit_button.draw()
+        self.play_again_button.draw()
         for star in self.stars:
             star.draw()
         for id in self.profiles:
@@ -186,39 +185,22 @@ class EndScreen(ScreenInterface):
 
     def load_assets(self):
         """Load necessary assets."""
-        background_path = os.path.join(SHARED_DIRECTORY, "background.png")
-        profile_path = os.path.join(ASSETS_DIRECTORY, "profile.png")
-        bell_path = os.path.join(ASSETS_DIRECTORY, "bell.png")
-        coin_path = os.path.join(ASSETS_DIRECTORY, "coin.png")
-        pending_path = os.path.join(ASSETS_DIRECTORY, "pending.png")
-        yes_path = os.path.join(ASSETS_DIRECTORY, "yes.png")
-        no_path = os.path.join(ASSETS_DIRECTORY, "no.png")
-        star_full_path = os.path.join(ASSETS_DIRECTORY, "star_full.png")
-        star_empty_path = os.path.join(ASSETS_DIRECTORY, "star_empty.png")
-        blue_button_path = os.path.join(SHARED_DIRECTORY, "button_b.png")
-        blue_hover_button_path = os.path.join(SHARED_DIRECTORY, "button_b_h.png")
-        blue_pressed_button_path = os.path.join(SHARED_DIRECTORY, "button_b_p.png")
-        red_button_path = os.path.join(SHARED_DIRECTORY, "button_r.png")
-        red_hover_button_path = os.path.join(SHARED_DIRECTORY, "button_r_h.png")
-        red_pressed_button_path = os.path.join(SHARED_DIRECTORY, "button_r_p.png")
+        self.background_image = LoadingScreen.ASSET[SHARED_DIRECTORY]["background.png"]
+        self.profile_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["profile.png"]
+        self.bell_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["bell.png"]
+        self.coin_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["coin.png"]
+        self.pending_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["pending.png"]
+        self.yes_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["yes.png"]
+        self.no_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["no.png"]
+        self.star_full_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["star_full.png"]
+        self.star_empty_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["star_empty.png"]
 
-        self.background_image = LoadingScreen.ASSET[background_path]
-        self.profile_image = LoadingScreen.ASSET[profile_path]
-        self.bell_image = LoadingScreen.ASSET[bell_path]
-        self.coin_image = LoadingScreen.ASSET[coin_path]
-        self.pending_image = LoadingScreen.ASSET[pending_path]
-        self.yes_image = LoadingScreen.ASSET[yes_path]
-        self.no_image = LoadingScreen.ASSET[no_path]
-        self.star_full_image = LoadingScreen.ASSET[star_full_path]
-        self.star_empty_image = LoadingScreen.ASSET[star_empty_path]
-
-        self.blue_button_image = LoadingScreen.ASSET[blue_button_path]
-        self.blue_hover_button_image = LoadingScreen.ASSET[blue_hover_button_path]
-        self.blue_pressed_button_image = LoadingScreen.ASSET[blue_pressed_button_path]
-        self.red_button_image = LoadingScreen.ASSET[red_button_path]
-        self.red_hover_button_image = LoadingScreen.ASSET[red_hover_button_path]
-        self.red_pressed_button_image = LoadingScreen.ASSET[red_pressed_button_path]
-    
+        self.blue_button_image = LoadingScreen.ASSET[SHARED_DIRECTORY]["button_b.png"]
+        self.blue_hover_button_image = LoadingScreen.ASSET[SHARED_DIRECTORY]["button_b_h.png"]
+        self.blue_pressed_button_image = LoadingScreen.ASSET[SHARED_DIRECTORY]["button_b_p.png"]
+        self.red_button_image = LoadingScreen.ASSET[SHARED_DIRECTORY]["button_r.png"]
+        self.red_hover_button_image = LoadingScreen.ASSET[SHARED_DIRECTORY]["button_r_h.png"]
+        self.red_pressed_button_image = LoadingScreen.ASSET[SHARED_DIRECTORY]["button_r_p.png"]
 
     def update(self):
         """Update the screen and handle events."""
@@ -226,8 +208,10 @@ class EndScreen(ScreenInterface):
 
         # Handle events
         for event in pygame.event.get():
-            if self.play_again.handle_event(event):
+            # Restarts level if play_again_button is pressed
+            if self.play_again_button.handle_event(event):
                 self.set_next_screen(GAME)
-            if self.quit.handle_event(event):
+             # Return to main menu when quit_button is pressed
+            if self.quit_button.handle_event(event):
                 self.set_next_screen(MAIN_MENU)
             

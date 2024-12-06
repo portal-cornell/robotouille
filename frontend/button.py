@@ -1,7 +1,7 @@
 import pygame
 from frontend.image import Image
 from frontend.node import Node
-from frontend.constants import *
+from frontend.constants import DEBUG
 from frontend.textbox import Textbox
 from frontend.constants import FONT_PATH
 
@@ -16,11 +16,11 @@ class Button(Node):
         Args:
             screen (pygame.Surface): The screen where the button will be displayed.
             normal_image_source (pygame.Surface): Image of the button's normal state.
-            hover_image_source (pygame.Surface): Image of the button's hover state.
-            pressed_image_source (pygame.Surface): Image of the button's pressed state.
             x_percent (float): The horizontal position of the button as a percentage of the screen width.
             y_percent (float): The vertical position of the button as a percentage of the screen height.
-            scale_factor (float): Scaling factor for the button images. Defaults to 1.0.
+            scale_factor (float): Scaling factor for the button images. Defaults to 1.0. 
+            hover_image_source (pygame.Surface): Image of the button's hover state.
+            pressed_image_source (pygame.Surface): Image of the button's pressed state.
             text (str): text to display on the button.
             font_path (str): The path to the font used to render the text.
             font_size (int): The size of the font.
@@ -98,12 +98,12 @@ class Button(Node):
         """
 
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if self.in_bound():
-                self.is_pressed = True
-            else:
-                self.is_pressed = False
+
+            self.is_pressed = self.in_bound()
+
         elif event.type == pygame.MOUSEBUTTONUP:
             if self.is_pressed:
                 self.is_pressed = False
                 return self.in_bound()
-        return False  
+
+        return False

@@ -95,6 +95,7 @@ class ScreenInterface(ABC):
         """
         Update the screen state and handle any events.
         """
+        self.screen.fill((0,0,0))
         self.draw()
 
     def get_screen(self):

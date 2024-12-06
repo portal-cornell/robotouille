@@ -1,7 +1,7 @@
 import pygame
 from frontend.textbox import Textbox
 from frontend.constants import FONT_PATH
-from frontend.constants import *
+from frontend.constants import GREY, LIGHT_GREY
 
 class EditableTextbox(Textbox):
     def __init__(self, screen, text, x_percent, y_percent, width, height, char_limit = 10, text_color=GREY, font_path=FONT_PATH, font_size= 60, scale_factor=1.0, align_text="center", anchor="topleft"):
@@ -32,7 +32,11 @@ class EditableTextbox(Textbox):
         self.char_limit = char_limit
 
     def set_text(self, new_text):
-        """Update the text, adjust font size, and refresh the text surface."""
+        """Update the text, adjust font size, and refresh the text surface.
+        
+         Args:
+            new_text (str): The text to be displayed within the editable textbox. 
+        """
         self.text = new_text
         self.adjust_font_size()
         self.update_text_rect()
@@ -47,7 +51,11 @@ class EditableTextbox(Textbox):
             self.font = pygame.font.Font(self.font_path, current_font_size)
     
     def handle_event(self, event):
-        """Handle key and mouse events for editing the textbox text."""
+        """Handle key and mouse events for editing the textbox text.
+        
+        Args:
+            event (pygame.event.Event): An instance of the Event class in Pygame, usually a keypress or mouse click.
+        """
         if event.type == pygame.MOUSEBUTTONDOWN:
             if self.rect.collidepoint(event.pos):
                 self.toggle_editing()
@@ -60,13 +68,20 @@ class EditableTextbox(Textbox):
             elif event.unicode.isalnum() and len(self.text) < self.char_limit: 
                 self.set_text(self.text + event.unicode)
     
-    def is_good(self):
-        """Check if the current text is valid."""
+
+    def is_text_valid(self):
+        """
+        Check if the current text is appropriate based on defined validation criteria.
+
+        Returns:
+            bool: True if the current text is deemed valid; otherwise, False.
+        """
+        # TODO 
         return len(self.text) > 0
     
-    def confirmText(self):
-        """Confirm the text. If not valid, revert to old text and prompt confirmation."""
-        if not self.is_good():
+    def confirm_text(self):
+        """Confirm the text. If not valid, revert to old text. """
+        if not self.is_text_valid():
             self.set_text(self.old)
     
     def toggle_editing(self):
@@ -77,5 +92,5 @@ class EditableTextbox(Textbox):
             self.text_color = LIGHT_GREY
         else:
             self.text_color = GREY
-            self.confirmText() 
+            self.confirm_text() 
         self.update_text_rect()
