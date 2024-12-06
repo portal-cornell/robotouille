@@ -5,6 +5,7 @@ from frontend.constants import MAIN_MENU
 from frontend.screen import ScreenInterface
 from pygame_gui.elements import UIPanel, UISelectionList
 
+
 class LevelEditorScreen(ScreenInterface):
     def __init__(self, window_size):
         """
@@ -76,7 +77,7 @@ class LevelEditorScreen(ScreenInterface):
         # Handle tab selection
         if event.type == pygame_gui.UI_SELECTION_LIST_NEW_SELECTION:
             if event.ui_element == self.sidebar_tabs:
-                selected_tab = event.text
+                selected_tab = self.sidebar_tabs.get_single_selection()
                 if selected_tab == "Items":
                     self.item_list.set_item_list(["steak", "cabbage", "strawberry"])
                 elif selected_tab == "Container":
@@ -86,7 +87,7 @@ class LevelEditorScreen(ScreenInterface):
                 elif selected_tab == "Other":
                     self.item_list.set_item_list(["decor"])
             elif event.ui_element == self.item_list:
-                self.selected_item = event.text
+                self.selected_item = self.item_list.get_single_selection()
 
         # Handle grid interactions
         if event.type == pygame.MOUSEBUTTONDOWN:
