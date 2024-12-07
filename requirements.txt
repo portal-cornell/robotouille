@@ -1,3 +1,4 @@
+# Existing game dependencies
 cloudpickle==2.2.1
 contourpy==1.0.7
 cycler==0.11.0
@@ -22,3 +23,13 @@ scipy==1.10.0
 six==1.16.0
 tifffile==2023.2.3
 zipp==3.14.0
+
+# OAuth server and client dependencies
+Flask==2.3.3
+psycopg2-binary==2.9.9
+PyJWT==2.8.0
+python-dotenv==1.0.0
+PyYAML==6.0.1
+requests==2.31.0
+requests-oauthlib==1.3.1
+appdirs==1.4.4
