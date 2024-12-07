@@ -3,7 +3,7 @@ import pygame_gui
 
 from frontend.constants import MAIN_MENU
 from frontend.screen import ScreenInterface
-from pygame_gui.elements import UIPanel, UIButton
+from pygame_gui.elements import UIPanel, UIButton, UILabel
 
 
 class LevelEditorScreen(ScreenInterface):
@@ -57,6 +57,10 @@ class LevelEditorScreen(ScreenInterface):
         """Load necessary assets for the screen."""
         pass
 
+    def _sanitize_object_id(self, name):
+        """Sanitize object_id to remove spaces and disallowed characters."""
+        return name.replace(" ", "_").replace(".", "_")
+
     def _create_tabs(self):
         """Create tab buttons inside the tabs panel (horizontal layout)."""
         tab_buttons = []
@@ -88,30 +92,75 @@ class LevelEditorScreen(ScreenInterface):
 
         # Items based on the current tab
         items = {
-            "Items": ["steak", "cabbage", "strawberry", "cooked steak", "watermelon slices", "cooked egg", "egg", "raw egg"],
-            "Container": ["plate", "tray"],
-            "Station": ["grill", "oven"],
-            "Other": ["decor"],
+            "Items": [
+                {"name": "steak", "image": "../assets/cheese.png"},
+                {"name": "cabbage", "image": "images/cabbage.png"},
+                {"name": "strawberry", "image": "images/strawberry.png"},
+                {"name": "cooked steak", "image": "images/cooked_steak.png"},
+                {"name": "watermelon slices", "image": "images/watermelon.png"},
+                {"name": "cooked egg", "image": "images/cooked_egg.png"},
+                {"name": "egg", "image": "images/egg.png"},
+                {"name": "raw egg", "image": "images/raw_egg.png"},
+            ],
+            "Container": [
+                {"name": "plate", "image": "images/plate.png"},
+                {"name": "tray", "image": "images/tray.png"},
+            ],
+            "Station": [
+                {"name": "grill", "image": "images/grill.png"},
+                {"name": "oven", "image": "images/oven.png"},
+            ],
+            "Other": [
+                {"name": "decor", "image": "images/decor.png"},
+            ],
         }
         item_list = items.get(self.current_tab, [])
 
         # Create buttons for the items (arranged in a grid format)
-        button_width, button_height = 90, 90
+        button_width, button_height = 90, 110  # Adjust height for image + caption
         columns = 3  # Number of buttons per row
         spacing = 10
 
         for i, item in enumerate(item_list):
             row = i // columns
             col = i % columns
-            button = UIButton(
+
+            # Create a UIPanel as a container for the button
+            button_panel = UIPanel(
                 relative_rect=pygame.Rect(
                     col * (button_width + spacing), row * (button_height + spacing), button_width, button_height
                 ),
-                text=item,
                 manager=self.ui_manager,
                 container=self.items_panel,
             )
-            self.item_buttons.append((button, item))
+
+            # Create a single UIButton for the image and caption
+            button = UIButton(
+                relative_rect=pygame.Rect(0, 0, button_width, button_height),
+                text="",  # Button text left blank for manual caption placement
+                manager=self.ui_manager,
+                container=button_panel,
+                object_id=f"#{self._sanitize_object_id(item['name'])}_button",
+            )
+
+            # Placeholder for the image (draw image within button background in assets later)
+            UILabel(
+                relative_rect=pygame.Rect(10, 10, 70, 70),  # Image space
+                text="",  # Placeholder for image
+                manager=self.ui_manager,
+                container=button_panel,
+            )
+
+            # Caption below the image
+            UILabel(
+                relative_rect=pygame.Rect(0, 80, button_width, 20),  # Caption position
+                text=item["name"],
+                manager=self.ui_manager,
+                container=button_panel,
+            )
+
+            # Add the button to the list
+            self.item_buttons.append((button, item["name"]))
 
     def _highlight_selected_button(self):
         """Highlight the currently selected button."""
