@@ -11,23 +11,24 @@ const Team = () => {
   const [selectedMember, setSelectedMember] = useState(null);
 
   const teamMembers = [
-    { name: "Gonzalo Gonzalez", role: "Ph.D." },
+    { name: "Gonzalo Gonzalez", role: " " },
+    { name: "Alan Chen", role: "Developer" },
     {
       name: "Amelia Zheng",
       role: "Developer",
-      hometown: "Chicago",
-      interests: "Photography, concerts",
-      funFact: "I have no cousins",
+      hometown: " ",
+      interests: " ",
+      funFact: " ",
       img: az,
       linkedin: "https://www.linkedin.com/in/amelia-zheng-173933235/",
     },
-    { name: "Alan Chen", role: "Developer" },
-    { name: "Henry Gao", role: "Developer" },
     { name: "Colin Wu", role: "Developer" },
+    { name: "Henry Gao", role: "Developer" },
     { name: "Ian Urquhart", role: "Developer" },
-    { name: "Tiffany Qiu", role: "Developer" },
-    { name: "Su Yean", role: "Developer" },
     { name: "Iris Li", role: "Marketer" },
+    { name: "Su Yean", role: "Developer" },
+    { name: "Tiffany Qiu", role: "Developer" },
+    { name: "Grace Jin", role: "Designer" },
     {
       name: "Lina Liu",
       role: "Designer",
@@ -38,7 +39,6 @@ const Team = () => {
       linkedin: "",
     },
     { name: "Ryan Qiu", role: "Designer" },
-    { name: "Grace Jin", role: "Designer" },
   ];
 
   const closeModal = () => setSelectedMember(null);

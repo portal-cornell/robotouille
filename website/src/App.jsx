@@ -9,6 +9,7 @@ import About from "./pages/About";
 import Team from "./pages/Team";
 import Footer from "./components/Footer";
 import Leaderboard from "./pages/Leaderboard";
+import FallingItems from "./components/FallingItems";
 
 const App = () => {
   return (
@@ -16,6 +17,9 @@ const App = () => {
       {/* Header is displayed on all pages */}
       <Header />
       <div className="pt-[7.5rem] lg:pt-[8rem] overflow-hidden min-h-screen bg-primary-blue">
+        <div className="absolute top-0 left-0 w-full h-full z-0">
+          <FallingItems />
+        </div>
         <Title />
         <Socials />
 

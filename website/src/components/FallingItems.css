@@ -1,0 +1,39 @@
+.falling-items {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  /* Full screen */
+  overflow: hidden;
+  z-index: 0;
+  /* Ensure it stays behind content */
+}
+
+.falling-item {
+  position: absolute;
+  top: -100px;
+  /* Start above the viewport */
+  left: calc(100% * var(--random-position));
+  /* Randomize horizontal position */
+  animation: fall linear infinite;
+  /* Continuous falling animation */
+  width: 70px;
+  /* Increased size of falling items */
+  height: auto;
+  /* Keep proportional scaling */
+  z-index: 0;
+  /* Ensure it stays in the background */
+  animation-duration: calc(4s + var(--random-duration));
+  /* Adjust speed */
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(0);
+    /* Start at the top */
+  }
+
+  100% {
+    transform: translateY(150vh);
+    /* Move well beyond the screen to the footer */
+  }
+}

@@ -1,11 +1,15 @@
 import React from "react";
 import lbHeader from "../assets/leaderboard-header.png";
 
+import gold from "../assets/goldhat.png";
+import silver from "../assets/silverhat.png";
+import bronze from "../assets/bronzehat.png";
+
 const Leaderboard = () => {
   const leaderboardData = [
-    { rank: 1, username: "EatSleepRepeat6", score: 12931, badge: "gold" },
-    { rank: 2, username: "BurritoASAP", score: 11050, badge: "silver" },
-    { rank: 3, username: "burgers_in_my_tummy", score: 10068, badge: "bronze" },
+    { rank: 1, username: "EatSleepRepeat6", score: 12931, badge: gold },
+    { rank: 2, username: "BurritoASAP", score: 11050, badge: silver },
+    { rank: 3, username: "burgers_in_my_tummy", score: 10068, badge: bronze },
     { rank: 4, username: "user", score: null },
     { rank: 5, username: "user", score: null },
     { rank: 6, username: "user", score: null },
@@ -22,19 +26,6 @@ const Leaderboard = () => {
     { rank: 17, username: "user", score: null },
   ];
 
-  const getBadgeStyle = (badge) => {
-    switch (badge) {
-      case "gold":
-        return "bg-yellow-400";
-      case "silver":
-        return "bg-gray-300";
-      case "bronze":
-        return "bg-orange-400";
-      default:
-        return "bg-blue-200";
-    }
-  };
-
   return (
     <div className="relative mt-28">
       {/* Header */}
@@ -47,8 +38,8 @@ const Leaderboard = () => {
       </div>
 
       {/* Leaderboard Container */}
-      <div className="bg-primary-darkRed h-svh w-6/12 text-white font-roboto-slab rounded-lg shadow-2xl max-w-3xl mx-auto mb-12 p-6">
-        <div className="bg-white text-black rounded-lg shadow-lg p-4 overflow-y-auto max-h-[680px] mt-8">
+      <div className="bg-primary-darkRed h-auto w-6/12 text-white font-roboto-slab rounded-lg shadow-2xl max-w-3xl mx-auto mb-12 p-6">
+        <div className="bg-white text-black rounded-lg shadow-lg p-4 overflow-y-auto max-h-[800px] h-[700px]">
           <div>
             {leaderboardData.map((entry, index) => (
               <div
@@ -59,12 +50,18 @@ const Leaderboard = () => {
               >
                 {/* Rank */}
                 <div className="flex items-center gap-2">
-                  <div
-                    className={`h-8 w-8 flex items-center justify-center rounded-full font-bold text-white ${getBadgeStyle(
-                      entry.badge
-                    )}`}
-                  >
-                    {entry.rank}
+                  <div className="relative h-8 w-8 flex items-center justify-center">
+                    {index < 3 ? (
+                      <img
+                        src={entry.badge}
+                        alt={`${entry.rank} place`}
+                        className="w-full h-10"
+                      />
+                    ) : (
+                      <div className="rounded-full bg-blue-200 font-bold text-white flex items-center justify-center w-full h-full">
+                        {entry.rank}
+                      </div>
+                    )}
                   </div>
                   <div className="text-sm font-medium">{entry.username}</div>
                 </div>
