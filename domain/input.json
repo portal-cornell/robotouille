@@ -115,6 +115,13 @@
             }
         },
         {
+            "name": "fry-bundle",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
             "name": "fill-pot",
             "input_instructions": {
                 "key": "e",

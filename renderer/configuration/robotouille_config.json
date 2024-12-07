@@ -153,7 +153,24 @@
                     }
                 },
                 "constants": {}
-            }   
+            },
+            "carrot": {
+                "assets": {
+                    "default": "carrot.png",
+                    "cut": {
+                        "asset": "cutcarrot.png",
+                        "predicates": ["iscut"]
+                    }
+                },
+                "constants": {}
+            },
+            "mushroom": {
+                "assets": {
+                    "default": "mushroom.png"
+                   
+                },
+                "constants": {}
+            }     
         }
     },
 
@@ -288,6 +305,16 @@
                     "default": "seaweed.png",
                     "sushi": {
                         "default": "sushi.png",
+                        "predicates": ["isrolled"]
+                    }
+                },
+                "constants": {}
+            },
+            "rollsheet": {
+                "assets": {
+                    "default": "rollsheet.png",
+                    "springroll": {
+                        "default": "springroll.png",
                         "predicates": ["isrolled"]
                     }
                 },

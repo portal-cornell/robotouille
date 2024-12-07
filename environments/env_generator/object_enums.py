@@ -15,6 +15,8 @@ class Item(Enum):
     SALMON = "salmon"
     RICE = "rice"
     CUCUMBER = "cucumber"
+    MUSHROOM = "mushroom"
+    CARROT = "carrot"
 
 
 class Player(Enum):
@@ -47,6 +49,7 @@ class Meal(Enum):
 
 class Bundle(Enum):
     SEAWEED = "seaweed"
+    ROLLSHEET = "rollsheet"
 
 
 TYPES = {
