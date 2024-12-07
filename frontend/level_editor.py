@@ -182,9 +182,22 @@ class LevelEditorScreen(ScreenInterface):
                     self.selected_item = item_name
                     print(f"Selected item: {self.selected_item}")
 
-        # Handle grid panning
+        # Handle grid interactions
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 1:
+            if event.button == 1:  # Left click for placing item
+                x, y = event.pos
+                # Ensure clicks happen outside the sidebar
+                if x < self.sidebar_width:
+                    print("Clicked inside sidebar, ignoring")
+                    return
+                # Translate mouse position to grid position
+                grid_x = int((x - self.offset_x) / (self.cell_size * self.zoom))
+                grid_y = int((y - self.offset_y) / (self.cell_size * self.zoom))
+                print(f"Mouse click at pixel ({x}, {y}) maps to grid ({grid_x}, {grid_y})")
+                if 0 <= grid_x < self.grid_width and 0 <= grid_y < self.grid_height:
+                    self.grid_items[grid_y][grid_x] = self.selected_item
+                    print(f"Placed {self.selected_item} at ({grid_x}, {grid_y}) on the grid")
+
                 self.is_dragging = True
                 self.last_mouse_pos = event.pos
 
