@@ -1,11 +1,10 @@
 import pygame
-import time
 from utils.robotouille_input import create_action_from_control
 from robotouille.robotouille_env import create_robotouille_env
 from frontend.pause import PauseScreen
-from frontend.constants import *
+from frontend.constants import ENDGAME
 from backend.movement.player import Player
-from backend.movement.movement import Movement, Mode
+from backend.movement.movement import Movement
 
 
 class RobotouilleSimulator:

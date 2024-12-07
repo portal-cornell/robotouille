@@ -76,7 +76,7 @@ class EditableTextbox(Textbox):
         Returns:
             bool: True if the current text is deemed valid; otherwise, False.
         """
-        # TODO 
+        # TODO change to check if the current text is appropriate based on defined validation criteria.
         return len(self.text) > 0
     
     def confirm_text(self):
