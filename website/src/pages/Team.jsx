@@ -26,6 +26,7 @@ const Team = () => {
     { name: "Colin Wu", role: "Developer" },
     { name: "Ian Urquhart", role: "Developer" },
     { name: "Tiffany Qiu", role: "Developer" },
+    { name: "Su Yean", role: "Developer" },
     { name: "Iris Li", role: "Marketer" },
     {
       name: "Lina Liu",
@@ -36,7 +37,6 @@ const Team = () => {
       img: ll,
       linkedin: "",
     },
-    { name: "Su Yean", role: "Developer" },
     { name: "Ryan Qiu", role: "Designer" },
     { name: "Grace Jin", role: "Designer" },
   ];
@@ -45,7 +45,6 @@ const Team = () => {
 
   return (
     <div className="relative mt-28">
-      {/* Section Header */}
       <div className="absolute inset-x-0 -top-15 flex justify-center">
         <img
           src={teamHeader}
@@ -54,13 +53,12 @@ const Team = () => {
         />
       </div>
       <div className="bg-primary-darkRed text-white font-roboto-slab rounded-lg shadow-2xl max-w-3xl mx-auto mb-12 p-6">
-        {/* Grid */}
         <div className="grid grid-cols-3 gap-2 mt-10">
           {teamMembers.map((member, index) => (
             <div
               key={index}
-              className="bg-red-800 text-center p-2 rounded-md cursor-pointer"
-              onClick={() => setSelectedMember(member)} // Open modal with member info
+              className="bg-red-800 text-center p-2 rounded-md cursor-pointer hover:bg-red-900"
+              onClick={() => setSelectedMember(member)}
             >
               {/* Image */}
               <div
@@ -82,7 +80,6 @@ const Team = () => {
         </div>
       </div>
 
-      {/* Modal */}
       {selectedMember && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white text-black p-10 rounded-lg max-w-max w-full flex flex-col md:flex-row gap-10 relative">
@@ -135,7 +132,7 @@ const Team = () => {
             </div>
 
             <button
-              className="absolute top-3 right-3 text-neutral-600 py-3 px-6  text-2xl font-bold"
+              className="absolute top-3 right-3 text-neutral-600 hover:text-gray-800 py-3 px-6  text-2xl font-bold"
               onClick={closeModal}
             >
               &times;
