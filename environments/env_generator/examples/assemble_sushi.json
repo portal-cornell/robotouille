@@ -63,13 +63,13 @@
         }
     ],
     "meals": [],
-    "containers": [
+    "containers": [],
+    "bundles": [
         {
             "name": "seaweed",
             "x": 3,
             "y": 1,
-            "id": "a",
-            "meal_id": []
+            "id": 1
         }
     ],
     "players": [
@@ -82,7 +82,7 @@
     ],
     "goal": [
         {
-            "predicate": "container_at",
+            "predicate": "bundle_at",
             "args": ["seaweed", "stove"],
             "ids": [1, 2]
         }

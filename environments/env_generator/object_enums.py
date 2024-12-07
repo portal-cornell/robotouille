@@ -45,12 +45,17 @@ class Meal(Enum):
     SUSHI = "sushi"
 
 
+class Bundle(Enum):
+    SEAWEED = "seaweed"
+
+
 TYPES = {
     "item": Item,
     "player": Player,
     "station": Station,
     "container": Container,
     "meal": Meal,
+    "bundle": Bundle,
 }
 
 
@@ -67,7 +72,7 @@ def str_to_typed_enum(s):
     Returns:
         typed_enum (Enum): Enum of the string.
     """
-    for typed_enum in [Item, Player, Station, Container, Meal]:
+    for typed_enum in [Item, Player, Station, Container, Meal, Bundle]:
         try:
             return typed_enum(s)
         except ValueError:

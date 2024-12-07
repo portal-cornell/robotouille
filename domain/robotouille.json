@@ -4,7 +4,7 @@
 
     "input_json": "domain/input.json",
 
-    "object_types": ["station", "item", "player", "container", "meal"],
+    "object_types": ["station", "item", "player", "container", "meal", "bundle"],
 
     "predicate_defs": [
         {
@@ -193,16 +193,37 @@
         },
         {
             "name": "isseaweed",
-            "param_types": ["container"]
+            "param_types": ["bundle"]
+        },
+        {
+            "name": "in_bundle",
+            "param_types": ["item", "bundle"]
         },
         {
             "name": "atop_container",
             "param_types": ["item", "container"]
         },
         {
-            "name": "issushi",
-            "param_types": ["meal"]
+            "name": "isrolled",
+            "param_types": ["bundle"]
+        },
+        {
+            "name": "bundle_at",
+            "param_types": ["bundle", "station"]
+        },
+        {
+            "name": "at_bundle",
+            "param_types": ["item", "bundle"]
+        },
+        {
+            "name": "bundle_clear",
+            "param_types": ["bundle"]
+        },
+        {
+            "name": "has_bundle",
+            "param_types": ["player", "bundle"]
         }
+        
     ],
 
     "action_defs": [
@@ -1446,7 +1467,7 @@
             "sfx": []
         },
         {
-            "name": "add-to-seaweed",
+            "name": "add-to-bundle",
             "precons": [
                 {
                     "predicate": "has_item",
@@ -1459,13 +1480,8 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "container_at",
-                    "params": ["c1", "s1"],
-                    "is_true": true
-                },
-                {
-                    "predicate": "isseaweed",
-                    "params": ["c1"],
+                    "predicate": "bundle_at",
+                    "params": ["b1", "s1"],
                     "is_true": true
                 }
             ],
@@ -1476,8 +1492,8 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "at_container",
-                    "params": ["i1", "c1"],
+                    "predicate": "in_bundle",
+                    "params": ["i1", "b1"],
                     "is_true": true
                 },
                 {
@@ -1492,8 +1508,8 @@
             "name": "roll",
             "precons": [
                 {
-                    "predicate": "container_at",
-                    "params": ["c1", "s1"],
+                    "predicate": "bundle_at",
+                    "params": ["b1", "s1"],
                     "is_true": true
                 },
                 {
@@ -1507,57 +1523,34 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "at_container",
-                    "params": ["i1", "c1"],
+                    "predicate": "in_bundle",
+                    "params": ["i1", "b1"],
                     "is_true": true
                 },
                 {
-                    "predicate": "at_container",
-                    "params": ["i2", "c1"],
+                    "predicate": "in_bundle",
+                    "params": ["i2", "b1"],
                     "is_true": true
                 },
                 {
-                    "predicate": "at_container",
-                    "params": ["i3", "c1"],
+                    "predicate": "in_bundle",
+                    "params": ["i3", "b1"],
                     "is_true": true
                 }
             ],
             "immediate_fx": [
                 {
-                    "predicate": "container_clear",
-                    "params": ["c1"],
+                    "predicate": "bundle_clear",
+                    "params": ["b1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "isrolled",
+                    "params": ["b1"],
                     "is_true": true
                 }
             ],
-            "sfx": [
-                {
-                    "type": "creation",
-                    "param": "c1",
-                    "created_obj": {
-                        "name": "sushi",
-                        "type": "meal",
-                        "param": "m1"
-                    },
-                    "fx": [
-                        {
-                            "predicate": "issushi",
-                            "params": ["m1"],
-                            "is_true": true
-                        },
-                        {
-                            "predicate": "in",
-                            "params": ["m1", "c1"],
-                            "is_true": true
-                        },
-                        {
-                            "predicate": "container_empty",
-                            "params": ["c1"],
-                            "is_true": false
-                        }
-                    ],
-                    "sfx": []
-                }
-            ]
+            "sfx": []
         },
         {
             "name": "cook-rice",
@@ -1627,6 +1620,92 @@
                     ]
                 }
             ]
+        },
+        {
+            "name": "pick-up-bundle",
+            "precons": [
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "bundle_at",
+                    "params": ["b1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "loc",
+                    "params": ["p1", "s1"],
+                    "is_true": true
+                }
+            ],
+            "immediate_fx": [
+                {
+                    "predicate": "has_bundle",
+                    "params": ["p1", "b1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "bundle_at",
+                    "params": ["b1", "s1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "station_empty",
+                    "params": ["s1"],
+                    "is_true": true
+                }
+            ],
+            "sfx": []
+        },
+        {
+            "name": "place-bundle",
+            "precons": [
+                {
+                    "predicate": "has_bundle",
+                    "params": ["p1", "b1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "loc",
+                    "params": ["p1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "station_empty",
+                    "params": ["s1"],
+                    "is_true": true
+                }
+            ],
+            "immediate_fx": [
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "bundle_at",
+                    "params": ["b1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "has_bundle",
+                    "params": ["p1", "b1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "station_empty",
+                    "params": ["s1"],
+                    "is_true": false
+                }
+            ],
+            "sfx": []
         }
     ]
 }

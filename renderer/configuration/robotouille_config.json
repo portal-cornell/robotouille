@@ -272,20 +272,28 @@
                 "constants": {
                     "STATION_CONTAINER_OFFSET": 0.5
                 }
-            },
+            }
+            
+        }
+    },
+    "bundle": {
+        "constants": {
+            "STATION_BUNDLE_OFFSET" : 0.25,
+            "X_SCALE_FACTOR": 0.125,
+            "Y_SCALE_FACTOR": 0.75
+        },
+        "entities": {
             "seaweed": {
                 "assets": {
                     "default": "seaweed.png",
                     "sushi": {
-                        "default": "sushi.png"
+                        "default": "sushi.png",
+                        "predicates": ["isrolled"]
                     }
                 },
-                "constants": {
-                    "STATION_CONTAINER_OFFSET": 0.5
-                }
+                "constants": {}
             }
         }
     }
-
 
 }

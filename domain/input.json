@@ -22,6 +22,20 @@
             }
         },
         {
+            "name": "pick-up-bundle",
+            "input_instructions": {
+                "button": "left",
+                "click_on": "s1"
+            }
+        },
+        {
+            "name": "place-bundle",
+            "input_instructions": {
+                "button": "left",
+                "click_on": "s1"
+            }
+        },
+        {
             "name": "stack-on-bottom-item",
             "input_instructions": {
                 "button": "left",
@@ -143,7 +157,7 @@
             }
         },
         {
-            "name": "add-to-seaweed",
+            "name": "add-to-bundle",
             "input_instructions": {
                 "key": "r",
                 "at": "s1"
