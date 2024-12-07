@@ -31,17 +31,16 @@ class LevelEditorScreen(ScreenInterface):
         # Initialize pygame_gui manager
         self.ui_manager = pygame_gui.UIManager(window_size)
 
-        # Sidebar Panel - Positioned to the far right
-        self.sidebar_width = 220
+        # Sidebar Panel - Wider to fit the UI
+        self.sidebar_width = 320
         self.sidebar_panel = UIPanel(
             relative_rect=pygame.Rect(window_size[0] - self.sidebar_width, 0, self.sidebar_width, window_size[1]),
             manager=self.ui_manager,
         )
 
-        # Tabs container
-        self.tabs_height = 160
+        # Tabs container (horizontal row)
         self.tabs_panel = UIPanel(
-            relative_rect=pygame.Rect(10, 10, self.sidebar_width - 20, self.tabs_height),
+            relative_rect=pygame.Rect(10, 10, self.sidebar_width - 20, 50),
             manager=self.ui_manager,
             container=self.sidebar_panel,
         )
@@ -59,13 +58,13 @@ class LevelEditorScreen(ScreenInterface):
         pass
 
     def _create_tabs(self):
-        """Create tab buttons inside the tabs panel."""
+        """Create tab buttons inside the tabs panel (horizontal layout)."""
         tab_buttons = []
-        button_height = 40
+        button_width = 70
         spacing = 10
         for i, tab_name in enumerate(self.tabs):
             button = UIButton(
-                relative_rect=pygame.Rect(0, i * (button_height + spacing), self.sidebar_width - 20, button_height),
+                relative_rect=pygame.Rect(i * (button_width + spacing), 5, button_width, 40),
                 text=tab_name,
                 manager=self.ui_manager,
                 container=self.tabs_panel,
@@ -81,7 +80,7 @@ class LevelEditorScreen(ScreenInterface):
 
         # Create a new panel to hold item buttons below the tabs
         self.items_panel = UIPanel(
-            relative_rect=pygame.Rect(10, self.tabs_height + 20, self.sidebar_width - 20, 400),
+            relative_rect=pygame.Rect(10, 70, self.sidebar_width - 20, 400),
             manager=self.ui_manager,
             container=self.sidebar_panel,
         )
@@ -89,19 +88,25 @@ class LevelEditorScreen(ScreenInterface):
 
         # Items based on the current tab
         items = {
-            "Items": ["steak", "cabbage", "strawberry"],
+            "Items": ["steak", "cabbage", "strawberry", "cooked steak", "watermelon slices", "cooked egg", "egg", "raw egg"],
             "Container": ["plate", "tray"],
             "Station": ["grill", "oven"],
             "Other": ["decor"],
         }
         item_list = items.get(self.current_tab, [])
 
-        # Create buttons for the items
-        button_height = 40
+        # Create buttons for the items (arranged in a grid format)
+        button_width, button_height = 90, 90
+        columns = 3  # Number of buttons per row
         spacing = 10
+
         for i, item in enumerate(item_list):
+            row = i // columns
+            col = i % columns
             button = UIButton(
-                relative_rect=pygame.Rect(0, i * (button_height + spacing), self.sidebar_width - 40, button_height),
+                relative_rect=pygame.Rect(
+                    col * (button_width + spacing), row * (button_height + spacing), button_width, button_height
+                ),
                 text=item,
                 manager=self.ui_manager,
                 container=self.items_panel,
