@@ -3,7 +3,7 @@ import pygame_gui
 
 from frontend.constants import MAIN_MENU
 from frontend.screen import ScreenInterface
-from pygame_gui.elements import UIPanel, UIButton, UISelectionList
+from pygame_gui.elements import UIPanel, UIButton
 
 
 class LevelEditorScreen(ScreenInterface):
@@ -24,113 +24,121 @@ class LevelEditorScreen(ScreenInterface):
         self.is_dragging = False
         self.last_mouse_pos = None
 
-        self.selected_item = "steak"  # Default selected item
+        self.selected_item = None  # No default selected item
         self.selected_button = None  # Track the currently selected button
         self.grid_items = [[None for _ in range(self.grid_width)] for _ in range(self.grid_height)]
-        self.item_buttons = []  # Initialize item_buttons as an empty list
 
         # Initialize pygame_gui manager
         self.ui_manager = pygame_gui.UIManager(window_size)
 
         # Sidebar Panel - Positioned to the far right
+        self.sidebar_width = 220
         self.sidebar_panel = UIPanel(
-            relative_rect=pygame.Rect(self.screen_width - 220, 0, 220, self.screen_height),
+            relative_rect=pygame.Rect(window_size[0] - self.sidebar_width, 0, self.sidebar_width, window_size[1]),
             manager=self.ui_manager,
         )
 
-        # Sidebar Tabs with old styling (UISelectionList)
-        self.sidebar_tabs = UISelectionList(
-            relative_rect=pygame.Rect(10, 10, 200, 150),
-            item_list=["Items", "Container", "Station", "Other"],
+        # Tabs container
+        self.tabs_height = 160
+        self.tabs_panel = UIPanel(
+            relative_rect=pygame.Rect(10, 10, self.sidebar_width - 20, self.tabs_height),
             manager=self.ui_manager,
-            parent_element=self.sidebar_panel,
+            container=self.sidebar_panel,
         )
+        self.tabs = ["Items", "Container", "Station", "Other"]
+        self.tab_buttons = self._create_tabs()
 
-        # Simulate default tab selection
+        # Current selected tab and its items
         self.current_tab = "Items"
+        self.items_panel = None  # Placeholder for item buttons
+        self.item_buttons = []  # Keep track of item buttons
         self.update_item_buttons()
 
     def load_assets(self):
         """Load necessary assets for the screen."""
         pass
 
+    def _create_tabs(self):
+        """Create tab buttons inside the tabs panel."""
+        tab_buttons = []
+        button_height = 40
+        spacing = 10
+        for i, tab_name in enumerate(self.tabs):
+            button = UIButton(
+                relative_rect=pygame.Rect(0, i * (button_height + spacing), self.sidebar_width - 20, button_height),
+                text=tab_name,
+                manager=self.ui_manager,
+                container=self.tabs_panel,
+            )
+            tab_buttons.append((button, tab_name))
+        return tab_buttons
+
     def update_item_buttons(self):
-        """Update the item buttons based on the selected tab."""
-        # Correctly remove old buttons
-        for button, _ in self.item_buttons:
-            button.kill()
+        """Update the item buttons for the current tab."""
+        # Destroy the old item buttons panel, if it exists
+        if self.items_panel is not None:
+            self.items_panel.kill()
+
+        # Create a new panel to hold item buttons below the tabs
+        self.items_panel = UIPanel(
+            relative_rect=pygame.Rect(10, self.tabs_height + 20, self.sidebar_width - 20, 400),
+            manager=self.ui_manager,
+            container=self.sidebar_panel,
+        )
         self.item_buttons = []
 
+        # Items based on the current tab
         items = {
             "Items": ["steak", "cabbage", "strawberry"],
             "Container": ["plate", "tray"],
             "Station": ["grill", "oven"],
             "Other": ["decor"],
         }
+        item_list = items.get(self.current_tab, [])
 
-        item_list = items[self.current_tab]
-
+        # Create buttons for the items
+        button_height = 40
+        spacing = 10
         for i, item in enumerate(item_list):
             button = UIButton(
-                relative_rect=pygame.Rect(10, 180 + i * 50, 200, 40),
-                text="",  # No text; purely image-based
+                relative_rect=pygame.Rect(0, i * (button_height + spacing), self.sidebar_width - 40, button_height),
+                text=item,
                 manager=self.ui_manager,
-                parent_element=self.sidebar_panel,
-                object_id=f"#item_{item}",
+                container=self.items_panel,
             )
-            self.item_buttons.append((button, item))  # Store button and its associated item
+            self.item_buttons.append((button, item))
 
-            # If the button matches the default selected item, set it as active
-            if item == self.selected_item:
-                self.selected_button = button
-
-        self._update_button_states()  # Ensure button states are updated for the default selection
-
-    def _update_button_states(self):
-        """Update the states of item buttons to reflect selection."""
+    def _highlight_selected_button(self):
+        """Highlight the currently selected button."""
         for button, item in self.item_buttons:
-            if item == self.selected_item:
-                button.select()  # Mark the button as active
+            if self.selected_item == item:
+                button.select()  # Mark the selected button
             else:
-                button.unselect()  # Mark the button as inactive
-
-    def _draw_grid(self, surface):
-        """Render the grid with current offset and zoom."""
-        for row in range(self.grid_height):
-            for col in range(self.grid_width):
-                x = col * self.cell_size * self.zoom + self.offset_x
-                y = row * self.cell_size * self.zoom + self.offset_y
-                pygame.draw.rect(surface, (200, 200, 200),
-                                 (x, y, self.cell_size * self.zoom, self.cell_size * self.zoom), 1)
-
-                # Draw placed items
-                item = self.grid_items[row][col]
-                if item:
-                    font = pygame.font.SysFont(None, 24)
-                    text = font.render(item, True, (0, 0, 0))
-                    surface.blit(text, (x + 5, y + 5))
+                button.unselect()  # Unmark all other buttons
 
     def handle_events(self, event):
-        """Handle events for grid and UI."""
+        """Handle events for UI and grid interactions."""
         self.ui_manager.process_events(event)
 
-        if event.type == pygame_gui.UI_SELECTION_LIST_NEW_SELECTION:
-            if event.ui_element == self.sidebar_tabs:
-                self.current_tab = self.sidebar_tabs.get_single_selection()
-                self.update_item_buttons()
-
         if event.type == pygame_gui.UI_BUTTON_PRESSED:
+            # Handle tab selection
+            for button, tab_name in self.tab_buttons:
+                if event.ui_element == button:
+                    self.current_tab = tab_name
+                    self.update_item_buttons()
+
+            # Handle item button selection
             for button, item in self.item_buttons:
                 if event.ui_element == button:
                     self.selected_item = item
                     self.selected_button = button
-                    self._update_button_states()
+                    self._highlight_selected_button()  # Ensure visual feedback
 
         # Handle grid interactions
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:  # Left click for panning or item placement
                 x, y = event.pos
-                if x < self.screen_width - 220:  # Click outside the sidebar
+                if x < self.screen_width - self.sidebar_width:  # Ignore clicks in the sidebar
                     grid_x = int((x - self.offset_x) / (self.cell_size * self.zoom))
                     grid_y = int((y - self.offset_y) / (self.cell_size * self.zoom))
                     if 0 <= grid_x < self.grid_width and 0 <= grid_y < self.grid_height:
@@ -167,14 +175,30 @@ class LevelEditorScreen(ScreenInterface):
             self.offset_x = mouse_x - mouse_grid_x * self.cell_size * self.zoom
             self.offset_y = mouse_y - mouse_grid_y * self.cell_size * self.zoom
 
+    def _draw_grid(self, surface):
+        """Render the grid."""
+        for row in range(self.grid_height):
+            for col in range(self.grid_width):
+                x = col * self.cell_size * self.zoom + self.offset_x
+                y = row * self.cell_size * self.zoom + self.offset_y
+                pygame.draw.rect(surface, (200, 200, 200),
+                                 (x, y, self.cell_size * self.zoom, self.cell_size * self.zoom), 1)
+
+                # Draw placed items
+                item = self.grid_items[row][col]
+                if item:
+                    font = pygame.font.SysFont(None, 24)
+                    text = font.render(item, True, (0, 0, 0))
+                    surface.blit(text, (x + 5, y + 5))
+
     def draw(self):
-        """Draw grid and UI components."""
-        self.screen.fill((50, 50, 50))  # Clear background
+        """Draw the grid and UI."""
+        self.screen.fill((50, 50, 50))  # Clear the background
         self._draw_grid(self.screen)
         self.ui_manager.draw_ui(self.screen)
 
     def update(self):
-        """Update the screen and handle events."""
+        """Update the UI and handle events."""
         super().update()
         time_delta = pygame.time.Clock().tick(60) / 1000.0
         self.ui_manager.update(time_delta)
