@@ -222,6 +222,14 @@
         {
             "name": "has_bundle",
             "param_types": ["player", "bundle"]
+        },
+        {
+            "name": "iscooked-bundle",
+            "param_types": ["bundle"]
+        },
+        {
+            "name": "iscookable-bundle",
+            "param_types": ["bundle"]
         }
         
     ],
@@ -1706,6 +1714,65 @@
                 }
             ],
             "sfx": []
+        },
+        {
+            "name": "cook-bundle",
+            "precons": [
+                {
+                    "predicate": "isstove",
+                    "params": ["s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "iscookable-bundle",
+                    "params": ["b1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "bundle_at",
+                    "params": ["b1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "loc",
+                    "params": ["p1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
+                    "is_true": true
+                }
+            ],
+            "immediate_fx": [],
+            "sfx": [
+                {
+                    "type": "conditional",
+                    "param": "b1",
+                    "conditions": [
+                        {
+                            "predicate": "bundle_at",
+                            "params": ["b1", "s1"],
+                            "is_true": true
+                        }
+                    ],
+                    "fx": [],
+                    "sfx": [
+                        {
+                            "type": "delayed",
+                            "param": "b1",
+                            "fx": [
+                                {
+                                    "predicate": "iscooked-bundle",
+                                    "params": ["b1"],
+                                    "is_true": true
+                                }
+                            ],
+                            "sfx": []
+                        }
+                    ]
+                }
+            ]
         }
     ]
 }

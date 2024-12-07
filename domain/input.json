@@ -162,6 +162,13 @@
                 "key": "r",
                 "at": "s1"
             }
+        },
+        {
+            "name": "cook-bundle",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
         }
     ]
 }

@@ -153,6 +153,12 @@
                     }
                 },
                 "constants": {}
+            },
+            "apple": {
+                "assets": {
+                    "default": "appleslices.png"
+                },
+                "constants": {}
             }   
         }
     },
@@ -289,6 +295,20 @@
                     "sushi": {
                         "default": "sushi.png",
                         "predicates": ["isrolled"]
+                    }
+                },
+                "constants": {}
+            },
+            "tart": {
+                "assets": {
+                    "default": "appletartdough.png",
+                    "appletart": {
+                        "default": "appletart.png",
+                        "predicates": ["isrolled"]
+                    },
+                    "bakedappletart": {
+                        "default": "bakedappletart.png",
+                        "predicates": ["iscooked-bundle"]
                     }
                 },
                 "constants": {}
