@@ -1,9 +1,8 @@
 import pygame
-from frontend.constants import *
 from frontend.image import Image
 from frontend.loading import LoadingScreen
 from renderer.canvas import RobotouilleCanvas
-import json 
+import os
 
 # Set up the assets directory
 ASSETS_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "orders"))
@@ -66,8 +65,7 @@ class Order:
         self.convert_recipe()
 
     def get_image(self, image_name):
-        path = os.path.join(RobotouilleCanvas.ASSETS_DIRECTORY, image_name) + ".png"
-        return LoadingScreen.ASSET[path]
+        return LoadingScreen.ASSET[RobotouilleCanvas.ASSETS_DIRECTORY][image_name + ".png"]
     
     def convert_recipe(self):
         """
@@ -146,10 +144,8 @@ class Order:
         Loads necessary assets.
         """
         # load asset paths then images
-        background_path = os.path.join(ASSETS_DIRECTORY, "background.png")
-        profile_path = os.path.join(ASSETS_DIRECTORY, "customer-profile.png")
-        self.background_image = LoadingScreen.ASSET[background_path]
-        self.profile_image = LoadingScreen.ASSET[profile_path]
+        self.background_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["background.png"]
+        self.profile_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["customer-profile.png"]
 
     
     def draw(self):

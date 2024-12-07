@@ -34,9 +34,8 @@ class RobotouilleRenderer:
         self.canvas = RobotouilleCanvas(config, layout, tiling, players, window_size)
         # The pygame window size.
         self.window_size = window_size
-        # The framerate of the renderer. This isn't too important since the renderer
         # displays static drawings.
-        pygame.display.set_mode(self.window_size)
+        # pygame.display.set_mode(self.window_size)
 
         self.orders = OrdersCollection(window_size, config)
 

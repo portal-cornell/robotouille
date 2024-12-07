@@ -6,10 +6,11 @@ from frontend.pause import PauseScreen
 from frontend.constants import *
 from backend.movement.player import Player
 from backend.movement.movement import Movement, Mode
+import numpy as np
 
 
 class RobotouilleSimulator:
-    def __init__(self, canvas, environment_name: str, seed: int = 42, noisy_randomization: bool = False, movement_mode: str = 'traverse', human = True, render_fps=60):
+    def __init__(self, canvas, environment_name: str, seed: int = 42, noisy_randomization: bool = False, movement_mode: str = 'traverse', human=True, render_fps=60):
         """
         Initialize the Robotouille simulator.
 
@@ -22,7 +23,8 @@ class RobotouilleSimulator:
             human (bool): Whether a human player is controlling the game (default: True).
             render_fps (int): Frames per second for rendering (default: 60).
         """
-
+        self.offset = (500, 0)
+        self.window_size= (512,512)
         self.human = human
         self.canvas = canvas
         self.env, self.json, self.renderer = create_robotouille_env(environment_name, movement_mode, seed, noisy_randomization)
@@ -31,12 +33,33 @@ class RobotouilleSimulator:
         self.interactive = False  # Set to True to interact with the environment through terminal REPL (ignores input)
         screen_size = canvas.get_size()
         self.surface = pygame.Surface(screen_size)
-        self.pause = PauseScreen(screen_size)
+
+        pause_width, pause_height = self.window_size
+        surface_width, surface_height = screen_size
+        
+        self.offset = (
+            (surface_width - pause_width) // 2,
+            (surface_height - pause_height) // 2
+        )
+
+        self.pause = PauseScreen(self.window_size, mouse_offset_x= self.offset[0], mouse_offset_y = self.offset[1])
         self.clock = pygame.time.Clock()
         self.players = self.obs.get_players()
         self.actions = []
         self.render_fps = render_fps
+        self.next_screen = None
+    
+    def set_next_screen(self, next_screen):
+        """
+        Set the next screen for transition.
 
+        Specifies the screen that should be displayed after the current screen.
+
+        Args:
+           next_screen (str): Identifier for the next screen (e.g., `MAIN_MENU`, `SETTINGS`).
+
+        """
+        self.next_screen = next_screen
 
     def draw(self):
         """
@@ -44,9 +67,12 @@ class RobotouilleSimulator:
         """
 
         self.renderer.render(self.obs, mode='human')
-        self.surface.blit(self.renderer.surface, (0, 0))
-        self.surface.blit(self.pause.get_screen(), (0, 0))
+        self.surface.fill((0,0,0))
+
+        self.surface.blit(self.renderer.surface, self.offset)
+        self.surface.blit(self.pause.get_screen(), self.offset)
         self.canvas.blit(self.surface, (0, 0))
+        # The framerate of the renderer. This isn't too important since the renderer
         self.clock.tick(self.render_fps)
 
 
@@ -79,19 +105,26 @@ class RobotouilleSimulator:
         """
         Main update loop for the simulation. Handles rendering, input, and game logic.
 
-        Returns:
-            str or None: Returns the next game state (`ENDGAME`) if finished, otherwise None.
         """
         
         if self.done:
             self.renderer.render(self.obs, close=True)
-            return ENDGAME if self.human else None
+            self.next_screen = ENDGAME
+            return
+        
+        if self.pause.next_screen is not None:
+            self.next_screen = self.pause.next_screen
+            self.pause.set_next_screen(None)
+            self.pause.toggle()
+            return
         
         pygame_events = pygame.event.get()
             
         self.draw()
         self.handle_pause(pygame_events)
 
+        return
+        
         mousedown_events = list(filter(lambda e: e.type == pygame.MOUSEBUTTONDOWN, pygame_events))
         keydown_events = list(filter(lambda e: e.type == pygame.KEYDOWN, pygame_events))
         player_obj = Player.get_player(self.obs.current_player.name)

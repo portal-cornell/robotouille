@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 import pygame
 
 class ScreenInterface(ABC):
-    def __init__(self, window_size, width = 1440, height = 1024):
+    def __init__(self, window_size, width = 1440, height = 1024, mouse_offset_x=0, mouse_offset_y=0):
         """
         Initialize the ScreenInterface instance.
 
@@ -31,7 +31,11 @@ class ScreenInterface(ABC):
         self.offset_x = (self.screen_width - background_width) / (2 * self.screen_width)
         self.offset_y = (self.screen_height - background_height) / (2 * self.screen_height)
 
+        self.mouse_offset_x = mouse_offset_x
+        self.mouse_offset_y = mouse_offset_y        
+
         self.load_assets()
+    
 
     def set_next_screen(self, next_screen):
         """

@@ -22,7 +22,7 @@ class NinePatch:
         self.width = width
         self.height = height
         self.padding = padding
-        self.image_source = pygame.transform.scale(
+        self.image_source = pygame.transform.smoothscale(
             image_source,
             (int(image_source.get_width() * scale_factor), int(image_source.get_height() * scale_factor))
         )
@@ -104,17 +104,17 @@ class NinePatch:
                 self.screen.blit(self.slices['bottom_right'], (x_positions['right'], y_positions['bottom']))
 
         if center_w > 0 and self.height >= top + bottom:
-            top_edge = pygame.transform.scale(self.slices['top'], (center_w, top))
-            bottom_edge = pygame.transform.scale(self.slices['bottom'], (center_w, bottom))
+            top_edge = pygame.transform.smoothscale(self.slices['top'], (center_w, top))
+            bottom_edge = pygame.transform.smoothscale(self.slices['bottom'], (center_w, bottom))
             self.screen.blit(top_edge, (x_positions['center'], y_positions['top']))
             self.screen.blit(bottom_edge, (x_positions['center'], y_positions['bottom']))
 
         if center_h > 0 and self.width >= left + right:
-            left_edge = pygame.transform.scale(self.slices['left'], (left, center_h))
-            right_edge = pygame.transform.scale(self.slices['right'], (right, center_h))
+            left_edge = pygame.transform.smoothscale(self.slices['left'], (left, center_h))
+            right_edge = pygame.transform.smoothscale(self.slices['right'], (right, center_h))
             self.screen.blit(left_edge, (x_positions['left'], y_positions['center']))
             self.screen.blit(right_edge, (x_positions['right'], y_positions['center']))
 
         if center_w > 0 and center_h > 0:
-            center_area = pygame.transform.scale(self.slices['center'], (center_w, center_h))
+            center_area = pygame.transform.smoothscale(self.slices['center'], (center_w, center_h))
             self.screen.blit(center_area, (x_positions['center'], y_positions['center']))

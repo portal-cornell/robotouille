@@ -63,27 +63,30 @@ def game():
                         noisy_randomization=args.noisy_randomization,
                         movement_mode=args.movement_mode
                     )
-            nxt = simulator_instance.update()
-            if nxt is not None:
-                current_screen = nxt
+                
+            simulator_instance.update()
+            if simulator_instance.next_screen is not None:
+                current_screen = simulator_instance.next_screen
+                simulator_instance.set_next_screen(None)
                 simulator_instance = None 
                 screen = pygame.display.set_mode(screen_size)
+
         else:
             if current_screen == MATCHMAKING:
-                screens[current_screen].setPlayers(["Player1", "Player2"])
+                screens[current_screen].set_players(["Player1", "Player2"])
             
             if current_screen == ENDGAME:
-                screens[current_screen].createProfile([(1,  "Player 1"), (2, "Player 1"), (3, "Player 1")])
-                screens[current_screen].setStars(1)
-                screens[current_screen].setCoin(12)
-                screens[current_screen].setBell(121)
+                screens[current_screen].create_profile([(1,  "Player 1"), (2, "Player 1"), (3, "Player 1")])
+                screens[current_screen].set_stars(1)
+                screens[current_screen].set_coin(12)
+                screens[current_screen].set_bell(121)
             update_screen()
 
         pygame.display.flip()
         
     pygame.quit()
 
-def research():
+def main():
     global screen, screen_size, args
     loading = LoadingScreen(screen_size)
     loading.load_all_assets()
@@ -104,5 +107,5 @@ def research():
         
     pygame.quit()
 
-# game()
-research()
+game()
+# main()

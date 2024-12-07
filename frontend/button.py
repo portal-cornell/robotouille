@@ -1,12 +1,12 @@
 import pygame
 from frontend.image import Image
 from frontend.node import Node
-from frontend.constants import *
+from frontend.constants import DEBUG
 from frontend.textbox import Textbox
 from frontend.constants import FONT_PATH
 
 class Button(Node):
-    def __init__(self, screen, normal_image_source, x_percent, y_percent, scale_factor=1.0, hover_image_source = None, pressed_image_source = None, text=None, font_path=FONT_PATH, font_size= 60, text_color=(0, 0, 0), anchor="topleft"):
+    def __init__(self, screen, normal_image_source, x_percent, y_percent, scale_factor=1.0, hover_image_source = None, pressed_image_source = None, text=None, font_path=FONT_PATH, font_size= 60, text_color=(0, 0, 0), anchor="topleft", offset_x=0, offset_y=0):
         """
         Initialize a Button instance.
 
@@ -16,11 +16,11 @@ class Button(Node):
         Args:
             screen (pygame.Surface): The screen where the button will be displayed.
             normal_image_source (pygame.Surface): Image of the button's normal state.
-            hover_image_source (pygame.Surface): Image of the button's hover state.
-            pressed_image_source (pygame.Surface): Image of the button's pressed state.
             x_percent (float): The horizontal position of the button as a percentage of the screen width.
             y_percent (float): The vertical position of the button as a percentage of the screen height.
-            scale_factor (float): Scaling factor for the button images. Defaults to 1.0.
+            scale_factor (float): Scaling factor for the button images. Defaults to 1.0. 
+            hover_image_source (pygame.Surface): Image of the button's hover state.
+            pressed_image_source (pygame.Surface): Image of the button's pressed state.
             text (str): text to display on the button.
             font_path (str): The path to the font used to render the text.
             font_size (int): The size of the font.
@@ -28,7 +28,7 @@ class Button(Node):
             anchor (str): Anchor point for positioning. Defaults to "topleft".
         """
         self.normal_image = Image(screen, normal_image_source, x_percent, y_percent, scale_factor, anchor=anchor)
-        super().__init__(screen, self.normal_image.image, x_percent, y_percent, anchor)
+        super().__init__(screen, self.normal_image.image, x_percent, y_percent, anchor, offset_x, offset_y)
 
         self.text = None
 
@@ -73,7 +73,7 @@ class Button(Node):
         Returns:
            (bool) True if the mouse position is within the button's bounds; False otherwise.
         """
-        return self.rect.collidepoint(pygame.mouse.get_pos())
+        return self.rect.collidepoint(self.adjusted_mouse_position(pygame.mouse.get_pos()))
 
     def is_hovered(self):
         """
@@ -98,10 +98,7 @@ class Button(Node):
         """
 
         if event.type == pygame.MOUSEBUTTONDOWN:
-            if self.in_bound():
-                self.is_pressed = True
-            else:
-                self.is_pressed = False
+            self.is_pressed = self.in_bound()
         elif event.type == pygame.MOUSEBUTTONUP:
             if self.is_pressed:
                 self.is_pressed = False

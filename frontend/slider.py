@@ -2,11 +2,12 @@ import pygame
 from frontend.ninepatch import NinePatch
 from frontend.image import Image
 from frontend.node import Node
-from frontend.constants import *
+from frontend.constants import DEBUG
 
 class Slider(Node):
     def __init__(self, screen, background_image, foreground_image, background_width, background_height, 
-                 foreground_width, foreground_height, x_percent, y_percent, foreground_padding=(10, 10, 10, 10), background_padding=(10, 10, 10, 10), scale_factor=1, filled_percent=0.5, knob_image=None, anchor = "topleft"):
+                foreground_width, foreground_height, x_percent, y_percent,
+                foreground_padding=(10, 10, 10, 10), background_padding=(10, 10, 10, 10), scale_factor=1, filled_percent=0.5, knob_image=None, anchor = "topleft", offset_x=0, offset_y=0):
         """
         Initialize a Slider object.
 
@@ -32,7 +33,7 @@ class Slider(Node):
         self.background_height = background_height * scale_factor
         self.foreground_width = foreground_width * scale_factor
         self.foreground_height = foreground_height * scale_factor
-        super().__init__(screen, pygame.Surface((int(self.background_width), int(self.background_height))), x_percent, y_percent, anchor)
+        super().__init__(screen, pygame.Surface((int(self.background_width), int(self.background_height))), x_percent, y_percent, anchor, offset_x, offset_y)
         self.scale_factor = scale_factor
 
         self.background = NinePatch(screen, background_image, self.x, self.y, self.background_width, self.background_height, scale_factor=self.scale_factor, padding=background_padding)
@@ -132,5 +133,6 @@ class Slider(Node):
         Returns:
            (bool): True if the mouse is within the bounds of the slider; False otherwise.
         """
-        return (self.x <= mouse_x <= self.x + self.background_width and
-                self.y <= mouse_y <= self.y + self.background_height)
+        within_x_bounds = self.x <= mouse_x <= self.x + self.background_width
+        within_y_bounds = self.y <= mouse_y <= self.y + self.background_height
+        return within_x_bounds and within_y_bounds

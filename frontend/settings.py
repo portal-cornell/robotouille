@@ -1,5 +1,5 @@
 import pygame
-from frontend.constants import *
+from frontend.constants import SHARED_DIRECTORY, MAIN_MENU, FONT_PATH, WHITE
 from frontend.button import Button
 from frontend.image import Image
 from frontend.slider import Slider
@@ -7,6 +7,7 @@ from frontend.textbox import Textbox
 from frontend.editable_textbox import EditableTextbox
 from frontend.screen import ScreenInterface
 from frontend.loading import LoadingScreen
+import os
 
 # Set up the assets directory
 ASSETS_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "settings"))
@@ -29,15 +30,15 @@ class SettingScreen(ScreenInterface):
         self.back_arrow = Button(self.screen, self.back_arrow_image, self.x_percent(64), self.y_percent(860), self.scale_factor, anchor="topleft")
         self.profile = Image(self.screen, self.profile_image, self.x_percent(746), self.y_percent(109), self.scale_factor, anchor="topleft")
 
-        self.sliderSFX = Slider(self.screen, self.slider_bg_image, self.slider_fg_image, 442.01, 44.91, 390, 31.19,
+        self.sfx_slider = Slider(self.screen, self.slider_bg_image, self.slider_fg_image, 442.01, 44.91, 390, 31.19,
                                        self.x_percent(122), self.y_percent(437), scale_factor= self.scale_factor, anchor="topleft")
-        self.sliderVolume = Slider(self.screen, self.slider_bg_image, self.slider_fg_image, 442.01, 44.91, 390, 31.19,
+        self.music_slider = Slider(self.screen, self.slider_bg_image, self.slider_fg_image, 442.01, 44.91, 390, 31.19,
                                           self.x_percent(122), self.y_percent(252), scale_factor= self.scale_factor, anchor="topleft")
         
-        self.VolumeMinus = Button(self.screen, self.minus_image, self.x_percent(122), self.y_percent(252), self.scale_factor, anchor="topleft")
-        self.VolumePlus = Button(self.screen, self.plus_image, self.x_percent(519), self.y_percent(252), self.scale_factor, anchor="topleft")
-        self.SFXMinus = Button(self.screen, self.minus_image, self.x_percent(122), self.y_percent(437), self.scale_factor, anchor="topleft")
-        self.SFXPlus = Button(self.screen, self.plus_image, self.x_percent(519), self.y_percent(437), self.scale_factor, anchor="topleft")
+        self.music_minus_button = Button(self.screen, self.minus_image, self.x_percent(122), self.y_percent(252), self.scale_factor, anchor="topleft")
+        self.music_plus_button = Button(self.screen, self.plus_image, self.x_percent(519), self.y_percent(252), self.scale_factor, anchor="topleft")
+        self.sfx_minus_button = Button(self.screen, self.minus_image, self.x_percent(122), self.y_percent(437), self.scale_factor, anchor="topleft")
+        self.sfx_plus_button = Button(self.screen, self.plus_image, self.x_percent(519), self.y_percent(437), self.scale_factor, anchor="topleft")
 
         self.name_bg = Image(self.screen, self.name_bg_image, self.x_percent(917), self.y_percent(132), self.scale_factor, anchor="topleft")
         self.name = EditableTextbox(self.screen, "name", self.x_percent(928), self.y_percent(139) , 355, 72, align_text="left", scale_factor= self.scale_factor)
@@ -68,44 +69,23 @@ class SettingScreen(ScreenInterface):
         
     def load_assets(self):
         """Load necessary assets."""
-
-        # Construct Paths
-        background_path = os.path.join(SHARED_DIRECTORY, "background.png")
-        back_arrow_path = os.path.join(SHARED_DIRECTORY, "back_arrow.png")
-        slider_bg_path = os.path.join(ASSETS_DIRECTORY, "sliderback.png")
-        slider_fg_path = os.path.join(ASSETS_DIRECTORY, "sliderfore.png")
-        minus_path = os.path.join(ASSETS_DIRECTORY, "minus.png")
-        plus_path = os.path.join(ASSETS_DIRECTORY, "plus.png")
-        profile_path = os.path.join(ASSETS_DIRECTORY, "button_profile.png")
-        name_bg_path = os.path.join(ASSETS_DIRECTORY, "name_bg.png")
-        start_button_path = os.path.join(SHARED_DIRECTORY, "button_b.png")
-        start_hover_button_path = os.path.join(SHARED_DIRECTORY, "button_b_h.png")
-        start_pressed_button_path = os.path.join(SHARED_DIRECTORY, "button_b_p.png")
-        zero_star_path = os.path.join(ASSETS_DIRECTORY, "zero_star.png")
-        one_star_path = os.path.join(ASSETS_DIRECTORY, "one_star.png")
-        two_star_path = os.path.join(ASSETS_DIRECTORY, "two_star.png")
-        three_star_path = os.path.join(ASSETS_DIRECTORY, "three_star.png")
+        # Images
+        self.background_image = LoadingScreen.ASSET[SHARED_DIRECTORY]["background.png"]
+        self.back_arrow_image = LoadingScreen.ASSET[SHARED_DIRECTORY]["back_arrow.png"]
+        self.slider_bg_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["sliderback.png"]
+        self.slider_fg_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["sliderfore.png"]
+        self.minus_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["minus.png"]
+        self.plus_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["plus.png"]
+        self.profile_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["button_profile.png"]
+        self.name_bg_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["name_bg.png"]
+        self.start_button_image = LoadingScreen.ASSET[SHARED_DIRECTORY]["button_b.png"]
+        self.start_hover_button_image = LoadingScreen.ASSET[SHARED_DIRECTORY]["button_b_h.png"]
+        self.start_pressed_button_image = LoadingScreen.ASSET[SHARED_DIRECTORY]["button_b_p.png"]
+        self.zero_star_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["zero_star.png"]
+        self.one_star_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["one_star.png"]
+        self.two_star_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["two_star.png"]
+        self.three_star_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["three_star.png"]
         
-
-        # images
-        self.background_image = LoadingScreen.ASSET[background_path]
-        self.start_button_image = LoadingScreen.ASSET[start_button_path]
-        self.start_hover_button_image = LoadingScreen.ASSET[start_hover_button_path]
-        self.start_pressed_button_image = LoadingScreen.ASSET[start_pressed_button_path]
-        self.back_arrow_image = LoadingScreen.ASSET[back_arrow_path]
-        self.slider_bg_image = LoadingScreen.ASSET[slider_bg_path]
-        self.slider_fg_image = LoadingScreen.ASSET[slider_fg_path]
-        self.plus_image = LoadingScreen.ASSET[plus_path]
-        self.minus_image = LoadingScreen.ASSET[minus_path]
-        self.profile_image = LoadingScreen.ASSET[profile_path]
-        self.name_bg_image = LoadingScreen.ASSET[name_bg_path]
-        self.zero_star_image = LoadingScreen.ASSET[zero_star_path]
-        self.one_star_image = LoadingScreen.ASSET[one_star_path]
-        self.two_star_image = LoadingScreen.ASSET[two_star_path]
-        self.three_star_image = LoadingScreen.ASSET[three_star_path]
-
-        
-
     def draw(self):
         """Draws all the self.screen components."""
         self.background.draw()
@@ -113,12 +93,12 @@ class SettingScreen(ScreenInterface):
         self.back_arrow.draw()
 
         # volume & sfx 
-        self.sliderSFX.draw()
-        self.sliderVolume.draw()
-        self.VolumePlus.draw()
-        self.VolumeMinus.draw()
-        self.SFXPlus.draw()
-        self.SFXMinus.draw()
+        self.sfx_slider.draw()
+        self.music_slider.draw()
+        self.music_plus_button.draw()
+        self.music_minus_button.draw()
+        self.sfx_plus_button.draw()
+        self.sfx_minus_button.draw()
         
         self.name_bg.draw()
         self.name.draw()
@@ -177,22 +157,26 @@ class SettingScreen(ScreenInterface):
             if self.back_arrow.handle_event(event):
                 self.set_next_screen(MAIN_MENU)
             
-            if self.VolumeMinus.in_bound() and not self.sliderVolume.is_moving():
-                if self.VolumeMinus.handle_event(event):
-                    self.sliderVolume.set_value(self.sliderVolume.get_value() - 0.1)
-            elif self.VolumePlus.in_bound() and not self.sliderVolume.is_moving():
-                if self.VolumePlus.handle_event(event):
-                    self.sliderVolume.set_value(self.sliderVolume.get_value() + 0.1)
+            # Increase/decrease volume if music plus button and music minus button is pressed
+            if self.music_minus_button.in_bound() and not self.music_slider.is_moving():
+                if self.music_minus_button.handle_event(event):
+                    self.music_slider.set_value(self.music_slider.get_value() - 0.1)
+            elif self.music_plus_button.in_bound() and not self.music_slider.is_moving():
+                if self.music_plus_button.handle_event(event):
+                    self.music_slider.set_value(self.music_slider.get_value() + 0.1)
             else:
-                self.sliderVolume.handle_event(event)
+                # Increase/decrease muisc volume if slider is moved
+                self.music_slider.handle_event(event)
     
-            if self.SFXMinus.in_bound() and not self.sliderSFX.is_moving():
-                if self.SFXMinus.handle_event(event):
-                    self.sliderSFX.set_value(self.sliderSFX.get_value() - 0.1)
-            elif self.SFXPlus.in_bound() and not self.sliderSFX.is_moving():
-                if self.SFXPlus.handle_event(event):
-                    self.sliderSFX.set_value(self.sliderSFX.get_value() + 0.1)
+            # Increase/decrease sfx volume if plus button and music minus button is pressed
+            if self.sfx_minus_button.in_bound() and not self.sfx_slider.is_moving():
+                if self.sfx_minus_button.handle_event(event):
+                    self.sfx_slider.set_value(self.sfx_slider.get_value() - 0.1)
+            elif self.sfx_plus_button.in_bound() and not self.sfx_slider.is_moving():
+                if self.sfx_plus_button.handle_event(event):
+                    self.sfx_slider.set_value(self.sfx_slider.get_value() + 0.1)
             else:
-                self.sliderSFX.handle_event(event)
+                # Increase/decrease sfx volume if slider is moved
+                self.sfx_slider.handle_event(event)
 
             self.name.handle_event(event)

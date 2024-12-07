@@ -1,10 +1,10 @@
 import pygame
 from frontend.node import Node
-from frontend.constants import FONT_PATH
+from frontend.constants import FONT_PATH, BLUE
 
 class Textbox(Node):
     def __init__(self, screen, text, x_percent, y_percent, width, height, 
-                 text_color=(0, 0, 255), font_path=FONT_PATH, font_size= 60, scale_factor=1.0, align_text="center", anchor="topleft"):
+                 text_color=BLUE, font_path=FONT_PATH, font_size=60, scale_factor=1.0, align_text="center", anchor="topleft", offset_x=0, offset_y=0):
         
         """
         Initialize a Textbox object.
@@ -24,7 +24,7 @@ class Textbox(Node):
             anchor (str): Determines how the textbox rectangle is anchored on the screen. Options are "center" or "topleft". Defaults to "topleft".
         """
 
-        super().__init__(screen, pygame.Surface((width * scale_factor, height* scale_factor), pygame.SRCALPHA), x_percent, y_percent)
+        super().__init__(screen, pygame.Surface((width * scale_factor, height* scale_factor), pygame.SRCALPHA), x_percent, y_percent, offset_x, offset_y)
         
         
         self.text = text
@@ -44,7 +44,7 @@ class Textbox(Node):
             self.text_surface = self.font.render(self.text, True, self.text_color)
             scaled_size = (int(self.text_surface.get_width() * self.scale_factor),
                            int(self.text_surface.get_height() * self.scale_factor))
-            self.text_surface = pygame.transform.scale(self.text_surface, scaled_size)
+            self.text_surface = pygame.transform.smoothscale(self.text_surface, scaled_size)
 
             self.rect = self.surface.get_rect()
             if self.anchor == "topleft":

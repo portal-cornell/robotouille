@@ -1,6 +1,6 @@
-from frontend.constants import *
 from frontend.screen import ScreenInterface
 from frontend.orders import Order
+import os
 
 # Set up the assets directory
 ASSETS_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "pause_screen"))
@@ -15,9 +15,9 @@ class OrdersCollection(ScreenInterface):
         """
         super().__init__(window_size)
         self.orders = {}
-        self.addOrder(1, Order(window_size, config))
-        self.addOrder(2, Order(window_size, config))
-        self.addOrder(3, Order(window_size, config))
+        self.add_order(1, Order(window_size, config))
+        self.add_order(2, Order(window_size, config))
+        self.add_order(3, Order(window_size, config))
 
 
     def load_assets(self):
@@ -27,7 +27,7 @@ class OrdersCollection(ScreenInterface):
         pass
 
 
-    def addOrder(self, customerid, order):
+    def add_order(self, customerid, order):
         """
         Add a new order to the collection.
 
