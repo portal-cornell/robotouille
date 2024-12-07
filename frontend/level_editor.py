@@ -51,11 +51,44 @@ class LevelEditorScreen(ScreenInterface):
         self.current_tab = "Items"
         self.items_panel = None  # Placeholder for item buttons
         self.item_buttons = []  # Keep track of item buttons
+
+        # Load all necessary images
+        self.item_images = self.load_item_images()
+
         self.update_item_buttons()
 
     def load_assets(self):
         """Load necessary assets for the screen."""
         pass
+
+    def load_item_images(self):
+        """Load images for all items."""
+        items = {
+            "steak": "images/steak.png",
+            "cabbage": "images/cabbage.png",
+            "strawberry": "images/strawberry.png",
+            "cooked steak": "images/cooked_steak.png",
+            "watermelon slices": "images/watermelon.png",
+            "cooked egg": "images/cooked_egg.png",
+            "egg": "images/egg.png",
+            "raw egg": "images/raw_egg.png",
+            "plate": "images/plate.png",
+            "tray": "images/tray.png",
+            "grill": "images/grill.png",
+            "oven": "images/oven.png",
+            "decor": "images/decor.png",
+        }
+
+        loaded_images = {}
+        for name, path in items.items():
+            try:
+                image = pygame.image.load(path).convert_alpha()
+                image = pygame.transform.smoothscale(image, (60, 60))  # Resize to fit the button
+                loaded_images[name] = image
+            except pygame.error:
+                print(f"Error loading image: {path}")
+                loaded_images[name] = None  # Fallback if image is missing
+        return loaded_images
 
     def _sanitize_object_id(self, name):
         """Sanitize object_id to remove spaces and disallowed characters."""
@@ -93,25 +126,25 @@ class LevelEditorScreen(ScreenInterface):
         # Items based on the current tab
         items = {
             "Items": [
-                {"name": "steak", "image": "../assets/cheese.png"},
-                {"name": "cabbage", "image": "images/cabbage.png"},
-                {"name": "strawberry", "image": "images/strawberry.png"},
-                {"name": "cooked steak", "image": "images/cooked_steak.png"},
-                {"name": "watermelon slices", "image": "images/watermelon.png"},
-                {"name": "cooked egg", "image": "images/cooked_egg.png"},
-                {"name": "egg", "image": "images/egg.png"},
-                {"name": "raw egg", "image": "images/raw_egg.png"},
+                {"name": "steak"},
+                {"name": "cabbage"},
+                {"name": "strawberry"},
+                {"name": "cooked steak"},
+                {"name": "watermelon slices"},
+                {"name": "cooked egg"},
+                {"name": "egg"},
+                {"name": "raw egg"},
             ],
             "Container": [
-                {"name": "plate", "image": "images/plate.png"},
-                {"name": "tray", "image": "images/tray.png"},
+                {"name": "plate"},
+                {"name": "tray"},
             ],
             "Station": [
-                {"name": "grill", "image": "images/grill.png"},
-                {"name": "oven", "image": "images/oven.png"},
+                {"name": "grill"},
+                {"name": "oven"},
             ],
             "Other": [
-                {"name": "decor", "image": "images/decor.png"},
+                {"name": "decor"},
             ],
         }
         item_list = items.get(self.current_tab, [])
@@ -143,13 +176,10 @@ class LevelEditorScreen(ScreenInterface):
                 object_id=f"#{self._sanitize_object_id(item['name'])}_button",
             )
 
-            # Placeholder for the image (draw image within button background in assets later)
-            UILabel(
-                relative_rect=pygame.Rect(10, 10, 70, 70),  # Image space
-                text="",  # Placeholder for image
-                manager=self.ui_manager,
-                container=button_panel,
-            )
+            # Render the image onto the button
+            image = self.item_images.get(item["name"])
+            if image:
+                button_panel.drawable_shape.surface.blit(image, (15, 10))
 
             # Caption below the image
             UILabel(
