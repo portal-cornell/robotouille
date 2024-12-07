@@ -159,7 +159,22 @@
                     "default": "appleslices.png"
                 },
                 "constants": {}
-            }   
+            },
+            "cheesetri" : {
+                "assets": {
+                    "default": "cheesetri.png",
+                    "cut": {
+                        "asset": "gratedcheese.png",
+                        "predicates": ["iscut"]
+                    }
+                }
+            },
+            "pepperoni" : {
+                "assets": {
+                    "default": "pepperonistick.png"
+                    
+                }
+            }    
         }
     },
 
@@ -308,6 +323,20 @@
                     },
                     "bakedappletart": {
                         "default": "bakedappletart.png",
+                        "predicates": ["iscooked-bundle"]
+                    }
+                },
+                "constants": {}
+            },
+            "pizza": {
+                "assets": {
+                    "default": "kneadedpizzadough.png",
+                    "pizza": {
+                        "default": "doughwithsaucecheeseandpepperoni.png",
+                        "predicates": ["isrolled"]
+                    },
+                    "bakedpizza": {
+                        "default": "bakedpizza.png",
                         "predicates": ["iscooked-bundle"]
                     }
                 },
