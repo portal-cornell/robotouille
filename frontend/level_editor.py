@@ -1,3 +1,6 @@
+import json
+import os
+
 import pygame
 import pygame_gui
 
@@ -7,6 +10,9 @@ from pygame_gui.elements import UIPanel, UIButton, UIImage, UILabel
 
 
 class LevelEditorScreen(ScreenInterface):
+    def load_assets(self):
+        pass
+
     def __init__(self, window_size):
         """
         Initialize the Level Editor Screen.
@@ -38,38 +44,70 @@ class LevelEditorScreen(ScreenInterface):
         )
 
         # Tabs for switching item categories
-        self.tabs = ["Items", "Container", "Station", "Other"]
+        self.tabs = ["Item", "Station", "Container"]
         self.tab_buttons = self._create_tabs()
 
         # Current tab and items panel
-        self.current_tab = "Items"
+        self.current_tab = "Item"
         self.items_panel = None
         self.item_buttons = []  # Interactive buttons
 
-        # Map items to a common test image for now
-        self.item_image_map = self.load_item_image_map()
+        # Load item data and images
+        self.data = self.load_data_from_json("robotouille_config.json")
+        self.item_image_map = self.load_item_images()
 
         self.update_item_buttons()
 
-    def load_assets(self):
-        """Load necessary assets for the screen."""
-        pass
+    def load_data_from_json(self, filepath):
+        """Load entity data from the given JSON file."""
+        CONFIG_DIR = os.path.join(os.path.dirname(__file__))
+        with open(os.path.join(CONFIG_DIR, "..", "renderer", "configuration", filepath), "r") as file:
+            data = json.load(file)
 
-    def load_item_image_map(self):
-        """Map all items to the same test image."""
-        items = [
-            "steak", "cabbage", "strawberry", "cooked steak", "watermelon slices",
-            "cooked egg", "egg", "raw egg", "plate", "tray", "grill", "oven", "decor"
-        ]
-        try:
-            test_image = pygame.image.load("assets/tomato.png").convert_alpha()
-            test_image = pygame.transform.smoothscale(test_image, (60, 60))  # Resize for buttons
-        except pygame.error:
-            print("Error loading test image: assets/tomato.png")
-            test_image = None  # Fallback if the image is missing
+        # Extract entities by category
+        entities = {
+            "Item": data.get("item", {}).get("entities", {}),
+            "Station": data.get("station", {}).get("entities", {}),
+            "Container": data.get("container", {}).get("entities", {}),
+        }
+        return entities
 
-        # Map all items to the same test image
-        return {item: test_image for item in items}
+    def _draw_grid(self, surface):
+        """Render the grid."""
+        for row in range(self.grid_height):
+            for col in range(self.grid_width):
+                # Calculate cell position based on zoom and offsets
+                x = col * self.cell_size * self.zoom + self.offset_x
+                y = row * self.cell_size * self.zoom + self.offset_y
+
+                # Draw the grid cell as a rectangle
+                pygame.draw.rect(surface, (200, 200, 200),
+                                 (x, y, self.cell_size * self.zoom, self.cell_size * self.zoom), 1)
+
+                # Draw the items in the grid
+                item = self.grid_items[row][col]
+                if item:
+                    # Render the item's text or image
+                    font = pygame.font.SysFont(None, 24)
+                    text = font.render(item, True, (0, 0, 0))
+                    surface.blit(text, (x + 5, y + 5))
+
+    def load_item_images(self):
+        """Map each entity to its `default` image."""
+        image_map = {}
+        for category, entities in self.data.items():
+            for name, details in entities.items():
+                asset_path = details.get("assets", {}).get("default")
+                try:
+                    if asset_path:
+                        image = pygame.image.load(f"assets/{asset_path}").convert_alpha()
+                        image = pygame.transform.smoothscale(image, (60, 60))
+                    else:
+                        image = None
+                except pygame.error:
+                    image = None  # Fallback if image is missing
+                image_map[name] = image
+        return image_map
 
     def _create_tabs(self):
         """Create horizontal tabs for switching categories."""
@@ -104,20 +142,14 @@ class LevelEditorScreen(ScreenInterface):
         self.item_buttons = []
 
         # Items based on the current tab
-        items = {
-            "Items": ["steak", "cabbage", "strawberry", "cooked steak", "watermelon slices"],
-            "Container": ["plate", "tray"],
-            "Station": ["grill", "oven"],
-            "Other": ["decor"],
-        }
-        item_list = items.get(self.current_tab, [])
+        entities = self.data.get(self.current_tab, {})
 
         # Create a grid of buttons with images and captions
         button_width, button_height = 90, 110
         columns = 3
         spacing = 10
 
-        for i, item_name in enumerate(item_list):
+        for i, (item_name, details) in enumerate(entities.items()):
             row = i // columns
             col = i % columns
 
@@ -186,17 +218,14 @@ class LevelEditorScreen(ScreenInterface):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:  # Left click for placing item
                 x, y = event.pos
-                # Ensure clicks happen outside the sidebar
                 if x < self.sidebar_width:
                     print("Clicked inside sidebar, ignoring")
                     return
-                # Translate mouse position to grid position
                 grid_x = int((x - self.offset_x) / (self.cell_size * self.zoom))
                 grid_y = int((y - self.offset_y) / (self.cell_size * self.zoom))
-                print(f"Mouse click at pixel ({x}, {y}) maps to grid ({grid_x}, {grid_y})")
                 if 0 <= grid_x < self.grid_width and 0 <= grid_y < self.grid_height:
                     self.grid_items[grid_y][grid_x] = self.selected_item
-                    print(f"Placed {self.selected_item} at ({grid_x}, {grid_y}) on the grid")
+                    print(f"Placed {self.selected_item} at ({grid_x}, {grid_y})")
 
                 self.is_dragging = True
                 self.last_mouse_pos = event.pos
@@ -208,22 +237,6 @@ class LevelEditorScreen(ScreenInterface):
 
         elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
             self.is_dragging = False
-
-    def _draw_grid(self, surface):
-        """Render the grid."""
-        for row in range(self.grid_height):
-            for col in range(self.grid_width):
-                x = col * self.cell_size * self.zoom + self.offset_x
-                y = row * self.cell_size * self.zoom + self.offset_y
-                pygame.draw.rect(surface, (200, 200, 200),
-                                 (x, y, self.cell_size * self.zoom, self.cell_size * self.zoom), 1)
-
-                # Draw placed items
-                item = self.grid_items[row][col]
-                if item:
-                    font = pygame.font.SysFont(None, 24)
-                    text = font.render(item, True, (0, 0, 0))
-                    surface.blit(text, (x + 5, y + 5))
 
     def draw(self):
         """Draw the grid and UI."""
