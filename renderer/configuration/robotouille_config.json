@@ -302,14 +302,15 @@
             "tart": {
                 "assets": {
                     "default": "appletartdough.png",
-                    "appletart": {
-                        "default": "appletart.png",
-                        "predicates": ["isrolled"]
-                    },
                     "bakedappletart": {
                         "default": "bakedappletart.png",
                         "predicates": ["iscooked-bundle"]
+                    },
+                    "appletart": {
+                        "default": "appletart.png",
+                        "predicates": ["isrolled"]
                     }
+                    
                 },
                 "constants": {}
             }
