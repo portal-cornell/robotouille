@@ -3,7 +3,7 @@ import pygame_gui
 
 from frontend.constants import MAIN_MENU
 from frontend.screen import ScreenInterface
-from pygame_gui.elements import UIPanel, UILabel, UIImage
+from pygame_gui.elements import UIPanel, UIButton, UIImage, UILabel
 
 
 class LevelEditorScreen(ScreenInterface):
@@ -44,7 +44,7 @@ class LevelEditorScreen(ScreenInterface):
         # Current tab and items panel
         self.current_tab = "Items"
         self.items_panel = None
-        self.item_panels = []
+        self.item_buttons = []  # Interactive buttons
 
         # Map items to a common test image for now
         self.item_image_map = self.load_item_image_map()
@@ -101,7 +101,7 @@ class LevelEditorScreen(ScreenInterface):
             manager=self.ui_manager,
             container=self.sidebar_panel,
         )
-        self.item_panels = []
+        self.item_buttons = []
 
         # Items based on the current tab
         items = {
@@ -121,38 +121,49 @@ class LevelEditorScreen(ScreenInterface):
             row = i // columns
             col = i % columns
 
-            # Panel for each item
-            item_panel = UIPanel(
+            # Button for interactivity
+            button = UIButton(
                 relative_rect=pygame.Rect(
                     col * (button_width + spacing),
                     row * (button_height + spacing),
                     button_width,
                     button_height,
                 ),
+                text="",  # No text for button
+                manager=self.ui_manager,
+                container=self.items_panel,
+                object_id=f"#button_{item_name.replace(' ', '_')}",
+            )
+
+            # Overlay image above the button
+            image_surface = self.item_image_map.get(item_name)
+            if image_surface:
+                UIImage(
+                    relative_rect=pygame.Rect(
+                        col * (button_width + spacing) + 15,
+                        row * (button_height + spacing) + 10,
+                        60,
+                        60,
+                    ),
+                    image_surface=image_surface,
+                    manager=self.ui_manager,
+                    container=self.items_panel,
+                )
+
+            # Overlay caption below the image
+            UILabel(
+                relative_rect=pygame.Rect(
+                    col * (button_width + spacing),
+                    row * (button_height + spacing) + 80,
+                    button_width,
+                    20,
+                ),
+                text=item_name,
                 manager=self.ui_manager,
                 container=self.items_panel,
             )
 
-            # Image for the item
-            image_surface = self.item_image_map.get(item_name)
-            if image_surface:
-                UIImage(
-                    relative_rect=pygame.Rect(15, 10, 60, 60),  # Position image in the center
-                    image_surface=image_surface,
-                    manager=self.ui_manager,
-                    container=item_panel,
-                )
-
-            # Caption for the item
-            UILabel(
-                relative_rect=pygame.Rect(0, 80, button_width, 20),  # Position below the image
-                text=item_name,
-                manager=self.ui_manager,
-                container=item_panel,
-            )
-
-            # Store the panel for further interaction
-            self.item_panels.append((item_panel, item_name))
+            self.item_buttons.append((button, item_name))
 
     def handle_events(self, event):
         """Handle events for UI and interactions."""
@@ -166,9 +177,10 @@ class LevelEditorScreen(ScreenInterface):
                     self.update_item_buttons()
 
             # Handle item selection
-            for panel, item_name in self.item_panels:
-                if event.ui_element == panel:
+            for button, item_name in self.item_buttons:
+                if event.ui_element == button:
                     self.selected_item = item_name
+                    print(f"Selected item: {self.selected_item}")
 
         # Handle grid panning
         if event.type == pygame.MOUSEBUTTONDOWN:
