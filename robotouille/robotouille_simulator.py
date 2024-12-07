@@ -10,22 +10,24 @@ def simulator(environment_name: str, seed: int=42, noisy_randomization: bool=Fal
     # Your code for robotouille goes here
     env, json, renderer = create_robotouille_env(environment_name, movement_mode, seed, noisy_randomization)
     obs, info = env.reset()
-    renderer.render(obs, mode='human')
+    gamemode = env.gamemode
+    renderer.render(gamemode, mode='human')
     done = False
     interactive = False # Set to True to interact with the environment through terminal REPL (ignores input)
     
     players = obs.get_players()
     actions = []
     while not done:
-        renderer.render(obs, mode='human')
+        renderer.render(gamemode, mode='human')
         pygame_events = pygame.event.get()
         mousedown_events = list(filter(lambda e: e.type == pygame.MOUSEBUTTONDOWN, pygame_events))
         keydown_events = list(filter(lambda e: e.type == pygame.KEYDOWN, pygame_events))
-        player_obj = Player.get_player(obs.current_player.name)
+        player_obj = Player.get_player(gamemode, obs.current_player.name)
         no_action = True
         
         # If player is moving, do not allow any action; action will be None
-        if Movement.is_player_moving(player_obj.name):
+        movement = gamemode.get_movement()
+        if movement.is_player_moving(player_obj.name):
             action, args = None, None
             no_action = False
         # If player is not moving, allow action
@@ -45,7 +47,7 @@ def simulator(environment_name: str, seed: int=42, noisy_randomization: bool=Fal
         # If all players have made an action, step the environments
         if len(actions) == len(players):
             obs, reward, done, info = env.step(actions, renderer.clock, pygame.time, interactive=interactive)
-            renderer.render(obs, mode='human')
+            renderer.render(gamemode, mode='human')
             actions = []
 
-    renderer.render(obs, close=True)
+    renderer.render(gamemode, close=True)

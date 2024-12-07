@@ -10,13 +10,7 @@ class Customer(object):
     order to them. 
     """
 
-    customers = {}
-    id_counter = 0
-    customer_queue = []
-    environment_json = None
-    recipe_json = None
-
-    def __init__(self, name, pos, direction, order, time_to_serve, enter_time):
+    def __init__(self, name, pos, direction, order, time_to_serve, enter_time, gamemode):
         """
         Initializes the customer object.
 
@@ -29,8 +23,9 @@ class Customer(object):
                 customer in milliseconds.
             enter_time (int): The time at which the customer enters the game
                 in milliseconds.
+            gamemode (GameMode): The game mode object.
         """
-        self.id = Customer.id_counter
+        self.id = gamemode.customer_id_counter
         self.name = name
         self.pos = pos
         self.direction = direction
@@ -44,23 +39,24 @@ class Customer(object):
         self.sprite_value = 0
         self.action = None
         self.assigned_table = None
-        Customer.id_counter += 1
-        Customer.customers[name] = self
+        gamemode.customer_id_counter += 1
+        gamemode.customers[name] = self
     
-    def build_customers(environment_json, recipe_json):
+    def build_customers(environment_json, recipe_json, gamemode):
         """
         Builds the customers in the environment.
 
         Args:
             environment_json (dict): The environment json.
             recipe_json (dict): The recipe_json
+            gamemode (GameMode): The game mode object.
 
         Returns:
             customers (list[Object]): A list of customer objects to be added to
                 the state.
 
         Modifies:
-            Adds customers to Customer.customers
+            Adds customers to gamemode.customers
         """
         Customer.environment_json = environment_json
         Customer.recipe_json = recipe_json
@@ -73,12 +69,12 @@ class Customer(object):
                 order = customer["order"]
                 time_to_serve = customer["time_to_serve"]
                 enter_time = customer["enter_time"]
-                customer = Customer(name, pos, direction, order, time_to_serve, enter_time)
+                customer = Customer(name, pos, direction, order, time_to_serve, enter_time, gamemode)
                 customer_obj = Object(customer.name, "customer")
                 customers.append(customer_obj)
         return customers
 
-    def order_is_satisfied(self, state):
+    def order_is_satisfied(self, state, gamemode):
         """
         Checks if the order is satisfied.
 
@@ -87,11 +83,12 @@ class Customer(object):
             order_name (str): The name of the order.
             environment_json (dict): The environment json.
             recipe_json (dict): The recipe json.
+            gamemode (GameMode): The game mode object.
 
         Returns:
             bool: True if the order is satisfied, False otherwise.
         """
-        order_list = build_goal(Customer.environment_json, Customer.recipe_json["recipes"][self.order])
+        order_list = build_goal(gamemode.environment_json, gamemode.recipe_json["recipes"][self.order])
         
         for order in order_list:
             result = True
@@ -139,7 +136,7 @@ class Customer(object):
                 result = True
         return result
 
-    def step(self, time, state):
+    def step(self, time, gamemode):
         """
         Steps the customer.
 
@@ -159,24 +156,26 @@ class Customer(object):
 
         Args:
             time (pygame.time): The time object.
-            state (State): The game state.
+            gamemode (GameMode): The game mode object.
 
         Returns:
             action (Tuple[Action, Dictionary[str, Object]]): The action performed
                 by the customer.
         """
+        state = gamemode.get_state()
+
         if self.action:
             return None
     
         if self._is_at_table(state) and not self.has_been_served:
             clock = time.Clock()
             self.time_to_serve -= clock.get_time()
-            if self.order_is_satisfied(state):
+            if self.order_is_satisfied(state, gamemode):
                 self.has_been_served = True
                 
-        elif not self.has_left_queue and self not in Customer.customer_queue \
+        elif not self.has_left_queue and self not in gamemode.customer_queue \
             and time.get_ticks() >= self.enter_time:
-            Customer.customer_queue.append(self)
+            gamemode.customer_queue.append(self)
             for action, param_arg_dict_list in state.npc_actions.items():
                 if action.name == "customer_enter":
                     for param_arg_dict in param_arg_dict_list:
@@ -185,11 +184,11 @@ class Customer(object):
                             self.in_game = True
                             return (action, param_arg_dict)
         
-        elif len(Customer.customer_queue) > 0:
-            if Customer.customer_queue[0] == self:
+        elif len(gamemode.customer_queue) > 0:
+            if gamemode.customer_queue[0] == self:
                 self.assigned_table = self._get_empty_table(state)
                 if self.assigned_table:
-                    Customer.customer_queue.pop()
+                    gamemode.customer_queue.pop()
         
         if not self.has_eaten:
             for predicate, value in state.predicates.items():

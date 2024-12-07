@@ -57,7 +57,7 @@ class RobotouilleRenderer:
         if self.clock is None and render_mode == "human":
             self.clock = pygame.time.Clock()
     
-    def _render_frame(self, obs, render_mode):
+    def _render_frame(self, gamemode, render_mode):
         """
         This function renders a single frame of the game.
 
@@ -65,7 +65,7 @@ class RobotouilleRenderer:
         rendering in human mode or returned if rendering in rgb_array mode.
 
         Args:
-            obs (State): The game state
+            gamemode (GameMode): The game mode object
             render_mode (str): Either "human" or "rgb_array"
         
         Returns:
@@ -73,7 +73,7 @@ class RobotouilleRenderer:
         """
         self._init_setup(render_mode)
         surface = pygame.Surface(self.window_size)
-        self.canvas.draw_to_surface(surface, obs)
+        self.canvas.draw_to_surface(surface, gamemode)
         if render_mode == "human":
             # The following line copies our drawings from `canvas` to the visible window
             self.window.blit(surface, surface.get_rect())
@@ -88,7 +88,7 @@ class RobotouilleRenderer:
                 np.array(pygame.surfarray.pixels3d(surface)), axes=(1, 0, 2)
             )
 
-    def render(self, obs, mode='human', close=False):
+    def render(self, gamemode, mode='human', close=False):
         """
         This function is called by PDDLGym environments to render the game state.
 
@@ -97,7 +97,7 @@ class RobotouilleRenderer:
         ends, we also hide the window.
 
         Args:
-            obs (State): The game state
+            gamemode (GameMode): The game mode object
             mode (str): Either "human" or "rgb_array"
             close (bool): Whether to close the pygame window
         """
@@ -108,4 +108,4 @@ class RobotouilleRenderer:
             pygame.display.quit()
             pygame.quit()
         else:
-            return self._render_frame(obs, mode)
+            return self._render_frame(gamemode, mode)

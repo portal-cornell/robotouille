@@ -78,10 +78,11 @@ def build_gamemode(environment_json, domain_json, state, layout, animate):
     with open(recipe_json_name, "r") as recipe_json_file:
         recipe_json = json.load(recipe_json_file)
 
-    movement = Movement(layout, animate, environment_json)
-
     if name == "classic":
-        return Classic(state, environment_json, recipe_json, movement)
+        gamemode = Classic(state, environment_json, recipe_json)
+        gamemode.movement = Movement(layout, animate, environment_json, gamemode)
+        return gamemode
+
     return None
 
 class RobotouilleEnv(gym.Env):

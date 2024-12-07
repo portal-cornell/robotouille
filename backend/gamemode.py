@@ -5,7 +5,7 @@ class GameMode(object):
     and keeps track of their score. 
     """
     
-    def __init__(self, state, environment_json, recipe_json, movement):
+    def __init__(self, state, environment_json, recipe_json):
         """
         Initializes the GameMode object.
 
@@ -13,13 +13,48 @@ class GameMode(object):
             state (State): The game state.
             environment_json (dict): The environment dictionary.
             recipe_json (dict): The recipe dictionary.
-            movement (Movement): The movement object.
         """
+        self.environment_json = environment_json
+        self.recipe_json = recipe_json
+
         self.score = 0
         self.win = False
+
         self.state = state
-        self.movement = movement
-        Customer.build_customers(environment_json, recipe_json)
+
+        self.movement = None
+
+        # Player information
+        self.players = {}
+        self.player_id_counter = 0
+
+        # Station information
+        self.stations = {}
+        self.station_id_counter = 0
+
+        # Customer information
+        self.customers = {}
+        self.customer_id_counter = 0
+        self.customer_queue = []
+        Customer.build_customers(environment_json, recipe_json, self)
+
+    def get_state(self):
+        """
+        Gets the current state of the game.
+
+        Returns:
+            state (State): The current state of the game.
+        """
+        return self.state
+    
+    def get_movement(self):
+        """
+        Gets the movement object.
+
+        Returns:
+            movement (Movement): The movement object.
+        """
+        return self.movement
 
 
     def check_if_player_has_won(self):

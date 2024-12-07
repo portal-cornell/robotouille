@@ -69,12 +69,14 @@ class RobotouilleCanvas:
                 if col == station_name:
                     return np.array([j, i], dtype=float)
                 
-    def _get_container_position(self, container_name, obs):
+    def _get_container_position(self, container_name, obs, gamemode):
         """
         Gets the position of a container.
         
         Args:
             container_name (str): Name of the container
+            obs (State): Game state predicates
+            gamemode (GameMode): The game mode object
         
         Returns:
             position (np.array): (x, y) position of the container
@@ -84,7 +86,7 @@ class RobotouilleCanvas:
                 return self._get_station_position(literal.params[1].name)
             if is_true and literal.name == "has_container" and literal.params[1].name == container_name:
                 player = literal.params[0].name
-                player_obj = Player.players[player]
+                player_obj = gamemode.players[player]
                 return np.array([player_obj.pos[0], len(self.layout) - player_obj.pos[1] - 1], dtype=float)
 
     def _draw_image(self, surface, image_name, position, scale):
@@ -529,20 +531,23 @@ class RobotouilleCanvas:
             return self.config[type]["robot"]["right"]
         elif direction == (-1, 0):
             return self.config[type]["robot"]["left"]
+        print(type)
+        print(direction)
         assert False, "Invalid direction"
     
-    def _draw_player(self, surface, obs):
+    def _draw_player(self, surface, gamemode):
         """
         Draws the player on the canvas. This implementation assumes one player.
         
         Args:
             surface (pygame.Surface): Surface to draw on
-            obs (State): Game state predicates
+            gamemode (GameMode): The game mode object
         """
+        obs = gamemode.get_state()
         players = obs.get_players()
         for player in players:
             # Get the player object to access information about direction and position
-            player_obj = Player.players[player.name]
+            player_obj = gamemode.players[player.name]
             player_pos = (player_obj.pos[0], len(self.layout) - player_obj.pos[1] - 1)
             # Get the sprite list for the player's direction
             robot_sprite = self._get_player_or_customer_image_name(player_obj.direction, "player")
@@ -583,7 +588,7 @@ class RobotouilleCanvas:
                 customers.append(literal.params[0].name)
         return customers
 
-    def draw_customer(self, surface, obs):
+    def draw_customer(self, surface, gamemode):
         """
         Draws the customer on the canvas.
 
@@ -591,10 +596,11 @@ class RobotouilleCanvas:
             surface (pygame.Surface): Surface to draw on
             obs (State): Game state predicates
         """
+        obs = gamemode.get_state()
         customers = self._get_customers_in_game(obs)
         for customer in customers:
             # Get the customer object to access information about direction and position
-            customer_obj = Customer.customers[customer]
+            customer_obj = gamemode.customers[customer]
             player_pos = (customer_obj.pos[0], len(self.layout) - customer_obj.pos[1] - 1)
             # Get the sprite list for the player's direction
             robot_sprite = self._get_player_or_customer_image_name(customer_obj.direction, "customer")
@@ -621,7 +627,7 @@ class RobotouilleCanvas:
                 held_containers.append(literal.params[1].name)
         return held_containers
 
-    def _draw_item(self, surface, obs):
+    def _draw_item(self, surface, gamemode):
         """
         This helper draws item on the canvas.
 
@@ -631,8 +637,9 @@ class RobotouilleCanvas:
 
         Args:
             surface (pygame.Surface): Surface to draw on
-            obs (State): Game state predicates
+            gamemode (GameMode): The game mode object
         """
+        obs = gamemode.get_state()
         held_containers = self._find_held_containers(obs)
         stack_list = [] # In the form (x, y) such that x is stacked on y
         stack_number = {} # Stores the item item and current stack number
@@ -654,7 +661,7 @@ class RobotouilleCanvas:
                 item = literal.params[0].name
                 container = literal.params[1].name
                 stack_number[item] = 1
-                container_pos = self._get_container_position(container, obs)
+                container_pos = self._get_container_position(container, obs, gamemode)
                 # Place the item slightly above the container
                 container_pos[1] -= container_item_offset
                 if container in held_containers:
@@ -677,7 +684,7 @@ class RobotouilleCanvas:
                             station_or_container_pos = self._get_station_position(literal.params[1].name)
                             break
                         if is_true and literal.name == "at_container" and literal.params[0].name == item_below:
-                            station_or_container_pos = self._get_container_position(literal.params[1].name, obs)
+                            station_or_container_pos = self._get_container_position(literal.params[1].name, obs, gamemode)
                             is_at_container = True
                             container = literal.params[1].name
                             break
@@ -787,18 +794,19 @@ class RobotouilleCanvas:
         self._add_platforms_underneath_stations(stations, abstract_tile_matrix)
         return abstract_tile_matrix
 
-    def draw_to_surface(self, surface, obs):
+    def draw_to_surface(self, surface, gamemode):
         """
         Draws the game state to the surface.
         
         Args:
             surface (pygame.Surface): Surface to draw on
-            obs (List[Literal]): Game state predicates
+            gamemode (GameMode): The game mode object
         """
+        obs = gamemode.get_state()
         self._draw_floor(surface)
         self._draw_furniture(surface)
         self._draw_stations(surface)
-        self._draw_player(surface, obs)
-        self.draw_customer(surface, obs)
+        self._draw_player(surface, gamemode)
+        self.draw_customer(surface, gamemode)
         self._draw_container(surface, obs)
-        self._draw_item(surface, obs)
+        self._draw_item(surface, gamemode)

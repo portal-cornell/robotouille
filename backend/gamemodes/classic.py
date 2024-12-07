@@ -8,7 +8,7 @@ class Classic(GameMode):
     limit. They win if they do this, and lose otherwise. 
     """
 
-    def __init__(self, state, environment_json, recipe_json, movement):
+    def __init__(self, state, environment_json, recipe_json):
         """
         Initializes the Classic gamemode.
 
@@ -18,9 +18,9 @@ class Classic(GameMode):
             recipe_json (dict): The recipe dictionary.   
             movement (Movement): The movement object.
         """
-        super().__init__(state, environment_json, recipe_json, movement)
+        super().__init__(state, environment_json, recipe_json)
         self.time_limit = environment_json["gamemode"]["time"]
-        self.customers = Customer.customers
+        self.customers = self.customers
 
     def check_if_player_has_won(self, time):
         """
@@ -56,14 +56,14 @@ class Classic(GameMode):
         """
         
         for customer in self.customers.values():
-            action = customer.step(time, self.state)
+            action = customer.step(time, self)
     
             if action is not None:
                 actions.append(action)
 
         new_state, done = self.state.step(actions)
 
-        self.movement.step(self.state, clock, actions)
+        self.movement.step(self, clock, actions)
 
         if self.movement.mode == Mode.TRAVERSE:
             new_state.current_player = new_state.next_player()
