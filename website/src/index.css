@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: 'Nico Moji';
-  src: url('src/fonts/NicoMoji-Regular.ttf') format('truetype');
+  font-family: "Nico Moji";
+  src: url("src/fonts/NicoMoji-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }

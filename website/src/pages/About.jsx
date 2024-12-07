@@ -12,7 +12,7 @@ const About = () => {
         <img
           src={aboutHeader}
           alt="About Header"
-          className="w-1/3 h-auto rounded-t-lg"
+          className="w-1/3 max-w-sm md:max-w-md lg:max-w-lg h-auto rounded-t-lg"
         />
       </div>
 
@@ -33,21 +33,21 @@ const About = () => {
         </div>
 
         {/* GIFs */}
-        <div className="flex justify-center items-cente gap-6 p-6">
+        <div className="flex justify-center items-center gap-6 p-6 ">
           <img
             src={cheeseBurger}
             alt="Cheeseburger"
-            className="w-1/3 rounded-lg shadow-lg"
+            className="w-1/3 max-w-xs rounded-lg shadow-lg"
           />
           <img
             src={kitchen}
             alt="Kitchen"
-            className="w-1/3 rounded-lg shadow-lg"
+            className="w-1/3 max-w-xs rounded-lg shadow-lg"
           />
           <img
             src={lettucetomatoburger}
             alt="Lettuce Tomato Burger"
-            className="w-1/3 rounded-lg shadow-lg"
+            className="w-1/3 max-w-xs rounded-lg shadow-lg"
           />
         </div>
       </div>

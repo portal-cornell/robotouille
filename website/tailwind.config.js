@@ -122,12 +122,6 @@ export default {
           "@apply font-grotesk font-light text-xs tracking-tagline uppercase":
             {},
         },
-        ".quote": {
-          "@apply font-code text-lg leading-normal": {},
-        },
-        ".button": {
-          "@apply font-code text-xs font-bold uppercase tracking-wider": {},
-        },
       });
       addUtilities({
         ".tap-highlight-color": {
