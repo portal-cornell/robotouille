@@ -111,13 +111,12 @@ class PauseScreen(ScreenInterface):
             if self.retry_button.handle_event(event):
                 self.set_next_screen(GAME)
             
-            # Increase/decrease music volume if plus button and music minus button is pressed
-            if self.music_plus_button.in_bound() and not self.music_slider.is_moving():
-                if self.music_plus_button.handle_event(event):
+            if self.music_minus_button.in_bound() and not self.music_slider.is_moving():
+                if self.music_minus_button.handle_event(event):
                     self.music_slider.set_value(self.music_slider.get_value() + 0.1)
             elif self.music_plus_button.in_bound() and not self.music_slider.is_moving():
                 if self.music_plus_button.handle_event(event):
-                    self.music_slider.set_value(self.music_slider.get_value() - 0.1)
+                    self.music_slider.set_value(self.music_slider.get_value() + 0.1)
             else:
                 # Increase/decrease music volume if slider is moved
                 self.music_slider.handle_event(event)
