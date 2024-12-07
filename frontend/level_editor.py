@@ -3,7 +3,7 @@ import pygame_gui
 
 from frontend.constants import MAIN_MENU
 from frontend.screen import ScreenInterface
-from pygame_gui.elements import UIPanel, UISelectionList
+from pygame_gui.elements import UIPanel, UIButton, UISelectionList
 
 
 class LevelEditorScreen(ScreenInterface):
@@ -24,8 +24,10 @@ class LevelEditorScreen(ScreenInterface):
         self.is_dragging = False
         self.last_mouse_pos = None
 
-        self.selected_item = None
+        self.selected_item = "steak"  # Default selected item
+        self.selected_button = None  # Track the currently selected button
         self.grid_items = [[None for _ in range(self.grid_width)] for _ in range(self.grid_height)]
+        self.item_buttons = []  # Initialize item_buttons as an empty list
 
         # Initialize pygame_gui manager
         self.ui_manager = pygame_gui.UIManager(window_size)
@@ -36,7 +38,7 @@ class LevelEditorScreen(ScreenInterface):
             manager=self.ui_manager,
         )
 
-        # Sidebar Tabs
+        # Sidebar Tabs with old styling (UISelectionList)
         self.sidebar_tabs = UISelectionList(
             relative_rect=pygame.Rect(10, 10, 200, 150),
             item_list=["Items", "Container", "Station", "Other"],
@@ -44,17 +46,53 @@ class LevelEditorScreen(ScreenInterface):
             parent_element=self.sidebar_panel,
         )
 
-        # Item List
-        self.item_list = UISelectionList(
-            relative_rect=pygame.Rect(10, 180, 200, 800),
-            item_list=["steak", "cabbage", "strawberry"],  # Default items
-            manager=self.ui_manager,
-            parent_element=self.sidebar_panel,
-        )
+        # Simulate default tab selection
+        self.current_tab = "Items"
+        self.update_item_buttons()
 
     def load_assets(self):
-        """Load necessary assets."""
-        # No additional assets to load here
+        """Load necessary assets for the screen."""
+        pass
+
+    def update_item_buttons(self):
+        """Update the item buttons based on the selected tab."""
+        # Correctly remove old buttons
+        for button, _ in self.item_buttons:
+            button.kill()
+        self.item_buttons = []
+
+        items = {
+            "Items": ["steak", "cabbage", "strawberry"],
+            "Container": ["plate", "tray"],
+            "Station": ["grill", "oven"],
+            "Other": ["decor"],
+        }
+
+        item_list = items[self.current_tab]
+
+        for i, item in enumerate(item_list):
+            button = UIButton(
+                relative_rect=pygame.Rect(10, 180 + i * 50, 200, 40),
+                text="",  # No text; purely image-based
+                manager=self.ui_manager,
+                parent_element=self.sidebar_panel,
+                object_id=f"#item_{item}",
+            )
+            self.item_buttons.append((button, item))  # Store button and its associated item
+
+            # If the button matches the default selected item, set it as active
+            if item == self.selected_item:
+                self.selected_button = button
+
+        self._update_button_states()  # Ensure button states are updated for the default selection
+
+    def _update_button_states(self):
+        """Update the states of item buttons to reflect selection."""
+        for button, item in self.item_buttons:
+            if item == self.selected_item:
+                button.select()  # Mark the button as active
+            else:
+                button.unselect()  # Mark the button as inactive
 
     def _draw_grid(self, surface):
         """Render the grid with current offset and zoom."""
@@ -76,20 +114,17 @@ class LevelEditorScreen(ScreenInterface):
         """Handle events for grid and UI."""
         self.ui_manager.process_events(event)
 
-        # Handle tab selection
         if event.type == pygame_gui.UI_SELECTION_LIST_NEW_SELECTION:
             if event.ui_element == self.sidebar_tabs:
-                selected_tab = self.sidebar_tabs.get_single_selection()
-                if selected_tab == "Items":
-                    self.item_list.set_item_list(["steak", "cabbage", "strawberry"])
-                elif selected_tab == "Container":
-                    self.item_list.set_item_list(["plate", "tray"])
-                elif selected_tab == "Station":
-                    self.item_list.set_item_list(["grill", "oven"])
-                elif selected_tab == "Other":
-                    self.item_list.set_item_list(["decor"])
-            elif event.ui_element == self.item_list:
-                self.selected_item = self.item_list.get_single_selection()
+                self.current_tab = self.sidebar_tabs.get_single_selection()
+                self.update_item_buttons()
+
+        if event.type == pygame_gui.UI_BUTTON_PRESSED:
+            for button, item in self.item_buttons:
+                if event.ui_element == button:
+                    self.selected_item = item
+                    self.selected_button = button
+                    self._update_button_states()
 
         # Handle grid interactions
         if event.type == pygame.MOUSEBUTTONDOWN:
@@ -112,22 +147,19 @@ class LevelEditorScreen(ScreenInterface):
 
         elif event.type == pygame.MOUSEMOTION:
             if self.is_dragging:
-                # Calculate movement and adjust offsets
                 dx, dy = event.rel
                 self.offset_x += dx
                 self.offset_y += dy
 
         elif event.type == pygame.MOUSEBUTTONUP:
-            if event.button == 1:  # Release dragging
+            if event.button == 1:
                 self.is_dragging = False
 
         elif event.type == pygame.MOUSEWHEEL:
-            # Adjust zoom
             old_zoom = self.zoom
             self.zoom += event.y * 0.1
-            self.zoom = max(0.5, min(2.0, self.zoom))  # Clamp zoom level
+            self.zoom = max(0.5, min(2.0, self.zoom))
 
-            # Adjust offset to zoom around mouse cursor
             mouse_x, mouse_y = pygame.mouse.get_pos()
             mouse_grid_x = (mouse_x - self.offset_x) / (self.cell_size * old_zoom)
             mouse_grid_y = (mouse_y - self.offset_y) / (self.cell_size * old_zoom)
