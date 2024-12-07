@@ -100,14 +100,14 @@ def build_station_location_predicates(environment_dict):
             pred = Predicate().initialize("vacant", ["station"], [station_obj])
             predicates.append(pred)
         match = False
-        # Check if there are any items, containers, or condiments at the station
-        for field in ["items", "containers", "condiments"]:
+        # Check if there are any items, containers, or packages at the station
+        for field in ["items", "containers", "packages"]:
             if field == "items":
                 predicate = "item_at"
             elif field == "containers":
                 predicate = "container_at"
             else:
-                predicate = "condiment_at"
+                predicate = "package_at"
             # predicate = "item_at" if field == "items" else "container_at"
             for entity in environment_dict.get(field, []):
                 x = entity["x"]
@@ -118,7 +118,7 @@ def build_station_location_predicates(environment_dict):
                     pred = Predicate().initialize(predicate, [field[:-1], "station"], [obj, station_obj])
                     predicates.append(pred)
                     match = True
-        # If no items, containers, or condiments are at the station, add a station_empty predicate
+        # If no items, containers, or packages are at the station, add a station_empty predicate
         if not match:
             pred = Predicate().initialize("station_empty", ["station"], [station_obj])
             predicates.append(pred)
@@ -157,11 +157,11 @@ def build_player_location_predicates(environment_dict):
                     predicates.append(pred)
                     match = True
                     break
-        if not match and environment_dict.get("condiments"):
-            for condiment in environment_dict["condiments"]:
-                if player["x"] == condiment["x"] and player["y"] == condiment["y"]:
-                    obj = Object(condiment["name"], "condiment")
-                    pred = Predicate().initialize("has_condiment", ["player", "condiment"], [player_obj, obj])
+        if not match and environment_dict.get("packages"):
+            for package in environment_dict["packages"]:
+                if player["x"] == package["x"] and player["y"] == package["y"]:
+                    obj = Object(package["name"], "package")
+                    pred = Predicate().initialize("has_package", ["player", "package"], [player_obj, obj])
                     predicates.append(pred)
                     match = True
                     break

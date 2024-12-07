@@ -423,9 +423,9 @@
             }
         }
     },
-    "condiment": {
+    "package": {
         "constants": {
-            "STATION_CONDIMENT_OFFSET" : 0.25,
+            "STATION_PACKAGE_OFFSET" : 0.25,
             "X_SCALE_FACTOR": 0.125,
             "Y_SCALE_FACTOR": 0.75
         },

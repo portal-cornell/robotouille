@@ -4,7 +4,7 @@
 
     "input_json": "domain/input.json",
 
-    "object_types": ["station", "item", "player", "container", "meal", "condiment"],
+    "object_types": ["station", "item", "player", "container", "meal", "package"],
 
     "predicate_defs": [
         {
@@ -236,7 +236,7 @@
             "param_types": ["item"]
         },
         {
-            "name": "has_condiments",
+            "name": "has_packages",
             "param_types": ["item"]
         },
         {
@@ -321,23 +321,23 @@
         },
         {
             "name": "isketchup",
-            "param_types": ["condiment"]
+            "param_types": ["package"]
         },
         {
             "name": "ismustard",
-            "param_types": ["condiment"]
+            "param_types": ["package"]
         },
         {
             "name": "issalt",
-            "param_types": ["condiment"]
+            "param_types": ["package"]
         },
         {
             "name": "ismilkcarton",
-            "param_types": ["condiment"]
+            "param_types": ["package"]
         },
         {
             "name": "isflourbag",
-            "param_types": ["condiment"]
+            "param_types": ["package"]
         },
         {
             "name": "item_on",
@@ -372,8 +372,8 @@
             "param_types": ["player", "container"]
         },
         {
-            "name": "has_condiment",
-            "param_types": ["player", "condiment"]
+            "name": "has_package",
+            "param_types": ["player", "package"]
         },
         {
             "name": "in",
@@ -385,15 +385,15 @@
         },
         {
             "name": "addedcontent",
-            "param_types": ["condiment", "meal"]
+            "param_types": ["package", "meal"]
         },
         {
             "name": "container_at",
             "param_types": ["container", "station"]
         },
         {
-            "name": "condiment_at",
-            "param_types": ["condiment", "station"]
+            "name": "package_at",
+            "param_types": ["package", "station"]
         }
     ],
 
@@ -755,7 +755,7 @@
             "sfx": []
         },
         {
-            "name": "pick-up-condiment",
+            "name": "pick-up-package",
             "precons": [
                 {
                     "predicate": "nothing",
@@ -763,7 +763,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "condiment_at",
+                    "predicate": "package_at",
                     "params": ["cd1", "s1"],
                     "is_true": true
                 },
@@ -775,12 +775,12 @@
             ],
             "immediate_fx": [
                 {
-                    "predicate": "has_condiment",
+                    "predicate": "has_package",
                     "params": ["p1", "cd1"],
                     "is_true": true
                 },
                 {
-                    "predicate": "condiment_at",
+                    "predicate": "package_at",
                     "params": ["cd1", "s1"],
                     "is_true": false
                 },
@@ -798,10 +798,10 @@
             "sfx": []
         },
         {
-            "name": "place-condiment",
+            "name": "place-package",
             "precons": [
                 {
-                    "predicate": "has_condiment",
+                    "predicate": "has_package",
                     "params": ["p1", "cd1"],
                     "is_true": true
                 },
@@ -823,12 +823,12 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "condiment_at",
+                    "predicate": "package_at",
                     "params": ["cd1", "s1"],
                     "is_true": true
                 },
                 {
-                    "predicate": "has_condiment",
+                    "predicate": "has_package",
                     "params": ["p1", "cd1"],
                     "is_true": false
                 },
@@ -1674,7 +1674,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "has_condiment",
+                    "predicate": "has_package",
                     "params": ["p1", "cd1"],
                     "is_true": true
                 }
@@ -2000,7 +2000,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "has_condiment",
+                    "predicate": "has_package",
                     "params": ["p1", "cd1"],
                     "is_true": true
                 }
@@ -2322,7 +2322,7 @@
             "name": "add-ketchup",
             "precons": [
                 {
-                    "predicate": "has_condiment",
+                    "predicate": "has_package",
                     "params": ["p1", "cd1"],
                     "is_true": true
                 },
@@ -2390,7 +2390,7 @@
             "name": "add-mustard",
             "precons": [
                 {
-                    "predicate": "has_condiment",
+                    "predicate": "has_package",
                     "params": ["p1", "cd1"],
                     "is_true": true
                 },
@@ -2458,7 +2458,7 @@
             "name": "add-salt",
             "precons": [
                 {
-                    "predicate": "has_condiment",
+                    "predicate": "has_package",
                     "params": ["p1", "cd1"],
                     "is_true": true
                 },

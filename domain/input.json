@@ -36,14 +36,14 @@
             }
         },
         {
-            "name": "pick-up-condiment",
+            "name": "pick-up-package",
             "input_instructions": {
                 "button": "left",
                 "click_on": "s1"
             }
         },
         {
-            "name": "place-condiment",
+            "name": "place-package",
             "input_instructions": {
                 "button": "left",
                 "click_on": "s1"

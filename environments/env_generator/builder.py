@@ -3,7 +3,7 @@ import json
 import os
 import copy
 import itertools
-from .object_enums import Item, Player, Station, Container, Meal, Condiment, str_to_typed_enum, TYPES
+from .object_enums import Item, Player, Station, Container, Meal, Package, str_to_typed_enum, TYPES
 from .procedural_generator import randomize_environment
 import random
 
@@ -15,9 +15,9 @@ ITEM_FIELD = "items"
 PLAYER_FIELD = "players"
 MEAL_FIELD = "meals"
 CONTAINER_FIELD = "containers"
-CONDIMENT_FIELD = "condiments"
+PACKAGE_FIELD = "packages"
 
-ENTITY_FIELDS = [STATION_FIELD, ITEM_FIELD, PLAYER_FIELD, CONTAINER_FIELD, MEAL_FIELD, CONDIMENT_FIELD]
+ENTITY_FIELDS = [STATION_FIELD, ITEM_FIELD, PLAYER_FIELD, CONTAINER_FIELD, MEAL_FIELD, PACKAGE_FIELD]
 
 def entity_to_entity_field(entity):
     """
@@ -45,7 +45,7 @@ def entity_to_entity_field(entity):
         elif isinstance(typed_enum, Player): return PLAYER_FIELD
         elif isinstance(typed_enum, Meal): return MEAL_FIELD
         elif isinstance(typed_enum, Container): return CONTAINER_FIELD
-        elif isinstance(typed_enum, Condiment): return CONDIMENT_FIELD
+        elif isinstance(typed_enum, Package): return PACKAGE_FIELD
     except ValueError:
         # Convert wild card entities into entity fields
         if entity == STATION_FIELD[:-1]: return STATION_FIELD
@@ -53,7 +53,7 @@ def entity_to_entity_field(entity):
         elif entity == PLAYER_FIELD[:-1]: return PLAYER_FIELD
         elif entity == MEAL_FIELD[:-1]: return MEAL_FIELD
         elif entity == CONTAINER_FIELD[:-1]: return CONTAINER_FIELD
-        elif entity == CONDIMENT_FIELD[:-1]: return CONDIMENT_FIELD
+        elif entity == PACKAGE_FIELD[:-1]: return PACKAGE_FIELD
     raise ValueError(f"Cannot convert {entity} into an entity field.")
 
 def load_environment(json_filename, seed=None):

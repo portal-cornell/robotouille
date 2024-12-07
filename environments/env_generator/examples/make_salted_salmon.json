@@ -41,7 +41,7 @@
             "id": "a"
         }
     ],
-    "condiments": [
+    "packages": [
         {
             "name": "salt",
             "x": 0,

@@ -398,22 +398,22 @@ class RobotouilleCanvas:
 
         self._draw_image(surface, f"{container_image_name}", position + self.pix_square_size * x_scale_factor, self.pix_square_size * y_scale_factor)
 
-    def _draw_condiment_image(self, surface, condiment_name, obs, position):
+    def _draw_package_image(self, surface, package_name, obs, position):
         """
-        Helper to draw a condiment image on the canvas.
+        Helper to draw a package image on the canvas.
 
         Args:
             surface (pygame.Surface): Surface to draw on
-            condiment_name (str): Name of the condiment
+            package_name (str): Name of the package
             obs (List[Literal]): Game state predicates
-            position (np.array): (x, y) position of the condiment (with pix_square_size factor accounted for)
+            position (np.array): (x, y) position of the package (with pix_square_size factor accounted for)
         """
-        trimmed_condiment_name, condiment_ID = trim_item_ID(condiment_name)
-        condiment_image_name = self.config["condiment"]["entities"][trimmed_condiment_name]["assets"]["default"]
-        x_scale_factor = self.config["condiment"]["constants"]["X_SCALE_FACTOR"]
-        y_scale_factor = self.config["condiment"]["constants"]["Y_SCALE_FACTOR"]
+        trimmed_package_name, package_ID = trim_item_ID(package_name)
+        package_image_name = self.config["package"]["entities"][trimmed_package_name]["assets"]["default"]
+        x_scale_factor = self.config["package"]["constants"]["X_SCALE_FACTOR"]
+        y_scale_factor = self.config["package"]["constants"]["Y_SCALE_FACTOR"]
 
-        self._draw_image(surface, f"{condiment_image_name}", position + self.pix_square_size * x_scale_factor, self.pix_square_size * y_scale_factor)
+        self._draw_image(surface, f"{package_image_name}", position + self.pix_square_size * x_scale_factor, self.pix_square_size * y_scale_factor)
 
     def _draw_floor(self, surface):
         """
@@ -576,7 +576,7 @@ class RobotouilleCanvas:
             robot_image_name = robot_sprite[player_obj.sprite_value]
             held_item_name = None
             held_container_name = None
-            held_condiment_name = None
+            held_package_name = None
             # Draw the player
             self._draw_image(surface, robot_image_name, player_pos * self.pix_square_size, self.pix_square_size)
 
@@ -586,15 +586,15 @@ class RobotouilleCanvas:
                     held_item_name = literal.params[1].name
                 if is_true and literal.name == "has_container" and literal.params[0].name == player.name:
                     held_container_name = literal.params[1].name
-                if is_true and literal.name == "has_condiment" and literal.params[0].name == player.name:
-                    held_condiment_name = literal.params[1].name
+                if is_true and literal.name == "has_package" and literal.params[0].name == player.name:
+                    held_package_name = literal.params[1].name
             # Draw the item or container the player is holding
             if held_item_name:
                 self._draw_item_image(surface, held_item_name, obs, player_pos * self.pix_square_size)
             if held_container_name:
                 self._draw_container_image(surface, held_container_name, obs, player_pos * self.pix_square_size)
-            if held_condiment_name:
-                self._draw_condiment_image(surface, held_condiment_name, obs, player_pos * self.pix_square_size)
+            if held_package_name:
+                self._draw_package_image(surface, held_package_name, obs, player_pos * self.pix_square_size)
 
 
     def _draw_item(self, surface, obs):
@@ -668,27 +668,27 @@ class RobotouilleCanvas:
                 container_pos[1] -= self.config["container"]["entities"][name]["constants"].get("STATION_CONTAINER_OFFSET", station_container_offset)
                 self._draw_container_image(surface, container, obs, container_pos * self.pix_square_size)
 
-    def _draw_condiment(self, surface, obs):
+    def _draw_package(self, surface, obs):
         """
-        This helper draws condiments on the canvas.
+        This helper draws packages on the canvas.
 
         Args:
             surface (pygame.Surface): Surface to draw on
             obs (State): Game state predicates
 
         Side effects:
-            Draws the condiments to surface
+            Draws the packages to surface
         """
-        station_condiment_offset = self.config["condiment"]["constants"]["STATION_CONDIMENT_OFFSET"]
+        station_package_offset = self.config["package"]["constants"]["STATION_PACKAGE_OFFSET"]
         for literal, is_true in obs.predicates.items():
-            station_condiment_offset = self.config["condiment"]["constants"]["STATION_CONDIMENT_OFFSET"]
-            if is_true and literal.name == "condiment_at":
-                condiment = literal.params[0].name
+            station_package_offset = self.config["package"]["constants"]["STATION_PACKAGE_OFFSET"]
+            if is_true and literal.name == "package_at":
+                package = literal.params[0].name
                 station = literal.params[1].name
-                condiment_pos = self._get_station_position(station)
-                name, _ = trim_item_ID(condiment)
-                condiment_pos[1] -= self.config["condiment"]["entities"][name]["constants"].get("STATION_CONDIMENT_OFFSET", station_condiment_offset)
-                self._draw_condiment_image(surface, condiment, obs, condiment_pos * self.pix_square_size)
+                package_pos = self._get_station_position(station)
+                name, _ = trim_item_ID(package)
+                package_pos[1] -= self.config["package"]["entities"][name]["constants"].get("STATION_PACKAGE_OFFSET", station_package_offset)
+                self._draw_package_image(surface, package, obs, package_pos * self.pix_square_size)
     
     def _add_platforms_underneath_stations(self, stations, abstract_tile_matrix):
         """
@@ -776,4 +776,4 @@ class RobotouilleCanvas:
         self._draw_player(surface, obs)
         self._draw_item(surface, obs)
         self._draw_container(surface, obs)
-        self._draw_condiment(surface, obs)
+        self._draw_package(surface, obs)
