@@ -35,6 +35,7 @@ class RobotouilleRenderer:
         # The pygame window size.
         self.window_size = window_size
         # displays static drawings.
+        # TODO Remove; make screen as large as can fit in the screen (should be fixed in main).
         pygame.display.set_mode(self.window_size)
     
     def _render_frame(self, obs, render_mode):
