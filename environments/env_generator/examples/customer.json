@@ -109,7 +109,7 @@
     ],
     "customers": [
         {
-            "name": "customer",
+            "name": "girl",
             "x": 7,
             "y": 0,
             "direction": [-1, 0],
@@ -121,8 +121,8 @@
     "goal_description": "Serve the customer",
     "goal": [
         {
-            "predicate": "iscookable",
-            "args": ["lettuce"],
+            "predicate": "customer_has_eaten",
+            "args": ["girl"],
             "ids": [1]
         }
     ]

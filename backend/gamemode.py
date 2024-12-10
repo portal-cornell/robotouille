@@ -1,5 +1,7 @@
 from backend.customer import Customer
-class GameMode(object):
+from abc import ABC, abstractmethod
+
+class GameMode(ABC):
     """
     The GameMode class handles how the player achieves victory in the game,
     and keeps track of their score. 
@@ -56,7 +58,7 @@ class GameMode(object):
         """
         return self.movement
 
-
+    @abstractmethod
     def check_if_player_has_won(self):
         """
         Checks if the player has won the game.
@@ -65,7 +67,8 @@ class GameMode(object):
             bool: True if the player has won, False otherwise.
         """
         pass
-
+    
+    @abstractmethod
     def step(self, time, actions):
         """
         Steps the game mode.

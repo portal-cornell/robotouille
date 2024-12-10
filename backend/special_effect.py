@@ -1,4 +1,6 @@
-class SpecialEffect(object):
+from abc import ABC, abstractmethod
+
+class SpecialEffect(ABC):
     """
     This class represents special effects in Robotouille.
 
@@ -32,6 +34,7 @@ class SpecialEffect(object):
         self.special_effects = special_effects
         self.completed = completed
 
+    @abstractmethod
     def update(self, state, active=False):
         """
         Updates the state with the effect.
@@ -40,9 +43,5 @@ class SpecialEffect(object):
             state (State): The state to update.
             active (bool): Whether or not the update is due to an action being
             performed.
-
-        Raises:
-            NotImplementedError: If the method is not implemented in the 
-            subclass.
         """
-        raise NotImplementedError
+        pass

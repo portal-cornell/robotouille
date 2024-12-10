@@ -22,20 +22,6 @@
             }
         },
         {
-            "name": "stack-on-bottom-item",
-            "input_instructions": {
-                "button": "left",
-                "click_on": "s1"
-            }
-        },
-        {
-            "name": "unstack-from-bottom-item",
-            "input_instructions": {
-                "button": "left",
-                "click_on": "s1"
-            }
-        },
-        {
             "name": "stack-onto-station-stack",
             "input_instructions": {
                 "button": "left",
@@ -50,14 +36,14 @@
             }
         },
         {
-            "name": "stack_on_container",
+            "name": "place-on-container",
             "input_instructions": {
                 "button": "left",
                 "click_on": "s1"
             }
         },
         {
-            "name": "unstack_from_container",
+            "name": "pickup-from-container",
             "input_instructions": {
                 "button": "left",
                 "click_on": "s1"

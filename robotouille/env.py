@@ -69,7 +69,7 @@ def build_gamemode(environment_json, domain_json, state, layout, animate):
         animate (bool): Whether or not to animate the movement of the players.
 
     Returns:
-        gamemode(GameMode): The gamemmode of the environment
+        gamemode (GameMode): The gamemode of the environment
     """
     name = environment_json["gamemode"]["name"]
 

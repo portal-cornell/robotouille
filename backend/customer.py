@@ -164,15 +164,20 @@ class Customer(object):
         """
         state = gamemode.get_state()
 
+        # If the customer is not performing an action, do nothing
         if self.action:
             return None
-    
+        
+        # If the customer is at a table, decrement the time to serve
+        # and check if the customer has been served
         if self._is_at_table(state) and not self.has_been_served:
             clock = time.Clock()
             self.time_to_serve -= clock.get_time()
             if self.order_is_satisfied(state, gamemode):
                 self.has_been_served = True
-                
+        
+        # If the customer needs to enter the game, perform the customer_enter action
+        # and add the customer to the queue
         elif not self.has_left_queue and self not in gamemode.customer_queue \
             and time.get_ticks() >= self.enter_time:
             gamemode.customer_queue.append(self)
@@ -184,30 +189,38 @@ class Customer(object):
                             self.in_game = True
                             return (action, param_arg_dict)
         
+        # If the customer is in the queue, check if the customer is at the front of the queue
+        # and if there are any available tables
         elif len(gamemode.customer_queue) > 0:
             if gamemode.customer_queue[0] == self:
                 self.assigned_table = self._get_empty_table(state)
                 if self.assigned_table:
                     gamemode.customer_queue.pop()
         
+        # Check if the customer has eaten
         if not self.has_eaten:
             for predicate, value in state.predicates.items():
                 if predicate.name == "customer_has_eaten" and value and predicate.params[0].name == self.name:
                     self.has_eaten = True
 
-
+        # Based on the information above, return the appropriate action
         for action, param_arg_dict_list in state.npc_actions.items():
             for param_arg_dict in param_arg_dict_list:
+                # Customer should eat if they have been served and have not eaten
                 if not self.has_eaten and self.has_been_served and self.in_game \
                     and action.name == "customer_eat" and param_arg_dict["npc1"].name == self.name:
                     assert action.is_valid(state, param_arg_dict)
                     return (action, param_arg_dict)
+                
+                # Customer should leave if they have eaten and have been served
                 elif self.has_eaten and self.has_been_served and self.in_game and \
                     action.name == "customer_leave" and param_arg_dict["npc1"].name == self.name \
                         and param_arg_dict["s2"].name == "customerspawn1" and param_arg_dict["s1"].name == self.assigned_table.name:
                     assert action.is_valid(state, param_arg_dict)
                     self.in_game = False
                     return (action, param_arg_dict)
+                
+                # Customer should move to the table if they have been assigned a table
                 elif not self.has_left_queue and self.assigned_table and action.name == "customer_move" \
                     and param_arg_dict["npc1"].name == self.name and param_arg_dict["s2"].name == self.assigned_table.name:
                     assert action.is_valid(state, param_arg_dict)

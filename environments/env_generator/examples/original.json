@@ -101,8 +101,6 @@
             "direction": [0, 1]
         }
     ],
-    "customers": [
-    ],
     "goal_description": "Make a lettuce burger with lettuce on top of the patty.",
     "goal": [
         {

@@ -65,12 +65,12 @@ class Movement(object):
         # (Dict[str, MetaData]) The player movement data, with the key being the player name
         self.metadata = {}
 
-    def _get_possible_destinations(self, player_or_customer, destination, gamemode):
+    def _get_possible_destinations(self, character, destination, gamemode):
         """
         Gets the possible destination positions for a player.
 
         Args:
-            player_or_customer (Player or Customer): The player or customer.
+            character (Player or Customer): The player or customer.
             destination (tuple): The destination position.
             gamemode (GameMode): The game mode object.
 
@@ -83,14 +83,14 @@ class Movement(object):
         """
         # Get the locations of all stations, players, and customers
         other_station_locations = Station.get_station_locations(gamemode)
-        player_customer_locations = [p.pos for p in gamemode.players.values() if p != player_or_customer]
-        player_customer_locations += [c.pos for c in gamemode.customers.values() if c != player_or_customer and c.in_game]
+        character_locations = [p.pos for p in gamemode.players.values() if p != character]
+        character_locations += [c.pos for c in gamemode.customers.values() if c != character and c.in_game]
         
         # Get the destinations of all other players and customers in motion
-        player_customer_destinations = []
+        character_destinations = []
         for name, data in self.metadata.items():
-            if data.path and name != player_or_customer.name:
-                    player_customer_destinations.append(data.path[-1])
+            if data.path and name != character.name:
+                    character_destinations.append(data.path[-1])
         
         possible_destinations = []
         width, height = len(self.layout[0]), len(self.layout)
@@ -100,12 +100,12 @@ class Movement(object):
             if next_pos[0] < 0 or next_pos[0] >= width or next_pos[1] < 0 or next_pos[1] >= height:
                 continue
             # Skipping - inside stations or players current/future locations
-            if next_pos in other_station_locations or next_pos in player_customer_locations or next_pos in player_customer_destinations:
+            if next_pos in other_station_locations or next_pos in character_locations or next_pos in character_destinations:
                 continue
             possible_destinations.append(next_pos)
         return possible_destinations
 
-    def _get_path(self, player_or_customer, destinations, gamemode):
+    def _get_path(self, character, destinations, gamemode):
         """
         Gets the path for the player or customer to move to the destination.
 
@@ -113,7 +113,7 @@ class Movement(object):
         and station locations when the move action is first called
 
         Args:
-            player_or_customer (Player or Customer): The player or customer to move.
+            character (Player or Customer): The player or customer to move.
             destinations (List[tuple]): The possible destination positions
             gamemode (GameMode): The game mode object.
 
@@ -127,7 +127,7 @@ class Movement(object):
         width, height = len(self.layout[0]), len(self.layout)
         obstacle_locations = Station.get_station_locations(gamemode)
         visited = set()
-        current = player_or_customer.pos
+        current = character.pos
         path = [current]
         queue = [(current, path)]
         while queue:
@@ -149,7 +149,7 @@ class Movement(object):
         assert current in destinations, "Player or Customer cannot reach the destination."
         return path
     
-    def _move(self, gamemode, player_or_customer, destination, action, param_arg_dict, clock):
+    def _move(self, gamemode, character, destination, action, param_arg_dict, clock):
         """
         Moves the player or customer to the destination.
 
@@ -161,7 +161,7 @@ class Movement(object):
 
         Args:
             gamemode (GameMode): The game mode object.
-            player_or_customer (Player or Customer): The player or customer to move.
+            character (Player or Customer): The player or customer to move.
             destination (Object): The destination station.
             action (Action): The move action.
             param_arg_dict (Dictionary[str, Object]): The arguments of the action.
@@ -179,10 +179,10 @@ class Movement(object):
         """
         state = gamemode.get_state()
 
-        if gamemode.players.get(player_or_customer.name) is not None:
-            obj = gamemode.players[player_or_customer.name]
+        if gamemode.players.get(character.name) is not None:
+            obj = gamemode.players[character.name]
         else:
-            obj = gamemode.customers[player_or_customer.name]
+            obj = gamemode.customers[character.name]
 
         destination_pos = gamemode.stations[destination.name].pos
         possible_destinations = self._get_possible_destinations(obj, destination_pos, gamemode)

@@ -509,13 +509,14 @@ class RobotouilleCanvas:
                         self._draw_image(surface, asset_info["name"], np.array([j, i - offset]) * self.pix_square_size, self.pix_square_size)
 
 
-    def _get_player_or_customer_image_name(self, direction, type):
+    def _get_character_image_name(self, direction, type, name):
         """
         Returns the image name of the player given their direction.
 
         Args:
             direction (tuple): Unit vector of the player's direction
             type (str): Type of the entity (player or customer)
+            name (str): Name of the entity
         
         Returns:
             sprite_list (List[str]): List of image names for the player in the given direction
@@ -524,13 +525,13 @@ class RobotouilleCanvas:
             AssertionError: If the direction is invalid
         """
         if direction == (0, 1):
-            return self.config[type]["robot"]["back"]
+            return self.config[type][name]["back"]
         elif direction == (0, -1):
-            return self.config[type]["robot"]["front"]
+            return self.config[type][name]["front"]
         elif direction == (1, 0):
-            return self.config[type]["robot"]["right"]
+            return self.config[type][name]["right"]
         elif direction == (-1, 0):
-            return self.config[type]["robot"]["left"]
+            return self.config[type][name]["left"]
         print(type)
         print(direction)
         assert False, "Invalid direction"
@@ -547,10 +548,11 @@ class RobotouilleCanvas:
         players = obs.get_players()
         for player in players:
             # Get the player object to access information about direction and position
+            name, _ = trim_item_ID(player.name)
             player_obj = gamemode.players[player.name]
             player_pos = (player_obj.pos[0], len(self.layout) - player_obj.pos[1] - 1)
             # Get the sprite list for the player's direction
-            robot_sprite = self._get_player_or_customer_image_name(player_obj.direction, "player")
+            robot_sprite = self._get_character_image_name(player_obj.direction, "player", name)
             if player_obj.sprite_value >= len(robot_sprite):
                 player_obj.sprite_value = 0
             # Get the image name of the player
@@ -601,9 +603,10 @@ class RobotouilleCanvas:
         for customer in customers:
             # Get the customer object to access information about direction and position
             customer_obj = gamemode.customers[customer]
+            name, _ = trim_item_ID(customer_obj.name)
             player_pos = (customer_obj.pos[0], len(self.layout) - customer_obj.pos[1] - 1)
             # Get the sprite list for the player's direction
-            robot_sprite = self._get_player_or_customer_image_name(customer_obj.direction, "customer")
+            robot_sprite = self._get_character_image_name(customer_obj.direction, "customer", name)
             if customer_obj.sprite_value >= len(robot_sprite):
                 customer_obj.sprite_value = 0
             # Get the image name of the player

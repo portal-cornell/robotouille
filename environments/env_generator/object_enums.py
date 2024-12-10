@@ -37,7 +37,7 @@ class Meal(Enum):
     SOUP = "soup"
 
 class Customer(Enum):
-    CUSTOMER = "customer"
+    GIRL = "girl"
 
 TYPES = {"item": Item, "player": Player, "station": Station, "container": Container, "meal": Meal, "customer": Customer}
 

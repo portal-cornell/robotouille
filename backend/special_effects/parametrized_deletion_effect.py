@@ -1,6 +1,3 @@
-# Pass in predicate and some arguments, and delete all the other parameters in the predicates that are true for that argument. 
-# E.g. arg = water1, predicate = added_to, delete all items added to water1
-
 from backend.special_effect import SpecialEffect
 
 class ParametrizedDeletionEffect(SpecialEffect):
@@ -11,6 +8,14 @@ class ParametrizedDeletionEffect(SpecialEffect):
     state based on a parameter. A predicate is provided with an argument, and
     all objects that satisfy the predicate with the argument are deleted from the
     state.
+    
+    For example, when a customer eats their meal, an effect is that all the items
+    on their plate should be deleted, but the number of items is ambiguous since
+    different recipes have different numbers of items. So, we use this special 
+    effect, with the parameter being the plate (let's call it plate1), and the 
+    predicate being "at_container". Then, this special effect checks the predicates
+    in the state, and for any true predicate at_container(x, plate1), it deletes x.    
+    
     """
 
     def __init__(self, param, predicate, effects, special_effects, arg=None):

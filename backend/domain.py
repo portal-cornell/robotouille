@@ -77,29 +77,18 @@ class Domain(object):
             if not self._are_valid_types(pred.types, object_types):
                 raise ValueError(f"Predicate {pred.name} has invalid types.")
 
-        for action in action_def:
-            for precon in action.precons:
-                if not self._are_valid_types(precon.types, object_types):
-                    raise ValueError(f"Precondition {precon.name} has invalid types.")
-            for effect in action.immediate_effects:
-                if not self._are_valid_types(effect.types, object_types):
-                    raise ValueError(f"Immediate effect {effect.name} has invalid types.")
-            for special_effect in action.special_effects:
-                for effect in special_effect.effects:
+        for defn in [action_def, npc_action_def]:
+            for action in defn:
+                for precon in action.precons:
+                    if not self._are_valid_types(precon.types, object_types):
+                        raise ValueError(f"Precondition {precon.name} has invalid types.")
+                for effect in action.immediate_effects:
                     if not self._are_valid_types(effect.types, object_types):
-                        raise ValueError(f"Special effect {special_effect.name} has invalid types.")
-                    
-        for action in npc_action_def:
-            for precon in action.precons:
-                if not self._are_valid_types(precon.types, object_types):
-                    raise ValueError(f"Precondition {precon.name} has invalid types.")
-            for effect in action.immediate_effects:
-                if not self._are_valid_types(effect.types, object_types):
-                    raise ValueError(f"Immediate effect {effect.name} has invalid types.")
-            for special_effect in action.special_effects:
-                for effect in special_effect.effects:
-                    if not self._are_valid_types(effect.types, object_types):
-                        raise ValueError(f"Special effect {special_effect.name} has invalid types.")
+                        raise ValueError(f"Immediate effect {effect.name} has invalid types.")
+                for special_effect in action.special_effects:
+                    for effect in special_effect.effects:
+                        if not self._are_valid_types(effect.types, object_types):
+                            raise ValueError(f"Special effect {special_effect.name} has invalid types.")
 
         self.name = name
         self.object_types = object_types

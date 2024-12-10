@@ -20,7 +20,6 @@ class Classic(GameMode):
         """
         super().__init__(state, environment_json, recipe_json)
         self.time_limit = environment_json["gamemode"]["time"]
-        self.customers = self.customers
 
     def check_if_player_has_won(self, time):
         """
