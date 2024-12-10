@@ -16,7 +16,8 @@ ALL_TESTS = {
         'base_place_container',
         'base_place',
         'base_stack',
-        'base_unstack'
+        'base_unstack',
+        'blender'
     ],
     'composite tests':[
         'composite_add_fill_bowl',
@@ -49,7 +50,11 @@ ALL_TESTS = {
         'high_level_two_lettuce_burger',
         'high_level_two_lettuce_tomato_burger',
         'original',
-        'test_arena'
+        'customer',
+        'multi_customer',
+        'kitchen',
+        'test_arena',
+        'test_arena_blender'
     ]
 }
 

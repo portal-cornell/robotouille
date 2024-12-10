@@ -15,6 +15,7 @@ class Domain(object):
         self.object_types = []
         self.predicates = []
         self.actions = []
+        self.npc_actions = []
 
     def are_valid_object_types(self, object_types):
         """
@@ -51,7 +52,7 @@ class Domain(object):
         return True
         
             
-    def initialize(self, name, object_types, predicate_def, action_def):
+    def initialize(self, name, object_types, predicate_def, action_def, npc_action_def):
         """
         Initializes a domain object and performs checks on all types in the
         predicate and action definitions.
@@ -62,6 +63,7 @@ class Domain(object):
             predicate_def (List[Predicate]): The predicate definitions in the
             domain.
             action_def (List[Action]): The action definitions in the domain.
+            npc_action_def (List[Action]): The NPC action definitions in the domain.
 
         Returns:
             Domain: The initialized domain object.
@@ -71,26 +73,28 @@ class Domain(object):
             not valid.
         """
         # Check if predicates and actions have valid parameter types
-        for pred in self.predicates:
+        for pred in predicate_def:
             if not self._are_valid_types(pred.types, object_types):
                 raise ValueError(f"Predicate {pred.name} has invalid types.")
 
-        for action in self.actions:
-            for precon in action.precons:
-                if not self._are_valid_types(precon.types, object_types):
-                    raise ValueError(f"Precondition {precon.name} has invalid types.")
-            for effect in action.immediate_effects:
-                if not self._are_valid_types(effect.types, object_types):
-                    raise ValueError(f"Immediate effect {effect.name} has invalid types.")
-            for special_effect in action.special_effects:
-                for effect in special_effect.effects:
+        for defn in [action_def, npc_action_def]:
+            for action in defn:
+                for precon in action.precons:
+                    if not self._are_valid_types(precon.types, object_types):
+                        raise ValueError(f"Precondition {precon.name} has invalid types.")
+                for effect in action.immediate_effects:
                     if not self._are_valid_types(effect.types, object_types):
-                        raise ValueError(f"Special effect {special_effect.name} has invalid types.")
+                        raise ValueError(f"Immediate effect {effect.name} has invalid types.")
+                for special_effect in action.special_effects:
+                    for effect in special_effect.effects:
+                        if not self._are_valid_types(effect.types, object_types):
+                            raise ValueError(f"Special effect {special_effect.name} has invalid types.")
 
         self.name = name
         self.object_types = object_types
         self.predicates = predicate_def
         self.actions = action_def
+        self.npc_actions = npc_action_def
 
         return self
     

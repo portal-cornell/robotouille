@@ -242,17 +242,17 @@
             "ids": [8, 9]
         },
         {
-            "predicate": "item_at",
+            "predicate": "at_station",
             "args": ["onion", "table"],
             "ids": [3, 9]
         },
         {
-            "predicate": "item_at",
+            "predicate": "at_station",
             "args": ["chicken", "table"],
             "ids": [5, 9]
         },
         {
-            "predicate": "item_at",
+            "predicate": "at_station",
             "args": ["bread", "table"],
             "ids": [11, 9]
         },

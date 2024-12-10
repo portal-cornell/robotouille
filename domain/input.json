@@ -22,28 +22,42 @@
             }
         },
         {
-            "name": "pick-up-container",
+            "name": "stack-onto-station-stack",
             "input_instructions": {
                 "button": "left",
                 "click_on": "s1"
             }
         },
         {
-            "name": "place-container",
+            "name": "unstack-from-station-stack",
             "input_instructions": {
                 "button": "left",
                 "click_on": "s1"
             }
         },
         {
-            "name": "stack",
+            "name": "place-on-container",
             "input_instructions": {
                 "button": "left",
                 "click_on": "s1"
             }
         },
         {
-            "name": "unstack",
+            "name": "pickup-from-container",
+            "input_instructions": {
+                "button": "left",
+                "click_on": "s1"
+            }
+        },
+        {
+            "name": "stack-onto-container-stack",
+            "input_instructions": {
+                "button": "left",
+                "click_on": "s1"
+            }
+        },
+        {
+            "name": "unstack-from-container-stack",
             "input_instructions": {
                 "button": "left",
                 "click_on": "s1"
@@ -95,6 +109,20 @@
         },
         {
             "name": "fill-bowl",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "pick-up-container",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "place-container",
             "input_instructions": {
                 "key": "e",
                 "at": "s1"
