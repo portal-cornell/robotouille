@@ -77,7 +77,7 @@
           "direction": [1, 0]
       }
   ],
-  "goal_description": "",
+  "goal_description": "Cook pancake batter in a frying pan on a stove.",
   "goal": [
       {
           "predicate": "cooked",

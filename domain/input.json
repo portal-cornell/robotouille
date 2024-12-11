@@ -192,6 +192,13 @@
             }
         },
         {
+            "name": "take-out-pancake",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
             "name": "take-out-egg",
             "input_instructions": {
                 "key": "e",

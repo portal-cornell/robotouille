@@ -2015,6 +2015,73 @@
             "sfx": []
         },
         {
+            "name": "take-out-pancake",
+            "precons": [
+                {
+                    "predicate": "isfryingpan",
+                    "params": ["c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "ispancakebatter",
+                    "params": ["m1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "in",
+                    "params": ["m1", "c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "cooked",
+                    "params": ["m1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "loc",
+                    "params": ["p1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "container_at",
+                    "params": ["c1", "s1"],
+                    "is_true": true
+                }
+
+            ],
+            "immediate_fx": [
+                {
+                    "predicate": "in",
+                    "params": ["m1", "c1"],
+                    "is_true": false
+                }
+            ],
+            "sfx": [
+                {
+                    "type": "creation",
+                    "param": "c1",
+                    "created_obj": {
+                        "name": "pancake",
+                        "type": "item",
+                        "param": "i1"
+                    },
+                    "fx": [
+                        {
+                            "predicate": "has_item",
+                            "params": ["p1", "i1"],
+                            "is_true": true
+                        },
+                        {
+                            "predicate": "clear",
+                            "params": ["i1"],
+                            "is_true": true
+                        }
+                    ],
+                    "sfx": []
+                }
+            ]
+        },
+        {
             "name": "take-out-egg",
             "precons": [
                 {

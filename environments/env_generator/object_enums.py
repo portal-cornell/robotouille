@@ -20,6 +20,7 @@ class Item(Enum):
     ROLLINGPIN = "rollingpin"
     EGG = "egg"
     PANCAKE = "pancake"
+    BUTTER = "butter"
 
 class Player(Enum):
     ROBOT = "robot"

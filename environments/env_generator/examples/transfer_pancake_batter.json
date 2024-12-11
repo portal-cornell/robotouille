@@ -72,7 +72,7 @@
           "direction": [1, 0]
       }
   ],
-  "goal_description": "",
+  "goal_description": "Transfer pancake batter to a frying pan.",
   "goal": [
       {
           "predicate": "in",

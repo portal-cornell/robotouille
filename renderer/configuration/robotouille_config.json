@@ -224,9 +224,28 @@
                 },
                 "constants": {}
             },
+            "pancake": {
+                "assets": {
+                    "default": "cooked_pancake.png",
+                    "butter": {
+                        "asset": "cooked_pancake_with_butter.png",
+                        "predicates": ["atop"]
+                    }
+                }
+            },
             "egg": {
                 "assets": {
                     "default": "egg.png"
+                },
+                "constants": {}
+            },
+            "butter": {
+                "assets": {
+                    "default": "butter.png",
+                    "cut": {
+                        "asset": "cutbutter.png",
+                        "predicates": ["iscut"]
+                    }
                 },
                 "constants": {}
             }
@@ -366,13 +385,13 @@
                     "pancakebatter": {
                         "default": "blender_full.png",
                         "flour": {
-                            "asset": "pancake_batter.png",
+                            "asset": "batter.png",
                             "predicates": [{"name": "addedcontent",
                                 "params": ["flourbag", "pancakebatter"]
                             }]
                         },
                         "egg": {
-                            "asset": "pancake_batter.png",
+                            "asset": "batter.png",
                             "predicates": [
                                 {"name": "addedcontent", "params": ["flourbag", "pancakebatter"]},
                                 {"name": "addedto", "params": ["egg", "pancakebatter"]}
@@ -398,13 +417,13 @@
                     "pancakebatter": {
                         "default": "fryingpan.png",
                         "uncooked": {
-                            "asset": "pancake.png",
+                            "asset": "pancake_in_pan.png",
                             "predicates": [
                                 {"name": "in", "params": ["pancakebatter", "fryingpan"]}
                             ]
                         },
                         "cooked": {
-                            "asset": "cooked_pancake.png",
+                            "asset": "cooked_pancake_in_pan.png",
                             "predicates": [
                                 {"name": "cooked", "params": ["pancakebatter"]},
                                 {"name": "in", "params": ["pancakebatter", "fryingpan"]}
