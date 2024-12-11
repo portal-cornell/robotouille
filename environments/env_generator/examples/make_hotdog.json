@@ -47,7 +47,7 @@
             "x": 0,
             "y": 0,
             "stack-level": 0,
-            "predicates": ["isgrillable"],
+            "predicates": ["isgrillable", "ketchupifgrilled", "mustardifgrilled"],
             "id": "b"
         }
     ],
@@ -59,6 +59,7 @@
             "direction": [-1, 0]
         }
     ],
+    "goal description": "Toast a bun and grill a hotdog and put the hotdog on top of the bun.",
     "goal": [
         {
             "predicate": "istoasted",

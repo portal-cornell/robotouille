@@ -4,7 +4,7 @@
     "height": 3,
     "config": {
         "cook_time": {
-            "hotdog": 3,
+            "bun": 3,
             "default": 3
         }
     },
@@ -26,28 +26,27 @@
             "y": 0
         },
         {
-            "name": "table",
+            "name": "grill",
             "x": 2,
-            "y": 0
+            "y": 0,
+            "id": "B"
         }
     ],
     "items": [
         {
-            "name": "hotdog",
+            "name": "bun",
             "x": 0,
             "y": 1,
             "stack-level": 0,
-            "predicates": ["isgrillable"],
+            "predicates": ["istoastable"],
             "id": "a"
-        }
-    ],
-    "packages": [
+        },
         {
-            "name": "ketchupbottle",
+            "name": "bun",
             "x": 0,
             "y": 0,
             "stack-level": 0,
-            "predicates": ["isketchup"],
+            "predicates": ["istoastable"],
             "id": "b"
         }
     ],
@@ -59,17 +58,17 @@
             "direction": [-1, 0]
         }
     ],
-    "goal description": "Cook a hot dog and add ketchup on it.",
+    "goal description": "Toast 2 buns.",
     "goal": [
         {
-            "predicate": "has_ketchup",
-            "args": ["hotdog"],
+            "predicate": "istoasted",
+            "args": ["bun"],
             "ids": ["a"]
         },
         {
-            "predicate": "isgrilled",
-            "args": ["hotdog"],
-            "ids": ["a"]
+            "predicate": "istoasted",
+            "args": ["bun"],
+            "ids": ["b"]
         }
     ]
 }

@@ -73,7 +73,7 @@
             "direction": [0, 1]
         }
     ],
-    "goal_description": "Put together two hot dogs.",
+    "goal_description": "Put one hot dog on top of each bun.",
     "goal": [
         {
             "predicate": "atop",

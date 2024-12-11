@@ -15,7 +15,7 @@
             "y": 1
         },
         {
-            "name": "grill",
+            "name": "table",
             "x": 2,
             "y": 1,
             "id": "A"
@@ -26,27 +26,27 @@
             "y": 0
         },
         {
-            "name": "grill",
+            "name": "table",
             "x": 2,
-            "y": 0,
-            "id": "B"
+            "y": 0
         }
     ],
     "items": [
         {
-            "name": "hotdog",
+            "name": "cupcake",
             "x": 0,
             "y": 1,
             "stack-level": 0,
-            "predicates": ["isgrillable", "ketchupifgrilled", "mustardifgrilled"],
+            "predicates": ["can_add_frosting"],
             "id": "a"
-        },
+        }
+    ],
+    "packages": [
         {
-            "name": "hotdog",
+            "name": "frostingbag",
             "x": 0,
             "y": 0,
             "stack-level": 0,
-            "predicates": ["isgrillable", "ketchupifgrilled", "mustardifgrilled"],
             "id": "b"
         }
     ],
@@ -58,16 +58,12 @@
             "direction": [-1, 0]
         }
     ],
+    "goal description": "Add frosting to a baked cupcake.",
     "goal": [
         {
-            "predicate": "isgrilled",
-            "args": ["hotdog"],
+            "predicate": "has_frosting",
+            "args": ["cupcake"],
             "ids": ["a"]
-        },
-        {
-            "predicate": "isgrilled",
-            "args": ["hotdog"],
-            "ids": ["b"]
         }
     ]
 }

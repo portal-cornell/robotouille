@@ -132,10 +132,6 @@ class RobotouilleCanvas:
                     chosen_asset = asset_config[asset]["asset"]
                 elif matches == max_matches:
                     chosen_asset = asset_config["default"]
-            # if asset == "grilled":
-            #     for predicate in asset_config[asset]:
-            #         if predicate in item_predicates:
-            #             return asset_config[asset][predicate]["asset"]
         return chosen_asset
 
     def _draw_item_image(self, surface, item_name, obs, position):

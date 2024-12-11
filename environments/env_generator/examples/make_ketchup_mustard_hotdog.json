@@ -43,7 +43,7 @@
             "x": 0,
             "y": 1,
             "stack-level": 0,
-            "predicates": ["isgrillable"],
+            "predicates": ["isgrillable", "ketchupifgrilled", "mustardifgrilled"],
             "id": "a"
         },
         {
@@ -80,10 +80,15 @@
             "direction": [-1, 0]
         }
     ],
-    "goal description": "Make a hot dog and add ketchup and mustard on it.",
+    "goal description": "Grill a hot dog and toast a bun and put the hotdog on the toasted bun and add ketchup and mustard on it.",
     "goal": [
         {
-            "predicate": "has_ketchup_mustard",
+            "predicate": "has_ketchup",
+            "args": ["hotdog"],
+            "ids": ["a"]
+        },
+        {
+            "predicate": "has_mustard",
             "args": ["hotdog"],
             "ids": ["a"]
         },

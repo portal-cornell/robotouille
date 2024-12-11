@@ -73,7 +73,21 @@
             }
         },
         {
+            "name": "put-container-in-oven",
+            "input_instructions": {
+                "key": "p",
+                "at": "s1"
+            }
+        },
+        {
             "name": "take-out-item",
+            "input_instructions": {
+                "key": "p",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "take-out-container",
             "input_instructions": {
                 "key": "p",
                 "at": "s1"
@@ -157,6 +171,13 @@
             }
         },
         {
+            "name": "create-cupcakebatter",
+            "input_instructions": {
+                "key": "k",
+                "at": "s1"
+            }
+        },
+        {
             "name": "boil-water",
             "input_instructions": {
                 "key": "e",
@@ -199,6 +220,13 @@
             }
         },
         {
+            "name": "take-out-cupcake",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
             "name": "fill-bowl",
             "input_instructions": {
                 "key": "e",
@@ -213,7 +241,21 @@
             }
         },
         {
+            "name": "fill-tray",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
             "name": "pan-cook",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "tray-bake",
             "input_instructions": {
                 "key": "e",
                 "at": "s1"
@@ -228,6 +270,13 @@
         },
         {
             "name": "add-ketchup",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "add-frosting",
             "input_instructions": {
                 "key": "e",
                 "at": "s1"
