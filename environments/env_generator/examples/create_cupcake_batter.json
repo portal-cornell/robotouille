@@ -81,22 +81,27 @@
           "direction": [1, 0]
       }
   ],
-  "goal_description": "Blend milk, flour, and an egg to create cupcake batter.",
+  "goal_description": "Blend milk, flour, butter, and an egg to create cupcake batter.",
   "goal": [
       {
           "predicate": "in",
           "args": ["cupcakebatter", "blendercup"],
-          "ids": [1, "a"]
+          "ids": [1, 3]
       },
       {
           "predicate": "addedcontent",
           "args": ["flourbag", "cupcakebatter"],
-          "ids": ["d", 1]
+          "ids": [4, 1]
       },
       {
           "predicate": "addedto",
           "args": ["egg", "cupcakebatter"],
           "ids": [2, 1]
+      },
+      {
+          "predicate": "addedto",
+          "args": ["butter", "cupcakebatter"],
+          "ids": [5, 1]
       },
       {
           "predicate": "isblended",

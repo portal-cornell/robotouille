@@ -422,7 +422,7 @@
                             ]
                         },
                         "butter": {
-                            "asset": "blender_full.png",
+                            "asset": "batter.png",
                             "predicates": [
                                 {"name": "addedcontent", "params": ["flourbag", "cupcakebatter"]},
                                 {"name": "addedto", "params": ["egg", "cupcakebatter"]},
@@ -434,7 +434,8 @@
                             "predicates": [
                                 {"name": "isblended", "params": ["cupcakebatter"]},
                                 {"name": "addedcontent", "params": ["flourbag", "cupcakebatter"]},
-                                {"name": "addedto", "params": ["egg", "cupcakebatter"]}
+                                {"name": "addedto", "params": ["egg", "cupcakebatter"]},
+                                {"name": "addedto", "params": ["butter", "cupcakebatter"]}
                             ]
                         }
                     }

@@ -19,6 +19,7 @@ class Item(Enum):
     CROISSANT = "croissant"
     ROLLINGPIN = "rollingpin"
     EGG = "egg"
+    BUTTER = "butter"
     PANCAKE = "pancake"
     CUPCAKE = "cupcake"
 

@@ -55,7 +55,15 @@
             "y": 3
         }
     ],
-    "items": [],
+    "items": [
+        {
+            "name": "butter",
+            "x": 2,
+            "y": 3,
+            "stack-level": 0,
+            "predicates": ["iscuttable"]
+        }
+    ],
     "players": [
         {
             "name": "robot",
@@ -112,7 +120,7 @@
         {
             "predicate": "container_at",
             "args": ["cupcaketray", "table"],
-            "ids": [1, 2]
+            "ids": ["d", 2]
         },
         {
             "predicate": "in",
@@ -123,6 +131,27 @@
             "predicate": "has_frosting",
             "args": ["cupcake"],
             "ids": [3]
+        },
+
+        {
+            "predicate": "addedcontent",
+            "args": ["flourbag", "cupcakebatter"],
+            "ids": [4, 1]
+        },
+        {
+            "predicate": "addedto",
+            "args": ["egg", "cupcakebatter"],
+            "ids": [5, 1]
+        },
+        {
+            "predicate": "addedto",
+            "args": ["butter", "cupcakebatter"],
+            "ids": [6, 1]
+        },
+        {
+            "predicate": "isblended",
+            "args": ["cupcakebatter"],
+            "ids": [1]
         }
     ]
 }
