@@ -350,7 +350,10 @@ class RobotouilleCanvas:
             if is_true:
                 literal_args = [param.name for param in literal.params]
                 if meal_name in literal_args:
-                    item_predicates[literal.name] = [param.name for param in literal.params]
+                    if item_predicates.get(literal.name) is None:
+                        item_predicates[literal.name] = [[param.name for param in literal.params]]
+                    else:
+                        item_predicates[literal.name].append([param.name for param in literal.params])
         
         meal_name, _ = trim_item_ID(meal_name)
         max_matches = 0
@@ -363,14 +366,15 @@ class RobotouilleCanvas:
             # Find the number of matches between the current predicates and the meal's predicates
             for predicate in meal_config[asset]["predicates"]:
                 if predicate["name"] in item_predicates:
-                    params = []
-                    pred_params = [trim_item_ID(param)[0] for param in item_predicates[predicate["name"]]]
-                    for param in predicate["params"]:
-                        if param == "":
-                            param = pred_params[predicate["params"].index("")]
-                        params.append(param)
-                    if params == pred_params:
-                        matches += 1
+                    for param_set in item_predicates[predicate["name"]]:
+                        params = []
+                        pred_params = [trim_item_ID(param)[0] for param in param_set]
+                        for param in predicate["params"]:
+                            if param == "":
+                                param = pred_params[predicate["params"].index("")]
+                            params.append(param)
+                        if params == pred_params:
+                            matches += 1
 
             # If all predicates are true, choose the asset with the most matches
             if matches == len(meal_config[asset]["predicates"]):
