@@ -1,0 +1,111 @@
+{
+    "version": "1.0.0",
+    "width": 3,
+    "height": 3,
+    "config": {
+        "cook_time": {
+            "hotdog": 3,
+            "bun": 3,
+            "default": 3
+        }
+    },
+    "stations": [
+        {
+            "name": "table",
+            "x": 0,
+            "y": 1
+        },
+        {
+            "name": "grill",
+            "x": 2,
+            "y": 1,
+            "id": "A"
+        },
+        {
+            "name": "table",
+            "x": 0,
+            "y": 0
+        },
+        {
+            "name": "table",
+            "x": 2,
+            "y": 0
+        },
+        {
+            "name": "table",
+            "x": 0,
+            "y": 2
+        }
+    ],
+    "items": [
+        {
+            "name": "hotdog",
+            "x": 0,
+            "y": 1,
+            "stack-level": 0,
+            "predicates": ["isgrillable"],
+            "id": "a"
+        },
+        {
+            "name": "bun",
+            "x": 0,
+            "y": 2,
+            "stack-level": 0,
+            "predicates": ["istoastable"],
+            "id": "b"
+        }
+    ],
+    "packages": [
+        {
+            "name": "ketchupbottle",
+            "x": 0,
+            "y": 0,
+            "stack-level": 0,
+            "predicates": ["isketchup"],
+            "id": "b"
+        },
+        {
+            "name": "mustardbottle",
+            "x": 2,
+            "y": 0,
+            "stack-level": 0,
+            "predicates": ["ismustard"]
+        }
+    ],
+    "players": [
+        {
+            "name": "robot",
+            "x": 1,
+            "y": 0,
+            "direction": [-1, 0]
+        }
+    ],
+    "goal description": "Make a hot dog and add ketchup and mustard on it.",
+    "goal": [
+        {
+            "predicate": "has_ketchup_mustard",
+            "args": ["hotdog"],
+            "ids": ["a"]
+        },
+        {
+            "predicate": "atop",
+            "args": ["hotdog", "bun"],
+            "ids": ["a", "b"]
+        },
+        {
+            "predicate": "item_on",
+            "args": ["bun", "table"],
+            "ids": ["b", 1]
+        },
+        {
+            "predicate": "isgrilled",
+            "args": ["hotdog"],
+            "ids": ["a"]
+        },
+        {
+            "predicate": "istoasted",
+            "args": ["bun"],
+            "ids": ["b"]
+        }
+    ]
+}

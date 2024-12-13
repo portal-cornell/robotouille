@@ -1,0 +1,125 @@
+{
+    "version": "1.0.0",
+    "width": 6,
+    "height": 6,
+    "config": {
+        "num_cuts": {
+            "lettuce": 3,
+            "default": 3
+        },
+        "cook_time": {
+            "patty": 3,
+            "default": 3
+        }
+    },
+    "stations": [
+        {
+            "name": "table",
+            "x": 0,
+            "y": 1
+        },
+        {
+            "name": "blender",
+            "x": 1,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 2,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 3,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 4,
+            "y": 1
+        },
+        {
+            "name": "stove",
+            "x": 0,
+            "y": 3
+        },
+        {
+            "name": "board",
+            "x": 1,
+            "y": 3
+        },
+        {
+            "name": "table",
+            "x": 2,
+            "y": 3
+        },
+        {
+            "name": "table",
+            "x": 3,
+            "y": 3
+        },
+        {
+            "name": "table",
+            "x": 4,
+            "y": 3
+        }
+    ],
+    "items": [
+        {
+            "name": "butter",
+            "x": 2,
+            "y": 3,
+            "stack-level": 0,
+            "predicates": ["iscuttable"]
+        }
+    ],
+    "meals": [],
+    "containers": [
+        {
+            "name": "blendercup",
+            "x": 1,
+            "y": 1,
+            "id": "a"
+        },
+        {
+            "name": "eggcarton",
+            "x": 3,
+            "y": 1,
+            "id": "b"
+        },
+        {
+            "name": "fryingpan",
+            "x": 4,
+            "y": 1,
+            "id": "c"
+        }
+    ],
+    "packages": [
+        {
+            "name": "milkcarton",
+            "x": 2,
+            "y": 1
+        },
+        {
+            "name": "flourbag",
+            "x": 0,
+            "y": 1
+        }
+    ],
+    "players": [
+        {
+            "name": "robot",
+            "x": 0,
+            "y": 0,
+            "direction": [0, 1]
+        }
+    ],
+    "goal_description": "Cook a pancake and add butter on top of it.",
+    "goal": [
+        {
+            "predicate": "atop",
+            "args": ["butter", "pancake"],
+            "ids": [2, 3]
+        }
+    ]
+}
