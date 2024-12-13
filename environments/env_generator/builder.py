@@ -340,11 +340,9 @@ def create_combinations(combination_dict):
         ids = list(combination_dict[arg]['ids'])
         id_order += ids
         entities = combination_dict[arg]['entities']
-        # If the environment doesn't initially have the entity, then create a new entity for each unique ID
         if entities == []:
-            id_counter = 1
-            for _ in range(len(ids)):
-                entities.append(arg + str(id_counter))
+            for id in ids:
+                entities.append(arg + id)
         permutations = list(itertools.permutations(entities, len(ids)))
         combination_list.append(permutations)
     product = itertools.product(*combination_list)
