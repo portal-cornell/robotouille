@@ -150,6 +150,16 @@
                     "STACK_OFFSET": -0.1
                 }
             },
+            "groundmeat": {
+                "assets": {
+                    "default": "patty.png",
+                    "grinded": {
+                        "asset": "cookedpatty.png",
+                        "predicates": ["isgrinded"]
+                    }
+                },
+                "constants": {}
+            },
             "croissant": {
                 "assets": {
                     "default": "dough.png",
@@ -165,6 +175,30 @@
                         "asset": "baked_croissant.png",
                         "predicates": ["isshaped","isbaked"]
                     }
+                },
+                "constants": {}
+            },
+            "dumplingdough": {
+                "assets": {
+                    "default": "dough.png",
+                    "circle": {
+                        "asset": "circle.png",
+                        "predicates": ["iscircle"]
+                    },
+                    "filled": {
+                        "asset": "croissant.png",
+                        "predicates": ["isfilled", "iscircle"]
+                    },
+                    "shaped": {
+                        "asset": "baked_croissant.png",
+                        "predicates": ["isshaped"]
+                    }
+                },
+                "constants": {}
+            },
+            "cookeddumpling": {
+                "assets": {
+                    "default": "baked_croissant.png"
                 },
                 "constants": {}
             },
@@ -277,6 +311,16 @@
                     "oven_on": {
                         "asset": "oven_on.png",
                         "predicates": ["oven_on"]
+                    }
+                },
+                "constants": {}
+            },
+            "grinder": {
+                "assets": {
+                    "default": "oven.png",
+                    "grinder_on": {
+                        "asset": "oven_on.png",
+                        "predicates": ["grinder_on"]
                     }
                 },
                 "constants": {}
@@ -460,6 +504,22 @@
                             "predicates": [
                                 {"name": "cooked", "params": ["pancakebatter"]},
                                 {"name": "in", "params": ["pancakebatter", "fryingpan"]}
+                            ]
+                        }
+                    },
+                    "dumpling": {
+                        "default": "fryingpan.png",
+                        "uncooked": {
+                            "asset": "pancake.png",
+                            "predicates": [
+                                {"name": "in", "params": ["dumpling", "fryingpan"]}
+                            ]
+                        },
+                        "cooked": {
+                            "asset": "cookedchicken.png",
+                            "predicates": [
+                                {"name": "cooked", "params": ["dumpling"]},
+                                {"name": "in", "params": ["dumpling", "fryingpan"]}
                             ]
                         }
                     }

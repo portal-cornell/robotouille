@@ -73,6 +73,13 @@
             }
         },
         {
+            "name": "put-in-grinder",
+            "input_instructions": {
+                "key": "p",
+                "at": "s1"
+            }
+        },
+        {
             "name": "put-container-in-oven",
             "input_instructions": {
                 "key": "p",
@@ -95,6 +102,34 @@
         },
         {
             "name": "batter",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "grind",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "add-filling",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "create-dumpling",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "take-out-dumpling",
             "input_instructions": {
                 "key": "e",
                 "at": "s1"
@@ -300,6 +335,13 @@
             "name": "roll-triangle",
             "input_instructions": {
                 "key": "t",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "roll-circle",
+            "input_instructions": {
+                "key": "c",
                 "at": "s1"
             }
         },

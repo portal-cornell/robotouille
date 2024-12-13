@@ -22,6 +22,9 @@ class Item(Enum):
     BUTTER = "butter"
     PANCAKE = "pancake"
     CUPCAKE = "cupcake"
+    DUMPLINGDOUGH = "dumplingdough"
+    COOKEDDUMPLING = "cookeddumpling"
+    GROUNDMEAT = "groundmeat"
 
 class Player(Enum):
     ROBOT = "robot"
@@ -37,6 +40,7 @@ class Station(Enum):
     BLENDER = "blender"
     GRILL = "grill"
     BATTER_STATION = "batter_station"
+    GRINDER = "grinder"
 
 class Container(Enum):
     POT = "pot"
@@ -52,6 +56,7 @@ class Meal(Enum):
     SOUP = "soup"
     PANCAKEBATTER = "pancakebatter"
     CUPCAKEBATTER = "cupcakebatter"
+    DUMPLING = "dumpling"
 
 class Package(Enum):
     KETCHUP = "ketchupbottle"
