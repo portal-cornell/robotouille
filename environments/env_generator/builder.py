@@ -346,6 +346,7 @@ def create_combinations(combination_dict):
             id_counter = 1
             for _ in range(len(ids)):
                 entities.append(arg + str(id_counter))
+                id_counter += 1
         permutations = list(itertools.permutations(entities, len(ids)))
         combination_list.append(permutations)
     product = itertools.product(*combination_list)
