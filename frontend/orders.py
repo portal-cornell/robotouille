@@ -8,13 +8,15 @@ import os
 ASSETS_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "orders"))
 
 class Order:
+    COMPLETE, PENDING, DISCARDED = 0, 1, 2
     WIDTH, HEIGHT = 153, 165
-    def __init__(self, window_size, config):
+    def __init__(self, window_size, config, time):
         """
         Initialize an Order object.
 
         Args:
             window_size (tuple): A tuple (width, height) representing the size of the game window.
+            time (int): duration of the order in seconds
         """
         self.load_assets()
         self.scale_factor = min(window_size[0]/1440, window_size[1]/1024)
@@ -22,7 +24,8 @@ class Order:
         self.screen = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
         self.background = Image(self.screen, self.background_image, self.x_percent(0), self.y_percent(0), self.scale_factor, anchor="topleft")
         self.profile = Image(self.screen, self.profile_image, self.x_percent(6), self.y_percent(6), self.scale_factor, anchor="topleft")
-
+        self.time = time
+        self.status = Order.PENDING
         self.config = config
         self.recipe =[
             {
@@ -167,5 +170,21 @@ class Order:
         return self.screen
   
     
+    def update(self, dt):
+        """
+        Decrement the remaining time for the order
+        update the order's status to COMPLETE when the countdown reaches zero.
+
+        Returns:
+            dt (float): Represents the delta time since the last update (in millisecond)
+        """
+
+        self.time -= dt
+        if self.time <= 0:
+            self.status = Order.DISCARDED
+    
+    def check_order(self, array):
+        pass
+
 
    

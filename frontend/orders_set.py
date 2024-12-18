@@ -24,9 +24,9 @@ class OrdersCollection(ScreenInterface):
         self.score = 0
         self.time = 300
         self.orders = {}
-        self.add_order(1, Order(window_size, config))
-        self.add_order(2, Order(window_size, config))
-        self.add_order(3, Order(window_size, config))
+        self.add_order(1, Order(window_size, config, time= 1))
+        self.add_order(2, Order(window_size, config, time= 2))
+        self.add_order(3, Order(window_size, config, time= 10))
         self.score_background = Image(self.screen, self.background_image, self.x_percent(944), self.y_percent(40), self.scale_factor)
         self.score_box = Textbox(self.screen, str(self.score), self.x_percent(961 + 68), self.y_percent(56), 70, 45, font_size=40, scale_factor=self.scale_factor)
         self.time_box = Textbox(self.screen, self.convert_seconds_to_time(self.time) , self.x_percent(961 + 166 + 39.16), self.y_percent(56), 108, 45, font_size=38, scale_factor=self.scale_factor)
@@ -79,16 +79,15 @@ class OrdersCollection(ScreenInterface):
         minutes = seconds // 60
         remaining_seconds = seconds % 60
         return f"{minutes:02}:{remaining_seconds:02}"
-
+    
     def update_time(self):
         """
         Update the remaining time by decrementing it based on the elapsed time.
         """
         current_time = pygame.time.get_ticks()
         elapsed_time = current_time - self.last_update_time
-
+        seconds_passed = 0
         if elapsed_time >= 1000:
-            # Calculate how many whole seconds have passed
             seconds_passed = elapsed_time // 1000
             self.time -= seconds_passed
             self.last_update_time += seconds_passed * 1000
@@ -101,6 +100,11 @@ class OrdersCollection(ScreenInterface):
                 self.next_screen = ENDGAME
 
         self.time_box.set_text(self.convert_seconds_to_time(self.time))
+
+        for id, order in list(self.orders.items()):
+            order.update(seconds_passed)  
+            if order.status == Order.DISCARDED:
+                self.complete_order(id)
 
     def load_assets(self):
         """
@@ -117,11 +121,10 @@ class OrdersCollection(ScreenInterface):
             customerid (int): The ID of the customer associated with the order.
             order (Order): The Order object to be added.
         """
-
         self.orders[customerid] = order
 
 
-    def completeOrder(self, customerid):
+    def complete_order(self, customerid):
         """
         Remove an order from the collection after it is completed.
 
@@ -129,6 +132,7 @@ class OrdersCollection(ScreenInterface):
             customerid (int): The ID of the customer whose order is to be removed.
         """
         self.orders.pop(customerid, None)
+        self.screen.fill((0,0,0,0))
 
 
     def draw(self):
