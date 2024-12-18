@@ -55,7 +55,6 @@ class ScreenInterface(ABC):
 
         Args:
            value (float): Horizontal position value in pixels.
-           anchor (str): Anchor point for positioning ("center" or "topleft").
 
         Returns:
            (float): Adjusted x-coordinate as a percentage of the screen width.
@@ -69,7 +68,6 @@ class ScreenInterface(ABC):
 
         Args:
            value (float): Vertical position value in pixels.
-           anchor (str): Anchor point for positioning ("center" or "topleft").
 
         Returns:
            (float): Adjusted y-coordinate as a percentage of the screen height.

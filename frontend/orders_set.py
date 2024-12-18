@@ -31,7 +31,31 @@ class OrdersCollection(ScreenInterface):
         self.score_box = Textbox(self.screen, str(self.score), self.x_percent(961 + 68), self.y_percent(56), 70, 45, font_size=40, scale_factor=self.scale_factor)
         self.time_box = Textbox(self.screen, self.convert_seconds_to_time(self.time) , self.x_percent(961 + 166 + 39.16), self.y_percent(56), 108, 45, font_size=38, scale_factor=self.scale_factor)
         self.last_update_time = pygame.time.get_ticks() 
-        
+    
+    def x_percent(self, value):
+        """
+        Convert a horizontal position value to a scaled screen coordinate, adjusted for the offset.
+
+        Args:
+           value (float): Horizontal position value in pixels.
+
+        Returns:
+           (float): Adjusted x-coordinate as a percentage of the screen width.
+        """
+        return (self.scale_factor * value/ self.screen_width)
+    
+    def y_percent(self, value):
+        """
+        Convert a vertical position value to a scaled screen coordinate, adjusted for the offset.
+
+        Args:
+           value (float): Vertical position value in pixels.
+
+        Returns:
+           (float): Adjusted x-coordinate as a percentage of the screen width.
+        """
+        return (self.scale_factor * value/ self.screen_height)
+
     def convert_seconds_to_time(self, seconds):
         """
         Converts a given number of seconds into a "MM:SS" formatted string.
