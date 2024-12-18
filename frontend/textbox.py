@@ -4,7 +4,7 @@ from frontend.constants import FONT_PATH, BLUE
 
 class Textbox(Node):
     def __init__(self, screen, text, x_percent, y_percent, width, height, 
-                 text_color=BLUE, font_path=FONT_PATH, font_size=60, scale_factor=1.0, align_text="center", anchor="topleft", offset_x=0, offset_y=0):
+                 text_color=BLUE, font_path=FONT_PATH, font_size=60, scale_factor=1.0, align_text="center", anchor="topleft", offset_x=0, offset_y=0, background_color = (0,0,0,0)):
         
         """
         Initialize a Textbox object.
@@ -33,7 +33,7 @@ class Textbox(Node):
         self.scale_factor = scale_factor
         self.align_text = align_text
         self.anchor = anchor
-        self.background_color = (255, 255, 255, 0) 
+        self.background_color = background_color
         self.text_surface = None
         
         self.update_text_rect()
@@ -64,6 +64,7 @@ class Textbox(Node):
 
     def draw(self):
         """Draw the background and aligned text surface within the anchored rectangle on the screen."""
+        self.surface.fill((0, 0, 0, 0))
         self.surface.fill(self.background_color)
         if self.text_rect:
             self.surface.blit(self.text_surface, self.text_rect)

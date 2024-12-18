@@ -23,7 +23,8 @@ class RobotouilleSimulator:
             render_fps (int): Frames per second for rendering (default: 60).
         """
         self.offset = (500, 0)
-        self.window_size= (512,512)
+        # self.window_size= (512,512)
+        self.window_size= (1440 , 1024)
         self.human = human
         self.canvas = canvas
         self.env, self.json, self.renderer = create_robotouille_env(environment_name, movement_mode, seed, noisy_randomization, window_size=self.window_size)
