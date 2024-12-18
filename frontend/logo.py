@@ -26,7 +26,7 @@ class LogoScreen(ScreenInterface):
         self.fade_out_started = False
         self.fade_out_complete = False
         self.load_assets()
-        self.background = Image(self.screen, self.background_image, self.x_percent(0), self.y_percent(0), self.scale_factor, anchor="topleft")
+        self.background = Image(self.screen, self.background_image, self.x_percent(0), self.y_percent(0), self.scale_factor)
         self.background.set_alpha(0)
 
     def draw(self):

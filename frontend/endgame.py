@@ -43,99 +43,31 @@ class EndScreen(ScreenInterface):
         self.bells = Image(self.screen, self.bell_image, self.x_percent(881.5), self.y_percent(438.74), self.scale_factor, anchor="center")
         self.bells_text = Textbox(self.screen, "214", self.x_percent(984), self.y_percent(430), 188, 72, font_size=40, scale_factor=self.scale_factor, anchor="center")
 
-    def create_one_profile(self, players):
-        """Create UI elements for a single player profile.
-
-        Args:
-            players (list of tuples):
-                A list containing one player tuple in the format (player_id, player_name).
-        """
-        self.profiles[players[0][0]] = {
-            "profile":Image(self.screen, self.profile_image, 0.5, self.y_percent(616.5), self.scale_factor, anchor="center"),
-            "name": Textbox(self.screen,players[0][1], 0.5, self.y_percent(697), 188, 72, font_size=40, scale_factor=self.scale_factor, text_color=WHITE, anchor="center"),
-            "status":Image(self.screen, self.pending_image, 0.5 + self.x_percent(107.5), self.y_percent(503), self.scale_factor, anchor="center")
-            }
-
-    def create_two_profile(self, players):
-        """Create UI elements for a two player profile.
-
-        Args:
-            players (list of tuples): A list containing one player tuple in the format (player_id, player_name).
-        """
-        self.profiles[players[0][0]] = {
-            "profile":Image(self.screen, self.profile_image, self.x_percent(556.5), self.y_percent(616.5), self.scale_factor, anchor="center"),
-            "name": Textbox(self.screen,players[0][1], self.x_percent(556.5), self.y_percent(697), 188, 72, font_size=40, scale_factor=self.scale_factor, text_color=WHITE, anchor="center"),
-            "status":Image(self.screen, self.pending_image, self.x_percent(664), self.y_percent(503), self.scale_factor, anchor="center")
-            }
-        self.profiles[players[1][0]] = {
-            "profile":Image(self.screen, self.profile_image, self.x_percent(869.5), self.y_percent(616.5), self.scale_factor, anchor="center"),
-            "name": Textbox(self.screen,players[0][1], self.x_percent(869.5), self.y_percent(697), 188, 72, font_size=40, scale_factor=self.scale_factor, text_color=WHITE, anchor="center"),
-            "status":Image(self.screen, self.pending_image, self.x_percent(976.5), self.y_percent(503), self.scale_factor, anchor="center")
-            }
-
-    def create_three_profile(self, players):
-        """Create UI elements for a Three player profile.
-
-        Args:
-            players (list of tuples): A list containing one player tuple in the format (player_id, player_name).
-        """
-        self.profiles[players[0][0]] = {
-            "profile": Image(self.screen, self.profile_image, self.x_percent(398.5), self.y_percent(616.5), self.scale_factor, anchor="center"),
-            "name": Textbox(self.screen, players[0][1], self.x_percent(398.5), self.y_percent(697), 188, 72, font_size=40, scale_factor=self.scale_factor, text_color=WHITE, anchor="center"),
-            "status": Image(self.screen, self.pending_image, self.x_percent(506), self.y_percent(503), self.scale_factor, anchor="center")
-        }
-        self.profiles[players[1][0]] = {
-            "profile": Image(self.screen, self.profile_image, self.x_percent(711.5), self.y_percent(616.5), self.scale_factor, anchor="center"),
-            "name": Textbox(self.screen, players[1][1], self.x_percent(711.5), self.y_percent(697), 188, 72, font_size=40, scale_factor=self.scale_factor, text_color=WHITE, anchor="center"),
-            "status": Image(self.screen, self.pending_image, self.x_percent(818.5), self.y_percent(503), self.scale_factor, anchor="center")
-        }
-        self.profiles[players[2][0]] = {
-            "profile": Image(self.screen, self.profile_image, self.x_percent(1026.5), self.y_percent(616.5), self.scale_factor, anchor="center"),
-            "name": Textbox(self.screen, players[2][1], self.x_percent(1026.5), self.y_percent(697), 188, 72, font_size=40, scale_factor=self.scale_factor, text_color=WHITE, anchor="center"),
-            "status": Image(self.screen, self.pending_image, self.x_percent(1133.5), self.y_percent(503), self.scale_factor, anchor="center")
-        }
-
-    def create_four_profile(self, players):
-        """Create UI elements for a Four player profile.
-
-        Args:
-            players (list of tuples): A list containing one player tuple in the format (player_id, player_name).
-        """
-        self.profiles[players[0][0]] = {
-            "profile": Image(self.screen, self.profile_image, self.x_percent(239.5), self.y_percent(616.5), self.scale_factor, anchor="center"),
-            "name": Textbox(self.screen, players[0][1], self.x_percent(239.5), self.y_percent(697), 188, 72, font_size=40, scale_factor=self.scale_factor, text_color=WHITE, anchor="center"),
-            "status": Image(self.screen, self.pending_image, self.x_percent(347), self.y_percent(503), self.scale_factor, anchor="center")
-        }
-        self.profiles[players[1][0]] = {
-            "profile": Image(self.screen, self.profile_image, self.x_percent(552.5), self.y_percent(616.5), self.scale_factor, anchor="center"),
-            "name": Textbox(self.screen, players[1][1], self.x_percent(552.5), self.y_percent(697), 188, 72, font_size=40, scale_factor=self.scale_factor, text_color=WHITE, anchor="center"),
-            "status": Image(self.screen, self.pending_image, self.x_percent(660), self.y_percent(503), self.scale_factor, anchor="center")
-        }
-        self.profiles[players[2][0]] = {
-            "profile": Image(self.screen, self.profile_image, self.x_percent(865.5), self.y_percent(616.5), self.scale_factor, anchor="center"),
-            "name": Textbox(self.screen,players[2][1], self.x_percent(865.5), self.y_percent(697), 188, 72, font_size=40, scale_factor=self.scale_factor, text_color=WHITE, anchor="center"),
-            "status": Image(self.screen, self.pending_image, self.x_percent(973), self.y_percent(503), self.scale_factor, anchor="center")
-        }
-        self.profiles[players[3][0]] = {
-            "profile": Image(self.screen, self.profile_image, self.x_percent(1178.5), self.y_percent(616.5), self.scale_factor, anchor="center"),
-            "name": Textbox(self.screen, players[3][1], self.x_percent(1178.5), self.y_percent(697), 188, 72, font_size=40, scale_factor=self.scale_factor, text_color=WHITE, anchor="center"),
-            "status": Image(self.screen, self.pending_image, self.x_percent(1286), self.y_percent(503), self.scale_factor, anchor="center")
-        }
-
     def create_profile(self, players):
         """Create UI elements for each player.
 
         Args:
             players (list of tuples): A list containing one player tuple in the format (player_id, player_name). Max length is 4
         """
+        offset = 313
         if len(players) == 1:
-            self.create_one_profile(players)
+            x = 714
         elif len(players) == 2:
-            self.create_two_profile(players)
+            x = 556.5
         elif len(players) == 3:
-            self.create_three_profile(players)
+            x = 398.5 
+        elif len(players) == 4:
+            x = 239.5  
         else:
-            self.create_four_profile(players)
+            raise Exception("To many players")
+
+        for i in range(len(players)):
+            pos = x + (offset) * i 
+            self.profiles[players[i][0]] = {
+            "profile": Image(self.screen, self.profile_image, self.x_percent(pos), self.y_percent(616.5), self.scale_factor, anchor="center"),
+            "name": Textbox(self.screen, players[i][1], self.x_percent(pos), self.y_percent(697), 188, 72, font_size=40, scale_factor=self.scale_factor, text_color=WHITE, anchor="center"),
+            "status": Image(self.screen, self.pending_image, self.x_percent(pos + 98.5), self.y_percent(503), self.scale_factor, anchor="center")
+        }
 
     def set_stars(self, count):
         """Set the number of stars to display as filled.

@@ -38,6 +38,10 @@ class PauseScreen(ScreenInterface):
         self.retry_button = Button(self.screen, self.retry_button_image, self.x_percent(556), self.y_percent(619), self.scale_factor, offset_x=self.mouse_offset_x, offset_y=self.mouse_offset_y)
         self.exit_button = Button(self.screen, self.back_image, self.x_percent(556 + 335/2), self.y_percent(619), self.scale_factor, offset_x=self.mouse_offset_x, offset_y=self.mouse_offset_y)
 
+        self.pause_button = Button(self.screen, self.pause_button_image, 
+                                   (self.scale_factor * 1321.28/ self.screen_width), (self.scale_factor * 41.28/ self.screen_height), 
+                                   self.scale_factor, offset_x=self.mouse_offset_x, offset_y=self.mouse_offset_y)
+
         self.hide = True
         self.p_key_was_pressed = False
 
@@ -50,20 +54,21 @@ class PauseScreen(ScreenInterface):
         self.title_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["title.png"]
         self.bar_fg_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["bar_foreground.png"]
         self.bar_bg_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["bar_background.png"]
-
         self.retry_button_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["replay-button.png"]
         self.back_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["exit-button.png"]
         self.resume_button_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["play.png"]
         self.minus_button_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["minus.png"]
         self.plus_button_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["plus.png"]
+        self.pause_button_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["pause-button.png"]
     
     def draw(self):
         """Draws all the screen components."""
+        self.screen.fill((0, 0, 0, 0))
+        self.pause_button.draw()
         if not self.hide:
             self.background.draw()
             self.title.draw()
             self.pause_title.draw()
-            
             self.music_title.draw()
             self.sfx_title.draw()
             self.music_slider.draw()
@@ -75,10 +80,7 @@ class PauseScreen(ScreenInterface):
             self.resume_button.draw()
             self.retry_button.draw()
             self.exit_button.draw()
-
-        else:
-            self.screen.fill((0, 0, 0, 0))
-
+    
     def toggle(self):
         """
         Toggles the visibility of the pause screen.
@@ -94,11 +96,15 @@ class PauseScreen(ScreenInterface):
     def update(self, events):
         """Update the screen and handle events."""
         self.draw()
-
-        if self.hide:
-            return
         
         for event in events:
+            
+            if self.pause_button.handle_event(event):
+                self.hide = False
+
+            if self.hide:
+                continue
+    
             # Return to main menu when exit button is pressed.
             if self.exit_button.handle_event(event):
                 self.set_next_screen(MAIN_MENU)
@@ -113,7 +119,7 @@ class PauseScreen(ScreenInterface):
             
             if self.music_minus_button.in_bound() and not self.music_slider.is_moving():
                 if self.music_minus_button.handle_event(event):
-                    self.music_slider.set_value(self.music_slider.get_value() + 0.1)
+                    self.music_slider.set_value(self.music_slider.get_value() - 0.1)
             elif self.music_plus_button.in_bound() and not self.music_slider.is_moving():
                 if self.music_plus_button.handle_event(event):
                     self.music_slider.set_value(self.music_slider.get_value() + 0.1)

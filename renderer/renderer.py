@@ -34,11 +34,11 @@ class RobotouilleRenderer:
         self.canvas = RobotouilleCanvas(config, layout, tiling, players, window_size)
         # The pygame window size.
         self.window_size = window_size
-        # displays static drawings.
-        # pygame.display.set_mode(self.window_size)
-
+        # TODO Remove; renderer should not own the ORDERS
         self.orders = OrdersCollection(window_size, config)
-
+        # TODO Remove; make screen as large as can fit in the screen (should be fixed in main).
+        # pygame.display.set_mode(self.window_size)
+    
     def _render_frame(self, obs, render_mode):
         """
         This function renders a single frame of the game.

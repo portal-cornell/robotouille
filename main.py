@@ -76,7 +76,7 @@ def game():
                 screens[current_screen].set_players(["Player1", "Player2"])
             
             if current_screen == ENDGAME:
-                screens[current_screen].create_profile([(1,  "Player 1"), (2, "Player 1"), (3, "Player 1")])
+                screens[current_screen].create_profile([(1,  "Player 1"), (2, "Player 2")])
                 screens[current_screen].set_stars(1)
                 screens[current_screen].set_coin(12)
                 screens[current_screen].set_bell(121)

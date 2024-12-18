@@ -32,7 +32,7 @@ class LoadingScreen(ScreenInterface):
         self.background = Image(self.screen, self.background_image, 0.5, 0.5, self.scale_factor, anchor="center")
         self.loading_bar = Slider(self.screen, self.progress_border_image, self.progress_bar_image,
                                          573 * self.scale_factor, 93 * self.scale_factor, 539 * self.scale_factor, 61 * self.scale_factor,
-                                         0.5, 0.75, filled_percent= self.percent, anchor="center", foreground_padding=(0,0,0,0))
+                                         self.x_percent(398.25), self.y_percent(574), filled_percent= self.percent, foreground_padding=(0,0,0,0))
     
     def draw(self):
         """Draws all the screen components."""

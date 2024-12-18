@@ -100,7 +100,7 @@ class Order:
         self.stack = [] 
         base_x = 0.5  
         base_y = 0.7 
-        stack_offset = self.config["item"]["constants"]["STATION_ITEM_OFFSET"] * (self.scale_factor/2)
+        stack_offset = self.config["item"]["constants"]["STATION_ITEM_OFFSET"] * (self.scale_factor/4)
 
         for i, item in enumerate(reversed(stack)): 
             y_percent = base_y - (i * stack_offset)  

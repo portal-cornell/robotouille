@@ -1,9 +1,8 @@
 import pygame
-import time
 from utils.robotouille_input import create_action_from_control
 from robotouille.robotouille_env import create_robotouille_env
 from frontend.pause import PauseScreen
-from frontend.constants import *
+from frontend.constants import ENDGAME
 from backend.movement.player import Player
 from backend.movement.movement import Movement, Mode
 import numpy as np
@@ -27,7 +26,7 @@ class RobotouilleSimulator:
         self.window_size= (512,512)
         self.human = human
         self.canvas = canvas
-        self.env, self.json, self.renderer = create_robotouille_env(environment_name, movement_mode, seed, noisy_randomization)
+        self.env, self.json, self.renderer = create_robotouille_env(environment_name, movement_mode, seed, noisy_randomization, window_size=self.window_size)
         self.obs, self.info = self.env.reset()
         self.done = False
         self.interactive = False  # Set to True to interact with the environment through terminal REPL (ignores input)
@@ -123,6 +122,7 @@ class RobotouilleSimulator:
         self.draw()
         self.handle_pause(pygame_events)
 
+        # TODO remove: currently used to prevent player movement
         return
         
         mousedown_events = list(filter(lambda e: e.type == pygame.MOUSEBUTTONDOWN, pygame_events))

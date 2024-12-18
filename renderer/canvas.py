@@ -77,7 +77,6 @@ class RobotouilleCanvas:
             position (np.array): (x, y) position of the image
             scale (np.array): (width, height) to scale the image by
         """
-        # path = os.path.join(RobotouilleCanvas.ASSETS_DIRECTORY, image_name)
         image = self.asset_directory[RobotouilleCanvas.ASSETS_DIRECTORY][image_name]
         image = pygame.transform.smoothscale(image, scale)
         surface.blit(image, position)
