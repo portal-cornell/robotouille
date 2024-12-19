@@ -202,6 +202,22 @@
                 },
                 "constants": {}
             },
+            "spaghetti": {
+                "assets": {
+                    "default": "spaghetti.png"
+                },
+                "constants": {}
+            },
+            "meatball": {
+                "assets": {
+                    "default": "meatballs.png",
+                    "cut": {
+                        "asset": "cooked_meatballs.png",
+                        "predicates": ["iscooked"]
+                    }
+                },
+                "constants": {}
+            },
             "rollingpin": {
                 "assets": {
                     "default": "rollingpin.png"
@@ -480,6 +496,15 @@
                                 {"name": "addedcontent", "params": ["flourbag", "cupcakebatter"]},
                                 {"name": "addedto", "params": ["egg", "cupcakebatter"]},
                                 {"name": "addedto", "params": ["butter", "cupcakebatter"]}
+                            ]
+                        }
+                    },
+                    "spaghettiwithmeatballs": {
+                        "default": "blender_empty.png",
+                        "blended": {
+                            "asset": "blender_full.png",
+                            "predicates": [
+                                {"name": "isblended", "params": ["spaghettiwithmeatballs"]}
                             ]
                         }
                     }

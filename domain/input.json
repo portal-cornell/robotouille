@@ -213,6 +213,13 @@
             }
         },
         {
+            "name": "create-spaghettiwithmeatballs",
+            "input_instructions": {
+                "key": "s",
+                "at": "s1"
+            }
+        },
+        {
             "name": "boil-water",
             "input_instructions": {
                 "key": "e",

@@ -120,6 +120,14 @@
             "param_types": ["item"]
         },
         {
+            "name": "isspaghetti",
+            "param_types": ["item"]
+        },
+        {
+            "name": "ismeatball",
+            "param_types": ["item"]
+        },
+        {
             "name": "isrollingpin",
             "param_types": ["item"]
         },
@@ -389,6 +397,10 @@
         },
         {
             "name": "isdumpling",
+            "param_types": ["meal"]
+        },
+        {
+            "name": "isspaghettiwithmeatballs",
             "param_types": ["meal"]
         },
         {
@@ -2240,6 +2252,85 @@
                                     "sfx": []
                                 }
                             ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "create-spaghettiwithmeatballs",
+            "precons": [
+                {
+                    "predicate": "isblendercup",
+                    "params": ["c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "istomato",
+                    "params": ["i1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "loc",
+                    "params": ["p1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "container_at",
+                    "params": ["c1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "container_empty",
+                    "params": ["c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "has_item",
+                    "params": ["p1", "i1"],
+                    "is_true": true
+                }
+            ],
+            "immediate_fx":[],
+            "sfx": [
+                {
+                    "type": "conditional",
+                    "param": "c1",
+                    "conditions": [
+                        {
+                            "predicate": "container_at",
+                            "params": ["c1", "s1"],
+                            "is_true": true
+                        }
+                    ],
+                    "fx": [],
+                    "sfx": [
+                        {
+                            "type": "creation",
+                            "param": "c1",
+                            "created_obj": {
+                                "name": "spaghettiwithmeatballs",
+                                "type": "meal",
+                                "param": "m1"
+                            },
+                            "fx": [
+                                {
+                                    "predicate": "isspaghettiwithmeatballs",
+                                    "params": ["m1"],
+                                    "is_true": true
+                                },
+                                {
+                                    "predicate": "in",
+                                    "params": ["m1", "c1"],
+                                    "is_true": true
+                                },
+                                {
+                                    "predicate": "container_empty",
+                                    "params": ["c1"],
+                                    "is_true": false
+                                }
+                            ],
+                            "sfx": []
                         }
                     ]
                 }
