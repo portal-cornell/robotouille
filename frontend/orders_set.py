@@ -19,8 +19,6 @@ class OrdersCollection(ScreenInterface):
             window_size (tuple): A tuple (width, height) representing the size of the game window.
         """
         super().__init__(window_size)
-        # score_background.png
-
         self.score = 0
         self.time = 300
         self.orders = {}
