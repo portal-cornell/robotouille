@@ -25,9 +25,9 @@ class OrdersCollection(ScreenInterface):
         self.add_order(1, Order(window_size, config, time= 1))
         self.add_order(2, Order(window_size, config, time= 2))
         self.add_order(3, Order(window_size, config, time= 10))
+        self.score_box = Textbox(self.screen, str(self.score), self.x_percent(961 + 68), self.y_percent(56 + 15), 70, 45, font_size=40, scale_factor=self.scale_factor)
+        self.time_box = Textbox(self.screen, self.convert_seconds_to_time(self.time) , self.x_percent(961 + 166 + 39.16), self.y_percent(56  + 15), 108, 45, font_size=38, scale_factor=self.scale_factor)
         self.score_background = Image(self.screen, self.background_image, self.x_percent(944), self.y_percent(40), self.scale_factor)
-        self.score_box = Textbox(self.screen, str(self.score), self.x_percent(961 + 68), self.y_percent(56), 70, 45, font_size=40, scale_factor=self.scale_factor)
-        self.time_box = Textbox(self.screen, self.convert_seconds_to_time(self.time) , self.x_percent(961 + 166 + 39.16), self.y_percent(56), 108, 45, font_size=38, scale_factor=self.scale_factor)
         self.last_update_time = pygame.time.get_ticks() 
     
     def x_percent(self, value):
@@ -130,7 +130,6 @@ class OrdersCollection(ScreenInterface):
             customerid (int): The ID of the customer whose order is to be removed.
         """
         self.orders.pop(customerid, None)
-        self.screen.fill((0,0,0,0))
 
 
     def draw(self):
@@ -140,6 +139,7 @@ class OrdersCollection(ScreenInterface):
         Side Effect:
             Blits each order onto the screen at appropriate positions.
         """
+        self.screen.fill((0,0,0,0))
         self.score_background.draw()
         self.update_time()
         self.score_box.draw()

@@ -41,7 +41,6 @@ class PauseScreen(ScreenInterface):
         self.pause_button = Button(self.screen, self.pause_button_image, 
                                    (self.scale_factor * 1315/ self.screen_width), (self.scale_factor * 34/ self.screen_height), 
                                    self.scale_factor, offset_x=self.mouse_offset_x, offset_y=self.mouse_offset_y)
-        print("pause", self.scale_factor, self.screen_width, self.screen_height)
         self.hide = True
         self.p_key_was_pressed = False
 
