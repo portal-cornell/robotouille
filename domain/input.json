@@ -22,28 +22,105 @@
             }
         },
         {
-            "name": "pick-up-container",
+            "name": "pick-up-bundle",
             "input_instructions": {
                 "button": "left",
                 "click_on": "s1"
             }
         },
         {
-            "name": "place-container",
+            "name": "place-bundle",
             "input_instructions": {
                 "button": "left",
                 "click_on": "s1"
             }
         },
         {
-            "name": "stack",
+            "name": "stack-on-bottom-item",
             "input_instructions": {
                 "button": "left",
                 "click_on": "s1"
             }
         },
         {
-            "name": "unstack",
+            "name": "pick-up-condiment",
+            "input_instructions": {
+                "button": "left",
+                "click_on": "s1"
+            }
+        },
+        {
+            "name": "place-condiment",
+            "input_instructions": {
+                "button": "left",
+                "click_on": "s1"
+            }
+        },
+        {
+            "name": "pick-up-condiment",
+            "input_instructions": {
+                "button": "left",
+                "click_on": "s1"
+            }
+        },
+        {
+            "name": "place-condiment",
+            "input_instructions": {
+                "button": "left",
+                "click_on": "s1"
+            }
+        },
+        {
+            "name": "stack-onto-container-stack",
+            "input_instructions": {
+                "button": "left",
+                "click_on": "s1"
+            }
+        },
+        {
+            "name": "unstack-from-bottom-item",
+            "input_instructions": {
+                "button": "left",
+                "click_on": "s1"
+            }
+        },
+        {
+            "name": "stack-onto-station-stack",
+            "input_instructions": {
+                "button": "left",
+                "click_on": "s1"
+            }
+        },
+        {
+            "name": "unstack-from-station-stack",
+            "input_instructions": {
+                "button": "left",
+                "click_on": "s1"
+            }
+        },
+        {
+            "name": "stack_on_container",
+            "input_instructions": {
+                "button": "left",
+                "click_on": "s1"
+            }
+        },
+        {
+            "name": "unstack_from_container",
+            "input_instructions": {
+                "button": "left",
+                "click_on": "s1"
+            }
+        },
+        {
+            "name": "stack-onto-container-stack",
+            "input_instructions": {
+                "button": "left",
+                "click_on": "s1"
+            }
+        },
+        {
+            "name": "unstack-from-container-stack",
             "input_instructions": {
                 "button": "left",
                 "click_on": "s1"
@@ -52,7 +129,70 @@
     ],
     "keyboard_actions": [
         {
+            "name": "put-in-oven",
+            "input_instructions": {
+                "key": "p",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "put-in-oven-bundle",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "take-out-item",
+            "input_instructions": {
+                "key": "p",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "batter",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
             "name": "cook",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "cook-on-oven",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "grill",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "toast",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "roast",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "bake",
             "input_instructions": {
                 "key": "e",
                 "at": "s1"
@@ -87,6 +227,13 @@
             }
         },
         {
+            "name": "boil-water-on-oven",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
             "name": "add-to",
             "input_instructions": {
                 "key": "e",
@@ -106,6 +253,98 @@
                 "key": "space",
                 "at": null
             }
+        },
+        {
+            "name": "roll",
+            "input_instructions": {
+                "key": "r",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "add-to-bundle",
+            "input_instructions": {
+                "key": "r",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "cook-bundle",
+            "input_instructions": {
+                "key": "r",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "add-ketchup",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "add-mustard",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "add-salt",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "add-tomatosauce",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "roll-triangle",
+            "input_instructions": {
+                "key": "t",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "shape",
+            "input_instructions": {
+                "key": "m",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "add-sauce",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "add-cheese",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "add-pepperoni",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "bake-pizza",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
         }
+
     ]
 }
