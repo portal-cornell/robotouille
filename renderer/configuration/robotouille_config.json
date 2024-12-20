@@ -313,6 +313,10 @@
             "rollsheet": {
                 "assets": {
                     "default": "rollsheet.png",
+                    "friedspringroll": {
+                        "default": "friedspringroll.png",
+                        "predicates": ["isfried-bundle"]
+                    },
                     "springroll": {
                         "default": "springroll.png",
                         "predicates": ["isrolled"]

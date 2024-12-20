@@ -69,7 +69,8 @@
             "name": "rollsheet",
             "x": 3,
             "y": 1,
-            "id": 1
+            "id": 1,
+            "predicates": ["isfryable-bundle"]
         }
     ],
     "players": [
