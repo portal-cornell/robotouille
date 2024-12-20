@@ -3185,8 +3185,8 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "item_on",
-                    "params": ["i1", "s1"],
+                    "predicate": "has_item",
+                    "params": ["p1", "i2"],
                     "is_true": true
                 },
                 {
@@ -3195,8 +3195,8 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "atop",
-                    "params": ["i2", "i1"],
+                    "predicate": "clear",
+                    "params": ["i1"],
                     "is_true": true
                 },
                 {
