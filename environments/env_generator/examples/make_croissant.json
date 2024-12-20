@@ -1,0 +1,73 @@
+{
+    "version": "1.0.0",
+    "width": 3,
+    "height": 3,
+    "config": {
+        "cook_time": {
+            "croissant": 3,
+            "default": 3
+        }
+    },
+    "stations": [
+        {
+            "name": "table",
+            "x": 0,
+            "y": 1
+        },
+        {
+            "name": "oven",
+            "x": 2,
+            "y": 1,
+            "id": "A"
+        },
+        {
+            "name": "table",
+            "x": 0,
+            "y": 0
+        },
+        {
+            "name": "table",
+            "x": 2,
+            "y": 0,
+            "id": "B"
+        }
+    ],
+    "items": [
+        {
+            "name": "croissant",
+            "x": 0,
+            "y": 1,
+            "stack-level": 0,
+            "predicates": ["isrollable","isshapeableiftriangle"],
+            "id": "a"
+        },
+        {
+            "name": "rollingpin",
+            "x": 0,
+            "y": 0,
+            "stack-level": 0,
+            "id": "b"
+        }
+    ],
+    "players": [
+        {
+            "name": "robot",
+            "x": 1,
+            "y": 0,
+            "direction": [-1, 0]
+        }
+    ],
+    "goal description": "Roll dough into triangle, shape dough into croissant, and bake the croissant.",
+    "goal": [
+        {
+            "predicate": "isbaked",
+            "args": ["croissant"],
+            "ids": ["a"]
+        },
+        {
+          "predicate": "item_at",
+          "args": ["croissant", "table"],
+          "ids": ["a", 1]
+        }
+    ]
+}
