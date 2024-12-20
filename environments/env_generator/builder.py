@@ -10,6 +10,7 @@ from .object_enums import (
     Container,
     Meal,
     Bundle,
+    Condiment,
     str_to_typed_enum,
     TYPES,
 )
@@ -27,6 +28,7 @@ PLAYER_FIELD = "players"
 MEAL_FIELD = "meals"
 CONTAINER_FIELD = "containers"
 BUNDLE_FIELD = "bundles"
+CONDIMENT_FIELD = "condiments"
 
 ENTITY_FIELDS = [
     STATION_FIELD,
@@ -35,6 +37,7 @@ ENTITY_FIELDS = [
     CONTAINER_FIELD,
     MEAL_FIELD,
     BUNDLE_FIELD,
+    CONDIMENT_FIELD,
 ]
 
 
@@ -71,6 +74,8 @@ def entity_to_entity_field(entity):
             return CONTAINER_FIELD
         elif isinstance(typed_enum, Bundle):
             return BUNDLE_FIELD
+        elif isinstance(typed_enum, Condiment):
+            return CONDIMENT_FIELD
     except ValueError:
         # Convert wild card entities into entity fields
         if entity == STATION_FIELD[:-1]:
@@ -85,6 +90,8 @@ def entity_to_entity_field(entity):
             return CONTAINER_FIELD
         elif entity == BUNDLE_FIELD[:-1]:
             return BUNDLE_FIELD
+        elif entity == CONDIMENT_FIELD[:-1]:
+            return CONDIMENT_FIELD
     raise ValueError(f"Cannot convert {entity} into an entity field.")
 
 
