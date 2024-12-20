@@ -1,0 +1,85 @@
+{
+    "version": "1.0.0",
+    "width": 5,
+    "height": 5,
+    "config": {
+      "fry_time": {
+        "chicken": 3,
+        "default": 3
+      }
+    },
+    "stations": [
+      {
+        "name": "table",
+        "x": 0,
+        "y": 1
+      },
+      {
+        "name": "blender",
+        "x": 2,
+        "y": 1
+      },
+      {
+        "name": "board",
+        "x": 0,
+        "y": 0
+      },
+      {
+        "name": "table",
+        "x": 4,
+        "y": 4
+      }
+    ],
+    "items": [
+        {
+            "name": "wholemilk",
+            "x": 0,
+            "y": 1,
+            "stack-level": 0,
+            "predicates": ["pourable", "ismilk"]
+        },
+        {
+            "name": "strawberry",
+            "x": 0,
+            "y": 0,
+            "stack-level": 0,
+            "predicates": ["iscuttable"],
+            "id": "a"
+        }
+    ],
+    "meals": [],
+    "containers": [
+      {
+        "name": "blendercup",
+        "x": 2,
+        "y": 1,
+        "stack-level": 0,
+        "id": "b"
+      },
+      {
+        "name": "smoothiecup",
+        "x": 4,
+        "y": 4,
+        "stack-level": 0,
+        "id": "c"
+      }
+    ],
+    "players": [
+      {
+        "name": "robot",
+        "x": 1,
+        "y": 0,
+        "direction": [
+          -1,
+          0
+        ]
+      }
+    ],
+    "goal": [
+        {
+            "predicate": "filled",
+            "args": ["smoothiecup"],
+            "ids": ["c"]
+        }
+    ]
+  }

@@ -122,7 +122,34 @@
                     }
                 },
                 "constants": {}
-            } 
+            },
+            "banana": {
+                "assets": {
+                    "default": "banana.png",
+                    "cut": {
+                        "asset": "cut_banana.png",
+                        "predicates": ["iscut"]
+                    }
+                },
+                "constants": {}
+            },
+            "wholemilk": {
+                "assets": {
+                    "default": "milk_whole.png"
+                },
+                "predicates": ["pourable"],
+                "constants": {}
+            },
+            "strawberry": {
+                "assets": {
+                    "default": "strawberry.png",
+                    "cut": {
+                        "asset": "slicedstrawberry.png",
+                        "predicates": ["iscut"]
+                    }
+                },
+                "constants": {}
+            }
         }
     },
 
@@ -230,10 +257,24 @@
             },
             "blendercup": {
                 "assets": {
-                    "default": "blender_empty.png"
+                    "default": "blender_empty.png",
+                    "smoothie": {
+                        "default": "blender_full.png"
+                    }
                 },
                 "constants": {
                     "STATION_CONTAINER_OFFSET": 0.5
+                }
+            },
+            "smoothiecup": {
+                "assets": {
+                    "default": "smoothiecup.png",
+                    "smoothie": {
+                        "default": "strawberrysmoothie.png"
+                    }
+                },
+                "constants": {
+                    "STATION_CONTAINER_OFFSET": 0.25
                 }
             }
         }
