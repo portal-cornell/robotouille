@@ -271,7 +271,7 @@
         {
             "name": "cook-bundle",
             "input_instructions": {
-                "key": "r",
+                "key": "e",
                 "at": "s1"
             }
         },

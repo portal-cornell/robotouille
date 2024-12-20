@@ -1,0 +1,86 @@
+{
+    "version": "1.0.0",
+    "width": 4,
+    "height": 4,
+    "config": {
+        "num_cuts": {
+            "lettuce": 3,
+            "default": 3
+        },
+        "cook_time": {
+            "patty": 3,
+            "default": 3
+        }
+    },
+    "stations": [
+        {
+            "name": "table",
+            "x": 0,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 1,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 2,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 3,
+            "y": 1
+        }
+    ],
+    "items": [
+        {
+            "name": "rice",
+            "x": 0,
+            "y": 1,
+            "stack-level": 0,
+            "predicates": ["iscooked", "iscookable"]
+        },
+        {
+            "name": "beans",
+            "x": 2,
+            "y": 1,
+            "stack-level": 0,
+            "predicates": []
+        },
+        {
+            "name": "chicken",
+            "x": 1,
+            "y": 1,
+            "stack-level": 0,
+            "predicates": []
+        }
+    ],
+    "meals": [],
+    "containers": [],
+    "bundles": [
+        {
+            "name": "burrito",
+            "x": 3,
+            "y": 1,
+            "id": 1,
+            "predicates": ["iscookable-bundle"]
+        }
+    ],
+    "players": [
+        {
+            "name": "robot",
+            "x": 0,
+            "y": 0,
+            "direction": [0, 1]
+        }
+    ],
+    "goal": [
+        {
+            "predicate": "isrolled",
+            "args": ["burrito"],
+            "ids": [1]
+        }
+    ]
+}

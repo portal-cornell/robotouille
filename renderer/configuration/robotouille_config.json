@@ -294,6 +294,12 @@
                     }
                 },
                 "constants": {}
+            },
+            "beans": {
+                "assets": {
+                    "default": "beans.png"
+                },
+                "constants": {}
             }    
         }
     },
@@ -533,6 +539,21 @@
                     
                 },
                 "constants": {}
+            },
+            "burrito": {
+                "assets": {
+                    "default": "tortilla.png",
+                    "cooked": {
+                        "default": "cookedburrito.png",
+                        "predicates": ["iscooked-bundle"]
+                    },
+                    "rolled": {
+                        "default": "burrito.png",
+                        "predicates": ["isrolled"]
+                    }
+                },
+                "constants": {}
+                
             }
         }
     }

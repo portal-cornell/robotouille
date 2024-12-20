@@ -25,6 +25,7 @@ class Item(Enum):
     CROISSANT = "croissant"
     ROLLINGPIN = "rollingpin"
     BUTTERCHICKEN = "butterchicken"
+    BEANS = "beans"
 
 
 class Player(Enum):
@@ -62,6 +63,7 @@ class Bundle(Enum):
     SEAWEED = "seaweed"
     TART = "tart"
     PIZZA = "pizza"
+    BURRITO = "burrito"
 
 
 class Condiment(Enum):
