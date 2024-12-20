@@ -248,7 +248,16 @@
             },
             "apple": {
                 "assets": {
-                    "default": "appleslices.png"
+                    "default": "appleslices.png",
+                    "cut": {
+                        "asset": "blendedapple.png",
+                        "predicates": ["iscut"]
+                    },
+                    "cooked": {
+                        "asset": "cookedblendedapple.png",
+                        "predicates": ["iscut", "iscooked"]
+                    }
+                    
                 },
                 "constants": {}
             },
@@ -499,14 +508,15 @@
             "tart": {
                 "assets": {
                     "default": "appletartdough.png",
-                    "appletart": {
-                        "default": "appletart.png",
-                        "predicates": ["isrolled"]
-                    },
                     "bakedappletart": {
                         "default": "bakedappletart.png",
                         "predicates": ["iscooked-bundle"]
+                    },
+                    "appletart": {
+                        "default": "appletart.png",
+                        "predicates": ["has_apple"]
                     }
+                    
                 },
                 "constants": {}
             },

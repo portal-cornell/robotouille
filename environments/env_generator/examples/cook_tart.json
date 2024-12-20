@@ -19,12 +19,12 @@
             "y": 1
         },
         {
-            "name": "table",
+            "name": "board",
             "x": 1,
             "y": 1
         },
         {
-            "name": "table",
+            "name": "oven",
             "x": 2,
             "y": 1
         },
@@ -42,21 +42,10 @@
     "items": [
         {
             "name": "apple",
-            "x": 0,
-            "y": 1,
-            "stack-level": 0
-        },
-        {
-            "name": "apple",
             "x": 1,
             "y": 1,
-            "stack-level": 0
-        },
-        {
-            "name": "apple",
-            "x": 2,
-            "y": 1,
-            "stack-level": 0
+            "stack-level": 0,
+            "predicates": ["iscuttable", "iscookable"]
         }
     ],
     "meals": [],

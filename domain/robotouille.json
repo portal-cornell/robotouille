@@ -438,6 +438,14 @@
         {
             "name": "bundle_on",
             "param_types": ["bundle", "station"]
+        },
+        {
+            "name": "isapple",
+            "param_types": ["item"]
+        },
+        {
+            "name": "has_apple",
+            "param_types": ["bundle"]
         }
         
     ],
@@ -3276,6 +3284,138 @@
                 }
             ],
             "sfx": []
+        },
+        {
+            "name": "add-apple",
+            "precons": [
+                {
+                    "predicate": "bundle_at",
+                    "params": ["b1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "loc",
+                    "params": ["p1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "has_item",
+                    "params": ["p1", "i1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "isapple",
+                    "params": ["i1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "iscut",
+                    "params": ["i1"],
+                    "is_true": true
+                }
+            ],
+            "immediate_fx": [
+                {
+                    "predicate": "has_apple",
+                    "params": ["b1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "has_item",
+                    "params": ["p1", "i1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
+                    "is_true": true
+                }
+            ],
+            "sfx": []
+        },
+        {
+            "name": "bake-apple-tart",
+            "precons": [
+                {
+                    "predicate": "isoven",
+                    "params": ["s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "oven_on",
+                    "params": ["s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "iscookable-bundle",
+                    "params": ["b1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "bundle_in",
+                    "params": ["b1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "bundle_at",
+                    "params": ["b1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "loc",
+                    "params": ["p1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "has_apple",
+                    "params": ["b1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
+                    "is_true": true
+                }
+            ],
+            "immediate_fx": [],
+            "sfx": [
+                {
+                    "type": "conditional",
+                    "param": "b1",
+                    "conditions": [
+                        {
+                            "predicate": "bundle_in",
+                            "params": ["b1", "s1"],
+                            "is_true": true
+                        }
+                    ],
+                    "fx": [],
+                    "sfx": [
+                        {
+                            "type": "delayed",
+                            "param": "b1",
+                            "fx": [
+                                {
+                                    "predicate": "iscooked-bundle",
+                                    "params": ["b1"],
+                                    "is_true": true
+                                },
+                                {
+                                    "predicate": "iscookable-bundle",
+                                    "params": ["b1"],
+                                    "is_true": false
+                                },
+                                {
+                                    "predicate": "oven_on",
+                                    "params": ["s1"],
+                                    "is_true": false
+                                }
+                            ],
+                            "sfx": []
+                        }
+                    ]
+                }
+            ]
         }
     ]
 }

@@ -344,6 +344,20 @@
                 "key": "e",
                 "at": "s1"
             }
+        },
+        {
+            "name": "add-apple",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "bake-apple-tart",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
         }
 
     ]
