@@ -1,0 +1,84 @@
+{
+    "version": "1.0.0",
+    "width": 3,
+    "height": 3,
+    "config": {
+        "cook_time": {
+            "croissant": 3,
+            "default": 3
+        }
+    },
+    "stations": [
+        {
+            "name": "table",
+            "x": 0,
+            "y": 1
+        },
+        {
+            "name": "oven",
+            "x": 2,
+            "y": 1,
+            "id": "A"
+        },
+        {
+            "name": "table",
+            "x": 0,
+            "y": 0
+        },
+        {
+            "name": "oven",
+            "x": 2,
+            "y": 0,
+            "id": "B"
+        }
+    ],
+    "items": [
+        {
+            "name": "croissant",
+            "x": 0,
+            "y": 1,
+            "stack-level": 0,
+            "predicates": ["isshaped","isbakeable"],
+            "id": "a"
+        },
+        {
+            "name": "croissant",
+            "x": 0,
+            "y": 0,
+            "stack-level": 0,
+            "predicates": ["isshaped","isbakeable"],
+            "id": "b"
+        }
+    ],
+    "players": [
+        {
+            "name": "robot",
+            "x": 1,
+            "y": 0,
+            "direction": [-1, 0]
+        }
+    ],
+    "goal description": "Bake two croissants.",
+    "goal": [
+        {
+            "predicate": "isbaked",
+            "args": ["croissant"],
+            "ids": ["a"]
+        },
+        {
+            "predicate": "isbaked",
+            "args": ["croissant"],
+            "ids": ["b"]
+        },
+        {
+          "predicate": "item_at",
+          "args": ["croissant", "table"],
+          "ids": ["a", 1]
+        },
+        {
+          "predicate": "item_at",
+          "args": ["croissant", "table"],
+          "ids": ["b", 2]
+        }
+    ]
+}
