@@ -22,14 +22,42 @@
             }
         },
         {
-            "name": "pick-up-container",
+            "name": "stack-on-bottom-item",
             "input_instructions": {
                 "button": "left",
                 "click_on": "s1"
             }
         },
         {
-            "name": "place-container",
+            "name": "unstack-from-bottom-item",
+            "input_instructions": {
+                "button": "left",
+                "click_on": "s1"
+            }
+        },
+        {
+            "name": "stack-onto-station-stack",
+            "input_instructions": {
+                "button": "left",
+                "click_on": "s1"
+            }
+        },
+        {
+            "name": "unstack-from-station-stack",
+            "input_instructions": {
+                "button": "left",
+                "click_on": "s1"
+            }
+        },
+        {
+            "name": "stack_on_container",
+            "input_instructions": {
+                "button": "left",
+                "click_on": "s1"
+            }
+        },
+        {
+            "name": "unstack_from_container",
             "input_instructions": {
                 "button": "left",
                 "click_on": "s1"
@@ -50,14 +78,14 @@
             }
         },
         {
-            "name": "stack",
+            "name": "stack-onto-container-stack",
             "input_instructions": {
                 "button": "left",
                 "click_on": "s1"
             }
         },
         {
-            "name": "unstack",
+            "name": "unstack-from-container-stack",
             "input_instructions": {
                 "button": "left",
                 "click_on": "s1"
@@ -308,6 +336,20 @@
             "input_instructions": {
                 "key": "space",
                 "at": null
+            }
+        },
+        {
+            "name": "pick-up-container",
+            "input_instructions": {
+                "key": "r",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "place-container",
+            "input_instructions": {
+                "key": "r",
+                "at": "s1"
             }
         },
         {
