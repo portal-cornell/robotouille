@@ -14,12 +14,12 @@
     },
     "stations": [
         {
-            "name": "table",
+            "name": "board",
             "x": 0,
             "y": 1
         },
         {
-            "name": "table",
+            "name": "board",
             "x": 1,
             "y": 1
         },
@@ -34,7 +34,7 @@
             "y": 1
         },
         {
-            "name": "stove",
+            "name": "oven",
             "x": 4,
             "y": 4
         }
@@ -45,25 +45,27 @@
             "x": 0,
             "y": 1,
             "stack-level": 0,
-            "predicates": ["iscut", "iscuttable"]
-        },
-        {
-            "name": "cheesetri",
-            "x": 2,
-            "y": 1,
-            "stack-level": 0,
-            "predicates": ["iscut", "iscuttable"]
+            "predicates": ["iscuttable"]
         },
         {
             "name": "pepperoni",
             "x": 1,
             "y": 1,
             "stack-level": 0,
-            "predicates": []
+            "predicates": ["iscuttable"]
         }
     ],
     "meals": [],
     "containers": [],
+    "condiments": [
+        {
+            "name": "tomatosauce",
+            "x": 2,
+            "y": 1,
+            "stack-level": 0,
+            "predicates": []
+        }
+    ],
     "bundles": [
         {
             "name": "pizza",

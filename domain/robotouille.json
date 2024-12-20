@@ -400,12 +400,44 @@
             "param_types": ["item"]
         },
         {
+            "name": "has_tomato_sauce_bundle",
+            "param_types": ["bundle"]
+        },
+        {
             "name": "istomatosauce",
             "param_types": ["condiment"]
         },
         {
             "name": "isbutterchicken",
             "param_types": ["item"]
+        },
+        {
+            "name": "ispepperoni",
+            "param_types": ["item"]
+        },
+        {
+            "name": "has_pepperoni",
+            "param_types": ["bundle"]
+        },
+        {
+            "name": "ischeesetri",
+            "param_types": ["item"]
+        },
+        {
+            "name": "has_cheesetri",
+            "param_types": ["bundle"]
+        },
+        {
+            "name": "bundle_in",
+            "param_types": ["bundle", "station"]
+        },
+        {
+            "name": "item_at",
+            "param_types": ["item", "station"]
+        },
+        {
+            "name": "bundle_on",
+            "param_types": ["bundle", "station"]
         }
         
     ],
@@ -811,6 +843,49 @@
             "sfx": []
         },
         {
+            "name": "pick-up-bundle",
+            "precons": [
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "bundle_at",
+                    "params": ["b1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "loc",
+                    "params": ["p1", "s1"],
+                    "is_true": true
+                }
+            ],
+            "immediate_fx": [
+                {
+                    "predicate": "has_bundle",
+                    "params": ["p1", "b1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "bundle_at",
+                    "params": ["b1", "s1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "station_empty",
+                    "params": ["s1"],
+                    "is_true": true
+                }
+            ],
+            "sfx": []
+        },
+        {
             "name": "place-condiment",
             "precons": [
                 {
@@ -843,6 +918,49 @@
                 {
                     "predicate": "has_condiment",
                     "params": ["p1", "cd1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "station_empty",
+                    "params": ["s1"],
+                    "is_true": false
+                }
+            ],
+            "sfx": []
+        },
+        {
+            "name": "place-bundle",
+            "precons": [
+                {
+                    "predicate": "has_bundle",
+                    "params": ["p1", "b1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "loc",
+                    "params": ["p1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "station_empty",
+                    "params": ["s1"],
+                    "is_true": true
+                }
+            ],
+            "immediate_fx": [
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "bundle_at",
+                    "params": ["b1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "has_bundle",
+                    "params": ["p1", "b1"],
                     "is_true": false
                 },
                 {
@@ -2616,6 +2734,44 @@
             ]
         },
         {
+            "name": "add-salt",
+            "precons": [
+                {
+                    "predicate": "has_condiment",
+                    "params": ["p1", "cd1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "issalt",
+                    "params": ["cd1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "can_add_salt",
+                    "params": ["i1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "loc",
+                    "params": ["p1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "item_at",
+                    "params": ["i1", "s1"],
+                    "is_true": true
+                }
+            ],
+            "immediate_fx": [
+                {
+                    "predicate": "has_salt",
+                    "params": ["i1"],
+                    "is_true": true
+                }
+            ],
+            "sfx": []
+        },
+        {
             "name": "roll-triangle",
             "precons": [
                 {
@@ -2672,6 +2828,454 @@
                     "sfx": []
                 }
             ]
+        },
+        {
+            "name": "add-tomatosauce",
+            "precons": [
+                
+                {
+                    "predicate": "istomatosauce",
+                    "params": ["cd1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "isfried",
+                    "params": ["i1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "loc",
+                    "params": ["p1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "item_at",
+                    "params": ["i1", "s1"],
+                    "is_true": true
+                }
+            ],
+            "immediate_fx": [
+                {
+                    "predicate": "has_tomato_sauce",
+                    "params": ["i1"],
+                    "is_true": true
+                }
+            ],
+            "sfx": []
+        },
+        {
+            "name": "add-sauce",
+            "precons": [
+                {
+                    "predicate": "bundle_at",
+                    "params": ["b1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "loc",
+                    "params": ["p1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "has_condiment",
+                    "params": ["p1", "cd1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "istomatosauce",
+                    "params": ["cd1"],
+                    "is_true": true
+                }
+            ],
+            "immediate_fx": [
+                {
+                    "predicate": "has_tomato_sauce_bundle",
+                    "params": ["b1"],
+                    "is_true": true
+                }
+            ],
+            "sfx": []
+        },
+        {
+            "name": "add-cheese",
+            "precons": [
+                {
+                    "predicate": "bundle_at",
+                    "params": ["b1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "loc",
+                    "params": ["p1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "has_item",
+                    "params": ["p1", "i1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "ischeesetri",
+                    "params": ["i1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "has_tomato_sauce_bundle",
+                    "params": ["b1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "iscut",
+                    "params": ["i1"],
+                    "is_true": true
+                }
+            ],
+            "immediate_fx": [
+                {
+                    "predicate": "has_cheesetri",
+                    "params": ["b1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "has_item",
+                    "params": ["p1", "i1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
+                    "is_true": true
+                }
+            ],
+            "sfx": []
+        },
+        {
+            "name": "add-pepperoni",
+            "precons": [
+                {
+                    "predicate": "bundle_at",
+                    "params": ["b1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "loc",
+                    "params": ["p1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "has_item",
+                    "params": ["p1", "i1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "ispepperoni",
+                    "params": ["i1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "has_tomato_sauce_bundle",
+                    "params": ["b1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "has_cheesetri",
+                    "params": ["b1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "iscut",
+                    "params": ["i1"],
+                    "is_true": true
+                }
+            ],
+            "immediate_fx": [
+                {
+                    "predicate": "has_pepperoni",
+                    "params": ["b1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "has_item",
+                    "params": ["p1", "i1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
+                    "is_true": true
+                }
+            ],
+            "sfx": []
+        },
+        {
+            "name": "bake-pizza",
+            "precons": [
+                {
+                    "predicate": "isoven",
+                    "params": ["s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "oven_on",
+                    "params": ["s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "iscookable-bundle",
+                    "params": ["b1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "bundle_in",
+                    "params": ["b1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "bundle_at",
+                    "params": ["b1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "loc",
+                    "params": ["p1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "has_cheesetri",
+                    "params": ["b1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "has_tomato_sauce_bundle",
+                    "params": ["b1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "has_pepperoni",
+                    "params": ["b1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
+                    "is_true": true
+                }
+            ],
+            "immediate_fx": [],
+            "sfx": [
+                {
+                    "type": "conditional",
+                    "param": "b1",
+                    "conditions": [
+                        {
+                            "predicate": "bundle_in",
+                            "params": ["b1", "s1"],
+                            "is_true": true
+                        }
+                    ],
+                    "fx": [],
+                    "sfx": [
+                        {
+                            "type": "delayed",
+                            "param": "b1",
+                            "fx": [
+                                {
+                                    "predicate": "iscooked-bundle",
+                                    "params": ["b1"],
+                                    "is_true": true
+                                },
+                                {
+                                    "predicate": "iscookable-bundle",
+                                    "params": ["b1"],
+                                    "is_true": false
+                                },
+                                {
+                                    "predicate": "oven_on",
+                                    "params": ["s1"],
+                                    "is_true": false
+                                }
+                            ],
+                            "sfx": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "cook-bundle",
+            "precons": [
+                {
+                    "predicate": "isstove",
+                    "params": ["s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "iscookable-bundle",
+                    "params": ["b1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "bundle_at",
+                    "params": ["b1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "loc",
+                    "params": ["p1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
+                    "is_true": true
+                }
+            ],
+            "immediate_fx": [],
+            "sfx": [
+                {
+                    "type": "conditional",
+                    "param": "b1",
+                    "conditions": [
+                        {
+                            "predicate": "bundle_at",
+                            "params": ["b1", "s1"],
+                            "is_true": true
+                        }
+                    ],
+                    "fx": [],
+                    "sfx": [
+                        {
+                            "type": "delayed",
+                            "param": "b1",
+                            "fx": [
+                                {
+                                    "predicate": "iscooked-bundle",
+                                    "params": ["b1"],
+                                    "is_true": true
+                                }
+                            ],
+                            "sfx": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "put-in-oven-bundle",
+            "precons": [
+                {
+                    "predicate": "has_bundle",
+                    "params": ["p1", "b1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "loc",
+                    "params": ["p1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "isoven",
+                    "params": ["s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "station_empty",
+                    "params": ["s1"],
+                    "is_true": true
+                }
+            ],
+            "immediate_fx": [
+                {
+                    "predicate": "oven_on",
+                    "params": ["s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "bundle_in",
+                    "params": ["b1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "has_bundle",
+                    "params": ["p1", "b1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "station_empty",
+                    "params": ["s1"],
+                    "is_true": false
+                },
+
+                {
+                    "predicate": "bundle_at",
+                    "params": ["b1", "s1"],
+                    "is_true": true
+                }
+            ],
+            "sfx": []
+        },
+        {
+            "name": "take-out-bundle",
+            "precons": [
+                {
+                    "predicate": "isoven",
+                    "params": ["s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "bundle_in",
+                    "params": ["b1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "bundle_at",
+                    "params": ["b1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "loc",
+                    "params": ["p1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
+                    "is_true": true
+                }
+            ],
+            "immediate_fx": [
+                {
+                    "predicate": "bundle_in",
+                    "params": ["b1", "s1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "has_bundle",
+                    "params": ["p1", "b1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "station_empty",
+                    "params": ["s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "bundle_at",
+                    "params": ["b1", "s1"],
+                    "is_true": false
+                }
+            ],
+            "sfx": []
         }
     ]
 }

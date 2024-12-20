@@ -20,7 +20,6 @@ class Item(Enum):
     PEPPERONI = "pepperoni"
     HOTDOG = "hotdog"
     BUN = "bun"
-    SALMON = "salmon"
     TURKEY = "turkey"
     SHRIMP = "shrimp"
     CROISSANT = "croissant"

@@ -259,13 +259,18 @@
                         "asset": "gratedcheese.png",
                         "predicates": ["iscut"]
                     }
-                }
+                },
+                "constants": {}
             },
             "pepperoni" : {
                 "assets": {
-                    "default": "pepperonistick.png"
-                    
-                }
+                    "default": "pepperonistick.png",
+                    "cut": {
+                        "asset": "cutpepperoni.png",
+                        "predicates": ["iscut"]
+                    }
+                },
+                "constants": {}
             },
             "butterchicken" : {
                 "assets": {
@@ -508,14 +513,24 @@
             "pizza": {
                 "assets": {
                     "default": "kneadedpizzadough.png",
-                    "pizza": {
-                        "default": "doughwithsaucecheeseandpepperoni.png",
-                        "predicates": ["isrolled"]
-                    },
                     "bakedpizza": {
                         "default": "bakedpizza.png",
                         "predicates": ["iscooked-bundle"]
+                    },
+                    "pizza": {
+                        "default": "doughwithsaucecheeseandpepperoni.png",
+                        "predicates": ["has_pepperoni"]
+                    },
+                    "saucecheese": {
+                        "default": "doughwithsauceandcheese.png",
+                        "predicates": ["has_cheesetri"]
+                    },
+                    "sauce": {
+                        "default": "doughwithsauce.png",
+                        "predicates": ["has_tomato_sauce_bundle"]
                     }
+                    
+                    
                 },
                 "constants": {}
             }

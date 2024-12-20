@@ -219,6 +219,7 @@ def build_station_location_predicates(environment_dict):
                 no_match_predicate = "vacant"
                 predicate = "loc"
             elif field == "bundles":
+
                 # No "no match" predicate for bundles
                 predicate = "bundle_at"
             for entity in environment_dict[field]:

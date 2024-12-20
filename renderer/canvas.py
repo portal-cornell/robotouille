@@ -157,7 +157,7 @@ class RobotouilleCanvas:
         item_config = self.config["item"]["entities"][item_image_name]
 
         # Find the asset with most matches to current game state. If two or
-        # more assets have the same number of matches, the default asset is used. 
+        # more assets have the same number of matches, the default asset is used.
         max_matches = 0
         asset_config = item_config["assets"]
         chosen_asset = asset_config["default"]
@@ -599,11 +599,18 @@ class RobotouilleCanvas:
             position (np.array): (x, y) position of the condiment (with pix_square_size factor accounted for)
         """
         trimmed_condiment_name, condiment_ID = trim_item_ID(condiment_name)
-        condiment_image_name = self.config["condiment"]["entities"][trimmed_condiment_name]["assets"]["default"]
+        condiment_image_name = self.config["condiment"]["entities"][
+            trimmed_condiment_name
+        ]["assets"]["default"]
         x_scale_factor = self.config["condiment"]["constants"]["X_SCALE_FACTOR"]
         y_scale_factor = self.config["condiment"]["constants"]["Y_SCALE_FACTOR"]
 
-        self._draw_image(surface, f"{condiment_image_name}", position + self.pix_square_size * x_scale_factor, self.pix_square_size * y_scale_factor)
+        self._draw_image(
+            surface,
+            f"{condiment_image_name}",
+            position + self.pix_square_size * x_scale_factor,
+            self.pix_square_size * y_scale_factor,
+        )
 
     def _draw_condiment_image(self, surface, condiment_name, obs, position):
         """
@@ -616,11 +623,18 @@ class RobotouilleCanvas:
             position (np.array): (x, y) position of the condiment (with pix_square_size factor accounted for)
         """
         trimmed_condiment_name, condiment_ID = trim_item_ID(condiment_name)
-        condiment_image_name = self.config["condiment"]["entities"][trimmed_condiment_name]["assets"]["default"]
+        condiment_image_name = self.config["condiment"]["entities"][
+            trimmed_condiment_name
+        ]["assets"]["default"]
         x_scale_factor = self.config["condiment"]["constants"]["X_SCALE_FACTOR"]
         y_scale_factor = self.config["condiment"]["constants"]["Y_SCALE_FACTOR"]
 
-        self._draw_image(surface, f"{condiment_image_name}", position + self.pix_square_size * x_scale_factor, self.pix_square_size * y_scale_factor)
+        self._draw_image(
+            surface,
+            f"{condiment_image_name}",
+            position + self.pix_square_size * x_scale_factor,
+            self.pix_square_size * y_scale_factor,
+        )
 
     def _draw_floor(self, surface):
         """
@@ -718,7 +732,10 @@ class RobotouilleCanvas:
                 for predicate in asset_config[asset]["predicates"]:
                     if predicate in station_predicates:
                         matches += 1
-                if all(predicate in station_predicates for predicate in asset_config[asset]["predicates"]):
+                if all(
+                    predicate in station_predicates
+                    for predicate in asset_config[asset]["predicates"]
+                ):
                     if matches > max_matches:
                         max_matches = matches
                         chosen_asset = asset_config[asset]["asset"]
@@ -832,7 +849,11 @@ class RobotouilleCanvas:
                     and literal.params[0].name == player.name
                 ):
                     held_bundle_name = literal.params[1].name
-                if is_true and literal.name == "has_condiment" and literal.params[0].name == player.name:
+                if (
+                    is_true
+                    and literal.name == "has_condiment"
+                    and literal.params[0].name == player.name
+                ):
                     held_condiment_name = literal.params[1].name
             # Draw the item or container the player is holding
             if held_item_name:
@@ -852,6 +873,10 @@ class RobotouilleCanvas:
                     player_pos * self.pix_square_size,
                     bundle_asset,
                 )
+            if held_condiment_name:
+                self._draw_condiment_image(
+                    surface, held_condiment_name, obs, player_pos * self.pix_square_size
+                )
 
     def _find_held_containers(self, obs):
         """
@@ -866,9 +891,6 @@ class RobotouilleCanvas:
             if is_true and literal.name == "has_container":
                 held_containers.append(literal.params[1].name)
         return held_containers
-            if held_condiment_name:
-                self._draw_condiment_image(surface, held_condiment_name, obs, player_pos * self.pix_square_size)
-
 
     def _draw_item(self, surface, obs):
         """
@@ -1047,16 +1069,24 @@ class RobotouilleCanvas:
         Side effects:
             Draws the condiments to surface
         """
-        station_condiment_offset = self.config["condiment"]["constants"]["STATION_CONDIMENT_OFFSET"]
+        station_condiment_offset = self.config["condiment"]["constants"][
+            "STATION_CONDIMENT_OFFSET"
+        ]
         for literal, is_true in obs.predicates.items():
-            station_condiment_offset = self.config["condiment"]["constants"]["STATION_CONDIMENT_OFFSET"]
+            station_condiment_offset = self.config["condiment"]["constants"][
+                "STATION_CONDIMENT_OFFSET"
+            ]
             if is_true and literal.name == "condiment_at":
                 condiment = literal.params[0].name
                 station = literal.params[1].name
                 condiment_pos = self._get_station_position(station)
                 name, _ = trim_item_ID(condiment)
-                condiment_pos[1] -= self.config["condiment"]["entities"][name]["constants"].get("STATION_CONDIMENT_OFFSET", station_condiment_offset)
-                self._draw_condiment_image(surface, condiment, obs, condiment_pos * self.pix_square_size)
+                condiment_pos[1] -= self.config["condiment"]["entities"][name][
+                    "constants"
+                ].get("STATION_CONDIMENT_OFFSET", station_condiment_offset)
+                self._draw_condiment_image(
+                    surface, condiment, obs, condiment_pos * self.pix_square_size
+                )
 
     def _add_platforms_underneath_stations(self, stations, abstract_tile_matrix):
         """

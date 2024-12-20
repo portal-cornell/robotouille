@@ -136,6 +136,13 @@
             }
         },
         {
+            "name": "put-in-oven-bundle",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
             "name": "take-out-item",
             "input_instructions": {
                 "key": "p",
@@ -269,8 +276,6 @@
             }
         },
         {
-
-        
             "name": "add-ketchup",
             "input_instructions": {
                 "key": "e",
@@ -311,6 +316,35 @@
                 "key": "m",
                 "at": "s1"
             }
+        },
+        {
+            "name": "add-sauce",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "add-cheese",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "add-pepperoni",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "bake-pizza",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
         }
+
     ]
 }
