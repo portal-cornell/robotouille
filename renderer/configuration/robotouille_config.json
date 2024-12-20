@@ -217,6 +217,25 @@
                         "predicates": ["iscooked"]
                     }
                 },
+                "constants": {}
+            },
+            "noodles": {
+                "assets": {
+                    "default": "noodles.png"
+                },
+                "constants": {
+                    "X_SCALE_FACTOR": -0.01,
+                    "Y_SCALE_FACTOR": 0.01
+                }
+            },
+            "porkbelly": {
+                "assets": {
+                    "default": "porkbelly.png",
+                    "grilled": {
+                        "asset": "grilledporkbelly.png",
+                        "predicates": ["isgrilled"]
+                    }
+                },
                 "constants": {
                     "X_SCALE_FACTOR": -0.01,
                     "Y_SCALE_FACTOR": 0.01
@@ -448,6 +467,39 @@
                                 {"name": "addedto", "params": ["meatballs", "spaghettiwithmeatballs"]}
                             ]
                         }
+                    },
+                    "ramen": {
+                        "default": "pot_chickenstock.png",
+                        "boiling": {
+                            "asset": "pot_chickenstock_boil.png",
+                            "predicates":[
+                                {"name": "isboiling", "params": ["ramen"]}
+                            ]
+                        },
+                        "noodles": {
+                            "asset": "pot_noodles_chickenstock_boil.png",
+                            "predicates": [
+                                {"name": "isboiling", "params": ["ramen"]},
+                                {"name": "addedto", "params": ["noodles","ramen"]}
+                            ]
+                        },
+                        "egg": {
+                            "asset": "pot_egg_noodles_chickenstock_boil.png",
+                            "predicates": [
+                                {"name": "isboiling", "params": ["ramen"]},
+                                {"name": "addedto", "params": ["noodles","ramen"]},
+                                {"name": "addedto", "params": ["egg","ramen"]}
+                            ]
+                        },
+                        "porkbelly": {
+                            "asset": "pot_ramen.png",
+                            "predicates": [
+                                {"name": "isboiling", "params": ["ramen"]},
+                                {"name": "addedto", "params": ["noodles","ramen"]},
+                                {"name": "addedto", "params": ["egg","ramen"]},
+                                {"name": "addedto", "params": ["porkbelly","ramen"]}
+                            ]
+                        }
                     }
                 },
                 "constants": {}
@@ -466,6 +518,9 @@
                     },
                     "spaghettiwithmeatballs": {
                         "default": "bowl_tomatosauce_spaghetti_meatballs.png"
+                    },
+                    "ramen": {
+                        "default": "bowl_ramen.png"
                     }
                 },
                 "constants": {}
@@ -658,6 +713,12 @@
                 "assets": {
                     "default": "frostingbag.png",
                     "predicates": ["isfrostingbag"]
+                },
+                "constants": {}
+            },
+            "chickenstock": {
+                "assets": {
+                    "default": "chickenstock.png"
                 },
                 "constants": {}
             }

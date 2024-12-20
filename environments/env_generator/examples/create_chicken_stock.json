@@ -10,7 +10,7 @@
           "y": 1
       },
       {
-          "name": "blender",
+          "name": "table",
           "x": 2,
           "y": 1
       },
@@ -35,25 +35,23 @@
           "y": 2
       }
   ],
-  "items": [
-      {
-          "name": "tomato",
-          "x": 2,
-          "y": 2,
-          "stack-level": 0,
-          "id": "c"
-      }
-  ],
+  "items": [],
   "meals": [],
   "containers": [
       {
-          "name": "blendercup",
+          "name": "pot",
           "x": 2,
           "y": 1,
           "id": "a"
       }
   ],
-  "packages": [],
+  "packages": [
+      {
+          "name": "chickenstock",
+          "x": 0,
+          "y": 1
+      }
+  ],
   "players": [
       {
           "name": "robot",
@@ -62,17 +60,12 @@
           "direction": [1, 0]
       }
   ],
-  "goal_description": "Blend tomato in blender to make tomato sauce.",
+  "goal_description": "Pour the chicken stock into the pot.",
   "goal": [
       {
           "predicate": "in",
-          "args": ["spaghettiwithmeatballs", "blendercup"],
+          "args": ["ramen", "pot"],
           "ids": [1, 2]
-      },
-      {
-          "predicate": "isblended",
-          "args": ["spaghettiwithmeatballs"],
-          "ids": [1]
       }
   ]
 }

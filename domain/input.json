@@ -243,7 +243,14 @@
         {
             "name": "create-spaghettiwithmeatballs",
             "input_instructions": {
-                "key": "s",
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "fill-pot-with-chickenstock",
+            "input_instructions": {
+                "key": "e",
                 "at": "s1"
             }
         },
@@ -256,6 +263,13 @@
         },
         {
             "name": "boil-spaghettiwithmeatballs",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "boil-chickenstock",
             "input_instructions": {
                 "key": "e",
                 "at": "s1"
@@ -277,6 +291,13 @@
         },
         {
             "name": "boil-spaghettiwithmeatballs-on-oven",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "boil-chickenstock-on-oven",
             "input_instructions": {
                 "key": "e",
                 "at": "s1"

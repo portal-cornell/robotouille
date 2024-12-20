@@ -10,7 +10,7 @@
             "y": 1
         },
         {
-            "name": "stove",
+            "name": "table",
             "x": 1,
             "y": 1
         },
@@ -25,17 +25,12 @@
             "y": 1
         },
         {
-            "name": "stove",
-            "x": 4,
-            "y": 1
-        },
-        {
-            "name": "table",
+            "name": "grill",
             "x": 0,
             "y": 3
         },
         {
-            "name": "blender",
+            "name": "stove",
             "x": 1,
             "y": 3
         },
@@ -52,24 +47,18 @@
     ],
     "items": [
         {
-            "name": "spaghetti",
+            "name": "porkbelly",
             "x": 0,
             "y": 1,
-            "stack-level": 0
-        },
-        {
-            "name": "tomato",
-            "x": 0,
-            "y": 3,
-            "stack-level": 0
-        },
-        {
-            "name": "meatballs",
-            "x": 2,
-            "y": 3,
             "stack-level": 0,
-            "predicates": ["iscookable"],
+            "predicates": ["isgrillable"],
             "id": "A"
+        },
+        {
+            "name": "noodles",
+            "x": 1,
+            "y": 1,
+            "stack-level": 0
         }
     ],
     "meals": [],
@@ -77,26 +66,26 @@
         {
             "name": "pot",
             "x": 2,
-            "y": 1,
+            "y": 3,
             "id": "a"
-        },
-        {
-            "name": "blendercup",
-            "x": 1,
-            "y": 3,
-            "id": "b"
-        },
-        {
-            "name": "fryingpan",
-            "x": 3,
-            "y": 3,
-            "id": "c"
         },
         {
             "name": "bowl",
             "x": 3,
-            "y": 1,
-            "id": "d"
+            "y": 3,
+            "id": "b"
+        },
+        {
+            "name": "eggcarton",
+            "x": 3,
+            "y": 1
+        }
+    ],
+    "packages": [
+        {
+            "name": "chickenstock",
+            "x": 2,
+            "y": 1
         }
     ],
     "players": [
@@ -107,32 +96,32 @@
             "direction": [0, 1]
         }
     ],
-    "goal_description": "Make tomato sauce in boil it in a pot and put spaghetti and cooked meatballs in it and transfer it to a bowl.",
+    "goal_description": "Boil chicken stock in a pot and add noodles, egg, and grilled pork belly and transfer it to a bowl.",
     "goal": [
         {
-            "predicate": "isblended",
-            "args": ["spaghettiwithmeatballs"],
-            "ids": [1]
+            "predicate": "isgrilled",
+            "args": ["porkbelly"],
+            "ids": ["A"]
         },
         {
             "predicate": "addedto",
-            "args": ["spaghetti", "spaghettiwithmeatballs"],
+            "args": ["noodles", "ramen"],
             "ids": [2, 1]
         },
         {
             "predicate": "addedto",
-            "args": ["meatballs", "spaghettiwithmeatballs"],
+            "args": ["egg", "ramen"],
+            "ids": [3, 1]
+        },
+        {
+            "predicate": "addedto",
+            "args": ["porkbelly", "ramen"],
             "ids": ["A", 1]
         },
         {
-            "predicate": "iscooked",
-            "args": ["meatballs"],
-            "ids": ["A"]
-        },
-        {
             "predicate": "in",
-            "args": ["spaghettiwithmeatballs", "bowl"],
-            "ids": [1, "d"]
+            "args": ["ramen", "bowl"],
+            "ids": [1, "b"]
         }
     ]
 }
