@@ -224,6 +224,29 @@
                     }
                 },
                 "constants": {}
+            },
+            "butterchicken" : {
+                "assets": {
+                    "default": "wholechicken.png",
+                    "cut": {
+                        "asset": "cutchicken.png",
+                        "predicates": ["iscut"]
+                    },
+                    "battered": {
+                        "asset": "seasonedchicken.png",
+                        "predicates": ["iscut", "isbattered"]
+                    },
+                    "fried": {
+                        "asset": "friedbutterchicken.png",
+                        "predicates": ["iscut", "isbattered", "isfried"]
+                        
+                    },
+                    "buttered": {
+                        "asset": "butterchicken.png",
+                        "predicates": ["iscut", "isbattered", "isfried", "has_tomato_sauce"]
+                    }
+                },
+                "constants": {}
             } 
         }
     },
@@ -390,6 +413,13 @@
                 "assets": {
                     "default": "salt.png",
                     "predicates": ["issalt"]
+                },
+                "constants": {}
+            },
+            "tomatosauce": {
+                "assets": {
+                    "default": "tomatosauce.png",
+                    "predicates": ["istomatosauce"]
                 },
                 "constants": {}
             }

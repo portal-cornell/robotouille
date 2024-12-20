@@ -334,6 +334,18 @@
         {
             "name": "condiment_at",
             "param_types": ["condiment", "station"]
+        },
+        {
+            "name": "has_tomato_sauce",
+            "param_types": ["item"]
+        },
+        {
+            "name": "istomatosauce",
+            "param_types": ["condiment"]
+        },
+        {
+            "name": "isbutterchicken",
+            "param_types": ["item"]
         }
     ],
 
@@ -2211,6 +2223,40 @@
                     "sfx": []
                 }
             ]
+        },
+        {
+            "name": "add-tomatosauce",
+            "precons": [
+                
+                {
+                    "predicate": "istomatosauce",
+                    "params": ["cd1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "isfried",
+                    "params": ["i1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "loc",
+                    "params": ["p1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "item_at",
+                    "params": ["i1", "s1"],
+                    "is_true": true
+                }
+            ],
+            "immediate_fx": [
+                {
+                    "predicate": "has_tomato_sauce",
+                    "params": ["i1"],
+                    "is_true": true
+                }
+            ],
+            "sfx": []
         }
     ]
 }

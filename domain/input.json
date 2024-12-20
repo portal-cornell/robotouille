@@ -206,6 +206,13 @@
             }
         },
         {
+            "name": "add-tomatosauce",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
             "name": "roll-triangle",
             "input_instructions": {
                 "key": "t",
