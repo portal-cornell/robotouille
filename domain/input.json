@@ -255,6 +255,13 @@
             }
         },
         {
+            "name": "boil-spaghettiwithmeatballs",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
             "name": "blend",
             "input_instructions": {
                 "key": "b",
@@ -263,6 +270,13 @@
         },
         {
             "name": "boil-water-on-oven",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "boil-spaghettiwithmeatballs-on-oven",
             "input_instructions": {
                 "key": "e",
                 "at": "s1"
@@ -311,6 +325,13 @@
             }
         },
         {
+            "name": "fill-pot-from-blendercup",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
             "name": "fill-tray",
             "input_instructions": {
                 "key": "e",
@@ -319,6 +340,13 @@
         },
         {
             "name": "pan-cook",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "pan-cook-item",
             "input_instructions": {
                 "key": "e",
                 "at": "s1"

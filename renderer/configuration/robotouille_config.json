@@ -21,7 +21,7 @@
             "STATION_ITEM_OFFSET" : 0.25,
             "X_SCALE_FACTOR": 0.125,
             "Y_SCALE_FACTOR": 0.75,
-            "CONTAINER_ITEM_OFFSET": 0.35
+            "CONTAINER_ITEM_OFFSET": 0.25
         },
         "entities": {
             "bottombun": {
@@ -209,15 +209,18 @@
                 },
                 "constants": {}
             },
-            "meatball": {
+            "meatballs": {
                 "assets": {
                     "default": "meatballs.png",
-                    "cut": {
+                    "cooked": {
                         "asset": "cooked_meatballs.png",
                         "predicates": ["iscooked"]
                     }
                 },
-                "constants": {}
+                "constants": {
+                    "X_SCALE_FACTOR": -0.01,
+                    "Y_SCALE_FACTOR": 0.01
+                }
             },
             "rollingpin": {
                 "assets": {
@@ -418,7 +421,31 @@
                             "asset": "pot_soup.png",
                             "predicates": [
                                 {"name": "isboiling", "params": ["water"]},
-                                {"name": "addedto", "params": ["", "water"]}
+                                {"name": "addedto", "params": ["tomato", "water"]}
+                            ]
+                        }
+                    },
+                    "spaghettiwithmeatballs": {
+                        "default": "pot_tomatosauce.png",
+                        "boiling": {
+                            "asset": "pot_tomatosauce_boil.png",
+                            "predicates":[
+                                {"name": "isboiling", "params": ["spaghettiwithmeatballs"]}
+                            ]
+                        },
+                        "spaghetti": {
+                            "asset": "pot_tomatosauce_spaghetti_boil.png",
+                            "predicates": [
+                                {"name": "isboiling", "params": ["spaghettiwithmeatballs"]},
+                                {"name": "addedto", "params": ["spaghetti", "spaghettiwithmeatballs"]}
+                            ]
+                        },
+                        "meatballs": {
+                            "asset": "pot_tomatosauce_spaghetti_meatballs_boil.png",
+                            "predicates": [
+                                {"name": "isboiling", "params": ["spaghettiwithmeatballs"]},
+                                {"name": "addedto", "params": ["spaghetti", "spaghettiwithmeatballs"]},
+                                {"name": "addedto", "params": ["meatballs", "spaghettiwithmeatballs"]}
                             ]
                         }
                     }
@@ -436,6 +463,9 @@
                                 {"name": "addedto", "params": ["", "water"]}
                             ]
                         }
+                    },
+                    "spaghettiwithmeatballs": {
+                        "default": "bowl_tomatosauce_spaghetti_meatballs.png"
                     }
                 },
                 "constants": {}
@@ -501,9 +531,9 @@
                         }
                     },
                     "spaghettiwithmeatballs": {
-                        "default": "blender_empty.png",
+                        "default": "tomatosauce.png",
                         "blended": {
-                            "asset": "blender_full.png",
+                            "asset": "blended_tomatosauce.png",
                             "predicates": [
                                 {"name": "isblended", "params": ["spaghettiwithmeatballs"]}
                             ]

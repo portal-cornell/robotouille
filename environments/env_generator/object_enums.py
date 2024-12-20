@@ -25,6 +25,8 @@ class Item(Enum):
     DUMPLINGDOUGH = "dumplingdough"
     COOKEDDUMPLING = "cookeddumpling"
     GROUNDMEAT = "groundmeat"
+    MEATBALLS = "meatballs"
+    SPAGHETTI = "spaghetti"
 
 class Player(Enum):
     ROBOT = "robot"
@@ -57,6 +59,7 @@ class Meal(Enum):
     PANCAKEBATTER = "pancakebatter"
     CUPCAKEBATTER = "cupcakebatter"
     DUMPLING = "dumpling"
+    SPAGHETTIWITHMEATBALLS = "spaghettiwithmeatballs"
 
 class Package(Enum):
     KETCHUP = "ketchupbottle"
