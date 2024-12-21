@@ -154,7 +154,7 @@
                 "assets": {
                     "default": "patty.png",
                     "grinded": {
-                        "asset": "cookedpatty.png",
+                        "asset": "groundmeat.png",
                         "predicates": ["isgrinded"]
                     }
                 },
@@ -186,11 +186,11 @@
                         "predicates": ["iscircle"]
                     },
                     "filled": {
-                        "asset": "croissant.png",
+                        "asset": "dumplingdough_filled.png",
                         "predicates": ["isfilled", "iscircle"]
                     },
                     "shaped": {
-                        "asset": "baked_croissant.png",
+                        "asset": "dumplingdough_shaped.png",
                         "predicates": ["isshaped"]
                     }
                 },
@@ -198,7 +198,7 @@
             },
             "cookeddumpling": {
                 "assets": {
-                    "default": "baked_croissant.png"
+                    "default": "cookeddumpling.png"
                 },
                 "constants": {}
             },
@@ -317,13 +317,16 @@
             },
             "grinder": {
                 "assets": {
-                    "default": "oven.png",
+                    "default": "grinder.png",
                     "grinder_on": {
-                        "asset": "oven_on.png",
+                        "asset": "grinder_on.png",
                         "predicates": ["grinder_on"]
                     }
                 },
-                "constants": {}
+                "constants": {
+                    "STATION_OFFSET": 0.20,
+                    "underneath": "T"
+                }
             },
             "batter_station": {
                 "assets": {
@@ -510,13 +513,13 @@
                     "dumpling": {
                         "default": "fryingpan.png",
                         "uncooked": {
-                            "asset": "pancake.png",
+                            "asset": "dumpling_in_pan.png",
                             "predicates": [
                                 {"name": "in", "params": ["dumpling", "fryingpan"]}
                             ]
                         },
                         "cooked": {
-                            "asset": "cookedchicken.png",
+                            "asset": "cooked_dumpling_in_pan.png",
                             "predicates": [
                                 {"name": "cooked", "params": ["dumpling"]},
                                 {"name": "in", "params": ["dumpling", "fryingpan"]}
@@ -524,7 +527,9 @@
                         }
                     }
                 },
-                "constants": {}
+                "constants": {
+                    "STATION_CONTAINER_OFFSET": 0.105
+                }
             },
             "cupcaketray": {
                 "assets": {
