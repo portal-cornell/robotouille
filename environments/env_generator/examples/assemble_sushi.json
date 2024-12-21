@@ -1,0 +1,90 @@
+{
+    "version": "1.0.0",
+    "width": 5,
+    "height": 5,
+    "config": {
+        "num_cuts": {
+            "lettuce": 3,
+            "default": 3
+        },
+        "cook_time": {
+            "patty": 3,
+            "default": 3
+        }
+    },
+    "stations": [
+        {
+            "name": "table",
+            "x": 0,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 1,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 2,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 3,
+            "y": 1
+        },
+        {
+            "name": "stove",
+            "x": 4,
+            "y": 4
+        }
+    ],
+    "items": [
+        {
+            "name": "rice",
+            "x": 0,
+            "y": 1,
+            "stack-level": 0,
+            "predicates": ["iscooked", "iscookable"]
+        },
+        {
+            "name": "cucumber",
+            "x": 2,
+            "y": 1,
+            "stack-level": 0,
+            "predicates": ["iscut", "iscuttable"]
+        },
+        {
+            "name": "salmon",
+            "x": 1,
+            "y": 1,
+            "stack-level": 0,
+            "predicates": ["iscut", "iscuttable"]
+        }
+    ],
+    "meals": [],
+    "containers": [],
+    "bundles": [
+        {
+            "name": "seaweed",
+            "x": 3,
+            "y": 1,
+            "id": 1
+        }
+    ],
+    "players": [
+        {
+            "name": "robot",
+            "x": 0,
+            "y": 0,
+            "direction": [0, 1]
+        }
+    ],
+    "goal": [
+        {
+            "predicate": "bundle_at",
+            "args": ["seaweed", "stove"],
+            "ids": [1, 2]
+        }
+    ]
+}
