@@ -26,6 +26,7 @@ zipp==3.14.0
 
 # OAuth server and client dependencies
 Flask==2.3.3
+flask_sqlalchemy==3.1.1
 psycopg2-binary==2.9.9
 PyJWT==2.8.0
 python-dotenv==1.0.0
