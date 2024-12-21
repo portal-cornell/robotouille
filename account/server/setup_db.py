@@ -16,6 +16,7 @@ def get_superuser_credentials():
 
 def setup_database(config: Config):
     """Set up the database using configuration settings."""
+    print("\nWARNING: This will erase all existing data in the database.")
     superuser, password = get_superuser_credentials()
     
     # Connect to default database as superuser
@@ -68,18 +69,20 @@ def setup_database(config: Config):
         
         # Create tables
         cur.execute("""
+            DROP TABLE IF EXISTS refresh_tokens;
+            DROP TABLE IF EXISTS users;
+                    
             CREATE TABLE IF NOT EXISTS users (
                 id SERIAL PRIMARY KEY,
                 google_id TEXT UNIQUE NOT NULL,
                 email TEXT UNIQUE NOT NULL,
                 name TEXT NOT NULL,
                 picture TEXT,
+                stars INTEGER DEFAULT 0,
+                level INTEGER DEFAULT 1,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 last_login TIMESTAMP
             );
-            
-            CREATE INDEX IF NOT EXISTS idx_users_google_id ON users(google_id);
-            CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
         """)
         
         cur.execute("""
@@ -87,7 +90,7 @@ def setup_database(config: Config):
                 id SERIAL PRIMARY KEY,
                 user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
                 token TEXT UNIQUE NOT NULL,
-                issued_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 expires_at TIMESTAMP NOT NULL,
                 revoked_at TIMESTAMP,
                 issuer_ip TEXT

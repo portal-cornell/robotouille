@@ -78,7 +78,6 @@ python setup_db.py
    ```
 
 2. The server will:
-   - Create necessary database tables if they don't exist
    - Start listening on configured host:port (default: localhost:8000)
    - Create a logs directory and begin logging
 
@@ -110,11 +109,11 @@ Updates a user's username (requires authentication).
 
 ## Client Integration
 
-The server is designed to work with the provided Python OAuth client. See the client documentation for integration details.
+The server is designed to work with the provided Python OAuth client. The client uses a callback-based system for handling authentication events.
 
-Example client usage:
+### Basic Usage
 ```python
-from oauth_client import OAuthManager
+from oauth_client import OAuthManager, UserInfo
 
 oauth = OAuthManager(
     client_id="your-google-client-id",
@@ -122,11 +121,72 @@ oauth = OAuthManager(
     backend_url="http://localhost:8000"
 )
 
-def on_login(user):
+# Define callback handlers
+def on_login_success(user: UserInfo):
     print(f"Logged in as {user.name}")
+    print(f"Email: {user.email}")
 
-oauth.login(on_success=on_login)
+def on_logout():
+    print("User logged out")
+
+# Start login process with callbacks
+oauth.login(on_success=on_login_success, on_logout=on_logout)
 ```
+
+### Callback System
+
+The OAuth client uses an event-based callback system that runs callbacks on the main thread to ensure thread safety.
+
+#### Available Callbacks
+
+1. **Login Success Callback**
+   - Triggered when login completes successfully
+   - Receives a `UserInfo` object with user details
+   ```python
+   def on_login_success(user: UserInfo):
+       """
+       Args:
+           user: UserInfo object containing:
+               - id: int
+               - name: str
+               - email: str
+               - picture: Optional[str]
+       """
+       print(f"Logged in as {user.name}")
+   ```
+
+2. **Logout Callback**
+   - Triggered when user logs out or tokens become invalid
+   - Receives no arguments
+   ```python
+   def on_logout():
+       """Called when user logs out or session expires"""
+       print("Session ended")
+   ```
+
+#### Processing Callbacks
+
+If you're using the client in a GUI application or any environment with an event loop, you need to regularly process callbacks:
+
+```python
+# In your main event loop
+while True:
+    # Process any pending callbacks
+    oauth.process_callbacks()
+    
+    # Your other application logic
+    ...
+```
+
+### Token Management
+
+The client automatically handles token refresh and persistence. If a token expires:
+
+1. The client will attempt to refresh it automatically
+2. If refresh fails, the `on_logout` callback will be triggered
+3. If refresh succeeds, the session continues without interruption
+
+Call `refresh_tokens` to update the client to the latest user information.
 
 ## Security Notes
 
