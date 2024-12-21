@@ -20,7 +20,8 @@
         "constants": {
             "STATION_ITEM_OFFSET" : 0.25,
             "X_SCALE_FACTOR": 0.125,
-            "Y_SCALE_FACTOR": 0.75
+            "Y_SCALE_FACTOR": 0.75,
+            "CONTAINER_ITEM_OFFSET": 0.35
         },
         "entities": {
             "bottombun": {
@@ -122,7 +123,37 @@
                     }
                 },
                 "constants": {}
-            } 
+            },
+            "salmon": {
+                "assets": {
+                    "default": "salmon.png",
+                    "cut": {
+                        "asset": "cutsalmon.png",
+                        "predicates": ["iscut"]
+                    }
+                },
+                "constants": {}
+            },
+            "cucumber": {
+                "assets": {
+                    "default": "cucumber.png",
+                    "cut": {
+                        "asset": "cutcucumber.png",
+                        "predicates": ["iscut"]
+                    }
+                },
+                "constants": {}
+            },
+            "rice": {
+                "assets": {
+                    "default": "rice.png",
+                    "cooked": {
+                        "asset": "cookedrice.png",
+                        "predicates": ["iscooked"]
+                    }
+                },
+                "constants": {}
+            }   
         }
     },
 
@@ -228,6 +259,12 @@
                 },
                 "constants": {}
             },
+
+            "egg_carton": {
+                "assets": {
+                    "default": "eggcarton.png"
+                }
+            },
             "blendercup": {
                 "assets": {
                     "default": "blender_empty.png"
@@ -236,8 +273,27 @@
                     "STATION_CONTAINER_OFFSET": 0.5
                 }
             }
+            
+        }
+    },
+    "bundle": {
+        "constants": {
+            "STATION_BUNDLE_OFFSET" : 0.25,
+            "X_SCALE_FACTOR": 0.125,
+            "Y_SCALE_FACTOR": 0.75
+        },
+        "entities": {
+            "seaweed": {
+                "assets": {
+                    "default": "seaweed.png",
+                    "sushi": {
+                        "default": "sushi.png",
+                        "predicates": ["isrolled"]
+                    }
+                },
+                "constants": {}
+            }
         }
     }
-
 
 }
