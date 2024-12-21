@@ -1,0 +1,69 @@
+{
+    "version": "1.0.0",
+    "width": 3,
+    "height": 3,
+    "config": {
+        "cook_time": {
+            "hotdog": 3,
+            "default": 3
+        }
+    },
+    "stations": [
+        {
+            "name": "table",
+            "x": 0,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 2,
+            "y": 1,
+            "id": "A"
+        },
+        {
+            "name": "table",
+            "x": 0,
+            "y": 0
+        },
+        {
+            "name": "table",
+            "x": 2,
+            "y": 0
+        }
+    ],
+    "items": [
+        {
+            "name": "cupcake",
+            "x": 0,
+            "y": 1,
+            "stack-level": 0,
+            "predicates": ["can_add_frosting"],
+            "id": "a"
+        }
+    ],
+    "packages": [
+        {
+            "name": "frostingbag",
+            "x": 0,
+            "y": 0,
+            "stack-level": 0,
+            "id": "b"
+        }
+    ],
+    "players": [
+        {
+            "name": "robot",
+            "x": 1,
+            "y": 0,
+            "direction": [-1, 0]
+        }
+    ],
+    "goal description": "Add frosting to a baked cupcake.",
+    "goal": [
+        {
+            "predicate": "has_frosting",
+            "args": ["cupcake"],
+            "ids": ["a"]
+        }
+    ]
+}

@@ -1,0 +1,87 @@
+{
+  "version": "1.0.0",
+  "width": 3,
+  "height": 3,
+  "config": {},
+  "stations": [
+      {
+          "name": "table",
+          "x": 0,
+          "y": 1
+      },
+      {
+          "name": "blender",
+          "x": 2,
+          "y": 1
+      },
+      {
+          "name": "table",
+          "x": 0,
+          "y": 0
+      },
+      {
+          "name": "table",
+          "x": 2,
+          "y": 0
+      }
+  ],
+  "items": [],
+  "meals": [],
+  "containers": [
+      {
+          "name": "blendercup",
+          "x": 2,
+          "y": 1,
+          "id": "a"
+      },
+      {
+          "name": "eggcarton",
+          "x": 2,
+          "y": 0,
+          "id": "b"
+      }
+  ],
+  "packages": [
+      {
+          "name": "milkcarton",
+          "x": 0,
+          "y": 0
+      },
+      {
+          "name": "flourbag",
+          "x": 0,
+          "y": 1
+      }
+  ],
+  "players": [
+      {
+          "name": "robot",
+          "x": 1,
+          "y": 0,
+          "direction": [1, 0]
+      }
+  ],
+  "goal_description": "",
+  "goal": [
+      {
+          "predicate": "in",
+          "args": ["pancakebatter", "blendercup"],
+          "ids": [1, "a"]
+      },
+      {
+          "predicate": "addedcontent",
+          "args": ["flourbag", "pancakebatter"],
+          "ids": [2, 1]
+      },
+      {
+          "predicate": "addedto",
+          "args": ["egg", "pancakebatter"],
+          "ids": [3, 1]
+      },
+      {
+        "predicate": "isblended",
+        "args": ["pancakebatter"],
+        "ids": [1]
+      }
+  ]
+}

@@ -3,7 +3,7 @@ import json
 import os
 import copy
 import itertools
-from .object_enums import Item, Player, Station, Container, Meal, str_to_typed_enum, TYPES
+from .object_enums import Item, Player, Station, Container, Meal, Package, str_to_typed_enum, TYPES
 from .procedural_generator import randomize_environment
 import random
 
@@ -15,8 +15,9 @@ ITEM_FIELD = "items"
 PLAYER_FIELD = "players"
 MEAL_FIELD = "meals"
 CONTAINER_FIELD = "containers"
+PACKAGE_FIELD = "packages"
 
-ENTITY_FIELDS = [STATION_FIELD, ITEM_FIELD, PLAYER_FIELD, CONTAINER_FIELD, MEAL_FIELD]
+ENTITY_FIELDS = [STATION_FIELD, ITEM_FIELD, PLAYER_FIELD, CONTAINER_FIELD, MEAL_FIELD, PACKAGE_FIELD]
 
 def entity_to_entity_field(entity):
     """
@@ -44,6 +45,7 @@ def entity_to_entity_field(entity):
         elif isinstance(typed_enum, Player): return PLAYER_FIELD
         elif isinstance(typed_enum, Meal): return MEAL_FIELD
         elif isinstance(typed_enum, Container): return CONTAINER_FIELD
+        elif isinstance(typed_enum, Package): return PACKAGE_FIELD
     except ValueError:
         # Convert wild card entities into entity fields
         if entity == STATION_FIELD[:-1]: return STATION_FIELD
@@ -51,6 +53,7 @@ def entity_to_entity_field(entity):
         elif entity == PLAYER_FIELD[:-1]: return PLAYER_FIELD
         elif entity == MEAL_FIELD[:-1]: return MEAL_FIELD
         elif entity == CONTAINER_FIELD[:-1]: return CONTAINER_FIELD
+        elif entity == PACKAGE_FIELD[:-1]: return PACKAGE_FIELD
     raise ValueError(f"Cannot convert {entity} into an entity field.")
 
 def load_environment(json_filename, seed=None):
@@ -337,9 +340,13 @@ def create_combinations(combination_dict):
         ids = list(combination_dict[arg]['ids'])
         id_order += ids
         entities = combination_dict[arg]['entities']
+        # If the environment doesn't initially have the entity, then create a new entity
+        # for each unique ID
         if entities == []:
-            for id in ids:
-                entities.append(arg + id)
+            id_counter = 1
+            for _ in range(len(ids)):
+                entities.append(arg + str(id_counter))
+                id_counter += 1
         permutations = list(itertools.permutations(entities, len(ids)))
         combination_list.append(permutations)
     product = itertools.product(*combination_list)

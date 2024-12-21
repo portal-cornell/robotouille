@@ -1,0 +1,97 @@
+{
+  "version": "1.0.0",
+  "width": 3,
+  "height": 3,
+  "config": {},
+  "stations": [
+      {
+          "name": "table",
+          "x": 0,
+          "y": 1
+      },
+      {
+          "name": "blender",
+          "x": 2,
+          "y": 1
+      },
+      {
+          "name": "table",
+          "x": 0,
+          "y": 0
+      },
+      {
+          "name": "table",
+          "x": 2,
+          "y": 0
+      },
+      {
+          "name": "table",
+          "x": 0,
+          "y": 2
+      },
+      {
+          "name": "table",
+          "x": 2,
+          "y": 2
+      }
+  ],
+  "items": [
+      {
+          "name": "butter",
+          "x": 2,
+          "y": 2,
+          "stack-level": 0,
+          "predicates": ["iscuttable"],
+          "id": "c"
+      }
+  ],
+  "meals": [],
+  "containers": [
+      {
+          "name": "blendercup",
+          "x": 2,
+          "y": 1,
+          "id": "a"
+      },
+      {
+          "name": "eggcarton",
+          "x": 2,
+          "y": 0,
+          "id": "b"
+      },
+      {
+          "name": "cupcaketray",
+        "x": 0,
+        "y": 1,
+        "id": "d"
+      }
+  ],
+  "packages": [
+      {
+          "name": "milkcarton",
+          "x": 0,
+          "y": 0
+      },
+      {
+          "name": "flourbag",
+          "x": 0,
+          "y": 2
+      }
+  ],
+  "players": [
+      {
+          "name": "robot",
+          "x": 1,
+          "y": 0,
+          "direction": [1, 0]
+      }
+  ],
+  "goal_description": "Transfer blended cupcake batter to a cupcake tray",
+  "goal": [
+      {
+          "predicate": "in",
+          "args": ["cupcakebatter", "cupcaketray"],
+          "ids": [1, "d"]
+      }
+  ]
+}
