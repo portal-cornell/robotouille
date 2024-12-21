@@ -1,0 +1,83 @@
+{
+    "version": "1.0.0",
+    "width": 3,
+    "height": 3,
+    "config": {
+        "cook_time": {
+            "turkey": 3,
+            "default": 3
+        }
+    },
+    "stations": [
+        {
+            "name": "table",
+            "x": 0,
+            "y": 1
+        },
+        {
+            "name": "stove",
+            "x": 2,
+            "y": 1,
+            "id": "A"
+        },
+        {
+            "name": "table",
+            "x": 0,
+            "y": 0
+        },
+        {
+            "name": "stove",
+            "x": 2,
+            "y": 0,
+            "id": "B"
+        }
+    ],
+    "items": [
+        {
+            "name": "turkey",
+            "x": 0,
+            "y": 1,
+            "stack-level": 0,
+            "predicates": ["isroastable"],
+            "id": "a"
+        },
+        {
+            "name": "turkey",
+            "x": 0,
+            "y": 0,
+            "stack-level": 0,
+            "predicates": ["isroastable"],
+            "id": "b"
+        }
+    ],
+    "players": [
+        {
+            "name": "robot",
+            "x": 1,
+            "y": 0,
+            "direction": [-1, 0]
+        }
+    ],
+    "goal": [
+        {
+            "predicate": "isroasted",
+            "args": ["turkey"],
+            "ids": ["a"]
+        },
+        {
+            "predicate": "isroasted",
+            "args": ["turkey"],
+            "ids": ["b"]
+        },
+        {
+          "predicate": "item_at",
+          "args": ["turkey", "table"],
+          "ids": ["a", 1]
+        },
+        {
+          "predicate": "item_at",
+          "args": ["turkey", "table"],
+          "ids": ["b", 2]
+        }
+    ]
+}
