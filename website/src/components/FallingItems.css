@@ -1,0 +1,43 @@
+.falling-item {
+  position: absolute;
+  top: -100px;
+  left: calc(100% * var(--random-position));
+  animation: fall linear infinite;
+  width: 70px;
+  height: auto;
+  animation-duration: calc(4s + var(--random-duration));
+  animation-play-state: var(--random-delay); /* Default to running */
+}
+
+.falling-item.paused {
+  animation-play-state: paused; /* Pause animation when class is applied */
+}
+
+.falling-items-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.toggle-button {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+@keyframes fall {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(calc(100vh + 400px));
+  }
+}
