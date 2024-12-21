@@ -100,6 +100,10 @@
             "param_types": ["item"]
         },
         {
+            "name": "iscircle",
+            "param_types": ["item"]
+        },
+        {
             "name": "isfryable",
             "param_types": ["item"]
         },
@@ -213,10 +217,6 @@
         },
         {
             "name": "has_salt",
-            "param_types": ["item"]
-        },
-        {
-            "name": "has_condiments",
             "param_types": ["item"]
         },
         {
@@ -2191,22 +2191,12 @@
                     "param": "i1",
                     "conditions": [
                         {
-                            "predicate": "item_on",
-                            "params": ["i1", "s1"],
-                            "is_true": true
-                        },
-                        {
-                            "predicate": "istriangle",
+                            "predicate": "iscroissant",
                             "params": ["i1"],
                             "is_true": true
                         }
                     ],
                     "fx": [
-                        {
-                            "predicate": "isshaped",
-                            "params": ["i1"],
-                            "is_true": true
-                        },
                         {
                             "predicate": "isbakeable",
                             "params": ["i1"],
@@ -2214,6 +2204,25 @@
                         },
                         {
                             "predicate": "istriangle",
+                            "params": ["i1"],
+                            "is_true": false
+                        }
+                    ],
+                    "sfx": []
+                },
+                {
+                    "type": "conditional",
+                    "param": "i1",
+                    "conditions": [
+                        {
+                            "predicate": "iscircle",
+                            "params": ["i1"],
+                            "is_true": true
+                        }
+                    ],
+                    "fx": [
+                        {
+                            "predicate": "iscircle",
                             "params": ["i1"],
                             "is_true": false
                         }
