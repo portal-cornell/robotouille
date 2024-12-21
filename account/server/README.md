@@ -11,13 +11,14 @@ The server uses a combination of environment variables and YAML configuration.
    # Database credentials
    DB_USER=your_db_user
    DB_PASSWORD=your_db_password
-
-   # Security
-   JWT_SECRET=your-very-secure-random-secret
+   DB_NAME=your_db_name
 
    # Google OAuth credentials
    GOOGLE_CLIENT_ID=your-google-client-id
    GOOGLE_CLIENT_SECRET=your-google-client-secret
+
+   # Security
+   JWT_SECRET=your-secure-jwt-secret
    ```
 
 2. Optionally customize `config.yml` (default values shown):
