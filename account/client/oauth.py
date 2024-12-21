@@ -12,6 +12,8 @@ from dataclasses import dataclass
 from typing import Optional, Dict, Callable
 from enum import Enum, auto
 
+os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+
 class LoginStatus(Enum):
     """Enum representing the current status of the login process."""
     NOT_STARTED = auto()
@@ -25,6 +27,8 @@ class UserInfo:
     id: int
     name: str
     email: str
+    stars: int
+    level: int
     picture: Optional[str] = None
 
 @dataclass
@@ -170,12 +174,7 @@ class OAuthManager:
             return
             
         data = {
-            'user': {
-                'id': self.user.id,
-                'name': self.user.name,
-                'email': self.user.email,
-                'picture': self.user.picture
-            },
+            'user': vars(self.user),
             'access_token': self.access_token,
             'refresh_token': self.refresh_token
         }
@@ -189,6 +188,8 @@ class OAuthManager:
             id=user_data['id'],
             name=user_data['name'],
             email=user_data['email'],
+            stars=user_data['stars'],
+            level=user_data['level'],
             picture=user_data.get('picture')
         )
     
@@ -204,6 +205,7 @@ class OAuthManager:
     def load_stored_credentials(self) -> bool:
         """
         Load stored user credentials if available.
+        Updates login status if successful.
         
         Returns:
             bool: True if credentials were loaded successfully
@@ -215,14 +217,20 @@ class OAuthManager:
                     self._update_user(data['user'])
                     self.access_token = data['access_token']
                     self.refresh_token = data['refresh_token']
-                    return self.refresh_tokens()
-        except Exception:
-            pass
+                    if self.refresh_tokens():
+                        self.login_status = LoginStatus.SUCCESS 
+                        return True
+                    else:
+                        self.logout()  # Clear invalid credentials
+        except Exception as e:
+            print(f"Error in loading stored credentials: {e}")
+            self.logout()
         return False
     
     def refresh_tokens(self) -> bool:
         """
         Refresh access and refresh tokens.
+        Updates login status based on result.
         
         Returns:
             bool: True if refresh was successful
@@ -242,12 +250,15 @@ class OAuthManager:
                 self.refresh_token = result['refresh_token']
                 self._update_user(result['user'])
                 self._save_user_data()
+                self.login_status = LoginStatus.SUCCESS
                 return True
             else:
                 self.logout()
                 return False
                 
-        except Exception:
+        except Exception as e:
+            print(f"Error in refreshing tokens: {e}")
+            self.logout()
             return False
     
     def login(
@@ -331,18 +342,23 @@ class OAuthManager:
         return self.login_status, self.login_error
     
     def logout(self):
-        """Log out the current user."""
+        """Log out the current user and clean up stored credentials."""
         try:
-            os.remove(self.user_file)
-        except:
-            pass
-        
-        self.user = None
-        self.access_token = None
-        self.refresh_token = None
-        
-        if self._logout_callback:
-            self._queue_callback(self._logout_callback)
+            if os.path.exists(self.user_file):
+                os.remove(self.user_file)
+                print(f"Removed credentials file: {self.user_file}")
+        except Exception as e:
+            print(f"Error removing credentials file: {e}")
+        finally:
+            # Reset state even if file removal fails
+            self.user = None
+            self.access_token = None
+            self.refresh_token = None
+            self.login_status = LoginStatus.NOT_STARTED
+            self.login_error = None
+            
+            if self._logout_callback:
+                self._queue_callback(self._logout_callback)
     
     def update_username(self, new_username: str) -> bool:
         """
@@ -377,7 +393,45 @@ class OAuthManager:
                     self.logout()
             return False
             
-        except Exception:
+        except Exception as e:
+            print(f"Error in updating username: {e}")
+            return False
+    
+    def update_picture(self, new_picture: str) -> bool:
+        """
+        Update the user's picture.
+        
+        Args:
+            new_picture: New picture text to set
+                
+        Returns:
+            bool: True if update was successful
+        """
+        if not self.access_token or not self.user:
+            return False
+            
+        try:
+            response = requests.post(
+                f"{self.backend_url}/api/update_picture",
+                headers={'Authorization': f'Bearer {self.access_token}'},
+                json={'new_picture': new_picture}
+            )
+            
+            if response.status_code == 200:
+                result = response.json()
+                self._update_user(result['user'])
+                self._save_user_data()
+                return True
+            elif response.status_code == 401:
+                # Currently lacking valid credentials
+                if self.refresh_tokens():
+                    return self.update_picture(new_picture)
+                else:
+                    self.logout()
+            return False
+            
+        except Exception as e:
+            print(f"Error in updating picture: {e}")
             return False
     
     def get_user(self) -> Optional[UserInfo]:
