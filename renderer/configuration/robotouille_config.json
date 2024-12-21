@@ -99,10 +99,6 @@
                         "has_mustard": {
                             "asset": "mustard_hotdog.png",
                             "predicates": ["has_mustard"]
-                        },
-                        "has_ketchup_mustard": {
-                            "asset": "ketchup_mustard_hotdog.png",
-                            "predicates": ["has_ketchup_mustard"]
                         }
                     }
                 },
@@ -318,22 +314,19 @@
         "entities": {
             "ketchupbottle": {
                 "assets": {
-                    "default": "ketchupbottle.png",
-                    "predicates": ["isketchup"]
+                    "default": "ketchupbottle.png"
                 },
                 "constants": {}
             },
             "mustardbottle": {
                 "assets": {
-                    "default": "mustardbottle.png",
-                    "predicates": ["ismustard"]
+                    "default": "mustardbottle.png"
                 },
                 "constants": {}
             },
             "salt": {
                 "assets": {
-                    "default": "salt.png",
-                    "predicates": ["issalt"]
+                    "default": "salt.png"
                 },
                 "constants": {}
             }
