@@ -45,12 +45,12 @@ const FallingItems = () => {
   return (
     <div className="relative w-full h-full overflow-hidden">
       {/* Toggle Button */}
-      <div className="absolute top-20 z-10 bg-white shadow-md w-full">
+      <div className="absolute top-48 z-10 w-full">
         <button
-          className="mx-auto my-2 block p-2 text-sm font-roboto-slab bg-blue-500 text-white rounded-md shadow-md"
+          className="mx-auto my-2 block p-2 text-sm font-roboto-slab bg-primary-darkBlue text-white rounded-md shadow-md"
           onClick={() => setAnimationEnabled(!animationEnabled)}
         >
-          {animationEnabled ? "Pause" : "Play"}
+          {animationEnabled ? "Pause Animation" : "Start Animation"}
         </button>
       </div>
 
@@ -74,6 +74,7 @@ const FallingItems = () => {
               left: `calc(100% * var(--random-position))`,
               width: "70px", // Customize size
               height: "auto", // Maintain aspect ratio
+              animationTimingFunction: "ease-in",
             }}
           />
         ))}

@@ -6,7 +6,7 @@
   width: 70px;
   height: auto;
   animation-duration: calc(4s + var(--random-duration));
-  animation-play-state: running; /* Default to running */
+  animation-play-state: var(--random-delay); /* Default to running */
 }
 
 .falling-item.paused {
@@ -38,6 +38,6 @@
   }
 
   100% {
-    transform: translateY(100vh);
+    transform: translateY(calc(100vh + 400px));
   }
 }

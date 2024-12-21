@@ -16,38 +16,42 @@ const App = () => {
     <Router>
       {/* Header is displayed on all pages */}
       <Header />
-      <div className="pt-[7.5rem] lg:pt-[8rem] overflow-hidden min-h-screen bg-primary-blue">
+      <div className="pt-[7.5rem] lg:pt-[8rem] overflow-hidden min-h-screen bg-primary-blue relative">
+        {/* Falling Items */}
         <div className="absolute top-0 left-0 w-full h-full z-0">
           <FallingItems />
         </div>
-        <Title />
-        <Socials />
 
-        <Routes>
-          {/* Home Page */}
-          <Route
-            path="/"
-            element={
-              <>
-                <main>
-                  <YoutubeVideo />
-                  <div className="flex justify-center items-center mt-10 mb-10">
-                    <Download />
-                  </div>
-                </main>
-              </>
-            }
-          />
+        {/* Content Above Falling Items */}
+        <div className="relative z-10">
+          <Title />
+          <Socials />
+          <Routes>
+            {/* Home Page */}
+            <Route
+              path="/"
+              element={
+                <>
+                  <main>
+                    <YoutubeVideo />
+                    <div className="flex justify-center items-center mt-10 mb-10">
+                      <Download className="py-4 px-10 text-2xl" />
+                    </div>
+                  </main>
+                </>
+              }
+            />
 
-          {/* About Page */}
-          <Route path="/about" element={<About />} />
+            {/* About Page */}
+            <Route path="/about" element={<About />} />
 
-          {/* Team Page */}
-          <Route path="/team" element={<Team />} />
+            {/* Team Page */}
+            <Route path="/team" element={<Team />} />
 
-          {/* Leaderboard Page */}
-          <Route path="/leaderboard" element={<Leaderboard />} />
-        </Routes>
+            {/* Leaderboard Page */}
+            <Route path="/leaderboard" element={<Leaderboard />} />
+          </Routes>
+        </div>
       </div>
       <Footer />
     </Router>

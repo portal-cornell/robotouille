@@ -50,12 +50,12 @@ const Leaderboard = () => {
               >
                 {/* Rank */}
                 <div className="flex items-center gap-2">
-                  <div className="relative h-8 w-8 flex items-center justify-center">
+                  <div className="relative h-9 w-9 flex items-center justify-center">
                     {index < 3 ? (
                       <img
                         src={entry.badge}
                         alt={`${entry.rank} place`}
-                        className="w-full h-10"
+                        className="w-full h-10 object-contain"
                       />
                     ) : (
                       <div className="rounded-full bg-blue-200 font-bold text-white flex items-center justify-center w-full h-full">
