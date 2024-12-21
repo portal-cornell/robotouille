@@ -42,20 +42,8 @@ The server uses a combination of environment variables and YAML configuration.
 
 ## Database Setup
 
-This server uses PostgreSQL as its database. After installing and starting Postgres on your machine, follow these steps to set up the database for Robotouille.
+This server uses PostgreSQL as its database. After installing and starting Postgres on your machine, run the following script to set up the database for Robotouille. Make sure you have set up both the `.env` and `config.yml` files.
 
-1. Create the `.env` file in your project directory with your database credentials:
-```env
-DB_USER=oauth_user
-DB_PASSWORD=your_secure_password
-
-# Other required credentials
-JWT_SECRET=your-very-secure-random-secret
-GOOGLE_CLIENT_ID=your-google-client-id
-GOOGLE_CLIENT_SECRET=your-google-client-secret
-```
-
-2. Run the setup script:
 ```bash
 python setup_db.py
 ```
