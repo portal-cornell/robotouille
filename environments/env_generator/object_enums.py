@@ -11,6 +11,13 @@ class Item(Enum):
     ONION = "onion"
     CHICKEN = "chicken"
     POTATO = "potato"
+    HOTDOG = "hotdog"
+    BUN = "bun"
+    SALMON = "salmon"
+    TURKEY = "turkey"
+    SHRIMP = "shrimp"
+    CROISSANT = "croissant"
+    ROLLINGPIN = "rollingpin"
 
 class Player(Enum):
     ROBOT = "robot"
@@ -18,11 +25,14 @@ class Player(Enum):
 class Station(Enum):
     BOARD = "board"
     STOVE = "stove"
+    OVEN = "oven"
     TABLE = "table"
     FRYER = "fryer"
     SINK = "sink"
     COUNTER = "counter"
     BLENDER = "blender"
+    GRILL = "grill"
+    BATTER_STATION = "batter_station"
 
 class Container(Enum):
     POT = "pot"
@@ -34,7 +44,11 @@ class Meal(Enum):
     BOILING_WATER = "boiling_water"
     SOUP = "soup"
 
-TYPES = {"item": Item, "player": Player, "station": Station, "container": Container, "meal": Meal}
+class Condiment(Enum):
+    KETCHUP = "ketchupbottle"
+    MUSTARD = "mustardbottle"
+    SALT = "salt"
+TYPES = {"item": Item, "player": Player, "station": Station, "container": Container, "meal": Meal, "condiment": Condiment}
 
 def str_to_typed_enum(s):
     """
@@ -49,7 +63,7 @@ def str_to_typed_enum(s):
     Returns:
         typed_enum (Enum): Enum of the string.
     """
-    for typed_enum in [Item, Player, Station, Container, Meal]:
+    for typed_enum in [Item, Player, Station, Container, Meal, Condiment]:
         try:
             return typed_enum(s)
         except ValueError:

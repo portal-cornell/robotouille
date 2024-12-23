@@ -36,6 +36,20 @@
             }
         },
         {
+            "name": "pick-up-condiment",
+            "input_instructions": {
+                "button": "left",
+                "click_on": "s1"
+            }
+        },
+        {
+            "name": "place-condiment",
+            "input_instructions": {
+                "button": "left",
+                "click_on": "s1"
+            }
+        },
+        {
             "name": "stack",
             "input_instructions": {
                 "button": "left",
@@ -52,7 +66,63 @@
     ],
     "keyboard_actions": [
         {
+            "name": "put-in-oven",
+            "input_instructions": {
+                "key": "p",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "take-out-item",
+            "input_instructions": {
+                "key": "p",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "batter",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
             "name": "cook",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "cook-on-oven",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "grill",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "toast",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "roast",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "bake",
             "input_instructions": {
                 "key": "e",
                 "at": "s1"
@@ -87,6 +157,13 @@
             }
         },
         {
+            "name": "boil-water-on-oven",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
             "name": "add-to",
             "input_instructions": {
                 "key": "e",
@@ -105,6 +182,41 @@
             "input_instructions": {
                 "key": "space",
                 "at": null
+            }
+        },
+        {
+            "name": "add-ketchup",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "add-mustard",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "add-salt",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "roll-triangle",
+            "input_instructions": {
+                "key": "t",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "shape",
+            "input_instructions": {
+                "key": "m",
+                "at": "s1"
             }
         }
     ]
