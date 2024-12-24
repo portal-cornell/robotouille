@@ -1,0 +1,66 @@
+{
+    "version": "1.0.0",
+    "width": 3,
+    "height": 3,
+    "config": {
+        "cook_time": {
+            "hotdog": 3,
+            "default": 3
+        }
+    },
+    "stations": [
+        {
+            "name": "table",
+            "x": 0,
+            "y": 1
+        },
+        {
+            "name": "stove",
+            "x": 2,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 0,
+            "y": 0
+        },
+        {
+            "name": "table",
+            "x": 2,
+            "y": 0
+        }
+    ],
+    "items": [
+        {
+            "name": "dumplingdough",
+            "x": 0,
+            "y": 1,
+            "stack-level": 0,
+            "predicates": ["isshaped"]
+        }
+    ],
+    "meals": [],
+    "containers": [
+        {
+            "name": "fryingpan",
+            "x": 2,
+            "y": 0
+        }
+    ],
+    "players": [
+        {
+            "name": "robot",
+            "x": 1,
+            "y": 0,
+            "direction": [-1, 0]
+        }
+    ],
+    "goal description": "Cook the dumpling in a frying pan and put the cooked dumpling on a table.",
+    "goal": [
+        {
+            "predicate": "item_on",
+            "args": ["cookeddumpling", "table"],
+            "ids": [1, 2]
+        }
+    ]
+}

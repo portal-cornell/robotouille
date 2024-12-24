@@ -22,28 +22,70 @@
             }
         },
         {
-            "name": "pick-up-container",
+            "name": "stack-on-bottom-item",
             "input_instructions": {
                 "button": "left",
                 "click_on": "s1"
             }
         },
         {
-            "name": "place-container",
+            "name": "unstack-from-bottom-item",
             "input_instructions": {
                 "button": "left",
                 "click_on": "s1"
             }
         },
         {
-            "name": "stack",
+            "name": "stack-onto-station-stack",
             "input_instructions": {
                 "button": "left",
                 "click_on": "s1"
             }
         },
         {
-            "name": "unstack",
+            "name": "unstack-from-station-stack",
+            "input_instructions": {
+                "button": "left",
+                "click_on": "s1"
+            }
+        },
+        {
+            "name": "stack_on_container",
+            "input_instructions": {
+                "button": "left",
+                "click_on": "s1"
+            }
+        },
+        {
+            "name": "unstack_from_container",
+            "input_instructions": {
+                "button": "left",
+                "click_on": "s1"
+            }
+        },
+        {
+            "name": "pick-up-package",
+            "input_instructions": {
+                "button": "left",
+                "click_on": "s1"
+            }
+        },
+        {
+            "name": "place-package",
+            "input_instructions": {
+                "button": "left",
+                "click_on": "s1"
+            }
+        },
+        {
+            "name": "stack-onto-container-stack",
+            "input_instructions": {
+                "button": "left",
+                "click_on": "s1"
+            }
+        },
+        {
+            "name": "unstack-from-container-stack",
             "input_instructions": {
                 "button": "left",
                 "click_on": "s1"
@@ -52,7 +94,112 @@
     ],
     "keyboard_actions": [
         {
+            "name": "put-in-oven",
+            "input_instructions": {
+                "key": "p",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "put-in-grinder",
+            "input_instructions": {
+                "key": "p",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "put-container-in-oven",
+            "input_instructions": {
+                "key": "p",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "take-out-item",
+            "input_instructions": {
+                "key": "p",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "take-out-container",
+            "input_instructions": {
+                "key": "p",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "batter",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "grind",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "add-filling",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "create-dumpling",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "take-out-dumpling",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
             "name": "cook",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "cook-on-oven",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "grill",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "toast",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "roast",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "bake",
             "input_instructions": {
                 "key": "e",
                 "at": "s1"
@@ -80,7 +227,77 @@
             }
         },
         {
+            "name": "create-pancakebatter",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "create-cupcakebatter",
+            "input_instructions": {
+                "key": "k",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "create-spaghettiwithmeatballs",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "fill-pot-with-chickenstock",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
             "name": "boil-water",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "boil-spaghettiwithmeatballs",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "boil-chickenstock",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "blend",
+            "input_instructions": {
+                "key": "b",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "boil-water-on-oven",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "boil-spaghettiwithmeatballs-on-oven",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "boil-chickenstock-on-oven",
             "input_instructions": {
                 "key": "e",
                 "at": "s1"
@@ -94,7 +311,70 @@
             }
         },
         {
+            "name": "add-content",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "take-out-egg",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "take-out-cupcake",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
             "name": "fill-bowl",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "fill-pan",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "fill-pot-from-blendercup",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "fill-tray",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "pan-cook",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "pan-cook-item",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "tray-bake",
             "input_instructions": {
                 "key": "e",
                 "at": "s1"
@@ -105,6 +385,69 @@
             "input_instructions": {
                 "key": "space",
                 "at": null
+            }
+        },
+        {
+            "name": "pick-up-container",
+            "input_instructions": {
+                "key": "r",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "place-container",
+            "input_instructions": {
+                "key": "r",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "add-ketchup",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "add-frosting",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "add-mustard",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "add-salt",
+            "input_instructions": {
+                "key": "e",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "roll-triangle",
+            "input_instructions": {
+                "key": "t",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "roll-circle",
+            "input_instructions": {
+                "key": "c",
+                "at": "s1"
+            }
+        },
+        {
+            "name": "shape",
+            "input_instructions": {
+                "key": "m",
+                "at": "s1"
             }
         }
     ]

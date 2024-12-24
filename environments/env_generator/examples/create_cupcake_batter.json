@@ -1,0 +1,112 @@
+{
+  "version": "1.0.0",
+  "width": 3,
+  "height": 3,
+  "config": {},
+  "stations": [
+      {
+          "name": "table",
+          "x": 0,
+          "y": 1
+      },
+      {
+          "name": "blender",
+          "x": 2,
+          "y": 1
+      },
+      {
+          "name": "table",
+          "x": 0,
+          "y": 0
+      },
+      {
+          "name": "table",
+          "x": 2,
+          "y": 0
+      },
+      {
+          "name": "table",
+          "x": 0,
+          "y": 2
+      },
+      {
+          "name": "table",
+          "x": 2,
+          "y": 2
+      }
+  ],
+  "items": [
+      {
+          "name": "butter",
+          "x": 2,
+          "y": 2,
+          "stack-level": 0,
+          "id": "c"
+      }
+  ],
+  "meals": [],
+  "containers": [
+      {
+          "name": "blendercup",
+          "x": 2,
+          "y": 1,
+          "id": "a"
+      },
+      {
+          "name": "eggcarton",
+          "x": 2,
+          "y": 0,
+          "id": "b"
+      }
+  ],
+  "packages": [
+      {
+          "name": "milkcarton",
+          "x": 0,
+          "y": 0,
+          "id": "c"
+      },
+      {
+          "name": "flourbag",
+          "x": 0,
+          "y": 2,
+          "id": "d"
+      }
+  ],
+  "players": [
+      {
+          "name": "robot",
+          "x": 1,
+          "y": 0,
+          "direction": [1, 0]
+      }
+  ],
+  "goal_description": "Blend milk, flour, butter, and an egg to create cupcake batter.",
+  "goal": [
+      {
+          "predicate": "in",
+          "args": ["cupcakebatter", "blendercup"],
+          "ids": [1, 3]
+      },
+      {
+          "predicate": "addedcontent",
+          "args": ["flourbag", "cupcakebatter"],
+          "ids": [4, 1]
+      },
+      {
+          "predicate": "addedto",
+          "args": ["egg", "cupcakebatter"],
+          "ids": [2, 1]
+      },
+      {
+          "predicate": "addedto",
+          "args": ["butter", "cupcakebatter"],
+          "ids": [5, 1]
+      },
+      {
+          "predicate": "isblended",
+          "args": ["cupcakebatter"],
+          "ids": [1]
+      }
+  ]
+}

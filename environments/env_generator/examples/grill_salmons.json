@@ -1,0 +1,74 @@
+{
+    "version": "1.0.0",
+    "width": 3,
+    "height": 3,
+    "config": {
+        "cook_time": {
+            "salmon": 3,
+            "default": 3
+        }
+    },
+    "stations": [
+        {
+            "name": "table",
+            "x": 0,
+            "y": 1
+        },
+        {
+            "name": "grill",
+            "x": 2,
+            "y": 1,
+            "id": "A"
+        },
+        {
+            "name": "table",
+            "x": 0,
+            "y": 0
+        },
+        {
+            "name": "grill",
+            "x": 2,
+            "y": 0,
+            "id": "B"
+        }
+    ],
+    "items": [
+        {
+            "name": "salmon",
+            "x": 0,
+            "y": 1,
+            "stack-level": 0,
+            "predicates": ["isgrillable", "saltifgrilled"],
+            "id": "a"
+        },
+        {
+            "name": "salmon",
+            "x": 0,
+            "y": 0,
+            "stack-level": 0,
+            "predicates": ["isgrillable", "saltifgrilled"],
+            "id": "b"
+        }
+    ],
+    "players": [
+        {
+            "name": "robot",
+            "x": 1,
+            "y": 0,
+            "direction": [-1, 0]
+        }
+    ],
+    "goal description": "Grill two salmons.",
+    "goal": [
+        {
+            "predicate": "isgrilled",
+            "args": ["salmon"],
+            "ids": ["a"]
+        },
+        {
+            "predicate": "isgrilled",
+            "args": ["salmon"],
+            "ids": ["b"]
+        }
+    ]
+}

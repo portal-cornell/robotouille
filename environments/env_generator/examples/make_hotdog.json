@@ -1,0 +1,85 @@
+{
+    "version": "1.0.0",
+    "width": 3,
+    "height": 3,
+    "config": {
+        "cook_time": {
+            "hotdog": 3,
+            "bun": 3,
+            "default": 3
+        }
+    },
+    "stations": [
+        {
+            "name": "table",
+            "x": 0,
+            "y": 1
+        },
+        {
+            "name": "grill",
+            "x": 2,
+            "y": 1,
+            "id": "A"
+        },
+        {
+            "name": "table",
+            "x": 0,
+            "y": 0
+        },
+        {
+            "name": "grill",
+            "x": 2,
+            "y": 0,
+            "id": "B"
+        }
+    ],
+    "items": [
+        {
+            "name": "bun",
+            "x": 0,
+            "y": 1,
+            "stack-level": 0,
+            "predicates": ["istoastable"],
+            "id": "a"
+        },
+        {
+            "name": "hotdog",
+            "x": 0,
+            "y": 0,
+            "stack-level": 0,
+            "predicates": ["isgrillable", "ketchupifgrilled", "mustardifgrilled"],
+            "id": "b"
+        }
+    ],
+    "players": [
+        {
+            "name": "robot",
+            "x": 1,
+            "y": 0,
+            "direction": [-1, 0]
+        }
+    ],
+    "goal description": "Toast a bun and grill a hotdog and put the hotdog on top of the bun.",
+    "goal": [
+        {
+            "predicate": "istoasted",
+            "args": ["bun"],
+            "ids": ["a"]
+        },
+        {
+            "predicate": "isgrilled",
+            "args": ["hotdog"],
+            "ids": ["b"]
+        },
+        {
+          "predicate": "atop",
+          "args": ["hotdog","bun"],
+          "ids": ["b", "a"]
+        },
+        {
+          "predicate": "item_on",
+          "args": ["bun", "table"],
+          "ids": ["a", 1]
+        }
+    ]
+}
