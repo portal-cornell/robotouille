@@ -51,13 +51,24 @@ class IOCoTAgent(Agent):
     def is_done(self):
         """Returns whether the policy is done.
         
-        The ReAct policy is done when its final action is 'Finish'. This
-        
         Returns:
             done (bool)
                 Whether the policy is done.
         """
         return self.done
+    
+    def is_retry(self, steps_left):
+        """Returns whether the agent will retry.
+        
+        Parameters:
+            steps_left (int)
+                The number of steps left in the environment.
+        
+        Returns:
+            retry (bool)
+                Whether the agent will retry.
+        """
+        return False
     
     def _prompt_llm(self, user_prompt, params, history=[]):
         """Prompts the LLM with messages and parameters.

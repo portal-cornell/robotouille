@@ -30,13 +30,24 @@ class BFSAgent(Agent):
     def is_done(self):
         """Returns whether the policy is done.
         
-        The human is done if they quit an environment by pressing ESC.
-        
         Returns:
             done (bool)
                 Whether the policy is done.
         """
         return self.done
+    
+    def is_retry(self, steps_left):
+        """Returns whether the agent will retry.
+        
+        Parameters:
+            steps_left (int)
+                The number of steps left in the environment.
+        
+        Returns:
+            retry (bool)
+                Whether the agent will retry.
+        """
+        return False
 
     def propose_actions(self, obs, env):
         """Proposes an action(s) to take in order to reach the goal.

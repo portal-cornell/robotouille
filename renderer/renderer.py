@@ -25,9 +25,13 @@ class RobotouilleRenderer:
         # Opens the configuration file to be used in the canvas.
         CONFIG_DIR = os.path.join(os.path.dirname(__file__), "configuration")
         with open(os.path.join(CONFIG_DIR, config_filename), "r") as f:
-            config = json.load(f)
+            self.config = json.load(f)
+        # The layout of the game.
+        self.layout = layout
+        # The players in the game.
+        self.players = players
         # The canvas is responsible for drawing the game state on a pygame surface.
-        self.canvas = RobotouilleCanvas(config, layout, players, window_size)
+        self.canvas = RobotouilleCanvas(self.config, layout, players, window_size)
         # The pygame window size.
         self.window_size = window_size
         # The framerate of the renderer.
@@ -109,3 +113,11 @@ class RobotouilleRenderer:
             pygame.display.quit()
             pygame.quit()
         return rendered_frame
+    
+    def reset(self):
+        """
+        Resets the renderer.
+
+        This function is called by PDDLGym environments when they are reset.
+        """
+        self.canvas = RobotouilleCanvas(self.config, self.layout, self.players, self.window_size)

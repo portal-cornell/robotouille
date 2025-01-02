@@ -2,6 +2,7 @@ import math
 import pygame
 from omegaconf import DictConfig
 from typing import Dict, Any
+import random
 
 from agents import NAME_TO_AGENT
 
@@ -85,6 +86,7 @@ def run_robotouille(environment_name: str, agent_name: str, **kwargs: Dict[str, 
     llm_kwargs = kwargs.get('llm_kwargs', {})
     agent = NAME_TO_AGENT[agent_name](llm_kwargs)
     agent_done_cond = lambda a: a.is_done() if a is not None else False
+    agent_retry_cond = lambda a, steps_left: a.is_retry(steps_left) if a is not None else False
 
     render_mode = kwargs.get('render_mode', 'human')
     record = kwargs.get('record', False)
@@ -102,8 +104,8 @@ def run_robotouille(environment_name: str, agent_name: str, **kwargs: Dict[str, 
         assert False, "Must provide either max_steps or max_steps_multiplier in kwargs"
     imgs = []
     queued_actions = []
+    stochastic_done = False
     while not done and not agent_done_cond(agent) and steps < max_steps:
-        
         img = env.render(render_mode)
         if record:
             imgs.append(img)
@@ -130,7 +132,21 @@ def run_robotouille(environment_name: str, agent_name: str, **kwargs: Dict[str, 
         
         # Step environment
         obs, reward, done, info = env.step(actions)
+
+        if kwargs.get("stochastic") and not stochastic_done and random.random() < 0.1:
+            # Randomly set one cut ingredient to be uncut
+            cut_predicates = [p for p in env.current_state.predicates if p.name == 'iscut']
+            for predicate in cut_predicates:
+                if env.current_state.predicates[predicate]:
+                    env.current_state.predicates[predicate] = False
+                    stochastic_done = True
+                    break
+        
         steps += 1
+        if agent_retry_cond(agent, math.floor(max_steps - steps)):
+            steps = 0
+            obs, info = env.reset()
+            queued_actions = []
     
     img = env.render(render_mode, close=True)
     if record:

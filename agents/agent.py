@@ -18,7 +18,7 @@ from .prompt_builder.utils import get_prompt_path
 class Agent:
 
     @staticmethod
-    def fetch_messages(prompt_params, request_regex, response_regex, example_dir_path=None, num_examples=0):
+    def fetch_messages(prompt_params, request_regex=None, response_regex=None, example_dir_path=None, num_examples=0):
         """Fetches the messages for the prompt from the version control directory.
 
         If the environment name is provided, in-context examples are fetched for
@@ -71,6 +71,19 @@ class Agent:
         Returns:
             done (bool)
                 Whether the agent is done.
+        """
+        raise NotImplementedError
+    
+    def is_retry(self, steps_left):
+        """Returns whether the agent will retry.
+        
+        Parameters:
+            steps_left (int)
+                The number of steps left in the environment.
+        
+        Returns:
+            retry (bool)
+                Whether the agent will retry.
         """
         raise NotImplementedError
 

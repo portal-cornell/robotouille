@@ -478,6 +478,8 @@ class RobotouilleEnv(gym.Env):
 
     def reset(self, seed=None, options=None):
         obs = LanguageSpace.state_to_language_description(self.initial_state)
+        self.current_state = copy.deepcopy(self.initial_state)
+        self.renderer.reset()
         return obs, {}
     
     def render(self, render_mode, close=False):

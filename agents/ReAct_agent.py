@@ -10,6 +10,7 @@ The ReAct agent additionally
 import os
 import openai
 import re
+import random
 
 from copy import deepcopy
 
@@ -74,6 +75,9 @@ class ReActAgent(Agent):
         # Whether or not to include a prior while prompting
         self.prior = kwargs.get("prior", None)
 
+        # The probability of the agent failing to execute an action
+        self.failure_probability = kwargs.get("failure_probability", 0.0)
+
         # Whether the agent is done
         self.done = False
 
@@ -87,6 +91,19 @@ class ReActAgent(Agent):
                 Whether the policy is done.
         """
         return self.done
+    
+    def is_retry(self, steps_left):
+        """Returns whether the agent will retry.
+        
+        Parameters:
+            steps_left (int)
+                The number of steps left in the environment.
+        
+        Returns:
+            retry (bool)
+                Whether the agent will retry.
+        """
+        return False
     
     def _prompt_llm(self, user_prompt, params, history=[]):
         """Prompts the LLM with messages and parameters.

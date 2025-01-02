@@ -464,6 +464,8 @@ class State(object):
         
         for special_effect in self.special_effects:
             special_effect.update(self)
+            if special_effect.completed:
+                self.special_effects.remove(special_effect)
         
         if self.is_goal_reached():
             return True

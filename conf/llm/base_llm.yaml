@@ -6,6 +6,9 @@ sleep_time: 5                                                   # The time to sl
 max_feedback_steps: 5                                           # The maximum number of times to provide feedback for the LLM agent (before retrying)
 feedback_attempts: 3                                            # The number of attempts to exceed feedback for the LLM agent (terminates when met)
 
+# [Reflexion only]
+retries: 0                                                      # The number of times to reset the environment and try again if the LLM agent fails
+
 # In-context examples
 num_examples: 0                                                 # The number of in-context examples to use for the LLM agent
 example_dir_path: null                                          # The directory containing the in-context examples
@@ -19,6 +22,9 @@ max_length: 8192        # The maximum number of tokens for the input to the LLM 
 
 # Logging
 log_path: ${hydra:runtime.output_dir}/in-context_example.txt    # The name of the file to save the log to
+
+# Stochasticity
+failure_probability: 0.0                                        # The probability of a failure occurring when querying the LLM agent
 
 # Prompts
 prompts:

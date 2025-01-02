@@ -31,6 +31,8 @@ class Human(Agent):
         # Complete chat history
         self.chat_history = []
         self.pressed_quit = False
+        self.pressed_retry = False
+        self.did_retry = False
 
     def is_done(self):
         """Returns whether the policy is done.
@@ -42,6 +44,23 @@ class Human(Agent):
                 Whether the policy is done.
         """
         return self.pressed_quit
+
+    def is_retry(self, steps_left):
+        """Returns whether the agent will retry.
+        
+        Parameters:
+            steps_left (int)
+                The number of steps left in the environment.
+        
+        Returns:
+            retry (bool)
+                Whether the agent will retry.
+        """
+        if self.pressed_retry:
+            self.pressed_retry = False
+            self.did_retry = True
+            return True
+        return False
     
     def _write_to_log(self, log_path, data):
         """Writes data to a log file.
@@ -81,6 +100,8 @@ class Human(Agent):
         keydown_events = list(filter(lambda e: e.type == pygame.KEYDOWN, pygame_events))
         # Check if user pressed ESC
         self.pressed_quit = any([e.key == pygame.K_ESCAPE for e in keydown_events])
+        # Check if user pressed the ` key to retry
+        self.pressed_retry = any([e.key == pygame.K_BACKQUOTE for e in keydown_events])
         # Convert event into action
         action, param_arg_dict = create_action_from_event(env.current_state, mousedown_events+keydown_events, env.input_json, env.renderer)
         if action is None:
@@ -97,7 +118,9 @@ class Human(Agent):
         pair_num = len(self.chat_history) // 2 + 1
         self._write_to_log(self.log_path, f"Interaction {pair_num}\n" + "-"*15)
         self.chat_history.append(obs)
-        self._write_to_log(self.log_path, f"\n\nObservation:\n{obs}\n\n")
+        self._write_to_log(self.log_path, f"\n\nObservation:\n{obs}\n")
+        if self.did_retry:
+            self._write_to_log(self.log_path, "Reflection: ...\n\n")
         
         reasoning_and_action = f"Reasoning: ...\n\nAction: {matching_str_action}\n\n" # Reasoning is left blank for the user to fill in
         self.chat_history.append(reasoning_and_action)
