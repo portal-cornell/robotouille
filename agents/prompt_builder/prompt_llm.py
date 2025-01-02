@@ -3,6 +3,7 @@ This module acts as a wrapper for LLMs including
 - OpenAI GPTs
 - Google Gemini
 - Anthropic Claude
+- HuggingFace's transformers pipeline for Open LLMs
 """
 import os
 import time
@@ -25,8 +26,13 @@ ANTHROPIC_MODELS = [
 
 from gpt_cost_estimator import CostEstimator
 
+import transformers
+import torch
+
 import logging
 logger = logging.getLogger(__name__)
+
+LOADED_PIPELINES = {}
 
 def get_openai_llms():
     """Returns the available OpenAI LLMs compatible with the Chat API.
@@ -140,6 +146,30 @@ def call_openai_chat(messages=[], model="gpt-3.5-turbo", temperature=0.0, max_at
             num_attempts += 1
     return response
 
+def combine_successive_role_messages(messages):
+    """Combines successive role messages into a single message.
+
+    LLM models like Llama-2 only allow user/assistant/user/assistant/... message order. This
+    function formats the messages to comply with this requirement.
+
+    Parameters:
+        messages (List[Dict[str, str]])
+            The messages to combine.
+
+    Returns:
+        new_messages (List[Dict[str, str]])
+            The messages with successive role messages combined.
+    """
+    new_messages = [messages[0]]
+    last_role = None
+    for message in messages[1:]:
+        if last_role == message["role"]:
+            new_messages[-1]["content"] += f"\n{message['content']}"
+        else:
+            new_messages.append(message)
+        last_role = message["role"]
+    return new_messages
+
 def reset_accumulated_cost():
     """Resets the accumulated cost of the OpenAI API calls.
     
@@ -241,6 +271,24 @@ def prompt_llm(user_prompt, messages, model, temperature, history=[], **kwargs):
         )
         response = response.content[0].text
     else:
-        # TODO(chalo2000): Support open LLM models
-        raise NotImplementedError(f"Model {model} is not supported.")
+        # Open LLM
+        client = openai.Client(base_url="http://127.0.0.1:30000/v1", api_key="None") # SGLang
+        
+        if "Llama-2" in model or "Llama-3.1" in model:
+            # Alternating conversation roles
+            messages = combine_successive_role_messages(messages)
+        elif "google" in model:
+            # Alternating conversation roles
+            messages = combine_successive_role_messages(messages)
+            # Combine system message into first user message
+            combined_system_msg = f"{messages[0]['content']}\n{messages[1]['content']}"
+            messages = [{"role": "user", "content": combined_system_msg}] + messages[2:]
+        messages.append({"role": "user", "content": user_prompt})
+
+        response = client.chat.completions.create(
+            model=model,
+            messages=messages,
+            temperature=temperature
+        )
+        response = response.choices[0].message.content
     return response

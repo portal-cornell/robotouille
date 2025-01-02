@@ -7,6 +7,6 @@ max_step_multiplier: 1                                    # If max_steps is null
 render_mode: "human"                                      # The mode to render the environment in. Options: ['human', 'rgb_array']
 
 record: false                                             # Whether to record the environment. If true, the video will be saved to the path specified in video_path
-fourcc_str: 'mp4v'                                        # The fourcc string to use for the video codec. Defaults to mp4.
+fourcc_str: 'avc1'                                        # The fourcc string to use for the video codec. Defaults to mp4.
 video_fps: 60                                             # The frames per second to record the video at
 video_path: ${hydra:runtime.output_dir}/video_human.mp4   # The name of the file to save a playback video to

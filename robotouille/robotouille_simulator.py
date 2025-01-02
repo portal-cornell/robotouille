@@ -136,7 +136,7 @@ def run_robotouille(environment_name: str, agent_name: str, **kwargs: Dict[str, 
     if record:
         imgs.append(img)
         filename = kwargs.get('video_path', 'recorded_video.mp4')
-        fourcc_str = kwargs.get('fourcc_str', 'mp4v')
+        fourcc_str = kwargs.get('fourcc_str', 'avc1')
         fps = kwargs.get('video_fps', 3) # Videos with FPS < 3 on MP4 will appear corrupted (all green)
         record_video(imgs, filename, fourcc_str, fps)
     

@@ -102,7 +102,7 @@ class RobotouilleRenderer:
                 Whether to close the pygame window
         """
         rendered_frame = self._render_frame(state, mode)
-        if close:
+        if close and mode == "human":
             self.window = None
             self.clock = None
             pygame.display.set_mode(self.window_size, flags=pygame.HIDDEN) # Hide the window

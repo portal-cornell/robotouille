@@ -59,6 +59,9 @@ class ReActAgent(Agent):
         self.truncated_chat_history = []
         # Maximum number of attempts to provide feedback in case of errors
         self.max_feedback_steps = kwargs.get("feedback_steps", 5)
+        # Maximum number of times for the LLM to exceed feedback steps
+        self.max_feedback_attempts = kwargs.get("feedback_attempts", 3)
+        self.num_feedback_attempts = 0
         # Whether or not to prompt the LLM with no history
         self.is_no_history = kwargs.get("is_no_history", False)
         # Whether or not to prompt the LLM with the last timestep action
@@ -258,4 +261,9 @@ class ReActAgent(Agent):
                 continue
             action_idx = str_valid_actions.index(matching_str_action[0])
             matching_action = [valid_actions[action_idx]]
+        if feedback_steps == self.max_feedback_steps:
+            self.num_feedback_attempts += 1
+        if self.num_feedback_attempts >= self.max_feedback_attempts:
+            # Terminates the agent if it exceeds the maximum number of feedback attempts
+            self.done = True
         return matching_action
