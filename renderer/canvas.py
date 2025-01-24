@@ -114,7 +114,7 @@ class RobotouilleCanvas:
         
         item_config = self.config["item"]["entities"][item_image_name]
 
-        # Find the the asset with most matches to current game state. If two or 
+        # Find the asset with most matches to current game state. If two or
         # more assets have the same number of matches, the default asset is used. 
         max_matches = 0
         asset_config = item_config["assets"]
@@ -132,7 +132,6 @@ class RobotouilleCanvas:
                     chosen_asset = asset_config[asset]["asset"]
                 elif matches == max_matches:
                     chosen_asset = asset_config["default"]
-
         return chosen_asset
 
     def _draw_item_image(self, surface, item_name, obs, position):
@@ -347,7 +346,10 @@ class RobotouilleCanvas:
             if is_true:
                 literal_args = [param.name for param in literal.params]
                 if meal_name in literal_args:
-                    item_predicates[literal.name] = [param.name for param in literal.params]
+                    if item_predicates.get(literal.name) is None:
+                        item_predicates[literal.name] = [[param.name for param in literal.params]]
+                    else:
+                        item_predicates[literal.name].append([param.name for param in literal.params])
         
         meal_name, _ = trim_item_ID(meal_name)
         max_matches = 0
@@ -360,14 +362,15 @@ class RobotouilleCanvas:
             # Find the number of matches between the current predicates and the meal's predicates
             for predicate in meal_config[asset]["predicates"]:
                 if predicate["name"] in item_predicates:
-                    params = []
-                    pred_params = [trim_item_ID(param)[0] for param in item_predicates[predicate["name"]]]
-                    for param in predicate["params"]:
-                        if param == "":
-                            param = pred_params[predicate["params"].index("")]
-                        params.append(param)
-                    if params == pred_params:
-                        matches += 1
+                    for param_set in item_predicates[predicate["name"]]:
+                        params = []
+                        pred_params = [trim_item_ID(param)[0] for param in param_set]
+                        for param in predicate["params"]:
+                            if param == "":
+                                param = pred_params[predicate["params"].index("")]
+                            params.append(param)
+                        if params == pred_params:
+                            matches += 1
 
             # If all predicates are true, choose the asset with the most matches
             if matches == len(meal_config[asset]["predicates"]):
@@ -394,6 +397,23 @@ class RobotouilleCanvas:
         y_scale_factor = self.config["container"]["constants"]["Y_SCALE_FACTOR"]
 
         self._draw_image(surface, f"{container_image_name}", position + self.pix_square_size * x_scale_factor, self.pix_square_size * y_scale_factor)
+
+    def _draw_package_image(self, surface, package_name, obs, position):
+        """
+        Helper to draw a package image on the canvas.
+
+        Args:
+            surface (pygame.Surface): Surface to draw on
+            package_name (str): Name of the package
+            obs (List[Literal]): Game state predicates
+            position (np.array): (x, y) position of the package (with pix_square_size factor accounted for)
+        """
+        trimmed_package_name, package_ID = trim_item_ID(package_name)
+        package_image_name = self.config["package"]["entities"][trimmed_package_name]["assets"]["default"]
+        x_scale_factor = self.config["package"]["constants"]["X_SCALE_FACTOR"]
+        y_scale_factor = self.config["package"]["constants"]["Y_SCALE_FACTOR"]
+
+        self._draw_image(surface, f"{package_image_name}", position + self.pix_square_size * x_scale_factor, self.pix_square_size * y_scale_factor)
 
     def _draw_floor(self, surface):
         """
@@ -424,7 +444,7 @@ class RobotouilleCanvas:
         
         self._draw_tiles(surface, sprites, self.ground_matrix)
 
-    def _draw_furniture(self, surface):
+    def _draw_furniture(self, surface, obs):
         """
         Draw the furniture on the canvas.
 
@@ -435,14 +455,14 @@ class RobotouilleCanvas:
             # load ground tile data
             self.furniture_tileset = self._load_tiles(self.config["floor"]["furniture"])
             abstract_tile_matrix = self.tiling["furniture"]
-            abstract_tile_matrix = self._extract_stations_to_furniture(abstract_tile_matrix)
+            abstract_tile_matrix = self._extract_stations_to_furniture(abstract_tile_matrix, obs)
             self.furniture_matrix = self._parse_abstract_tile_matrix(abstract_tile_matrix, self.furniture_tileset)
 
         sprites = self.furniture_tileset["sprites"]
         
         self._draw_tiles(surface, sprites, self.furniture_matrix)
 
-    def _choose_station_asset(self, station_image_name):
+    def _choose_station_asset(self, station_image_name, obs):
         """
         Helper function to get the asset name of a station. Stations imagery can
         either be images or tiles. Images are preferred over tiles.
@@ -455,16 +475,42 @@ class RobotouilleCanvas:
             asset and "type" is "image" if the station is represented by an image
             or "tile" if represented by a tile
         """
-        station_image_name, _ = trim_item_ID(station_image_name)
+        # Get the name of the station and store its id
+        station_image_name, station_id = trim_item_ID(station_image_name)
         station_config = self.config["station"]["entities"][station_image_name]
+
+        # Get predicates of station in current game state
+        station_predicates = []
+        for literal, is_true in obs.predicates.items():
+            if is_true and literal.params[0].name == station_image_name + station_id:
+                station_predicates.append(literal.name)
+
+        # Find the asset with most matches to current game state. If two or
+        # more assets have the same number of matches, the default asset is used.
         if "default" in station_config["assets"]:
-            return {"name": station_config["assets"]["default"], "type": "image"}
+            max_matches = 0
+            asset_config = station_config["assets"]
+            chosen_asset = asset_config["default"]
+            for asset in asset_config:
+                if asset == "default":
+                    continue
+                matches = 0
+                for predicate in asset_config[asset]["predicates"]:
+                    if predicate in station_predicates:
+                        matches += 1
+                if all(predicate in station_predicates for predicate in asset_config[asset]["predicates"]):
+                    if matches > max_matches:
+                        max_matches = matches
+                        chosen_asset = asset_config[asset]["asset"]
+                    elif matches == max_matches:
+                        chosen_asset = asset_config["default"]
+            return {"name": chosen_asset, "type": "image"}
         elif "tile" in station_config["assets"]:
             return {"name": station_config["assets"]["tile"], "type": "tile"}
         else:
             raise RuntimeError("Empty station asset config: " + station_config)
 
-    def _draw_stations(self, surface):
+    def _draw_stations(self, surface, obs):
         """
         Draws the stations on the canvas.
         
@@ -479,7 +525,7 @@ class RobotouilleCanvas:
         for i, row in enumerate(self.layout):
             for j, col in enumerate(row):
                 if col is not None:
-                    asset_info = self._choose_station_asset(col)
+                    asset_info = self._choose_station_asset(col, obs)
                     if asset_info["type"] == "image":
                         name, _ = trim_item_ID(col)
                         offset = self.config["station"]["entities"][name]["constants"].get("STATION_OFFSET", station_offset)
@@ -530,6 +576,7 @@ class RobotouilleCanvas:
             robot_image_name = robot_sprite[player_obj.sprite_value]
             held_item_name = None
             held_container_name = None
+            held_package_name = None
             # Draw the player
             self._draw_image(surface, robot_image_name, player_pos * self.pix_square_size, self.pix_square_size)
 
@@ -539,11 +586,16 @@ class RobotouilleCanvas:
                     held_item_name = literal.params[1].name
                 if is_true and literal.name == "has_container" and literal.params[0].name == player.name:
                     held_container_name = literal.params[1].name
+                if is_true and literal.name == "has_package" and literal.params[0].name == player.name:
+                    held_package_name = literal.params[1].name
             # Draw the item or container the player is holding
             if held_item_name:
                 self._draw_item_image(surface, held_item_name, obs, player_pos * self.pix_square_size)
             if held_container_name:
                 self._draw_container_image(surface, held_container_name, obs, player_pos * self.pix_square_size)
+            if held_package_name:
+                self._draw_package_image(surface, held_package_name, obs, player_pos * self.pix_square_size)
+
 
     def _draw_item(self, surface, obs):
         """
@@ -615,6 +667,28 @@ class RobotouilleCanvas:
                 name, _ = trim_item_ID(container)
                 container_pos[1] -= self.config["container"]["entities"][name]["constants"].get("STATION_CONTAINER_OFFSET", station_container_offset)
                 self._draw_container_image(surface, container, obs, container_pos * self.pix_square_size)
+
+    def _draw_package(self, surface, obs):
+        """
+        This helper draws packages on the canvas.
+
+        Args:
+            surface (pygame.Surface): Surface to draw on
+            obs (State): Game state predicates
+
+        Side effects:
+            Draws the packages to surface
+        """
+        station_package_offset = self.config["package"]["constants"]["STATION_PACKAGE_OFFSET"]
+        for literal, is_true in obs.predicates.items():
+            station_package_offset = self.config["package"]["constants"]["STATION_PACKAGE_OFFSET"]
+            if is_true and literal.name == "package_at":
+                package = literal.params[0].name
+                station = literal.params[1].name
+                package_pos = self._get_station_position(station)
+                name, _ = trim_item_ID(package)
+                package_pos[1] -= self.config["package"]["entities"][name]["constants"].get("STATION_PACKAGE_OFFSET", station_package_offset)
+                self._draw_package_image(surface, package, obs, package_pos * self.pix_square_size)
     
     def _add_platforms_underneath_stations(self, stations, abstract_tile_matrix):
         """
@@ -660,7 +734,7 @@ class RobotouilleCanvas:
             else:
                 abstract_tile_matrix[x][y] = underneath
 
-    def _extract_stations_to_furniture(self, abstract_tile_matrix):
+    def _extract_stations_to_furniture(self, abstract_tile_matrix, obs):
         """
         Searches for all stations with single letter names and places corresponding tiles in the furniture layer.
         It is assumed that stations with single letter names wish to undergo this processing step.
@@ -679,7 +753,7 @@ class RobotouilleCanvas:
         for i, row in enumerate(self.layout):
             for j, col in enumerate(row):
                 if col is not None:
-                    asset_info = self._choose_station_asset(col)
+                    asset_info = self._choose_station_asset(col, obs)
                     if asset_info["type"] == "tile":
                         abstract_tile_matrix[i][j] = asset_info["name"]
                     else:
@@ -697,8 +771,9 @@ class RobotouilleCanvas:
             obs (List[Literal]): Game state predicates
         """
         self._draw_floor(surface)
-        self._draw_furniture(surface)
-        self._draw_stations(surface)
+        self._draw_furniture(surface, obs)
+        self._draw_stations(surface, obs)
         self._draw_player(surface, obs)
         self._draw_item(surface, obs)
         self._draw_container(surface, obs)
+        self._draw_package(surface, obs)

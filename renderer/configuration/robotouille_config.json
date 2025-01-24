@@ -27,7 +27,10 @@
                 "assets": {
                     "default": "bottombun.png"
                 },
-                "constants": {}
+                "constants": {
+                    "X_SCALE_FACTOR": 0.50,
+                    "Y_SCALE_FACTOR": 0.1
+                }
             },
             "topbun": {
                 "assets": {
@@ -38,6 +41,16 @@
             "bread": {
                 "assets": {
                     "default": "bread.png"
+                },
+                "constants": {}
+            },
+            "bun": {
+                "assets": {
+                    "default": "bun.png",
+                    "toasted": {
+                        "asset": "toastedbun.png",
+                        "predicates": ["istoasted"]
+                    }
                 },
                 "constants": {}
             },
@@ -70,6 +83,128 @@
                         "asset": "cookedpatty.png",
                         "predicates": ["iscooked"]
                     }
+                },
+                "constants": {}
+            },
+            "hotdog": {
+                "assets": {
+                    "default": "hotdog.png",
+                    "grilled": {
+                        "asset": "grilledhotdog.png",
+                        "predicates": ["isgrilled"]
+                    },
+                    "has_ketchup": {
+                        "asset": "ketchup_hotdog.png",
+                        "predicates": ["isgrilled","has_ketchup"]
+                    },
+                    "has_mustard": {
+                        "asset": "mustard_hotdog.png",
+                        "predicates": ["isgrilled","has_mustard"]
+                    },
+                    "has_ketchup_mustard": {
+                        "asset": "ketchup_mustard_hotdog.png",
+                        "predicates": ["isgrilled","has_ketchup", "has_mustard"]
+                    }
+                },
+                "constants": {
+                    "STACK_OFFSET": -0.1
+                }
+            },
+            "turkey": {
+                "assets": {
+                    "default": "turkey.png",
+                    "roasted": {
+                        "asset": "roastedturkey.png",
+                        "predicates": ["isroasted"]
+                    }
+                },
+                "constants": {}
+            },
+            "salmon": {
+                "assets": {
+                    "default": "salmon.png",
+                    "grilled": {
+                        "asset": "grilledsalmon.png",
+                        "predicates": ["isgrilled"]
+                    },
+                    "has_salt": {
+                        "asset": "grilledsaltedsalmon.png",
+                        "predicates": ["isgrilled","has_salt"]
+                    }
+                },
+                "constants": {}
+            },
+            "shrimp": {
+                "assets": {
+                    "default": "shrimp.png",
+                    "battered": {
+                        "asset": "battered_shrimp.png",
+                        "predicates": ["isbattered"]
+                    },
+                    "fried": {
+                        "asset": "fried_shrimp.png",
+                        "predicates": ["isbattered","isfried"]
+                    }
+                },
+                "constants": {
+                    "STACK_OFFSET": -0.1
+                }
+            },
+            "groundmeat": {
+                "assets": {
+                    "default": "patty.png",
+                    "grinded": {
+                        "asset": "groundmeat.png",
+                        "predicates": ["isgrinded"]
+                    }
+                },
+                "constants": {}
+            },
+            "croissant": {
+                "assets": {
+                    "default": "dough.png",
+                    "triangle": {
+                        "asset": "triangle.png",
+                        "predicates": ["istriangle"]
+                    },
+                    "shaped": {
+                        "asset": "croissant.png",
+                        "predicates": ["isshaped"]
+                    },
+                    "baked": {
+                        "asset": "baked_croissant.png",
+                        "predicates": ["isshaped","isbaked"]
+                    }
+                },
+                "constants": {}
+            },
+            "dumplingdough": {
+                "assets": {
+                    "default": "dough.png",
+                    "circle": {
+                        "asset": "circle.png",
+                        "predicates": ["iscircle"]
+                    },
+                    "filled": {
+                        "asset": "dumplingdough_filled.png",
+                        "predicates": ["isfilled", "iscircle"]
+                    },
+                    "shaped": {
+                        "asset": "dumplingdough_shaped.png",
+                        "predicates": ["isshaped"]
+                    }
+                },
+                "constants": {}
+            },
+            "cookeddumpling": {
+                "assets": {
+                    "default": "cookeddumpling.png"
+                },
+                "constants": {}
+            },
+            "rollingpin": {
+                "assets": {
+                    "default": "rollingpin.png"
                 },
                 "constants": {}
             },
@@ -122,7 +257,32 @@
                     }
                 },
                 "constants": {}
-            } 
+            },
+            "egg": {
+                "assets": {
+                    "default": "egg.png"
+                },
+                "constants": {}
+            },
+            "butter": {
+                "assets": {
+                    "default": "butter.png",
+                    "cut": {
+                        "asset": "cutbutter.png",
+                        "predicates": ["iscut"]
+                    }
+                },
+                "constants": {}
+            },
+            "cupcake": {
+                "assets": {
+                    "default": "baked_cupcake.png",
+                    "frosting": {
+                        "asset": "baked_cupcake_with_frosting.png",
+                        "predicates": ["has_frosting"]
+                    }
+                }
+            }
         }
     },
 
@@ -142,6 +302,44 @@
             "stove": {
                 "assets": {
                     "default": "stove.png"
+                },
+                "constants": {}
+            },
+            "oven": {
+                "assets": {
+                    "default": "oven.png",
+                    "oven_on": {
+                        "asset": "oven_on.png",
+                        "predicates": ["oven_on"]
+                    }
+                },
+                "constants": {}
+            },
+            "grinder": {
+                "assets": {
+                    "default": "grinder.png",
+                    "grinder_on": {
+                        "asset": "grinder_on.png",
+                        "predicates": ["grinder_on"]
+                    }
+                },
+                "constants": {
+                    "STATION_OFFSET": 0.20,
+                    "underneath": "T"
+                }
+            },
+            "batter_station": {
+                "assets": {
+                    "default": "batter_station.png"
+                },
+                "constants": {
+                    "STATION_OFFSET": 0.16,
+                    "underneath": "T"
+                }
+            },
+            "grill": {
+                "assets": {
+                    "default": "grill.png"
                 },
                 "constants": {}
             },
@@ -168,7 +366,7 @@
             },
             "blender": {
                 "assets": {
-                    "default": "blender_inactive.png"
+                    "default": "blender_active.png"
                 },
                 "constants": {
                     "STATION_OFFSET": 0.5,
@@ -230,11 +428,187 @@
             },
             "blendercup": {
                 "assets": {
-                    "default": "blender_empty.png"
+                    "default": "blender_empty.png",
+                    "pancakebatter": {
+                        "default": "blender_full.png",
+                        "flour": {
+                            "asset": "batter.png",
+                            "predicates": [{"name": "addedcontent",
+                                "params": ["flourbag", "pancakebatter"]
+                            }]
+                        },
+                        "egg": {
+                            "asset": "batter.png",
+                            "predicates": [
+                                {"name": "addedcontent", "params": ["flourbag", "pancakebatter"]},
+                                {"name": "addedto", "params": ["egg", "pancakebatter"]}
+                            ]
+                        },
+                        "blended": {
+                            "asset": "milk_flour.png",
+                            "predicates": [
+                                {"name": "isblended", "params": ["pancakebatter"]},
+                                {"name": "addedcontent", "params": ["flourbag", "pancakebatter"]},
+                                {"name": "addedto", "params": ["egg", "pancakebatter"]}
+                            ]
+                        }
+                    },
+                    "cupcakebatter": {
+                        "default": "blender_full.png",
+                        "flour": {
+                            "asset": "batter.png",
+                            "predicates": [
+                                {"name": "addedcontent", "params": ["flourbag", "cupcakebatter"]}
+                            ]
+                        },
+                        "egg": {
+                            "asset": "batter.png",
+                            "predicates": [
+                                {"name": "addedcontent", "params": ["flourbag", "cupcakebatter"]},
+                                {"name": "addedto", "params": ["egg", "cupcakebatter"]}
+                            ]
+                        },
+                        "butter": {
+                            "asset": "batter.png",
+                            "predicates": [
+                                {"name": "addedcontent", "params": ["flourbag", "cupcakebatter"]},
+                                {"name": "addedto", "params": ["egg", "cupcakebatter"]},
+                                {"name": "addedto", "params": ["butter", "cupcakebatter"]}
+                            ]
+                        },
+                        "blended": {
+                            "asset": "milk_flour.png",
+                            "predicates": [
+                                {"name": "isblended", "params": ["cupcakebatter"]},
+                                {"name": "addedcontent", "params": ["flourbag", "cupcakebatter"]},
+                                {"name": "addedto", "params": ["egg", "cupcakebatter"]},
+                                {"name": "addedto", "params": ["butter", "cupcakebatter"]}
+                            ]
+                        }
+                    }
                 },
                 "constants": {
                     "STATION_CONTAINER_OFFSET": 0.5
                 }
+            },
+            "fryingpan": {
+                "assets": {
+                    "default": "fryingpan.png",
+                    "pancakebatter": {
+                        "default": "fryingpan.png",
+                        "uncooked": {
+                            "asset": "pancake.png",
+                            "predicates": [
+                                {"name": "in", "params": ["pancakebatter", "fryingpan"]}
+                            ]
+                        },
+                        "cooked": {
+                            "asset": "cooked_pancake.png",
+                            "predicates": [
+                                {"name": "cooked", "params": ["pancakebatter"]},
+                                {"name": "in", "params": ["pancakebatter", "fryingpan"]}
+                            ]
+                        }
+                    },
+                    "dumpling": {
+                        "default": "fryingpan.png",
+                        "uncooked": {
+                            "asset": "dumpling_in_pan.png",
+                            "predicates": [
+                                {"name": "in", "params": ["dumpling", "fryingpan"]}
+                            ]
+                        },
+                        "cooked": {
+                            "asset": "cooked_dumpling_in_pan.png",
+                            "predicates": [
+                                {"name": "cooked", "params": ["dumpling"]},
+                                {"name": "in", "params": ["dumpling", "fryingpan"]}
+                            ]
+                        }
+                    }
+                },
+                "constants": {
+                    "STATION_CONTAINER_OFFSET": 0.105
+                }
+            },
+            "cupcaketray": {
+                "assets": {
+                    "default": "cupcaketray.png",
+                    "cupcakebatter": {
+                        "default": "cupcaketray.png",
+                        "uncooked": {
+                            "asset": "cupcakes.png",
+                            "predicates": [
+                                {"name": "in", "params": ["cupcakebatter", "cupcaketray"]}
+                            ]
+                        },
+                        "baked": {
+                            "asset": "baked_cupcakes.png",
+                            "predicates": [
+                                {"name": "baked", "params": ["cupcakebatter"]},
+                                {"name": "in", "params": ["cupcakebatter", "cupcaketray"]}
+                            ]
+                        }
+                    }
+                },
+                "constants": {}
+            },
+            "eggcarton": {
+                "assets": {
+                    "default": "eggcarton.png"
+                },
+                "constants": {}
+            }
+        }
+    },
+    "package": {
+        "constants": {
+            "STATION_PACKAGE_OFFSET" : 0.25,
+            "X_SCALE_FACTOR": 0.125,
+            "Y_SCALE_FACTOR": 0.75
+        },
+        "entities": {
+            "ketchupbottle": {
+                "assets": {
+                    "default": "ketchupbottle.png",
+                    "predicates": ["isketchup"]
+                },
+                "constants": {}
+            },
+            "mustardbottle": {
+                "assets": {
+                    "default": "mustardbottle.png",
+                    "predicates": ["ismustard"]
+                },
+                "constants": {}
+            },
+            "salt": {
+                "assets": {
+                    "default": "salt.png",
+                    "predicates": ["issalt"]
+                },
+                "constants": {}
+            },
+            "milkcarton": {
+                "assets": {
+                    "default": "milk_whole.png",
+                    "predicates": ["ismilkcarton"]
+                },
+                "constants": {}
+            },
+            "flourbag": {
+                "assets": {
+                    "default": "flourbag.png",
+                    "predicates": ["isflourbag"]
+                },
+                "constants": {}
+            },
+            "frostingbag": {
+                "assets": {
+                    "default": "frostingbag.png",
+                    "predicates": ["isfrostingbag"]
+                },
+                "constants": {}
             }
         }
     }
