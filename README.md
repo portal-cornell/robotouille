@@ -9,7 +9,7 @@
   </a>
   
   <p align="center">
-    A customizable cooking environment for stress testing LLM agents!
+    A challenging benchmark for testing LLM agent planning capabilities!
     <br />
     <br />
     <a href="https://arxiv.org/pdf/2502.05227">Paper</a> |  
@@ -61,7 +61,7 @@
   <img src="README_assets/cheese_burger.gif" alt="Robot making a cheese burger in a custom-made kitchen" width="250" height="250"/>
 </p>
 
-Robotouille is a challenging benchmark environment designed to test LLM agents on complex long-horizon planning, including synchronous, asynchronous, and multi-agent scenarios. It provides three curated datasets for each scenario, each with 10 unique tasks and 10 procedurally generated instances, to evaluate reasoning over time delays, diverse long-horizon tasks, and coordination challenges.
+Robotouille is a challenging benchmark environment designed to test LLM agents on 30 complex long-horizon planning, including synchronous, asynchronous, and multi-agent scenarios. Each scenario comes with a curated dataset containing 10 unique tasks each with 10 procedurally generated instances, designed to evaluate reasoning over time delays, diverse long-horizon tasks, and coordination challenges.
 
 Check out the following papers where we've used Robotouille!
 - [Robotouille: An Asynchronous Planning Benchmark for LLM Agents](https://portal-cornell.github.io/robotouille/)

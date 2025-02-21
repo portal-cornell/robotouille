@@ -443,7 +443,7 @@ class LanguageSpace(gym.spaces.Text):
         Returns:
             language (str): The random language description.
         """
-        # TODO: Reimplement this to generate valid language actions ()
+        # TODO(chalo2000): Reimplement this to generate valid language actions ()
         state_copy = copy.deepcopy(self.initial_state)
         for pred in state_copy.predicates:
             state_copy.predicates[pred] = random.choice([True, False])

@@ -8,7 +8,7 @@ setup(
     version='1.0',
     author='Gonzalo Gonzalez',
     author_email='gg387@cornell.edu',
-    description='A customizable cooking environment for stress testing LLM agents!',
+    description='A challenging benchmark for testing LLM agent planning capabilities!',
     packages=find_packages(),
     install_requires=requirements,
 )

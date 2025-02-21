@@ -1,11 +1,8 @@
 """
-This module contains the ReActAgent class. This LLM agent reasons before generating
-a single action to take in the environment. It then receives feedback from the
-environment and incorporates it into reasoning for its next action.
-
-The ReAct agent additionally
-- maintains all history of THOUGHTs, ACTs, and OBSs in the prompt
-- incorporates environment feedback into the OBS
+This module contains the ReflexionAgent class. This LLM agent uses the ReAct
+framework to take actions but can retry the same environment upon failure. Before
+retrying, the agent reflects on the previous history and incorporates its reflection
+into the next attempt's observation.
 """
 import os
 import openai
@@ -21,7 +18,7 @@ class ReflexionAgent(ReActAgent):
     """An agent that can query an LLM to interact with an environment in multiple trials."""
 
     def __init__(self, kwargs):
-        """Initializes the ReAct agent.
+        """Initializes the Reflexion agent.
         
         Parameters:
             kwargs (dict)
@@ -71,7 +68,7 @@ class ReflexionAgent(ReActAgent):
         
         Returns:
             actions (list)
-                The proposed actions to take; for ReAct this is a single action.
+                The proposed actions to take; for Reflexion this is a single action.
         """
         if self.did_retry:
             self.did_retry = False
