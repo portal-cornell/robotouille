@@ -12,6 +12,8 @@
     A customizable cooking environment for stress testing LLM agents!
     <br />
     <br />
+    <a href="https://arxiv.org/pdf/2502.05227">Paper</a> |  
+    <a href="https://portal-cornell.github.io/robotouille/">Project Website</a> |
     <a href="https://github.com/portal-cornell/robotouille/issues">Request Feature</a>
   </p>
 </div>
@@ -31,6 +33,7 @@
         <li><a href="#setup">Setup</a></li>
       </ul>
     </li>
+    <li><a href="#leaderboard">Leaderboard</a></li>
     <li>
       <a href="#usage">Usage</a>
       <ul>
@@ -40,6 +43,7 @@
     </li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#built-with">Built With</a></li>
+    <li><a href="#citation">Citation</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
@@ -57,12 +61,24 @@
   <img src="README_assets/cheese_burger.gif" alt="Robot making a cheese burger in a custom-made kitchen" width="250" height="250"/>
 </p>
 
-Robotouille is a simulator for cooking diverse recipes designed to stress test LLM agents in the ability to perform asynchronous planning by handling time delays, diverse long-horizon tasks, and multiple agents. With a wide variety of ingredients and a procedural generator, Robotouille offers endless combinations for creating unique cooking scenarios. Each scenario's rules and layout are defined in JSON files, enabling rapid development and easy customization to suit your needs. Additionally, a gaming interface is provided to facilitate collaboration between LLM agents and humans.
+Robotouille is a challenging benchmark environment designed to test LLM agents on complex long-horizon planning, including synchronous, asynchronous, and multi-agent scenarios. It provides three curated datasets for each scenario, each with 10 unique tasks and 10 procedurally generated instances, to evaluate reasoning over time delays, diverse long-horizon tasks, and coordination challenges.
 
 Check out the following papers where we've used Robotouille!
 - [Robotouille: An Asynchronous Planning Benchmark for LLM Agents](https://portal-cornell.github.io/robotouille/)
 - [Demo2Code: From Summarizing Demonstrations to Synthesizing Code via Extended Chain-of-Thought](https://portal-cornell.github.io/demo2code/)
+- [Query-Efficient Planning with Language Models](https://portal-cornell.github.io/llms-for-planning/)
 
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- LEADERBOARD -->
+## Leaderboard
+| Strategy       | Synchronous (%) | Asynchronous (%) |
+| -------------- | --------------- | ---------------- |
+| [ReAct] (gpt-4o)     | **47.0**     | **11.0**     |
+| [ReAct] (gpt-4o-mini)     | 11.0     | 0.00     |
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -86,10 +102,10 @@ It is super easy to get started by trying out an existing environment or creatin
    # Pyenv (must have pyenv and pyenv-virtualenv installed)
    pyenv install 3.9
    pyenv virtualenv 3.9 robotouille
-   pyenv activate robotouille
    ```
 2. Install Robotouille and its dependencies
    ```sh
+   cd robotouille
    pip install -e .
    ```
 3. Run Robotouille!
@@ -151,6 +167,25 @@ We appreciate all contributions to Robotouille. Bug fixes are always welcome, bu
 We build atop [Gym](https://www.gymlibrary.dev/index.html) environment and we render and take keyboard input using [PyGame](https://www.pygame.org/docs/), building on the [tutorial](https://www.gymlibrary.dev/content/environment_creation/) for making custom gym environments.
 
 [Currently broken [#37](https://github.com/portal-cornell/robotouille/issues/37)] We also support [PDDLGym](https://github.com/tomsilver/pddlgym); we programatically translate Robotouille into a PDDL domain and problem file which PDDLGym converts into a Gym environment.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- CITATION -->
+## Citation
+Please cite the [Robotouille](https://arxiv.org/pdf/2502.05227) paper if you use our dataset or code in your research:
+```
+@misc{gonzalezpumariega2025robotouilleasynchronousplanningbenchmark,
+  title={Robotouille: An Asynchronous Planning Benchmark for LLM Agents}, 
+  author={Gonzalo Gonzalez-Pumariega and Leong Su Yean and Neha Sunkara and Sanjiban Choudhury},
+  year={2025},
+  eprint={2502.05227},
+  archivePrefix={arXiv},
+  primaryClass={cs.RO},
+  url={https://arxiv.org/abs/2502.05227}, 
+}
+```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
