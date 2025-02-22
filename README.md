@@ -79,6 +79,9 @@ Check out the following papers where we've used Robotouille!
 | -------------- | --------------- | ---------------- |
 | [ReAct] (gpt-4o)     | **47.0**     | **11.0**     |
 | [ReAct] (gpt-4o-mini)     | 11.0     | 0.00     |
+| [ReAct] (Qwen2-32B-Instruct)     | 9.00     |1.00     |
+| [ReAct] (claude-3-haiku)     | 2.00     | 0.00     |
+| [ReAct] (Meta-Llama-3.1-8b-Instruct)     | 1.00     | 0.00     |
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
