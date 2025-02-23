@@ -27,7 +27,10 @@
                 "assets": {
                     "default": "bottombun.png"
                 },
-                "constants": {}
+                "constants": {
+                    "X_SCALE_FACTOR": 0.50,
+                    "Y_SCALE_FACTOR": 0.1
+                }
             },
             "topbun": {
                 "assets": {
@@ -38,6 +41,16 @@
             "bread": {
                 "assets": {
                     "default": "bread.png"
+                },
+                "constants": {}
+            },
+            "bun": {
+                "assets": {
+                    "default": "bun.png",
+                    "toasted": {
+                        "asset": "toastedbun.png",
+                        "predicates": ["istoasted"]
+                    }
                 },
                 "constants": {}
             },
@@ -72,6 +85,30 @@
                     }
                 },
                 "constants": {}
+            },
+            "hotdog": {
+                "assets": {
+                    "default": "hotdog.png",
+                    "grilled": {
+                        "asset": "grilledhotdog.png",
+                        "predicates": ["isgrilled"]
+                    },
+                    "has_ketchup": {
+                        "asset": "ketchup_hotdog.png",
+                        "predicates": ["isgrilled","has_ketchup"]
+                    },
+                    "has_mustard": {
+                        "asset": "mustard_hotdog.png",
+                        "predicates": ["isgrilled","has_mustard"]
+                    },
+                    "has_ketchup_mustard": {
+                        "asset": "ketchup_mustard_hotdog.png",
+                        "predicates": ["isgrilled","has_ketchup", "has_mustard"]
+                    }
+                },
+                "constants": {
+                    "STACK_OFFSET": -0.1
+                }
             },
             "lettuce": {
                 "assets": {
@@ -142,6 +179,12 @@
             "stove": {
                 "assets": {
                     "default": "stove.png"
+                },
+                "constants": {}
+            },
+            "grill": {
+                "assets": {
+                    "default": "grill.png"
                 },
                 "constants": {}
             },
@@ -235,6 +278,29 @@
                 "constants": {
                     "STATION_CONTAINER_OFFSET": 0.5
                 }
+            }
+        }
+    },
+    "condiment": {
+        "constants": {
+            "STATION_CONDIMENT_OFFSET" : 0.25,
+            "X_SCALE_FACTOR": 0.125,
+            "Y_SCALE_FACTOR": 0.75
+        },
+        "entities": {
+            "ketchupbottle": {
+                "assets": {
+                    "default": "ketchupbottle.png",
+                    "predicates": ["isketchup"]
+                },
+                "constants": {}
+            },
+            "mustardbottle": {
+                "assets": {
+                    "default": "mustardbottle.png",
+                    "predicates": ["ismustard"]
+                },
+                "constants": {}
             }
         }
     }
