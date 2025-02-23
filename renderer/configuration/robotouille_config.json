@@ -27,7 +27,10 @@
                 "assets": {
                     "default": "bottombun.png"
                 },
-                "constants": {}
+                "constants": {
+                    "X_SCALE_FACTOR": 0.50,
+                    "Y_SCALE_FACTOR": 0.1
+                }
             },
             "topbun": {
                 "assets": {
@@ -38,6 +41,16 @@
             "bread": {
                 "assets": {
                     "default": "bread.png"
+                },
+                "constants": {}
+            },
+            "bun": {
+                "assets": {
+                    "default": "bun.png",
+                    "toasted": {
+                        "asset": "toastedbun.png",
+                        "predicates": ["istoasted"]
+                    }
                 },
                 "constants": {}
             },
@@ -69,6 +82,50 @@
                     "cooked": {
                         "asset": "cookedpatty.png",
                         "predicates": ["iscooked"]
+                    }
+                },
+                "constants": {}
+            },
+            "hotdog": {
+                "assets": {
+                    "default": "hotdog.png",
+                    "grilled": {
+                        "asset": "grilledhotdog.png",
+                        "predicates": ["isgrilled"],
+                        "has_ketchup": {
+                            "asset": "ketchup_hotdog.png",
+                            "predicates": ["has_ketchup"]
+                        },
+                        "has_mustard": {
+                            "asset": "mustard_hotdog.png",
+                            "predicates": ["has_mustard"]
+                        }
+                    }
+                },
+                "constants": {
+                    "STACK_OFFSET": -0.1
+                }
+            },
+            "turkey": {
+                "assets": {
+                    "default": "turkey.png",
+                    "roasted": {
+                        "asset": "roastedturkey.png",
+                        "predicates": ["isroasted"]
+                    }
+                },
+                "constants": {}
+            },
+            "salmon": {
+                "assets": {
+                    "default": "salmon.png",
+                    "grilled": {
+                        "asset": "grilledsalmon.png",
+                        "predicates": ["isgrilled"]
+                    },
+                    "has_salt": {
+                        "asset": "grilledsaltedsalmon.png",
+                        "predicates": ["isgrilled","has_salt"]
                     }
                 },
                 "constants": {}
@@ -141,7 +198,17 @@
             },
             "stove": {
                 "assets": {
-                    "default": "stove.png"
+                    "default": "stove_oven.png",
+                    "oven_on": {
+                        "asset": "oven_on.png",
+                        "predicates": ["oven_on"]
+                    }
+                },
+                "constants": {}
+            },
+            "grill": {
+                "assets": {
+                    "default": "grill.png"
                 },
                 "constants": {}
             },
@@ -235,6 +302,33 @@
                 "constants": {
                     "STATION_CONTAINER_OFFSET": 0.5
                 }
+            }
+        }
+    },
+    "condiment": {
+        "constants": {
+            "STATION_CONDIMENT_OFFSET" : 0.25,
+            "X_SCALE_FACTOR": 0.125,
+            "Y_SCALE_FACTOR": 0.75
+        },
+        "entities": {
+            "ketchupbottle": {
+                "assets": {
+                    "default": "ketchupbottle.png"
+                },
+                "constants": {}
+            },
+            "mustardbottle": {
+                "assets": {
+                    "default": "mustardbottle.png"
+                },
+                "constants": {}
+            },
+            "salt": {
+                "assets": {
+                    "default": "salt.png"
+                },
+                "constants": {}
             }
         }
     }
