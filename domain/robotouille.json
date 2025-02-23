@@ -170,6 +170,42 @@
         {
             "name": "container_at",
             "param_types": ["container", "station"]
+        },
+        {
+            "name": "isblendercup",
+            "param_types": ["container"]
+        },
+        {
+            "name": "ismilk",
+            "param_types": ["item"]
+        },
+        {
+            "name": "pourable",
+            "param_types": ["item"]
+        },
+        {
+            "name": "filled",
+            "param_types": ["container"]
+        },
+        {
+            "name": "addedtocontainer",
+            "param_types": ["item", "container"]
+        },
+        {
+            "name": "blender_on",
+            "param_types": ["container"]
+        },
+        {
+            "name": "isblended",
+            "param_types": ["meal"]
+        },
+        {
+            "name": "issmoothiecup",
+            "param_types": ["container"]
+        },
+        {
+            "name": "issmoothie",
+            "param_types": ["meal"]
         }
     ],
 
@@ -1004,6 +1040,279 @@
             "precons": [],
             "immediate_fx": [],
             "sfx": []
+        },
+        {
+           "name": "pour",
+           "precons": [
+            {
+                "predicate": "pourable",
+                "params": ["i1"],
+                "is_true": true
+            },
+            {
+                "predicate": "ismilk",
+                "params": ["i1"],
+                "is_true": true
+            },
+            {
+                "predicate": "has_item",
+                "params": ["p1", "i1"],
+                "is_true": true
+            },
+            {
+                "predicate": "loc",
+                "params": ["p1", "s1"],
+                "is_true": true
+            },
+            {
+                "predicate": "container_at",
+                "params": ["c1", "s1"],
+                "is_true": true
+            },
+            {
+                "predicate": "isblendercup",
+                "params": ["c1"],
+                "is_true": true
+
+            },
+            {
+                "predicate": "filled",
+                "params": ["c1"],
+                "is_true": false
+            }
+           ],
+           "immediate_fx": [
+                {
+                    "predicate": "filled",
+                    "params": ["c1"],
+                    "is_true": true
+                }
+           ],
+           "sfx": [
+                {
+                    "type": "creation",
+                    "param": "c1",
+                    "created_obj": {
+                        "name": "smoothie",
+                        "type": "meal",
+                        "param": "m1"
+                    },
+                    "fx": [
+                        {
+                            "predicate": "issmoothie",
+                            "params": ["m1"],
+                            "is_true": true
+                        },
+                        {
+                            "predicate": "in",
+                            "params": ["m1", "c1"],
+                            "is_true": true
+                        },
+                        {
+                            "predicate": "container_empty",
+                            "params": ["c1"],
+                            "is_true": false
+                        }
+                    ],
+                    "sfx": []
+                }
+           ]
+
+        },
+        {
+            "name": "add_to_blender",
+            "precons": [
+                {
+                    "predicate": "isblendercup",
+                    "params": ["c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "filled",
+                    "params": ["c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "iscut",
+                    "params": ["i1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "in",
+                    "params": ["m1", "c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "loc",
+                    "params": ["p1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "container_at",
+                    "params": ["c1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "has_item",
+                    "params": ["p1", "i1"],
+                    "is_true": true
+                }
+            ],
+            "immediate_fx": [
+                {
+                    "predicate": "has_item",
+                    "params": ["p1", "i1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "addedto",
+                    "params": ["i1", "m1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
+                    "is_true": true
+                }
+            ],
+            "sfx": []
+        },
+        {
+            "name": "blend",
+            "precons": [
+                {
+                    "predicate": "isblendercup",
+                    "params": ["c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "filled",
+                    "params": ["c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "addedto",
+                    "params": ["i1", "m1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "in",
+                    "params": ["m1", "c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "loc",
+                    "params": ["p1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
+                    "is_true": true
+                }
+            ],
+            "immediate_fx": [],
+            "sfx": [
+                {
+                    "type": "conditional",
+                    "param": "c1",
+                    "conditions": [
+                        {
+                            "predicate": "filled",
+                            "params": ["c1"],
+                            "is_true": true
+                        }
+                    ],
+                    "fx": [],
+                    "sfx": [
+                        {
+                            "type": "delayed",
+                            "param": "c1",
+                            "fx": [
+                                {
+                                    "predicate": "isblended",
+                                    "params": ["m1"],
+                                    "is_true": true
+                                }
+                            ],
+                            "sfx": []
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "fill_cup",
+            "precons": [
+                {
+                    "predicate": "issmoothiecup",
+                    "params": ["c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "isblendercup",
+                    "params": ["c2"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "container_at",
+                    "params": ["c1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "in",
+                    "params": ["m1", "c2"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "loc",
+                    "params": ["p1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "container_empty",
+                    "params": ["c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "has_container",
+                    "params": ["p1", "c2"],
+                    "is_true": true
+                }
+            ],
+            "immediate_fx": [
+                {
+                    "predicate": "in",
+                    "params": ["m1", "c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "in",
+                    "params": ["m1", "c2"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "container_empty",
+                    "params": ["c1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "container_empty",
+                    "params": ["c2"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "filled",
+                    "params": ["c1"],
+                    "is_true": true
+                }
+            ],
+            "sfx": []
         }
+        
+        
+        
+         
+        
     ]
 }
