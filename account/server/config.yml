@@ -1,0 +1,25 @@
+# Database settings
+database:
+  host: localhost
+  port: 5432
+  database: oauth_db
+
+# Security settings
+security:
+  jwt_algorithm: HS256
+  # 1 hour access token lifetime
+  access_token_expiry_minutes: 60
+  # 30 days refresh token lifetime
+  refresh_token_expiry_days: 30
+
+# OAuth settings
+oauth:
+  # Standard Google OAuth endpoint
+  google_token_info_url: https://oauth2.googleapis.com/tokeninfo
+
+# Server settings
+server:
+  host: 0.0.0.0
+  port: 8000
+  debug: false
+  log_level: INFO
