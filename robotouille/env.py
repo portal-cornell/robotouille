@@ -100,9 +100,15 @@ def build_station_location_predicates(environment_dict):
             pred = Predicate().initialize("vacant", ["station"], [station_obj])
             predicates.append(pred)
         match = False
-        # Check if there are any items or containers at the station
-        for field in ["items", "containers"]:
-            predicate = "item_at" if field == "items" else "container_at"
+        # Check if there are any items, containers, or packages at the station
+        for field in ["items", "containers", "packages"]:
+            if field == "items":
+                predicate = "item_at"
+            elif field == "containers":
+                predicate = "container_at"
+            else:
+                predicate = "package_at"
+            # predicate = "item_at" if field == "items" else "container_at"
             for entity in environment_dict.get(field, []):
                 x = entity["x"]
                 y = entity["y"]
@@ -112,7 +118,7 @@ def build_station_location_predicates(environment_dict):
                     pred = Predicate().initialize(predicate, [field[:-1], "station"], [obj, station_obj])
                     predicates.append(pred)
                     match = True
-        # If no items or containers are at the station, add a station_empty predicate
+        # If no items, containers, or packages are at the station, add a station_empty predicate
         if not match:
             pred = Predicate().initialize("station_empty", ["station"], [station_obj])
             predicates.append(pred)
@@ -148,6 +154,14 @@ def build_player_location_predicates(environment_dict):
                 if player["x"] == container["x"] and player["y"] == container["y"]:
                     obj = Object(container["name"], "container")
                     pred = Predicate().initialize("has_container", ["player", "container"], [player_obj, obj])
+                    predicates.append(pred)
+                    match = True
+                    break
+        if not match and environment_dict.get("packages"):
+            for package in environment_dict["packages"]:
+                if player["x"] == package["x"] and player["y"] == package["y"]:
+                    obj = Object(package["name"], "package")
+                    pred = Predicate().initialize("has_package", ["player", "package"], [player_obj, obj])
                     predicates.append(pred)
                     match = True
                     break
