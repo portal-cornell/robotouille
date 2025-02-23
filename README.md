@@ -56,9 +56,14 @@
 ## About The Project
 
 <p align="middle">
-  <img src="README_assets/lettuce_tomato_burger.gif" alt="Robot making a lettuce tomato burger in a procedurally generated kitchen" width="250" height="250"/>
+  <!-- <img src="README_assets/lettuce_tomato_burger.gif" alt="Robot making a lettuce tomato burger in a procedurally generated kitchen" width="250" height="250"/>
   <img src="README_assets/kitchen.gif" alt="Robot making a lettuce burger in a custom-made kitchen" width="250" height="250"/>
-  <img src="README_assets/cheese_burger.gif" alt="Robot making a cheese burger in a custom-made kitchen" width="250" height="250"/>
+  <img src="README_assets/cheese_burger.gif" alt="Robot making a cheese burger in a custom-made kitchen" width="250" height="250"/> -->
+  <!-- <video width="100%" height="100%" autoplay loop muted>
+            <source src="./static/videos/all_tasks.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+    </video> -->
+  <img src="README_assets/tasks.gif" alt="Many robots working in many kitchens to cook many dishes" width="750" height="625"/>
 </p>
 
 Robotouille is a challenging benchmark environment designed to test LLM agents on 30 complex long-horizon planning, including synchronous, asynchronous, and multi-agent scenarios. Each scenario comes with a curated dataset containing 10 unique tasks each with 10 procedurally generated instances, designed to evaluate reasoning over time delays, diverse long-horizon tasks, and coordination challenges.
