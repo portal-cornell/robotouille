@@ -1,0 +1,94 @@
+{
+    "version": "1.0.0",
+    "width": 4,
+    "height": 4,
+    "config": {
+        "cook_time": {
+            "default": 3
+        }
+    },
+    "stations": [
+        {
+            "name": "table",
+            "x": 0,
+            "y": 1
+        },
+        {
+            "name": "fryer",
+            "x": 2,
+            "y": 1,
+            "id": "A"
+        },
+        {
+            "name": "table",
+            "x": 0,
+            "y": 0
+        },
+        {
+            "name": "board",
+            "x": 2,
+            "y": 0,
+            "id": "B"
+        },
+        {
+            "name": "batter_station",
+            "x": 3,
+            "y": 3,
+            "id": "C"
+        }
+    ],
+    "items": [
+        {
+            "name": "butterchicken",
+            "x": 0,
+            "y": 1,
+            "stack-level": 0,
+            "predicates": ["isbatterable", "isfryable", "iscuttable"],
+            "id": "a"
+        }
+    ],
+    "condiments": [
+        
+        {
+            "name": "tomatosauce",
+            "x": 0,
+            "y": 0,
+            "stack-level": 0,
+            "predicates": ["istomatosauce"],
+            "id": "b"
+        }
+        
+    ],
+    "players": [
+        {
+            "name": "robot",
+            "x": 1,
+            "y": 0,
+            "direction": [-1, 0]
+        }
+    ],
+    "goal description": "Cut, batter, fry, and apply tomato sauce to chicken",
+    "goal": [
+        {
+            "predicate": "iscut",
+            "args": ["butterchicken"],
+            "ids": ["a"]
+        },
+        {
+            "predicate": "isbattered",
+            "args": ["butterchicken"],
+            "ids": ["a"]
+        },
+        {
+            "predicate": "isfried",
+            "args": ["butterchicken"],
+            "ids": ["a"]
+        },
+        {
+            "predicate": "has_tomato_sauce",
+            "args": ["butterchicken"],
+            "ids": ["a"]
+        }
+
+    ]
+}
