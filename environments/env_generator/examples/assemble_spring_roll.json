@@ -1,0 +1,91 @@
+{
+    "version": "1.0.0",
+    "width": 5,
+    "height": 5,
+    "config": {
+        "num_cuts": {
+            "lettuce": 3,
+            "default": 3
+        },
+        "cook_time": {
+            "patty": 3,
+            "default": 3
+        }
+    },
+    "stations": [
+        {
+            "name": "table",
+            "x": 0,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 1,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 2,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 3,
+            "y": 1
+        },
+        {
+            "name": "fryer",
+            "x": 4,
+            "y": 4
+        }
+    ],
+    "items": [
+        {
+            "name": "mushroom",
+            "x": 0,
+            "y": 1,
+            "stack-level": 0,
+            "predicates": []
+        },
+        {
+            "name": "lettuce",
+            "x": 2,
+            "y": 1,
+            "stack-level": 0,
+            "predicates": ["iscut", "iscuttable"]
+        },
+        {
+            "name": "carrot",
+            "x": 1,
+            "y": 1,
+            "stack-level": 0,
+            "predicates": ["iscut", "iscuttable"]
+        }
+    ],
+    "meals": [],
+    "containers": [],
+    "bundles": [
+        {
+            "name": "rollsheet",
+            "x": 3,
+            "y": 1,
+            "id": 1,
+            "predicates": ["isfryable-bundle"]
+        }
+    ],
+    "players": [
+        {
+            "name": "robot",
+            "x": 0,
+            "y": 0,
+            "direction": [0, 1]
+        }
+    ],
+    "goal": [
+        {
+            "predicate": "isfried-bundle",
+            "args": ["rollsheet"],
+            "ids": [1, 2]
+        }
+    ]
+}
