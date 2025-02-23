@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class Item(Enum):
     BOTTOMBUN = "bottombun"
     LETTUCE = "lettuce"
@@ -11,30 +12,77 @@ class Item(Enum):
     ONION = "onion"
     CHICKEN = "chicken"
     POTATO = "potato"
+    SALMON = "salmon"
+    RICE = "rice"
+    CUCUMBER = "cucumber"
+    APPLE = "apple"
+    CHEESETRI = "cheesetri"
+    PEPPERONI = "pepperoni"
+    HOTDOG = "hotdog"
+    BUN = "bun"
+    TURKEY = "turkey"
+    SHRIMP = "shrimp"
+    CROISSANT = "croissant"
+    ROLLINGPIN = "rollingpin"
+    BUTTERCHICKEN = "butterchicken"
+    BEANS = "beans"
+
 
 class Player(Enum):
     ROBOT = "robot"
 
+
 class Station(Enum):
     BOARD = "board"
     STOVE = "stove"
+    OVEN = "oven"
     TABLE = "table"
     FRYER = "fryer"
     SINK = "sink"
     COUNTER = "counter"
     BLENDER = "blender"
+    GRILL = "grill"
+    BATTER_STATION = "batter_station"
+
 
 class Container(Enum):
     POT = "pot"
     BOWL = "bowl"
     BLENDERCUP = "blendercup"
+    SEAWEED = "seaweed"
+
 
 class Meal(Enum):
     WATER = "water"
     BOILING_WATER = "boiling_water"
     SOUP = "soup"
+    SUSHI = "sushi"
 
-TYPES = {"item": Item, "player": Player, "station": Station, "container": Container, "meal": Meal}
+
+class Bundle(Enum):
+    SEAWEED = "seaweed"
+    TART = "tart"
+    PIZZA = "pizza"
+    BURRITO = "burrito"
+
+
+class Condiment(Enum):
+    KETCHUP = "ketchupbottle"
+    MUSTARD = "mustardbottle"
+    SALT = "salt"
+    TOMATOSAUCE = "tomatosauce"
+
+
+TYPES = {
+    "item": Item,
+    "player": Player,
+    "station": Station,
+    "container": Container,
+    "meal": Meal,
+    "condiment": Condiment,
+    "bundle": Bundle,
+}
+
 
 def str_to_typed_enum(s):
     """
@@ -42,14 +90,14 @@ def str_to_typed_enum(s):
 
     Args:
         s (str): String to convert.
-    
+
     Raises:
         ValueError: If the string cannot be converted into any of the typed enums.
-    
+
     Returns:
         typed_enum (Enum): Enum of the string.
     """
-    for typed_enum in [Item, Player, Station, Container, Meal]:
+    for typed_enum in [Item, Player, Station, Container, Meal, Condiment, Bundle]:
         try:
             return typed_enum(s)
         except ValueError:
