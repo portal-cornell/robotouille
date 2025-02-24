@@ -1,0 +1,172 @@
+{
+    "version": "1.0.0",
+    "width": 6,
+    "height": 6,
+    "config": {
+        "num_cuts": {
+            "onion": 3,
+            "potato": 3,
+            "default": 3
+        },
+        "fry_time": {
+            "onion": 3,
+            "potato": 3,
+            "chicken": 3,
+            "default": 3
+        }
+    },
+    "stations": [
+        {
+            "name": "table",
+            "x": 0,
+            "y": 1
+        },
+        {
+            "name": "fryer",
+            "x": 1,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 2,
+            "y": 1
+        },
+        {
+            "name": "board",
+            "x": 3,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 4,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 0,
+            "y": 3
+        },
+        {
+            "name": "table",
+            "x": 1,
+            "y": 3
+        },
+        {
+            "name": "board",
+            "x": 2,
+            "y": 3
+        },
+        {
+            "name": "table",
+            "x": 3,
+            "y": 3
+        },
+        {
+            "name": "table",
+            "x": 4,
+            "y": 3
+        }
+    ],
+    "items": [
+        {
+            "name": "chicken",
+            "x": 0,
+            "y": 1,
+            "stack-level": 0,
+            "predicates": ["isfryable"]
+        },
+        {
+            "name": "lettuce",
+            "x": 2,
+            "y": 1,
+            "stack-level": 0,
+            "predicates": ["iscuttable"]
+        },
+        {
+            "name": "bottombun",
+            "x": 4,
+            "y": 1,
+            "stack-level": 0
+        },
+        {
+            "name": "topbun",
+            "x": 4,
+            "y": 3,
+            "stack-level": 0
+        },
+        {
+            "name": "onion",
+            "x": 1,
+            "y": 3,
+            "stack-level": 0,
+            "predicates": ["iscuttable", "isfryableifcut"]
+        }
+    ],
+    "players": [
+        {
+            "name": "robot",
+            "x": 0,
+            "y": 0,
+            "direction": [0, 1]
+        },
+        {
+            "name": "robot",
+            "x": 1,
+            "y": 0,
+            "direction": [0, 1]
+        }
+    ],
+    "goal_description": "Make a lettuce fried chicken fried onion burger on a table.",
+    "goal": [
+        {
+            "predicate": "clear",
+            "args": ["topbun"],
+            "ids": [1]
+        },
+        {
+            "predicate": "item_at",
+            "args": ["topbun", "table"],
+            "ids": [1, 2]
+        },
+        {
+            "predicate": "iscut",
+            "args": ["lettuce"],
+            "ids": [3]
+        },
+        {
+            "predicate": "item_at",
+            "args": ["lettuce", "table"],
+            "ids": [3, 2]
+        },
+        {
+            "predicate": "isfried",
+            "args": ["chicken"],
+            "ids": [4]
+        },
+        {
+            "predicate": "item_at",
+            "args": ["chicken", "table"],
+            "ids": [4, 2]
+        },
+        {
+            "predicate": "iscut",
+            "args": ["onion"],
+            "ids": [5]
+        },
+        {
+            "predicate": "isfried",
+            "args": ["onion"],
+            "ids": [5]
+        },
+        {
+            "predicate": "item_at",
+            "args": ["onion", "table"],
+            "ids": [5, 2]
+        },
+        {
+            "predicate": "item_on",
+            "args": ["bottombun", "table"],
+            "ids": [6, 2]
+        }
+    ]
+}

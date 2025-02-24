@@ -38,6 +38,7 @@
             "direction": [0, 1]
         }
     ],
+    "goal_description": "Fully cook the patty",
     "goal": [
         {
             "predicate": "iscooked",

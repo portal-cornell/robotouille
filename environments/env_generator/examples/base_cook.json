@@ -38,6 +38,7 @@
             "direction": [0, 1]
         }
     ],
+    "goal_description": "Cook the patty on the stove",
     "goal": [
         {
             "predicate": "iscooked",

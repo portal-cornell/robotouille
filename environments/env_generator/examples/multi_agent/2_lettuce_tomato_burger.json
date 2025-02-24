@@ -1,0 +1,172 @@
+{
+    "version": "1.0.0",
+    "width": 6,
+    "height": 6,
+    "config": {
+        "num_cuts": {
+            "lettuce": 3,
+            "default": 3
+        },
+        "cook_time": {
+            "patty": 3,
+            "default": 3
+        }
+    },
+    "stations": [
+        {
+            "name": "table",
+            "x": 0,
+            "y": 1
+        },
+        {
+            "name": "stove",
+            "x": 1,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 2,
+            "y": 1
+        },
+        {
+            "name": "board",
+            "x": 3,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 4,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 0,
+            "y": 3
+        },
+        {
+            "name": "board",
+            "x": 1,
+            "y": 3
+        },
+        {
+            "name": "table",
+            "x": 2,
+            "y": 3
+        },
+        {
+            "name": "table",
+            "x": 3,
+            "y": 3
+        },
+        {
+            "name": "table",
+            "x": 4,
+            "y": 3
+        }
+    ],
+    "items": [
+        {
+            "name": "patty",
+            "x": 0,
+            "y": 1,
+            "stack-level": 0,
+            "predicates": ["iscookable"]
+        },
+        {
+            "name": "lettuce",
+            "x": 2,
+            "y": 1,
+            "stack-level": 0,
+            "predicates": ["iscuttable"]
+        },
+        {
+            "name": "bottombun",
+            "x": 4,
+            "y": 1,
+            "stack-level": 0
+        },
+        {
+            "name": "topbun",
+            "x": 4,
+            "y": 3,
+            "stack-level": 0
+        },
+        {
+            "name": "cheese",
+            "x": 0,
+            "y": 3,
+            "stack-level": 0
+        },
+        {
+            "name": "tomato",
+            "x": 2,
+            "y": 3,
+            "stack-level": 0,
+            "predicates": ["iscuttable"]
+        },
+        {
+            "name": "chicken",
+            "x": 3,
+            "y": 3,
+            "stack-level": 0,
+            "predicates": ["iscookable"]
+        }
+    ],
+    "players": [
+        {
+            "name": "robot",
+            "x": 0,
+            "y": 0,
+            "direction": [0, 1]
+        },
+        {
+            "name": "robot",
+            "x": 1,
+            "y": 0,
+            "direction": [0, 1]
+        }
+    ],
+    "goal_description": "Make a lettuce tomato burger on a table with lettuce on tomato on patty.",
+    "goal": [
+        {
+            "predicate": "iscut",
+            "args": ["lettuce"],
+            "ids": [1]
+        },
+        {
+            "predicate": "atop",
+            "args": ["topbun", "lettuce"],
+            "ids": [2, 1]
+        },
+        {
+            "predicate": "iscut",
+            "args": ["tomato"],
+            "ids": [3]
+        },
+        {
+            "predicate": "atop",
+            "args": ["lettuce", "tomato"],
+            "ids": [1, 3]
+        },
+        {
+            "predicate": "iscooked",
+            "args": ["patty"],
+            "ids": [4]
+        },
+        {
+            "predicate": "atop",
+            "args": ["tomato", "patty"],
+            "ids": [3, 4]
+        },
+        {
+            "predicate": "atop",
+            "args": ["patty", "bottombun"],
+            "ids": [4, 5]
+        },
+        {
+            "predicate": "item_on",
+            "args": ["bottombun", "table"],
+            "ids": [5, 6]
+        }
+    ]
+}

@@ -1,0 +1,146 @@
+{
+    "version": "1.0.0",
+    "width": 5,
+    "height": 5,
+    "config": {
+        "num_cuts": {
+            "default": 3
+        },
+        "cook_time": {
+            "default": 3
+        }
+    },
+    "stations": [
+        {
+            "name": "table",
+            "x": 0,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 2,
+            "y": 3
+        },
+        {
+            "name": "stove",
+            "x": 1,
+            "y": 1
+        },
+        {
+            "name": "board",
+            "x": 2,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 3,
+            "y": 3
+        },
+        {
+            "name": "fryer",
+            "x": 3,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 4,
+            "y": 1
+        }
+    ],
+    "items": [
+        {
+            "name": "bottombun",
+            "x": 0,
+            "y": 1,
+            "stack-level": 0
+        },
+        {
+            "name": "topbun",
+            "x": 0,
+            "y": 1,
+            "stack-level": 1
+        },
+        {
+            "name": "potato",
+            "x": 2,
+            "y": 3,
+            "stack-level": 0,
+            "predicates": ["iscuttable", "isfryableifcut"]
+        },
+        {
+            "name": "tomato",
+            "x": 4,
+            "y": 1,
+            "stack-level": 0,
+            "predicates": ["iscuttable"]
+        },
+        {
+            "name": "patty",
+            "x": 3,
+            "y": 3,
+            "stack-level": 0,
+            "predicates": ["iscookable"]
+        }
+    ],
+    "players": [
+        {
+            "name": "robot",
+            "x": 0,
+            "y": 2,
+            "direction": [0, -1]
+        }
+    ],
+    "goal_description": "Prepare a tomato burger and fries on separate tables",
+    "goal": [
+        {
+            "predicate": "item_on",
+            "args": ["bottombun", "table"],
+            "ids": [1, 2]
+        },
+        {
+            "predicate": "iscooked",
+            "args": ["patty"],
+            "ids": [3]
+        },
+        {
+            "predicate": "item_at",
+            "args": ["patty", "table"],
+            "ids": [3, 2]
+        },
+        {
+            "predicate": "iscut",
+            "args": ["tomato"],
+            "ids": [4]
+        },
+        {
+            "predicate": "item_at",
+            "args": ["tomato", "table"],
+            "ids": [4, 2]
+        },
+        {
+            "predicate": "item_at",
+            "args": ["topbun", "table"],
+            "ids": [5, 2]
+        },
+        {
+            "predicate": "clear",
+            "args": ["topbun"],
+            "ids": [5]
+        },
+        {
+            "predicate": "iscut",
+            "args": ["potato"],
+            "ids": [6]
+        },
+        {
+            "predicate": "isfried",
+            "args": ["potato"],
+            "ids": [6]
+        },
+        {
+            "predicate": "item_on",
+            "args": ["potato", "table"],
+            "ids": [6, 7]
+        }
+    ]
+}

@@ -1,0 +1,185 @@
+Interaction 1
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bread1
+table1 has bread1 directly on top of it
+table1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has lettuce1
+board1 has lettuce1 directly on top of it
+board1 has no players at it
+
+Station sink1:
+sink1 is a sink
+sink1 has nothing on it
+sink1 has no players at it
+
+Station table2:
+table2 is a table
+table2 is occupied by robot1
+table2 has chicken1
+table2 has chicken1 directly on top of it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 has nothing on it
+table3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station sink2:
+sink2 is a sink
+sink2 has potato1
+sink2 has potato1 directly on top of it
+sink2 has no players at it
+
+Station sink3:
+sink3 is a sink
+sink3 has onion1
+sink3 has onion1 directly on top of it
+sink3 has no players at it
+
+Station fryer2:
+fryer2 is a fryer
+fryer2 has bread2
+fryer2 has bread2 directly on top of it
+fryer2 has no players at it
+
+Station sink4:
+sink4 is a sink
+sink4 has onion2
+sink4 has onion2 directly on top of it
+sink4 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has nothing on it
+board2 has no players at it
+
+Item bread1:
+bread1 is a bread slice
+bread1 is at table1
+bread1 is directly on top of table1
+bread1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at board1
+lettuce1 is directly on top of board1
+lettuce1 has nothing above it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be cooked on a stove
+chicken1 is at table2
+chicken1 is directly on top of table2
+chicken1 has nothing above it
+
+Item potato1:
+potato1 is a potato
+potato1 is at sink2
+potato1 is directly on top of sink2
+potato1 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is at sink3
+onion1 is directly on top of sink3
+onion1 has nothing above it
+
+Item bread2:
+bread2 is a bread slice
+bread2 is at fryer2
+bread2 is directly on top of fryer2
+bread2 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at sink4
+onion2 is directly on top of sink4
+onion2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table2
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table2 to table1
+Move robot1 from table2 to board1
+Move robot1 from table2 to sink1
+Move robot1 from table2 to fryer1
+Move robot1 from table2 to table3
+Move robot1 from table2 to stove1
+Move robot1 from table2 to sink2
+Move robot1 from table2 to sink3
+Move robot1 from table2 to fryer2
+Move robot1 from table2 to sink4
+Move robot1 from table2 to board2
+Pick up chicken1 from table2 using robot1
+Do nothing
+
+Goal: Prepare an onion chicken sandwich on a table
+
+
+Action: Pick up chicken1 from table2 using robot1
+Next State Change: chicken1 is held by robot1, chicken1 is not at table2
+Action: Move robot1 from table2 to stove1
+Next State Change: robot1 is at stove1, robot1 is not at table2
+Action: Place chicken1 on stove1 using robot1
+Next State Change: chicken1 is at stove1, chicken1 is not held by robot1
+Action: Cook chicken1 on stove1 using robot1
+Next State Change: chicken1 has started to cook
+Action: Move robot1 from stove1 to sink4
+Next State Change: chicken1 is cooking (3), robot1 is at sink4, robot1 is not at stove1
+Action: Pick up onion2 from sink4 using robot1
+Next State Change: chicken1 is cooking (2), onion2 is held by robot1, onion2 is not at sink4
+Action: Move robot1 from sink4 to board2
+Next State Change: chicken1 is cooking (1), robot1 is at board2, robot1 is not at sink4
+Action: Place onion2 on board2 using robot1
+Next State Change: chicken1 is cooked, onion2 is on board2, onion2 is not held by robot1
+Action: Cut onion2 on board2 using robot1
+Next State Change: onion2 is being cut (2)
+Action: Cut onion2 on board2 using robot1
+Next State Change: onion2 is being cut (1)
+Action: Cut onion2 on board2 using robot1
+Next State Change: onion2 is cut
+Action: Pick up onion2 from board2 using robot1
+Next State Change: onion2 is held by robot1, onion2 is not on board2
+Action: Move robot1 from board2 to table1
+Next State Change: robot1 is at table1, robot1 is not at board2
+Action: Stack onion2 on top of bread1 using robot1
+Next State Change: onion2 is atop bread1, onion2 is not held by robot1
+Action: Move robot1 from table1 to stove1
+Next State Change: robot1 is at stove1, robot1 is not at table1
+Action: Pick up chicken1 from stove1 using robot1
+Next State Change: chicken1 is held by robot1, chicken1 is not at stove1
+Action: Move robot1 from stove1 to table1
+Next State Change: robot1 is at table1, robot1 is not at stove1
+Action: Stack chicken1 on top of onion2 using robot1
+Next State Change: chicken1 is atop onion2, chicken1 is not held by robot1
+Action: Move robot1 from table1 to fryer2
+Next State Change: robot1 is at fryer2, robot1 is not at table1
+Action: Pick up bread2 from fryer2 using robot1
+Next State Change: bread2 is held by robot1, bread2 is not at fryer2
+Action: Move robot1 from fryer2 to table1
+Next State Change: robot1 is at table1, robot1 is not at fryer2
+Action: Stack bread2 on top of chicken1 using robot1
+Next State Change: bread2 is atop chicken1, bread2 is not held by robot1. Goal achieved!

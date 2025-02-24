@@ -49,6 +49,7 @@
             "direction": [0, 1]
         }
     ],
+    "goal_description": "Unstack the stacked item",
     "goal": [
         {
             "predicate": "has_item",

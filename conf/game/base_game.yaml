@@ -1,0 +1,14 @@
+agent_name: "human"                                       # The name of the agent to use. See agents/__init__.py for available agents
+environment_name: "original"                              # The name of the environment to run. See environments/env_generator/examples for available environments
+seed: null                                                # The seed used to procedurally generate the environment
+noisy_randomization: false                                # Whether to enable 'noisy randomization' for the environment. See environments/README.md for more information
+max_steps: 100                                            # The maximum number of steps to run the environment for
+max_step_multiplier: 1                                    # If max_steps is null, the max steps are dependent on the optimal plan length, scaled by this multiplier
+render_mode: "human"                                      # The mode to render the environment in. Options: ['human', 'rgb_array']
+
+stochastic: false                                         # Whether to enable stochasticity in the environment
+
+record: false                                             # Whether to record the environment. If true, the video will be saved to the path specified in video_path
+fourcc_str: 'avc1'                                        # The fourcc string to use for the video codec. Defaults to mp4 w/ H.264 codec.
+video_fps: 60                                             # The frames per second to record the video at
+video_path: ${hydra:runtime.output_dir}/video_human.mp4   # The name of the file to save a playback video to

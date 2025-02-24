@@ -1,0 +1,19 @@
+# @package _global_
+defaults:
+  - override /game: base_game
+  - override /llm: base_llm
+
+game:
+  agent_name: human
+  environment_name: "original" # Override environment to your choice
+  seed: null # Override seed to enable procedural generation
+  max_steps: 100
+  max_step_multiplier: 1.5
+  render_mode: "human"
+
+  record: true
+  video_path: ${hydra:runtime.output_dir}/video_human.mp4
+
+llm:
+  # Log path for 'agent' - human does not use LLM
+  log_path: ${hydra:runtime.output_dir}/in-context_example.txt

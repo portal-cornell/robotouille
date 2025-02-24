@@ -1,0 +1,73 @@
+# @package _global_
+defaults:
+  - override /evaluation: base_evaluation
+  - override /game: base_game
+  - override /llm: base_llm
+
+evaluation:
+  evaluate: true
+  environment_names: [
+    "asynchronous/0_cheese_chicken_sandwich",
+    "asynchronous/1_lettuce_chicken_sandwich",
+    "asynchronous/2_lettuce_tomato_fried_chicken_sandwich",
+    "asynchronous/3_tomato_burger_and_fries",
+    "asynchronous/4_onion_cheese_burger_and_fried_onion",
+    "asynchronous/5_potato_soup",
+    "asynchronous/6_onion_soup",
+    "asynchronous/7_tomato_soup_and_lettuce_chicken_sandwich",
+    "asynchronous/8_onion_tomato_soup_and_two_chicken_sandwich",
+    "asynchronous/9_onion_potato_soup_and_fried_onion_ring_lettuce_burger_and_onion_cheese_sandwich"
+  ]
+  optimal_steps: [
+    21,
+    27,
+    37,
+    42,
+    46,
+    19,
+    42,
+    46,
+    68,
+    82
+  ]
+  testing_seeds: [42, 84, 126, 168, 210, 252, 294, 336, 378, 420]
+  log_dir_path: ${hydra:runtime.output_dir}/evaluation
+
+game:
+  agent_name: Reflexion
+  max_steps: null
+  max_step_multiplier: 1.5
+  render_mode: "rgb_array"
+
+  record: true
+  video_fps: 3
+  video_path: ${hydra:runtime.output_dir}/video_Reflexion.mp4
+
+llm:
+  llm_model: gpt-4o
+  log_path: ${hydra:runtime.output_dir}/log_Reflexion.txt
+  num_examples: 1
+  example_dir_path: asynchronous/react_examples_cheaper
+  retries: 1
+  prompts:
+    action_proposal_prompt:
+      experiment_name: Reflexion
+      prompt_description: last-reasoning-action-mpc
+      prompt_version: 1.0.1
+    reflection_prompt:
+      experiment_name: Reflexion
+      prompt_description: original
+      prompt_version: 1.0.0
+      model: ${llm.llm_model}
+      temperature: ${llm.temperature}
+      max_attempts: ${llm.max_attempts}
+      debug: ${llm.debug}
+      sleep_time: ${llm.sleep_time}
+      mock: ${llm.mock}
+      completion_tokens: ${llm.completion_tokens}
+  # ReAct specific configuration
+  is_no_history: false
+  is_last_action: false
+  is_last_reasoning_action: true
+  is_last_obs_reasoning_action: false
+    

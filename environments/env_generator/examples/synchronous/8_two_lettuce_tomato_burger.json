@@ -1,0 +1,211 @@
+{
+    "version": "1.0.0",
+    "width": 5,
+    "height": 5,
+    "config": {
+        "num_cuts": {
+            "lettuce": 3,
+            "default": 3
+        },
+        "cook_time": {
+            "patty": 3,
+            "default": 3
+        }
+    },
+    "stations": [
+        {
+            "name": "table",
+            "x": 0,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 0,
+            "y": 3
+        },
+        {
+            "name": "table",
+            "x": 2,
+            "y": 3
+        },
+        {
+            "name": "table",
+            "x": 3,
+            "y": 3
+        },
+        {
+            "name": "table",
+            "x": 4,
+            "y": 3
+        },
+        {
+            "name": "table",
+            "x": 1,
+            "y": 1
+        },
+        {
+            "name": "board",
+            "x": 2,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 3,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 4,
+            "y": 1
+        }
+    ],
+    "items": [
+        {
+            "name": "bottombun",
+            "x": 0,
+            "y": 1,
+            "stack-level": 0
+        },
+        {
+            "name": "topbun",
+            "x": 0,
+            "y": 1,
+            "stack-level": 1
+        },
+        {
+            "name": "bottombun",
+            "x": 0,
+            "y": 3,
+            "stack-level": 0
+        },
+        {
+            "name": "topbun",
+            "x": 0,
+            "y": 3,
+            "stack-level": 1
+        },
+        {
+            "name": "lettuce",
+            "x": 2,
+            "y": 3,
+            "stack-level": 0,
+            "predicates": ["iscuttable"]
+        },
+        {
+            "name": "lettuce",
+            "x": 3,
+            "y": 3,
+            "stack-level": 0,
+            "predicates": ["iscuttable"]
+        },
+        {
+            "name": "patty",
+            "x": 1,
+            "y": 1,
+            "stack-level": 0,
+            "predicates": ["iscooked"]
+        },
+        {
+            "name": "patty",
+            "x": 1,
+            "y": 1,
+            "stack-level": 1,
+            "predicates": ["iscooked"]
+        },
+        {
+            "name": "tomato",
+            "x": 3,
+            "y": 1,
+            "stack-level": 1,
+            "predicates": ["iscuttable"]
+        },
+        {
+            "name": "tomato",
+            "x": 4,
+            "y": 1,
+            "stack-level": 1,
+            "predicates": ["iscuttable"]
+        }
+    ],
+    "players": [
+        {
+            "name": "robot",
+            "x": 0,
+            "y": 2,
+            "direction": [0, -1]
+        }
+    ],
+    "goal_description": "Prepare two lettuce tomato burgers on separate tables",
+    "goal": [
+        {
+            "predicate": "item_on",
+            "args": ["bottombun", "table"],
+            "ids": [1, 2]
+        },
+        {
+            "predicate": "iscut",
+            "args": ["lettuce"],
+            "ids": [3]
+        },
+        {
+            "predicate": "item_at",
+            "args": ["lettuce", "table"],
+            "ids": [3, 2]
+        },
+        {
+            "predicate": "iscooked",
+            "args": ["patty"],
+            "ids": [4]
+        },
+        {
+            "predicate": "item_at",
+            "args": ["patty", "table"],
+            "ids": [4, 2]
+        },
+        {
+            "predicate": "item_at",
+            "args": ["topbun", "table"],
+            "ids": [5, 2]
+        },
+        {
+            "predicate": "clear",
+            "args": ["topbun"],
+            "ids": [5]
+        },
+        {
+            "predicate": "item_on",
+            "args": ["bottombun", "table"],
+            "ids": [6, 7]
+        },
+        {
+            "predicate": "iscut",
+            "args": ["lettuce"],
+            "ids": [8]
+        },
+        {
+            "predicate": "item_at",
+            "args": ["lettuce", "table"],
+            "ids": [8, 7]
+        },
+        {
+            "predicate": "iscooked",
+            "args": ["patty"],
+            "ids": [9]
+        },
+        {
+            "predicate": "item_at",
+            "args": ["patty", "table"],
+            "ids": [9, 7]
+        },
+        {
+            "predicate": "item_at",
+            "args": ["topbun", "table"],
+            "ids": [10, 7]
+        },
+        {
+            "predicate": "clear",
+            "args": ["topbun"],
+            "ids": [10]
+        }
+    ]
+}
