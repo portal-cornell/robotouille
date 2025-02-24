@@ -7,7 +7,7 @@ defaults:
 evaluation:
   evaluate: true
   environment_names: [
-    "asynchronous/0_cheese_chicken_sandwich"
+    "asynchronous/0_cheese_chicken_sandwich",
     "asynchronous/1_lettuce_chicken_sandwich",
     "asynchronous/2_lettuce_tomato_fried_chicken_sandwich",
     "asynchronous/3_tomato_burger_and_fries",

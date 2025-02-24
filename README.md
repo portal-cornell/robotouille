@@ -113,8 +113,8 @@ It is super easy to get started by trying out an existing environment or creatin
    ```
 2. Install Robotouille and its dependencies
    ```sh
-   cd robotouille
    pip install -e .
+   pip install -e agents/prompt_builder/gpt-cost-estimator
    ```
 3. Run Robotouille!
    ```sh
