@@ -13,12 +13,13 @@ class RobotouilleRenderer:
     provides that function but also setups up the pygame window to allow for rendering.
     """
 
-    def __init__(self,  config_filename, layout=[], players=[], window_size=np.array([512,512]), render_fps=60):
+    def __init__(self,  config_filename, layout=[], tiling=None, players=[], window_size=np.array([512,512]), render_fps=60):
         """
         Initializes the renderer.
 
         Args:
             layout (List[List[Optional[str]]]): 2D array of station names (or None)
+            tiling (Dict): Dictionary with tiling data
             window_size (np.array): (width, height) of the window
             render_fps (int): Framerate of the renderer
         """
@@ -30,8 +31,11 @@ class RobotouilleRenderer:
         self.layout = layout
         # The players in the game.
         self.players = players
+        # Empty tiling if not provided
+        if not tiling and layout:
+            tiling = {"furniture": ["*" * len(layout[0])] * len(layout)}
         # The canvas is responsible for drawing the game state on a pygame surface.
-        self.canvas = RobotouilleCanvas(self.config, layout, players, window_size)
+        self.canvas = RobotouilleCanvas(self.config, layout, tiling, players, window_size)
         # The pygame window size.
         self.window_size = window_size
         # The framerate of the renderer.

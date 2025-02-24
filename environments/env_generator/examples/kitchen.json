@@ -1,7 +1,6 @@
 {
-    "version": "1.0.0",
-    "width": 6,
-    "height": 6,
+    "width": 5,
+    "height": 5,
     "config": {
         "num_cuts": {
             "lettuce": 3,
@@ -13,79 +12,93 @@
         }
     },
     "ground": [
-        "CCCCCC",
-        "CCCCCC",
-        "CCWWWW",
-        "CCWWCW",
-        "CCWWWW",
-        "CCCCCC"],
+        "CCCCC",
+        "CCCCC",
+        "CCWWW",
+        "CCWWW",
+        "CCCCC"],
     "stations": [
         {
-            "name": "table",
+            "name": "counter",
             "x": 0,
             "y": 3
         },
         {
             "name": "stove",
             "x": 1,
-            "y": 1
-        },
-        {
-            "name": "table",
-            "x": 1,
             "y": 4
         },
         {
-            "name": "table",
-            "x": 3,
-            "y": 3
+            "name": "counter",
+            "x": 0,
+            "y": 1
+        },
+        {
+            "name": "counter",
+            "x": 2,
+            "y": 4
         },
         {
             "name": "board",
-            "x": 4,
-            "y": 4
-        },
-        {
-            "name": "table",
-            "x": 5,
+            "x": 0,
             "y": 2
         },
         {
-            "name": "counter",
+            "name": "table",
             "x": 3,
             "y": 1
         },
         {
             "name": "counter",
+            "x": 0,
+            "y": 4
+        },
+        {
+            "name": "counter",
             "x": 3,
-            "y": 0
+            "y": 4
+        },
+        {
+            "name": "table",
+            "x": 2,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 3,
+            "y": 2
+        },
+        {
+            "name": "table",
+            "x": 2,
+            "y": 2
         }
     ],
     "items": [
         {
             "name": "patty",
-            "x": 0,
-            "y": 3,
+            "x": 2,
+            "y": 4,
             "stack-level": 0,
             "predicates": ["iscookable"]
         },
         {
             "name": "lettuce",
-            "x": 1,
-            "y": 4,
+            "x": 0,
+            "y": 3,
             "stack-level": 0,
             "predicates": ["iscuttable"]
         },
         {
             "name": "bottombun",
             "x": 3,
-            "y": 3,
+            "y": 1,
             "stack-level": 0
         },
         {
             "name": "topbun",
-            "x": 5,
-            "y": 2,
+            "x": 0,
+            "y": 1,
             "stack-level": 0
         }
     ],
@@ -93,11 +106,11 @@
         {
             "name": "robot",
             "x": 1,
-            "y": 0,
+            "y": 3,
             "direction": [0, 1]
         }
     ],
-    "goal_description": "Make a lettuce burger with lettuce on top of the patty",
+    "goal_description": "Make a lettuce burger with lettuce on top of the patty.",
     "goal": [
         {
             "predicate": "iscut",
