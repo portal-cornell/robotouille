@@ -9,6 +9,8 @@ import os
 import pygame
 
 from utils.robotouille_input import create_action_from_event
+from backend.movement.player import Player
+from backend.movement.movement import Movement
 from .agent import Agent
 
 class Human(Agent):
@@ -92,6 +94,10 @@ class Human(Agent):
             actions (list)
                 The proposed actions to take; humans take one action at a time.
         """
+        current_state = env.current_state
+        player_obj = Player.get_player(current_state.current_player.name)
+        if Movement.is_player_moving(player_obj.name):
+            return [(None, None)]
         # Retrieve action from human input
         pygame_events = pygame.event.get()
         # Mouse clicks for movement and pick/place stack/unstack

@@ -44,19 +44,19 @@ class RobotouilleRenderer:
         # The pygame clock
         self.clock = None
     
-    def _init_setup(self, render_mode):
+    def _init_setup(self):
         """
         This function initializes the pygame window and clock if not already initialized.
-
-        Args:
-            render_mode (str): Either "human" or "rgb_array"
         """
-        if self.window is None and render_mode == "human":
+        if os.getenv("DISPLAY") is None and os.getenv("SDL_VIDEODRIVER") is None:
+            os.environ["SDL_VIDEODRIVER"] = "dummy" # For headless rendering
+            print("Warning: Running in headless mode. No window will be displayed.")
+        if self.window is None:
             pygame.init()
             pygame.display.init()
             self.window = pygame.display.set_mode(self.window_size)
             pygame.display.set_caption('Robotouille Simulator')
-        if self.clock is None and render_mode == "human":
+        if self.clock is None:
             self.clock = pygame.time.Clock()
     
     def _render_frame(self, state, render_mode):
@@ -76,7 +76,7 @@ class RobotouilleRenderer:
             frame (np.array):
                 The RGB array of the frame
         """
-        self._init_setup(render_mode)
+        self._init_setup()
         surface = pygame.Surface(self.window_size)
         self.canvas.draw_to_surface(surface, state)
         if render_mode == "human":

@@ -21,8 +21,7 @@ def play(cfg: DictConfig) -> None:
     kwargs['llm_kwargs'] = OmegaConf.to_container(cfg.llm, resolve=True)
     environment_name = kwargs.pop('environment_name')
     agent_name = kwargs.pop('agent_name')
-    # run_robotouille(environment_name, agent_name, **kwargs)
-    simulator(environment_name) #, **kwargs)
+    run_robotouille(environment_name, agent_name, **kwargs)
 
 def evaluate(cfg: DictConfig) -> None:
     """Play the game with the given configuration.

@@ -17,7 +17,8 @@
     {
       "name": "blender",
       "x": 2,
-      "y": 1
+      "y": 1,
+      "id": "a"
     },
     {
       "name": "table",
@@ -29,10 +30,10 @@
   "containers": [
     {
       "name": "blendercup",
-      "x": 2,
-      "y": 1,
+      "x": 0,
+      "y": 0,
       "stack-level": 0,
-      "id": 1
+      "id": "b"
     }
   ],
   "players": [
@@ -46,5 +47,12 @@
       ]
     }
   ],
-  "goal": []
+  "goal_description": "Place the blendercup on the blenders",
+    "goal": [
+        {
+            "predicate": "container_at",
+            "args": ["container", "station"],
+            "ids": ["b", "a"]
+        }
+    ]
 }

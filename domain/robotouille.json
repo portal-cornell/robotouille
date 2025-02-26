@@ -51,6 +51,13 @@
             }
         },
         {
+            "name": "isblender",
+            "param_types": ["station"],
+            "language_descriptors": {
+                "0": "{0} is a blender"
+            }
+        },
+        {
             "name": "isrobot",
             "param_types": ["player"],
             "language_descriptors": {
@@ -195,6 +202,13 @@
             "param_types": ["container"],
             "language_descriptors": {
                 "0": "{0} is a bowl"
+            }
+        },
+        {
+            "name": "isblendercup",
+            "param_types": ["container"],
+            "language_descriptors": {
+                "0": "{0} is a blender cup"
             }
         },
         {

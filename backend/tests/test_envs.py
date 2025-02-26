@@ -16,7 +16,8 @@ ALL_TESTS = {
         'base_place_container',
         'base_place',
         'base_stack',
-        'base_unstack'
+        'base_unstack',
+        'blender'
     ],
     'composite tests':[
         'composite_add_fill_bowl',
@@ -48,7 +49,9 @@ ALL_TESTS = {
         'high_level_two_chicken_burger',
         'high_level_two_lettuce_burger',
         'high_level_two_lettuce_tomato_burger',
+        'kitchen',
         'original',
+        'test_arena_blender',
         'test_arena'
     ]
 }
@@ -57,5 +60,5 @@ for test_group, tests in ALL_TESTS.items():
     print(f"Running {test_group} tests")
     for test in tests:
         print(f"Running {test} test")
-        subprocess.run(f"python main.py --environment_name {test}", shell=True)
+        subprocess.run(f"python main.py ++game.environment_name={test}", shell=True)
     print(f"Finished running {test_group} tests\n")

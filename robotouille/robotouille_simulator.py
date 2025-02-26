@@ -13,9 +13,8 @@ from robotouille.robotouille_env import create_robotouille_env
 from backend.movement.player import Player
 from backend.movement.movement import Movement, Mode
 
-
 # Deprecated - Use run_robotouille instead
-def simulator(environment_name: str, seed: int=42, noisy_randomization: bool=False, movement_mode: str='traverse'):
+def simulator(environment_name, seed = None, noisy_randomization = False, movement_mode = 'traverse'):
     env = create_robotouille_env(environment_name, movement_mode, seed, noisy_randomization)
 
     obs, info = env.reset()
@@ -53,7 +52,7 @@ def simulator(environment_name: str, seed: int=42, noisy_randomization: bool=Fal
 
         # If all players have made an action, step the environments
         if len(actions) == len(players):
-            obs, reward, done, info = env.step(actions, clock=env.renderer.clock)
+            obs, reward, done, info = env.step(actions)
             env.render('human')
             actions = []
 
@@ -100,10 +99,12 @@ def run_robotouille(environment_name: str, agent_name: str, **kwargs: Dict[str, 
             The number of steps taken in the environment.
     """
     # Initialize environment
+    movement_mode = kwargs.get('movement_mode', 'immediate')
+    assert movement_mode != 'traverse' or agent_name == "human", "Traverse movement mode only supported for human agent"
     seed = kwargs.get('seed', None)
     noisy_randomization = kwargs.get('noisy_randomization', False)
-    env = create_robotouille_env(environment_name, seed, noisy_randomization)
-    renderer = env.renderer
+    env = create_robotouille_env(environment_name, movement_mode, seed, noisy_randomization)
+
     # Initialize agent
     llm_kwargs = kwargs.get('llm_kwargs', {})
     agent = NAME_TO_AGENT[agent_name](llm_kwargs)
@@ -143,14 +144,7 @@ def run_robotouille(environment_name: str, agent_name: str, **kwargs: Dict[str, 
         else:
             action, param_arg_dict = queued_actions.pop(0)
         
-        # Assign action to players
-        actions = []
-        current_state = env.current_state
-        for player in current_state.get_players():
-            if player == current_state.current_player:
-                actions.append((action, param_arg_dict))
-            else:
-                actions.append((None, None))
+        actions = [(action, param_arg_dict)]
         
         # Step environment
         obs, reward, done, info = env.step(actions)
@@ -164,7 +158,8 @@ def run_robotouille(environment_name: str, agent_name: str, **kwargs: Dict[str, 
                     stochastic_done = True
                     break
         
-        steps += 1
+        steps += action is not None # Only increment steps if an action was taken
+
         if agent_retry_cond(agent, math.floor(max_steps - steps)):
             steps = 0
             obs, info = env.reset()

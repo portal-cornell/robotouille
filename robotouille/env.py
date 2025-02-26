@@ -484,7 +484,8 @@ class RobotouilleEnv(gym.Env):
     def set_state(self, state):
         self.observation_space = state
 
-    def step(self, actions, clock=None):
+    def step(self, actions):
+        clock = self.renderer.clock
         done = self.current_state.step(actions, clock) # Current state is updated in place
         obs = LanguageSpace.state_to_language_description(self.current_state)
         return obs, 0, done, {}
