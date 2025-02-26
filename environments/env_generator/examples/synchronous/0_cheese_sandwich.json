@@ -1,0 +1,83 @@
+{
+    "version": "1.0.0",
+    "width": 5,
+    "height": 5,
+    "config": {
+        "num_cuts": {
+            "lettuce": 3,
+            "default": 3
+        },
+        "cook_time": {
+            "patty": 3,
+            "default": 3
+        }
+    },
+    "stations": [
+        {
+            "name": "table",
+            "x": 0,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 0,
+            "y": 3
+        },
+        {
+            "name": "table",
+            "x": 2,
+            "y": 3
+        },
+        {
+            "name": "table",
+            "x": 3,
+            "y": 3
+        }
+    ],
+    "items": [
+        {
+            "name": "bread",
+            "x": 0,
+            "y": 1,
+            "stack-level": 0
+        },
+        {
+            "name": "bread",
+            "x": 0,
+            "y": 3,
+            "stack-level": 0
+        },
+        {
+            "name": "cheese",
+            "x": 2,
+            "y": 3,
+            "stack-level": 0
+        }
+    ],
+    "players": [
+        {
+            "name": "robot",
+            "x": 0,
+            "y": 2,
+            "direction": [0, -1]
+        }
+    ],
+    "goal_description": "Prepare a cheese sandwich on a table",
+    "goal": [
+        {
+            "predicate": "item_on",
+            "args": ["bread", "table"],
+            "ids": [1, 2]
+        },
+        {
+            "predicate": "atop",
+            "args": ["cheese", "bread"],
+            "ids": [3, 1]
+        },
+        {
+            "predicate": "atop",
+            "args": ["bread", "cheese"],
+            "ids": [4, 3]
+        }
+    ]
+}

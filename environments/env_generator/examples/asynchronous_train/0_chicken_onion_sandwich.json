@@ -1,0 +1,116 @@
+{
+    "version": "1.0.0",
+    "width": 5,
+    "height": 5,
+    "config": {
+        "num_cuts": {
+            "lettuce": 3,
+            "default": 3
+        },
+        "cook_time": {
+            "patty": 3,
+            "default": 3
+        }
+    },
+    "stations": [
+        {
+            "name": "table",
+            "x": 0,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 2,
+            "y": 3
+        },
+        {
+            "name": "board",
+            "x": 2,
+            "y": 1
+        },
+        {
+            "name": "stove",
+            "x": 3,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 3,
+            "y": 3
+        }
+    ],
+    "items": [
+        {
+            "name": "bread",
+            "x": 0,
+            "y": 1,
+            "stack-level": 0
+        },
+        {
+            "name": "bread",
+            "x": 0,
+            "y": 1,
+            "stack-level": 1
+        },
+        {
+            "name": "chicken",
+            "x": 2,
+            "y": 3,
+            "stack-level": 0,
+            "predicates": ["iscookable"]
+        },
+        {
+            "name": "onion",
+            "x": 3,
+            "y": 3,
+            "stack-level": 0,
+            "predicates": ["iscuttable"]
+        }
+    ],
+    "players": [
+        {
+            "name": "robot",
+            "x": 0,
+            "y": 2,
+            "direction": [0, -1]
+        }
+    ],
+    "goal_description": "Prepare an onion chicken sandwich on a table",
+    "goal": [
+        {
+            "predicate": "item_on",
+            "args": ["bread", "table"],
+            "ids": [1, 2]
+        },
+        {
+            "predicate": "iscooked",
+            "args": ["chicken"],
+            "ids": [3]
+        },
+        {
+            "predicate": "item_at",
+            "args": ["chicken", "table"],
+            "ids": [3, 2]
+        },
+        {
+            "predicate": "iscut",
+            "args": ["onion"],
+            "ids": [4]
+        },
+        {
+            "predicate": "item_at",
+            "args": ["onion", "table"],
+            "ids": [4, 2]
+        },
+        {
+            "predicate": "item_at",
+            "args": ["bread", "table"],
+            "ids": [5, 2]
+        },
+        {
+            "predicate": "clear",
+            "args": ["bread"],
+            "ids": [5]
+        }
+    ]
+}

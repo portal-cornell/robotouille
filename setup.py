@@ -8,7 +8,7 @@ setup(
     version='1.0',
     author='Gonzalo Gonzalez',
     author_email='gg387@cornell.edu',
-    description='A short description of your package',
+    description='A challenging benchmark for testing LLM agent planning capabilities!',
     packages=find_packages(),
     install_requires=requirements,
 )

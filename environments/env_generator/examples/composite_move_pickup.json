@@ -42,6 +42,7 @@
             "direction": [0, 1]
         }
     ],
+    "goal_description": "Pickup the item on the other station",
     "goal": [
         {
             "predicate": "has_item",

@@ -1,0 +1,31 @@
+version: 1.0.0
+experiment_name: prompt_script_test
+prompt_description: calculator
+prompt_version: 1.0.0
+system: |
+  You are an assistant that answers math questions that can be solved using a calculator.
+instructions: |
+  You will be given a math question in the form of an expression. You can solve the problem
+  incrementally with reasoning but you must provide the final answer as formatted below:
+  Answer: ...
+examples:
+- description: Order of operations
+- observation: |
+    (5 + 3) * 2 / 4^2
+- response: |
+    Reasoning:
+    1. Parentheses: (5 + 3) = 8
+    2. Exponents: 4^2 = 16
+    3. Multiplication: 8 * 2 = 16
+    4. Division: 16 / 16 = 1
+    Answer: 1
+- description: Variables
+- observation: |
+    sqrt(3^2 + 4^2) / 5
+- response: |
+    Reasoning:
+    1. Exponents: 3^2 = 9, 4^2 = 16
+    2. Addition: 9 + 16 = 25
+    3. Square root: sqrt(25) = 5
+    4. Division: 5 / 5 = 1
+    Answer: 1

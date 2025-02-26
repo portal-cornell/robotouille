@@ -1,0 +1,55 @@
+# @package _global_
+defaults:
+  - override /evaluation: base_evaluation
+  - override /game: base_game
+  - override /llm: base_llm
+
+evaluation:
+  evaluate: true
+  environment_names: [
+    "synchronous/0_cheese_sandwich",
+    "synchronous/1_lettuce_sandwich",
+    "synchronous/2_lettuce_tomato_sandwich",
+    "synchronous/3_burger",
+    "synchronous/4_cheeseburger",
+    "synchronous/5_double_cheeseburger",
+    "synchronous/6_lettuce_tomato_cheeseburger",
+    "synchronous/7_two_lettuce_chicken_sandwich",
+    "synchronous/8_two_lettuce_tomato_burger",
+    "synchronous/9_onion_cheese_burger_and_lettuce_tomato_chicken_sandwich"
+  ]
+  optimal_steps: [
+    10,
+    14,
+    24,
+    10,
+    15,
+    23,
+    36,
+    44,
+    63,
+    57
+  ]
+  testing_seeds: [42, 84, 126, 168, 210, 252, 294, 336, 378, 420]
+  log_dir_path: ${hydra:runtime.output_dir}/evaluation
+
+game:
+  agent_name: io
+  max_steps: null
+  max_step_multiplier: 1.5
+  render_mode: "rgb_array"
+
+  record: true
+  video_fps: 3
+  video_path: ${hydra:runtime.output_dir}/video_IO.mp4
+
+llm:
+  llm_model: gpt-4o
+  log_path: ${hydra:runtime.output_dir}/log_IO.txt
+  num_examples: 1
+  example_dir_path: synchronous/io_examples
+  prompts:
+    action_proposal_prompt:
+      experiment_name: IO
+      prompt_description: io
+      prompt_version: 1.0.0

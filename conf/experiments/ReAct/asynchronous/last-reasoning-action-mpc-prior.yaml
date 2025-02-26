@@ -1,0 +1,76 @@
+# @package _global_
+defaults:
+  - override /evaluation: base_evaluation
+  - override /game: base_game
+  - override /llm: base_llm
+
+evaluation:
+  evaluate: true
+  environment_names: [
+    "asynchronous/0_cheese_chicken_sandwich",
+    "asynchronous/1_lettuce_chicken_sandwich",
+    "asynchronous/2_lettuce_tomato_fried_chicken_sandwich",
+    "asynchronous/3_tomato_burger_and_fries",
+    "asynchronous/4_onion_cheese_burger_and_fried_onion",
+    "asynchronous/5_potato_soup",
+    "asynchronous/6_onion_soup",
+    "asynchronous/7_tomato_soup_and_lettuce_chicken_sandwich",
+    "asynchronous/8_onion_tomato_soup_and_two_chicken_sandwich",
+    "asynchronous/9_onion_potato_soup_and_fried_onion_ring_lettuce_burger_and_onion_cheese_sandwich"
+  ]
+  optimal_steps: [
+    21,
+    27,
+    37,
+    42,
+    46,
+    19,
+    42,
+    46,
+    68,
+    82
+  ]
+  testing_seeds: [42, 84, 126, 168, 210, 252, 294, 336, 378, 420]
+  log_dir_path: ${hydra:runtime.output_dir}/evaluation
+
+game:
+  agent_name: ReAct
+  max_steps: null
+  max_step_multiplier: 1.5
+  render_mode: "rgb_array"
+
+  record: true
+  video_fps: 3
+  video_path: ${hydra:runtime.output_dir}/video_ReAct-Prior.mp4
+
+llm:
+  llm_model: gpt-4o
+  log_path: ${hydra:runtime.output_dir}/log_ReAct-Prior.txt
+  num_examples: 1
+  example_dir_path: asynchronous/react_examples_omitted_obs
+  prompts:
+    action_proposal_prompt:
+      experiment_name: ReAct
+      prompt_description: last-reasoning-action-mpc
+      prompt_version: 1.3.1
+  # ReAct specific configuration
+  is_no_history: false
+  is_last_action: false
+  is_last_reasoning_action: true
+  is_last_obs_reasoning_action: false
+  prior: |
+    It is *important* to follow these rules before proposing an action:
+    - A Player can pick up a single Item at a time
+      - This means that you should not attempt to pick up an Item if you are already holding one
+    - An Item must be placed on a Station to perform an action on it
+      - This means that you cannot perform an action on an Item while holding it or if it is stacked on another Item at a Station
+      - This also means that you must perform an action on an Item at a Station for state changes to occur (e.g. cooking)
+    - A Station must contain a single Item to perform an action on it
+      - This means that you can only bring an Item to a Station if it is already empty
+    - Items can be stacked on top of one another
+      - This means that Items are stacked on top of Items
+    
+    
+    In addition, do not blindly follow these rules; think about how your actions will affect future actions since your plan may
+    require you to break rules in the future to achieve the goal.
+    

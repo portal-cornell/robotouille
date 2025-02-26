@@ -230,7 +230,7 @@
             "direction": [0, 1]
         }
     ],
-    "goal_description": "Make two plain chicken burgers.",
+    "goal_description": "Make two plain chicken burgers",
     "goal": [
         {
             "predicate": "iscooked",

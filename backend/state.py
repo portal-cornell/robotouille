@@ -4,6 +4,7 @@ from backend.object import Object
 from utils.robotouille_utils import trim_item_ID
 from backend.movement.movement import Mode
 import itertools
+import copy
 
 class State(object):
     '''
@@ -23,7 +24,6 @@ class State(object):
         self.actions = {}
         self.goal = []
         self.special_effects = []
-        self.param_objs = {}
 
     def _build_object_dictionary(self, domain, objects):
         """
@@ -89,9 +89,8 @@ class State(object):
                 # If combination repeats an object, skip it
                 if len(set(combination)) != len(combination):
                     continue
-                pred = Predicate().initialize(predicate.name, predicate.types, combination)
+                pred = Predicate().initialize(predicate.name, predicate.types, combination, language_descriptors=predicate.language_descriptors)
                 predicates[pred] = pred in true_predicates
-
         return predicates
     
     def _build_actions(self, domain, objects):
@@ -110,7 +109,8 @@ class State(object):
         Returns:
             actions (Dictionary[Action, Dictionary[str, Object]]): A 
                 dictionary of valid actions for the state. The keys are the 
-                actions, and the values are the arguments for the actions.
+                actions, and the values are dictionaries whose key are
+                a parameter name and values with Object arguments.
         """
         object_dict = self._build_object_dictionary(domain, objects)
         actions = {}
@@ -137,7 +137,7 @@ class State(object):
         """
         return [obj for obj in self.objects if obj.object_type == "player"]
 
-    def initialize(self, domain, objects, true_predicates, all_goals, movement, special_effects=[]):
+    def initialize(self, domain, objects, true_predicates, all_goals, goal_description, movement, special_effects=[]):
         """
         Initializes a state object.
 
@@ -150,11 +150,16 @@ class State(object):
         the goal predicates to ensure that they are defined in the domain.
 
         Args:
-            domain (Domain): The domain of the game.
-            objects (List[Object]): The objects in the state.
-            true_predicates (Set[Predicate]): The predicates that are true in
-                the state, as defined by the problem file. 
-            all_goals (List[List[Predicate]]): The goal predicates of the game. 
+            domain (Domain):
+                The domain of the game.
+            objects (List[Object]):
+                The objects in the state.
+            true_predicates (Set[Predicate]): 
+                The predicates that are true in the state, as defined by the problem file. 
+            all_goals (List[List[Predicate]]):
+                The goal predicates of the game. 
+            goal_description (str):
+                The natural language description of the goal.
             movement (Movement): The movement object that handles the movement
                 of players in the state.
             special_effects (List[Special_effects]): The special effects that 
@@ -164,16 +169,17 @@ class State(object):
             state (State): The initialized state.
 
         Raises:
-            ValueError: If the type of an object is not defined in the domain, or
-                if a goal predicate is not defined in the domain.
+            ValueError:
+                If the type of an object is not defined in the domain, or if a 
+                goal predicate is not defined in the domain.
         """
         predicates = self._build_predicates(domain, objects, true_predicates)
-        # check if objects have types defined in domain
+        # Check if objects have types defined in domain
         for object in objects:
             if object.object_type not in domain.object_types:
                 raise ValueError(f"Type {object.object_type} is not defined in the domain.")
         predicate_names = list(map(lambda x: x.name, domain.predicates))
-        # check if goal predicates are defined in domain
+        # Check if goal predicates are defined in domain
         for goal_set in all_goals:
             for goal in goal_set:
                 if goal.name not in predicate_names:
@@ -187,6 +193,7 @@ class State(object):
         self.predicates = predicates
         self.actions = self._build_actions(domain, objects)
         self.goal = all_goals
+        self.goal_description = goal_description
         self.movement = movement
         self.special_effects = special_effects
 
@@ -208,12 +215,12 @@ class State(object):
 
     def get_predicate_value(self, predicate):
         """
-       Returns the value of a predicate in the state.
+        Returns the value of a predicate in the state.
 
-       If a predicate is not yet in the state, then the function returns False.
-       For example, for goal predicates involving objects not yet created, the
-       predicate would not be defined in the state. Then the function returns 
-       False.
+        If a predicate is not yet in the state, then the function returns False.
+        For example, for goal predicates involving objects not yet created, the
+        predicate would not be defined in the state. Then the function returns 
+        False.
 
         Args:
             predicate (Predicate): The predicate to check.
@@ -348,7 +355,7 @@ class State(object):
         valid for each action are appended to the lists for the relevant action.
 
         Returns:
-            valid_actions (Dictionary[Action, Dictionary[Str, Object]]): A
+            valid_actions (Dictionary[Action, List[Dictionary[Str, Object]]]): A
                 dictionary of valid actions for the state. The keys are the
                 actions, and the values are the parameter-argument dictionaries
                 for the actions.
@@ -361,6 +368,40 @@ class State(object):
                     valid_actions[action].append(arg)
 
         return valid_actions
+    
+    def get_valid_actions_and_str(self):
+        """
+        Gets all valid actions for the state as dictionaries and strings.
+
+        TODO(chalo2000): Temp until Action class split into definition and instance class.
+
+        This is a temporary function until the Action class is split into a definition
+        and instance class (which would allow get_valid_actions() to be easily converted
+        to a string representation).
+
+        Both lists are returned in the same order for easily converting between the two.
+
+        Returns:
+            valid_actions (List[(Action, Dictionary[Str, Object]])): A list of valid action
+                + param_arg dicts tuples for the current state.
+            str_valid_actions (List[str]): A string list of valid actions for the state.
+        """
+        valid_actions_dict = {action:[] for action in self.actions}
+
+        for action, args in self.actions.items():
+            for arg in args:
+                if action.is_valid(self, arg):
+                    valid_actions_dict[action].append(arg)
+
+        valid_actions = []
+        str_valid_actions = []
+        for action, param_arg_dicts in valid_actions_dict.items():
+            for param_arg_dict in param_arg_dicts:
+                valid_action = (action, param_arg_dict)
+                valid_actions.append(valid_action)
+                str_valid_actions.append(action.get_language_description(param_arg_dict))
+        
+        return valid_actions, str_valid_actions
     
     def get_valid_actions_for_player(self, player):
         """
@@ -412,8 +453,10 @@ class State(object):
             clock (pygame.time.Clock): The clock object to control the framerate
                 of the game.
         
+        Side Effects:
+            - The current state is stepped to the next state with the provided actions
+        
         Returns:
-            new_state (State): The successor state.
             done (bool): True if the goal is reached, False otherwise.
 
         Raises:
@@ -421,7 +464,7 @@ class State(object):
             the given state.
         """
         for action, param_arg_dict in actions:
-            if not action:
+            if action is None:
                 continue
             assert action.is_valid(self, param_arg_dict)
             if action.name != "move":
@@ -432,12 +475,14 @@ class State(object):
 
         for special_effect in self.special_effects:
             special_effect.update(self)
+            if special_effect.completed:
+                self.special_effects.remove(special_effect)
         
         if self.is_goal_reached():
-            return self, True
+            return True
         
         if self.movement.mode == Mode.TRAVERSE:
             self.current_player = self.next_player()
 
-        return self, False
+        return False
     
