@@ -40,18 +40,18 @@ const Header = () => {
 
         {/* Right Section */}
         <div className="flex space-x-6">
-          <Link
+          {/* <Link
             to="/leaderboard"
             className="bg-primary-darkBlue font-roboto-slab text-white py-2 px-4 rounded-lg hover:bg-primary-hoverBlue transition duration-300"
           >
             Leaderboard
-          </Link>
-          <DownloadButton
+          </Link> */}
+          {/* <DownloadButton
             href="/download"
             className="bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition duration-300"
           >
             DOWNLOAD
-          </DownloadButton>
+          </DownloadButton> */}
         </div>
       </nav>
     </header>

@@ -47,23 +47,21 @@ const App = () => {
               element={
                 <>
                   <main>
-                    <YoutubeVideo />
-                    <div className="flex justify-center items-center mt-10 mb-10">
-                      <Download className="py-4 px-10 text-2xl" />
+                    <div className="flex flex-col items-center justify-center h-96">
+                      <button className="bg-primary-darkRed text-white px-6 py-3 text-lg rounded-lg cursor-not-allowed">
+                        Coming Soon...
+                      </button>
                     </div>
                   </main>
                 </>
               }
             />
-
             {/* About Page */}
             <Route path="/about" element={<About />} />
-
             {/* Team Page */}
             <Route path="/team" element={<Team />} />
-
-            {/* Leaderboard Page */}
-            <Route path="/leaderboard" element={<Leaderboard />} />
+            {/* Leaderboard Page
+            <Route path="/leaderboard" element={<Leaderboard />} /> */}
           </Routes>
         </div>
       </div>

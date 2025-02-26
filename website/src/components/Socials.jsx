@@ -24,10 +24,10 @@ const Socials = () => {
         <img src={TwitterIcon} alt="Twitter" className="w-10 h-10" />
       </a>
 
-      {/* Steam */}
+      {/* Steam
       <a href="#" target="_blank" rel="noopener noreferrer">
         <img src={SteamIcon} alt="Steam" className="w-10 h-10" />
-      </a>
+      </a> */}
     </div>
   );
 };

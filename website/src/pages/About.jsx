@@ -3,6 +3,7 @@ import aboutHeader from "../assets/about-header.png";
 import cheeseBurger from "../assets/cheese_burger.gif";
 import kitchen from "../assets/kitchen.gif";
 import lettucetomatoburger from "../assets/lettuce_tomato_burger.gif";
+import gif from "../assets/all_tasks.gif";
 
 const About = () => {
   return (
@@ -31,23 +32,52 @@ const About = () => {
             are endless!
           </p>
         </div>
+        {/* Research Papers Section */}
+        <div className="mt-8">
+          <h2 className="text-l text-left">
+            Check out the following papers where we've used Robotouille!
+          </h2>
+          <ul className="mt-4 text-l list-disc pl-6">
+            <li>
+              <a
+                href="https://portal-cornell.github.io/robotouille/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary-blue hover:text-blue-400"
+              >
+                Robotouille: An Asynchronous Planning Benchmark for LLM Agents
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://portal-cornell.github.io/demo2code/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary-blue hover:text-blue-400"
+              >
+                Demo2Code: From Summarizing Demonstrations to Synthesizing Code
+                via Extended Chain-of-Thought
+              </a>
+            </li>
+            <li>
+              <a
+                href="https://portal-cornell.github.io/llms-for-planning/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary-blue hover:text-blue-400"
+              >
+                Query-Efficient Planning with Language Models
+              </a>
+            </li>
+          </ul>
+        </div>
 
         {/* GIFs */}
         <div className="flex justify-center items-center gap-6 p-6 ">
           <img
-            src={cheeseBurger}
-            alt="Cheeseburger"
-            className="w-1/3 max-w-xs rounded-lg shadow-lg"
-          />
-          <img
-            src={kitchen}
-            alt="Kitchen"
-            className="w-1/3 max-w-xs rounded-lg shadow-lg"
-          />
-          <img
-            src={lettucetomatoburger}
-            alt="Lettuce Tomato Burger"
-            className="w-1/3 max-w-xs rounded-lg shadow-lg"
+            src={gif}
+            alt="all tasks"
+            className="w-8/12 rounded-lg shadow-lg"
           />
         </div>
       </div>
