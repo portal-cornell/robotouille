@@ -1,68 +1,118 @@
 import React, { useState } from "react";
 import teamHeader from "../assets/team-header.png";
-//headshots
+
+// Headshots
 import az from "../assets/members/ameliaZheng.jpg";
 import ll from "../assets/members/linaLiu.png";
+import rq from "../assets/members/RyanQiu.png";
+import tq from "../assets/members/TiffanyQiu.jpg";
+import gj from "../assets/members/GraceJin.jpg";
+import iq from "../assets/members/IanUrquhart.jpeg";
 
 import linkedinIcon from "../assets/socials/linkedin.png";
 import chefHat from "../assets/chef-hat.png";
+import emailIcon from "../assets/socials/email.png";
 
 const Team = () => {
   const [selectedMember, setSelectedMember] = useState(null);
 
   const teamMembers = [
     { name: "Gonzalo Gonzalez", role: " " },
-    { name: "Alan Chen", role: "Developer" },
     {
       name: "Amelia Zheng",
+      year: 2027,
       role: "Developer",
-      hometown: " ",
-      interests: " ",
-      funFact: " ",
       img: az,
+      hometown: "Chicago, IL",
+      interests: "Photography, matcha ",
+      funfact: "My favorite app is Beli",
       linkedin: "https://www.linkedin.com/in/amelia-zheng-173933235/",
+      email: "ayz23@cornell.edu",
     },
-    { name: "Colin Wu", role: "Developer" },
     { name: "Henry Gao", role: "Developer" },
-    { name: "Ian Urquhart", role: "Developer" },
-    { name: "Iris Li", role: "Marketer" },
+    {
+      name: "Ian Urquhart",
+      year: 2027,
+      role: "Developer",
+      img: iq,
+      hometown: "Westchester, NY",
+      interests: "Basketball, cooking",
+      funfact: "There's a castle in Scotland named after my last name",
+      linkedin: "https://www.linkedin.com/in/ian-urquhart-112522279/",
+      email: "iju2@cornell.edu",
+    },
     { name: "Su Yean", role: "Developer" },
-    { name: "Tiffany Qiu", role: "Developer" },
-    { name: "Grace Jin", role: "Designer" },
+    {
+      name: "Tiffany Qiu",
+      year: 2028,
+      role: "Developer",
+      img: tq,
+      hometown: "Long Island, NY",
+      interests: "Badminton, dance",
+      funfact: "I like watching Japanese cooking videos",
+      linkedin: "https://www.linkedin.com/in/tiffanyqiu22/",
+      email: "tq52@cornell.edu",
+    },
+    {
+      name: "Grace Jin",
+      year: 2027,
+      role: "Developer & Designer",
+      img: gj,
+      hometown: "San Jose, CA",
+      interests: "Table tennis, drawing",
+      funfact: "I have 17k followers on instagram",
+      linkedin: "https://www.linkedin.com/in/grace-jin-9654a826b/",
+      email: "gdj33@cornell.edu",
+    },
     {
       name: "Lina Liu",
+      year: 2025,
       role: "Designer",
-      hometown: "",
-      interests: "",
-      funFact: "",
       img: ll,
-      linkedin: "",
+      hometown: "Queens, NY",
+      interests: "Snowboarding, cooking",
+      funfact: "I've reviewed over 500+ locations on Yelp",
+      linkedin: "https://www.linkedin.com/in/lliu6907",
+      email: "ll669@cornell.edu",
     },
-    { name: "Ryan Qiu", role: "Designer" },
+    {
+      name: "Ryan Qiu",
+      year: 2028,
+      role: "Developer & Designer",
+      img: rq,
+      hometown: "Houston, TX",
+      interests: "Music, Movies",
+      funfact: "I'm trying to double major in music",
+      linkedin: "https://www.linkedin.com/in/ryan-qiu-194041297",
+      email: "rwq3@cornell.edu",
+    },
   ];
 
   const closeModal = () => setSelectedMember(null);
 
   return (
     <div className="relative mt-28">
-      <div className="absolute inset-x-0 -top-15 flex justify-center">
+      {/* Header Banner */}
+      <header className="absolute inset-x-0 flex justify-center mt-[-50px]">
         <img
           src={teamHeader}
           alt="Meet the Team Header"
-          className="w-1/3 h-auto rounded-t-lg"
+          className="w-2/3 max-w-md md:max-w-lg h-auto rounded-t-lg"
         />
-      </div>
-      <div className="bg-primary-darkRed text-white font-roboto-slab rounded-lg shadow-2xl max-w-3xl mx-auto mb-12 p-6">
-        <div className="grid grid-cols-3 gap-2 mt-10">
+      </header>
+
+      {/* Team Members Grid */}
+      <div className="bg-primary-darkRed text-white font-roboto-slab rounded-lg shadow-2xl max-w-4xl mx-auto mb-12 p-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 justify-center mt-10">
           {teamMembers.map((member, index) => (
             <div
               key={index}
-              className="bg-red-800 text-center p-2 rounded-md cursor-pointer hover:bg-red-900"
+              className="bg-red-800 text-center p-6 rounded-md cursor-pointer hover:bg-red-900 transition duration-300"
               onClick={() => setSelectedMember(member)}
             >
-              {/* Image */}
+              {/* Image (No Fixed Size in Grid) */}
               <div
-                className="h-52 w-44 mx-auto mb-2 bg-gray-300 mt-6 overflow-hidden"
+                className="h-40 w-full max-w-[10rem] mx-auto bg-gray-300 rounded-lg overflow-hidden"
                 style={{
                   backgroundImage: `url(${
                     member.img || "https://via.placeholder.com/150"
@@ -72,35 +122,38 @@ const Team = () => {
                 }}
               ></div>
 
-              {/* Name and Role */}
-              <h3 className="text-sm font-semibold mb-1">{member.name}</h3>
+              {/* Name & Role */}
+              <h3 className="text-sm font-semibold mt-2">{member.name}</h3>
               <p className="text-xs">{member.role}</p>
             </div>
           ))}
         </div>
       </div>
 
+      {/* Modal Popup */}
       {selectedMember && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white text-black p-10 rounded-lg max-w-max w-full flex flex-col md:flex-row gap-10 relative">
-            <div className="relative">
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 ">
+          <div className="bg-white text-black p-6 rounded-lg max-w-3xl w-full flex flex-col md:flex-row gap-6 relative">
+            {/* Left Side - Image (Fixed Size for Consistency) */}
+            <div className="relative w-full md:w-1/3 flex flex-col items-center">
               <img
                 src={selectedMember.img || "https://via.placeholder.com/300"}
                 alt={selectedMember.name}
-                className="rounded-lg w-60 h-72 object-cover"
+                className="w-52 h-52 object-cover rounded-lg"
               />
               <img
                 src={chefHat}
                 alt="Chef Hat"
-                className="absolute -top-20 left-1/2 transform -translate-x-1/2 w-48"
+                className="absolute -top-10 left-1/2 transform -translate-x-1/2 w-20 md:w-24"
               />
-              <div className="flex justify-center mt-4">
+
+              {/* LinkedIn & Email Icons */}
+              <div className="flex gap-4 mt-4">
                 {selectedMember.linkedin && (
                   <a
                     href={selectedMember.linkedin}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2"
                   >
                     <img
                       src={linkedinIcon}
@@ -109,30 +162,41 @@ const Team = () => {
                     />
                   </a>
                 )}
+                {selectedMember.email && (
+                  <a href={`mailto:${selectedMember.email}`}>
+                    <img src={emailIcon} alt="Email" className="w-8 h-8" />
+                  </a>
+                )}
               </div>
             </div>
 
-            <div className="font-roboto-slab mt-10">
-              <h2 className="text-2xl font-bold">{selectedMember.name}</h2>
-              <p className="text-lg italic text-gray-500 mb-6">
+            {/* Member Info */}
+            <div className="font-roboto-slab flex-1">
+              <h2 className="text-2xl font-bold">
+                {selectedMember.name}{" "}
+                {selectedMember.year && (
+                  <span className="text-gray-500 text-xl">
+                    {"- " + selectedMember.year}
+                  </span>
+                )}
+              </h2>
+              <p className="text-lg italic text-gray-500 mb-4">
                 {selectedMember.role}
               </p>
-              <p className="text-sm">
-                <strong>Hometown: </strong>
-                {selectedMember.hometown || " "}
+              <p className="text-md">
+                <strong>Hometown:</strong> {selectedMember.hometown}
               </p>
-              <p className="text-sm mt-2">
-                <strong>Interests: </strong>
-                {selectedMember.interests || " "}
+              <p className="text-md">
+                <strong>Interests:</strong> {selectedMember.interests}
               </p>
-              <p className="text-sm mt-2">
-                <strong>Fun Fact: </strong>
-                {selectedMember.funFact || " "}
+              <p className="text-md">
+                <strong>Fun Fact:</strong> {selectedMember.funfact}
               </p>
             </div>
 
+            {/* Close Button */}
             <button
-              className="absolute top-3 right-3 text-neutral-600 hover:text-gray-800 py-3 px-6  text-2xl font-bold"
+              className="absolute top-3 right-3 text-neutral-600 hover:text-gray-800 text-2xl font-bold"
               onClick={closeModal}
             >
               &times;
