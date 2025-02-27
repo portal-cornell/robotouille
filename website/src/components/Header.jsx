@@ -6,16 +6,16 @@ import headerImage from "../assets/header-image.png";
 const Header = () => {
   return (
     <header
-      className="relative bg-neutral-200 max-w-full z-50 shadow-md"
+      className="relative max-w-full z-50"
       style={{
-        backgroundImage: `url(${headerImage})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
-        height: "180px", // Adjust height to match the image
+        background: `
+      url(${headerImage}) center -60px/cover no-repeat,
+      linear-gradient(to bottom, #EAEAEA 30%, #E0F2FA 50%)
+    `,
+        height: "270px", // Keeps the height fixed
       }}
     >
-      <nav className="flex justify-between items-center pt-10 px-10 ">
+      <nav className="flex justify-between items-center pt-16 px-20 ">
         {/* Left Section */}
         <div className="flex space-x-6">
           <Link

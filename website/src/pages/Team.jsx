@@ -8,6 +8,8 @@ import rq from "../assets/members/RyanQiu.png";
 import tq from "../assets/members/TiffanyQiu.jpg";
 import gj from "../assets/members/GraceJin.jpg";
 import iq from "../assets/members/IanUrquhart.jpeg";
+import lsy from "../assets/members/LeongSuYean.png";
+import gg from "../assets/members/Gonzalo Gonzalez-Pumariega.webp";
 
 import linkedinIcon from "../assets/socials/linkedin.png";
 import chefHat from "../assets/chef-hat.png";
@@ -17,41 +19,27 @@ const Team = () => {
   const [selectedMember, setSelectedMember] = useState(null);
 
   const teamMembers = [
-    { name: "Gonzalo Gonzalez", role: " " },
+    {
+      name: "Gonzalo Gonzalez",
+      year: "Ph.D.",
+      role: "Project Lead",
+      img: gg,
+      hometown: "Miami, Fl",
+      interests: "Video games, Movies",
+      funfact: "Playing Overcooked stresses me now",
+      linkedin: "https://www.linkedin.com/in/gonzalogonzalez2000/",
+      email: "gg387@cornell.edu",
+    },
     {
       name: "Amelia Zheng",
       year: 2027,
       role: "Developer",
       img: az,
       hometown: "Chicago, IL",
-      interests: "Photography, matcha ",
+      interests: "Photography, Matcha, Music ",
       funfact: "My favorite app is Beli",
       linkedin: "https://www.linkedin.com/in/amelia-zheng-173933235/",
       email: "ayz23@cornell.edu",
-    },
-    { name: "Henry Gao", role: "Developer" },
-    {
-      name: "Ian Urquhart",
-      year: 2027,
-      role: "Developer",
-      img: iq,
-      hometown: "Westchester, NY",
-      interests: "Basketball, cooking",
-      funfact: "There's a castle in Scotland named after my last name",
-      linkedin: "https://www.linkedin.com/in/ian-urquhart-112522279/",
-      email: "iju2@cornell.edu",
-    },
-    { name: "Su Yean", role: "Developer" },
-    {
-      name: "Tiffany Qiu",
-      year: 2028,
-      role: "Developer",
-      img: tq,
-      hometown: "Long Island, NY",
-      interests: "Badminton, dance",
-      funfact: "I like watching Japanese cooking videos",
-      linkedin: "https://www.linkedin.com/in/tiffanyqiu22/",
-      email: "tq52@cornell.edu",
     },
     {
       name: "Grace Jin",
@@ -59,10 +47,36 @@ const Team = () => {
       role: "Developer & Designer",
       img: gj,
       hometown: "San Jose, CA",
-      interests: "Table tennis, drawing",
-      funfact: "I have 17k followers on instagram",
+      interests: "Table tennis, Drawing",
+      funfact: "I have 17k followers on Instagram",
       linkedin: "https://www.linkedin.com/in/grace-jin-9654a826b/",
       email: "gdj33@cornell.edu",
+    },
+    {
+      name: "Henry Gao",
+      role: "Developer",
+    },
+    {
+      name: "Ian Urquhart",
+      year: 2027,
+      role: "Developer",
+      img: iq,
+      hometown: "Westchester, NY",
+      interests: "Basketball, Cooking",
+      funfact: "There's a castle in Scotland named after my last name",
+      linkedin: "https://www.linkedin.com/in/ian-urquhart-112522279/",
+      email: "iju2@cornell.edu",
+    },
+    {
+      name: "Leong Su Yean",
+      year: 2026,
+      role: "Developer",
+      img: lsy,
+      hometown: "Singapore",
+      interests: "Jiu Jitsu, Magic, Music",
+      funfact: "I can drive a tank",
+      linkedin: "https://www.linkedin.com/in/leong-su-yean-88266969/",
+      email: "sl2658@cornell.edu",
     },
     {
       name: "Lina Liu",
@@ -70,7 +84,7 @@ const Team = () => {
       role: "Designer",
       img: ll,
       hometown: "Queens, NY",
-      interests: "Snowboarding, cooking",
+      interests: "Snowboarding, Cooking",
       funfact: "I've reviewed over 500+ locations on Yelp",
       linkedin: "https://www.linkedin.com/in/lliu6907",
       email: "ll669@cornell.edu",
@@ -85,6 +99,17 @@ const Team = () => {
       funfact: "I'm trying to double major in music",
       linkedin: "https://www.linkedin.com/in/ryan-qiu-194041297",
       email: "rwq3@cornell.edu",
+    },
+    {
+      name: "Tiffany Qiu",
+      year: 2028,
+      role: "Developer",
+      img: tq,
+      hometown: "Long Island, NY",
+      interests: "Badminton, Dance",
+      funfact: "I like watching Japanese cooking videos",
+      linkedin: "https://www.linkedin.com/in/tiffanyqiu22/",
+      email: "tq52@cornell.edu",
     },
   ];
 
@@ -112,7 +137,7 @@ const Team = () => {
             >
               {/* Image (No Fixed Size in Grid) */}
               <div
-                className="h-40 w-full max-w-[10rem] mx-auto bg-gray-300 rounded-lg overflow-hidden"
+                className="h-52 w-52 mx-auto bg-gray-300 rounded-lg overflow-hidden"
                 style={{
                   backgroundImage: `url(${
                     member.img || "https://via.placeholder.com/150"
@@ -139,7 +164,7 @@ const Team = () => {
               <img
                 src={selectedMember.img || "https://via.placeholder.com/300"}
                 alt={selectedMember.name}
-                className="w-52 h-52 object-cover rounded-lg"
+                className="w-56 h-56 object-cover rounded-lg"
               />
               <img
                 src={chefHat}
@@ -180,20 +205,22 @@ const Team = () => {
                   </span>
                 )}
               </h2>
-              <p className="text-lg italic text-gray-500 mb-4">
+              <p className="text-lg italic text-gray-500 mb-6">
                 {selectedMember.role}
               </p>
-              <p className="text-md">
-                <strong>Hometown:</strong> {selectedMember.hometown}
-              </p>
-              <p className="text-md">
-                <strong>Interests:</strong> {selectedMember.interests}
-              </p>
-              <p className="text-md">
-                <strong>Fun Fact:</strong> {selectedMember.funfact}
-              </p>
-            </div>
 
+              <div className="space-y-3">
+                <p className="text-md">
+                  <strong>Hometown:</strong> {selectedMember.hometown}
+                </p>
+                <p className="text-md">
+                  <strong>Interests:</strong> {selectedMember.interests}
+                </p>
+                <p className="text-md">
+                  <strong>Fun Fact:</strong> {selectedMember.funfact}
+                </p>
+              </div>
+            </div>
             {/* Close Button */}
             <button
               className="absolute top-3 right-3 text-neutral-600 hover:text-gray-800 text-2xl font-bold"
