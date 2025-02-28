@@ -10,6 +10,7 @@ import gj from "../assets/members/GraceJin.jpg";
 import iq from "../assets/members/IanUrquhart.jpeg";
 import lsy from "../assets/members/LeongSuYean.png";
 import gg from "../assets/members/Gonzalo Gonzalez-Pumariega.webp";
+import hg from "../assets/members/henrygao.jpeg";
 
 import linkedinIcon from "../assets/socials/linkedin.png";
 import chefHat from "../assets/chef-hat.png";
@@ -37,7 +38,7 @@ const Team = () => {
       img: az,
       hometown: "Chicago, IL",
       interests: "Photography, Matcha, Music ",
-      funfact: "My favorite app is Beli",
+      funfact: "I have 440 word hunt wins",
       linkedin: "https://www.linkedin.com/in/amelia-zheng-173933235/",
       email: "ayz23@cornell.edu",
     },
@@ -54,7 +55,14 @@ const Team = () => {
     },
     {
       name: "Henry Gao",
+      year: 2025, 
       role: "Developer",
+      img: hg ,
+      hometown: "Albany, NY",
+      interests: "Video games, Photography",
+      funfact: "I can clear 40 lines in Tetris in under 40 seconds",
+      linkedin: "https://www.linkedin.com/in/henry-g-353a1621b/",
+      email: "ag836@cornell.edu",
     },
     {
       name: "Ian Urquhart",
