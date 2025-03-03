@@ -60,6 +60,7 @@
             "direction": [-1, 0]
         }
     ],
+    "goal_description": "Make some french fries by cutting then frying the potatoes",
     "goal": [
         {
             "predicate": "isfried",

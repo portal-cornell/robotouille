@@ -9,9 +9,11 @@
   </a>
   
   <p align="center">
-    A customizable multi-task cooking environment!
+    A challenging benchmark for testing LLM agent planning capabilities!
     <br />
     <br />
+    <a href="https://arxiv.org/pdf/2502.05227">Paper</a> |  
+    <a href="https://portal-cornell.github.io/robotouille/">Project Website</a> |
     <a href="https://github.com/portal-cornell/robotouille/issues">Request Feature</a>
   </p>
 </div>
@@ -31,6 +33,7 @@
         <li><a href="#setup">Setup</a></li>
       </ul>
     </li>
+    <li><a href="#leaderboard">Leaderboard</a></li>
     <li>
       <a href="#usage">Usage</a>
       <ul>
@@ -40,6 +43,7 @@
     </li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#built-with">Built With</a></li>
+    <li><a href="#citation">Citation</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
@@ -52,14 +56,37 @@
 ## About The Project
 
 <p align="middle">
-  <img src="README_assets/lettuce_tomato_burger.gif" alt="Robot making a lettuce tomato burger in a procedurally generated kitchen" width="250" height="250"/>
+  <!-- <img src="README_assets/lettuce_tomato_burger.gif" alt="Robot making a lettuce tomato burger in a procedurally generated kitchen" width="250" height="250"/>
   <img src="README_assets/kitchen.gif" alt="Robot making a lettuce burger in a custom-made kitchen" width="250" height="250"/>
-  <img src="README_assets/cheese_burger.gif" alt="Robot making a cheese burger in a custom-made kitchen" width="250" height="250"/>
+  <img src="README_assets/cheese_burger.gif" alt="Robot making a cheese burger in a custom-made kitchen" width="250" height="250"/> -->
+  <!-- <video width="100%" height="100%" autoplay loop muted>
+            <source src="./static/videos/all_tasks.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+    </video> -->
+  <img src="README_assets/tasks.gif" alt="Many robots working in many kitchens to cook many dishes" width="750" height="625"/>
 </p>
 
-Robots will be involved in every part of our lives in the near future so we need to teach them how to perform complex tasks. Humans break apart complex tasks like making hamburgers into smaller subtasks like cutting lettuce and cooking patties. We can teach robots to do the same by showing them how to perform easier tasks subtasks and then combine those subtasks to perform harder tasks. We created Robotouille so we can stress test this idea through an easily customizable cooking environment where the task possibilities are endless!
+Robotouille is a challenging benchmark environment designed to test LLM agents on 30 complex long-horizon planning, including synchronous, asynchronous, and multi-agent scenarios. Each scenario comes with a curated dataset containing 10 unique tasks each with 10 procedurally generated instances, designed to evaluate reasoning over time delays, diverse long-horizon tasks, and coordination challenges.
 
-Check out our paper, [Demo2Code: From Summarizing Demonstrations to Synthesizing Code via Extended Chain-of-Thought](https://portal-cornell.github.io/demo2code-webpage/), to learn how we used Robotouille to teach robots to perform tasks that humans demonstrate to them using Large Language Models (LLMs).
+Check out the following papers where we've used Robotouille!
+- [Robotouille: An Asynchronous Planning Benchmark for LLM Agents](https://portal-cornell.github.io/robotouille/)
+- [Demo2Code: From Summarizing Demonstrations to Synthesizing Code via Extended Chain-of-Thought](https://portal-cornell.github.io/demo2code/)
+- [Query-Efficient Planning with Language Models](https://portal-cornell.github.io/llms-for-planning/)
+
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- LEADERBOARD -->
+## Leaderboard
+| Strategy       | Synchronous (%) | Asynchronous (%) |
+| -------------- | --------------- | ---------------- |
+| [ReAct] (gpt-4o)     | **47.0**     | **11.0**     |
+| [ReAct] (gpt-4o-mini)     | 11.0     | 0.00     |
+| [ReAct] (Qwen2-32B-Instruct)     | 9.00     |1.00     |
+| [ReAct] (claude-3-haiku)     | 2.00     | 0.00     |
+| [ReAct] (Meta-Llama-3.1-8b-Instruct)     | 1.00     | 0.00     |
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -74,12 +101,20 @@ It is super easy to get started by trying out an existing environment or creatin
 
 1. Create and activate your virtual environment
    ```sh
-   python3 -m venv <venv-name>
-   source <venv-name>/bin/activate
+   # Python venv module
+   python -m venv robotouille
+   source robotouille/bin/activate
+   # Conda (must have anaconda installed)
+   conda create --name robotouille python=3.9
+   conda activate robotouille
+   # Pyenv (must have pyenv and pyenv-virtualenv installed)
+   pyenv install 3.9
+   pyenv virtualenv 3.9 robotouille
    ```
 2. Install Robotouille and its dependencies
    ```sh
    pip install -e .
+   pip install -e agents/prompt_builder/gpt-cost-estimator
    ```
 3. Run Robotouille!
    ```sh
@@ -87,20 +122,23 @@ It is super easy to get started by trying out an existing environment or creatin
    ```
    or import the simulator to any code by adding
    ```python
-   from robotouille import simulator
+   from robotouille import run_robotouille
    
-   simulator("original")
+   run_robotouille("original", "human", max_steps=10)
    ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Usage
 
+### Running an LLM Agent
+Refer to the `README.md` under `agents/` for details on how to run an LLM agent in Robotouille.
+
 ### Use Existing Environments
 
 To play an existing environment, you can choose from the JSON files under `environments/env_generator/examples/`. For example, to play the `high_level_lettuce_burger` environment, simply run
 ```sh
-python main.py --environment_name high_level_lettuce_burger
+python main.py ++game.environment_name=high_level_lettuce_burger
 ```
 
 You can interact with the environment with keyboard and mouse, using the following keys:
@@ -110,14 +148,13 @@ You can interact with the environment with keyboard and mouse, using the followi
 
 If you would like to procedurally generate an environment based off a JSON file, run the following commands
 ```sh
-python main.py --environment_name high_level_lettuce_burger --seed 42
-python main.py --environment_name high_level_lettuce_burger --seed 42 --noisy_randomization
+python main.py ++game.environment_name=high_level_lettuce_burger ++game.seed=42
 ```
-Refer to the `README.md` under `environments/env_generator` for details on procedural generation.
+Refer to the `README.md` under `environments/env_generator/` for details on procedural generation.
 
 ### Create your own Environment!
 
-To create your own environment, add another example into `environments/env_generator/examples/`. Follow the `README.md` under `environments/env_generator` for details on how to customize the environment JSON. If you would like to modify the transitions of the environment entirely, refer to `robotouille.pddl` under `environments`. We currently have limited support for customization through the PDDL for non-Markovian actions (cut / cook) and for rendering new objects / actions but plan to add more support in the future. Please contact gg387@cornell.edu for more details if interested.
+To create your own environment, add another example into `environments/env_generator/examples/`. Follow the `README.md` under `environments/env_generator/` for details on how to customize the environment JSON. If you would like to modify the transitions of the environment entirely, refer to `robotouille.json` under `environments`. We are always adding more objects and transitions into Robotouille to increase the diversity of tasks. Please contact gg387@cornell.edu for more details if interested in contributing or learning more.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -135,7 +172,27 @@ We appreciate all contributions to Robotouille. Bug fixes are always welcome, bu
 <!-- BUILT WITH -->
 ## Built With
 
-We build atop [PDDLGym](https://github.com/tomsilver/pddlgym) which converts a PDDL domain and problem file into a [Gym](https://www.gymlibrary.dev/index.html) environment. We render and take keyboard input using [PyGame](https://www.pygame.org/docs/), building on the [tutorial](https://www.gymlibrary.dev/content/environment_creation/) for making custom gym environments.
+We build atop [Gym](https://www.gymlibrary.dev/index.html) environment and we render and take keyboard input using [PyGame](https://www.pygame.org/docs/), building on the [tutorial](https://www.gymlibrary.dev/content/environment_creation/) for making custom gym environments.
+
+[Currently broken [#37](https://github.com/portal-cornell/robotouille/issues/37)] We also support [PDDLGym](https://github.com/tomsilver/pddlgym); we programatically translate Robotouille into a PDDL domain and problem file which PDDLGym converts into a Gym environment.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+<!-- CITATION -->
+## Citation
+Please cite the [Robotouille](https://arxiv.org/pdf/2502.05227) paper if you use our dataset or code in your research:
+```
+@inproceedings{
+gonzalez-pumariega2025robotouille,
+title={Robotouille: An Asynchronous Planning Benchmark for {LLM} Agents},
+author={Gonzalo Gonzalez-Pumariega and Leong Su Yean and Neha Sunkara and Sanjiban Choudhury},
+booktitle={The Thirteenth International Conference on Learning Representations},
+year={2025},
+url={https://openreview.net/forum?id=OhUoTMxFIH}
+}
+```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

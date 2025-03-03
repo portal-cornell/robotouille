@@ -62,6 +62,7 @@
             "direction": [-1, 0]
         }
     ],
+    "goal_description": "Fully cut all the lettuce on the boards",
     "goal": [
         {
             "predicate": "iscut",

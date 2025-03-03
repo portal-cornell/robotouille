@@ -1,0 +1,322 @@
+{
+    "version": "1.0.0",
+    "width": 8,
+    "height": 8,
+    "config": {
+        "num_cuts": {
+            "lettuce": 3,
+            "default": 3
+        },
+        "cook_time": {
+            "patty": 3,
+            "default": 3
+        }
+    },
+    "stations": [
+        {
+            "name": "table",
+            "x": 0,
+            "y": 1
+        },
+        {
+            "name": "stove",
+            "x": 1,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 2,
+            "y": 1
+        },
+        {
+            "name": "board",
+            "x": 3,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 4,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 5,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 0,
+            "y": 3
+        },
+        {
+            "name": "stove",
+            "x": 1,
+            "y": 3
+        },
+        {
+            "name": "table",
+            "x": 2,
+            "y": 3
+        },
+        {
+            "name": "board",
+            "x": 3,
+            "y": 3
+        },
+        {
+            "name": "table",
+            "x": 4,
+            "y": 3
+        },
+        {
+            "name": "table",
+            "x": 5,
+            "y": 3
+        },
+        {
+            "name": "table",
+            "x": 0,
+            "y": 5
+        },
+        {
+            "name": "table",
+            "x": 1,
+            "y": 5
+        },
+        {
+            "name": "table",
+            "x": 2,
+            "y": 5
+        },
+        {
+            "name": "table",
+            "x": 3,
+            "y": 5
+        },
+        {
+            "name": "table",
+            "x": 4,
+            "y": 5
+        },
+        {
+            "name": "table",
+            "x": 5,
+            "y": 5
+        },
+        {
+            "name": "table",
+            "x": 6,
+            "y": 5
+        },
+        {
+            "name": "table",
+            "x": 7,
+            "y": 5
+        }
+    ],
+    "items": [
+        {
+            "name": "patty",
+            "x": 0,
+            "y": 1,
+            "stack-level": 0,
+            "predicates": ["iscookable"]
+        },
+        {
+            "name": "lettuce",
+            "x": 2,
+            "y": 1,
+            "stack-level": 0,
+            "predicates": ["iscuttable"]
+        },
+        {
+            "name": "bottombun",
+            "x": 4,
+            "y": 1,
+            "stack-level": 0
+        },
+        {
+            "name": "topbun",
+            "x": 5,
+            "y": 1,
+            "stack-level": 0
+        },
+        {
+            "name": "patty",
+            "x": 0,
+            "y": 3,
+            "stack-level": 0,
+            "predicates": ["iscookable"]
+        },
+        {
+            "name": "lettuce",
+            "x": 2,
+            "y": 3,
+            "stack-level": 0,
+            "predicates": ["iscuttable"]
+        },
+        {
+            "name": "bottombun",
+            "x": 4,
+            "y": 3,
+            "stack-level": 0
+        },
+        {
+            "name": "topbun",
+            "x": 5,
+            "y": 3,
+            "stack-level": 0
+        },
+        {
+            "name": "cheese",
+            "x": 0,
+            "y": 5,
+            "stack-level": 0
+        },
+        {
+            "name": "cheese",
+            "x": 1,
+            "y": 5,
+            "stack-level": 0
+        },
+        {
+            "name": "onion",
+            "x": 2,
+            "y": 5,
+            "stack-level": 0,
+            "predicates": ["iscuttable"]
+        },
+        {
+            "name": "onion",
+            "x": 3,
+            "y": 5,
+            "stack-level": 0,
+            "predicates": ["iscuttable"]
+        },
+        {
+            "name": "tomato",
+            "x": 4,
+            "y": 5,
+            "stack-level": 0,
+            "predicates": ["iscuttable"]
+        },
+        {
+            "name": "tomato",
+            "x": 5,
+            "y": 5,
+            "stack-level": 0,
+            "predicates": ["iscuttable"]
+        },
+        {
+            "name": "chicken",
+            "x": 6,
+            "y": 5,
+            "stack-level": 0,
+            "predicates": ["iscookable"]
+        },
+        {
+            "name": "chicken",
+            "x": 7,
+            "y": 5,
+            "stack-level": 0,
+            "predicates": ["iscookable"]
+        }
+    ],
+    "players": [
+        {
+            "name": "robot",
+            "x": 0,
+            "y": 0,
+            "direction": [0, 1]
+        },
+        {
+            "name": "robot",
+            "x": 1,
+            "y": 0,
+            "direction": [0, 1]
+        }
+    ],
+    "goal_description": "Make two lettuce cheeseburgers on separate tables with lettuce on top of cheese on top of the patties.",
+    "goal": [
+        {
+            "predicate": "clear",
+            "args": ["topbun"],
+            "ids": [1]
+        },
+        {
+            "predicate": "iscut",
+            "args": ["lettuce"],
+            "ids": [2]
+        },
+        {
+            "predicate": "atop",
+            "args": ["topbun", "lettuce"],
+            "ids": [1, 2]
+        },
+        {
+            "predicate": "atop",
+            "args": ["lettuce", "cheese"],
+            "ids": [2, 3]
+        },
+        {
+            "predicate": "iscooked",
+            "args": ["patty"],
+            "ids": [4]
+        },
+        {
+            "predicate": "atop",
+            "args": ["cheese", "patty"],
+            "ids": [3, 4]
+        },
+        {
+            "predicate": "atop",
+            "args": ["patty", "bottombun"],
+            "ids": [4, 5]
+        },
+        {
+            "predicate": "item_on",
+            "args": ["bottombun", "table"],
+            "ids": [5, 6]
+        },
+        {
+            "predicate": "clear",
+            "args": ["topbun"],
+            "ids": [7]
+        },
+        {
+            "predicate": "iscut",
+            "args": ["lettuce"],
+            "ids": [8]
+        },
+        {
+            "predicate": "atop",
+            "args": ["topbun", "lettuce"],
+            "ids": [7, 8]
+        },
+        {
+            "predicate": "atop",
+            "args": ["lettuce", "cheese"],
+            "ids": [8,9]
+        },
+        {
+            "predicate": "iscooked",
+            "args": ["patty"],
+            "ids": [10]
+        },
+        {
+            "predicate": "atop",
+            "args": ["cheese", "patty"],
+            "ids": [9, 10]
+        },
+        {
+            "predicate": "atop",
+            "args": ["patty", "bottombun"],
+            "ids": [10, 11]
+        },
+        {
+            "predicate": "item_on",
+            "args": ["bottombun", "table"],
+            "ids": [11, 12]
+        }
+    ]
+}

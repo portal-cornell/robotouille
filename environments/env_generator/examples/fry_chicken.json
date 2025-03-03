@@ -51,6 +51,7 @@
             "direction": [-1, 0]
         }
     ],
+    "goal_description": "Fry all of the chicken",
     "goal": [
         {
             "predicate": "isfried",

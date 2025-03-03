@@ -39,6 +39,7 @@
             "meal_id": []
         }
     ],
+    "goal_description": "Fill the pot with water",
     "goal": [
         {
             "predicate": "in",

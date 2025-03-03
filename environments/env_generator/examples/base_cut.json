@@ -38,6 +38,7 @@
             "direction": [0, 1]
         }
     ],
+    "goal_description": "Cut the lettuce on the board until it is cut",
     "goal": [
         {
             "predicate": "iscut",

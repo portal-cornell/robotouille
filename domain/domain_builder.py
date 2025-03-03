@@ -9,22 +9,24 @@ from backend.special_effects.creation_effect import CreationEffect
 from backend.special_effects.deletion_effect import DeletionEffect
 
 
-def _build_predicate_defs(input_json):
+def _build_predicate_defs(domain_json):
     """
     This function builds predicate definitions from a JSON input.
 
-    Args:
-        input_json (str): The JSON input.
+    Parameters:
+        domain_json (Dict[str, Any]):
+            The JSON representation of the domain.
 
     Returns:
         predicate_defs (List[Predicate]): The predicate definitions.
     """
     predicate_defs = []
 
-    for pred in input_json["predicate_defs"]:
+    for pred in domain_json["predicate_defs"]:
         name = pred["name"]
         param_types = pred["param_types"]
-        predicate_defs.append(Predicate().initialize(name, param_types))
+        language_descriptors = pred["language_descriptors"]
+        predicate_defs.append(Predicate().initialize(name, param_types, language_descriptors=language_descriptors))
 
     return predicate_defs
 
@@ -57,7 +59,7 @@ def _build_pred_list(defn, param_objs, predicate_dict):
                 type = pred.types[i]
                 param_objs[param] = Object(param, type)
             params.append(param_objs[param])
-        new_pred = Predicate().initialize(pred.name, pred.types, params)
+        new_pred = Predicate().initialize(pred.name, pred.types, params, pred.language_descriptors)
         precons_or_effects[new_pred] = precon_or_effect["is_true"]
 
     return precons_or_effects
@@ -108,16 +110,19 @@ def _build_special_effects(defn, param_objs, predicate_dict):
 
     return special_effects
 
-def _build_action_defs(input_json, predicate_defs):
+def _build_action_defs(domain_json, predicate_defs):
     """
     This function builds action definitions from a JSON input.
 
-    Args:
-        input_json (str): The JSON input.
-        predicate_defs (List[Predicate]): The predicate definitions.
+    Parameters:
+        domain_json (Dict[str, Any]):
+            The JSON representation of the domain.
+        predicate_defs (List[Predicate]):
+            The predicate definitions.
 
     Returns:
-        action_defs (List[Action]): The action definitions.
+        action_defs (List[Action]):
+            The action definitions.
     """
     predicate_dict = {pred.name: pred for pred in predicate_defs}
 
@@ -125,7 +130,7 @@ def _build_action_defs(input_json, predicate_defs):
 
     param_objs = {}
 
-    for action in input_json["action_defs"]:
+    for action in domain_json["action_defs"]:
         name = action["name"]
         precons = _build_pred_list(
             action["precons"], param_objs, predicate_dict)
@@ -133,28 +138,30 @@ def _build_action_defs(input_json, predicate_defs):
             action["immediate_fx"], param_objs, predicate_dict)
         special_effects = _build_special_effects(
             action["sfx"], param_objs, predicate_dict)
-        action_def = Action(name, precons, immediate_effects, special_effects)
+        language_description = action["language_description"]
+        action_def = Action(name, precons, immediate_effects, special_effects, language_description=language_description)
         action_defs.append(action_def)
 
     return action_defs
         
-def build_domain(input_json):
+def build_domain(domain_json):
     """
     This function builds a domain object from a JSON input.
 
     Args:
-        input_json (str): The JSON input.
+        domain_json (Dict[str, Any]):
+            The JSON representation of the domain.
 
     Returns:
         domain (Domain): The domain object.
     """
-    name = input_json["name"]
+    name = domain_json["name"]
 
-    object_types = input_json["object_types"]
+    object_types = domain_json["object_types"]
 
-    predicate_defs = _build_predicate_defs(input_json)
+    predicate_defs = _build_predicate_defs(domain_json)
 
-    action_defs = _build_action_defs(input_json, predicate_defs)
+    action_defs = _build_action_defs(domain_json, predicate_defs)
 
     domain = Domain().initialize(name, object_types, predicate_defs, action_defs)
 
