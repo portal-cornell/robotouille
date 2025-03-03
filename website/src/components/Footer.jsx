@@ -28,7 +28,7 @@ const Footer = () => {
         {/* Right Section: Download Button and Follow Us */}
         <div className="flex flex-col items-end space-y-4">
           {/* Download Button */}
-          <DownloadButton />
+          {/* <DownloadButton /> */}
 
           {/* Follow Us */}
           <div className="flex flex-col ">
@@ -53,10 +53,10 @@ const Footer = () => {
                 <img src={TwitterIcon} alt="Twitter" className="w-8 h-8" />
               </a>
 
-              {/* Steam */}
+              {/* Steam
               <a href="#" target="_blank" rel="noopener noreferrer">
                 <img src={SteamIcon} alt="Steam" className="w-8 h-8" />
-              </a>
+              </a> */}
             </div>
           </div>
         </div>
