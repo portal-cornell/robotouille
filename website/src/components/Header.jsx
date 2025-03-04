@@ -36,10 +36,17 @@ const Header = () => {
           >
             Team
           </Link>
+          
         </div>
 
         {/* Right Section */}
         <div className="flex space-x-6">
+        <Link 
+          to = "/blog"
+          className = "bg-primary-darkBlue font-roboto-slab text-white py-2 px-4 rounded-lg hover:bg-primary-hoverBlue transition duration-300" 
+          >
+             Blog 
+          </Link>
           {/* <Link
             to="/leaderboard"
             className="bg-primary-darkBlue font-roboto-slab text-white py-2 px-4 rounded-lg hover:bg-primary-hoverBlue transition duration-300"

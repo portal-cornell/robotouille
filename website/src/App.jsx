@@ -7,6 +7,7 @@ import YoutubeVideo from "./components/YoutubeVideo";
 import Download from "./components/Download";
 import About from "./pages/About";
 import Team from "./pages/Team";
+import Blog from "./pages/Blog";
 import Footer from "./components/Footer";
 import Leaderboard from "./pages/Leaderboard";
 import FallingItems from "./components/FallingItems";
@@ -32,8 +33,7 @@ const App = () => {
         <div className="relative z-10">
           <div className="flex justify-end mr-10 -mt-20">
             <button
-              className="bg-primary-darkBlue text-white px-4 py-2 hover:bg-primary-hoverBlue rounded-lg font-roboto"
-              onClick={() => setAnimationEnabled(!animationEnabled)}
+            className="border-2 border-primary-darkBlue text-primary-darkBlue px-2 py-1 hover:bg-primary-darkBlue hover:text-white rounded-lg font-roboto transition duration-300"              onClick={() => setAnimationEnabled(!animationEnabled)}
             >
               {animationEnabled ? "Pause Animation" : "Resume Animation"}
             </button>
@@ -60,6 +60,8 @@ const App = () => {
             <Route path="/about" element={<About />} />
             {/* Team Page */}
             <Route path="/team" element={<Team />} />
+            {/* Blog Page */}
+            <Route path="/blog" element={<Blog />} />
             {/* Leaderboard Page
             <Route path="/leaderboard" element={<Leaderboard />} /> */}
           </Routes>
