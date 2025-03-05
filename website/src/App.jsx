@@ -19,7 +19,7 @@ const App = () => {
     <Router>
       {/* Header is displayed on all pages */}
       <Header />
-      <div className="pt-[7.5rem] lg:pt-[8rem] overflow-hidden min-h-screen bg-primary-blue relative">
+      <div className="pt-[7.5rem] lg:pt-[6rem] overflow-hidden min-h-screen bg-primary-blue relative">
         {/* Falling Items */}
         <div className="absolute top-0 left-0 w-full h-full z-0">
           <FallingItems
@@ -29,11 +29,12 @@ const App = () => {
           />
         </div>
 
-        {/* Content Above Falling Items */}
+        {/* Pause Animation Button */}
         <div className="relative z-10">
           <div className="flex justify-end mr-10 -mt-20">
             <button
-            className="border-2 border-primary-darkBlue text-primary-darkBlue px-2 py-1 hover:bg-primary-darkBlue hover:text-white rounded-lg font-roboto transition duration-300"              onClick={() => setAnimationEnabled(!animationEnabled)}
+              className="border-2 border-primary-darkBlue text-primary-darkBlue px-2 py-1 hover:bg-primary-darkBlue hover:text-white rounded-lg font-roboto transition duration-300"
+              onClick={() => setAnimationEnabled(!animationEnabled)}
             >
               {animationEnabled ? "Pause Animation" : "Resume Animation"}
             </button>

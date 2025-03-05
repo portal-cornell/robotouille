@@ -4,17 +4,16 @@ import gif from "../assets/all_tasks.gif";
 
 const About = () => {
   return (
-    <div className="relative mt-28">
-      {/* Header Banner (Smaller & Well-Aligned) */}
+    <div className="relative mt-28  px-4">
+      {/* Header Banner  */}
       <header className="absolute inset-x-0 flex justify-center mt-[-50px]">
         <img
           src={aboutHeader}
           alt="About Header"
-          className="w-2/3 max-w-md md:max-w-lg h-auto rounded-t-lg"
+          className="w-11/12 sm:w-2/3 max-w-lg h-auto rounded-t-lg"
         />
       </header>
 
-      {/* Main Content Box */}
       <div className="bg-primary-darkRed text-white font-roboto-slab rounded-lg shadow-2xl max-w-4xl mx-auto mb-12 p-6">
         {/* Introduction */}
         <div>

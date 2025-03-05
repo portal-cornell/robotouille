@@ -55,9 +55,9 @@ const Team = () => {
     },
     {
       name: "Henry Gao",
-      year: 2025, 
+      year: 2025,
       role: "Developer",
-      img: hg ,
+      img: hg,
       hometown: "Albany, NY",
       interests: "Video games, Photography",
       funfact: "I can clear 40 lines in Tetris in under 40 seconds",
@@ -124,13 +124,13 @@ const Team = () => {
   const closeModal = () => setSelectedMember(null);
 
   return (
-    <div className="relative mt-28">
+    <div className="relative mt-28 px-4">
       {/* Header Banner */}
       <header className="absolute inset-x-0 flex justify-center mt-[-50px]">
         <img
           src={teamHeader}
           alt="Meet the Team Header"
-          className="w-2/3 max-w-md md:max-w-lg h-auto rounded-t-lg"
+          className="w-11/12 sm:w-2/3 max-w-lg h-auto rounded-t-lg"
         />
       </header>
 
@@ -167,7 +167,7 @@ const Team = () => {
       {selectedMember && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 ">
           <div className="bg-white text-black p-6 rounded-lg max-w-3xl w-full flex flex-col md:flex-row gap-6 relative">
-            {/* Left Side - Image (Fixed Size for Consistency) */}
+            {/* Left Side  */}
             <div className="relative w-full md:w-1/3 flex flex-col items-center">
               <img
                 src={selectedMember.img || "https://via.placeholder.com/300"}
