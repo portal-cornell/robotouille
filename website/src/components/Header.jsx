@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import DownloadButton from "./Download";
+import { FiMenu, FiX } from "react-icons/fi";
 import headerImage from "../assets/header-image.png";
 
 const Header = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
   return (
     <header
       className="relative max-w-full z-50"
@@ -15,9 +17,15 @@ const Header = () => {
         height: "270px", // Keeps the height fixed
       }}
     >
-      <nav className="flex justify-between items-center pt-16 px-20 ">
+      <nav className="flex justify-between items-center pt-16 px-20 md:px-20">
+        <button
+          className="md:hidden text-primary-darkBlue text-3xl focus:outline-none absolute top-6 left-6"
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          {menuOpen ? <FiX /> : <FiMenu />}
+        </button>
         {/* Left Section */}
-        <div className="flex space-x-6">
+        <div className="hidden md:flex space-x-6">
           <Link
             to="/"
             className="bg-primary-darkBlue font-roboto-slab text-white py-2 px-4 rounded-lg hover:bg-primary-hoverBlue transition duration-300"
@@ -36,17 +44,16 @@ const Header = () => {
           >
             Team
           </Link>
-          
         </div>
 
         {/* Right Section */}
-        <div className="flex space-x-6">
-        <Link 
+        <div className="hidden md:flex space-x-6">
+          {/* <Link 
           to = "/blog"
           className = "bg-primary-darkBlue font-roboto-slab text-white py-2 px-4 rounded-lg hover:bg-primary-hoverBlue transition duration-300" 
           >
              Blog 
-          </Link>
+          </Link> */}
           {/* <Link
             to="/leaderboard"
             className="bg-primary-darkBlue font-roboto-slab text-white py-2 px-4 rounded-lg hover:bg-primary-hoverBlue transition duration-300"
@@ -61,6 +68,42 @@ const Header = () => {
           </DownloadButton> */}
         </div>
       </nav>
+
+      {/* mobile view */}
+      {menuOpen && (
+        <div className="fixed top-0 left-0 w-full bg-primary-blue bg-opacity-5 backdrop-blur-md shadow-md flex flex-col items-center space-y-4 py-4 transition-all duration-500 ease-in-out max-h-[250px] overflow-hidden border-b border-gray-300">
+          {" "}
+          {/* Close Button */}
+          <button
+            className="absolute top-6 left-6 text-3xl text-primary-darkBlue focus:outline-none"
+            onClick={() => setMenuOpen(false)}
+          >
+            <FiX />
+          </button>
+          {/* Menu Links */}
+          <Link
+            to="/"
+            className="nav-link font-roboto-slab text-xl"
+            onClick={() => setMenuOpen(false)}
+          >
+            Home
+          </Link>
+          <Link
+            to="/about"
+            className="nav-link font-roboto-slab text-xl"
+            onClick={() => setMenuOpen(false)}
+          >
+            About
+          </Link>
+          <Link
+            to="/team"
+            className="nav-link font-roboto-slab  text-xl"
+            onClick={() => setMenuOpen(false)}
+          >
+            Team
+          </Link>
+        </div>
+      )}
     </header>
   );
 };
