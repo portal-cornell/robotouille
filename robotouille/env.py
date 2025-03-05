@@ -2,6 +2,7 @@ import copy
 import gym
 import json
 import random
+import pygame
 import re
 import string
 
@@ -457,9 +458,9 @@ class LanguageSpace(gym.spaces.Text):
         return LanguageSpace.state_to_language_description(state_copy)
 
 class RobotouilleEnv(gym.Env):
-    metadata = {"render_modes": ["human", "rgb_array"], "render_fps": 60}
+    metadata = {"render_modes": ["human", "rgb_array"]}
 
-    def __init__(self, domain_json, environment_json, renderer, layout, movement_mode, size=5):        
+    def __init__(self, domain_json, environment_json, renderer, layout, movement_mode, render_fps=60, clock=pygame.time.Clock()):        
         self.environment_json = environment_json
         self.initial_state = build_state(domain_json, environment_json, layout, movement_mode)
         self.current_state = copy.deepcopy(self.initial_state)
@@ -471,6 +472,8 @@ class RobotouilleEnv(gym.Env):
         self.input_json = build_input_json(domain_json)
 
         self.renderer = renderer
+        self.render_fps = render_fps
+        self.clock = clock
 
     def get_state(self):
         return self.observation_space
@@ -478,10 +481,8 @@ class RobotouilleEnv(gym.Env):
     def set_state(self, state):
         self.observation_space = state
 
-    def step(self, actions, clock=None):
-        if clock is None:
-            clock = self.renderer.clock
-        done = self.current_state.step(actions, clock) # Current state is updated in place
+    def step(self, actions):
+        done = self.current_state.step(actions, self.clock) # Current state is updated in place
         obs = LanguageSpace.state_to_language_description(self.current_state)
         return obs, 0, done, {}
 
@@ -493,7 +494,17 @@ class RobotouilleEnv(gym.Env):
     
     def render(self, render_mode, close=False):
         assert render_mode is None or render_mode in self.metadata["render_modes"]
-        return self.renderer.render(self.current_state, render_mode, close=close)
+        img = self.renderer.render(self.current_state)
+        if render_mode == "human":
+            pygame.display.update()
+            if close:
+                self.renderer.reset()
+                self.clock = None
+                pygame.display.set_mode(size=(1,1), flags=pygame.HIDDEN) # Hide the window
+            else:
+                pygame.event.pump()
+                self.clock.tick(self.render_fps)
+        return img
 
         
 

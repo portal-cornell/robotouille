@@ -17,11 +17,13 @@ pygame.init()
 pygame.display.init()
 screen_size = (1440, 1024)
 screen = pygame.display.set_mode(screen_size)
+simulator_screen_size = (512, 512) # TODO: Make this scale based on screen size
+fps = 60
 pygame.display.set_caption('Robotouille Simulator')
-
+clock = pygame.time.Clock()
 
 def game():
-    global screen, screen_size, args
+    global screen_size, screen, simulator_screen_size, fps, args
     screens = {
         LOGO: LogoScreen(screen_size),
         LOADING: LoadingScreen(screen_size),
@@ -52,15 +54,20 @@ def game():
         screen.fill((0,0,0))
         if current_screen == GAME:
             if simulator_instance is None:
+                screen = pygame.display.set_mode(simulator_screen_size) # TODO: Remove when screen size can scale properly
                 simulator_instance = RobotouilleSimulator(
-                        canvas=screen,
+                        screen=screen,
                         environment_name=args.environment_name,
                         seed=args.seed,
                         noisy_randomization=args.noisy_randomization,
                         movement_mode=args.movement_mode,
+                        clock=clock,
+                        screen_size=simulator_screen_size,
+                        render_fps=fps
                     )
                 
             simulator_instance.update()
+            screen.blit(simulator_instance.get_screen(), (0, 0))
             if simulator_instance.next_screen is not None:
                 current_screen = simulator_instance.next_screen
                 simulator_instance.set_next_screen(None)
@@ -79,27 +86,33 @@ def game():
             update_screen()
 
         pygame.display.flip()
+        clock.tick(fps)
         
     pygame.quit()
 
 def main():
-    global screen, screen_size, args
+    global screen_size, screen, simulator_screen_size, fps, args
     loading = LoadingScreen(screen_size)
     loading.load_all_assets()
     
+    screen = pygame.display.set_mode(simulator_screen_size) # TODO: Remove when screen size can scale properly
     simulator_instance = RobotouilleSimulator(
-        canvas=screen,
+        screen=screen,
         environment_name=args.environment_name,
         seed=args.seed,
         noisy_randomization=args.noisy_randomization,
         movement_mode=args.movement_mode,
-        human=False
+        clock=clock,
+        screen_size=simulator_screen_size,
+        render_fps=fps
     )
     
     while not simulator_instance.done:
         screen.fill((0,0,0))
         simulator_instance.update()
+        screen.blit(simulator_instance.get_screen(), (0, 0))
         pygame.display.flip()
+        clock.tick(fps)
         
     pygame.quit()
 

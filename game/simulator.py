@@ -7,36 +7,29 @@ from utils.robotouille_input import create_action_from_event
 from robotouille.robotouille_env import create_robotouille_env
 from backend.movement.player import Player
 from backend.movement.movement import Movement
-from game.renderer import RobotouilleGameRenderer
 
 class RobotouilleSimulator:
-    def __init__(self, canvas, environment_name: str, seed: int = 42, noisy_randomization: bool = False, movement_mode: str = 'traverse', human = True, render_fps=60):
+    def __init__(self, screen, environment_name, seed=42, noisy_randomization=False, movement_mode='traverse', clock=pygame.time.Clock(), screen_size=(512, 512), render_fps=60):
         """
         Initialize the Robotouille application for gameplay.
 
         Args:
-            canvas (pygame.Surface): The main display canvas.
+            screen (pygame.Surface): The main display screen.
             environment_name (str): The name of the environment to load.
             seed (int): Seed for randomization (default: 42).
             noisy_randomization (bool): Whether to introduce noise into randomization (default: False).
             movement_mode (str): The movement mode for the environment (default: 'traverse').
-            human (bool): Whether a human player is controlling the game (default: True).
-            render_fps (int): Frames per second for rendering (default: 60).
+            clock (pygame.time.Clock): The master clock to fetch delta time from
         """
-        self.human = human
-        self.canvas = canvas
-        self.env = create_robotouille_env(environment_name, movement_mode, seed, noisy_randomization, renderer_cls=RobotouilleGameRenderer)
+        self.env = create_robotouille_env(environment_name, movement_mode, seed, noisy_randomization, clock=clock, screen_size=screen_size, render_fps=render_fps, screen=screen)
         self.renderer = self.env.renderer
         self.obs, self.info = self.env.reset()
         self.done = False
-        self.interactive = False  # Set to True to interact with the environment through terminal REPL (ignores input)
-        screen_size = canvas.get_size()
-        self.surface = pygame.Surface(screen_size)
+        screen_size = screen.get_size()
+        self.screen = pygame.Surface(screen_size)
         self.pause = PauseScreen(screen_size)
-        self.clock = pygame.time.Clock()
         self.players = self.env.current_state.get_players()
         self.actions = []
-        self.render_fps = render_fps
         self.next_screen = None
     
     def set_next_screen(self, next_screen):
@@ -51,18 +44,22 @@ class RobotouilleSimulator:
         """
         self.next_screen = next_screen
 
+    def get_screen(self):
+        """
+        Get the current screen.
+
+        Returns:
+            pygame.Surface: The current screen to display.
+        """
+        return self.screen
+    
     def draw(self):
         """
-        Renders the current state of the game environment and pause screen onto the canvas.
+        Renders the current state of the game environment and pause screen onto the main screen.
         """
-        self.renderer.render(self.env.current_state, mode='human')
-        self.surface.blit(self.renderer.surface, (0, 0))
-        self.canvas.blit(self.surface, (0, 0))
-        self.surface.blit(self.pause.get_screen(), (0, 0))
-        self.canvas.blit(self.surface, (0, 0))
-        # The framerate of the renderer. This isn't too important since the renderer
-        self.clock.tick(self.render_fps)
-
+        self.renderer.render(self.env.current_state)
+        self.screen.blit(self.renderer.screen, (0, 0))
+        self.screen.blit(self.pause.get_screen(), (0, 0))
 
     def handle_pause(self, pygame_events):
         """
@@ -71,9 +68,6 @@ class RobotouilleSimulator:
         Args:
             pygame_events (list): List of pygame events to handle.
         """
-
-        if not self.human:
-            return
         for event in pygame_events:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_q:
@@ -98,7 +92,7 @@ class RobotouilleSimulator:
         """
         
         if self.done:
-            self.renderer.render(self.env.current_state, close=False)
+            self.renderer.render(self.env.current_state)
             self.next_screen = ENDGAME
             return
         
@@ -128,7 +122,7 @@ class RobotouilleSimulator:
             if action is not None:
                 no_action = False
 
-        if not self.interactive and no_action:
+        if no_action:
             # Retry for keyboard input
             return
 
@@ -138,8 +132,7 @@ class RobotouilleSimulator:
 
         # If all players have made an action, step the environment
         if len(self.actions) == len(self.players):
-            self.obs, reward, self.done, self.info = self.env.step(self.actions, clock=self.clock)#, interactive=self.interactive)
-            self.renderer.render(self.env.current_state, mode='human')
+            self.obs, reward, self.done, self.info = self.env.step(self.actions)
             self.actions = []
 
         return 

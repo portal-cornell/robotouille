@@ -78,4 +78,8 @@ if __name__ == "__main__":
     pygame.display.set_mode((512,512))
     from frontend.loading import LoadingScreen
     LoadingScreen((512,512)).load_all_assets()
+
     main()
+    
+    pygame.display.quit()
+    pygame.quit()
