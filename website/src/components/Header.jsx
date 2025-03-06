@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import DownloadButton from "./Download";
 import { FiMenu, FiX } from "react-icons/fi";
@@ -6,15 +6,28 @@ import headerImage from "../assets/header-image.png";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [bgPosition, setBgPosition] = useState(
+    window.innerWidth > 768 ? "-70px" : "-30px"
+  );
+  useEffect(() => {
+    const handleResize = () => {
+      setBgPosition(window.innerWidth > 768 ? "-70px" : "-30px");
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
   return (
     <header
-      className="relative max-w-full z-50"
+      className="relative max-w-full z-50 bg-cover bg-center md:h-[270px] h-[170px]"
       style={{
         background: `
-      url(${headerImage}) center -60px/cover no-repeat,
-      linear-gradient(to bottom, #EAEAEA 30%, #E0F2FA 50%)
-    `,
-        height: "270px", // Keeps the height fixed
+          url(${headerImage}) center ${bgPosition}/cover no-repeat,
+          linear-gradient(to bottom, #EAEAEA 30%, #E0F2FA 50%)
+        `,
       }}
     >
       <nav className="flex justify-between items-center pt-16 px-20 md:px-20">

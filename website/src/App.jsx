@@ -31,7 +31,7 @@ const App = () => {
 
         {/* Pause Animation Button */}
         <div className="relative z-10">
-          <div className="flex justify-end mr-10 -mt-20">
+          <div className="flex justify-end mr-10 -mt-24">
             <button
               className="border-2 border-primary-darkBlue text-primary-darkBlue px-2 py-1 hover:bg-primary-darkBlue hover:text-white rounded-lg font-roboto transition duration-300"
               onClick={() => setAnimationEnabled(!animationEnabled)}
