@@ -9,28 +9,44 @@ const Header = () => {
   const [bgPosition, setBgPosition] = useState(
     window.innerWidth > 768 ? "-70px" : "-30px"
   );
+  const [bgSize, setBgSize] = useState("auto 120px");
+
   useEffect(() => {
     const handleResize = () => {
-      setBgPosition(window.innerWidth > 768 ? "-70px" : "-30px");
+      if (window.innerWidth >= 768 && window.innerWidth <= 1440) {
+        setBgPosition("-70px");
+      } else {
+        setBgPosition("-30px");
+      }
+
+      if (window.innerWidth >= 1600) {
+        setBgSize("auto 300px");
+      } else {
+        setBgSize("cover");
+      }
     };
 
     window.addEventListener("resize", handleResize);
+    handleResize();
 
     return () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+
   return (
-    <header
-      className="relative max-w-full z-50 bg-cover bg-center md:h-[270px] h-[170px]"
-      style={{
-        background: `
-          url(${headerImage}) center ${bgPosition}/cover no-repeat,
-          linear-gradient(to bottom, #EAEAEA 30%, #E0F2FA 50%)
-        `,
-      }}
-    >
-      <nav className="flex justify-between items-center pt-16 px-20 md:px-20">
+    <header className="relative w-full z-50 bg-gradient-to-b from-[#EAEAEA] via-[#E0F2FA] to-[#E0F2FA] md:h-[270px] h-[170px]">
+      {/* Background Image */}
+      <div
+        className="absolute inset-0 w-full h-full bg-no-repeat bg-center"
+        style={{
+          backgroundImage: `url(${headerImage})`,
+          backgroundSize: bgSize,
+          backgroundPosition: `center ${bgPosition}`,
+          zIndex: 0,
+        }}
+      ></div>
+      <nav className="relative flex justify-between items-center pt-16 px-20 md:px-20 z-10">
         <button
           className="md:hidden text-primary-darkBlue text-3xl focus:outline-none absolute top-6 left-6"
           onClick={() => setMenuOpen(!menuOpen)}
@@ -61,14 +77,14 @@ const Header = () => {
 
         {/* Right Section */}
         <div className="hidden md:flex space-x-6">
-          {
+          {/* {
             <Link
               to="/blog"
               className="bg-primary-darkBlue font-roboto-slab text-white py-2 px-4 rounded-lg hover:bg-primary-hoverBlue transition duration-300"
             >
               Blog
             </Link>
-          }
+          } */}
           {/* <Link
             to="/leaderboard"
             className="bg-primary-darkBlue font-roboto-slab text-white py-2 px-4 rounded-lg hover:bg-primary-hoverBlue transition duration-300"

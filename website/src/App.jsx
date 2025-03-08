@@ -64,8 +64,8 @@ const App = () => {
             {/* Team Page */}
             <Route path="/team" element={<Team />} />
             {/* Blog Page */}
-            <Route path="/blog" element={<Blog />} />
-            <Route path="/write" element={<Write />} />
+            {/* <Route path="/blog" element={<Blog />} />
+            <Route path="/write" element={<Write />} /> */}
             {/* Leaderboard Page
             <Route path="/leaderboard" element={<Leaderboard />} /> */}
           </Routes>
