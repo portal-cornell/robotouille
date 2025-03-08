@@ -8,6 +8,8 @@ import Download from "./components/Download";
 import About from "./pages/About";
 import Team from "./pages/Team";
 import Blog from "./pages/Blog";
+import Write from "./components/Write"; // Ensure this import is correct
+
 import Footer from "./components/Footer";
 import Leaderboard from "./pages/Leaderboard";
 import FallingItems from "./components/FallingItems";
@@ -63,6 +65,7 @@ const App = () => {
             <Route path="/team" element={<Team />} />
             {/* Blog Page */}
             <Route path="/blog" element={<Blog />} />
+            <Route path="/write" element={<Write />} />
             {/* Leaderboard Page
             <Route path="/leaderboard" element={<Leaderboard />} /> */}
           </Routes>

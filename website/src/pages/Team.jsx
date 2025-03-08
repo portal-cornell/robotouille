@@ -143,7 +143,7 @@ const Team = () => {
               className="bg-red-800 text-center p-6 rounded-md cursor-pointer hover:bg-red-900 transition duration-300"
               onClick={() => setSelectedMember(member)}
             >
-              {/* Image (No Fixed Size in Grid) */}
+              {/* Image */}
               <div
                 className="h-52 w-52 mx-auto bg-gray-300 rounded-lg overflow-hidden"
                 style={{
