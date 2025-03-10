@@ -2,6 +2,8 @@ import pygame
 import numpy as np
 import os
 import json
+from frontend.slider import Slider
+from frontend.loading import LoadingScreen
 
 from .canvas import RobotouilleCanvas
 
@@ -47,6 +49,50 @@ class RobotouilleRenderer:
             print("Warning: Running in headless mode. No window will be displayed.")
         # The PyGame screen
         self.screen = pygame.display.set_mode(screen_size) if screen is None else screen
+        self.progress_bars = {}
+        self.completed = set()
+        self.length, self.width = len(self.layout), len(self.layout[0])
+        self.asset_directory = LoadingScreen.ASSET
+
+    def update_progress_bar(self, item, x, y, percentage = None, increment = None):
+        """
+        Draws an image on the canvas.
+        """
+
+        fg_image = self.asset_directory[RobotouilleCanvas.ASSETS_DIRECTORY]["progress_foreground.png"]
+        bg_image = self.asset_directory[RobotouilleCanvas.ASSETS_DIRECTORY]["progress_background.png"]
+        # image = pygame.transform.smoothscale(image, scale)
+        # get numbers of rows and colums of tiles floor
+        if item in self.completed:
+            return
+        
+        if item not in self.progress_bars:
+            # multiply by pixel_size found in canvas
+            self.progress_bars[item] = Slider(self.screen, fg_image, bg_image, 80, 50, 80, 50, x/self.length, (y + 0.5)/self.width, filled_percent=0, anchor='topleft') 
+        else:
+            slider = self.progress_bars[item]
+            value = slider.get_value()
+
+            # print(item, value, percentage, increment)
+
+            if value >= 1:
+                self.completed.add(item)
+                self.progress_bars.pop(item)
+                return
+            
+            # update the value 
+            if percentage:
+                slider.set_value(percentage)
+            
+            if increment:
+                slider.set_value(value + increment)
+
+            return
+
+    
+    def draw_progress_bar(self):
+        for id, bar in self.progress_bars.items():
+            bar.draw()
 
     def render(self, state):
         """
@@ -65,6 +111,7 @@ class RobotouilleRenderer:
                 Whether to close the pygame window
         """
         self.canvas.draw_to_surface(self.screen, state)
+        self.draw_progress_bar()
         return np.transpose(
             np.array(pygame.surfarray.pixels3d(self.screen)), axes=(1, 0, 2)
         )
