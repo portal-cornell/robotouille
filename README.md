@@ -187,12 +187,12 @@ We build atop [Gym](https://www.gymlibrary.dev/index.html) environment and we re
 Please cite the [Robotouille](https://arxiv.org/pdf/2502.05227) paper if you use our dataset or code in your research:
 ```
 @inproceedings{
-gonzalez-pumariega2025robotouille,
-title={Robotouille: An Asynchronous Planning Benchmark for {LLM} Agents},
-author={Gonzalo Gonzalez-Pumariega and Leong Su Yean and Neha Sunkara and Sanjiban Choudhury},
-booktitle={The Thirteenth International Conference on Learning Representations},
-year={2025},
-url={https://openreview.net/forum?id=OhUoTMxFIH}
+  gonzalez-pumariega2025robotouille,
+  title={Robotouille: An Asynchronous Planning Benchmark for {LLM} Agents},
+  author={Gonzalo Gonzalez-Pumariega and Leong Su Yean and Neha Sunkara and Sanjiban Choudhury},
+  booktitle={The Thirteenth International Conference on Learning Representations},
+  year={2025},
+  url={https://openreview.net/forum?id=OhUoTMxFIH}
 }
 ```
 
