@@ -54,7 +54,7 @@ class RobotouilleRenderer:
         self.length, self.width = len(self.layout), len(self.layout[0])
         self.asset_directory = LoadingScreen.ASSET
 
-    def update_progress_bar(self, item, x, y, percentage = None, increment = None):
+    def update_progress_bar(self, item, x, y, percentage = 0, increment = None):
         """
         Draws an image on the canvas.
         """
@@ -68,17 +68,18 @@ class RobotouilleRenderer:
         
         if item not in self.progress_bars:
             # multiply by pixel_size found in canvas
-            self.progress_bars[item] = Slider(self.screen, fg_image, bg_image, 80, 50, 80, 50, x/self.length, (y + 0.5)/self.width, filled_percent=0, anchor='topleft') 
+            # consistent offset based off the item
+            self.progress_bars[item] = Slider(self.screen, fg_image, bg_image, 80, 50, 80, 50, x/self.length, (y + 0.4)/self.width, filled_percent=percentage, anchor='topleft') 
         else:
             slider = self.progress_bars[item]
             value = slider.get_value()
 
             # print(item, value, percentage, increment)
 
-            if value >= 1:
-                self.completed.add(item)
-                self.progress_bars.pop(item)
-                return
+            # if value >= 1:
+            #     self.completed.add(item)
+            #     self.progress_bars.pop(item)
+            #     return
             
             # update the value 
             if percentage:
@@ -87,6 +88,12 @@ class RobotouilleRenderer:
             if increment:
                 slider.set_value(value + increment)
 
+            value = slider.get_value()
+            print(item, percentage)
+            if value >= 1:
+                self.completed.add(item)
+                self.progress_bars.pop(item)
+                
             return
 
     

@@ -107,7 +107,7 @@ class RobotouilleSimulator:
 
     def create_bar(self, effect):
         # 
-        # print(effect)
+        print(effect)
 
         # how does backend know what percentage they are????
         if isinstance(effect, RepetitiveEffect):
@@ -117,7 +117,7 @@ class RobotouilleSimulator:
         elif isinstance(effect, DelayedEffect):
             # this one idk when to update/increment bar. 
             x, y = self.get_object_location(effect.arg)
-            self.renderer.update_progress_bar(effect.arg, x, y, increment=1/3)
+            self.renderer.update_progress_bar(effect.arg, x, y, increment=1/effect.goal_time)
         elif isinstance(effect, ConditionalEffect):
             for subeffect in effect.special_effects:
                 self.create_bar(subeffect)
@@ -152,7 +152,6 @@ class RobotouilleSimulator:
             
         self.draw()
         self.handle_pause(pygame_events)
-        self.update_bars()
 
         mousedown_events = list(filter(lambda e: e.type == pygame.MOUSEBUTTONDOWN, pygame_events))
         keydown_events = list(filter(lambda e: e.type == pygame.KEYDOWN, pygame_events))
@@ -181,5 +180,7 @@ class RobotouilleSimulator:
         if len(self.actions) == len(self.players):
             self.obs, reward, self.done, self.info = self.env.step(self.actions)
             self.actions = []
+
+        self.update_bars()
 
         return 
