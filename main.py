@@ -1,10 +1,11 @@
 import hydra
 import os
 import json
+import pygame
+
+from robotouille.robotouille_simulator import run_robotouille
 
 from omegaconf import DictConfig, OmegaConf
-
-from robotouille.robotouille_simulator import run_robotouille, simulator
 
 def play(cfg: DictConfig) -> None:
     """Play the game with the given configuration.
@@ -70,13 +71,15 @@ def main(cfg: DictConfig) -> None:
         evaluate(cfg)
 
 if __name__ == "__main__":
+    # TODO(chalo2000): Hide this in RobotouilleApp
+    pygame.init()
+    pygame.display.init()
+    pygame.display.set_caption('Robotouille Simulator')
+    pygame.display.set_mode((512,512))
+    from frontend.loading import LoadingScreen
+    LoadingScreen((512,512)).load_all_assets()
+
     main()
-
-# parser = argparse.ArgumentParser()
-# parser.add_argument("--environment_name", help="The name of the environment to create.", default="original")
-# parser.add_argument("--seed", help="The seed to use for the environment.", default=None)
-# parser.add_argument("--noisy_randomization", action="store_true", help="Whether to use 'noisy randomization' for procedural generation")
-# parser.add_argument("--movement_mode", help="The movement mode to use for the environment.", default="traverse")
-# args = parser.parse_args()
-
-# simulator(args.environment_name, args.seed, args.noisy_randomization, args.movement_mode)
+    
+    pygame.display.quit()
+    pygame.quit()

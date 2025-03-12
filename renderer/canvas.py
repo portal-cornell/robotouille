@@ -6,6 +6,7 @@ from copy import deepcopy
 from utils.robotouille_utils import trim_item_ID
 from backend.movement.player import Player
 import json
+from frontend.loading import LoadingScreen
 
 class RobotouilleCanvas:
     """
@@ -15,7 +16,7 @@ class RobotouilleCanvas:
     """
 
     # The directory containing the assets
-    ASSETS_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets")
+    ASSETS_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets"))
 
     def __init__(self, config, layout, tiling, players, window_size=np.array([512,512])):
         """
@@ -41,7 +42,7 @@ class RobotouilleCanvas:
         # The scaling factor for a grid square
         self.pix_square_size = window_size / grid_dimensions
         # A dictionary which maps image names to loaded images
-        self.asset_directory = {}
+        self.asset_directory = LoadingScreen.ASSET
         # A dictionary which maps floor, players, items, and stations to their assets and constants
         self.config = config
         # Reference to tiling data
@@ -91,9 +92,7 @@ class RobotouilleCanvas:
             position (np.array): (x, y) position of the image
             scale (np.array): (width, height) to scale the image by
         """
-        if image_name not in self.asset_directory:
-            self.asset_directory[image_name] = pygame.image.load(os.path.join(RobotouilleCanvas.ASSETS_DIRECTORY, image_name)).convert_alpha()
-        image = self.asset_directory[image_name]
+        image = self.asset_directory[RobotouilleCanvas.ASSETS_DIRECTORY][image_name]
         image = pygame.transform.smoothscale(image, scale)
         surface.blit(image, position)
 

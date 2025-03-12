@@ -11,7 +11,7 @@ from utils.video_recorder import record_video
 from utils.robotouille_input import create_action_from_event
 from robotouille.robotouille_env import create_robotouille_env
 from backend.movement.player import Player
-from backend.movement.movement import Movement, Mode
+from backend.movement.movement import Movement
 
 # Deprecated - Use run_robotouille instead
 def simulator(environment_name, seed = None, noisy_randomization = False, movement_mode = 'traverse'):
