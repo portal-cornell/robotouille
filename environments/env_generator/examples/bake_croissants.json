@@ -71,12 +71,12 @@
             "ids": ["b"]
         },
         {
-          "predicate": "item_at",
+          "predicate": "at_station",
           "args": ["croissant", "table"],
           "ids": ["a", 1]
         },
         {
-          "predicate": "item_at",
+          "predicate": "at_station",
           "args": ["croissant", "table"],
           "ids": ["b", 2]
         }

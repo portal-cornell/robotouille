@@ -65,7 +65,7 @@
             "ids": ["a"]
         },
         {
-          "predicate": "item_at",
+          "predicate": "at_station",
           "args": ["croissant", "table"],
           "ids": ["a", 1]
         }

@@ -157,7 +157,7 @@ def build_station_location_predicates(environment_dict):
         for field in valid_fields:
             match = False
             no_match_predicate = "empty" if field == "items" else "vacant"
-            predicate = "item_at" if field == "items" else "loc"
+            predicate = "at_station" if field == "items" else "loc"
             for entity in environment_dict[field]:
                 x = entity["x"] + entity["direction"][0] if field == "players" else entity["x"]
                 y = entity["y"] + entity["direction"][1] if field == "players" else entity["y"]

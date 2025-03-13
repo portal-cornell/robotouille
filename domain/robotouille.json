@@ -420,7 +420,7 @@
             "param_types": ["player", "station"]
         },
         {
-            "name": "item_at",
+            "name": "at_station",
             "param_types": ["item", "station"]
         },
         {
@@ -598,7 +598,7 @@
                     "is_true": false
                 },
                 {
-                    "predicate": "item_at",
+                    "predicate": "at_station",
                     "params": ["i1", "s1"],
                     "is_true": false
                 },
@@ -641,7 +641,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "item_at",
+                    "predicate": "at_station",
                     "params": ["i1", "s1"],
                     "is_true": true
                 },
@@ -729,7 +729,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "item_at",
+                    "predicate": "at_station",
                     "params": ["i1", "s1"],
                     "is_true": true
                 }
@@ -797,7 +797,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "item_at",
+                    "predicate": "at_station",
                     "params": ["i1", "s1"],
                     "is_true": true
                 }
@@ -881,7 +881,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "item_at",
+                    "predicate": "at_station",
                     "params": ["i1", "s1"],
                     "is_true": true
                 },
@@ -923,7 +923,7 @@
                     "is_true": false
                 },
                 {
-                    "predicate": "item_at",
+                    "predicate": "at_station",
                     "params": ["i1", "s1"],
                     "is_true": false
                 },
@@ -1522,7 +1522,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "item_at",
+                    "predicate": "at_station",
                     "params": ["i1", "s1"],
                     "is_true": true
                 },
@@ -1606,7 +1606,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "item_at",
+                    "predicate": "at_station",
                     "params": ["i1", "s1"],
                     "is_true": true
                 },
@@ -1989,7 +1989,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "item_at",
+                    "predicate": "at_station",
                     "params": ["i1", "s1"],
                     "is_true": true
                 },
@@ -3478,7 +3478,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "item_at",
+                    "predicate": "at_station",
                     "params": ["i2", "s1"],
                     "is_true": true
                 },
@@ -3488,7 +3488,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "item_at",
+                    "predicate": "at_station",
                     "params": ["i1", "s1"],
                     "is_true": true
                 }
@@ -3500,7 +3500,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "item_at",
+                    "predicate": "at_station",
                     "params": ["i1", "s1"],
                     "is_true": true
                 },
@@ -3551,12 +3551,12 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "item_at",
+                    "predicate": "at_station",
                     "params": ["i1", "s1"],
                     "is_true": true
                 },
                 {
-                    "predicate": "item_at",
+                    "predicate": "at_station",
                     "params": ["i2", "s1"],
                     "is_true": true
                 },
@@ -3593,7 +3593,7 @@
                     "is_true": false
                 },
                 {
-                    "predicate": "item_at",
+                    "predicate": "at_station",
                     "params": ["i1", "s1"],
                     "is_true": false
                 }
@@ -3619,7 +3619,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "item_at",
+                    "predicate": "at_station",
                     "params": ["i2", "s1"],
                     "is_true": true
                 },
@@ -3636,7 +3636,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "item_at",
+                    "predicate": "at_station",
                     "params": ["i1", "s1"],
                     "is_true": true
                 },
@@ -3687,12 +3687,12 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "item_at",
+                    "predicate": "at_station",
                     "params": ["i1", "s1"],
                     "is_true": true
                 },
                 {
-                    "predicate": "item_at",
+                    "predicate": "at_station",
                     "params": ["i2", "s1"],
                     "is_true": true
                 },
@@ -3729,7 +3729,7 @@
                     "is_true": false
                 },
                 {
-                    "predicate": "item_at",
+                    "predicate": "at_station",
                     "params": ["i1", "s1"],
                     "is_true": false
                 }
@@ -4028,7 +4028,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "item_at",
+                    "predicate": "at_station",
                     "params": ["i1", "s1"],
                     "is_true": true
                 }
@@ -4066,7 +4066,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "item_at",
+                    "predicate": "at_station",
                     "params": ["i1", "s1"],
                     "is_true": true
                 }
@@ -4104,7 +4104,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "item_at",
+                    "predicate": "at_station",
                     "params": ["i1", "s1"],
                     "is_true": true
                 }
@@ -4142,7 +4142,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "item_at",
+                    "predicate": "at_station",
                     "params": ["i1", "s1"],
                     "is_true": true
                 }
@@ -4160,7 +4160,7 @@
             "name": "roll-triangle",
             "precons": [
                 {
-                    "predicate": "item_at",
+                    "predicate": "at_station",
                     "params": ["i1", "s1"],
                     "is_true": true
                 },
@@ -4218,7 +4218,7 @@
             "name": "roll-circle",
             "precons": [
                 {
-                    "predicate": "item_at",
+                    "predicate": "at_station",
                     "params": ["i1", "s1"],
                     "is_true": true
                 },
@@ -4286,7 +4286,7 @@
             "name": "shape",
             "precons": [
                 {
-                    "predicate": "item_at",
+                    "predicate": "at_station",
                     "params": ["i1", "s1"],
                     "is_true": true
                 },
@@ -4437,7 +4437,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "item_at",
+                    "predicate": "at_station",
                     "params": ["i1", "s1"],
                     "is_true": true
                 },
