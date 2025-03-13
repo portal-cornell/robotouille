@@ -39,6 +39,14 @@ class RobotouilleCanvas:
         self.asset_directory = {}
         # A dictionary which maps floor, players, items, and stations to their assets and constants
         self.config = config
+        # Reference to tiling data
+        self.tiling = tiling
+        # Reference to the ground tileset
+        self.ground_tileset = None
+        self.furniture_tileset = None # TODO(chalo2000): Remove this is not used anymore
+        # Raw tiling matrices
+        self.ground_matrix = None
+        self.furniture_matrix = None # TODO(chalo2000): Remove this is not used anymore
     
     def __deepcopy__(self, memo):
         """
