@@ -1,0 +1,33 @@
+Interaction 1
+---------------
+
+
+Observation:
+Station stove1:
+stove1 is a stove
+stove1 is occupied by robot1
+stove1 has cheese1
+stove1 has cheese1 directly on top of it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at stove1
+cheese1 is directly on top of stove1
+cheese1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at stove1
+robot1 is holding nothing
+
+Valid Actions:
+Pick up cheese1 from stove1 using robot1
+Do nothing
+
+Goal: Pickup the item
+
+Reasoning: ...
+
+Action: Pick up cheese1 from stove1 using robot1
+
+

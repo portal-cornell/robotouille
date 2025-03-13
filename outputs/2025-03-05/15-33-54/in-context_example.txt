@@ -1,0 +1,313 @@
+Interaction 1
+---------------
+
+
+Observation:
+Station sink1:
+sink1 is a sink
+sink1 is occupied by robot1
+sink1 has pot1
+
+Station sink2:
+sink2 is a sink
+sink2 has no players at it
+sink2 has pot2
+
+Player robot1:
+robot1 is a robot
+robot1 is at sink1
+robot1 is holding nothing
+
+Container pot1:
+pot1 is a pot
+pot1 has nothing inside it
+pot1 is at sink1
+
+Container pot2:
+pot2 is a pot
+pot2 has nothing inside it
+pot2 is at sink2
+
+Valid Actions:
+Move robot1 from sink1 to sink2
+Pick up pot1 from sink1 using robot1
+Fill pot1 with water from sink1 using robot1
+Do nothing
+
+Goal: Fill both pots with water
+
+Reasoning: ...
+
+Action: Fill pot1 with water from sink1 using robot1
+
+
+Interaction 2
+---------------
+
+
+Observation:
+Station sink1:
+sink1 is a sink
+sink1 is occupied by robot1
+sink1 has pot1
+
+Station sink2:
+sink2 is a sink
+sink2 has no players at it
+sink2 has pot2
+
+Player robot1:
+robot1 is a robot
+robot1 is at sink1
+robot1 is holding nothing
+
+Container pot1:
+pot1 is a pot
+pot1 has nothing inside it
+pot1 is at sink1
+
+Container pot2:
+pot2 is a pot
+pot2 has nothing inside it
+pot2 is at sink2
+
+Valid Actions:
+Move robot1 from sink1 to sink2
+Pick up pot1 from sink1 using robot1
+Fill pot1 with water from sink1 using robot1
+Do nothing
+
+Goal: Fill both pots with water
+
+Reasoning: ...
+
+Action: Move robot1 from sink1 to sink2
+
+
+Interaction 3
+---------------
+
+
+Observation:
+Station sink1:
+sink1 is a sink
+sink1 has pot1
+
+Station sink2:
+sink2 is a sink
+sink2 is occupied by robot1
+sink2 has no players at it
+sink2 has pot2
+
+Player robot1:
+robot1 is a robot
+robot1 is at sink2
+robot1 is holding nothing
+
+Container pot1:
+pot1 is a pot
+pot1 has nothing inside it
+pot1 is at sink1
+
+Container pot2:
+pot2 is a pot
+pot2 has nothing inside it
+pot2 is at sink2
+
+Valid Actions:
+Move robot1 from sink2 to sink1
+Pick up pot2 from sink2 using robot1
+Fill pot2 with water from sink2 using robot1
+Do nothing
+
+Goal: Fill both pots with water
+
+Reasoning: ...
+
+Action: Fill pot2 with water from sink2 using robot1
+
+
+Interaction 4
+---------------
+
+
+Observation:
+Station sink1:
+sink1 is a sink
+sink1 has pot1
+
+Station sink2:
+sink2 is a sink
+sink2 is occupied by robot1
+sink2 has no players at it
+sink2 has pot2
+
+Player robot1:
+robot1 is a robot
+robot1 is at sink2
+robot1 is holding nothing
+
+Container pot1:
+pot1 is a pot
+pot1 has nothing inside it
+pot1 is at sink1
+
+Container pot2:
+pot2 is a pot
+pot2 has nothing inside it
+pot2 is at sink2
+
+Valid Actions:
+Move robot1 from sink2 to sink1
+Pick up pot2 from sink2 using robot1
+Fill pot2 with water from sink2 using robot1
+Do nothing
+
+Goal: Fill both pots with water
+
+Reasoning: ...
+
+Action: Do nothing
+
+
+Interaction 5
+---------------
+
+
+Observation:
+Station sink1:
+sink1 is a sink
+sink1 has pot1
+
+Station sink2:
+sink2 is a sink
+sink2 is occupied by robot1
+sink2 has no players at it
+sink2 has pot2
+
+Player robot1:
+robot1 is a robot
+robot1 is at sink2
+robot1 is holding nothing
+
+Container pot1:
+pot1 is a pot
+pot1 contains water1
+pot1 is at sink1
+
+Container pot2:
+pot2 is a pot
+pot2 has nothing inside it
+pot2 is at sink2
+
+Meal water1:
+water1 is water
+water1 is inside of pot1
+
+Valid Actions:
+Move robot1 from sink2 to sink1
+Pick up pot2 from sink2 using robot1
+Fill pot2 with water from sink2 using robot1
+Do nothing
+
+Goal: Fill both pots with water
+
+Reasoning: ...
+
+Action: Do nothing
+
+
+Interaction 6
+---------------
+
+
+Observation:
+Station sink1:
+sink1 is a sink
+sink1 has pot1
+
+Station sink2:
+sink2 is a sink
+sink2 is occupied by robot1
+sink2 has no players at it
+sink2 has pot2
+
+Player robot1:
+robot1 is a robot
+robot1 is at sink2
+robot1 is holding nothing
+
+Container pot1:
+pot1 is a pot
+pot1 contains water1
+pot1 is at sink1
+
+Container pot2:
+pot2 is a pot
+pot2 has nothing inside it
+pot2 is at sink2
+
+Meal water1:
+water1 is water
+water1 is inside of pot1
+
+Valid Actions:
+Move robot1 from sink2 to sink1
+Pick up pot2 from sink2 using robot1
+Fill pot2 with water from sink2 using robot1
+Do nothing
+
+Goal: Fill both pots with water
+
+Reasoning: ...
+
+Action: Do nothing
+
+
+Interaction 7
+---------------
+
+
+Observation:
+Station sink1:
+sink1 is a sink
+sink1 has pot1
+
+Station sink2:
+sink2 is a sink
+sink2 is occupied by robot1
+sink2 has no players at it
+sink2 has pot2
+
+Player robot1:
+robot1 is a robot
+robot1 is at sink2
+robot1 is holding nothing
+
+Container pot1:
+pot1 is a pot
+pot1 contains water1
+pot1 is at sink1
+
+Container pot2:
+pot2 is a pot
+pot2 has nothing inside it
+pot2 is at sink2
+
+Meal water1:
+water1 is water
+water1 is inside of pot1
+
+Valid Actions:
+Move robot1 from sink2 to sink1
+Pick up pot2 from sink2 using robot1
+Fill pot2 with water from sink2 using robot1
+Do nothing
+
+Goal: Fill both pots with water
+
+Reasoning: ...
+
+Action: Do nothing
+
+

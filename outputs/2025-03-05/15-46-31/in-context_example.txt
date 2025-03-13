@@ -1,0 +1,2791 @@
+Interaction 1
+---------------
+
+
+Observation:
+Station counter1:
+counter1 is a counter
+counter1 has topbun1
+counter1 has topbun1 directly on top of it
+counter1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station counter2:
+counter2 is a counter
+counter2 has lettuce1
+counter2 has lettuce1 directly on top of it
+counter2 has no players at it
+
+Station counter3:
+counter3 is a counter
+counter3 has nothing on it
+counter3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 is occupied by robot1
+stove1 has nothing on it
+
+Station table1:
+table1 is a table
+table1 has nothing on it
+table1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station counter4:
+counter4 is a counter
+counter4 has patty1
+counter4 has patty1 directly on top of it
+counter4 has no players at it
+
+Station table3:
+table3 is a table
+table3 has bottombun1
+table3 has bottombun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station counter5:
+counter5 is a counter
+counter5 has nothing on it
+counter5 has no players at it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at counter1
+topbun1 is directly on top of counter1
+topbun1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at counter2
+lettuce1 is directly on top of counter2
+lettuce1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is at counter4
+patty1 is directly on top of counter4
+patty1 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table3
+bottombun1 is directly on top of table3
+bottombun1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at stove1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from stove1 to counter1
+Move robot1 from stove1 to board1
+Move robot1 from stove1 to counter2
+Move robot1 from stove1 to counter3
+Move robot1 from stove1 to table1
+Move robot1 from stove1 to table2
+Move robot1 from stove1 to counter4
+Move robot1 from stove1 to table3
+Move robot1 from stove1 to table4
+Move robot1 from stove1 to counter5
+Do nothing
+
+Goal: Make a lettuce burger with lettuce on top of the patty.
+
+Reasoning: ...
+
+Action: Move robot1 from stove1 to counter4
+
+
+Interaction 2
+---------------
+
+
+Observation:
+Station counter1:
+counter1 is a counter
+counter1 has topbun1
+counter1 has topbun1 directly on top of it
+counter1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station counter2:
+counter2 is a counter
+counter2 has lettuce1
+counter2 has lettuce1 directly on top of it
+counter2 has no players at it
+
+Station counter3:
+counter3 is a counter
+counter3 has nothing on it
+counter3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+
+Station table1:
+table1 is a table
+table1 has nothing on it
+table1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station counter4:
+counter4 is a counter
+counter4 is occupied by robot1
+counter4 has patty1
+counter4 has patty1 directly on top of it
+counter4 has no players at it
+
+Station table3:
+table3 is a table
+table3 has bottombun1
+table3 has bottombun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station counter5:
+counter5 is a counter
+counter5 has nothing on it
+counter5 has no players at it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at counter1
+topbun1 is directly on top of counter1
+topbun1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at counter2
+lettuce1 is directly on top of counter2
+lettuce1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is at counter4
+patty1 is directly on top of counter4
+patty1 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table3
+bottombun1 is directly on top of table3
+bottombun1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at counter4
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from counter4 to counter1
+Move robot1 from counter4 to board1
+Move robot1 from counter4 to counter2
+Move robot1 from counter4 to counter3
+Move robot1 from counter4 to stove1
+Move robot1 from counter4 to table1
+Move robot1 from counter4 to table2
+Move robot1 from counter4 to table3
+Move robot1 from counter4 to table4
+Move robot1 from counter4 to counter5
+Pick up patty1 from counter4 using robot1
+Do nothing
+
+Goal: Make a lettuce burger with lettuce on top of the patty.
+
+Reasoning: ...
+
+Action: Pick up patty1 from counter4 using robot1
+
+
+Interaction 3
+---------------
+
+
+Observation:
+Station counter1:
+counter1 is a counter
+counter1 has topbun1
+counter1 has topbun1 directly on top of it
+counter1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station counter2:
+counter2 is a counter
+counter2 has lettuce1
+counter2 has lettuce1 directly on top of it
+counter2 has no players at it
+
+Station counter3:
+counter3 is a counter
+counter3 has nothing on it
+counter3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+
+Station table1:
+table1 is a table
+table1 has nothing on it
+table1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station counter4:
+counter4 is a counter
+counter4 is occupied by robot1
+counter4 has nothing on it
+counter4 has no players at it
+
+Station table3:
+table3 is a table
+table3 has bottombun1
+table3 has bottombun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station counter5:
+counter5 is a counter
+counter5 has nothing on it
+counter5 has no players at it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at counter1
+topbun1 is directly on top of counter1
+topbun1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at counter2
+lettuce1 is directly on top of counter2
+lettuce1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is held by robot1
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table3
+bottombun1 is directly on top of table3
+bottombun1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at counter4
+robot1 is holding patty1
+
+Valid Actions:
+Move robot1 from counter4 to counter1
+Move robot1 from counter4 to board1
+Move robot1 from counter4 to counter2
+Move robot1 from counter4 to counter3
+Move robot1 from counter4 to stove1
+Move robot1 from counter4 to table1
+Move robot1 from counter4 to table2
+Move robot1 from counter4 to table3
+Move robot1 from counter4 to table4
+Move robot1 from counter4 to counter5
+Place patty1 on counter4 using robot1
+Do nothing
+
+Goal: Make a lettuce burger with lettuce on top of the patty.
+
+Reasoning: ...
+
+Action: Move robot1 from counter4 to stove1
+
+
+Interaction 4
+---------------
+
+
+Observation:
+Station counter1:
+counter1 is a counter
+counter1 has topbun1
+counter1 has topbun1 directly on top of it
+counter1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station counter2:
+counter2 is a counter
+counter2 has lettuce1
+counter2 has lettuce1 directly on top of it
+counter2 has no players at it
+
+Station counter3:
+counter3 is a counter
+counter3 has nothing on it
+counter3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 is occupied by robot1
+stove1 has nothing on it
+
+Station table1:
+table1 is a table
+table1 has nothing on it
+table1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station counter4:
+counter4 is a counter
+counter4 has nothing on it
+counter4 has no players at it
+
+Station table3:
+table3 is a table
+table3 has bottombun1
+table3 has bottombun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station counter5:
+counter5 is a counter
+counter5 has nothing on it
+counter5 has no players at it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at counter1
+topbun1 is directly on top of counter1
+topbun1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at counter2
+lettuce1 is directly on top of counter2
+lettuce1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is held by robot1
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table3
+bottombun1 is directly on top of table3
+bottombun1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at stove1
+robot1 is holding patty1
+
+Valid Actions:
+Move robot1 from stove1 to counter1
+Move robot1 from stove1 to board1
+Move robot1 from stove1 to counter2
+Move robot1 from stove1 to counter3
+Move robot1 from stove1 to table1
+Move robot1 from stove1 to table2
+Move robot1 from stove1 to counter4
+Move robot1 from stove1 to table3
+Move robot1 from stove1 to table4
+Move robot1 from stove1 to counter5
+Place patty1 on stove1 using robot1
+Do nothing
+
+Goal: Make a lettuce burger with lettuce on top of the patty.
+
+Reasoning: ...
+
+Action: Place patty1 on stove1 using robot1
+
+
+Interaction 5
+---------------
+
+
+Observation:
+Station counter1:
+counter1 is a counter
+counter1 has topbun1
+counter1 has topbun1 directly on top of it
+counter1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station counter2:
+counter2 is a counter
+counter2 has lettuce1
+counter2 has lettuce1 directly on top of it
+counter2 has no players at it
+
+Station counter3:
+counter3 is a counter
+counter3 has nothing on it
+counter3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 is occupied by robot1
+stove1 has patty1
+stove1 has patty1 directly on top of it
+
+Station table1:
+table1 is a table
+table1 has nothing on it
+table1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station counter4:
+counter4 is a counter
+counter4 has nothing on it
+counter4 has no players at it
+
+Station table3:
+table3 is a table
+table3 has bottombun1
+table3 has bottombun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station counter5:
+counter5 is a counter
+counter5 has nothing on it
+counter5 has no players at it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at counter1
+topbun1 is directly on top of counter1
+topbun1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at counter2
+lettuce1 is directly on top of counter2
+lettuce1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table3
+bottombun1 is directly on top of table3
+bottombun1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at stove1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from stove1 to counter1
+Move robot1 from stove1 to board1
+Move robot1 from stove1 to counter2
+Move robot1 from stove1 to counter3
+Move robot1 from stove1 to table1
+Move robot1 from stove1 to table2
+Move robot1 from stove1 to counter4
+Move robot1 from stove1 to table3
+Move robot1 from stove1 to table4
+Move robot1 from stove1 to counter5
+Pick up patty1 from stove1 using robot1
+Cook patty1 on stove1 using robot1
+Do nothing
+
+Goal: Make a lettuce burger with lettuce on top of the patty.
+
+Reasoning: ...
+
+Action: Cook patty1 on stove1 using robot1
+
+
+Interaction 6
+---------------
+
+
+Observation:
+Station counter1:
+counter1 is a counter
+counter1 has topbun1
+counter1 has topbun1 directly on top of it
+counter1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station counter2:
+counter2 is a counter
+counter2 has lettuce1
+counter2 has lettuce1 directly on top of it
+counter2 has no players at it
+
+Station counter3:
+counter3 is a counter
+counter3 has nothing on it
+counter3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 is occupied by robot1
+stove1 has patty1
+stove1 has patty1 directly on top of it
+
+Station table1:
+table1 is a table
+table1 has nothing on it
+table1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station counter4:
+counter4 is a counter
+counter4 has nothing on it
+counter4 has no players at it
+
+Station table3:
+table3 is a table
+table3 has bottombun1
+table3 has bottombun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station counter5:
+counter5 is a counter
+counter5 has nothing on it
+counter5 has no players at it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at counter1
+topbun1 is directly on top of counter1
+topbun1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at counter2
+lettuce1 is directly on top of counter2
+lettuce1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooking
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table3
+bottombun1 is directly on top of table3
+bottombun1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at stove1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from stove1 to counter1
+Move robot1 from stove1 to board1
+Move robot1 from stove1 to counter2
+Move robot1 from stove1 to counter3
+Move robot1 from stove1 to table1
+Move robot1 from stove1 to table2
+Move robot1 from stove1 to counter4
+Move robot1 from stove1 to table3
+Move robot1 from stove1 to table4
+Move robot1 from stove1 to counter5
+Pick up patty1 from stove1 using robot1
+Do nothing
+
+Goal: Make a lettuce burger with lettuce on top of the patty.
+
+Reasoning: ...
+
+Action: Move robot1 from stove1 to counter2
+
+
+Interaction 7
+---------------
+
+
+Observation:
+Station counter1:
+counter1 is a counter
+counter1 has topbun1
+counter1 has topbun1 directly on top of it
+counter1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station counter2:
+counter2 is a counter
+counter2 is occupied by robot1
+counter2 has lettuce1
+counter2 has lettuce1 directly on top of it
+counter2 has no players at it
+
+Station counter3:
+counter3 is a counter
+counter3 has nothing on it
+counter3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has patty1
+stove1 has patty1 directly on top of it
+
+Station table1:
+table1 is a table
+table1 has nothing on it
+table1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station counter4:
+counter4 is a counter
+counter4 has nothing on it
+counter4 has no players at it
+
+Station table3:
+table3 is a table
+table3 has bottombun1
+table3 has bottombun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station counter5:
+counter5 is a counter
+counter5 has nothing on it
+counter5 has no players at it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at counter1
+topbun1 is directly on top of counter1
+topbun1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at counter2
+lettuce1 is directly on top of counter2
+lettuce1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooking
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table3
+bottombun1 is directly on top of table3
+bottombun1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at counter2
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from counter2 to counter1
+Move robot1 from counter2 to board1
+Move robot1 from counter2 to counter3
+Move robot1 from counter2 to stove1
+Move robot1 from counter2 to table1
+Move robot1 from counter2 to table2
+Move robot1 from counter2 to counter4
+Move robot1 from counter2 to table3
+Move robot1 from counter2 to table4
+Move robot1 from counter2 to counter5
+Pick up lettuce1 from counter2 using robot1
+Do nothing
+
+Goal: Make a lettuce burger with lettuce on top of the patty.
+
+Reasoning: ...
+
+Action: Pick up lettuce1 from counter2 using robot1
+
+
+Interaction 8
+---------------
+
+
+Observation:
+Station counter1:
+counter1 is a counter
+counter1 has topbun1
+counter1 has topbun1 directly on top of it
+counter1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station counter2:
+counter2 is a counter
+counter2 is occupied by robot1
+counter2 has nothing on it
+counter2 has no players at it
+
+Station counter3:
+counter3 is a counter
+counter3 has nothing on it
+counter3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has patty1
+stove1 has patty1 directly on top of it
+
+Station table1:
+table1 is a table
+table1 has nothing on it
+table1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station counter4:
+counter4 is a counter
+counter4 has nothing on it
+counter4 has no players at it
+
+Station table3:
+table3 is a table
+table3 has bottombun1
+table3 has bottombun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station counter5:
+counter5 is a counter
+counter5 has nothing on it
+counter5 has no players at it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at counter1
+topbun1 is directly on top of counter1
+topbun1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is held by robot1
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooking
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table3
+bottombun1 is directly on top of table3
+bottombun1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at counter2
+robot1 is holding lettuce1
+
+Valid Actions:
+Move robot1 from counter2 to counter1
+Move robot1 from counter2 to board1
+Move robot1 from counter2 to counter3
+Move robot1 from counter2 to stove1
+Move robot1 from counter2 to table1
+Move robot1 from counter2 to table2
+Move robot1 from counter2 to counter4
+Move robot1 from counter2 to table3
+Move robot1 from counter2 to table4
+Move robot1 from counter2 to counter5
+Place lettuce1 on counter2 using robot1
+Do nothing
+
+Goal: Make a lettuce burger with lettuce on top of the patty.
+
+Reasoning: ...
+
+Action: Move robot1 from counter2 to board1
+
+
+Interaction 9
+---------------
+
+
+Observation:
+Station counter1:
+counter1 is a counter
+counter1 has topbun1
+counter1 has topbun1 directly on top of it
+counter1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has nothing on it
+board1 has no players at it
+
+Station counter2:
+counter2 is a counter
+counter2 has nothing on it
+counter2 has no players at it
+
+Station counter3:
+counter3 is a counter
+counter3 has nothing on it
+counter3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has patty1
+stove1 has patty1 directly on top of it
+
+Station table1:
+table1 is a table
+table1 has nothing on it
+table1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station counter4:
+counter4 is a counter
+counter4 has nothing on it
+counter4 has no players at it
+
+Station table3:
+table3 is a table
+table3 has bottombun1
+table3 has bottombun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station counter5:
+counter5 is a counter
+counter5 has nothing on it
+counter5 has no players at it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at counter1
+topbun1 is directly on top of counter1
+topbun1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is held by robot1
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table3
+bottombun1 is directly on top of table3
+bottombun1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding lettuce1
+
+Valid Actions:
+Move robot1 from board1 to counter1
+Move robot1 from board1 to counter2
+Move robot1 from board1 to counter3
+Move robot1 from board1 to stove1
+Move robot1 from board1 to table1
+Move robot1 from board1 to table2
+Move robot1 from board1 to counter4
+Move robot1 from board1 to table3
+Move robot1 from board1 to table4
+Move robot1 from board1 to counter5
+Place lettuce1 on board1 using robot1
+Do nothing
+
+Goal: Make a lettuce burger with lettuce on top of the patty.
+
+Reasoning: ...
+
+Action: Place lettuce1 on board1 using robot1
+
+
+Interaction 10
+---------------
+
+
+Observation:
+Station counter1:
+counter1 is a counter
+counter1 has topbun1
+counter1 has topbun1 directly on top of it
+counter1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has lettuce1
+board1 has lettuce1 directly on top of it
+board1 has no players at it
+
+Station counter2:
+counter2 is a counter
+counter2 has nothing on it
+counter2 has no players at it
+
+Station counter3:
+counter3 is a counter
+counter3 has nothing on it
+counter3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has patty1
+stove1 has patty1 directly on top of it
+
+Station table1:
+table1 is a table
+table1 has nothing on it
+table1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station counter4:
+counter4 is a counter
+counter4 has nothing on it
+counter4 has no players at it
+
+Station table3:
+table3 is a table
+table3 has bottombun1
+table3 has bottombun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station counter5:
+counter5 is a counter
+counter5 has nothing on it
+counter5 has no players at it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at counter1
+topbun1 is directly on top of counter1
+topbun1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at board1
+lettuce1 is directly on top of board1
+lettuce1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table3
+bottombun1 is directly on top of table3
+bottombun1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from board1 to counter1
+Move robot1 from board1 to counter2
+Move robot1 from board1 to counter3
+Move robot1 from board1 to stove1
+Move robot1 from board1 to table1
+Move robot1 from board1 to table2
+Move robot1 from board1 to counter4
+Move robot1 from board1 to table3
+Move robot1 from board1 to table4
+Move robot1 from board1 to counter5
+Pick up lettuce1 from board1 using robot1
+Cut lettuce1 on board1 using robot1
+Do nothing
+
+Goal: Make a lettuce burger with lettuce on top of the patty.
+
+Reasoning: ...
+
+Action: Cut lettuce1 on board1 using robot1
+
+
+Interaction 11
+---------------
+
+
+Observation:
+Station counter1:
+counter1 is a counter
+counter1 has topbun1
+counter1 has topbun1 directly on top of it
+counter1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has lettuce1
+board1 has lettuce1 directly on top of it
+board1 has no players at it
+
+Station counter2:
+counter2 is a counter
+counter2 has nothing on it
+counter2 has no players at it
+
+Station counter3:
+counter3 is a counter
+counter3 has nothing on it
+counter3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has patty1
+stove1 has patty1 directly on top of it
+
+Station table1:
+table1 is a table
+table1 has nothing on it
+table1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station counter4:
+counter4 is a counter
+counter4 has nothing on it
+counter4 has no players at it
+
+Station table3:
+table3 is a table
+table3 has bottombun1
+table3 has bottombun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station counter5:
+counter5 is a counter
+counter5 has nothing on it
+counter5 has no players at it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at counter1
+topbun1 is directly on top of counter1
+topbun1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at board1
+lettuce1 is directly on top of board1
+lettuce1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table3
+bottombun1 is directly on top of table3
+bottombun1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from board1 to counter1
+Move robot1 from board1 to counter2
+Move robot1 from board1 to counter3
+Move robot1 from board1 to stove1
+Move robot1 from board1 to table1
+Move robot1 from board1 to table2
+Move robot1 from board1 to counter4
+Move robot1 from board1 to table3
+Move robot1 from board1 to table4
+Move robot1 from board1 to counter5
+Pick up lettuce1 from board1 using robot1
+Cut lettuce1 on board1 using robot1
+Do nothing
+
+Goal: Make a lettuce burger with lettuce on top of the patty.
+
+Reasoning: ...
+
+Action: Cut lettuce1 on board1 using robot1
+
+
+Interaction 12
+---------------
+
+
+Observation:
+Station counter1:
+counter1 is a counter
+counter1 has topbun1
+counter1 has topbun1 directly on top of it
+counter1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has lettuce1
+board1 has lettuce1 directly on top of it
+board1 has no players at it
+
+Station counter2:
+counter2 is a counter
+counter2 has nothing on it
+counter2 has no players at it
+
+Station counter3:
+counter3 is a counter
+counter3 has nothing on it
+counter3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has patty1
+stove1 has patty1 directly on top of it
+
+Station table1:
+table1 is a table
+table1 has nothing on it
+table1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station counter4:
+counter4 is a counter
+counter4 has nothing on it
+counter4 has no players at it
+
+Station table3:
+table3 is a table
+table3 has bottombun1
+table3 has bottombun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station counter5:
+counter5 is a counter
+counter5 has nothing on it
+counter5 has no players at it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at counter1
+topbun1 is directly on top of counter1
+topbun1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at board1
+lettuce1 is directly on top of board1
+lettuce1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table3
+bottombun1 is directly on top of table3
+bottombun1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from board1 to counter1
+Move robot1 from board1 to counter2
+Move robot1 from board1 to counter3
+Move robot1 from board1 to stove1
+Move robot1 from board1 to table1
+Move robot1 from board1 to table2
+Move robot1 from board1 to counter4
+Move robot1 from board1 to table3
+Move robot1 from board1 to table4
+Move robot1 from board1 to counter5
+Pick up lettuce1 from board1 using robot1
+Cut lettuce1 on board1 using robot1
+Do nothing
+
+Goal: Make a lettuce burger with lettuce on top of the patty.
+
+Reasoning: ...
+
+Action: Cut lettuce1 on board1 using robot1
+
+
+Interaction 13
+---------------
+
+
+Observation:
+Station counter1:
+counter1 is a counter
+counter1 has topbun1
+counter1 has topbun1 directly on top of it
+counter1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has lettuce1
+board1 has lettuce1 directly on top of it
+board1 has no players at it
+
+Station counter2:
+counter2 is a counter
+counter2 has nothing on it
+counter2 has no players at it
+
+Station counter3:
+counter3 is a counter
+counter3 has nothing on it
+counter3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has patty1
+stove1 has patty1 directly on top of it
+
+Station table1:
+table1 is a table
+table1 has nothing on it
+table1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station counter4:
+counter4 is a counter
+counter4 has nothing on it
+counter4 has no players at it
+
+Station table3:
+table3 is a table
+table3 has bottombun1
+table3 has bottombun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station counter5:
+counter5 is a counter
+counter5 has nothing on it
+counter5 has no players at it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at counter1
+topbun1 is directly on top of counter1
+topbun1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is cut
+lettuce1 is at board1
+lettuce1 is directly on top of board1
+lettuce1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table3
+bottombun1 is directly on top of table3
+bottombun1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from board1 to counter1
+Move robot1 from board1 to counter2
+Move robot1 from board1 to counter3
+Move robot1 from board1 to stove1
+Move robot1 from board1 to table1
+Move robot1 from board1 to table2
+Move robot1 from board1 to counter4
+Move robot1 from board1 to table3
+Move robot1 from board1 to table4
+Move robot1 from board1 to counter5
+Pick up lettuce1 from board1 using robot1
+Cut lettuce1 on board1 using robot1
+Do nothing
+
+Goal: Make a lettuce burger with lettuce on top of the patty.
+
+Reasoning: ...
+
+Action: Move robot1 from board1 to stove1
+
+
+Interaction 14
+---------------
+
+
+Observation:
+Station counter1:
+counter1 is a counter
+counter1 has topbun1
+counter1 has topbun1 directly on top of it
+counter1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has lettuce1
+board1 has lettuce1 directly on top of it
+board1 has no players at it
+
+Station counter2:
+counter2 is a counter
+counter2 has nothing on it
+counter2 has no players at it
+
+Station counter3:
+counter3 is a counter
+counter3 has nothing on it
+counter3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 is occupied by robot1
+stove1 has patty1
+stove1 has patty1 directly on top of it
+
+Station table1:
+table1 is a table
+table1 has nothing on it
+table1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station counter4:
+counter4 is a counter
+counter4 has nothing on it
+counter4 has no players at it
+
+Station table3:
+table3 is a table
+table3 has bottombun1
+table3 has bottombun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station counter5:
+counter5 is a counter
+counter5 has nothing on it
+counter5 has no players at it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at counter1
+topbun1 is directly on top of counter1
+topbun1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is cut
+lettuce1 is at board1
+lettuce1 is directly on top of board1
+lettuce1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table3
+bottombun1 is directly on top of table3
+bottombun1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at stove1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from stove1 to counter1
+Move robot1 from stove1 to board1
+Move robot1 from stove1 to counter2
+Move robot1 from stove1 to counter3
+Move robot1 from stove1 to table1
+Move robot1 from stove1 to table2
+Move robot1 from stove1 to counter4
+Move robot1 from stove1 to table3
+Move robot1 from stove1 to table4
+Move robot1 from stove1 to counter5
+Pick up patty1 from stove1 using robot1
+Cook patty1 on stove1 using robot1
+Do nothing
+
+Goal: Make a lettuce burger with lettuce on top of the patty.
+
+Reasoning: ...
+
+Action: Pick up patty1 from stove1 using robot1
+
+
+Interaction 15
+---------------
+
+
+Observation:
+Station counter1:
+counter1 is a counter
+counter1 has topbun1
+counter1 has topbun1 directly on top of it
+counter1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has lettuce1
+board1 has lettuce1 directly on top of it
+board1 has no players at it
+
+Station counter2:
+counter2 is a counter
+counter2 has nothing on it
+counter2 has no players at it
+
+Station counter3:
+counter3 is a counter
+counter3 has nothing on it
+counter3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 is occupied by robot1
+stove1 has nothing on it
+
+Station table1:
+table1 is a table
+table1 has nothing on it
+table1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station counter4:
+counter4 is a counter
+counter4 has nothing on it
+counter4 has no players at it
+
+Station table3:
+table3 is a table
+table3 has bottombun1
+table3 has bottombun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station counter5:
+counter5 is a counter
+counter5 has nothing on it
+counter5 has no players at it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at counter1
+topbun1 is directly on top of counter1
+topbun1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is cut
+lettuce1 is at board1
+lettuce1 is directly on top of board1
+lettuce1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is held by robot1
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table3
+bottombun1 is directly on top of table3
+bottombun1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at stove1
+robot1 is holding patty1
+
+Valid Actions:
+Move robot1 from stove1 to counter1
+Move robot1 from stove1 to board1
+Move robot1 from stove1 to counter2
+Move robot1 from stove1 to counter3
+Move robot1 from stove1 to table1
+Move robot1 from stove1 to table2
+Move robot1 from stove1 to counter4
+Move robot1 from stove1 to table3
+Move robot1 from stove1 to table4
+Move robot1 from stove1 to counter5
+Place patty1 on stove1 using robot1
+Do nothing
+
+Goal: Make a lettuce burger with lettuce on top of the patty.
+
+Reasoning: ...
+
+Action: Move robot1 from stove1 to table3
+
+
+Interaction 16
+---------------
+
+
+Observation:
+Station counter1:
+counter1 is a counter
+counter1 has topbun1
+counter1 has topbun1 directly on top of it
+counter1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has lettuce1
+board1 has lettuce1 directly on top of it
+board1 has no players at it
+
+Station counter2:
+counter2 is a counter
+counter2 has nothing on it
+counter2 has no players at it
+
+Station counter3:
+counter3 is a counter
+counter3 has nothing on it
+counter3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+
+Station table1:
+table1 is a table
+table1 has nothing on it
+table1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station counter4:
+counter4 is a counter
+counter4 has nothing on it
+counter4 has no players at it
+
+Station table3:
+table3 is a table
+table3 is occupied by robot1
+table3 has bottombun1
+table3 has bottombun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station counter5:
+counter5 is a counter
+counter5 has nothing on it
+counter5 has no players at it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at counter1
+topbun1 is directly on top of counter1
+topbun1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is cut
+lettuce1 is at board1
+lettuce1 is directly on top of board1
+lettuce1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is held by robot1
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table3
+bottombun1 is directly on top of table3
+bottombun1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table3
+robot1 is holding patty1
+
+Valid Actions:
+Move robot1 from table3 to counter1
+Move robot1 from table3 to board1
+Move robot1 from table3 to counter2
+Move robot1 from table3 to counter3
+Move robot1 from table3 to stove1
+Move robot1 from table3 to table1
+Move robot1 from table3 to table2
+Move robot1 from table3 to counter4
+Move robot1 from table3 to table4
+Move robot1 from table3 to counter5
+Stack patty1 on top of bottombun1 using robot1
+Do nothing
+
+Goal: Make a lettuce burger with lettuce on top of the patty.
+
+Reasoning: ...
+
+Action: Stack patty1 on top of bottombun1 using robot1
+
+
+Interaction 17
+---------------
+
+
+Observation:
+Station counter1:
+counter1 is a counter
+counter1 has topbun1
+counter1 has topbun1 directly on top of it
+counter1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has lettuce1
+board1 has lettuce1 directly on top of it
+board1 has no players at it
+
+Station counter2:
+counter2 is a counter
+counter2 has nothing on it
+counter2 has no players at it
+
+Station counter3:
+counter3 is a counter
+counter3 has nothing on it
+counter3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+
+Station table1:
+table1 is a table
+table1 has nothing on it
+table1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station counter4:
+counter4 is a counter
+counter4 has nothing on it
+counter4 has no players at it
+
+Station table3:
+table3 is a table
+table3 is occupied by robot1
+table3 has patty1
+table3 has bottombun1
+table3 has bottombun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station counter5:
+counter5 is a counter
+counter5 has nothing on it
+counter5 has no players at it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at counter1
+topbun1 is directly on top of counter1
+topbun1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is cut
+lettuce1 is at board1
+lettuce1 is directly on top of board1
+lettuce1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table3
+patty1 has nothing above it
+patty1 is directly on top of bottombun1
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table3
+bottombun1 is directly on top of table3
+bottombun1 is directly under patty1
+
+Player robot1:
+robot1 is a robot
+robot1 is at table3
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table3 to counter1
+Move robot1 from table3 to board1
+Move robot1 from table3 to counter2
+Move robot1 from table3 to counter3
+Move robot1 from table3 to stove1
+Move robot1 from table3 to table1
+Move robot1 from table3 to table2
+Move robot1 from table3 to counter4
+Move robot1 from table3 to table4
+Move robot1 from table3 to counter5
+Unstack patty1 from bottombun1 using robot1
+Do nothing
+
+Goal: Make a lettuce burger with lettuce on top of the patty.
+
+Reasoning: ...
+
+Action: Move robot1 from table3 to board1
+
+
+Interaction 18
+---------------
+
+
+Observation:
+Station counter1:
+counter1 is a counter
+counter1 has topbun1
+counter1 has topbun1 directly on top of it
+counter1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has lettuce1
+board1 has lettuce1 directly on top of it
+board1 has no players at it
+
+Station counter2:
+counter2 is a counter
+counter2 has nothing on it
+counter2 has no players at it
+
+Station counter3:
+counter3 is a counter
+counter3 has nothing on it
+counter3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+
+Station table1:
+table1 is a table
+table1 has nothing on it
+table1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station counter4:
+counter4 is a counter
+counter4 has nothing on it
+counter4 has no players at it
+
+Station table3:
+table3 is a table
+table3 has patty1
+table3 has bottombun1
+table3 has bottombun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station counter5:
+counter5 is a counter
+counter5 has nothing on it
+counter5 has no players at it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at counter1
+topbun1 is directly on top of counter1
+topbun1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is cut
+lettuce1 is at board1
+lettuce1 is directly on top of board1
+lettuce1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table3
+patty1 has nothing above it
+patty1 is directly on top of bottombun1
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table3
+bottombun1 is directly on top of table3
+bottombun1 is directly under patty1
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from board1 to counter1
+Move robot1 from board1 to counter2
+Move robot1 from board1 to counter3
+Move robot1 from board1 to stove1
+Move robot1 from board1 to table1
+Move robot1 from board1 to table2
+Move robot1 from board1 to counter4
+Move robot1 from board1 to table3
+Move robot1 from board1 to table4
+Move robot1 from board1 to counter5
+Pick up lettuce1 from board1 using robot1
+Cut lettuce1 on board1 using robot1
+Do nothing
+
+Goal: Make a lettuce burger with lettuce on top of the patty.
+
+Reasoning: ...
+
+Action: Pick up lettuce1 from board1 using robot1
+
+
+Interaction 19
+---------------
+
+
+Observation:
+Station counter1:
+counter1 is a counter
+counter1 has topbun1
+counter1 has topbun1 directly on top of it
+counter1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has nothing on it
+board1 has no players at it
+
+Station counter2:
+counter2 is a counter
+counter2 has nothing on it
+counter2 has no players at it
+
+Station counter3:
+counter3 is a counter
+counter3 has nothing on it
+counter3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+
+Station table1:
+table1 is a table
+table1 has nothing on it
+table1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station counter4:
+counter4 is a counter
+counter4 has nothing on it
+counter4 has no players at it
+
+Station table3:
+table3 is a table
+table3 has patty1
+table3 has bottombun1
+table3 has bottombun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station counter5:
+counter5 is a counter
+counter5 has nothing on it
+counter5 has no players at it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at counter1
+topbun1 is directly on top of counter1
+topbun1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is cut
+lettuce1 is held by robot1
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table3
+patty1 has nothing above it
+patty1 is directly on top of bottombun1
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table3
+bottombun1 is directly on top of table3
+bottombun1 is directly under patty1
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding lettuce1
+
+Valid Actions:
+Move robot1 from board1 to counter1
+Move robot1 from board1 to counter2
+Move robot1 from board1 to counter3
+Move robot1 from board1 to stove1
+Move robot1 from board1 to table1
+Move robot1 from board1 to table2
+Move robot1 from board1 to counter4
+Move robot1 from board1 to table3
+Move robot1 from board1 to table4
+Move robot1 from board1 to counter5
+Place lettuce1 on board1 using robot1
+Do nothing
+
+Goal: Make a lettuce burger with lettuce on top of the patty.
+
+Reasoning: ...
+
+Action: Move robot1 from board1 to table3
+
+
+Interaction 20
+---------------
+
+
+Observation:
+Station counter1:
+counter1 is a counter
+counter1 has topbun1
+counter1 has topbun1 directly on top of it
+counter1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station counter2:
+counter2 is a counter
+counter2 has nothing on it
+counter2 has no players at it
+
+Station counter3:
+counter3 is a counter
+counter3 has nothing on it
+counter3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+
+Station table1:
+table1 is a table
+table1 has nothing on it
+table1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station counter4:
+counter4 is a counter
+counter4 has nothing on it
+counter4 has no players at it
+
+Station table3:
+table3 is a table
+table3 is occupied by robot1
+table3 has patty1
+table3 has bottombun1
+table3 has bottombun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station counter5:
+counter5 is a counter
+counter5 has nothing on it
+counter5 has no players at it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at counter1
+topbun1 is directly on top of counter1
+topbun1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is cut
+lettuce1 is held by robot1
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table3
+patty1 has nothing above it
+patty1 is directly on top of bottombun1
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table3
+bottombun1 is directly on top of table3
+bottombun1 is directly under patty1
+
+Player robot1:
+robot1 is a robot
+robot1 is at table3
+robot1 is holding lettuce1
+
+Valid Actions:
+Move robot1 from table3 to counter1
+Move robot1 from table3 to board1
+Move robot1 from table3 to counter2
+Move robot1 from table3 to counter3
+Move robot1 from table3 to stove1
+Move robot1 from table3 to table1
+Move robot1 from table3 to table2
+Move robot1 from table3 to counter4
+Move robot1 from table3 to table4
+Move robot1 from table3 to counter5
+Stack lettuce1 on top of patty1 using robot1
+Do nothing
+
+Goal: Make a lettuce burger with lettuce on top of the patty.
+
+Reasoning: ...
+
+Action: Stack lettuce1 on top of patty1 using robot1
+
+
+Interaction 21
+---------------
+
+
+Observation:
+Station counter1:
+counter1 is a counter
+counter1 has topbun1
+counter1 has topbun1 directly on top of it
+counter1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station counter2:
+counter2 is a counter
+counter2 has nothing on it
+counter2 has no players at it
+
+Station counter3:
+counter3 is a counter
+counter3 has nothing on it
+counter3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+
+Station table1:
+table1 is a table
+table1 has nothing on it
+table1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station counter4:
+counter4 is a counter
+counter4 has nothing on it
+counter4 has no players at it
+
+Station table3:
+table3 is a table
+table3 is occupied by robot1
+table3 has lettuce1
+table3 has patty1
+table3 has bottombun1
+table3 has bottombun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station counter5:
+counter5 is a counter
+counter5 has nothing on it
+counter5 has no players at it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at counter1
+topbun1 is directly on top of counter1
+topbun1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is cut
+lettuce1 is at table3
+lettuce1 has nothing above it
+lettuce1 is directly on top of patty1
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table3
+patty1 is directly under lettuce1
+patty1 is directly on top of bottombun1
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table3
+bottombun1 is directly on top of table3
+bottombun1 is directly under patty1
+
+Player robot1:
+robot1 is a robot
+robot1 is at table3
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table3 to counter1
+Move robot1 from table3 to board1
+Move robot1 from table3 to counter2
+Move robot1 from table3 to counter3
+Move robot1 from table3 to stove1
+Move robot1 from table3 to table1
+Move robot1 from table3 to table2
+Move robot1 from table3 to counter4
+Move robot1 from table3 to table4
+Move robot1 from table3 to counter5
+Unstack lettuce1 from patty1 using robot1
+Do nothing
+
+Goal: Make a lettuce burger with lettuce on top of the patty.
+
+Reasoning: ...
+
+Action: Move robot1 from table3 to counter1
+
+
+Interaction 22
+---------------
+
+
+Observation:
+Station counter1:
+counter1 is a counter
+counter1 is occupied by robot1
+counter1 has topbun1
+counter1 has topbun1 directly on top of it
+counter1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station counter2:
+counter2 is a counter
+counter2 has nothing on it
+counter2 has no players at it
+
+Station counter3:
+counter3 is a counter
+counter3 has nothing on it
+counter3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+
+Station table1:
+table1 is a table
+table1 has nothing on it
+table1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station counter4:
+counter4 is a counter
+counter4 has nothing on it
+counter4 has no players at it
+
+Station table3:
+table3 is a table
+table3 has lettuce1
+table3 has patty1
+table3 has bottombun1
+table3 has bottombun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station counter5:
+counter5 is a counter
+counter5 has nothing on it
+counter5 has no players at it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at counter1
+topbun1 is directly on top of counter1
+topbun1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is cut
+lettuce1 is at table3
+lettuce1 has nothing above it
+lettuce1 is directly on top of patty1
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table3
+patty1 is directly under lettuce1
+patty1 is directly on top of bottombun1
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table3
+bottombun1 is directly on top of table3
+bottombun1 is directly under patty1
+
+Player robot1:
+robot1 is a robot
+robot1 is at counter1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from counter1 to board1
+Move robot1 from counter1 to counter2
+Move robot1 from counter1 to counter3
+Move robot1 from counter1 to stove1
+Move robot1 from counter1 to table1
+Move robot1 from counter1 to table2
+Move robot1 from counter1 to counter4
+Move robot1 from counter1 to table3
+Move robot1 from counter1 to table4
+Move robot1 from counter1 to counter5
+Pick up topbun1 from counter1 using robot1
+Do nothing
+
+Goal: Make a lettuce burger with lettuce on top of the patty.
+
+Reasoning: ...
+
+Action: Pick up topbun1 from counter1 using robot1
+
+
+Interaction 23
+---------------
+
+
+Observation:
+Station counter1:
+counter1 is a counter
+counter1 is occupied by robot1
+counter1 has nothing on it
+counter1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station counter2:
+counter2 is a counter
+counter2 has nothing on it
+counter2 has no players at it
+
+Station counter3:
+counter3 is a counter
+counter3 has nothing on it
+counter3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+
+Station table1:
+table1 is a table
+table1 has nothing on it
+table1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station counter4:
+counter4 is a counter
+counter4 has nothing on it
+counter4 has no players at it
+
+Station table3:
+table3 is a table
+table3 has lettuce1
+table3 has patty1
+table3 has bottombun1
+table3 has bottombun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station counter5:
+counter5 is a counter
+counter5 has nothing on it
+counter5 has no players at it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is held by robot1
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is cut
+lettuce1 is at table3
+lettuce1 has nothing above it
+lettuce1 is directly on top of patty1
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table3
+patty1 is directly under lettuce1
+patty1 is directly on top of bottombun1
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table3
+bottombun1 is directly on top of table3
+bottombun1 is directly under patty1
+
+Player robot1:
+robot1 is a robot
+robot1 is at counter1
+robot1 is holding topbun1
+
+Valid Actions:
+Move robot1 from counter1 to board1
+Move robot1 from counter1 to counter2
+Move robot1 from counter1 to counter3
+Move robot1 from counter1 to stove1
+Move robot1 from counter1 to table1
+Move robot1 from counter1 to table2
+Move robot1 from counter1 to counter4
+Move robot1 from counter1 to table3
+Move robot1 from counter1 to table4
+Move robot1 from counter1 to counter5
+Place topbun1 on counter1 using robot1
+Do nothing
+
+Goal: Make a lettuce burger with lettuce on top of the patty.
+
+Reasoning: ...
+
+Action: Move robot1 from counter1 to table3
+
+
+Interaction 24
+---------------
+
+
+Observation:
+Station counter1:
+counter1 is a counter
+counter1 has nothing on it
+counter1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station counter2:
+counter2 is a counter
+counter2 has nothing on it
+counter2 has no players at it
+
+Station counter3:
+counter3 is a counter
+counter3 has nothing on it
+counter3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+
+Station table1:
+table1 is a table
+table1 has nothing on it
+table1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station counter4:
+counter4 is a counter
+counter4 has nothing on it
+counter4 has no players at it
+
+Station table3:
+table3 is a table
+table3 is occupied by robot1
+table3 has lettuce1
+table3 has patty1
+table3 has bottombun1
+table3 has bottombun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station counter5:
+counter5 is a counter
+counter5 has nothing on it
+counter5 has no players at it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is held by robot1
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is cut
+lettuce1 is at table3
+lettuce1 has nothing above it
+lettuce1 is directly on top of patty1
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table3
+patty1 is directly under lettuce1
+patty1 is directly on top of bottombun1
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table3
+bottombun1 is directly on top of table3
+bottombun1 is directly under patty1
+
+Player robot1:
+robot1 is a robot
+robot1 is at table3
+robot1 is holding topbun1
+
+Valid Actions:
+Move robot1 from table3 to counter1
+Move robot1 from table3 to board1
+Move robot1 from table3 to counter2
+Move robot1 from table3 to counter3
+Move robot1 from table3 to stove1
+Move robot1 from table3 to table1
+Move robot1 from table3 to table2
+Move robot1 from table3 to counter4
+Move robot1 from table3 to table4
+Move robot1 from table3 to counter5
+Stack topbun1 on top of lettuce1 using robot1
+Do nothing
+
+Goal: Make a lettuce burger with lettuce on top of the patty.
+
+Reasoning: ...
+
+Action: Stack topbun1 on top of lettuce1 using robot1
+
+

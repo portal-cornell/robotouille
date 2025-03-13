@@ -10,6 +10,7 @@ from functools import wraps
 from configuration import Config
 from typing import Optional
 from sqlalchemy.sql import func
+from models import User, RefreshToken, BlogPost, Comment
 
 # Load configuration
 config = Config(
@@ -37,44 +38,6 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Models
-class User(db.Model):
-    __tablename__ = 'users'
-    
-    id = db.Column(db.Integer, primary_key=True)
-    google_id = db.Column(db.String, unique=True, nullable=False)
-    email = db.Column(db.String, unique=True, nullable=False)
-    name = db.Column(db.String, nullable=False)
-    picture = db.Column(db.String)
-    stars = db.Column(db.Integer, default=0)
-    level = db.Column(db.Integer, default=1)
-    created_at = db.Column(db.DateTime, default=func.now())
-    last_login = db.Column(db.DateTime)
-    
-    refresh_tokens = db.relationship('RefreshToken', backref='user', lazy=True)
-
-    def to_dict(self):
-        return {
-            'id': self.id,
-            'email': self.email,
-            'name': self.name,
-            'picture': self.picture,
-            'stars': self.stars,
-            'level': self.level,
-            'created_at': self.created_at.isoformat() if self.created_at else None,
-            'last_login': self.last_login.isoformat() if self.last_login else None
-        }
-
-class RefreshToken(db.Model):
-    __tablename__ = 'refresh_tokens'
-    
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    token = db.Column(db.String, unique=True, nullable=False)
-    created_at = db.Column(db.DateTime, default=func.now())
-    expires_at = db.Column(db.DateTime, nullable=False)
-    revoked_at = db.Column(db.DateTime)
-    issuer_ip = db.Column(db.String)
 
 def create_access_token(user_id: int) -> str:
     """Create a JWT access token."""
@@ -344,6 +307,135 @@ def update_picture(user_id):
             'status': 'error',
             'message': 'Error updating picture'
         }), 500
+
+
+### BLOG POSTS ###
+
+@app.route('/api/blogposts', methods=['POST'])
+@require_auth
+def create_blog_post(user_id):
+    data = request.json
+    client_ip = request.remote_addr
+    
+    if not data or 'title' not in data or 'content' not in data:
+        return jsonify({
+            'status': 'error', ''
+            'message': 'Missing required fields'
+        }), 400
+    
+    try:
+        user = User.query.get(user_id)
+        if not user:
+            return jsonify({
+                'status': 'error', 
+                'message': 'User not found'
+            }), 404
+        
+        post = BlogPost(
+            author_id=user_id,
+            title=data['title'],
+            content=data['content']
+        )
+        db.session.add(post)
+        db.session.commit()
+        
+        logger.info(f'New blog post created by {user.email} from {client_ip}')
+        
+        return jsonify({
+            'status': 'success', 
+            'post': post.to_dict()
+        }), 201
+        
+    except Exception as e:
+        logger.error(f'Error creating blog post: {str(e)}')
+        db.session.rollback()
+        return jsonify({
+            'status': 'error',
+            'message': 'Error creating blog post'
+        }), 500
+    
+
+@app.route('/api/blogposts/<int:post_id>', methods=['DELETE'])
+@require_auth
+def delete_blog_post(user_id, post_id):
+    try:
+        post = BlogPost.query.get(post_id)
+        if not post:
+            return jsonify({'status': 'error', 'message': 'Blog post not found'}), 404
+        
+        if post.user_id != user_id:
+            return jsonify({'status': 'error', 'message': 'Forbidden'}), 403
+        
+        db.session.delete(post)
+        db.session.commit()
+        logger.info(f'User (ID: {user_id}) deleted blog post (ID: {post_id})')
+        
+        return jsonify({'status': 'success', 'message': 'Blog post deleted'})
+    except Exception as e:
+        logger.error(f'Error deleting blog post: {str(e)}')
+        db.session.rollback()
+        return jsonify({'status': 'error', 'message': 'Error deleting blog post'}), 500
+
+
+@app.route('/api/comments', methods=['POST'])
+@require_auth
+def create_comment(user_id):
+    data = request.json
+    if not data or 'blog_post_id' not in data or 'content' not in data:
+        return jsonify({'status': 'error', 'message': 'Missing blog_post_id or content'}), 400
+    
+    blog_post_id = data['blog_post_id']
+    content = data['content'].strip()
+    if not content:
+        return jsonify({'status': 'error', 'message': 'Content cannot be empty'}), 400
+    
+    try:
+        blog_post = BlogPost.query.get(blog_post_id)
+        if not blog_post:
+            return jsonify({'status': 'error', 'message': 'Blog post not found'}), 404
+        
+        new_comment = Comment(user_id=user_id, blog_post_id=blog_post_id, content=content)
+        db.session.add(new_comment)
+        db.session.commit()
+        
+        logger.info(f'User (ID: {user_id}) created comment (ID: {new_comment.id}) on post (ID: {blog_post_id})')
+        
+        return jsonify({
+            'status': 'success',
+            'comment': {
+                'id': new_comment.id,
+                'blog_post_id': new_comment.blog_post_id,
+                'content': new_comment.content,
+                'created_at': new_comment.created_at.isoformat()
+            }
+        }), 201
+    except Exception as e:
+        logger.error(f'Error creating comment: {str(e)}')
+        db.session.rollback()
+        return jsonify({'status': 'error', 'message': 'Error creating comment'}), 500
+
+
+@app.route('/api/comments/<int:comment_id>', methods=['DELETE'])
+@require_auth
+def delete_comment(user_id, comment_id):
+    try:
+        comment = Comment.query.get(comment_id)
+        if not comment:
+            return jsonify({'status': 'error', 'message': 'Comment not found'}), 404
+        
+        if comment.user_id != user_id:
+            return jsonify({'status': 'error', 'message': 'Forbidden'}), 403
+        
+        db.session.delete(comment)
+        db.session.commit()
+        
+        logger.info(f'User (ID: {user_id}) deleted comment (ID: {comment_id})')
+        return jsonify({'status': 'success', 'message': 'Comment deleted'})
+    except Exception as e:
+        logger.error(f'Error deleting comment: {str(e)}')
+        db.session.rollback()
+        return jsonify({'status': 'error', 'message': 'Error deleting comment'}), 500
+
 
 if __name__ == '__main__':
     # Create logs directory if it doesn't exist

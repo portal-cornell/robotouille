@@ -1,0 +1,31 @@
+Interaction 1
+---------------
+
+
+Observation:
+Station counter1:
+counter1 is a counter
+counter1 is occupied by robot1
+counter1 has bowl1
+
+Player robot1:
+robot1 is a robot
+robot1 is at counter1
+robot1 is holding nothing
+
+Container bowl1:
+bowl1 is a bowl
+bowl1 has nothing inside it
+bowl1 is at counter1
+
+Valid Actions:
+Pick up bowl1 from counter1 using robot1
+Do nothing
+
+Goal: Pickup the container
+
+Reasoning: ...
+
+Action: Pick up bowl1 from counter1 using robot1
+
+

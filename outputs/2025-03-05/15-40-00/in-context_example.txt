@@ -1,0 +1,974 @@
+Interaction 1
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 is occupied by robot1
+table1 has chicken1
+table1 has chicken1 directly on top of it
+
+Station table2:
+table2 is a table
+table2 has chicken2
+table2 has chicken2 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be fried in a fryer
+chicken1 is at table1
+chicken1 is directly on top of table1
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be fried in a fryer
+chicken2 is at table2
+chicken2 is directly on top of table2
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table1 to table2
+Move robot1 from table1 to fryer1
+Pick up chicken1 from table1 using robot1
+Do nothing
+
+Goal: Fry all of the chicken
+
+Reasoning: ...
+
+Action: Pick up chicken1 from table1 using robot1
+
+
+Interaction 2
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 is occupied by robot1
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has chicken2
+table2 has chicken2 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be fried in a fryer
+chicken1 is held by robot1
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be fried in a fryer
+chicken2 is at table2
+chicken2 is directly on top of table2
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table1
+robot1 is holding chicken1
+
+Valid Actions:
+Move robot1 from table1 to table2
+Move robot1 from table1 to fryer1
+Place chicken1 on table1 using robot1
+Do nothing
+
+Goal: Fry all of the chicken
+
+Reasoning: ...
+
+Action: Move robot1 from table1 to fryer1
+
+
+Interaction 3
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has chicken2
+table2 has chicken2 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 is occupied by robot1
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be fried in a fryer
+chicken1 is held by robot1
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be fried in a fryer
+chicken2 is at table2
+chicken2 is directly on top of table2
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at fryer1
+robot1 is holding chicken1
+
+Valid Actions:
+Move robot1 from fryer1 to table1
+Move robot1 from fryer1 to table2
+Place chicken1 on fryer1 using robot1
+Do nothing
+
+Goal: Fry all of the chicken
+
+Reasoning: ...
+
+Action: Place chicken1 on fryer1 using robot1
+
+
+Interaction 4
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has chicken2
+table2 has chicken2 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 is occupied by robot1
+fryer1 has chicken1
+fryer1 has chicken1 directly on top of it
+fryer1 has no players at it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be fried in a fryer
+chicken1 is at fryer1
+chicken1 is directly on top of fryer1
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be fried in a fryer
+chicken2 is at table2
+chicken2 is directly on top of table2
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at fryer1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from fryer1 to table1
+Move robot1 from fryer1 to table2
+Pick up chicken1 from fryer1 using robot1
+Fry chicken1 on fryer1 using robot1
+Do nothing
+
+Goal: Fry all of the chicken
+
+Reasoning: ...
+
+Action: Fry chicken1 on fryer1 using robot1
+
+
+Interaction 5
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has chicken2
+table2 has chicken2 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 is occupied by robot1
+fryer1 has chicken1
+fryer1 has chicken1 directly on top of it
+fryer1 has no players at it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be fried in a fryer
+chicken1 is at fryer1
+chicken1 is directly on top of fryer1
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be fried in a fryer
+chicken2 is at table2
+chicken2 is directly on top of table2
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at fryer1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from fryer1 to table1
+Move robot1 from fryer1 to table2
+Pick up chicken1 from fryer1 using robot1
+Fry chicken1 on fryer1 using robot1
+Do nothing
+
+Goal: Fry all of the chicken
+
+Reasoning: ...
+
+Action: Do nothing
+
+
+Interaction 6
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has chicken2
+table2 has chicken2 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 is occupied by robot1
+fryer1 has chicken1
+fryer1 has chicken1 directly on top of it
+fryer1 has no players at it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be fried in a fryer
+chicken1 is at fryer1
+chicken1 is directly on top of fryer1
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be fried in a fryer
+chicken2 is at table2
+chicken2 is directly on top of table2
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at fryer1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from fryer1 to table1
+Move robot1 from fryer1 to table2
+Pick up chicken1 from fryer1 using robot1
+Fry chicken1 on fryer1 using robot1
+Do nothing
+
+Goal: Fry all of the chicken
+
+Reasoning: ...
+
+Action: Do nothing
+
+
+Interaction 7
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has chicken2
+table2 has chicken2 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 is occupied by robot1
+fryer1 has chicken1
+fryer1 has chicken1 directly on top of it
+fryer1 has no players at it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be fried in a fryer
+chicken1 is at fryer1
+chicken1 is directly on top of fryer1
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be fried in a fryer
+chicken2 is at table2
+chicken2 is directly on top of table2
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at fryer1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from fryer1 to table1
+Move robot1 from fryer1 to table2
+Pick up chicken1 from fryer1 using robot1
+Fry chicken1 on fryer1 using robot1
+Do nothing
+
+Goal: Fry all of the chicken
+
+Reasoning: ...
+
+Action: Do nothing
+
+
+Interaction 8
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has chicken2
+table2 has chicken2 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 is occupied by robot1
+fryer1 has chicken1
+fryer1 has chicken1 directly on top of it
+fryer1 has no players at it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be fried in a fryer
+chicken1 is fried
+chicken1 is at fryer1
+chicken1 is directly on top of fryer1
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be fried in a fryer
+chicken2 is at table2
+chicken2 is directly on top of table2
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at fryer1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from fryer1 to table1
+Move robot1 from fryer1 to table2
+Pick up chicken1 from fryer1 using robot1
+Fry chicken1 on fryer1 using robot1
+Do nothing
+
+Goal: Fry all of the chicken
+
+Reasoning: ...
+
+Action: Pick up chicken1 from fryer1 using robot1
+
+
+Interaction 9
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has chicken2
+table2 has chicken2 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 is occupied by robot1
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be fried in a fryer
+chicken1 is fried
+chicken1 is held by robot1
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be fried in a fryer
+chicken2 is at table2
+chicken2 is directly on top of table2
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at fryer1
+robot1 is holding chicken1
+
+Valid Actions:
+Move robot1 from fryer1 to table1
+Move robot1 from fryer1 to table2
+Place chicken1 on fryer1 using robot1
+Do nothing
+
+Goal: Fry all of the chicken
+
+Reasoning: ...
+
+Action: Move robot1 from fryer1 to table1
+
+
+Interaction 10
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 is occupied by robot1
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has chicken2
+table2 has chicken2 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be fried in a fryer
+chicken1 is fried
+chicken1 is held by robot1
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be fried in a fryer
+chicken2 is at table2
+chicken2 is directly on top of table2
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table1
+robot1 is holding chicken1
+
+Valid Actions:
+Move robot1 from table1 to table2
+Move robot1 from table1 to fryer1
+Place chicken1 on table1 using robot1
+Do nothing
+
+Goal: Fry all of the chicken
+
+Reasoning: ...
+
+Action: Place chicken1 on table1 using robot1
+
+
+Interaction 11
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 is occupied by robot1
+table1 has chicken1
+table1 has chicken1 directly on top of it
+
+Station table2:
+table2 is a table
+table2 has chicken2
+table2 has chicken2 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be fried in a fryer
+chicken1 is fried
+chicken1 is at table1
+chicken1 is directly on top of table1
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be fried in a fryer
+chicken2 is at table2
+chicken2 is directly on top of table2
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table1 to table2
+Move robot1 from table1 to fryer1
+Pick up chicken1 from table1 using robot1
+Do nothing
+
+Goal: Fry all of the chicken
+
+Reasoning: ...
+
+Action: Move robot1 from table1 to table2
+
+
+Interaction 12
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has chicken1
+table1 has chicken1 directly on top of it
+
+Station table2:
+table2 is a table
+table2 is occupied by robot1
+table2 has chicken2
+table2 has chicken2 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be fried in a fryer
+chicken1 is fried
+chicken1 is at table1
+chicken1 is directly on top of table1
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be fried in a fryer
+chicken2 is at table2
+chicken2 is directly on top of table2
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table2
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table2 to table1
+Move robot1 from table2 to fryer1
+Pick up chicken2 from table2 using robot1
+Do nothing
+
+Goal: Fry all of the chicken
+
+Reasoning: ...
+
+Action: Pick up chicken2 from table2 using robot1
+
+
+Interaction 13
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has chicken1
+table1 has chicken1 directly on top of it
+
+Station table2:
+table2 is a table
+table2 is occupied by robot1
+table2 has nothing on it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be fried in a fryer
+chicken1 is fried
+chicken1 is at table1
+chicken1 is directly on top of table1
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be fried in a fryer
+chicken2 is held by robot1
+
+Player robot1:
+robot1 is a robot
+robot1 is at table2
+robot1 is holding chicken2
+
+Valid Actions:
+Move robot1 from table2 to table1
+Move robot1 from table2 to fryer1
+Place chicken2 on table2 using robot1
+Do nothing
+
+Goal: Fry all of the chicken
+
+Reasoning: ...
+
+Action: Move robot1 from table2 to fryer1
+
+
+Interaction 14
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has chicken1
+table1 has chicken1 directly on top of it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 is occupied by robot1
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be fried in a fryer
+chicken1 is fried
+chicken1 is at table1
+chicken1 is directly on top of table1
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be fried in a fryer
+chicken2 is held by robot1
+
+Player robot1:
+robot1 is a robot
+robot1 is at fryer1
+robot1 is holding chicken2
+
+Valid Actions:
+Move robot1 from fryer1 to table1
+Move robot1 from fryer1 to table2
+Place chicken2 on fryer1 using robot1
+Do nothing
+
+Goal: Fry all of the chicken
+
+Reasoning: ...
+
+Action: Place chicken2 on fryer1 using robot1
+
+
+Interaction 15
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has chicken1
+table1 has chicken1 directly on top of it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 is occupied by robot1
+fryer1 has chicken2
+fryer1 has chicken2 directly on top of it
+fryer1 has no players at it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be fried in a fryer
+chicken1 is fried
+chicken1 is at table1
+chicken1 is directly on top of table1
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be fried in a fryer
+chicken2 is at fryer1
+chicken2 is directly on top of fryer1
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at fryer1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from fryer1 to table1
+Move robot1 from fryer1 to table2
+Pick up chicken2 from fryer1 using robot1
+Fry chicken2 on fryer1 using robot1
+Do nothing
+
+Goal: Fry all of the chicken
+
+Reasoning: ...
+
+Action: Fry chicken2 on fryer1 using robot1
+
+
+Interaction 16
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has chicken1
+table1 has chicken1 directly on top of it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 is occupied by robot1
+fryer1 has chicken2
+fryer1 has chicken2 directly on top of it
+fryer1 has no players at it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be fried in a fryer
+chicken1 is fried
+chicken1 is at table1
+chicken1 is directly on top of table1
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be fried in a fryer
+chicken2 is at fryer1
+chicken2 is directly on top of fryer1
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at fryer1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from fryer1 to table1
+Move robot1 from fryer1 to table2
+Pick up chicken2 from fryer1 using robot1
+Fry chicken2 on fryer1 using robot1
+Do nothing
+
+Goal: Fry all of the chicken
+
+Reasoning: ...
+
+Action: Do nothing
+
+
+Interaction 17
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has chicken1
+table1 has chicken1 directly on top of it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 is occupied by robot1
+fryer1 has chicken2
+fryer1 has chicken2 directly on top of it
+fryer1 has no players at it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be fried in a fryer
+chicken1 is fried
+chicken1 is at table1
+chicken1 is directly on top of table1
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be fried in a fryer
+chicken2 is at fryer1
+chicken2 is directly on top of fryer1
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at fryer1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from fryer1 to table1
+Move robot1 from fryer1 to table2
+Pick up chicken2 from fryer1 using robot1
+Fry chicken2 on fryer1 using robot1
+Do nothing
+
+Goal: Fry all of the chicken
+
+Reasoning: ...
+
+Action: Do nothing
+
+
+Interaction 18
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has chicken1
+table1 has chicken1 directly on top of it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 is occupied by robot1
+fryer1 has chicken2
+fryer1 has chicken2 directly on top of it
+fryer1 has no players at it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be fried in a fryer
+chicken1 is fried
+chicken1 is at table1
+chicken1 is directly on top of table1
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be fried in a fryer
+chicken2 is at fryer1
+chicken2 is directly on top of fryer1
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at fryer1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from fryer1 to table1
+Move robot1 from fryer1 to table2
+Pick up chicken2 from fryer1 using robot1
+Fry chicken2 on fryer1 using robot1
+Do nothing
+
+Goal: Fry all of the chicken
+
+Reasoning: ...
+
+Action: Do nothing
+
+

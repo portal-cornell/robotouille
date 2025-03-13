@@ -1,0 +1,263 @@
+Interaction 1
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 is occupied by robot1
+table1 has bowl1
+
+Station stove1:
+stove1 is a stove
+stove1 has no players at it
+stove1 has pot1
+
+Item tomato1:
+tomato1 is a tomato
+tomato1 is cut
+tomato1 is held by robot1
+
+Player robot1:
+robot1 is a robot
+robot1 is at table1
+robot1 is holding tomato1
+
+Container bowl1:
+bowl1 is a bowl
+bowl1 has nothing inside it
+bowl1 is at table1
+
+Container pot1:
+pot1 is a pot
+pot1 contains water1
+pot1 is at stove1
+
+Meal water1:
+water1 is water
+water1 is boiling
+water1 is inside of pot1
+
+Valid Actions:
+Move robot1 from table1 to stove1
+Do nothing
+
+Goal: Add tomato to the pot of boiling water
+
+Reasoning: ...
+
+Action: Move robot1 from table1 to stove1
+
+
+Interaction 2
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bowl1
+
+Station stove1:
+stove1 is a stove
+stove1 is occupied by robot1
+stove1 has no players at it
+stove1 has pot1
+
+Item tomato1:
+tomato1 is a tomato
+tomato1 is cut
+tomato1 is held by robot1
+
+Player robot1:
+robot1 is a robot
+robot1 is at stove1
+robot1 is holding tomato1
+
+Container bowl1:
+bowl1 is a bowl
+bowl1 has nothing inside it
+bowl1 is at table1
+
+Container pot1:
+pot1 is a pot
+pot1 contains water1
+pot1 is at stove1
+
+Meal water1:
+water1 is water
+water1 is boiling
+water1 is inside of pot1
+
+Valid Actions:
+Move robot1 from stove1 to table1
+Add tomato1 into pot1 using robot1
+Do nothing
+
+Goal: Add tomato to the pot of boiling water
+
+Reasoning: ...
+
+Action: Add tomato1 into pot1 using robot1
+
+
+Interaction 3
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bowl1
+
+Station stove1:
+stove1 is a stove
+stove1 is occupied by robot1
+stove1 has no players at it
+stove1 has pot1
+
+Item tomato1:
+tomato1 is a tomato
+tomato1 is cut
+tomato1 is added to water1
+
+Player robot1:
+robot1 is a robot
+robot1 is at stove1
+robot1 is holding nothing
+
+Container bowl1:
+bowl1 is a bowl
+bowl1 has nothing inside it
+bowl1 is at table1
+
+Container pot1:
+pot1 is a pot
+pot1 contains water1
+pot1 is at stove1
+
+Meal water1:
+water1 is water
+water1 is boiling
+water1 is inside of pot1
+water1 has tomato1 added to it
+
+Valid Actions:
+Move robot1 from stove1 to table1
+Pick up pot1 from stove1 using robot1
+Boil pot1's contents on stove1 using robot1
+Do nothing
+
+Goal: Add tomato to the pot of boiling water
+
+Reasoning: ...
+
+Action: Pick up pot1 from stove1 using robot1
+
+
+Interaction 4
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bowl1
+
+Station stove1:
+stove1 is a stove
+stove1 is occupied by robot1
+stove1 has nothing on it
+stove1 has no players at it
+
+Item tomato1:
+tomato1 is a tomato
+tomato1 is cut
+tomato1 is added to water1
+
+Player robot1:
+robot1 is a robot
+robot1 is at stove1
+robot1 is holding pot1
+
+Container bowl1:
+bowl1 is a bowl
+bowl1 has nothing inside it
+bowl1 is at table1
+
+Container pot1:
+pot1 is a pot
+pot1 is held by robot1
+pot1 contains water1
+
+Meal water1:
+water1 is water
+water1 is boiling
+water1 is inside of pot1
+water1 has tomato1 added to it
+
+Valid Actions:
+Move robot1 from stove1 to table1
+Place pot1 on stove1 using robot1
+Do nothing
+
+Goal: Add tomato to the pot of boiling water
+
+Reasoning: ...
+
+Action: Move robot1 from stove1 to table1
+
+
+Interaction 5
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 is occupied by robot1
+table1 has bowl1
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Item tomato1:
+tomato1 is a tomato
+tomato1 is cut
+tomato1 is added to water1
+
+Player robot1:
+robot1 is a robot
+robot1 is at table1
+robot1 is holding pot1
+
+Container bowl1:
+bowl1 is a bowl
+bowl1 has nothing inside it
+bowl1 is at table1
+
+Container pot1:
+pot1 is a pot
+pot1 is held by robot1
+pot1 contains water1
+
+Meal water1:
+water1 is water
+water1 is boiling
+water1 is inside of pot1
+water1 has tomato1 added to it
+
+Valid Actions:
+Move robot1 from table1 to stove1
+Fill bowl1 with pot1's contents using robot1
+Do nothing
+
+Goal: Add tomato to the pot of boiling water
+
+Reasoning: ...
+
+Action: Fill bowl1 with pot1's contents using robot1
+
+

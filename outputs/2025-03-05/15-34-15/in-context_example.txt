@@ -1,0 +1,31 @@
+Interaction 1
+---------------
+
+
+Observation:
+Station sink1:
+sink1 is a sink
+sink1 is occupied by robot1
+sink1 has nothing on it
+
+Station counter1:
+counter1 is a counter
+counter1 has nothing on it
+counter1 has no players at it
+
+Player robot1:
+robot1 is a robot
+robot1 is at sink1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from sink1 to counter1
+Do nothing
+
+Goal: Move to the other station
+
+Reasoning: ...
+
+Action: Move robot1 from sink1 to counter1
+
+

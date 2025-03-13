@@ -1,0 +1,72 @@
+Interaction 1
+---------------
+
+
+Observation:
+Station counter1:
+counter1 is a counter
+counter1 is occupied by robot1
+counter1 has nothing on it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 is held by robot1
+
+Player robot1:
+robot1 is a robot
+robot1 is at counter1
+robot1 is holding chicken1
+
+Valid Actions:
+Move robot1 from counter1 to board1
+Place chicken1 on counter1 using robot1
+Do nothing
+
+Goal: Place the item on the other station
+
+Reasoning: ...
+
+Action: Move robot1 from counter1 to board1
+
+
+Interaction 2
+---------------
+
+
+Observation:
+Station counter1:
+counter1 is a counter
+counter1 has nothing on it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has nothing on it
+board1 has no players at it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 is held by robot1
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding chicken1
+
+Valid Actions:
+Move robot1 from board1 to counter1
+Place chicken1 on board1 using robot1
+Do nothing
+
+Goal: Place the item on the other station
+
+Reasoning: ...
+
+Action: Place chicken1 on board1 using robot1
+
+

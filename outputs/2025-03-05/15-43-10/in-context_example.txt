@@ -1,0 +1,8655 @@
+Interaction 1
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 is occupied by robot1
+table1 has patty1
+table1 has patty1 directly on top of it
+
+Station table2:
+table2 is a table
+table2 has patty2
+table2 has patty2 directly on top of it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has cheese1
+table3 has cheese1 directly on top of it
+table3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 has nothing on it
+stove2 has no players at it
+
+Station table4:
+table4 is a table
+table4 has cheese2
+table4 has cheese2 directly on top of it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has lettuce1
+table5 has lettuce1 directly on top of it
+table5 has no players at it
+
+Station table6:
+table6 is a table
+table6 has lettuce2
+table6 has lettuce2 directly on top of it
+table6 has no players at it
+
+Station table7:
+table7 is a table
+table7 has onion1
+table7 has onion1 directly on top of it
+table7 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has nothing on it
+board2 has no players at it
+
+Station table8:
+table8 is a table
+table8 has onion2
+table8 has onion2 directly on top of it
+table8 has no players at it
+
+Station table9:
+table9 is a table
+table9 has bottombun1
+table9 has bottombun1 directly on top of it
+table9 has no players at it
+
+Station table10:
+table10 is a table
+table10 has bottombun2
+table10 has bottombun2 directly on top of it
+table10 has no players at it
+
+Station table11:
+table11 is a table
+table11 has tomato1
+table11 has tomato1 directly on top of it
+table11 has no players at it
+
+Station table12:
+table12 is a table
+table12 has topbun1
+table12 has topbun1 directly on top of it
+table12 has no players at it
+
+Station table13:
+table13 is a table
+table13 has topbun2
+table13 has topbun2 directly on top of it
+table13 has no players at it
+
+Station table14:
+table14 is a table
+table14 has tomato2
+table14 has tomato2 directly on top of it
+table14 has no players at it
+
+Station table15:
+table15 is a table
+table15 has chicken1
+table15 has chicken1 directly on top of it
+table15 has no players at it
+
+Station table16:
+table16 is a table
+table16 has chicken2
+table16 has chicken2 directly on top of it
+table16 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is at table1
+patty1 is directly on top of table1
+patty1 has nothing above it
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is at table2
+patty2 is directly on top of table2
+patty2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table3
+cheese1 is directly on top of table3
+cheese1 has nothing above it
+
+Item cheese2:
+cheese2 is a cheese slice
+cheese2 is at table4
+cheese2 is directly on top of table4
+cheese2 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table5
+lettuce1 is directly on top of table5
+lettuce1 has nothing above it
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is at table6
+lettuce2 is directly on top of table6
+lettuce2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is at table7
+onion1 is directly on top of table7
+onion1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at table8
+onion2 is directly on top of table8
+onion2 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table9
+bottombun1 is directly on top of table9
+bottombun1 has nothing above it
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table10
+bottombun2 is directly on top of table10
+bottombun2 has nothing above it
+
+Item tomato1:
+tomato1 is a tomato
+tomato1 can be cut on a cutting board
+tomato1 is at table11
+tomato1 is directly on top of table11
+tomato1 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table12
+topbun1 is directly on top of table12
+topbun1 has nothing above it
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is at table13
+topbun2 is directly on top of table13
+topbun2 has nothing above it
+
+Item tomato2:
+tomato2 is a tomato
+tomato2 can be cut on a cutting board
+tomato2 is at table14
+tomato2 is directly on top of table14
+tomato2 has nothing above it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be cooked on a stove
+chicken1 is at table15
+chicken1 is directly on top of table15
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be cooked on a stove
+chicken2 is at table16
+chicken2 is directly on top of table16
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table1 to table2
+Move robot1 from table1 to table3
+Move robot1 from table1 to stove1
+Move robot1 from table1 to stove2
+Move robot1 from table1 to table4
+Move robot1 from table1 to table5
+Move robot1 from table1 to table6
+Move robot1 from table1 to table7
+Move robot1 from table1 to board1
+Move robot1 from table1 to board2
+Move robot1 from table1 to table8
+Move robot1 from table1 to table9
+Move robot1 from table1 to table10
+Move robot1 from table1 to table11
+Move robot1 from table1 to table12
+Move robot1 from table1 to table13
+Move robot1 from table1 to table14
+Move robot1 from table1 to table15
+Move robot1 from table1 to table16
+Pick up patty1 from table1 using robot1
+Do nothing
+
+Goal: Make two cheese burgers with cheese on top of the patties
+
+Reasoning: ...
+
+Action: Pick up patty1 from table1 using robot1
+
+
+Interaction 2
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 is occupied by robot1
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has patty2
+table2 has patty2 directly on top of it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has cheese1
+table3 has cheese1 directly on top of it
+table3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 has nothing on it
+stove2 has no players at it
+
+Station table4:
+table4 is a table
+table4 has cheese2
+table4 has cheese2 directly on top of it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has lettuce1
+table5 has lettuce1 directly on top of it
+table5 has no players at it
+
+Station table6:
+table6 is a table
+table6 has lettuce2
+table6 has lettuce2 directly on top of it
+table6 has no players at it
+
+Station table7:
+table7 is a table
+table7 has onion1
+table7 has onion1 directly on top of it
+table7 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has nothing on it
+board2 has no players at it
+
+Station table8:
+table8 is a table
+table8 has onion2
+table8 has onion2 directly on top of it
+table8 has no players at it
+
+Station table9:
+table9 is a table
+table9 has bottombun1
+table9 has bottombun1 directly on top of it
+table9 has no players at it
+
+Station table10:
+table10 is a table
+table10 has bottombun2
+table10 has bottombun2 directly on top of it
+table10 has no players at it
+
+Station table11:
+table11 is a table
+table11 has tomato1
+table11 has tomato1 directly on top of it
+table11 has no players at it
+
+Station table12:
+table12 is a table
+table12 has topbun1
+table12 has topbun1 directly on top of it
+table12 has no players at it
+
+Station table13:
+table13 is a table
+table13 has topbun2
+table13 has topbun2 directly on top of it
+table13 has no players at it
+
+Station table14:
+table14 is a table
+table14 has tomato2
+table14 has tomato2 directly on top of it
+table14 has no players at it
+
+Station table15:
+table15 is a table
+table15 has chicken1
+table15 has chicken1 directly on top of it
+table15 has no players at it
+
+Station table16:
+table16 is a table
+table16 has chicken2
+table16 has chicken2 directly on top of it
+table16 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is held by robot1
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is at table2
+patty2 is directly on top of table2
+patty2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table3
+cheese1 is directly on top of table3
+cheese1 has nothing above it
+
+Item cheese2:
+cheese2 is a cheese slice
+cheese2 is at table4
+cheese2 is directly on top of table4
+cheese2 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table5
+lettuce1 is directly on top of table5
+lettuce1 has nothing above it
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is at table6
+lettuce2 is directly on top of table6
+lettuce2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is at table7
+onion1 is directly on top of table7
+onion1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at table8
+onion2 is directly on top of table8
+onion2 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table9
+bottombun1 is directly on top of table9
+bottombun1 has nothing above it
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table10
+bottombun2 is directly on top of table10
+bottombun2 has nothing above it
+
+Item tomato1:
+tomato1 is a tomato
+tomato1 can be cut on a cutting board
+tomato1 is at table11
+tomato1 is directly on top of table11
+tomato1 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table12
+topbun1 is directly on top of table12
+topbun1 has nothing above it
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is at table13
+topbun2 is directly on top of table13
+topbun2 has nothing above it
+
+Item tomato2:
+tomato2 is a tomato
+tomato2 can be cut on a cutting board
+tomato2 is at table14
+tomato2 is directly on top of table14
+tomato2 has nothing above it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be cooked on a stove
+chicken1 is at table15
+chicken1 is directly on top of table15
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be cooked on a stove
+chicken2 is at table16
+chicken2 is directly on top of table16
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table1
+robot1 is holding patty1
+
+Valid Actions:
+Move robot1 from table1 to table2
+Move robot1 from table1 to table3
+Move robot1 from table1 to stove1
+Move robot1 from table1 to stove2
+Move robot1 from table1 to table4
+Move robot1 from table1 to table5
+Move robot1 from table1 to table6
+Move robot1 from table1 to table7
+Move robot1 from table1 to board1
+Move robot1 from table1 to board2
+Move robot1 from table1 to table8
+Move robot1 from table1 to table9
+Move robot1 from table1 to table10
+Move robot1 from table1 to table11
+Move robot1 from table1 to table12
+Move robot1 from table1 to table13
+Move robot1 from table1 to table14
+Move robot1 from table1 to table15
+Move robot1 from table1 to table16
+Place patty1 on table1 using robot1
+Do nothing
+
+Goal: Make two cheese burgers with cheese on top of the patties
+
+Reasoning: ...
+
+Action: Move robot1 from table1 to stove1
+
+
+Interaction 3
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has patty2
+table2 has patty2 directly on top of it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has cheese1
+table3 has cheese1 directly on top of it
+table3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 is occupied by robot1
+stove1 has nothing on it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 has nothing on it
+stove2 has no players at it
+
+Station table4:
+table4 is a table
+table4 has cheese2
+table4 has cheese2 directly on top of it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has lettuce1
+table5 has lettuce1 directly on top of it
+table5 has no players at it
+
+Station table6:
+table6 is a table
+table6 has lettuce2
+table6 has lettuce2 directly on top of it
+table6 has no players at it
+
+Station table7:
+table7 is a table
+table7 has onion1
+table7 has onion1 directly on top of it
+table7 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has nothing on it
+board2 has no players at it
+
+Station table8:
+table8 is a table
+table8 has onion2
+table8 has onion2 directly on top of it
+table8 has no players at it
+
+Station table9:
+table9 is a table
+table9 has bottombun1
+table9 has bottombun1 directly on top of it
+table9 has no players at it
+
+Station table10:
+table10 is a table
+table10 has bottombun2
+table10 has bottombun2 directly on top of it
+table10 has no players at it
+
+Station table11:
+table11 is a table
+table11 has tomato1
+table11 has tomato1 directly on top of it
+table11 has no players at it
+
+Station table12:
+table12 is a table
+table12 has topbun1
+table12 has topbun1 directly on top of it
+table12 has no players at it
+
+Station table13:
+table13 is a table
+table13 has topbun2
+table13 has topbun2 directly on top of it
+table13 has no players at it
+
+Station table14:
+table14 is a table
+table14 has tomato2
+table14 has tomato2 directly on top of it
+table14 has no players at it
+
+Station table15:
+table15 is a table
+table15 has chicken1
+table15 has chicken1 directly on top of it
+table15 has no players at it
+
+Station table16:
+table16 is a table
+table16 has chicken2
+table16 has chicken2 directly on top of it
+table16 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is held by robot1
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is at table2
+patty2 is directly on top of table2
+patty2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table3
+cheese1 is directly on top of table3
+cheese1 has nothing above it
+
+Item cheese2:
+cheese2 is a cheese slice
+cheese2 is at table4
+cheese2 is directly on top of table4
+cheese2 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table5
+lettuce1 is directly on top of table5
+lettuce1 has nothing above it
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is at table6
+lettuce2 is directly on top of table6
+lettuce2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is at table7
+onion1 is directly on top of table7
+onion1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at table8
+onion2 is directly on top of table8
+onion2 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table9
+bottombun1 is directly on top of table9
+bottombun1 has nothing above it
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table10
+bottombun2 is directly on top of table10
+bottombun2 has nothing above it
+
+Item tomato1:
+tomato1 is a tomato
+tomato1 can be cut on a cutting board
+tomato1 is at table11
+tomato1 is directly on top of table11
+tomato1 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table12
+topbun1 is directly on top of table12
+topbun1 has nothing above it
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is at table13
+topbun2 is directly on top of table13
+topbun2 has nothing above it
+
+Item tomato2:
+tomato2 is a tomato
+tomato2 can be cut on a cutting board
+tomato2 is at table14
+tomato2 is directly on top of table14
+tomato2 has nothing above it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be cooked on a stove
+chicken1 is at table15
+chicken1 is directly on top of table15
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be cooked on a stove
+chicken2 is at table16
+chicken2 is directly on top of table16
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at stove1
+robot1 is holding patty1
+
+Valid Actions:
+Move robot1 from stove1 to table1
+Move robot1 from stove1 to table2
+Move robot1 from stove1 to table3
+Move robot1 from stove1 to stove2
+Move robot1 from stove1 to table4
+Move robot1 from stove1 to table5
+Move robot1 from stove1 to table6
+Move robot1 from stove1 to table7
+Move robot1 from stove1 to board1
+Move robot1 from stove1 to board2
+Move robot1 from stove1 to table8
+Move robot1 from stove1 to table9
+Move robot1 from stove1 to table10
+Move robot1 from stove1 to table11
+Move robot1 from stove1 to table12
+Move robot1 from stove1 to table13
+Move robot1 from stove1 to table14
+Move robot1 from stove1 to table15
+Move robot1 from stove1 to table16
+Place patty1 on stove1 using robot1
+Do nothing
+
+Goal: Make two cheese burgers with cheese on top of the patties
+
+Reasoning: ...
+
+Action: Place patty1 on stove1 using robot1
+
+
+Interaction 4
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has patty2
+table2 has patty2 directly on top of it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has cheese1
+table3 has cheese1 directly on top of it
+table3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 is occupied by robot1
+stove1 has patty1
+stove1 has patty1 directly on top of it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 has nothing on it
+stove2 has no players at it
+
+Station table4:
+table4 is a table
+table4 has cheese2
+table4 has cheese2 directly on top of it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has lettuce1
+table5 has lettuce1 directly on top of it
+table5 has no players at it
+
+Station table6:
+table6 is a table
+table6 has lettuce2
+table6 has lettuce2 directly on top of it
+table6 has no players at it
+
+Station table7:
+table7 is a table
+table7 has onion1
+table7 has onion1 directly on top of it
+table7 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has nothing on it
+board2 has no players at it
+
+Station table8:
+table8 is a table
+table8 has onion2
+table8 has onion2 directly on top of it
+table8 has no players at it
+
+Station table9:
+table9 is a table
+table9 has bottombun1
+table9 has bottombun1 directly on top of it
+table9 has no players at it
+
+Station table10:
+table10 is a table
+table10 has bottombun2
+table10 has bottombun2 directly on top of it
+table10 has no players at it
+
+Station table11:
+table11 is a table
+table11 has tomato1
+table11 has tomato1 directly on top of it
+table11 has no players at it
+
+Station table12:
+table12 is a table
+table12 has topbun1
+table12 has topbun1 directly on top of it
+table12 has no players at it
+
+Station table13:
+table13 is a table
+table13 has topbun2
+table13 has topbun2 directly on top of it
+table13 has no players at it
+
+Station table14:
+table14 is a table
+table14 has tomato2
+table14 has tomato2 directly on top of it
+table14 has no players at it
+
+Station table15:
+table15 is a table
+table15 has chicken1
+table15 has chicken1 directly on top of it
+table15 has no players at it
+
+Station table16:
+table16 is a table
+table16 has chicken2
+table16 has chicken2 directly on top of it
+table16 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is at table2
+patty2 is directly on top of table2
+patty2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table3
+cheese1 is directly on top of table3
+cheese1 has nothing above it
+
+Item cheese2:
+cheese2 is a cheese slice
+cheese2 is at table4
+cheese2 is directly on top of table4
+cheese2 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table5
+lettuce1 is directly on top of table5
+lettuce1 has nothing above it
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is at table6
+lettuce2 is directly on top of table6
+lettuce2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is at table7
+onion1 is directly on top of table7
+onion1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at table8
+onion2 is directly on top of table8
+onion2 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table9
+bottombun1 is directly on top of table9
+bottombun1 has nothing above it
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table10
+bottombun2 is directly on top of table10
+bottombun2 has nothing above it
+
+Item tomato1:
+tomato1 is a tomato
+tomato1 can be cut on a cutting board
+tomato1 is at table11
+tomato1 is directly on top of table11
+tomato1 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table12
+topbun1 is directly on top of table12
+topbun1 has nothing above it
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is at table13
+topbun2 is directly on top of table13
+topbun2 has nothing above it
+
+Item tomato2:
+tomato2 is a tomato
+tomato2 can be cut on a cutting board
+tomato2 is at table14
+tomato2 is directly on top of table14
+tomato2 has nothing above it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be cooked on a stove
+chicken1 is at table15
+chicken1 is directly on top of table15
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be cooked on a stove
+chicken2 is at table16
+chicken2 is directly on top of table16
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at stove1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from stove1 to table1
+Move robot1 from stove1 to table2
+Move robot1 from stove1 to table3
+Move robot1 from stove1 to stove2
+Move robot1 from stove1 to table4
+Move robot1 from stove1 to table5
+Move robot1 from stove1 to table6
+Move robot1 from stove1 to table7
+Move robot1 from stove1 to board1
+Move robot1 from stove1 to board2
+Move robot1 from stove1 to table8
+Move robot1 from stove1 to table9
+Move robot1 from stove1 to table10
+Move robot1 from stove1 to table11
+Move robot1 from stove1 to table12
+Move robot1 from stove1 to table13
+Move robot1 from stove1 to table14
+Move robot1 from stove1 to table15
+Move robot1 from stove1 to table16
+Pick up patty1 from stove1 using robot1
+Cook patty1 on stove1 using robot1
+Do nothing
+
+Goal: Make two cheese burgers with cheese on top of the patties
+
+Reasoning: ...
+
+Action: Cook patty1 on stove1 using robot1
+
+
+Interaction 5
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has patty2
+table2 has patty2 directly on top of it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has cheese1
+table3 has cheese1 directly on top of it
+table3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 is occupied by robot1
+stove1 has patty1
+stove1 has patty1 directly on top of it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 has nothing on it
+stove2 has no players at it
+
+Station table4:
+table4 is a table
+table4 has cheese2
+table4 has cheese2 directly on top of it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has lettuce1
+table5 has lettuce1 directly on top of it
+table5 has no players at it
+
+Station table6:
+table6 is a table
+table6 has lettuce2
+table6 has lettuce2 directly on top of it
+table6 has no players at it
+
+Station table7:
+table7 is a table
+table7 has onion1
+table7 has onion1 directly on top of it
+table7 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has nothing on it
+board2 has no players at it
+
+Station table8:
+table8 is a table
+table8 has onion2
+table8 has onion2 directly on top of it
+table8 has no players at it
+
+Station table9:
+table9 is a table
+table9 has bottombun1
+table9 has bottombun1 directly on top of it
+table9 has no players at it
+
+Station table10:
+table10 is a table
+table10 has bottombun2
+table10 has bottombun2 directly on top of it
+table10 has no players at it
+
+Station table11:
+table11 is a table
+table11 has tomato1
+table11 has tomato1 directly on top of it
+table11 has no players at it
+
+Station table12:
+table12 is a table
+table12 has topbun1
+table12 has topbun1 directly on top of it
+table12 has no players at it
+
+Station table13:
+table13 is a table
+table13 has topbun2
+table13 has topbun2 directly on top of it
+table13 has no players at it
+
+Station table14:
+table14 is a table
+table14 has tomato2
+table14 has tomato2 directly on top of it
+table14 has no players at it
+
+Station table15:
+table15 is a table
+table15 has chicken1
+table15 has chicken1 directly on top of it
+table15 has no players at it
+
+Station table16:
+table16 is a table
+table16 has chicken2
+table16 has chicken2 directly on top of it
+table16 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooking
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is at table2
+patty2 is directly on top of table2
+patty2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table3
+cheese1 is directly on top of table3
+cheese1 has nothing above it
+
+Item cheese2:
+cheese2 is a cheese slice
+cheese2 is at table4
+cheese2 is directly on top of table4
+cheese2 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table5
+lettuce1 is directly on top of table5
+lettuce1 has nothing above it
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is at table6
+lettuce2 is directly on top of table6
+lettuce2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is at table7
+onion1 is directly on top of table7
+onion1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at table8
+onion2 is directly on top of table8
+onion2 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table9
+bottombun1 is directly on top of table9
+bottombun1 has nothing above it
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table10
+bottombun2 is directly on top of table10
+bottombun2 has nothing above it
+
+Item tomato1:
+tomato1 is a tomato
+tomato1 can be cut on a cutting board
+tomato1 is at table11
+tomato1 is directly on top of table11
+tomato1 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table12
+topbun1 is directly on top of table12
+topbun1 has nothing above it
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is at table13
+topbun2 is directly on top of table13
+topbun2 has nothing above it
+
+Item tomato2:
+tomato2 is a tomato
+tomato2 can be cut on a cutting board
+tomato2 is at table14
+tomato2 is directly on top of table14
+tomato2 has nothing above it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be cooked on a stove
+chicken1 is at table15
+chicken1 is directly on top of table15
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be cooked on a stove
+chicken2 is at table16
+chicken2 is directly on top of table16
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at stove1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from stove1 to table1
+Move robot1 from stove1 to table2
+Move robot1 from stove1 to table3
+Move robot1 from stove1 to stove2
+Move robot1 from stove1 to table4
+Move robot1 from stove1 to table5
+Move robot1 from stove1 to table6
+Move robot1 from stove1 to table7
+Move robot1 from stove1 to board1
+Move robot1 from stove1 to board2
+Move robot1 from stove1 to table8
+Move robot1 from stove1 to table9
+Move robot1 from stove1 to table10
+Move robot1 from stove1 to table11
+Move robot1 from stove1 to table12
+Move robot1 from stove1 to table13
+Move robot1 from stove1 to table14
+Move robot1 from stove1 to table15
+Move robot1 from stove1 to table16
+Pick up patty1 from stove1 using robot1
+Do nothing
+
+Goal: Make two cheese burgers with cheese on top of the patties
+
+Reasoning: ...
+
+Action: Move robot1 from stove1 to table2
+
+
+Interaction 6
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 is occupied by robot1
+table2 has patty2
+table2 has patty2 directly on top of it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has cheese1
+table3 has cheese1 directly on top of it
+table3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has patty1
+stove1 has patty1 directly on top of it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 has nothing on it
+stove2 has no players at it
+
+Station table4:
+table4 is a table
+table4 has cheese2
+table4 has cheese2 directly on top of it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has lettuce1
+table5 has lettuce1 directly on top of it
+table5 has no players at it
+
+Station table6:
+table6 is a table
+table6 has lettuce2
+table6 has lettuce2 directly on top of it
+table6 has no players at it
+
+Station table7:
+table7 is a table
+table7 has onion1
+table7 has onion1 directly on top of it
+table7 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has nothing on it
+board2 has no players at it
+
+Station table8:
+table8 is a table
+table8 has onion2
+table8 has onion2 directly on top of it
+table8 has no players at it
+
+Station table9:
+table9 is a table
+table9 has bottombun1
+table9 has bottombun1 directly on top of it
+table9 has no players at it
+
+Station table10:
+table10 is a table
+table10 has bottombun2
+table10 has bottombun2 directly on top of it
+table10 has no players at it
+
+Station table11:
+table11 is a table
+table11 has tomato1
+table11 has tomato1 directly on top of it
+table11 has no players at it
+
+Station table12:
+table12 is a table
+table12 has topbun1
+table12 has topbun1 directly on top of it
+table12 has no players at it
+
+Station table13:
+table13 is a table
+table13 has topbun2
+table13 has topbun2 directly on top of it
+table13 has no players at it
+
+Station table14:
+table14 is a table
+table14 has tomato2
+table14 has tomato2 directly on top of it
+table14 has no players at it
+
+Station table15:
+table15 is a table
+table15 has chicken1
+table15 has chicken1 directly on top of it
+table15 has no players at it
+
+Station table16:
+table16 is a table
+table16 has chicken2
+table16 has chicken2 directly on top of it
+table16 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooking
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is at table2
+patty2 is directly on top of table2
+patty2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table3
+cheese1 is directly on top of table3
+cheese1 has nothing above it
+
+Item cheese2:
+cheese2 is a cheese slice
+cheese2 is at table4
+cheese2 is directly on top of table4
+cheese2 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table5
+lettuce1 is directly on top of table5
+lettuce1 has nothing above it
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is at table6
+lettuce2 is directly on top of table6
+lettuce2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is at table7
+onion1 is directly on top of table7
+onion1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at table8
+onion2 is directly on top of table8
+onion2 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table9
+bottombun1 is directly on top of table9
+bottombun1 has nothing above it
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table10
+bottombun2 is directly on top of table10
+bottombun2 has nothing above it
+
+Item tomato1:
+tomato1 is a tomato
+tomato1 can be cut on a cutting board
+tomato1 is at table11
+tomato1 is directly on top of table11
+tomato1 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table12
+topbun1 is directly on top of table12
+topbun1 has nothing above it
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is at table13
+topbun2 is directly on top of table13
+topbun2 has nothing above it
+
+Item tomato2:
+tomato2 is a tomato
+tomato2 can be cut on a cutting board
+tomato2 is at table14
+tomato2 is directly on top of table14
+tomato2 has nothing above it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be cooked on a stove
+chicken1 is at table15
+chicken1 is directly on top of table15
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be cooked on a stove
+chicken2 is at table16
+chicken2 is directly on top of table16
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table2
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table2 to table1
+Move robot1 from table2 to table3
+Move robot1 from table2 to stove1
+Move robot1 from table2 to stove2
+Move robot1 from table2 to table4
+Move robot1 from table2 to table5
+Move robot1 from table2 to table6
+Move robot1 from table2 to table7
+Move robot1 from table2 to board1
+Move robot1 from table2 to board2
+Move robot1 from table2 to table8
+Move robot1 from table2 to table9
+Move robot1 from table2 to table10
+Move robot1 from table2 to table11
+Move robot1 from table2 to table12
+Move robot1 from table2 to table13
+Move robot1 from table2 to table14
+Move robot1 from table2 to table15
+Move robot1 from table2 to table16
+Pick up patty2 from table2 using robot1
+Do nothing
+
+Goal: Make two cheese burgers with cheese on top of the patties
+
+Reasoning: ...
+
+Action: Pick up patty2 from table2 using robot1
+
+
+Interaction 7
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 is occupied by robot1
+table2 has nothing on it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has cheese1
+table3 has cheese1 directly on top of it
+table3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has patty1
+stove1 has patty1 directly on top of it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 has nothing on it
+stove2 has no players at it
+
+Station table4:
+table4 is a table
+table4 has cheese2
+table4 has cheese2 directly on top of it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has lettuce1
+table5 has lettuce1 directly on top of it
+table5 has no players at it
+
+Station table6:
+table6 is a table
+table6 has lettuce2
+table6 has lettuce2 directly on top of it
+table6 has no players at it
+
+Station table7:
+table7 is a table
+table7 has onion1
+table7 has onion1 directly on top of it
+table7 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has nothing on it
+board2 has no players at it
+
+Station table8:
+table8 is a table
+table8 has onion2
+table8 has onion2 directly on top of it
+table8 has no players at it
+
+Station table9:
+table9 is a table
+table9 has bottombun1
+table9 has bottombun1 directly on top of it
+table9 has no players at it
+
+Station table10:
+table10 is a table
+table10 has bottombun2
+table10 has bottombun2 directly on top of it
+table10 has no players at it
+
+Station table11:
+table11 is a table
+table11 has tomato1
+table11 has tomato1 directly on top of it
+table11 has no players at it
+
+Station table12:
+table12 is a table
+table12 has topbun1
+table12 has topbun1 directly on top of it
+table12 has no players at it
+
+Station table13:
+table13 is a table
+table13 has topbun2
+table13 has topbun2 directly on top of it
+table13 has no players at it
+
+Station table14:
+table14 is a table
+table14 has tomato2
+table14 has tomato2 directly on top of it
+table14 has no players at it
+
+Station table15:
+table15 is a table
+table15 has chicken1
+table15 has chicken1 directly on top of it
+table15 has no players at it
+
+Station table16:
+table16 is a table
+table16 has chicken2
+table16 has chicken2 directly on top of it
+table16 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooking
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is held by robot1
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table3
+cheese1 is directly on top of table3
+cheese1 has nothing above it
+
+Item cheese2:
+cheese2 is a cheese slice
+cheese2 is at table4
+cheese2 is directly on top of table4
+cheese2 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table5
+lettuce1 is directly on top of table5
+lettuce1 has nothing above it
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is at table6
+lettuce2 is directly on top of table6
+lettuce2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is at table7
+onion1 is directly on top of table7
+onion1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at table8
+onion2 is directly on top of table8
+onion2 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table9
+bottombun1 is directly on top of table9
+bottombun1 has nothing above it
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table10
+bottombun2 is directly on top of table10
+bottombun2 has nothing above it
+
+Item tomato1:
+tomato1 is a tomato
+tomato1 can be cut on a cutting board
+tomato1 is at table11
+tomato1 is directly on top of table11
+tomato1 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table12
+topbun1 is directly on top of table12
+topbun1 has nothing above it
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is at table13
+topbun2 is directly on top of table13
+topbun2 has nothing above it
+
+Item tomato2:
+tomato2 is a tomato
+tomato2 can be cut on a cutting board
+tomato2 is at table14
+tomato2 is directly on top of table14
+tomato2 has nothing above it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be cooked on a stove
+chicken1 is at table15
+chicken1 is directly on top of table15
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be cooked on a stove
+chicken2 is at table16
+chicken2 is directly on top of table16
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table2
+robot1 is holding patty2
+
+Valid Actions:
+Move robot1 from table2 to table1
+Move robot1 from table2 to table3
+Move robot1 from table2 to stove1
+Move robot1 from table2 to stove2
+Move robot1 from table2 to table4
+Move robot1 from table2 to table5
+Move robot1 from table2 to table6
+Move robot1 from table2 to table7
+Move robot1 from table2 to board1
+Move robot1 from table2 to board2
+Move robot1 from table2 to table8
+Move robot1 from table2 to table9
+Move robot1 from table2 to table10
+Move robot1 from table2 to table11
+Move robot1 from table2 to table12
+Move robot1 from table2 to table13
+Move robot1 from table2 to table14
+Move robot1 from table2 to table15
+Move robot1 from table2 to table16
+Place patty2 on table2 using robot1
+Do nothing
+
+Goal: Make two cheese burgers with cheese on top of the patties
+
+Reasoning: ...
+
+Action: Move robot1 from table2 to stove2
+
+
+Interaction 8
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has cheese1
+table3 has cheese1 directly on top of it
+table3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has patty1
+stove1 has patty1 directly on top of it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 is occupied by robot1
+stove2 has nothing on it
+stove2 has no players at it
+
+Station table4:
+table4 is a table
+table4 has cheese2
+table4 has cheese2 directly on top of it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has lettuce1
+table5 has lettuce1 directly on top of it
+table5 has no players at it
+
+Station table6:
+table6 is a table
+table6 has lettuce2
+table6 has lettuce2 directly on top of it
+table6 has no players at it
+
+Station table7:
+table7 is a table
+table7 has onion1
+table7 has onion1 directly on top of it
+table7 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has nothing on it
+board2 has no players at it
+
+Station table8:
+table8 is a table
+table8 has onion2
+table8 has onion2 directly on top of it
+table8 has no players at it
+
+Station table9:
+table9 is a table
+table9 has bottombun1
+table9 has bottombun1 directly on top of it
+table9 has no players at it
+
+Station table10:
+table10 is a table
+table10 has bottombun2
+table10 has bottombun2 directly on top of it
+table10 has no players at it
+
+Station table11:
+table11 is a table
+table11 has tomato1
+table11 has tomato1 directly on top of it
+table11 has no players at it
+
+Station table12:
+table12 is a table
+table12 has topbun1
+table12 has topbun1 directly on top of it
+table12 has no players at it
+
+Station table13:
+table13 is a table
+table13 has topbun2
+table13 has topbun2 directly on top of it
+table13 has no players at it
+
+Station table14:
+table14 is a table
+table14 has tomato2
+table14 has tomato2 directly on top of it
+table14 has no players at it
+
+Station table15:
+table15 is a table
+table15 has chicken1
+table15 has chicken1 directly on top of it
+table15 has no players at it
+
+Station table16:
+table16 is a table
+table16 has chicken2
+table16 has chicken2 directly on top of it
+table16 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is held by robot1
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table3
+cheese1 is directly on top of table3
+cheese1 has nothing above it
+
+Item cheese2:
+cheese2 is a cheese slice
+cheese2 is at table4
+cheese2 is directly on top of table4
+cheese2 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table5
+lettuce1 is directly on top of table5
+lettuce1 has nothing above it
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is at table6
+lettuce2 is directly on top of table6
+lettuce2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is at table7
+onion1 is directly on top of table7
+onion1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at table8
+onion2 is directly on top of table8
+onion2 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table9
+bottombun1 is directly on top of table9
+bottombun1 has nothing above it
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table10
+bottombun2 is directly on top of table10
+bottombun2 has nothing above it
+
+Item tomato1:
+tomato1 is a tomato
+tomato1 can be cut on a cutting board
+tomato1 is at table11
+tomato1 is directly on top of table11
+tomato1 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table12
+topbun1 is directly on top of table12
+topbun1 has nothing above it
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is at table13
+topbun2 is directly on top of table13
+topbun2 has nothing above it
+
+Item tomato2:
+tomato2 is a tomato
+tomato2 can be cut on a cutting board
+tomato2 is at table14
+tomato2 is directly on top of table14
+tomato2 has nothing above it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be cooked on a stove
+chicken1 is at table15
+chicken1 is directly on top of table15
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be cooked on a stove
+chicken2 is at table16
+chicken2 is directly on top of table16
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at stove2
+robot1 is holding patty2
+
+Valid Actions:
+Move robot1 from stove2 to table1
+Move robot1 from stove2 to table2
+Move robot1 from stove2 to table3
+Move robot1 from stove2 to stove1
+Move robot1 from stove2 to table4
+Move robot1 from stove2 to table5
+Move robot1 from stove2 to table6
+Move robot1 from stove2 to table7
+Move robot1 from stove2 to board1
+Move robot1 from stove2 to board2
+Move robot1 from stove2 to table8
+Move robot1 from stove2 to table9
+Move robot1 from stove2 to table10
+Move robot1 from stove2 to table11
+Move robot1 from stove2 to table12
+Move robot1 from stove2 to table13
+Move robot1 from stove2 to table14
+Move robot1 from stove2 to table15
+Move robot1 from stove2 to table16
+Place patty2 on stove2 using robot1
+Do nothing
+
+Goal: Make two cheese burgers with cheese on top of the patties
+
+Reasoning: ...
+
+Action: Place patty2 on stove2 using robot1
+
+
+Interaction 9
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has cheese1
+table3 has cheese1 directly on top of it
+table3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has patty1
+stove1 has patty1 directly on top of it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 is occupied by robot1
+stove2 has patty2
+stove2 has patty2 directly on top of it
+stove2 has no players at it
+
+Station table4:
+table4 is a table
+table4 has cheese2
+table4 has cheese2 directly on top of it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has lettuce1
+table5 has lettuce1 directly on top of it
+table5 has no players at it
+
+Station table6:
+table6 is a table
+table6 has lettuce2
+table6 has lettuce2 directly on top of it
+table6 has no players at it
+
+Station table7:
+table7 is a table
+table7 has onion1
+table7 has onion1 directly on top of it
+table7 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has nothing on it
+board2 has no players at it
+
+Station table8:
+table8 is a table
+table8 has onion2
+table8 has onion2 directly on top of it
+table8 has no players at it
+
+Station table9:
+table9 is a table
+table9 has bottombun1
+table9 has bottombun1 directly on top of it
+table9 has no players at it
+
+Station table10:
+table10 is a table
+table10 has bottombun2
+table10 has bottombun2 directly on top of it
+table10 has no players at it
+
+Station table11:
+table11 is a table
+table11 has tomato1
+table11 has tomato1 directly on top of it
+table11 has no players at it
+
+Station table12:
+table12 is a table
+table12 has topbun1
+table12 has topbun1 directly on top of it
+table12 has no players at it
+
+Station table13:
+table13 is a table
+table13 has topbun2
+table13 has topbun2 directly on top of it
+table13 has no players at it
+
+Station table14:
+table14 is a table
+table14 has tomato2
+table14 has tomato2 directly on top of it
+table14 has no players at it
+
+Station table15:
+table15 is a table
+table15 has chicken1
+table15 has chicken1 directly on top of it
+table15 has no players at it
+
+Station table16:
+table16 is a table
+table16 has chicken2
+table16 has chicken2 directly on top of it
+table16 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is at stove2
+patty2 is directly on top of stove2
+patty2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table3
+cheese1 is directly on top of table3
+cheese1 has nothing above it
+
+Item cheese2:
+cheese2 is a cheese slice
+cheese2 is at table4
+cheese2 is directly on top of table4
+cheese2 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table5
+lettuce1 is directly on top of table5
+lettuce1 has nothing above it
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is at table6
+lettuce2 is directly on top of table6
+lettuce2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is at table7
+onion1 is directly on top of table7
+onion1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at table8
+onion2 is directly on top of table8
+onion2 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table9
+bottombun1 is directly on top of table9
+bottombun1 has nothing above it
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table10
+bottombun2 is directly on top of table10
+bottombun2 has nothing above it
+
+Item tomato1:
+tomato1 is a tomato
+tomato1 can be cut on a cutting board
+tomato1 is at table11
+tomato1 is directly on top of table11
+tomato1 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table12
+topbun1 is directly on top of table12
+topbun1 has nothing above it
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is at table13
+topbun2 is directly on top of table13
+topbun2 has nothing above it
+
+Item tomato2:
+tomato2 is a tomato
+tomato2 can be cut on a cutting board
+tomato2 is at table14
+tomato2 is directly on top of table14
+tomato2 has nothing above it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be cooked on a stove
+chicken1 is at table15
+chicken1 is directly on top of table15
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be cooked on a stove
+chicken2 is at table16
+chicken2 is directly on top of table16
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at stove2
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from stove2 to table1
+Move robot1 from stove2 to table2
+Move robot1 from stove2 to table3
+Move robot1 from stove2 to stove1
+Move robot1 from stove2 to table4
+Move robot1 from stove2 to table5
+Move robot1 from stove2 to table6
+Move robot1 from stove2 to table7
+Move robot1 from stove2 to board1
+Move robot1 from stove2 to board2
+Move robot1 from stove2 to table8
+Move robot1 from stove2 to table9
+Move robot1 from stove2 to table10
+Move robot1 from stove2 to table11
+Move robot1 from stove2 to table12
+Move robot1 from stove2 to table13
+Move robot1 from stove2 to table14
+Move robot1 from stove2 to table15
+Move robot1 from stove2 to table16
+Pick up patty2 from stove2 using robot1
+Cook patty2 on stove2 using robot1
+Do nothing
+
+Goal: Make two cheese burgers with cheese on top of the patties
+
+Reasoning: ...
+
+Action: Cook patty2 on stove2 using robot1
+
+
+Interaction 10
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has cheese1
+table3 has cheese1 directly on top of it
+table3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has patty1
+stove1 has patty1 directly on top of it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 is occupied by robot1
+stove2 has patty2
+stove2 has patty2 directly on top of it
+stove2 has no players at it
+
+Station table4:
+table4 is a table
+table4 has cheese2
+table4 has cheese2 directly on top of it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has lettuce1
+table5 has lettuce1 directly on top of it
+table5 has no players at it
+
+Station table6:
+table6 is a table
+table6 has lettuce2
+table6 has lettuce2 directly on top of it
+table6 has no players at it
+
+Station table7:
+table7 is a table
+table7 has onion1
+table7 has onion1 directly on top of it
+table7 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has nothing on it
+board2 has no players at it
+
+Station table8:
+table8 is a table
+table8 has onion2
+table8 has onion2 directly on top of it
+table8 has no players at it
+
+Station table9:
+table9 is a table
+table9 has bottombun1
+table9 has bottombun1 directly on top of it
+table9 has no players at it
+
+Station table10:
+table10 is a table
+table10 has bottombun2
+table10 has bottombun2 directly on top of it
+table10 has no players at it
+
+Station table11:
+table11 is a table
+table11 has tomato1
+table11 has tomato1 directly on top of it
+table11 has no players at it
+
+Station table12:
+table12 is a table
+table12 has topbun1
+table12 has topbun1 directly on top of it
+table12 has no players at it
+
+Station table13:
+table13 is a table
+table13 has topbun2
+table13 has topbun2 directly on top of it
+table13 has no players at it
+
+Station table14:
+table14 is a table
+table14 has tomato2
+table14 has tomato2 directly on top of it
+table14 has no players at it
+
+Station table15:
+table15 is a table
+table15 has chicken1
+table15 has chicken1 directly on top of it
+table15 has no players at it
+
+Station table16:
+table16 is a table
+table16 has chicken2
+table16 has chicken2 directly on top of it
+table16 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is cooking
+patty2 is at stove2
+patty2 is directly on top of stove2
+patty2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table3
+cheese1 is directly on top of table3
+cheese1 has nothing above it
+
+Item cheese2:
+cheese2 is a cheese slice
+cheese2 is at table4
+cheese2 is directly on top of table4
+cheese2 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table5
+lettuce1 is directly on top of table5
+lettuce1 has nothing above it
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is at table6
+lettuce2 is directly on top of table6
+lettuce2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is at table7
+onion1 is directly on top of table7
+onion1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at table8
+onion2 is directly on top of table8
+onion2 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table9
+bottombun1 is directly on top of table9
+bottombun1 has nothing above it
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table10
+bottombun2 is directly on top of table10
+bottombun2 has nothing above it
+
+Item tomato1:
+tomato1 is a tomato
+tomato1 can be cut on a cutting board
+tomato1 is at table11
+tomato1 is directly on top of table11
+tomato1 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table12
+topbun1 is directly on top of table12
+topbun1 has nothing above it
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is at table13
+topbun2 is directly on top of table13
+topbun2 has nothing above it
+
+Item tomato2:
+tomato2 is a tomato
+tomato2 can be cut on a cutting board
+tomato2 is at table14
+tomato2 is directly on top of table14
+tomato2 has nothing above it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be cooked on a stove
+chicken1 is at table15
+chicken1 is directly on top of table15
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be cooked on a stove
+chicken2 is at table16
+chicken2 is directly on top of table16
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at stove2
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from stove2 to table1
+Move robot1 from stove2 to table2
+Move robot1 from stove2 to table3
+Move robot1 from stove2 to stove1
+Move robot1 from stove2 to table4
+Move robot1 from stove2 to table5
+Move robot1 from stove2 to table6
+Move robot1 from stove2 to table7
+Move robot1 from stove2 to board1
+Move robot1 from stove2 to board2
+Move robot1 from stove2 to table8
+Move robot1 from stove2 to table9
+Move robot1 from stove2 to table10
+Move robot1 from stove2 to table11
+Move robot1 from stove2 to table12
+Move robot1 from stove2 to table13
+Move robot1 from stove2 to table14
+Move robot1 from stove2 to table15
+Move robot1 from stove2 to table16
+Pick up patty2 from stove2 using robot1
+Do nothing
+
+Goal: Make two cheese burgers with cheese on top of the patties
+
+Reasoning: ...
+
+Action: Move robot1 from stove2 to stove1
+
+
+Interaction 11
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has cheese1
+table3 has cheese1 directly on top of it
+table3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 is occupied by robot1
+stove1 has patty1
+stove1 has patty1 directly on top of it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 has patty2
+stove2 has patty2 directly on top of it
+stove2 has no players at it
+
+Station table4:
+table4 is a table
+table4 has cheese2
+table4 has cheese2 directly on top of it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has lettuce1
+table5 has lettuce1 directly on top of it
+table5 has no players at it
+
+Station table6:
+table6 is a table
+table6 has lettuce2
+table6 has lettuce2 directly on top of it
+table6 has no players at it
+
+Station table7:
+table7 is a table
+table7 has onion1
+table7 has onion1 directly on top of it
+table7 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has nothing on it
+board2 has no players at it
+
+Station table8:
+table8 is a table
+table8 has onion2
+table8 has onion2 directly on top of it
+table8 has no players at it
+
+Station table9:
+table9 is a table
+table9 has bottombun1
+table9 has bottombun1 directly on top of it
+table9 has no players at it
+
+Station table10:
+table10 is a table
+table10 has bottombun2
+table10 has bottombun2 directly on top of it
+table10 has no players at it
+
+Station table11:
+table11 is a table
+table11 has tomato1
+table11 has tomato1 directly on top of it
+table11 has no players at it
+
+Station table12:
+table12 is a table
+table12 has topbun1
+table12 has topbun1 directly on top of it
+table12 has no players at it
+
+Station table13:
+table13 is a table
+table13 has topbun2
+table13 has topbun2 directly on top of it
+table13 has no players at it
+
+Station table14:
+table14 is a table
+table14 has tomato2
+table14 has tomato2 directly on top of it
+table14 has no players at it
+
+Station table15:
+table15 is a table
+table15 has chicken1
+table15 has chicken1 directly on top of it
+table15 has no players at it
+
+Station table16:
+table16 is a table
+table16 has chicken2
+table16 has chicken2 directly on top of it
+table16 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is cooking
+patty2 is at stove2
+patty2 is directly on top of stove2
+patty2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table3
+cheese1 is directly on top of table3
+cheese1 has nothing above it
+
+Item cheese2:
+cheese2 is a cheese slice
+cheese2 is at table4
+cheese2 is directly on top of table4
+cheese2 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table5
+lettuce1 is directly on top of table5
+lettuce1 has nothing above it
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is at table6
+lettuce2 is directly on top of table6
+lettuce2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is at table7
+onion1 is directly on top of table7
+onion1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at table8
+onion2 is directly on top of table8
+onion2 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table9
+bottombun1 is directly on top of table9
+bottombun1 has nothing above it
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table10
+bottombun2 is directly on top of table10
+bottombun2 has nothing above it
+
+Item tomato1:
+tomato1 is a tomato
+tomato1 can be cut on a cutting board
+tomato1 is at table11
+tomato1 is directly on top of table11
+tomato1 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table12
+topbun1 is directly on top of table12
+topbun1 has nothing above it
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is at table13
+topbun2 is directly on top of table13
+topbun2 has nothing above it
+
+Item tomato2:
+tomato2 is a tomato
+tomato2 can be cut on a cutting board
+tomato2 is at table14
+tomato2 is directly on top of table14
+tomato2 has nothing above it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be cooked on a stove
+chicken1 is at table15
+chicken1 is directly on top of table15
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be cooked on a stove
+chicken2 is at table16
+chicken2 is directly on top of table16
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at stove1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from stove1 to table1
+Move robot1 from stove1 to table2
+Move robot1 from stove1 to table3
+Move robot1 from stove1 to stove2
+Move robot1 from stove1 to table4
+Move robot1 from stove1 to table5
+Move robot1 from stove1 to table6
+Move robot1 from stove1 to table7
+Move robot1 from stove1 to board1
+Move robot1 from stove1 to board2
+Move robot1 from stove1 to table8
+Move robot1 from stove1 to table9
+Move robot1 from stove1 to table10
+Move robot1 from stove1 to table11
+Move robot1 from stove1 to table12
+Move robot1 from stove1 to table13
+Move robot1 from stove1 to table14
+Move robot1 from stove1 to table15
+Move robot1 from stove1 to table16
+Pick up patty1 from stove1 using robot1
+Cook patty1 on stove1 using robot1
+Do nothing
+
+Goal: Make two cheese burgers with cheese on top of the patties
+
+Reasoning: ...
+
+Action: Pick up patty1 from stove1 using robot1
+
+
+Interaction 12
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has cheese1
+table3 has cheese1 directly on top of it
+table3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 is occupied by robot1
+stove1 has nothing on it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 has patty2
+stove2 has patty2 directly on top of it
+stove2 has no players at it
+
+Station table4:
+table4 is a table
+table4 has cheese2
+table4 has cheese2 directly on top of it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has lettuce1
+table5 has lettuce1 directly on top of it
+table5 has no players at it
+
+Station table6:
+table6 is a table
+table6 has lettuce2
+table6 has lettuce2 directly on top of it
+table6 has no players at it
+
+Station table7:
+table7 is a table
+table7 has onion1
+table7 has onion1 directly on top of it
+table7 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has nothing on it
+board2 has no players at it
+
+Station table8:
+table8 is a table
+table8 has onion2
+table8 has onion2 directly on top of it
+table8 has no players at it
+
+Station table9:
+table9 is a table
+table9 has bottombun1
+table9 has bottombun1 directly on top of it
+table9 has no players at it
+
+Station table10:
+table10 is a table
+table10 has bottombun2
+table10 has bottombun2 directly on top of it
+table10 has no players at it
+
+Station table11:
+table11 is a table
+table11 has tomato1
+table11 has tomato1 directly on top of it
+table11 has no players at it
+
+Station table12:
+table12 is a table
+table12 has topbun1
+table12 has topbun1 directly on top of it
+table12 has no players at it
+
+Station table13:
+table13 is a table
+table13 has topbun2
+table13 has topbun2 directly on top of it
+table13 has no players at it
+
+Station table14:
+table14 is a table
+table14 has tomato2
+table14 has tomato2 directly on top of it
+table14 has no players at it
+
+Station table15:
+table15 is a table
+table15 has chicken1
+table15 has chicken1 directly on top of it
+table15 has no players at it
+
+Station table16:
+table16 is a table
+table16 has chicken2
+table16 has chicken2 directly on top of it
+table16 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is held by robot1
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is cooking
+patty2 is at stove2
+patty2 is directly on top of stove2
+patty2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table3
+cheese1 is directly on top of table3
+cheese1 has nothing above it
+
+Item cheese2:
+cheese2 is a cheese slice
+cheese2 is at table4
+cheese2 is directly on top of table4
+cheese2 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table5
+lettuce1 is directly on top of table5
+lettuce1 has nothing above it
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is at table6
+lettuce2 is directly on top of table6
+lettuce2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is at table7
+onion1 is directly on top of table7
+onion1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at table8
+onion2 is directly on top of table8
+onion2 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table9
+bottombun1 is directly on top of table9
+bottombun1 has nothing above it
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table10
+bottombun2 is directly on top of table10
+bottombun2 has nothing above it
+
+Item tomato1:
+tomato1 is a tomato
+tomato1 can be cut on a cutting board
+tomato1 is at table11
+tomato1 is directly on top of table11
+tomato1 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table12
+topbun1 is directly on top of table12
+topbun1 has nothing above it
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is at table13
+topbun2 is directly on top of table13
+topbun2 has nothing above it
+
+Item tomato2:
+tomato2 is a tomato
+tomato2 can be cut on a cutting board
+tomato2 is at table14
+tomato2 is directly on top of table14
+tomato2 has nothing above it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be cooked on a stove
+chicken1 is at table15
+chicken1 is directly on top of table15
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be cooked on a stove
+chicken2 is at table16
+chicken2 is directly on top of table16
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at stove1
+robot1 is holding patty1
+
+Valid Actions:
+Move robot1 from stove1 to table1
+Move robot1 from stove1 to table2
+Move robot1 from stove1 to table3
+Move robot1 from stove1 to stove2
+Move robot1 from stove1 to table4
+Move robot1 from stove1 to table5
+Move robot1 from stove1 to table6
+Move robot1 from stove1 to table7
+Move robot1 from stove1 to board1
+Move robot1 from stove1 to board2
+Move robot1 from stove1 to table8
+Move robot1 from stove1 to table9
+Move robot1 from stove1 to table10
+Move robot1 from stove1 to table11
+Move robot1 from stove1 to table12
+Move robot1 from stove1 to table13
+Move robot1 from stove1 to table14
+Move robot1 from stove1 to table15
+Move robot1 from stove1 to table16
+Place patty1 on stove1 using robot1
+Do nothing
+
+Goal: Make two cheese burgers with cheese on top of the patties
+
+Reasoning: ...
+
+Action: Move robot1 from stove1 to table9
+
+
+Interaction 13
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has cheese1
+table3 has cheese1 directly on top of it
+table3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 has patty2
+stove2 has patty2 directly on top of it
+stove2 has no players at it
+
+Station table4:
+table4 is a table
+table4 has cheese2
+table4 has cheese2 directly on top of it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has lettuce1
+table5 has lettuce1 directly on top of it
+table5 has no players at it
+
+Station table6:
+table6 is a table
+table6 has lettuce2
+table6 has lettuce2 directly on top of it
+table6 has no players at it
+
+Station table7:
+table7 is a table
+table7 has onion1
+table7 has onion1 directly on top of it
+table7 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has nothing on it
+board2 has no players at it
+
+Station table8:
+table8 is a table
+table8 has onion2
+table8 has onion2 directly on top of it
+table8 has no players at it
+
+Station table9:
+table9 is a table
+table9 is occupied by robot1
+table9 has bottombun1
+table9 has bottombun1 directly on top of it
+table9 has no players at it
+
+Station table10:
+table10 is a table
+table10 has bottombun2
+table10 has bottombun2 directly on top of it
+table10 has no players at it
+
+Station table11:
+table11 is a table
+table11 has tomato1
+table11 has tomato1 directly on top of it
+table11 has no players at it
+
+Station table12:
+table12 is a table
+table12 has topbun1
+table12 has topbun1 directly on top of it
+table12 has no players at it
+
+Station table13:
+table13 is a table
+table13 has topbun2
+table13 has topbun2 directly on top of it
+table13 has no players at it
+
+Station table14:
+table14 is a table
+table14 has tomato2
+table14 has tomato2 directly on top of it
+table14 has no players at it
+
+Station table15:
+table15 is a table
+table15 has chicken1
+table15 has chicken1 directly on top of it
+table15 has no players at it
+
+Station table16:
+table16 is a table
+table16 has chicken2
+table16 has chicken2 directly on top of it
+table16 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is held by robot1
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is cooked
+patty2 is at stove2
+patty2 is directly on top of stove2
+patty2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table3
+cheese1 is directly on top of table3
+cheese1 has nothing above it
+
+Item cheese2:
+cheese2 is a cheese slice
+cheese2 is at table4
+cheese2 is directly on top of table4
+cheese2 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table5
+lettuce1 is directly on top of table5
+lettuce1 has nothing above it
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is at table6
+lettuce2 is directly on top of table6
+lettuce2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is at table7
+onion1 is directly on top of table7
+onion1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at table8
+onion2 is directly on top of table8
+onion2 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table9
+bottombun1 is directly on top of table9
+bottombun1 has nothing above it
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table10
+bottombun2 is directly on top of table10
+bottombun2 has nothing above it
+
+Item tomato1:
+tomato1 is a tomato
+tomato1 can be cut on a cutting board
+tomato1 is at table11
+tomato1 is directly on top of table11
+tomato1 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table12
+topbun1 is directly on top of table12
+topbun1 has nothing above it
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is at table13
+topbun2 is directly on top of table13
+topbun2 has nothing above it
+
+Item tomato2:
+tomato2 is a tomato
+tomato2 can be cut on a cutting board
+tomato2 is at table14
+tomato2 is directly on top of table14
+tomato2 has nothing above it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be cooked on a stove
+chicken1 is at table15
+chicken1 is directly on top of table15
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be cooked on a stove
+chicken2 is at table16
+chicken2 is directly on top of table16
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table9
+robot1 is holding patty1
+
+Valid Actions:
+Move robot1 from table9 to table1
+Move robot1 from table9 to table2
+Move robot1 from table9 to table3
+Move robot1 from table9 to stove1
+Move robot1 from table9 to stove2
+Move robot1 from table9 to table4
+Move robot1 from table9 to table5
+Move robot1 from table9 to table6
+Move robot1 from table9 to table7
+Move robot1 from table9 to board1
+Move robot1 from table9 to board2
+Move robot1 from table9 to table8
+Move robot1 from table9 to table10
+Move robot1 from table9 to table11
+Move robot1 from table9 to table12
+Move robot1 from table9 to table13
+Move robot1 from table9 to table14
+Move robot1 from table9 to table15
+Move robot1 from table9 to table16
+Stack patty1 on top of bottombun1 using robot1
+Do nothing
+
+Goal: Make two cheese burgers with cheese on top of the patties
+
+Reasoning: ...
+
+Action: Stack patty1 on top of bottombun1 using robot1
+
+
+Interaction 14
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has cheese1
+table3 has cheese1 directly on top of it
+table3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 has patty2
+stove2 has patty2 directly on top of it
+stove2 has no players at it
+
+Station table4:
+table4 is a table
+table4 has cheese2
+table4 has cheese2 directly on top of it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has lettuce1
+table5 has lettuce1 directly on top of it
+table5 has no players at it
+
+Station table6:
+table6 is a table
+table6 has lettuce2
+table6 has lettuce2 directly on top of it
+table6 has no players at it
+
+Station table7:
+table7 is a table
+table7 has onion1
+table7 has onion1 directly on top of it
+table7 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has nothing on it
+board2 has no players at it
+
+Station table8:
+table8 is a table
+table8 has onion2
+table8 has onion2 directly on top of it
+table8 has no players at it
+
+Station table9:
+table9 is a table
+table9 is occupied by robot1
+table9 has patty1
+table9 has bottombun1
+table9 has bottombun1 directly on top of it
+table9 has no players at it
+
+Station table10:
+table10 is a table
+table10 has bottombun2
+table10 has bottombun2 directly on top of it
+table10 has no players at it
+
+Station table11:
+table11 is a table
+table11 has tomato1
+table11 has tomato1 directly on top of it
+table11 has no players at it
+
+Station table12:
+table12 is a table
+table12 has topbun1
+table12 has topbun1 directly on top of it
+table12 has no players at it
+
+Station table13:
+table13 is a table
+table13 has topbun2
+table13 has topbun2 directly on top of it
+table13 has no players at it
+
+Station table14:
+table14 is a table
+table14 has tomato2
+table14 has tomato2 directly on top of it
+table14 has no players at it
+
+Station table15:
+table15 is a table
+table15 has chicken1
+table15 has chicken1 directly on top of it
+table15 has no players at it
+
+Station table16:
+table16 is a table
+table16 has chicken2
+table16 has chicken2 directly on top of it
+table16 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table9
+patty1 has nothing above it
+patty1 is directly on top of bottombun1
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is cooked
+patty2 is at stove2
+patty2 is directly on top of stove2
+patty2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table3
+cheese1 is directly on top of table3
+cheese1 has nothing above it
+
+Item cheese2:
+cheese2 is a cheese slice
+cheese2 is at table4
+cheese2 is directly on top of table4
+cheese2 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table5
+lettuce1 is directly on top of table5
+lettuce1 has nothing above it
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is at table6
+lettuce2 is directly on top of table6
+lettuce2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is at table7
+onion1 is directly on top of table7
+onion1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at table8
+onion2 is directly on top of table8
+onion2 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table9
+bottombun1 is directly on top of table9
+bottombun1 is directly under patty1
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table10
+bottombun2 is directly on top of table10
+bottombun2 has nothing above it
+
+Item tomato1:
+tomato1 is a tomato
+tomato1 can be cut on a cutting board
+tomato1 is at table11
+tomato1 is directly on top of table11
+tomato1 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table12
+topbun1 is directly on top of table12
+topbun1 has nothing above it
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is at table13
+topbun2 is directly on top of table13
+topbun2 has nothing above it
+
+Item tomato2:
+tomato2 is a tomato
+tomato2 can be cut on a cutting board
+tomato2 is at table14
+tomato2 is directly on top of table14
+tomato2 has nothing above it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be cooked on a stove
+chicken1 is at table15
+chicken1 is directly on top of table15
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be cooked on a stove
+chicken2 is at table16
+chicken2 is directly on top of table16
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table9
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table9 to table1
+Move robot1 from table9 to table2
+Move robot1 from table9 to table3
+Move robot1 from table9 to stove1
+Move robot1 from table9 to stove2
+Move robot1 from table9 to table4
+Move robot1 from table9 to table5
+Move robot1 from table9 to table6
+Move robot1 from table9 to table7
+Move robot1 from table9 to board1
+Move robot1 from table9 to board2
+Move robot1 from table9 to table8
+Move robot1 from table9 to table10
+Move robot1 from table9 to table11
+Move robot1 from table9 to table12
+Move robot1 from table9 to table13
+Move robot1 from table9 to table14
+Move robot1 from table9 to table15
+Move robot1 from table9 to table16
+Unstack patty1 from bottombun1 using robot1
+Do nothing
+
+Goal: Make two cheese burgers with cheese on top of the patties
+
+Reasoning: ...
+
+Action: Move robot1 from table9 to stove2
+
+
+Interaction 15
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has cheese1
+table3 has cheese1 directly on top of it
+table3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 is occupied by robot1
+stove2 has patty2
+stove2 has patty2 directly on top of it
+stove2 has no players at it
+
+Station table4:
+table4 is a table
+table4 has cheese2
+table4 has cheese2 directly on top of it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has lettuce1
+table5 has lettuce1 directly on top of it
+table5 has no players at it
+
+Station table6:
+table6 is a table
+table6 has lettuce2
+table6 has lettuce2 directly on top of it
+table6 has no players at it
+
+Station table7:
+table7 is a table
+table7 has onion1
+table7 has onion1 directly on top of it
+table7 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has nothing on it
+board2 has no players at it
+
+Station table8:
+table8 is a table
+table8 has onion2
+table8 has onion2 directly on top of it
+table8 has no players at it
+
+Station table9:
+table9 is a table
+table9 has patty1
+table9 has bottombun1
+table9 has bottombun1 directly on top of it
+table9 has no players at it
+
+Station table10:
+table10 is a table
+table10 has bottombun2
+table10 has bottombun2 directly on top of it
+table10 has no players at it
+
+Station table11:
+table11 is a table
+table11 has tomato1
+table11 has tomato1 directly on top of it
+table11 has no players at it
+
+Station table12:
+table12 is a table
+table12 has topbun1
+table12 has topbun1 directly on top of it
+table12 has no players at it
+
+Station table13:
+table13 is a table
+table13 has topbun2
+table13 has topbun2 directly on top of it
+table13 has no players at it
+
+Station table14:
+table14 is a table
+table14 has tomato2
+table14 has tomato2 directly on top of it
+table14 has no players at it
+
+Station table15:
+table15 is a table
+table15 has chicken1
+table15 has chicken1 directly on top of it
+table15 has no players at it
+
+Station table16:
+table16 is a table
+table16 has chicken2
+table16 has chicken2 directly on top of it
+table16 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table9
+patty1 has nothing above it
+patty1 is directly on top of bottombun1
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is cooked
+patty2 is at stove2
+patty2 is directly on top of stove2
+patty2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table3
+cheese1 is directly on top of table3
+cheese1 has nothing above it
+
+Item cheese2:
+cheese2 is a cheese slice
+cheese2 is at table4
+cheese2 is directly on top of table4
+cheese2 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table5
+lettuce1 is directly on top of table5
+lettuce1 has nothing above it
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is at table6
+lettuce2 is directly on top of table6
+lettuce2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is at table7
+onion1 is directly on top of table7
+onion1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at table8
+onion2 is directly on top of table8
+onion2 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table9
+bottombun1 is directly on top of table9
+bottombun1 is directly under patty1
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table10
+bottombun2 is directly on top of table10
+bottombun2 has nothing above it
+
+Item tomato1:
+tomato1 is a tomato
+tomato1 can be cut on a cutting board
+tomato1 is at table11
+tomato1 is directly on top of table11
+tomato1 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table12
+topbun1 is directly on top of table12
+topbun1 has nothing above it
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is at table13
+topbun2 is directly on top of table13
+topbun2 has nothing above it
+
+Item tomato2:
+tomato2 is a tomato
+tomato2 can be cut on a cutting board
+tomato2 is at table14
+tomato2 is directly on top of table14
+tomato2 has nothing above it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be cooked on a stove
+chicken1 is at table15
+chicken1 is directly on top of table15
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be cooked on a stove
+chicken2 is at table16
+chicken2 is directly on top of table16
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at stove2
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from stove2 to table1
+Move robot1 from stove2 to table2
+Move robot1 from stove2 to table3
+Move robot1 from stove2 to stove1
+Move robot1 from stove2 to table4
+Move robot1 from stove2 to table5
+Move robot1 from stove2 to table6
+Move robot1 from stove2 to table7
+Move robot1 from stove2 to board1
+Move robot1 from stove2 to board2
+Move robot1 from stove2 to table8
+Move robot1 from stove2 to table9
+Move robot1 from stove2 to table10
+Move robot1 from stove2 to table11
+Move robot1 from stove2 to table12
+Move robot1 from stove2 to table13
+Move robot1 from stove2 to table14
+Move robot1 from stove2 to table15
+Move robot1 from stove2 to table16
+Pick up patty2 from stove2 using robot1
+Cook patty2 on stove2 using robot1
+Do nothing
+
+Goal: Make two cheese burgers with cheese on top of the patties
+
+Reasoning: ...
+
+Action: Pick up patty2 from stove2 using robot1
+
+
+Interaction 16
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has cheese1
+table3 has cheese1 directly on top of it
+table3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 is occupied by robot1
+stove2 has nothing on it
+stove2 has no players at it
+
+Station table4:
+table4 is a table
+table4 has cheese2
+table4 has cheese2 directly on top of it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has lettuce1
+table5 has lettuce1 directly on top of it
+table5 has no players at it
+
+Station table6:
+table6 is a table
+table6 has lettuce2
+table6 has lettuce2 directly on top of it
+table6 has no players at it
+
+Station table7:
+table7 is a table
+table7 has onion1
+table7 has onion1 directly on top of it
+table7 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has nothing on it
+board2 has no players at it
+
+Station table8:
+table8 is a table
+table8 has onion2
+table8 has onion2 directly on top of it
+table8 has no players at it
+
+Station table9:
+table9 is a table
+table9 has patty1
+table9 has bottombun1
+table9 has bottombun1 directly on top of it
+table9 has no players at it
+
+Station table10:
+table10 is a table
+table10 has bottombun2
+table10 has bottombun2 directly on top of it
+table10 has no players at it
+
+Station table11:
+table11 is a table
+table11 has tomato1
+table11 has tomato1 directly on top of it
+table11 has no players at it
+
+Station table12:
+table12 is a table
+table12 has topbun1
+table12 has topbun1 directly on top of it
+table12 has no players at it
+
+Station table13:
+table13 is a table
+table13 has topbun2
+table13 has topbun2 directly on top of it
+table13 has no players at it
+
+Station table14:
+table14 is a table
+table14 has tomato2
+table14 has tomato2 directly on top of it
+table14 has no players at it
+
+Station table15:
+table15 is a table
+table15 has chicken1
+table15 has chicken1 directly on top of it
+table15 has no players at it
+
+Station table16:
+table16 is a table
+table16 has chicken2
+table16 has chicken2 directly on top of it
+table16 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table9
+patty1 has nothing above it
+patty1 is directly on top of bottombun1
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is cooked
+patty2 is held by robot1
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table3
+cheese1 is directly on top of table3
+cheese1 has nothing above it
+
+Item cheese2:
+cheese2 is a cheese slice
+cheese2 is at table4
+cheese2 is directly on top of table4
+cheese2 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table5
+lettuce1 is directly on top of table5
+lettuce1 has nothing above it
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is at table6
+lettuce2 is directly on top of table6
+lettuce2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is at table7
+onion1 is directly on top of table7
+onion1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at table8
+onion2 is directly on top of table8
+onion2 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table9
+bottombun1 is directly on top of table9
+bottombun1 is directly under patty1
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table10
+bottombun2 is directly on top of table10
+bottombun2 has nothing above it
+
+Item tomato1:
+tomato1 is a tomato
+tomato1 can be cut on a cutting board
+tomato1 is at table11
+tomato1 is directly on top of table11
+tomato1 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table12
+topbun1 is directly on top of table12
+topbun1 has nothing above it
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is at table13
+topbun2 is directly on top of table13
+topbun2 has nothing above it
+
+Item tomato2:
+tomato2 is a tomato
+tomato2 can be cut on a cutting board
+tomato2 is at table14
+tomato2 is directly on top of table14
+tomato2 has nothing above it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be cooked on a stove
+chicken1 is at table15
+chicken1 is directly on top of table15
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be cooked on a stove
+chicken2 is at table16
+chicken2 is directly on top of table16
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at stove2
+robot1 is holding patty2
+
+Valid Actions:
+Move robot1 from stove2 to table1
+Move robot1 from stove2 to table2
+Move robot1 from stove2 to table3
+Move robot1 from stove2 to stove1
+Move robot1 from stove2 to table4
+Move robot1 from stove2 to table5
+Move robot1 from stove2 to table6
+Move robot1 from stove2 to table7
+Move robot1 from stove2 to board1
+Move robot1 from stove2 to board2
+Move robot1 from stove2 to table8
+Move robot1 from stove2 to table9
+Move robot1 from stove2 to table10
+Move robot1 from stove2 to table11
+Move robot1 from stove2 to table12
+Move robot1 from stove2 to table13
+Move robot1 from stove2 to table14
+Move robot1 from stove2 to table15
+Move robot1 from stove2 to table16
+Place patty2 on stove2 using robot1
+Do nothing
+
+Goal: Make two cheese burgers with cheese on top of the patties
+
+Reasoning: ...
+
+Action: Move robot1 from stove2 to table10
+
+
+Interaction 17
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has cheese1
+table3 has cheese1 directly on top of it
+table3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 has nothing on it
+stove2 has no players at it
+
+Station table4:
+table4 is a table
+table4 has cheese2
+table4 has cheese2 directly on top of it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has lettuce1
+table5 has lettuce1 directly on top of it
+table5 has no players at it
+
+Station table6:
+table6 is a table
+table6 has lettuce2
+table6 has lettuce2 directly on top of it
+table6 has no players at it
+
+Station table7:
+table7 is a table
+table7 has onion1
+table7 has onion1 directly on top of it
+table7 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has nothing on it
+board2 has no players at it
+
+Station table8:
+table8 is a table
+table8 has onion2
+table8 has onion2 directly on top of it
+table8 has no players at it
+
+Station table9:
+table9 is a table
+table9 has patty1
+table9 has bottombun1
+table9 has bottombun1 directly on top of it
+table9 has no players at it
+
+Station table10:
+table10 is a table
+table10 is occupied by robot1
+table10 has bottombun2
+table10 has bottombun2 directly on top of it
+table10 has no players at it
+
+Station table11:
+table11 is a table
+table11 has tomato1
+table11 has tomato1 directly on top of it
+table11 has no players at it
+
+Station table12:
+table12 is a table
+table12 has topbun1
+table12 has topbun1 directly on top of it
+table12 has no players at it
+
+Station table13:
+table13 is a table
+table13 has topbun2
+table13 has topbun2 directly on top of it
+table13 has no players at it
+
+Station table14:
+table14 is a table
+table14 has tomato2
+table14 has tomato2 directly on top of it
+table14 has no players at it
+
+Station table15:
+table15 is a table
+table15 has chicken1
+table15 has chicken1 directly on top of it
+table15 has no players at it
+
+Station table16:
+table16 is a table
+table16 has chicken2
+table16 has chicken2 directly on top of it
+table16 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table9
+patty1 has nothing above it
+patty1 is directly on top of bottombun1
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is cooked
+patty2 is held by robot1
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table3
+cheese1 is directly on top of table3
+cheese1 has nothing above it
+
+Item cheese2:
+cheese2 is a cheese slice
+cheese2 is at table4
+cheese2 is directly on top of table4
+cheese2 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table5
+lettuce1 is directly on top of table5
+lettuce1 has nothing above it
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is at table6
+lettuce2 is directly on top of table6
+lettuce2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is at table7
+onion1 is directly on top of table7
+onion1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at table8
+onion2 is directly on top of table8
+onion2 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table9
+bottombun1 is directly on top of table9
+bottombun1 is directly under patty1
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table10
+bottombun2 is directly on top of table10
+bottombun2 has nothing above it
+
+Item tomato1:
+tomato1 is a tomato
+tomato1 can be cut on a cutting board
+tomato1 is at table11
+tomato1 is directly on top of table11
+tomato1 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table12
+topbun1 is directly on top of table12
+topbun1 has nothing above it
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is at table13
+topbun2 is directly on top of table13
+topbun2 has nothing above it
+
+Item tomato2:
+tomato2 is a tomato
+tomato2 can be cut on a cutting board
+tomato2 is at table14
+tomato2 is directly on top of table14
+tomato2 has nothing above it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be cooked on a stove
+chicken1 is at table15
+chicken1 is directly on top of table15
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be cooked on a stove
+chicken2 is at table16
+chicken2 is directly on top of table16
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table10
+robot1 is holding patty2
+
+Valid Actions:
+Move robot1 from table10 to table1
+Move robot1 from table10 to table2
+Move robot1 from table10 to table3
+Move robot1 from table10 to stove1
+Move robot1 from table10 to stove2
+Move robot1 from table10 to table4
+Move robot1 from table10 to table5
+Move robot1 from table10 to table6
+Move robot1 from table10 to table7
+Move robot1 from table10 to board1
+Move robot1 from table10 to board2
+Move robot1 from table10 to table8
+Move robot1 from table10 to table9
+Move robot1 from table10 to table11
+Move robot1 from table10 to table12
+Move robot1 from table10 to table13
+Move robot1 from table10 to table14
+Move robot1 from table10 to table15
+Move robot1 from table10 to table16
+Stack patty2 on top of bottombun2 using robot1
+Do nothing
+
+Goal: Make two cheese burgers with cheese on top of the patties
+
+Reasoning: ...
+
+Action: Stack patty2 on top of bottombun2 using robot1
+
+
+Interaction 18
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has cheese1
+table3 has cheese1 directly on top of it
+table3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 has nothing on it
+stove2 has no players at it
+
+Station table4:
+table4 is a table
+table4 has cheese2
+table4 has cheese2 directly on top of it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has lettuce1
+table5 has lettuce1 directly on top of it
+table5 has no players at it
+
+Station table6:
+table6 is a table
+table6 has lettuce2
+table6 has lettuce2 directly on top of it
+table6 has no players at it
+
+Station table7:
+table7 is a table
+table7 has onion1
+table7 has onion1 directly on top of it
+table7 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has nothing on it
+board2 has no players at it
+
+Station table8:
+table8 is a table
+table8 has onion2
+table8 has onion2 directly on top of it
+table8 has no players at it
+
+Station table9:
+table9 is a table
+table9 has patty1
+table9 has bottombun1
+table9 has bottombun1 directly on top of it
+table9 has no players at it
+
+Station table10:
+table10 is a table
+table10 is occupied by robot1
+table10 has patty2
+table10 has bottombun2
+table10 has bottombun2 directly on top of it
+table10 has no players at it
+
+Station table11:
+table11 is a table
+table11 has tomato1
+table11 has tomato1 directly on top of it
+table11 has no players at it
+
+Station table12:
+table12 is a table
+table12 has topbun1
+table12 has topbun1 directly on top of it
+table12 has no players at it
+
+Station table13:
+table13 is a table
+table13 has topbun2
+table13 has topbun2 directly on top of it
+table13 has no players at it
+
+Station table14:
+table14 is a table
+table14 has tomato2
+table14 has tomato2 directly on top of it
+table14 has no players at it
+
+Station table15:
+table15 is a table
+table15 has chicken1
+table15 has chicken1 directly on top of it
+table15 has no players at it
+
+Station table16:
+table16 is a table
+table16 has chicken2
+table16 has chicken2 directly on top of it
+table16 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table9
+patty1 has nothing above it
+patty1 is directly on top of bottombun1
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is cooked
+patty2 is at table10
+patty2 has nothing above it
+patty2 is directly on top of bottombun2
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table3
+cheese1 is directly on top of table3
+cheese1 has nothing above it
+
+Item cheese2:
+cheese2 is a cheese slice
+cheese2 is at table4
+cheese2 is directly on top of table4
+cheese2 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table5
+lettuce1 is directly on top of table5
+lettuce1 has nothing above it
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is at table6
+lettuce2 is directly on top of table6
+lettuce2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is at table7
+onion1 is directly on top of table7
+onion1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at table8
+onion2 is directly on top of table8
+onion2 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table9
+bottombun1 is directly on top of table9
+bottombun1 is directly under patty1
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table10
+bottombun2 is directly on top of table10
+bottombun2 is directly under patty2
+
+Item tomato1:
+tomato1 is a tomato
+tomato1 can be cut on a cutting board
+tomato1 is at table11
+tomato1 is directly on top of table11
+tomato1 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table12
+topbun1 is directly on top of table12
+topbun1 has nothing above it
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is at table13
+topbun2 is directly on top of table13
+topbun2 has nothing above it
+
+Item tomato2:
+tomato2 is a tomato
+tomato2 can be cut on a cutting board
+tomato2 is at table14
+tomato2 is directly on top of table14
+tomato2 has nothing above it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be cooked on a stove
+chicken1 is at table15
+chicken1 is directly on top of table15
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be cooked on a stove
+chicken2 is at table16
+chicken2 is directly on top of table16
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table10
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table10 to table1
+Move robot1 from table10 to table2
+Move robot1 from table10 to table3
+Move robot1 from table10 to stove1
+Move robot1 from table10 to stove2
+Move robot1 from table10 to table4
+Move robot1 from table10 to table5
+Move robot1 from table10 to table6
+Move robot1 from table10 to table7
+Move robot1 from table10 to board1
+Move robot1 from table10 to board2
+Move robot1 from table10 to table8
+Move robot1 from table10 to table9
+Move robot1 from table10 to table11
+Move robot1 from table10 to table12
+Move robot1 from table10 to table13
+Move robot1 from table10 to table14
+Move robot1 from table10 to table15
+Move robot1 from table10 to table16
+Unstack patty2 from bottombun2 using robot1
+Do nothing
+
+Goal: Make two cheese burgers with cheese on top of the patties
+
+Reasoning: ...
+
+Action: Move robot1 from table10 to table4
+
+
+Interaction 19
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has cheese1
+table3 has cheese1 directly on top of it
+table3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 has nothing on it
+stove2 has no players at it
+
+Station table4:
+table4 is a table
+table4 is occupied by robot1
+table4 has cheese2
+table4 has cheese2 directly on top of it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has lettuce1
+table5 has lettuce1 directly on top of it
+table5 has no players at it
+
+Station table6:
+table6 is a table
+table6 has lettuce2
+table6 has lettuce2 directly on top of it
+table6 has no players at it
+
+Station table7:
+table7 is a table
+table7 has onion1
+table7 has onion1 directly on top of it
+table7 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has nothing on it
+board2 has no players at it
+
+Station table8:
+table8 is a table
+table8 has onion2
+table8 has onion2 directly on top of it
+table8 has no players at it
+
+Station table9:
+table9 is a table
+table9 has patty1
+table9 has bottombun1
+table9 has bottombun1 directly on top of it
+table9 has no players at it
+
+Station table10:
+table10 is a table
+table10 has patty2
+table10 has bottombun2
+table10 has bottombun2 directly on top of it
+table10 has no players at it
+
+Station table11:
+table11 is a table
+table11 has tomato1
+table11 has tomato1 directly on top of it
+table11 has no players at it
+
+Station table12:
+table12 is a table
+table12 has topbun1
+table12 has topbun1 directly on top of it
+table12 has no players at it
+
+Station table13:
+table13 is a table
+table13 has topbun2
+table13 has topbun2 directly on top of it
+table13 has no players at it
+
+Station table14:
+table14 is a table
+table14 has tomato2
+table14 has tomato2 directly on top of it
+table14 has no players at it
+
+Station table15:
+table15 is a table
+table15 has chicken1
+table15 has chicken1 directly on top of it
+table15 has no players at it
+
+Station table16:
+table16 is a table
+table16 has chicken2
+table16 has chicken2 directly on top of it
+table16 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table9
+patty1 has nothing above it
+patty1 is directly on top of bottombun1
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is cooked
+patty2 is at table10
+patty2 has nothing above it
+patty2 is directly on top of bottombun2
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table3
+cheese1 is directly on top of table3
+cheese1 has nothing above it
+
+Item cheese2:
+cheese2 is a cheese slice
+cheese2 is at table4
+cheese2 is directly on top of table4
+cheese2 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table5
+lettuce1 is directly on top of table5
+lettuce1 has nothing above it
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is at table6
+lettuce2 is directly on top of table6
+lettuce2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is at table7
+onion1 is directly on top of table7
+onion1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at table8
+onion2 is directly on top of table8
+onion2 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table9
+bottombun1 is directly on top of table9
+bottombun1 is directly under patty1
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table10
+bottombun2 is directly on top of table10
+bottombun2 is directly under patty2
+
+Item tomato1:
+tomato1 is a tomato
+tomato1 can be cut on a cutting board
+tomato1 is at table11
+tomato1 is directly on top of table11
+tomato1 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table12
+topbun1 is directly on top of table12
+topbun1 has nothing above it
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is at table13
+topbun2 is directly on top of table13
+topbun2 has nothing above it
+
+Item tomato2:
+tomato2 is a tomato
+tomato2 can be cut on a cutting board
+tomato2 is at table14
+tomato2 is directly on top of table14
+tomato2 has nothing above it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be cooked on a stove
+chicken1 is at table15
+chicken1 is directly on top of table15
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be cooked on a stove
+chicken2 is at table16
+chicken2 is directly on top of table16
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table4
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table4 to table1
+Move robot1 from table4 to table2
+Move robot1 from table4 to table3
+Move robot1 from table4 to stove1
+Move robot1 from table4 to stove2
+Move robot1 from table4 to table5
+Move robot1 from table4 to table6
+Move robot1 from table4 to table7
+Move robot1 from table4 to board1
+Move robot1 from table4 to board2
+Move robot1 from table4 to table8
+Move robot1 from table4 to table9
+Move robot1 from table4 to table10
+Move robot1 from table4 to table11
+Move robot1 from table4 to table12
+Move robot1 from table4 to table13
+Move robot1 from table4 to table14
+Move robot1 from table4 to table15
+Move robot1 from table4 to table16
+Pick up cheese2 from table4 using robot1
+Do nothing
+
+Goal: Make two cheese burgers with cheese on top of the patties
+
+Reasoning: ...
+
+Action: Pick up cheese2 from table4 using robot1
+
+
+Interaction 20
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has cheese1
+table3 has cheese1 directly on top of it
+table3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 has nothing on it
+stove2 has no players at it
+
+Station table4:
+table4 is a table
+table4 is occupied by robot1
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has lettuce1
+table5 has lettuce1 directly on top of it
+table5 has no players at it
+
+Station table6:
+table6 is a table
+table6 has lettuce2
+table6 has lettuce2 directly on top of it
+table6 has no players at it
+
+Station table7:
+table7 is a table
+table7 has onion1
+table7 has onion1 directly on top of it
+table7 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has nothing on it
+board2 has no players at it
+
+Station table8:
+table8 is a table
+table8 has onion2
+table8 has onion2 directly on top of it
+table8 has no players at it
+
+Station table9:
+table9 is a table
+table9 has patty1
+table9 has bottombun1
+table9 has bottombun1 directly on top of it
+table9 has no players at it
+
+Station table10:
+table10 is a table
+table10 has patty2
+table10 has bottombun2
+table10 has bottombun2 directly on top of it
+table10 has no players at it
+
+Station table11:
+table11 is a table
+table11 has tomato1
+table11 has tomato1 directly on top of it
+table11 has no players at it
+
+Station table12:
+table12 is a table
+table12 has topbun1
+table12 has topbun1 directly on top of it
+table12 has no players at it
+
+Station table13:
+table13 is a table
+table13 has topbun2
+table13 has topbun2 directly on top of it
+table13 has no players at it
+
+Station table14:
+table14 is a table
+table14 has tomato2
+table14 has tomato2 directly on top of it
+table14 has no players at it
+
+Station table15:
+table15 is a table
+table15 has chicken1
+table15 has chicken1 directly on top of it
+table15 has no players at it
+
+Station table16:
+table16 is a table
+table16 has chicken2
+table16 has chicken2 directly on top of it
+table16 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table9
+patty1 has nothing above it
+patty1 is directly on top of bottombun1
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is cooked
+patty2 is at table10
+patty2 has nothing above it
+patty2 is directly on top of bottombun2
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table3
+cheese1 is directly on top of table3
+cheese1 has nothing above it
+
+Item cheese2:
+cheese2 is a cheese slice
+cheese2 is held by robot1
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table5
+lettuce1 is directly on top of table5
+lettuce1 has nothing above it
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is at table6
+lettuce2 is directly on top of table6
+lettuce2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is at table7
+onion1 is directly on top of table7
+onion1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at table8
+onion2 is directly on top of table8
+onion2 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table9
+bottombun1 is directly on top of table9
+bottombun1 is directly under patty1
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table10
+bottombun2 is directly on top of table10
+bottombun2 is directly under patty2
+
+Item tomato1:
+tomato1 is a tomato
+tomato1 can be cut on a cutting board
+tomato1 is at table11
+tomato1 is directly on top of table11
+tomato1 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table12
+topbun1 is directly on top of table12
+topbun1 has nothing above it
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is at table13
+topbun2 is directly on top of table13
+topbun2 has nothing above it
+
+Item tomato2:
+tomato2 is a tomato
+tomato2 can be cut on a cutting board
+tomato2 is at table14
+tomato2 is directly on top of table14
+tomato2 has nothing above it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be cooked on a stove
+chicken1 is at table15
+chicken1 is directly on top of table15
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be cooked on a stove
+chicken2 is at table16
+chicken2 is directly on top of table16
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table4
+robot1 is holding cheese2
+
+Valid Actions:
+Move robot1 from table4 to table1
+Move robot1 from table4 to table2
+Move robot1 from table4 to table3
+Move robot1 from table4 to stove1
+Move robot1 from table4 to stove2
+Move robot1 from table4 to table5
+Move robot1 from table4 to table6
+Move robot1 from table4 to table7
+Move robot1 from table4 to board1
+Move robot1 from table4 to board2
+Move robot1 from table4 to table8
+Move robot1 from table4 to table9
+Move robot1 from table4 to table10
+Move robot1 from table4 to table11
+Move robot1 from table4 to table12
+Move robot1 from table4 to table13
+Move robot1 from table4 to table14
+Move robot1 from table4 to table15
+Move robot1 from table4 to table16
+Place cheese2 on table4 using robot1
+Do nothing
+
+Goal: Make two cheese burgers with cheese on top of the patties
+
+Reasoning: ...
+
+Action: Move robot1 from table4 to table9
+
+
+Interaction 21
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has cheese1
+table3 has cheese1 directly on top of it
+table3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 has nothing on it
+stove2 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has lettuce1
+table5 has lettuce1 directly on top of it
+table5 has no players at it
+
+Station table6:
+table6 is a table
+table6 has lettuce2
+table6 has lettuce2 directly on top of it
+table6 has no players at it
+
+Station table7:
+table7 is a table
+table7 has onion1
+table7 has onion1 directly on top of it
+table7 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has nothing on it
+board2 has no players at it
+
+Station table8:
+table8 is a table
+table8 has onion2
+table8 has onion2 directly on top of it
+table8 has no players at it
+
+Station table9:
+table9 is a table
+table9 is occupied by robot1
+table9 has patty1
+table9 has bottombun1
+table9 has bottombun1 directly on top of it
+table9 has no players at it
+
+Station table10:
+table10 is a table
+table10 has patty2
+table10 has bottombun2
+table10 has bottombun2 directly on top of it
+table10 has no players at it
+
+Station table11:
+table11 is a table
+table11 has tomato1
+table11 has tomato1 directly on top of it
+table11 has no players at it
+
+Station table12:
+table12 is a table
+table12 has topbun1
+table12 has topbun1 directly on top of it
+table12 has no players at it
+
+Station table13:
+table13 is a table
+table13 has topbun2
+table13 has topbun2 directly on top of it
+table13 has no players at it
+
+Station table14:
+table14 is a table
+table14 has tomato2
+table14 has tomato2 directly on top of it
+table14 has no players at it
+
+Station table15:
+table15 is a table
+table15 has chicken1
+table15 has chicken1 directly on top of it
+table15 has no players at it
+
+Station table16:
+table16 is a table
+table16 has chicken2
+table16 has chicken2 directly on top of it
+table16 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table9
+patty1 has nothing above it
+patty1 is directly on top of bottombun1
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is cooked
+patty2 is at table10
+patty2 has nothing above it
+patty2 is directly on top of bottombun2
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table3
+cheese1 is directly on top of table3
+cheese1 has nothing above it
+
+Item cheese2:
+cheese2 is a cheese slice
+cheese2 is held by robot1
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table5
+lettuce1 is directly on top of table5
+lettuce1 has nothing above it
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is at table6
+lettuce2 is directly on top of table6
+lettuce2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is at table7
+onion1 is directly on top of table7
+onion1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at table8
+onion2 is directly on top of table8
+onion2 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table9
+bottombun1 is directly on top of table9
+bottombun1 is directly under patty1
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table10
+bottombun2 is directly on top of table10
+bottombun2 is directly under patty2
+
+Item tomato1:
+tomato1 is a tomato
+tomato1 can be cut on a cutting board
+tomato1 is at table11
+tomato1 is directly on top of table11
+tomato1 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table12
+topbun1 is directly on top of table12
+topbun1 has nothing above it
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is at table13
+topbun2 is directly on top of table13
+topbun2 has nothing above it
+
+Item tomato2:
+tomato2 is a tomato
+tomato2 can be cut on a cutting board
+tomato2 is at table14
+tomato2 is directly on top of table14
+tomato2 has nothing above it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be cooked on a stove
+chicken1 is at table15
+chicken1 is directly on top of table15
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be cooked on a stove
+chicken2 is at table16
+chicken2 is directly on top of table16
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table9
+robot1 is holding cheese2
+
+Valid Actions:
+Move robot1 from table9 to table1
+Move robot1 from table9 to table2
+Move robot1 from table9 to table3
+Move robot1 from table9 to stove1
+Move robot1 from table9 to stove2
+Move robot1 from table9 to table4
+Move robot1 from table9 to table5
+Move robot1 from table9 to table6
+Move robot1 from table9 to table7
+Move robot1 from table9 to board1
+Move robot1 from table9 to board2
+Move robot1 from table9 to table8
+Move robot1 from table9 to table10
+Move robot1 from table9 to table11
+Move robot1 from table9 to table12
+Move robot1 from table9 to table13
+Move robot1 from table9 to table14
+Move robot1 from table9 to table15
+Move robot1 from table9 to table16
+Stack cheese2 on top of patty1 using robot1
+Do nothing
+
+Goal: Make two cheese burgers with cheese on top of the patties
+
+Reasoning: ...
+
+Action: Stack cheese2 on top of patty1 using robot1
+
+
+Interaction 22
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has cheese1
+table3 has cheese1 directly on top of it
+table3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 has nothing on it
+stove2 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has lettuce1
+table5 has lettuce1 directly on top of it
+table5 has no players at it
+
+Station table6:
+table6 is a table
+table6 has lettuce2
+table6 has lettuce2 directly on top of it
+table6 has no players at it
+
+Station table7:
+table7 is a table
+table7 has onion1
+table7 has onion1 directly on top of it
+table7 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has nothing on it
+board2 has no players at it
+
+Station table8:
+table8 is a table
+table8 has onion2
+table8 has onion2 directly on top of it
+table8 has no players at it
+
+Station table9:
+table9 is a table
+table9 is occupied by robot1
+table9 has patty1
+table9 has cheese2
+table9 has bottombun1
+table9 has bottombun1 directly on top of it
+table9 has no players at it
+
+Station table10:
+table10 is a table
+table10 has patty2
+table10 has bottombun2
+table10 has bottombun2 directly on top of it
+table10 has no players at it
+
+Station table11:
+table11 is a table
+table11 has tomato1
+table11 has tomato1 directly on top of it
+table11 has no players at it
+
+Station table12:
+table12 is a table
+table12 has topbun1
+table12 has topbun1 directly on top of it
+table12 has no players at it
+
+Station table13:
+table13 is a table
+table13 has topbun2
+table13 has topbun2 directly on top of it
+table13 has no players at it
+
+Station table14:
+table14 is a table
+table14 has tomato2
+table14 has tomato2 directly on top of it
+table14 has no players at it
+
+Station table15:
+table15 is a table
+table15 has chicken1
+table15 has chicken1 directly on top of it
+table15 has no players at it
+
+Station table16:
+table16 is a table
+table16 has chicken2
+table16 has chicken2 directly on top of it
+table16 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table9
+patty1 is directly on top of bottombun1
+patty1 is directly under cheese2
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is cooked
+patty2 is at table10
+patty2 has nothing above it
+patty2 is directly on top of bottombun2
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table3
+cheese1 is directly on top of table3
+cheese1 has nothing above it
+
+Item cheese2:
+cheese2 is a cheese slice
+cheese2 is at table9
+cheese2 has nothing above it
+cheese2 is directly on top of patty1
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table5
+lettuce1 is directly on top of table5
+lettuce1 has nothing above it
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is at table6
+lettuce2 is directly on top of table6
+lettuce2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is at table7
+onion1 is directly on top of table7
+onion1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at table8
+onion2 is directly on top of table8
+onion2 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table9
+bottombun1 is directly on top of table9
+bottombun1 is directly under patty1
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table10
+bottombun2 is directly on top of table10
+bottombun2 is directly under patty2
+
+Item tomato1:
+tomato1 is a tomato
+tomato1 can be cut on a cutting board
+tomato1 is at table11
+tomato1 is directly on top of table11
+tomato1 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table12
+topbun1 is directly on top of table12
+topbun1 has nothing above it
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is at table13
+topbun2 is directly on top of table13
+topbun2 has nothing above it
+
+Item tomato2:
+tomato2 is a tomato
+tomato2 can be cut on a cutting board
+tomato2 is at table14
+tomato2 is directly on top of table14
+tomato2 has nothing above it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be cooked on a stove
+chicken1 is at table15
+chicken1 is directly on top of table15
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be cooked on a stove
+chicken2 is at table16
+chicken2 is directly on top of table16
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table9
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table9 to table1
+Move robot1 from table9 to table2
+Move robot1 from table9 to table3
+Move robot1 from table9 to stove1
+Move robot1 from table9 to stove2
+Move robot1 from table9 to table4
+Move robot1 from table9 to table5
+Move robot1 from table9 to table6
+Move robot1 from table9 to table7
+Move robot1 from table9 to board1
+Move robot1 from table9 to board2
+Move robot1 from table9 to table8
+Move robot1 from table9 to table10
+Move robot1 from table9 to table11
+Move robot1 from table9 to table12
+Move robot1 from table9 to table13
+Move robot1 from table9 to table14
+Move robot1 from table9 to table15
+Move robot1 from table9 to table16
+Unstack cheese2 from patty1 using robot1
+Do nothing
+
+Goal: Make two cheese burgers with cheese on top of the patties
+
+Reasoning: ...
+
+Action: Move robot1 from table9 to table3
+
+
+Interaction 23
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 is occupied by robot1
+table3 has cheese1
+table3 has cheese1 directly on top of it
+table3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 has nothing on it
+stove2 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has lettuce1
+table5 has lettuce1 directly on top of it
+table5 has no players at it
+
+Station table6:
+table6 is a table
+table6 has lettuce2
+table6 has lettuce2 directly on top of it
+table6 has no players at it
+
+Station table7:
+table7 is a table
+table7 has onion1
+table7 has onion1 directly on top of it
+table7 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has nothing on it
+board2 has no players at it
+
+Station table8:
+table8 is a table
+table8 has onion2
+table8 has onion2 directly on top of it
+table8 has no players at it
+
+Station table9:
+table9 is a table
+table9 has patty1
+table9 has cheese2
+table9 has bottombun1
+table9 has bottombun1 directly on top of it
+table9 has no players at it
+
+Station table10:
+table10 is a table
+table10 has patty2
+table10 has bottombun2
+table10 has bottombun2 directly on top of it
+table10 has no players at it
+
+Station table11:
+table11 is a table
+table11 has tomato1
+table11 has tomato1 directly on top of it
+table11 has no players at it
+
+Station table12:
+table12 is a table
+table12 has topbun1
+table12 has topbun1 directly on top of it
+table12 has no players at it
+
+Station table13:
+table13 is a table
+table13 has topbun2
+table13 has topbun2 directly on top of it
+table13 has no players at it
+
+Station table14:
+table14 is a table
+table14 has tomato2
+table14 has tomato2 directly on top of it
+table14 has no players at it
+
+Station table15:
+table15 is a table
+table15 has chicken1
+table15 has chicken1 directly on top of it
+table15 has no players at it
+
+Station table16:
+table16 is a table
+table16 has chicken2
+table16 has chicken2 directly on top of it
+table16 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table9
+patty1 is directly on top of bottombun1
+patty1 is directly under cheese2
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is cooked
+patty2 is at table10
+patty2 has nothing above it
+patty2 is directly on top of bottombun2
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table3
+cheese1 is directly on top of table3
+cheese1 has nothing above it
+
+Item cheese2:
+cheese2 is a cheese slice
+cheese2 is at table9
+cheese2 has nothing above it
+cheese2 is directly on top of patty1
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table5
+lettuce1 is directly on top of table5
+lettuce1 has nothing above it
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is at table6
+lettuce2 is directly on top of table6
+lettuce2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is at table7
+onion1 is directly on top of table7
+onion1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at table8
+onion2 is directly on top of table8
+onion2 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table9
+bottombun1 is directly on top of table9
+bottombun1 is directly under patty1
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table10
+bottombun2 is directly on top of table10
+bottombun2 is directly under patty2
+
+Item tomato1:
+tomato1 is a tomato
+tomato1 can be cut on a cutting board
+tomato1 is at table11
+tomato1 is directly on top of table11
+tomato1 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table12
+topbun1 is directly on top of table12
+topbun1 has nothing above it
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is at table13
+topbun2 is directly on top of table13
+topbun2 has nothing above it
+
+Item tomato2:
+tomato2 is a tomato
+tomato2 can be cut on a cutting board
+tomato2 is at table14
+tomato2 is directly on top of table14
+tomato2 has nothing above it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be cooked on a stove
+chicken1 is at table15
+chicken1 is directly on top of table15
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be cooked on a stove
+chicken2 is at table16
+chicken2 is directly on top of table16
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table3
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table3 to table1
+Move robot1 from table3 to table2
+Move robot1 from table3 to stove1
+Move robot1 from table3 to stove2
+Move robot1 from table3 to table4
+Move robot1 from table3 to table5
+Move robot1 from table3 to table6
+Move robot1 from table3 to table7
+Move robot1 from table3 to board1
+Move robot1 from table3 to board2
+Move robot1 from table3 to table8
+Move robot1 from table3 to table9
+Move robot1 from table3 to table10
+Move robot1 from table3 to table11
+Move robot1 from table3 to table12
+Move robot1 from table3 to table13
+Move robot1 from table3 to table14
+Move robot1 from table3 to table15
+Move robot1 from table3 to table16
+Pick up cheese1 from table3 using robot1
+Do nothing
+
+Goal: Make two cheese burgers with cheese on top of the patties
+
+Reasoning: ...
+
+Action: Pick up cheese1 from table3 using robot1
+
+
+Interaction 24
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 is occupied by robot1
+table3 has nothing on it
+table3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 has nothing on it
+stove2 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has lettuce1
+table5 has lettuce1 directly on top of it
+table5 has no players at it
+
+Station table6:
+table6 is a table
+table6 has lettuce2
+table6 has lettuce2 directly on top of it
+table6 has no players at it
+
+Station table7:
+table7 is a table
+table7 has onion1
+table7 has onion1 directly on top of it
+table7 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has nothing on it
+board2 has no players at it
+
+Station table8:
+table8 is a table
+table8 has onion2
+table8 has onion2 directly on top of it
+table8 has no players at it
+
+Station table9:
+table9 is a table
+table9 has patty1
+table9 has cheese2
+table9 has bottombun1
+table9 has bottombun1 directly on top of it
+table9 has no players at it
+
+Station table10:
+table10 is a table
+table10 has patty2
+table10 has bottombun2
+table10 has bottombun2 directly on top of it
+table10 has no players at it
+
+Station table11:
+table11 is a table
+table11 has tomato1
+table11 has tomato1 directly on top of it
+table11 has no players at it
+
+Station table12:
+table12 is a table
+table12 has topbun1
+table12 has topbun1 directly on top of it
+table12 has no players at it
+
+Station table13:
+table13 is a table
+table13 has topbun2
+table13 has topbun2 directly on top of it
+table13 has no players at it
+
+Station table14:
+table14 is a table
+table14 has tomato2
+table14 has tomato2 directly on top of it
+table14 has no players at it
+
+Station table15:
+table15 is a table
+table15 has chicken1
+table15 has chicken1 directly on top of it
+table15 has no players at it
+
+Station table16:
+table16 is a table
+table16 has chicken2
+table16 has chicken2 directly on top of it
+table16 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table9
+patty1 is directly on top of bottombun1
+patty1 is directly under cheese2
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is cooked
+patty2 is at table10
+patty2 has nothing above it
+patty2 is directly on top of bottombun2
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is held by robot1
+
+Item cheese2:
+cheese2 is a cheese slice
+cheese2 is at table9
+cheese2 has nothing above it
+cheese2 is directly on top of patty1
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table5
+lettuce1 is directly on top of table5
+lettuce1 has nothing above it
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is at table6
+lettuce2 is directly on top of table6
+lettuce2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is at table7
+onion1 is directly on top of table7
+onion1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at table8
+onion2 is directly on top of table8
+onion2 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table9
+bottombun1 is directly on top of table9
+bottombun1 is directly under patty1
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table10
+bottombun2 is directly on top of table10
+bottombun2 is directly under patty2
+
+Item tomato1:
+tomato1 is a tomato
+tomato1 can be cut on a cutting board
+tomato1 is at table11
+tomato1 is directly on top of table11
+tomato1 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table12
+topbun1 is directly on top of table12
+topbun1 has nothing above it
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is at table13
+topbun2 is directly on top of table13
+topbun2 has nothing above it
+
+Item tomato2:
+tomato2 is a tomato
+tomato2 can be cut on a cutting board
+tomato2 is at table14
+tomato2 is directly on top of table14
+tomato2 has nothing above it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be cooked on a stove
+chicken1 is at table15
+chicken1 is directly on top of table15
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be cooked on a stove
+chicken2 is at table16
+chicken2 is directly on top of table16
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table3
+robot1 is holding cheese1
+
+Valid Actions:
+Move robot1 from table3 to table1
+Move robot1 from table3 to table2
+Move robot1 from table3 to stove1
+Move robot1 from table3 to stove2
+Move robot1 from table3 to table4
+Move robot1 from table3 to table5
+Move robot1 from table3 to table6
+Move robot1 from table3 to table7
+Move robot1 from table3 to board1
+Move robot1 from table3 to board2
+Move robot1 from table3 to table8
+Move robot1 from table3 to table9
+Move robot1 from table3 to table10
+Move robot1 from table3 to table11
+Move robot1 from table3 to table12
+Move robot1 from table3 to table13
+Move robot1 from table3 to table14
+Move robot1 from table3 to table15
+Move robot1 from table3 to table16
+Place cheese1 on table3 using robot1
+Do nothing
+
+Goal: Make two cheese burgers with cheese on top of the patties
+
+Reasoning: ...
+
+Action: Move robot1 from table3 to table10
+
+
+Interaction 25
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has nothing on it
+table3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 has nothing on it
+stove2 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has lettuce1
+table5 has lettuce1 directly on top of it
+table5 has no players at it
+
+Station table6:
+table6 is a table
+table6 has lettuce2
+table6 has lettuce2 directly on top of it
+table6 has no players at it
+
+Station table7:
+table7 is a table
+table7 has onion1
+table7 has onion1 directly on top of it
+table7 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has nothing on it
+board2 has no players at it
+
+Station table8:
+table8 is a table
+table8 has onion2
+table8 has onion2 directly on top of it
+table8 has no players at it
+
+Station table9:
+table9 is a table
+table9 has patty1
+table9 has cheese2
+table9 has bottombun1
+table9 has bottombun1 directly on top of it
+table9 has no players at it
+
+Station table10:
+table10 is a table
+table10 is occupied by robot1
+table10 has patty2
+table10 has bottombun2
+table10 has bottombun2 directly on top of it
+table10 has no players at it
+
+Station table11:
+table11 is a table
+table11 has tomato1
+table11 has tomato1 directly on top of it
+table11 has no players at it
+
+Station table12:
+table12 is a table
+table12 has topbun1
+table12 has topbun1 directly on top of it
+table12 has no players at it
+
+Station table13:
+table13 is a table
+table13 has topbun2
+table13 has topbun2 directly on top of it
+table13 has no players at it
+
+Station table14:
+table14 is a table
+table14 has tomato2
+table14 has tomato2 directly on top of it
+table14 has no players at it
+
+Station table15:
+table15 is a table
+table15 has chicken1
+table15 has chicken1 directly on top of it
+table15 has no players at it
+
+Station table16:
+table16 is a table
+table16 has chicken2
+table16 has chicken2 directly on top of it
+table16 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table9
+patty1 is directly on top of bottombun1
+patty1 is directly under cheese2
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is cooked
+patty2 is at table10
+patty2 has nothing above it
+patty2 is directly on top of bottombun2
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is held by robot1
+
+Item cheese2:
+cheese2 is a cheese slice
+cheese2 is at table9
+cheese2 has nothing above it
+cheese2 is directly on top of patty1
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table5
+lettuce1 is directly on top of table5
+lettuce1 has nothing above it
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is at table6
+lettuce2 is directly on top of table6
+lettuce2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is at table7
+onion1 is directly on top of table7
+onion1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at table8
+onion2 is directly on top of table8
+onion2 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table9
+bottombun1 is directly on top of table9
+bottombun1 is directly under patty1
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table10
+bottombun2 is directly on top of table10
+bottombun2 is directly under patty2
+
+Item tomato1:
+tomato1 is a tomato
+tomato1 can be cut on a cutting board
+tomato1 is at table11
+tomato1 is directly on top of table11
+tomato1 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table12
+topbun1 is directly on top of table12
+topbun1 has nothing above it
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is at table13
+topbun2 is directly on top of table13
+topbun2 has nothing above it
+
+Item tomato2:
+tomato2 is a tomato
+tomato2 can be cut on a cutting board
+tomato2 is at table14
+tomato2 is directly on top of table14
+tomato2 has nothing above it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be cooked on a stove
+chicken1 is at table15
+chicken1 is directly on top of table15
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be cooked on a stove
+chicken2 is at table16
+chicken2 is directly on top of table16
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table10
+robot1 is holding cheese1
+
+Valid Actions:
+Move robot1 from table10 to table1
+Move robot1 from table10 to table2
+Move robot1 from table10 to table3
+Move robot1 from table10 to stove1
+Move robot1 from table10 to stove2
+Move robot1 from table10 to table4
+Move robot1 from table10 to table5
+Move robot1 from table10 to table6
+Move robot1 from table10 to table7
+Move robot1 from table10 to board1
+Move robot1 from table10 to board2
+Move robot1 from table10 to table8
+Move robot1 from table10 to table9
+Move robot1 from table10 to table11
+Move robot1 from table10 to table12
+Move robot1 from table10 to table13
+Move robot1 from table10 to table14
+Move robot1 from table10 to table15
+Move robot1 from table10 to table16
+Stack cheese1 on top of patty2 using robot1
+Do nothing
+
+Goal: Make two cheese burgers with cheese on top of the patties
+
+Reasoning: ...
+
+Action: Stack cheese1 on top of patty2 using robot1
+
+
+Interaction 26
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has nothing on it
+table3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 has nothing on it
+stove2 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has lettuce1
+table5 has lettuce1 directly on top of it
+table5 has no players at it
+
+Station table6:
+table6 is a table
+table6 has lettuce2
+table6 has lettuce2 directly on top of it
+table6 has no players at it
+
+Station table7:
+table7 is a table
+table7 has onion1
+table7 has onion1 directly on top of it
+table7 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has nothing on it
+board2 has no players at it
+
+Station table8:
+table8 is a table
+table8 has onion2
+table8 has onion2 directly on top of it
+table8 has no players at it
+
+Station table9:
+table9 is a table
+table9 has patty1
+table9 has cheese2
+table9 has bottombun1
+table9 has bottombun1 directly on top of it
+table9 has no players at it
+
+Station table10:
+table10 is a table
+table10 is occupied by robot1
+table10 has patty2
+table10 has cheese1
+table10 has bottombun2
+table10 has bottombun2 directly on top of it
+table10 has no players at it
+
+Station table11:
+table11 is a table
+table11 has tomato1
+table11 has tomato1 directly on top of it
+table11 has no players at it
+
+Station table12:
+table12 is a table
+table12 has topbun1
+table12 has topbun1 directly on top of it
+table12 has no players at it
+
+Station table13:
+table13 is a table
+table13 has topbun2
+table13 has topbun2 directly on top of it
+table13 has no players at it
+
+Station table14:
+table14 is a table
+table14 has tomato2
+table14 has tomato2 directly on top of it
+table14 has no players at it
+
+Station table15:
+table15 is a table
+table15 has chicken1
+table15 has chicken1 directly on top of it
+table15 has no players at it
+
+Station table16:
+table16 is a table
+table16 has chicken2
+table16 has chicken2 directly on top of it
+table16 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table9
+patty1 is directly on top of bottombun1
+patty1 is directly under cheese2
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is cooked
+patty2 is at table10
+patty2 is directly on top of bottombun2
+patty2 is directly under cheese1
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table10
+cheese1 has nothing above it
+cheese1 is directly on top of patty2
+
+Item cheese2:
+cheese2 is a cheese slice
+cheese2 is at table9
+cheese2 has nothing above it
+cheese2 is directly on top of patty1
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table5
+lettuce1 is directly on top of table5
+lettuce1 has nothing above it
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is at table6
+lettuce2 is directly on top of table6
+lettuce2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is at table7
+onion1 is directly on top of table7
+onion1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at table8
+onion2 is directly on top of table8
+onion2 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table9
+bottombun1 is directly on top of table9
+bottombun1 is directly under patty1
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table10
+bottombun2 is directly on top of table10
+bottombun2 is directly under patty2
+
+Item tomato1:
+tomato1 is a tomato
+tomato1 can be cut on a cutting board
+tomato1 is at table11
+tomato1 is directly on top of table11
+tomato1 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table12
+topbun1 is directly on top of table12
+topbun1 has nothing above it
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is at table13
+topbun2 is directly on top of table13
+topbun2 has nothing above it
+
+Item tomato2:
+tomato2 is a tomato
+tomato2 can be cut on a cutting board
+tomato2 is at table14
+tomato2 is directly on top of table14
+tomato2 has nothing above it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be cooked on a stove
+chicken1 is at table15
+chicken1 is directly on top of table15
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be cooked on a stove
+chicken2 is at table16
+chicken2 is directly on top of table16
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table10
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table10 to table1
+Move robot1 from table10 to table2
+Move robot1 from table10 to table3
+Move robot1 from table10 to stove1
+Move robot1 from table10 to stove2
+Move robot1 from table10 to table4
+Move robot1 from table10 to table5
+Move robot1 from table10 to table6
+Move robot1 from table10 to table7
+Move robot1 from table10 to board1
+Move robot1 from table10 to board2
+Move robot1 from table10 to table8
+Move robot1 from table10 to table9
+Move robot1 from table10 to table11
+Move robot1 from table10 to table12
+Move robot1 from table10 to table13
+Move robot1 from table10 to table14
+Move robot1 from table10 to table15
+Move robot1 from table10 to table16
+Unstack cheese1 from patty2 using robot1
+Do nothing
+
+Goal: Make two cheese burgers with cheese on top of the patties
+
+Reasoning: ...
+
+Action: Move robot1 from table10 to table12
+
+
+Interaction 27
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has nothing on it
+table3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 has nothing on it
+stove2 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has lettuce1
+table5 has lettuce1 directly on top of it
+table5 has no players at it
+
+Station table6:
+table6 is a table
+table6 has lettuce2
+table6 has lettuce2 directly on top of it
+table6 has no players at it
+
+Station table7:
+table7 is a table
+table7 has onion1
+table7 has onion1 directly on top of it
+table7 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has nothing on it
+board2 has no players at it
+
+Station table8:
+table8 is a table
+table8 has onion2
+table8 has onion2 directly on top of it
+table8 has no players at it
+
+Station table9:
+table9 is a table
+table9 has patty1
+table9 has cheese2
+table9 has bottombun1
+table9 has bottombun1 directly on top of it
+table9 has no players at it
+
+Station table10:
+table10 is a table
+table10 has patty2
+table10 has cheese1
+table10 has bottombun2
+table10 has bottombun2 directly on top of it
+table10 has no players at it
+
+Station table11:
+table11 is a table
+table11 has tomato1
+table11 has tomato1 directly on top of it
+table11 has no players at it
+
+Station table12:
+table12 is a table
+table12 is occupied by robot1
+table12 has topbun1
+table12 has topbun1 directly on top of it
+table12 has no players at it
+
+Station table13:
+table13 is a table
+table13 has topbun2
+table13 has topbun2 directly on top of it
+table13 has no players at it
+
+Station table14:
+table14 is a table
+table14 has tomato2
+table14 has tomato2 directly on top of it
+table14 has no players at it
+
+Station table15:
+table15 is a table
+table15 has chicken1
+table15 has chicken1 directly on top of it
+table15 has no players at it
+
+Station table16:
+table16 is a table
+table16 has chicken2
+table16 has chicken2 directly on top of it
+table16 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table9
+patty1 is directly on top of bottombun1
+patty1 is directly under cheese2
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is cooked
+patty2 is at table10
+patty2 is directly on top of bottombun2
+patty2 is directly under cheese1
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table10
+cheese1 has nothing above it
+cheese1 is directly on top of patty2
+
+Item cheese2:
+cheese2 is a cheese slice
+cheese2 is at table9
+cheese2 has nothing above it
+cheese2 is directly on top of patty1
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table5
+lettuce1 is directly on top of table5
+lettuce1 has nothing above it
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is at table6
+lettuce2 is directly on top of table6
+lettuce2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is at table7
+onion1 is directly on top of table7
+onion1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at table8
+onion2 is directly on top of table8
+onion2 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table9
+bottombun1 is directly on top of table9
+bottombun1 is directly under patty1
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table10
+bottombun2 is directly on top of table10
+bottombun2 is directly under patty2
+
+Item tomato1:
+tomato1 is a tomato
+tomato1 can be cut on a cutting board
+tomato1 is at table11
+tomato1 is directly on top of table11
+tomato1 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table12
+topbun1 is directly on top of table12
+topbun1 has nothing above it
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is at table13
+topbun2 is directly on top of table13
+topbun2 has nothing above it
+
+Item tomato2:
+tomato2 is a tomato
+tomato2 can be cut on a cutting board
+tomato2 is at table14
+tomato2 is directly on top of table14
+tomato2 has nothing above it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be cooked on a stove
+chicken1 is at table15
+chicken1 is directly on top of table15
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be cooked on a stove
+chicken2 is at table16
+chicken2 is directly on top of table16
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table12
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table12 to table1
+Move robot1 from table12 to table2
+Move robot1 from table12 to table3
+Move robot1 from table12 to stove1
+Move robot1 from table12 to stove2
+Move robot1 from table12 to table4
+Move robot1 from table12 to table5
+Move robot1 from table12 to table6
+Move robot1 from table12 to table7
+Move robot1 from table12 to board1
+Move robot1 from table12 to board2
+Move robot1 from table12 to table8
+Move robot1 from table12 to table9
+Move robot1 from table12 to table10
+Move robot1 from table12 to table11
+Move robot1 from table12 to table13
+Move robot1 from table12 to table14
+Move robot1 from table12 to table15
+Move robot1 from table12 to table16
+Pick up topbun1 from table12 using robot1
+Do nothing
+
+Goal: Make two cheese burgers with cheese on top of the patties
+
+Reasoning: ...
+
+Action: Pick up topbun1 from table12 using robot1
+
+
+Interaction 28
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has nothing on it
+table3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 has nothing on it
+stove2 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has lettuce1
+table5 has lettuce1 directly on top of it
+table5 has no players at it
+
+Station table6:
+table6 is a table
+table6 has lettuce2
+table6 has lettuce2 directly on top of it
+table6 has no players at it
+
+Station table7:
+table7 is a table
+table7 has onion1
+table7 has onion1 directly on top of it
+table7 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has nothing on it
+board2 has no players at it
+
+Station table8:
+table8 is a table
+table8 has onion2
+table8 has onion2 directly on top of it
+table8 has no players at it
+
+Station table9:
+table9 is a table
+table9 has patty1
+table9 has cheese2
+table9 has bottombun1
+table9 has bottombun1 directly on top of it
+table9 has no players at it
+
+Station table10:
+table10 is a table
+table10 has patty2
+table10 has cheese1
+table10 has bottombun2
+table10 has bottombun2 directly on top of it
+table10 has no players at it
+
+Station table11:
+table11 is a table
+table11 has tomato1
+table11 has tomato1 directly on top of it
+table11 has no players at it
+
+Station table12:
+table12 is a table
+table12 is occupied by robot1
+table12 has nothing on it
+table12 has no players at it
+
+Station table13:
+table13 is a table
+table13 has topbun2
+table13 has topbun2 directly on top of it
+table13 has no players at it
+
+Station table14:
+table14 is a table
+table14 has tomato2
+table14 has tomato2 directly on top of it
+table14 has no players at it
+
+Station table15:
+table15 is a table
+table15 has chicken1
+table15 has chicken1 directly on top of it
+table15 has no players at it
+
+Station table16:
+table16 is a table
+table16 has chicken2
+table16 has chicken2 directly on top of it
+table16 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table9
+patty1 is directly on top of bottombun1
+patty1 is directly under cheese2
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is cooked
+patty2 is at table10
+patty2 is directly on top of bottombun2
+patty2 is directly under cheese1
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table10
+cheese1 has nothing above it
+cheese1 is directly on top of patty2
+
+Item cheese2:
+cheese2 is a cheese slice
+cheese2 is at table9
+cheese2 has nothing above it
+cheese2 is directly on top of patty1
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table5
+lettuce1 is directly on top of table5
+lettuce1 has nothing above it
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is at table6
+lettuce2 is directly on top of table6
+lettuce2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is at table7
+onion1 is directly on top of table7
+onion1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at table8
+onion2 is directly on top of table8
+onion2 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table9
+bottombun1 is directly on top of table9
+bottombun1 is directly under patty1
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table10
+bottombun2 is directly on top of table10
+bottombun2 is directly under patty2
+
+Item tomato1:
+tomato1 is a tomato
+tomato1 can be cut on a cutting board
+tomato1 is at table11
+tomato1 is directly on top of table11
+tomato1 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is held by robot1
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is at table13
+topbun2 is directly on top of table13
+topbun2 has nothing above it
+
+Item tomato2:
+tomato2 is a tomato
+tomato2 can be cut on a cutting board
+tomato2 is at table14
+tomato2 is directly on top of table14
+tomato2 has nothing above it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be cooked on a stove
+chicken1 is at table15
+chicken1 is directly on top of table15
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be cooked on a stove
+chicken2 is at table16
+chicken2 is directly on top of table16
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table12
+robot1 is holding topbun1
+
+Valid Actions:
+Move robot1 from table12 to table1
+Move robot1 from table12 to table2
+Move robot1 from table12 to table3
+Move robot1 from table12 to stove1
+Move robot1 from table12 to stove2
+Move robot1 from table12 to table4
+Move robot1 from table12 to table5
+Move robot1 from table12 to table6
+Move robot1 from table12 to table7
+Move robot1 from table12 to board1
+Move robot1 from table12 to board2
+Move robot1 from table12 to table8
+Move robot1 from table12 to table9
+Move robot1 from table12 to table10
+Move robot1 from table12 to table11
+Move robot1 from table12 to table13
+Move robot1 from table12 to table14
+Move robot1 from table12 to table15
+Move robot1 from table12 to table16
+Place topbun1 on table12 using robot1
+Do nothing
+
+Goal: Make two cheese burgers with cheese on top of the patties
+
+Reasoning: ...
+
+Action: Move robot1 from table12 to table9
+
+
+Interaction 29
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has nothing on it
+table3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 has nothing on it
+stove2 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has lettuce1
+table5 has lettuce1 directly on top of it
+table5 has no players at it
+
+Station table6:
+table6 is a table
+table6 has lettuce2
+table6 has lettuce2 directly on top of it
+table6 has no players at it
+
+Station table7:
+table7 is a table
+table7 has onion1
+table7 has onion1 directly on top of it
+table7 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has nothing on it
+board2 has no players at it
+
+Station table8:
+table8 is a table
+table8 has onion2
+table8 has onion2 directly on top of it
+table8 has no players at it
+
+Station table9:
+table9 is a table
+table9 is occupied by robot1
+table9 has patty1
+table9 has cheese2
+table9 has bottombun1
+table9 has bottombun1 directly on top of it
+table9 has no players at it
+
+Station table10:
+table10 is a table
+table10 has patty2
+table10 has cheese1
+table10 has bottombun2
+table10 has bottombun2 directly on top of it
+table10 has no players at it
+
+Station table11:
+table11 is a table
+table11 has tomato1
+table11 has tomato1 directly on top of it
+table11 has no players at it
+
+Station table12:
+table12 is a table
+table12 has nothing on it
+table12 has no players at it
+
+Station table13:
+table13 is a table
+table13 has topbun2
+table13 has topbun2 directly on top of it
+table13 has no players at it
+
+Station table14:
+table14 is a table
+table14 has tomato2
+table14 has tomato2 directly on top of it
+table14 has no players at it
+
+Station table15:
+table15 is a table
+table15 has chicken1
+table15 has chicken1 directly on top of it
+table15 has no players at it
+
+Station table16:
+table16 is a table
+table16 has chicken2
+table16 has chicken2 directly on top of it
+table16 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table9
+patty1 is directly on top of bottombun1
+patty1 is directly under cheese2
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is cooked
+patty2 is at table10
+patty2 is directly on top of bottombun2
+patty2 is directly under cheese1
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table10
+cheese1 has nothing above it
+cheese1 is directly on top of patty2
+
+Item cheese2:
+cheese2 is a cheese slice
+cheese2 is at table9
+cheese2 has nothing above it
+cheese2 is directly on top of patty1
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table5
+lettuce1 is directly on top of table5
+lettuce1 has nothing above it
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is at table6
+lettuce2 is directly on top of table6
+lettuce2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is at table7
+onion1 is directly on top of table7
+onion1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at table8
+onion2 is directly on top of table8
+onion2 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table9
+bottombun1 is directly on top of table9
+bottombun1 is directly under patty1
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table10
+bottombun2 is directly on top of table10
+bottombun2 is directly under patty2
+
+Item tomato1:
+tomato1 is a tomato
+tomato1 can be cut on a cutting board
+tomato1 is at table11
+tomato1 is directly on top of table11
+tomato1 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is held by robot1
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is at table13
+topbun2 is directly on top of table13
+topbun2 has nothing above it
+
+Item tomato2:
+tomato2 is a tomato
+tomato2 can be cut on a cutting board
+tomato2 is at table14
+tomato2 is directly on top of table14
+tomato2 has nothing above it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be cooked on a stove
+chicken1 is at table15
+chicken1 is directly on top of table15
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be cooked on a stove
+chicken2 is at table16
+chicken2 is directly on top of table16
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table9
+robot1 is holding topbun1
+
+Valid Actions:
+Move robot1 from table9 to table1
+Move robot1 from table9 to table2
+Move robot1 from table9 to table3
+Move robot1 from table9 to stove1
+Move robot1 from table9 to stove2
+Move robot1 from table9 to table4
+Move robot1 from table9 to table5
+Move robot1 from table9 to table6
+Move robot1 from table9 to table7
+Move robot1 from table9 to board1
+Move robot1 from table9 to board2
+Move robot1 from table9 to table8
+Move robot1 from table9 to table10
+Move robot1 from table9 to table11
+Move robot1 from table9 to table12
+Move robot1 from table9 to table13
+Move robot1 from table9 to table14
+Move robot1 from table9 to table15
+Move robot1 from table9 to table16
+Stack topbun1 on top of cheese2 using robot1
+Do nothing
+
+Goal: Make two cheese burgers with cheese on top of the patties
+
+Reasoning: ...
+
+Action: Stack topbun1 on top of cheese2 using robot1
+
+
+Interaction 30
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has nothing on it
+table3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 has nothing on it
+stove2 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has lettuce1
+table5 has lettuce1 directly on top of it
+table5 has no players at it
+
+Station table6:
+table6 is a table
+table6 has lettuce2
+table6 has lettuce2 directly on top of it
+table6 has no players at it
+
+Station table7:
+table7 is a table
+table7 has onion1
+table7 has onion1 directly on top of it
+table7 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has nothing on it
+board2 has no players at it
+
+Station table8:
+table8 is a table
+table8 has onion2
+table8 has onion2 directly on top of it
+table8 has no players at it
+
+Station table9:
+table9 is a table
+table9 is occupied by robot1
+table9 has patty1
+table9 has cheese2
+table9 has bottombun1
+table9 has topbun1
+table9 has bottombun1 directly on top of it
+table9 has no players at it
+
+Station table10:
+table10 is a table
+table10 has patty2
+table10 has cheese1
+table10 has bottombun2
+table10 has bottombun2 directly on top of it
+table10 has no players at it
+
+Station table11:
+table11 is a table
+table11 has tomato1
+table11 has tomato1 directly on top of it
+table11 has no players at it
+
+Station table12:
+table12 is a table
+table12 has nothing on it
+table12 has no players at it
+
+Station table13:
+table13 is a table
+table13 has topbun2
+table13 has topbun2 directly on top of it
+table13 has no players at it
+
+Station table14:
+table14 is a table
+table14 has tomato2
+table14 has tomato2 directly on top of it
+table14 has no players at it
+
+Station table15:
+table15 is a table
+table15 has chicken1
+table15 has chicken1 directly on top of it
+table15 has no players at it
+
+Station table16:
+table16 is a table
+table16 has chicken2
+table16 has chicken2 directly on top of it
+table16 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table9
+patty1 is directly on top of bottombun1
+patty1 is directly under cheese2
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is cooked
+patty2 is at table10
+patty2 is directly on top of bottombun2
+patty2 is directly under cheese1
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table10
+cheese1 has nothing above it
+cheese1 is directly on top of patty2
+
+Item cheese2:
+cheese2 is a cheese slice
+cheese2 is at table9
+cheese2 is directly on top of patty1
+cheese2 is directly under topbun1
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table5
+lettuce1 is directly on top of table5
+lettuce1 has nothing above it
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is at table6
+lettuce2 is directly on top of table6
+lettuce2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is at table7
+onion1 is directly on top of table7
+onion1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at table8
+onion2 is directly on top of table8
+onion2 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table9
+bottombun1 is directly on top of table9
+bottombun1 is directly under patty1
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table10
+bottombun2 is directly on top of table10
+bottombun2 is directly under patty2
+
+Item tomato1:
+tomato1 is a tomato
+tomato1 can be cut on a cutting board
+tomato1 is at table11
+tomato1 is directly on top of table11
+tomato1 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table9
+topbun1 has nothing above it
+topbun1 is directly on top of cheese2
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is at table13
+topbun2 is directly on top of table13
+topbun2 has nothing above it
+
+Item tomato2:
+tomato2 is a tomato
+tomato2 can be cut on a cutting board
+tomato2 is at table14
+tomato2 is directly on top of table14
+tomato2 has nothing above it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be cooked on a stove
+chicken1 is at table15
+chicken1 is directly on top of table15
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be cooked on a stove
+chicken2 is at table16
+chicken2 is directly on top of table16
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table9
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table9 to table1
+Move robot1 from table9 to table2
+Move robot1 from table9 to table3
+Move robot1 from table9 to stove1
+Move robot1 from table9 to stove2
+Move robot1 from table9 to table4
+Move robot1 from table9 to table5
+Move robot1 from table9 to table6
+Move robot1 from table9 to table7
+Move robot1 from table9 to board1
+Move robot1 from table9 to board2
+Move robot1 from table9 to table8
+Move robot1 from table9 to table10
+Move robot1 from table9 to table11
+Move robot1 from table9 to table12
+Move robot1 from table9 to table13
+Move robot1 from table9 to table14
+Move robot1 from table9 to table15
+Move robot1 from table9 to table16
+Unstack topbun1 from cheese2 using robot1
+Do nothing
+
+Goal: Make two cheese burgers with cheese on top of the patties
+
+Reasoning: ...
+
+Action: Move robot1 from table9 to table13
+
+
+Interaction 31
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has nothing on it
+table3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 has nothing on it
+stove2 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has lettuce1
+table5 has lettuce1 directly on top of it
+table5 has no players at it
+
+Station table6:
+table6 is a table
+table6 has lettuce2
+table6 has lettuce2 directly on top of it
+table6 has no players at it
+
+Station table7:
+table7 is a table
+table7 has onion1
+table7 has onion1 directly on top of it
+table7 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has nothing on it
+board2 has no players at it
+
+Station table8:
+table8 is a table
+table8 has onion2
+table8 has onion2 directly on top of it
+table8 has no players at it
+
+Station table9:
+table9 is a table
+table9 has patty1
+table9 has cheese2
+table9 has bottombun1
+table9 has topbun1
+table9 has bottombun1 directly on top of it
+table9 has no players at it
+
+Station table10:
+table10 is a table
+table10 has patty2
+table10 has cheese1
+table10 has bottombun2
+table10 has bottombun2 directly on top of it
+table10 has no players at it
+
+Station table11:
+table11 is a table
+table11 has tomato1
+table11 has tomato1 directly on top of it
+table11 has no players at it
+
+Station table12:
+table12 is a table
+table12 has nothing on it
+table12 has no players at it
+
+Station table13:
+table13 is a table
+table13 is occupied by robot1
+table13 has topbun2
+table13 has topbun2 directly on top of it
+table13 has no players at it
+
+Station table14:
+table14 is a table
+table14 has tomato2
+table14 has tomato2 directly on top of it
+table14 has no players at it
+
+Station table15:
+table15 is a table
+table15 has chicken1
+table15 has chicken1 directly on top of it
+table15 has no players at it
+
+Station table16:
+table16 is a table
+table16 has chicken2
+table16 has chicken2 directly on top of it
+table16 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table9
+patty1 is directly on top of bottombun1
+patty1 is directly under cheese2
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is cooked
+patty2 is at table10
+patty2 is directly on top of bottombun2
+patty2 is directly under cheese1
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table10
+cheese1 has nothing above it
+cheese1 is directly on top of patty2
+
+Item cheese2:
+cheese2 is a cheese slice
+cheese2 is at table9
+cheese2 is directly on top of patty1
+cheese2 is directly under topbun1
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table5
+lettuce1 is directly on top of table5
+lettuce1 has nothing above it
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is at table6
+lettuce2 is directly on top of table6
+lettuce2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is at table7
+onion1 is directly on top of table7
+onion1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at table8
+onion2 is directly on top of table8
+onion2 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table9
+bottombun1 is directly on top of table9
+bottombun1 is directly under patty1
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table10
+bottombun2 is directly on top of table10
+bottombun2 is directly under patty2
+
+Item tomato1:
+tomato1 is a tomato
+tomato1 can be cut on a cutting board
+tomato1 is at table11
+tomato1 is directly on top of table11
+tomato1 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table9
+topbun1 has nothing above it
+topbun1 is directly on top of cheese2
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is at table13
+topbun2 is directly on top of table13
+topbun2 has nothing above it
+
+Item tomato2:
+tomato2 is a tomato
+tomato2 can be cut on a cutting board
+tomato2 is at table14
+tomato2 is directly on top of table14
+tomato2 has nothing above it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be cooked on a stove
+chicken1 is at table15
+chicken1 is directly on top of table15
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be cooked on a stove
+chicken2 is at table16
+chicken2 is directly on top of table16
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table13
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table13 to table1
+Move robot1 from table13 to table2
+Move robot1 from table13 to table3
+Move robot1 from table13 to stove1
+Move robot1 from table13 to stove2
+Move robot1 from table13 to table4
+Move robot1 from table13 to table5
+Move robot1 from table13 to table6
+Move robot1 from table13 to table7
+Move robot1 from table13 to board1
+Move robot1 from table13 to board2
+Move robot1 from table13 to table8
+Move robot1 from table13 to table9
+Move robot1 from table13 to table10
+Move robot1 from table13 to table11
+Move robot1 from table13 to table12
+Move robot1 from table13 to table14
+Move robot1 from table13 to table15
+Move robot1 from table13 to table16
+Pick up topbun2 from table13 using robot1
+Do nothing
+
+Goal: Make two cheese burgers with cheese on top of the patties
+
+Reasoning: ...
+
+Action: Pick up topbun2 from table13 using robot1
+
+
+Interaction 32
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has nothing on it
+table3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 has nothing on it
+stove2 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has lettuce1
+table5 has lettuce1 directly on top of it
+table5 has no players at it
+
+Station table6:
+table6 is a table
+table6 has lettuce2
+table6 has lettuce2 directly on top of it
+table6 has no players at it
+
+Station table7:
+table7 is a table
+table7 has onion1
+table7 has onion1 directly on top of it
+table7 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has nothing on it
+board2 has no players at it
+
+Station table8:
+table8 is a table
+table8 has onion2
+table8 has onion2 directly on top of it
+table8 has no players at it
+
+Station table9:
+table9 is a table
+table9 has patty1
+table9 has cheese2
+table9 has bottombun1
+table9 has topbun1
+table9 has bottombun1 directly on top of it
+table9 has no players at it
+
+Station table10:
+table10 is a table
+table10 has patty2
+table10 has cheese1
+table10 has bottombun2
+table10 has bottombun2 directly on top of it
+table10 has no players at it
+
+Station table11:
+table11 is a table
+table11 has tomato1
+table11 has tomato1 directly on top of it
+table11 has no players at it
+
+Station table12:
+table12 is a table
+table12 has nothing on it
+table12 has no players at it
+
+Station table13:
+table13 is a table
+table13 is occupied by robot1
+table13 has nothing on it
+table13 has no players at it
+
+Station table14:
+table14 is a table
+table14 has tomato2
+table14 has tomato2 directly on top of it
+table14 has no players at it
+
+Station table15:
+table15 is a table
+table15 has chicken1
+table15 has chicken1 directly on top of it
+table15 has no players at it
+
+Station table16:
+table16 is a table
+table16 has chicken2
+table16 has chicken2 directly on top of it
+table16 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table9
+patty1 is directly on top of bottombun1
+patty1 is directly under cheese2
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is cooked
+patty2 is at table10
+patty2 is directly on top of bottombun2
+patty2 is directly under cheese1
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table10
+cheese1 has nothing above it
+cheese1 is directly on top of patty2
+
+Item cheese2:
+cheese2 is a cheese slice
+cheese2 is at table9
+cheese2 is directly on top of patty1
+cheese2 is directly under topbun1
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table5
+lettuce1 is directly on top of table5
+lettuce1 has nothing above it
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is at table6
+lettuce2 is directly on top of table6
+lettuce2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is at table7
+onion1 is directly on top of table7
+onion1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at table8
+onion2 is directly on top of table8
+onion2 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table9
+bottombun1 is directly on top of table9
+bottombun1 is directly under patty1
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table10
+bottombun2 is directly on top of table10
+bottombun2 is directly under patty2
+
+Item tomato1:
+tomato1 is a tomato
+tomato1 can be cut on a cutting board
+tomato1 is at table11
+tomato1 is directly on top of table11
+tomato1 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table9
+topbun1 has nothing above it
+topbun1 is directly on top of cheese2
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is held by robot1
+
+Item tomato2:
+tomato2 is a tomato
+tomato2 can be cut on a cutting board
+tomato2 is at table14
+tomato2 is directly on top of table14
+tomato2 has nothing above it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be cooked on a stove
+chicken1 is at table15
+chicken1 is directly on top of table15
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be cooked on a stove
+chicken2 is at table16
+chicken2 is directly on top of table16
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table13
+robot1 is holding topbun2
+
+Valid Actions:
+Move robot1 from table13 to table1
+Move robot1 from table13 to table2
+Move robot1 from table13 to table3
+Move robot1 from table13 to stove1
+Move robot1 from table13 to stove2
+Move robot1 from table13 to table4
+Move robot1 from table13 to table5
+Move robot1 from table13 to table6
+Move robot1 from table13 to table7
+Move robot1 from table13 to board1
+Move robot1 from table13 to board2
+Move robot1 from table13 to table8
+Move robot1 from table13 to table9
+Move robot1 from table13 to table10
+Move robot1 from table13 to table11
+Move robot1 from table13 to table12
+Move robot1 from table13 to table14
+Move robot1 from table13 to table15
+Move robot1 from table13 to table16
+Place topbun2 on table13 using robot1
+Do nothing
+
+Goal: Make two cheese burgers with cheese on top of the patties
+
+Reasoning: ...
+
+Action: Move robot1 from table13 to table10
+
+
+Interaction 33
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has nothing on it
+table3 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 has nothing on it
+stove2 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has lettuce1
+table5 has lettuce1 directly on top of it
+table5 has no players at it
+
+Station table6:
+table6 is a table
+table6 has lettuce2
+table6 has lettuce2 directly on top of it
+table6 has no players at it
+
+Station table7:
+table7 is a table
+table7 has onion1
+table7 has onion1 directly on top of it
+table7 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has nothing on it
+board2 has no players at it
+
+Station table8:
+table8 is a table
+table8 has onion2
+table8 has onion2 directly on top of it
+table8 has no players at it
+
+Station table9:
+table9 is a table
+table9 has patty1
+table9 has cheese2
+table9 has bottombun1
+table9 has topbun1
+table9 has bottombun1 directly on top of it
+table9 has no players at it
+
+Station table10:
+table10 is a table
+table10 is occupied by robot1
+table10 has patty2
+table10 has cheese1
+table10 has bottombun2
+table10 has bottombun2 directly on top of it
+table10 has no players at it
+
+Station table11:
+table11 is a table
+table11 has tomato1
+table11 has tomato1 directly on top of it
+table11 has no players at it
+
+Station table12:
+table12 is a table
+table12 has nothing on it
+table12 has no players at it
+
+Station table13:
+table13 is a table
+table13 has nothing on it
+table13 has no players at it
+
+Station table14:
+table14 is a table
+table14 has tomato2
+table14 has tomato2 directly on top of it
+table14 has no players at it
+
+Station table15:
+table15 is a table
+table15 has chicken1
+table15 has chicken1 directly on top of it
+table15 has no players at it
+
+Station table16:
+table16 is a table
+table16 has chicken2
+table16 has chicken2 directly on top of it
+table16 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table9
+patty1 is directly on top of bottombun1
+patty1 is directly under cheese2
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is cooked
+patty2 is at table10
+patty2 is directly on top of bottombun2
+patty2 is directly under cheese1
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table10
+cheese1 has nothing above it
+cheese1 is directly on top of patty2
+
+Item cheese2:
+cheese2 is a cheese slice
+cheese2 is at table9
+cheese2 is directly on top of patty1
+cheese2 is directly under topbun1
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table5
+lettuce1 is directly on top of table5
+lettuce1 has nothing above it
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is at table6
+lettuce2 is directly on top of table6
+lettuce2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is at table7
+onion1 is directly on top of table7
+onion1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at table8
+onion2 is directly on top of table8
+onion2 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table9
+bottombun1 is directly on top of table9
+bottombun1 is directly under patty1
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table10
+bottombun2 is directly on top of table10
+bottombun2 is directly under patty2
+
+Item tomato1:
+tomato1 is a tomato
+tomato1 can be cut on a cutting board
+tomato1 is at table11
+tomato1 is directly on top of table11
+tomato1 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table9
+topbun1 has nothing above it
+topbun1 is directly on top of cheese2
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is held by robot1
+
+Item tomato2:
+tomato2 is a tomato
+tomato2 can be cut on a cutting board
+tomato2 is at table14
+tomato2 is directly on top of table14
+tomato2 has nothing above it
+
+Item chicken1:
+chicken1 is a chicken breast
+chicken1 can be cooked on a stove
+chicken1 is at table15
+chicken1 is directly on top of table15
+chicken1 has nothing above it
+
+Item chicken2:
+chicken2 is a chicken breast
+chicken2 can be cooked on a stove
+chicken2 is at table16
+chicken2 is directly on top of table16
+chicken2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table10
+robot1 is holding topbun2
+
+Valid Actions:
+Move robot1 from table10 to table1
+Move robot1 from table10 to table2
+Move robot1 from table10 to table3
+Move robot1 from table10 to stove1
+Move robot1 from table10 to stove2
+Move robot1 from table10 to table4
+Move robot1 from table10 to table5
+Move robot1 from table10 to table6
+Move robot1 from table10 to table7
+Move robot1 from table10 to board1
+Move robot1 from table10 to board2
+Move robot1 from table10 to table8
+Move robot1 from table10 to table9
+Move robot1 from table10 to table11
+Move robot1 from table10 to table12
+Move robot1 from table10 to table13
+Move robot1 from table10 to table14
+Move robot1 from table10 to table15
+Move robot1 from table10 to table16
+Stack topbun2 on top of cheese1 using robot1
+Do nothing
+
+Goal: Make two cheese burgers with cheese on top of the patties
+
+Reasoning: ...
+
+Action: Stack topbun2 on top of cheese1 using robot1
+
+

@@ -1,0 +1,1326 @@
+Interaction 1
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 is occupied by robot1
+table1 has patty1
+table1 has patty2
+table1 has patty2 directly on top of it
+
+Station table2:
+table2 is a table
+table2 has topbun1
+table2 has topbun2
+table2 has topbun2 directly on top of it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has bottombun1
+table3 has bottombun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has bottombun2
+table4 has bottombun2 directly on top of it
+table4 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table1
+patty1 has nothing above it
+patty1 is directly on top of patty2
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is cooked
+patty2 is at table1
+patty2 is directly on top of table1
+patty2 is directly under patty1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table2
+topbun1 has nothing above it
+topbun1 is directly on top of topbun2
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is at table2
+topbun2 is directly on top of table2
+topbun2 is directly under topbun1
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table3
+bottombun1 is directly on top of table3
+bottombun1 has nothing above it
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table4
+bottombun2 is directly on top of table4
+bottombun2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table1 to table2
+Move robot1 from table1 to table3
+Move robot1 from table1 to table4
+Unstack patty1 from patty2 using robot1
+Do nothing
+
+Goal: Put together two plain burgers
+
+Reasoning: ...
+
+Action: Unstack patty1 from patty2 using robot1
+
+
+Interaction 2
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 is occupied by robot1
+table1 has patty2
+table1 has patty2 directly on top of it
+
+Station table2:
+table2 is a table
+table2 has topbun1
+table2 has topbun2
+table2 has topbun2 directly on top of it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has bottombun1
+table3 has bottombun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has bottombun2
+table4 has bottombun2 directly on top of it
+table4 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is held by robot1
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is cooked
+patty2 is at table1
+patty2 is directly on top of table1
+patty2 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table2
+topbun1 has nothing above it
+topbun1 is directly on top of topbun2
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is at table2
+topbun2 is directly on top of table2
+topbun2 is directly under topbun1
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table3
+bottombun1 is directly on top of table3
+bottombun1 has nothing above it
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table4
+bottombun2 is directly on top of table4
+bottombun2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table1
+robot1 is holding patty1
+
+Valid Actions:
+Move robot1 from table1 to table2
+Move robot1 from table1 to table3
+Move robot1 from table1 to table4
+Stack patty1 on top of patty2 using robot1
+Do nothing
+
+Goal: Put together two plain burgers
+
+Reasoning: ...
+
+Action: Move robot1 from table1 to table3
+
+
+Interaction 3
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has patty2
+table1 has patty2 directly on top of it
+
+Station table2:
+table2 is a table
+table2 has topbun1
+table2 has topbun2
+table2 has topbun2 directly on top of it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 is occupied by robot1
+table3 has bottombun1
+table3 has bottombun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has bottombun2
+table4 has bottombun2 directly on top of it
+table4 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is held by robot1
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is cooked
+patty2 is at table1
+patty2 is directly on top of table1
+patty2 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table2
+topbun1 has nothing above it
+topbun1 is directly on top of topbun2
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is at table2
+topbun2 is directly on top of table2
+topbun2 is directly under topbun1
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table3
+bottombun1 is directly on top of table3
+bottombun1 has nothing above it
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table4
+bottombun2 is directly on top of table4
+bottombun2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table3
+robot1 is holding patty1
+
+Valid Actions:
+Move robot1 from table3 to table1
+Move robot1 from table3 to table2
+Move robot1 from table3 to table4
+Stack patty1 on top of bottombun1 using robot1
+Do nothing
+
+Goal: Put together two plain burgers
+
+Reasoning: ...
+
+Action: Stack patty1 on top of bottombun1 using robot1
+
+
+Interaction 4
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has patty2
+table1 has patty2 directly on top of it
+
+Station table2:
+table2 is a table
+table2 has topbun1
+table2 has topbun2
+table2 has topbun2 directly on top of it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 is occupied by robot1
+table3 has patty1
+table3 has bottombun1
+table3 has bottombun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has bottombun2
+table4 has bottombun2 directly on top of it
+table4 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table3
+patty1 has nothing above it
+patty1 is directly on top of bottombun1
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is cooked
+patty2 is at table1
+patty2 is directly on top of table1
+patty2 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table2
+topbun1 has nothing above it
+topbun1 is directly on top of topbun2
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is at table2
+topbun2 is directly on top of table2
+topbun2 is directly under topbun1
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table3
+bottombun1 is directly on top of table3
+bottombun1 is directly under patty1
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table4
+bottombun2 is directly on top of table4
+bottombun2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table3
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table3 to table1
+Move robot1 from table3 to table2
+Move robot1 from table3 to table4
+Unstack patty1 from bottombun1 using robot1
+Do nothing
+
+Goal: Put together two plain burgers
+
+Reasoning: ...
+
+Action: Move robot1 from table3 to table2
+
+
+Interaction 5
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has patty2
+table1 has patty2 directly on top of it
+
+Station table2:
+table2 is a table
+table2 is occupied by robot1
+table2 has topbun1
+table2 has topbun2
+table2 has topbun2 directly on top of it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has patty1
+table3 has bottombun1
+table3 has bottombun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has bottombun2
+table4 has bottombun2 directly on top of it
+table4 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table3
+patty1 has nothing above it
+patty1 is directly on top of bottombun1
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is cooked
+patty2 is at table1
+patty2 is directly on top of table1
+patty2 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table2
+topbun1 has nothing above it
+topbun1 is directly on top of topbun2
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is at table2
+topbun2 is directly on top of table2
+topbun2 is directly under topbun1
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table3
+bottombun1 is directly on top of table3
+bottombun1 is directly under patty1
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table4
+bottombun2 is directly on top of table4
+bottombun2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table2
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table2 to table1
+Move robot1 from table2 to table3
+Move robot1 from table2 to table4
+Unstack topbun1 from topbun2 using robot1
+Do nothing
+
+Goal: Put together two plain burgers
+
+Reasoning: ...
+
+Action: Unstack topbun1 from topbun2 using robot1
+
+
+Interaction 6
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has patty2
+table1 has patty2 directly on top of it
+
+Station table2:
+table2 is a table
+table2 is occupied by robot1
+table2 has topbun2
+table2 has topbun2 directly on top of it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has patty1
+table3 has bottombun1
+table3 has bottombun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has bottombun2
+table4 has bottombun2 directly on top of it
+table4 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table3
+patty1 has nothing above it
+patty1 is directly on top of bottombun1
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is cooked
+patty2 is at table1
+patty2 is directly on top of table1
+patty2 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is held by robot1
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is at table2
+topbun2 is directly on top of table2
+topbun2 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table3
+bottombun1 is directly on top of table3
+bottombun1 is directly under patty1
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table4
+bottombun2 is directly on top of table4
+bottombun2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table2
+robot1 is holding topbun1
+
+Valid Actions:
+Move robot1 from table2 to table1
+Move robot1 from table2 to table3
+Move robot1 from table2 to table4
+Stack topbun1 on top of topbun2 using robot1
+Do nothing
+
+Goal: Put together two plain burgers
+
+Reasoning: ...
+
+Action: Move robot1 from table2 to table3
+
+
+Interaction 7
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has patty2
+table1 has patty2 directly on top of it
+
+Station table2:
+table2 is a table
+table2 has topbun2
+table2 has topbun2 directly on top of it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 is occupied by robot1
+table3 has patty1
+table3 has bottombun1
+table3 has bottombun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has bottombun2
+table4 has bottombun2 directly on top of it
+table4 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table3
+patty1 has nothing above it
+patty1 is directly on top of bottombun1
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is cooked
+patty2 is at table1
+patty2 is directly on top of table1
+patty2 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is held by robot1
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is at table2
+topbun2 is directly on top of table2
+topbun2 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table3
+bottombun1 is directly on top of table3
+bottombun1 is directly under patty1
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table4
+bottombun2 is directly on top of table4
+bottombun2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table3
+robot1 is holding topbun1
+
+Valid Actions:
+Move robot1 from table3 to table1
+Move robot1 from table3 to table2
+Move robot1 from table3 to table4
+Stack topbun1 on top of patty1 using robot1
+Do nothing
+
+Goal: Put together two plain burgers
+
+Reasoning: ...
+
+Action: Stack topbun1 on top of patty1 using robot1
+
+
+Interaction 8
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has patty2
+table1 has patty2 directly on top of it
+
+Station table2:
+table2 is a table
+table2 has topbun2
+table2 has topbun2 directly on top of it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 is occupied by robot1
+table3 has patty1
+table3 has topbun1
+table3 has bottombun1
+table3 has bottombun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has bottombun2
+table4 has bottombun2 directly on top of it
+table4 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table3
+patty1 is directly on top of bottombun1
+patty1 is directly under topbun1
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is cooked
+patty2 is at table1
+patty2 is directly on top of table1
+patty2 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table3
+topbun1 has nothing above it
+topbun1 is directly on top of patty1
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is at table2
+topbun2 is directly on top of table2
+topbun2 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table3
+bottombun1 is directly on top of table3
+bottombun1 is directly under patty1
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table4
+bottombun2 is directly on top of table4
+bottombun2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table3
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table3 to table1
+Move robot1 from table3 to table2
+Move robot1 from table3 to table4
+Unstack topbun1 from patty1 using robot1
+Do nothing
+
+Goal: Put together two plain burgers
+
+Reasoning: ...
+
+Action: Move robot1 from table3 to table1
+
+
+Interaction 9
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 is occupied by robot1
+table1 has patty2
+table1 has patty2 directly on top of it
+
+Station table2:
+table2 is a table
+table2 has topbun2
+table2 has topbun2 directly on top of it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has patty1
+table3 has topbun1
+table3 has bottombun1
+table3 has bottombun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has bottombun2
+table4 has bottombun2 directly on top of it
+table4 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table3
+patty1 is directly on top of bottombun1
+patty1 is directly under topbun1
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is cooked
+patty2 is at table1
+patty2 is directly on top of table1
+patty2 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table3
+topbun1 has nothing above it
+topbun1 is directly on top of patty1
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is at table2
+topbun2 is directly on top of table2
+topbun2 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table3
+bottombun1 is directly on top of table3
+bottombun1 is directly under patty1
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table4
+bottombun2 is directly on top of table4
+bottombun2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table1 to table2
+Move robot1 from table1 to table3
+Move robot1 from table1 to table4
+Pick up patty2 from table1 using robot1
+Do nothing
+
+Goal: Put together two plain burgers
+
+Reasoning: ...
+
+Action: Pick up patty2 from table1 using robot1
+
+
+Interaction 10
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 is occupied by robot1
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has topbun2
+table2 has topbun2 directly on top of it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has patty1
+table3 has topbun1
+table3 has bottombun1
+table3 has bottombun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has bottombun2
+table4 has bottombun2 directly on top of it
+table4 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table3
+patty1 is directly on top of bottombun1
+patty1 is directly under topbun1
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is cooked
+patty2 is held by robot1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table3
+topbun1 has nothing above it
+topbun1 is directly on top of patty1
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is at table2
+topbun2 is directly on top of table2
+topbun2 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table3
+bottombun1 is directly on top of table3
+bottombun1 is directly under patty1
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table4
+bottombun2 is directly on top of table4
+bottombun2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table1
+robot1 is holding patty2
+
+Valid Actions:
+Move robot1 from table1 to table2
+Move robot1 from table1 to table3
+Move robot1 from table1 to table4
+Place patty2 on table1 using robot1
+Do nothing
+
+Goal: Put together two plain burgers
+
+Reasoning: ...
+
+Action: Move robot1 from table1 to table4
+
+
+Interaction 11
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has topbun2
+table2 has topbun2 directly on top of it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has patty1
+table3 has topbun1
+table3 has bottombun1
+table3 has bottombun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 is occupied by robot1
+table4 has bottombun2
+table4 has bottombun2 directly on top of it
+table4 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table3
+patty1 is directly on top of bottombun1
+patty1 is directly under topbun1
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is cooked
+patty2 is held by robot1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table3
+topbun1 has nothing above it
+topbun1 is directly on top of patty1
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is at table2
+topbun2 is directly on top of table2
+topbun2 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table3
+bottombun1 is directly on top of table3
+bottombun1 is directly under patty1
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table4
+bottombun2 is directly on top of table4
+bottombun2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table4
+robot1 is holding patty2
+
+Valid Actions:
+Move robot1 from table4 to table1
+Move robot1 from table4 to table2
+Move robot1 from table4 to table3
+Stack patty2 on top of bottombun2 using robot1
+Do nothing
+
+Goal: Put together two plain burgers
+
+Reasoning: ...
+
+Action: Stack patty2 on top of bottombun2 using robot1
+
+
+Interaction 12
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has topbun2
+table2 has topbun2 directly on top of it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has patty1
+table3 has topbun1
+table3 has bottombun1
+table3 has bottombun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 is occupied by robot1
+table4 has patty2
+table4 has bottombun2
+table4 has bottombun2 directly on top of it
+table4 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table3
+patty1 is directly on top of bottombun1
+patty1 is directly under topbun1
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is cooked
+patty2 is at table4
+patty2 has nothing above it
+patty2 is directly on top of bottombun2
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table3
+topbun1 has nothing above it
+topbun1 is directly on top of patty1
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is at table2
+topbun2 is directly on top of table2
+topbun2 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table3
+bottombun1 is directly on top of table3
+bottombun1 is directly under patty1
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table4
+bottombun2 is directly on top of table4
+bottombun2 is directly under patty2
+
+Player robot1:
+robot1 is a robot
+robot1 is at table4
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table4 to table1
+Move robot1 from table4 to table2
+Move robot1 from table4 to table3
+Unstack patty2 from bottombun2 using robot1
+Do nothing
+
+Goal: Put together two plain burgers
+
+Reasoning: ...
+
+Action: Move robot1 from table4 to table2
+
+
+Interaction 13
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 is occupied by robot1
+table2 has topbun2
+table2 has topbun2 directly on top of it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has patty1
+table3 has topbun1
+table3 has bottombun1
+table3 has bottombun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has patty2
+table4 has bottombun2
+table4 has bottombun2 directly on top of it
+table4 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table3
+patty1 is directly on top of bottombun1
+patty1 is directly under topbun1
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is cooked
+patty2 is at table4
+patty2 has nothing above it
+patty2 is directly on top of bottombun2
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table3
+topbun1 has nothing above it
+topbun1 is directly on top of patty1
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is at table2
+topbun2 is directly on top of table2
+topbun2 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table3
+bottombun1 is directly on top of table3
+bottombun1 is directly under patty1
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table4
+bottombun2 is directly on top of table4
+bottombun2 is directly under patty2
+
+Player robot1:
+robot1 is a robot
+robot1 is at table2
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table2 to table1
+Move robot1 from table2 to table3
+Move robot1 from table2 to table4
+Pick up topbun2 from table2 using robot1
+Do nothing
+
+Goal: Put together two plain burgers
+
+Reasoning: ...
+
+Action: Pick up topbun2 from table2 using robot1
+
+
+Interaction 14
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 is occupied by robot1
+table2 has nothing on it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has patty1
+table3 has topbun1
+table3 has bottombun1
+table3 has bottombun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has patty2
+table4 has bottombun2
+table4 has bottombun2 directly on top of it
+table4 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table3
+patty1 is directly on top of bottombun1
+patty1 is directly under topbun1
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is cooked
+patty2 is at table4
+patty2 has nothing above it
+patty2 is directly on top of bottombun2
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table3
+topbun1 has nothing above it
+topbun1 is directly on top of patty1
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is held by robot1
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table3
+bottombun1 is directly on top of table3
+bottombun1 is directly under patty1
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table4
+bottombun2 is directly on top of table4
+bottombun2 is directly under patty2
+
+Player robot1:
+robot1 is a robot
+robot1 is at table2
+robot1 is holding topbun2
+
+Valid Actions:
+Move robot1 from table2 to table1
+Move robot1 from table2 to table3
+Move robot1 from table2 to table4
+Place topbun2 on table2 using robot1
+Do nothing
+
+Goal: Put together two plain burgers
+
+Reasoning: ...
+
+Action: Move robot1 from table2 to table4
+
+
+Interaction 15
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has patty1
+table3 has topbun1
+table3 has bottombun1
+table3 has bottombun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 is occupied by robot1
+table4 has patty2
+table4 has bottombun2
+table4 has bottombun2 directly on top of it
+table4 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table3
+patty1 is directly on top of bottombun1
+patty1 is directly under topbun1
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is cooked
+patty2 is at table4
+patty2 has nothing above it
+patty2 is directly on top of bottombun2
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table3
+topbun1 has nothing above it
+topbun1 is directly on top of patty1
+
+Item topbun2:
+topbun2 is a top bun
+topbun2 is held by robot1
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table3
+bottombun1 is directly on top of table3
+bottombun1 is directly under patty1
+
+Item bottombun2:
+bottombun2 is a bottom bun
+bottombun2 is at table4
+bottombun2 is directly on top of table4
+bottombun2 is directly under patty2
+
+Player robot1:
+robot1 is a robot
+robot1 is at table4
+robot1 is holding topbun2
+
+Valid Actions:
+Move robot1 from table4 to table1
+Move robot1 from table4 to table2
+Move robot1 from table4 to table3
+Stack topbun2 on top of patty2 using robot1
+Do nothing
+
+Goal: Put together two plain burgers
+
+Reasoning: ...
+
+Action: Stack topbun2 on top of patty2 using robot1
+
+

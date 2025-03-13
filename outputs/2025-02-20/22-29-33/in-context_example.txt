@@ -1,0 +1,115 @@
+Interaction 1
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 is occupied by robot1
+table1 has bottombun1
+table1 has topbun1
+table1 has bottombun1 directly on top of it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has onion1
+table2 has onion1 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 has patty1
+table3 has patty1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has onion2
+table4 has onion2 directly on top of it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has cheese1
+table5 has cheese1 directly on top of it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 is directly under topbun1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table1
+topbun1 has nothing above it
+topbun1 is directly on top of bottombun1
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is at table2
+onion1 is directly on top of table2
+onion1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is at table3
+patty1 is directly on top of table3
+patty1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer after being cut
+onion2 can be cut on a cutting board
+onion2 is at table4
+onion2 is directly on top of table4
+onion2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table5
+cheese1 is directly on top of table5
+cheese1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table1 to stove1
+Move robot1 from table1 to board1
+Move robot1 from table1 to table2
+Move robot1 from table1 to fryer1
+Move robot1 from table1 to table3
+Move robot1 from table1 to table4
+Move robot1 from table1 to table5
+Unstack topbun1 from bottombun1 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Unstack topbun1 from bottombun1 using robot1
+
+

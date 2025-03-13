@@ -1,0 +1,721 @@
+Interaction 1
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 is occupied by robot1
+table1 has patty1
+table1 has patty1 directly on top of it
+
+Station table2:
+table2 is a table
+table2 has patty2
+table2 has patty2 directly on top of it
+table2 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 has nothing on it
+stove2 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is at table1
+patty1 is directly on top of table1
+patty1 has nothing above it
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is at table2
+patty2 is directly on top of table2
+patty2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table1 to table2
+Move robot1 from table1 to stove1
+Move robot1 from table1 to stove2
+Pick up patty1 from table1 using robot1
+Do nothing
+
+Goal: Cook the patties on the stoves
+
+Reasoning: ...
+
+Action: Pick up patty1 from table1 using robot1
+
+
+Interaction 2
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 is occupied by robot1
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has patty2
+table2 has patty2 directly on top of it
+table2 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 has nothing on it
+stove2 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is held by robot1
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is at table2
+patty2 is directly on top of table2
+patty2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table1
+robot1 is holding patty1
+
+Valid Actions:
+Move robot1 from table1 to table2
+Move robot1 from table1 to stove1
+Move robot1 from table1 to stove2
+Place patty1 on table1 using robot1
+Do nothing
+
+Goal: Cook the patties on the stoves
+
+Reasoning: ...
+
+Action: Move robot1 from table1 to stove1
+
+
+Interaction 3
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has patty2
+table2 has patty2 directly on top of it
+table2 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 is occupied by robot1
+stove1 has nothing on it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 has nothing on it
+stove2 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is held by robot1
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is at table2
+patty2 is directly on top of table2
+patty2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at stove1
+robot1 is holding patty1
+
+Valid Actions:
+Move robot1 from stove1 to table1
+Move robot1 from stove1 to table2
+Move robot1 from stove1 to stove2
+Place patty1 on stove1 using robot1
+Do nothing
+
+Goal: Cook the patties on the stoves
+
+Reasoning: ...
+
+Action: Place patty1 on stove1 using robot1
+
+
+Interaction 4
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has patty2
+table2 has patty2 directly on top of it
+table2 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 is occupied by robot1
+stove1 has patty1
+stove1 has patty1 directly on top of it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 has nothing on it
+stove2 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is at table2
+patty2 is directly on top of table2
+patty2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at stove1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from stove1 to table1
+Move robot1 from stove1 to table2
+Move robot1 from stove1 to stove2
+Pick up patty1 from stove1 using robot1
+Cook patty1 on stove1 using robot1
+Do nothing
+
+Goal: Cook the patties on the stoves
+
+Reasoning: ...
+
+Action: Cook patty1 on stove1 using robot1
+
+
+Interaction 5
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has patty2
+table2 has patty2 directly on top of it
+table2 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 is occupied by robot1
+stove1 has patty1
+stove1 has patty1 directly on top of it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 has nothing on it
+stove2 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooking
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is at table2
+patty2 is directly on top of table2
+patty2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at stove1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from stove1 to table1
+Move robot1 from stove1 to table2
+Move robot1 from stove1 to stove2
+Pick up patty1 from stove1 using robot1
+Do nothing
+
+Goal: Cook the patties on the stoves
+
+Reasoning: ...
+
+Action: Move robot1 from stove1 to table2
+
+
+Interaction 6
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 is occupied by robot1
+table2 has patty2
+table2 has patty2 directly on top of it
+table2 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has patty1
+stove1 has patty1 directly on top of it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 has nothing on it
+stove2 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooking
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is at table2
+patty2 is directly on top of table2
+patty2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table2
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table2 to table1
+Move robot1 from table2 to stove1
+Move robot1 from table2 to stove2
+Pick up patty2 from table2 using robot1
+Do nothing
+
+Goal: Cook the patties on the stoves
+
+Reasoning: ...
+
+Action: Pick up patty2 from table2 using robot1
+
+
+Interaction 7
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 is occupied by robot1
+table2 has nothing on it
+table2 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has patty1
+stove1 has patty1 directly on top of it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 has nothing on it
+stove2 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooking
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is held by robot1
+
+Player robot1:
+robot1 is a robot
+robot1 is at table2
+robot1 is holding patty2
+
+Valid Actions:
+Move robot1 from table2 to table1
+Move robot1 from table2 to stove1
+Move robot1 from table2 to stove2
+Place patty2 on table2 using robot1
+Do nothing
+
+Goal: Cook the patties on the stoves
+
+Reasoning: ...
+
+Action: Move robot1 from table2 to stove2
+
+
+Interaction 8
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has patty1
+stove1 has patty1 directly on top of it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 is occupied by robot1
+stove2 has nothing on it
+stove2 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is held by robot1
+
+Player robot1:
+robot1 is a robot
+robot1 is at stove2
+robot1 is holding patty2
+
+Valid Actions:
+Move robot1 from stove2 to table1
+Move robot1 from stove2 to table2
+Move robot1 from stove2 to stove1
+Place patty2 on stove2 using robot1
+Do nothing
+
+Goal: Cook the patties on the stoves
+
+Reasoning: ...
+
+Action: Place patty2 on stove2 using robot1
+
+
+Interaction 9
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has patty1
+stove1 has patty1 directly on top of it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 is occupied by robot1
+stove2 has patty2
+stove2 has patty2 directly on top of it
+stove2 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is at stove2
+patty2 is directly on top of stove2
+patty2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at stove2
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from stove2 to table1
+Move robot1 from stove2 to table2
+Move robot1 from stove2 to stove1
+Pick up patty2 from stove2 using robot1
+Cook patty2 on stove2 using robot1
+Do nothing
+
+Goal: Cook the patties on the stoves
+
+Reasoning: ...
+
+Action: Cook patty2 on stove2 using robot1
+
+
+Interaction 10
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has patty1
+stove1 has patty1 directly on top of it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 is occupied by robot1
+stove2 has patty2
+stove2 has patty2 directly on top of it
+stove2 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is cooking
+patty2 is at stove2
+patty2 is directly on top of stove2
+patty2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at stove2
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from stove2 to table1
+Move robot1 from stove2 to table2
+Move robot1 from stove2 to stove1
+Pick up patty2 from stove2 using robot1
+Do nothing
+
+Goal: Cook the patties on the stoves
+
+Reasoning: ...
+
+Action: Do nothing
+
+
+Interaction 11
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has patty1
+stove1 has patty1 directly on top of it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 is occupied by robot1
+stove2 has patty2
+stove2 has patty2 directly on top of it
+stove2 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is cooking
+patty2 is at stove2
+patty2 is directly on top of stove2
+patty2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at stove2
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from stove2 to table1
+Move robot1 from stove2 to table2
+Move robot1 from stove2 to stove1
+Pick up patty2 from stove2 using robot1
+Do nothing
+
+Goal: Cook the patties on the stoves
+
+Reasoning: ...
+
+Action: Do nothing
+
+
+Interaction 12
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has patty1
+stove1 has patty1 directly on top of it
+stove1 has no players at it
+
+Station stove2:
+stove2 is a stove
+stove2 is occupied by robot1
+stove2 has patty2
+stove2 has patty2 directly on top of it
+stove2 has no players at it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item patty2:
+patty2 is a hamburger patty
+patty2 can be cooked on a stove
+patty2 is cooking
+patty2 is at stove2
+patty2 is directly on top of stove2
+patty2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at stove2
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from stove2 to table1
+Move robot1 from stove2 to table2
+Move robot1 from stove2 to stove1
+Pick up patty2 from stove2 using robot1
+Do nothing
+
+Goal: Cook the patties on the stoves
+
+Reasoning: ...
+
+Action: Do nothing
+
+

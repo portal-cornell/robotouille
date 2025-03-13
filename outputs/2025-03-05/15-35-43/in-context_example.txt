@@ -1,0 +1,40 @@
+Interaction 1
+---------------
+
+
+Observation:
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has bread1
+board1 has lettuce1
+board1 has bread1 directly on top of it
+
+Item bread1:
+bread1 is a bread slice
+bread1 is at board1
+bread1 is directly on top of board1
+bread1 is directly under lettuce1
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 is at board1
+lettuce1 has nothing above it
+lettuce1 is directly on top of bread1
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding nothing
+
+Valid Actions:
+Unstack lettuce1 from bread1 using robot1
+Do nothing
+
+Goal: Unstack the stacked item
+
+Reasoning: ...
+
+Action: Unstack lettuce1 from bread1 using robot1
+
+

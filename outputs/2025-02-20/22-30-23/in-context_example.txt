@@ -1,0 +1,5757 @@
+Interaction 1
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 is occupied by robot1
+table1 has bottombun1
+table1 has topbun1
+table1 has bottombun1 directly on top of it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has onion1
+table2 has onion1 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 has patty1
+table3 has patty1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has onion2
+table4 has onion2 directly on top of it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has cheese1
+table5 has cheese1 directly on top of it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 is directly under topbun1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table1
+topbun1 has nothing above it
+topbun1 is directly on top of bottombun1
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is at table2
+onion1 is directly on top of table2
+onion1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is at table3
+patty1 is directly on top of table3
+patty1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer after being cut
+onion2 can be cut on a cutting board
+onion2 is at table4
+onion2 is directly on top of table4
+onion2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table5
+cheese1 is directly on top of table5
+cheese1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table1 to stove1
+Move robot1 from table1 to board1
+Move robot1 from table1 to table2
+Move robot1 from table1 to fryer1
+Move robot1 from table1 to table3
+Move robot1 from table1 to table4
+Move robot1 from table1 to table5
+Unstack topbun1 from bottombun1 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Move robot1 from table1 to table3
+
+
+Interaction 2
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bottombun1
+table1 has topbun1
+table1 has bottombun1 directly on top of it
+table1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has onion1
+table2 has onion1 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 is occupied by robot1
+table3 has patty1
+table3 has patty1 directly on top of it
+
+Station table4:
+table4 is a table
+table4 has onion2
+table4 has onion2 directly on top of it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has cheese1
+table5 has cheese1 directly on top of it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 is directly under topbun1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table1
+topbun1 has nothing above it
+topbun1 is directly on top of bottombun1
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is at table2
+onion1 is directly on top of table2
+onion1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is at table3
+patty1 is directly on top of table3
+patty1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer after being cut
+onion2 can be cut on a cutting board
+onion2 is at table4
+onion2 is directly on top of table4
+onion2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table5
+cheese1 is directly on top of table5
+cheese1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table3
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table3 to table1
+Move robot1 from table3 to stove1
+Move robot1 from table3 to board1
+Move robot1 from table3 to table2
+Move robot1 from table3 to fryer1
+Move robot1 from table3 to table4
+Move robot1 from table3 to table5
+Pick up patty1 from table3 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Pick up patty1 from table3 using robot1
+
+
+Interaction 3
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bottombun1
+table1 has topbun1
+table1 has bottombun1 directly on top of it
+table1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has onion1
+table2 has onion1 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 is occupied by robot1
+table3 has nothing on it
+
+Station table4:
+table4 is a table
+table4 has onion2
+table4 has onion2 directly on top of it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has cheese1
+table5 has cheese1 directly on top of it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 is directly under topbun1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table1
+topbun1 has nothing above it
+topbun1 is directly on top of bottombun1
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is at table2
+onion1 is directly on top of table2
+onion1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is held by robot1
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer after being cut
+onion2 can be cut on a cutting board
+onion2 is at table4
+onion2 is directly on top of table4
+onion2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table5
+cheese1 is directly on top of table5
+cheese1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table3
+robot1 is holding patty1
+
+Valid Actions:
+Move robot1 from table3 to table1
+Move robot1 from table3 to stove1
+Move robot1 from table3 to board1
+Move robot1 from table3 to table2
+Move robot1 from table3 to fryer1
+Move robot1 from table3 to table4
+Move robot1 from table3 to table5
+Place patty1 on table3 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Move robot1 from table3 to stove1
+
+
+Interaction 4
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bottombun1
+table1 has topbun1
+table1 has bottombun1 directly on top of it
+table1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 is occupied by robot1
+stove1 has nothing on it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has onion1
+table2 has onion1 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 has nothing on it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has onion2
+table4 has onion2 directly on top of it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has cheese1
+table5 has cheese1 directly on top of it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 is directly under topbun1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table1
+topbun1 has nothing above it
+topbun1 is directly on top of bottombun1
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is at table2
+onion1 is directly on top of table2
+onion1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is held by robot1
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer after being cut
+onion2 can be cut on a cutting board
+onion2 is at table4
+onion2 is directly on top of table4
+onion2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table5
+cheese1 is directly on top of table5
+cheese1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at stove1
+robot1 is holding patty1
+
+Valid Actions:
+Move robot1 from stove1 to table1
+Move robot1 from stove1 to board1
+Move robot1 from stove1 to table2
+Move robot1 from stove1 to fryer1
+Move robot1 from stove1 to table3
+Move robot1 from stove1 to table4
+Move robot1 from stove1 to table5
+Place patty1 on stove1 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Place patty1 on stove1 using robot1
+
+
+Interaction 5
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bottombun1
+table1 has topbun1
+table1 has bottombun1 directly on top of it
+table1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 is occupied by robot1
+stove1 has patty1
+stove1 has patty1 directly on top of it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has onion1
+table2 has onion1 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 has nothing on it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has onion2
+table4 has onion2 directly on top of it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has cheese1
+table5 has cheese1 directly on top of it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 is directly under topbun1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table1
+topbun1 has nothing above it
+topbun1 is directly on top of bottombun1
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is at table2
+onion1 is directly on top of table2
+onion1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer after being cut
+onion2 can be cut on a cutting board
+onion2 is at table4
+onion2 is directly on top of table4
+onion2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table5
+cheese1 is directly on top of table5
+cheese1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at stove1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from stove1 to table1
+Move robot1 from stove1 to board1
+Move robot1 from stove1 to table2
+Move robot1 from stove1 to fryer1
+Move robot1 from stove1 to table3
+Move robot1 from stove1 to table4
+Move robot1 from stove1 to table5
+Pick up patty1 from stove1 using robot1
+Cook patty1 on stove1 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Cook patty1 on stove1 using robot1
+
+
+Interaction 6
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bottombun1
+table1 has topbun1
+table1 has bottombun1 directly on top of it
+table1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 is occupied by robot1
+stove1 has patty1
+stove1 has patty1 directly on top of it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has onion1
+table2 has onion1 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 has nothing on it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has onion2
+table4 has onion2 directly on top of it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has cheese1
+table5 has cheese1 directly on top of it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 is directly under topbun1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table1
+topbun1 has nothing above it
+topbun1 is directly on top of bottombun1
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is at table2
+onion1 is directly on top of table2
+onion1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooking
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer after being cut
+onion2 can be cut on a cutting board
+onion2 is at table4
+onion2 is directly on top of table4
+onion2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table5
+cheese1 is directly on top of table5
+cheese1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at stove1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from stove1 to table1
+Move robot1 from stove1 to board1
+Move robot1 from stove1 to table2
+Move robot1 from stove1 to fryer1
+Move robot1 from stove1 to table3
+Move robot1 from stove1 to table4
+Move robot1 from stove1 to table5
+Pick up patty1 from stove1 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Move robot1 from stove1 to table4
+
+
+Interaction 7
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bottombun1
+table1 has topbun1
+table1 has bottombun1 directly on top of it
+table1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has patty1
+stove1 has patty1 directly on top of it
+stove1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has onion1
+table2 has onion1 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 has nothing on it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 is occupied by robot1
+table4 has onion2
+table4 has onion2 directly on top of it
+
+Station table5:
+table5 is a table
+table5 has cheese1
+table5 has cheese1 directly on top of it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 is directly under topbun1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table1
+topbun1 has nothing above it
+topbun1 is directly on top of bottombun1
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is at table2
+onion1 is directly on top of table2
+onion1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooking
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer after being cut
+onion2 can be cut on a cutting board
+onion2 is at table4
+onion2 is directly on top of table4
+onion2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table5
+cheese1 is directly on top of table5
+cheese1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table4
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table4 to table1
+Move robot1 from table4 to stove1
+Move robot1 from table4 to board1
+Move robot1 from table4 to table2
+Move robot1 from table4 to fryer1
+Move robot1 from table4 to table3
+Move robot1 from table4 to table5
+Pick up onion2 from table4 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Pick up onion2 from table4 using robot1
+
+
+Interaction 8
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bottombun1
+table1 has topbun1
+table1 has bottombun1 directly on top of it
+table1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has patty1
+stove1 has patty1 directly on top of it
+stove1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has onion1
+table2 has onion1 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 has nothing on it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 is occupied by robot1
+table4 has nothing on it
+
+Station table5:
+table5 is a table
+table5 has cheese1
+table5 has cheese1 directly on top of it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 is directly under topbun1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table1
+topbun1 has nothing above it
+topbun1 is directly on top of bottombun1
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is at table2
+onion1 is directly on top of table2
+onion1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooking
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer after being cut
+onion2 can be cut on a cutting board
+onion2 is held by robot1
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table5
+cheese1 is directly on top of table5
+cheese1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table4
+robot1 is holding onion2
+
+Valid Actions:
+Move robot1 from table4 to table1
+Move robot1 from table4 to stove1
+Move robot1 from table4 to board1
+Move robot1 from table4 to table2
+Move robot1 from table4 to fryer1
+Move robot1 from table4 to table3
+Move robot1 from table4 to table5
+Place onion2 on table4 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Move robot1 from table4 to board1
+
+
+Interaction 9
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bottombun1
+table1 has topbun1
+table1 has bottombun1 directly on top of it
+table1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has patty1
+stove1 has patty1 directly on top of it
+stove1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has onion1
+table2 has onion1 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 has nothing on it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has cheese1
+table5 has cheese1 directly on top of it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 is directly under topbun1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table1
+topbun1 has nothing above it
+topbun1 is directly on top of bottombun1
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is at table2
+onion1 is directly on top of table2
+onion1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer after being cut
+onion2 can be cut on a cutting board
+onion2 is held by robot1
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table5
+cheese1 is directly on top of table5
+cheese1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding onion2
+
+Valid Actions:
+Move robot1 from board1 to table1
+Move robot1 from board1 to stove1
+Move robot1 from board1 to table2
+Move robot1 from board1 to fryer1
+Move robot1 from board1 to table3
+Move robot1 from board1 to table4
+Move robot1 from board1 to table5
+Place onion2 on board1 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Place onion2 on board1 using robot1
+
+
+Interaction 10
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bottombun1
+table1 has topbun1
+table1 has bottombun1 directly on top of it
+table1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has patty1
+stove1 has patty1 directly on top of it
+stove1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has onion2
+board1 has onion2 directly on top of it
+
+Station table2:
+table2 is a table
+table2 has onion1
+table2 has onion1 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 has nothing on it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has cheese1
+table5 has cheese1 directly on top of it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 is directly under topbun1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table1
+topbun1 has nothing above it
+topbun1 is directly on top of bottombun1
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is at table2
+onion1 is directly on top of table2
+onion1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer after being cut
+onion2 can be cut on a cutting board
+onion2 is at board1
+onion2 is directly on top of board1
+onion2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table5
+cheese1 is directly on top of table5
+cheese1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from board1 to table1
+Move robot1 from board1 to stove1
+Move robot1 from board1 to table2
+Move robot1 from board1 to fryer1
+Move robot1 from board1 to table3
+Move robot1 from board1 to table4
+Move robot1 from board1 to table5
+Pick up onion2 from board1 using robot1
+Cut onion2 on board1 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Cut onion2 on board1 using robot1
+
+
+Interaction 11
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bottombun1
+table1 has topbun1
+table1 has bottombun1 directly on top of it
+table1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has patty1
+stove1 has patty1 directly on top of it
+stove1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has onion2
+board1 has onion2 directly on top of it
+
+Station table2:
+table2 is a table
+table2 has onion1
+table2 has onion1 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 has nothing on it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has cheese1
+table5 has cheese1 directly on top of it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 is directly under topbun1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table1
+topbun1 has nothing above it
+topbun1 is directly on top of bottombun1
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is at table2
+onion1 is directly on top of table2
+onion1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer after being cut
+onion2 can be cut on a cutting board
+onion2 is at board1
+onion2 is directly on top of board1
+onion2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table5
+cheese1 is directly on top of table5
+cheese1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from board1 to table1
+Move robot1 from board1 to stove1
+Move robot1 from board1 to table2
+Move robot1 from board1 to fryer1
+Move robot1 from board1 to table3
+Move robot1 from board1 to table4
+Move robot1 from board1 to table5
+Pick up onion2 from board1 using robot1
+Cut onion2 on board1 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Cut onion2 on board1 using robot1
+
+
+Interaction 12
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bottombun1
+table1 has topbun1
+table1 has bottombun1 directly on top of it
+table1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has patty1
+stove1 has patty1 directly on top of it
+stove1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has onion2
+board1 has onion2 directly on top of it
+
+Station table2:
+table2 is a table
+table2 has onion1
+table2 has onion1 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 has nothing on it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has cheese1
+table5 has cheese1 directly on top of it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 is directly under topbun1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table1
+topbun1 has nothing above it
+topbun1 is directly on top of bottombun1
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is at table2
+onion1 is directly on top of table2
+onion1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer after being cut
+onion2 can be cut on a cutting board
+onion2 is at board1
+onion2 is directly on top of board1
+onion2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table5
+cheese1 is directly on top of table5
+cheese1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from board1 to table1
+Move robot1 from board1 to stove1
+Move robot1 from board1 to table2
+Move robot1 from board1 to fryer1
+Move robot1 from board1 to table3
+Move robot1 from board1 to table4
+Move robot1 from board1 to table5
+Pick up onion2 from board1 using robot1
+Cut onion2 on board1 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Cut onion2 on board1 using robot1
+
+
+Interaction 13
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bottombun1
+table1 has topbun1
+table1 has bottombun1 directly on top of it
+table1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has patty1
+stove1 has patty1 directly on top of it
+stove1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has onion2
+board1 has onion2 directly on top of it
+
+Station table2:
+table2 is a table
+table2 has onion1
+table2 has onion1 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 has nothing on it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has cheese1
+table5 has cheese1 directly on top of it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 is directly under topbun1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table1
+topbun1 has nothing above it
+topbun1 is directly on top of bottombun1
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is at table2
+onion1 is directly on top of table2
+onion1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer
+onion2 can be fried in a fryer after being cut
+onion2 can be cut on a cutting board
+onion2 is cut
+onion2 is at board1
+onion2 is directly on top of board1
+onion2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table5
+cheese1 is directly on top of table5
+cheese1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from board1 to table1
+Move robot1 from board1 to stove1
+Move robot1 from board1 to table2
+Move robot1 from board1 to fryer1
+Move robot1 from board1 to table3
+Move robot1 from board1 to table4
+Move robot1 from board1 to table5
+Pick up onion2 from board1 using robot1
+Cut onion2 on board1 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Pick up onion2 from board1 using robot1
+
+
+Interaction 14
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bottombun1
+table1 has topbun1
+table1 has bottombun1 directly on top of it
+table1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has patty1
+stove1 has patty1 directly on top of it
+stove1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has onion1
+table2 has onion1 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 has nothing on it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has cheese1
+table5 has cheese1 directly on top of it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 is directly under topbun1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table1
+topbun1 has nothing above it
+topbun1 is directly on top of bottombun1
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is at table2
+onion1 is directly on top of table2
+onion1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer
+onion2 can be fried in a fryer after being cut
+onion2 can be cut on a cutting board
+onion2 is cut
+onion2 is held by robot1
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table5
+cheese1 is directly on top of table5
+cheese1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding onion2
+
+Valid Actions:
+Move robot1 from board1 to table1
+Move robot1 from board1 to stove1
+Move robot1 from board1 to table2
+Move robot1 from board1 to fryer1
+Move robot1 from board1 to table3
+Move robot1 from board1 to table4
+Move robot1 from board1 to table5
+Place onion2 on board1 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Move robot1 from board1 to fryer1
+
+
+Interaction 15
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bottombun1
+table1 has topbun1
+table1 has bottombun1 directly on top of it
+table1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has patty1
+stove1 has patty1 directly on top of it
+stove1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has onion1
+table2 has onion1 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 is occupied by robot1
+fryer1 has nothing on it
+
+Station table3:
+table3 is a table
+table3 has nothing on it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has cheese1
+table5 has cheese1 directly on top of it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 is directly under topbun1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table1
+topbun1 has nothing above it
+topbun1 is directly on top of bottombun1
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is at table2
+onion1 is directly on top of table2
+onion1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer
+onion2 can be fried in a fryer after being cut
+onion2 can be cut on a cutting board
+onion2 is cut
+onion2 is held by robot1
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table5
+cheese1 is directly on top of table5
+cheese1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at fryer1
+robot1 is holding onion2
+
+Valid Actions:
+Move robot1 from fryer1 to table1
+Move robot1 from fryer1 to stove1
+Move robot1 from fryer1 to board1
+Move robot1 from fryer1 to table2
+Move robot1 from fryer1 to table3
+Move robot1 from fryer1 to table4
+Move robot1 from fryer1 to table5
+Place onion2 on fryer1 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Place onion2 on fryer1 using robot1
+
+
+Interaction 16
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bottombun1
+table1 has topbun1
+table1 has bottombun1 directly on top of it
+table1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has patty1
+stove1 has patty1 directly on top of it
+stove1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has onion1
+table2 has onion1 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 is occupied by robot1
+fryer1 has onion2
+fryer1 has onion2 directly on top of it
+
+Station table3:
+table3 is a table
+table3 has nothing on it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has cheese1
+table5 has cheese1 directly on top of it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 is directly under topbun1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table1
+topbun1 has nothing above it
+topbun1 is directly on top of bottombun1
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is at table2
+onion1 is directly on top of table2
+onion1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer
+onion2 can be fried in a fryer after being cut
+onion2 can be cut on a cutting board
+onion2 is cut
+onion2 is at fryer1
+onion2 is directly on top of fryer1
+onion2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table5
+cheese1 is directly on top of table5
+cheese1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at fryer1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from fryer1 to table1
+Move robot1 from fryer1 to stove1
+Move robot1 from fryer1 to board1
+Move robot1 from fryer1 to table2
+Move robot1 from fryer1 to table3
+Move robot1 from fryer1 to table4
+Move robot1 from fryer1 to table5
+Pick up onion2 from fryer1 using robot1
+Fry onion2 on fryer1 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Fry onion2 on fryer1 using robot1
+
+
+Interaction 17
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bottombun1
+table1 has topbun1
+table1 has bottombun1 directly on top of it
+table1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has patty1
+stove1 has patty1 directly on top of it
+stove1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has onion1
+table2 has onion1 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 is occupied by robot1
+fryer1 has onion2
+fryer1 has onion2 directly on top of it
+
+Station table3:
+table3 is a table
+table3 has nothing on it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has cheese1
+table5 has cheese1 directly on top of it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 is directly under topbun1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table1
+topbun1 has nothing above it
+topbun1 is directly on top of bottombun1
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is at table2
+onion1 is directly on top of table2
+onion1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer
+onion2 can be fried in a fryer after being cut
+onion2 can be cut on a cutting board
+onion2 is cut
+onion2 is at fryer1
+onion2 is directly on top of fryer1
+onion2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table5
+cheese1 is directly on top of table5
+cheese1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at fryer1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from fryer1 to table1
+Move robot1 from fryer1 to stove1
+Move robot1 from fryer1 to board1
+Move robot1 from fryer1 to table2
+Move robot1 from fryer1 to table3
+Move robot1 from fryer1 to table4
+Move robot1 from fryer1 to table5
+Pick up onion2 from fryer1 using robot1
+Fry onion2 on fryer1 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Move robot1 from fryer1 to stove1
+
+
+Interaction 18
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bottombun1
+table1 has topbun1
+table1 has bottombun1 directly on top of it
+table1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 is occupied by robot1
+stove1 has patty1
+stove1 has patty1 directly on top of it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has onion1
+table2 has onion1 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has onion2
+fryer1 has onion2 directly on top of it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 has nothing on it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has cheese1
+table5 has cheese1 directly on top of it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 is directly under topbun1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table1
+topbun1 has nothing above it
+topbun1 is directly on top of bottombun1
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is at table2
+onion1 is directly on top of table2
+onion1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer
+onion2 can be fried in a fryer after being cut
+onion2 can be cut on a cutting board
+onion2 is cut
+onion2 is at fryer1
+onion2 is directly on top of fryer1
+onion2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table5
+cheese1 is directly on top of table5
+cheese1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at stove1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from stove1 to table1
+Move robot1 from stove1 to board1
+Move robot1 from stove1 to table2
+Move robot1 from stove1 to fryer1
+Move robot1 from stove1 to table3
+Move robot1 from stove1 to table4
+Move robot1 from stove1 to table5
+Pick up patty1 from stove1 using robot1
+Cook patty1 on stove1 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Pick up patty1 from stove1 using robot1
+
+
+Interaction 19
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bottombun1
+table1 has topbun1
+table1 has bottombun1 directly on top of it
+table1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 is occupied by robot1
+stove1 has nothing on it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has onion1
+table2 has onion1 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has onion2
+fryer1 has onion2 directly on top of it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 has nothing on it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has cheese1
+table5 has cheese1 directly on top of it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 is directly under topbun1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table1
+topbun1 has nothing above it
+topbun1 is directly on top of bottombun1
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is at table2
+onion1 is directly on top of table2
+onion1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is held by robot1
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer
+onion2 can be fried in a fryer after being cut
+onion2 can be cut on a cutting board
+onion2 is cut
+onion2 is at fryer1
+onion2 is directly on top of fryer1
+onion2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table5
+cheese1 is directly on top of table5
+cheese1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at stove1
+robot1 is holding patty1
+
+Valid Actions:
+Move robot1 from stove1 to table1
+Move robot1 from stove1 to board1
+Move robot1 from stove1 to table2
+Move robot1 from stove1 to fryer1
+Move robot1 from stove1 to table3
+Move robot1 from stove1 to table4
+Move robot1 from stove1 to table5
+Place patty1 on stove1 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Place patty1 on stove1 using robot1
+
+
+Interaction 20
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bottombun1
+table1 has topbun1
+table1 has bottombun1 directly on top of it
+table1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 is occupied by robot1
+stove1 has patty1
+stove1 has patty1 directly on top of it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has onion1
+table2 has onion1 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has onion2
+fryer1 has onion2 directly on top of it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 has nothing on it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has cheese1
+table5 has cheese1 directly on top of it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 is directly under topbun1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table1
+topbun1 has nothing above it
+topbun1 is directly on top of bottombun1
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is at table2
+onion1 is directly on top of table2
+onion1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer
+onion2 can be fried in a fryer after being cut
+onion2 is fried
+onion2 can be cut on a cutting board
+onion2 is cut
+onion2 is at fryer1
+onion2 is directly on top of fryer1
+onion2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table5
+cheese1 is directly on top of table5
+cheese1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at stove1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from stove1 to table1
+Move robot1 from stove1 to board1
+Move robot1 from stove1 to table2
+Move robot1 from stove1 to fryer1
+Move robot1 from stove1 to table3
+Move robot1 from stove1 to table4
+Move robot1 from stove1 to table5
+Pick up patty1 from stove1 using robot1
+Cook patty1 on stove1 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Move robot1 from stove1 to table1
+
+
+Interaction 21
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 is occupied by robot1
+table1 has bottombun1
+table1 has topbun1
+table1 has bottombun1 directly on top of it
+
+Station stove1:
+stove1 is a stove
+stove1 has patty1
+stove1 has patty1 directly on top of it
+stove1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has onion1
+table2 has onion1 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has onion2
+fryer1 has onion2 directly on top of it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 has nothing on it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has cheese1
+table5 has cheese1 directly on top of it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 is directly under topbun1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table1
+topbun1 has nothing above it
+topbun1 is directly on top of bottombun1
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is at table2
+onion1 is directly on top of table2
+onion1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer
+onion2 can be fried in a fryer after being cut
+onion2 is fried
+onion2 can be cut on a cutting board
+onion2 is cut
+onion2 is at fryer1
+onion2 is directly on top of fryer1
+onion2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table5
+cheese1 is directly on top of table5
+cheese1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table1 to stove1
+Move robot1 from table1 to board1
+Move robot1 from table1 to table2
+Move robot1 from table1 to fryer1
+Move robot1 from table1 to table3
+Move robot1 from table1 to table4
+Move robot1 from table1 to table5
+Unstack topbun1 from bottombun1 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Unstack topbun1 from bottombun1 using robot1
+
+
+Interaction 22
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 is occupied by robot1
+table1 has bottombun1
+table1 has bottombun1 directly on top of it
+
+Station stove1:
+stove1 is a stove
+stove1 has patty1
+stove1 has patty1 directly on top of it
+stove1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has onion1
+table2 has onion1 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has onion2
+fryer1 has onion2 directly on top of it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 has nothing on it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has cheese1
+table5 has cheese1 directly on top of it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is held by robot1
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is at table2
+onion1 is directly on top of table2
+onion1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer
+onion2 can be fried in a fryer after being cut
+onion2 is fried
+onion2 can be cut on a cutting board
+onion2 is cut
+onion2 is at fryer1
+onion2 is directly on top of fryer1
+onion2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table5
+cheese1 is directly on top of table5
+cheese1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table1
+robot1 is holding topbun1
+
+Valid Actions:
+Move robot1 from table1 to stove1
+Move robot1 from table1 to board1
+Move robot1 from table1 to table2
+Move robot1 from table1 to fryer1
+Move robot1 from table1 to table3
+Move robot1 from table1 to table4
+Move robot1 from table1 to table5
+Stack topbun1 on top of bottombun1 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Move robot1 from table1 to table3
+
+
+Interaction 23
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bottombun1
+table1 has bottombun1 directly on top of it
+table1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has patty1
+stove1 has patty1 directly on top of it
+stove1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has onion1
+table2 has onion1 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has onion2
+fryer1 has onion2 directly on top of it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 is occupied by robot1
+table3 has nothing on it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has cheese1
+table5 has cheese1 directly on top of it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is held by robot1
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is at table2
+onion1 is directly on top of table2
+onion1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer
+onion2 can be fried in a fryer after being cut
+onion2 is fried
+onion2 can be cut on a cutting board
+onion2 is cut
+onion2 is at fryer1
+onion2 is directly on top of fryer1
+onion2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table5
+cheese1 is directly on top of table5
+cheese1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table3
+robot1 is holding topbun1
+
+Valid Actions:
+Move robot1 from table3 to table1
+Move robot1 from table3 to stove1
+Move robot1 from table3 to board1
+Move robot1 from table3 to table2
+Move robot1 from table3 to fryer1
+Move robot1 from table3 to table4
+Move robot1 from table3 to table5
+Place topbun1 on table3 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Place topbun1 on table3 using robot1
+
+
+Interaction 24
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bottombun1
+table1 has bottombun1 directly on top of it
+table1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has patty1
+stove1 has patty1 directly on top of it
+stove1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has onion1
+table2 has onion1 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has onion2
+fryer1 has onion2 directly on top of it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 is occupied by robot1
+table3 has topbun1
+table3 has topbun1 directly on top of it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has cheese1
+table5 has cheese1 directly on top of it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table3
+topbun1 is directly on top of table3
+topbun1 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is at table2
+onion1 is directly on top of table2
+onion1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer
+onion2 can be fried in a fryer after being cut
+onion2 is fried
+onion2 can be cut on a cutting board
+onion2 is cut
+onion2 is at fryer1
+onion2 is directly on top of fryer1
+onion2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table5
+cheese1 is directly on top of table5
+cheese1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table3
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table3 to table1
+Move robot1 from table3 to stove1
+Move robot1 from table3 to board1
+Move robot1 from table3 to table2
+Move robot1 from table3 to fryer1
+Move robot1 from table3 to table4
+Move robot1 from table3 to table5
+Pick up topbun1 from table3 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Move robot1 from table3 to stove1
+
+
+Interaction 25
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bottombun1
+table1 has bottombun1 directly on top of it
+table1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 is occupied by robot1
+stove1 has patty1
+stove1 has patty1 directly on top of it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has onion1
+table2 has onion1 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has onion2
+fryer1 has onion2 directly on top of it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 has topbun1
+table3 has topbun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has cheese1
+table5 has cheese1 directly on top of it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table3
+topbun1 is directly on top of table3
+topbun1 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is at table2
+onion1 is directly on top of table2
+onion1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at stove1
+patty1 is directly on top of stove1
+patty1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer
+onion2 can be fried in a fryer after being cut
+onion2 is fried
+onion2 can be cut on a cutting board
+onion2 is cut
+onion2 is at fryer1
+onion2 is directly on top of fryer1
+onion2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table5
+cheese1 is directly on top of table5
+cheese1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at stove1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from stove1 to table1
+Move robot1 from stove1 to board1
+Move robot1 from stove1 to table2
+Move robot1 from stove1 to fryer1
+Move robot1 from stove1 to table3
+Move robot1 from stove1 to table4
+Move robot1 from stove1 to table5
+Pick up patty1 from stove1 using robot1
+Cook patty1 on stove1 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Pick up patty1 from stove1 using robot1
+
+
+Interaction 26
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bottombun1
+table1 has bottombun1 directly on top of it
+table1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 is occupied by robot1
+stove1 has nothing on it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has onion1
+table2 has onion1 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has onion2
+fryer1 has onion2 directly on top of it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 has topbun1
+table3 has topbun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has cheese1
+table5 has cheese1 directly on top of it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table3
+topbun1 is directly on top of table3
+topbun1 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is at table2
+onion1 is directly on top of table2
+onion1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is held by robot1
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer
+onion2 can be fried in a fryer after being cut
+onion2 is fried
+onion2 can be cut on a cutting board
+onion2 is cut
+onion2 is at fryer1
+onion2 is directly on top of fryer1
+onion2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table5
+cheese1 is directly on top of table5
+cheese1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at stove1
+robot1 is holding patty1
+
+Valid Actions:
+Move robot1 from stove1 to table1
+Move robot1 from stove1 to board1
+Move robot1 from stove1 to table2
+Move robot1 from stove1 to fryer1
+Move robot1 from stove1 to table3
+Move robot1 from stove1 to table4
+Move robot1 from stove1 to table5
+Place patty1 on stove1 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Move robot1 from stove1 to table1
+
+
+Interaction 27
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 is occupied by robot1
+table1 has bottombun1
+table1 has bottombun1 directly on top of it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has onion1
+table2 has onion1 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has onion2
+fryer1 has onion2 directly on top of it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 has topbun1
+table3 has topbun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has cheese1
+table5 has cheese1 directly on top of it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 has nothing above it
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table3
+topbun1 is directly on top of table3
+topbun1 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is at table2
+onion1 is directly on top of table2
+onion1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is held by robot1
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer
+onion2 can be fried in a fryer after being cut
+onion2 is fried
+onion2 can be cut on a cutting board
+onion2 is cut
+onion2 is at fryer1
+onion2 is directly on top of fryer1
+onion2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table5
+cheese1 is directly on top of table5
+cheese1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table1
+robot1 is holding patty1
+
+Valid Actions:
+Move robot1 from table1 to stove1
+Move robot1 from table1 to board1
+Move robot1 from table1 to table2
+Move robot1 from table1 to fryer1
+Move robot1 from table1 to table3
+Move robot1 from table1 to table4
+Move robot1 from table1 to table5
+Stack patty1 on top of bottombun1 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Stack patty1 on top of bottombun1 using robot1
+
+
+Interaction 28
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 is occupied by robot1
+table1 has bottombun1
+table1 has patty1
+table1 has bottombun1 directly on top of it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has onion1
+table2 has onion1 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has onion2
+fryer1 has onion2 directly on top of it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 has topbun1
+table3 has topbun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has cheese1
+table5 has cheese1 directly on top of it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 is directly under patty1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table3
+topbun1 is directly on top of table3
+topbun1 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is at table2
+onion1 is directly on top of table2
+onion1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table1
+patty1 has nothing above it
+patty1 is directly on top of bottombun1
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer
+onion2 can be fried in a fryer after being cut
+onion2 is fried
+onion2 can be cut on a cutting board
+onion2 is cut
+onion2 is at fryer1
+onion2 is directly on top of fryer1
+onion2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table5
+cheese1 is directly on top of table5
+cheese1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table1 to stove1
+Move robot1 from table1 to board1
+Move robot1 from table1 to table2
+Move robot1 from table1 to fryer1
+Move robot1 from table1 to table3
+Move robot1 from table1 to table4
+Move robot1 from table1 to table5
+Unstack patty1 from bottombun1 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Move robot1 from table1 to table5
+
+
+Interaction 29
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bottombun1
+table1 has patty1
+table1 has bottombun1 directly on top of it
+table1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has onion1
+table2 has onion1 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has onion2
+fryer1 has onion2 directly on top of it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 has topbun1
+table3 has topbun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 is occupied by robot1
+table5 has cheese1
+table5 has cheese1 directly on top of it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 is directly under patty1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table3
+topbun1 is directly on top of table3
+topbun1 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is at table2
+onion1 is directly on top of table2
+onion1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table1
+patty1 has nothing above it
+patty1 is directly on top of bottombun1
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer
+onion2 can be fried in a fryer after being cut
+onion2 is fried
+onion2 can be cut on a cutting board
+onion2 is cut
+onion2 is at fryer1
+onion2 is directly on top of fryer1
+onion2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table5
+cheese1 is directly on top of table5
+cheese1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table5
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table5 to table1
+Move robot1 from table5 to stove1
+Move robot1 from table5 to board1
+Move robot1 from table5 to table2
+Move robot1 from table5 to fryer1
+Move robot1 from table5 to table3
+Move robot1 from table5 to table4
+Pick up cheese1 from table5 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Pick up cheese1 from table5 using robot1
+
+
+Interaction 30
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bottombun1
+table1 has patty1
+table1 has bottombun1 directly on top of it
+table1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has onion1
+table2 has onion1 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has onion2
+fryer1 has onion2 directly on top of it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 has topbun1
+table3 has topbun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 is occupied by robot1
+table5 has nothing on it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 is directly under patty1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table3
+topbun1 is directly on top of table3
+topbun1 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is at table2
+onion1 is directly on top of table2
+onion1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table1
+patty1 has nothing above it
+patty1 is directly on top of bottombun1
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer
+onion2 can be fried in a fryer after being cut
+onion2 is fried
+onion2 can be cut on a cutting board
+onion2 is cut
+onion2 is at fryer1
+onion2 is directly on top of fryer1
+onion2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is held by robot1
+
+Player robot1:
+robot1 is a robot
+robot1 is at table5
+robot1 is holding cheese1
+
+Valid Actions:
+Move robot1 from table5 to table1
+Move robot1 from table5 to stove1
+Move robot1 from table5 to board1
+Move robot1 from table5 to table2
+Move robot1 from table5 to fryer1
+Move robot1 from table5 to table3
+Move robot1 from table5 to table4
+Place cheese1 on table5 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Move robot1 from table5 to table1
+
+
+Interaction 31
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 is occupied by robot1
+table1 has bottombun1
+table1 has patty1
+table1 has bottombun1 directly on top of it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has onion1
+table2 has onion1 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has onion2
+fryer1 has onion2 directly on top of it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 has topbun1
+table3 has topbun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has nothing on it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 is directly under patty1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table3
+topbun1 is directly on top of table3
+topbun1 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is at table2
+onion1 is directly on top of table2
+onion1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table1
+patty1 has nothing above it
+patty1 is directly on top of bottombun1
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer
+onion2 can be fried in a fryer after being cut
+onion2 is fried
+onion2 can be cut on a cutting board
+onion2 is cut
+onion2 is at fryer1
+onion2 is directly on top of fryer1
+onion2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is held by robot1
+
+Player robot1:
+robot1 is a robot
+robot1 is at table1
+robot1 is holding cheese1
+
+Valid Actions:
+Move robot1 from table1 to stove1
+Move robot1 from table1 to board1
+Move robot1 from table1 to table2
+Move robot1 from table1 to fryer1
+Move robot1 from table1 to table3
+Move robot1 from table1 to table4
+Move robot1 from table1 to table5
+Stack cheese1 on top of patty1 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Stack cheese1 on top of patty1 using robot1
+
+
+Interaction 32
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 is occupied by robot1
+table1 has bottombun1
+table1 has patty1
+table1 has cheese1
+table1 has bottombun1 directly on top of it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has onion1
+table2 has onion1 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has onion2
+fryer1 has onion2 directly on top of it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 has topbun1
+table3 has topbun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has nothing on it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 is directly under patty1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table3
+topbun1 is directly on top of table3
+topbun1 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is at table2
+onion1 is directly on top of table2
+onion1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table1
+patty1 is directly on top of bottombun1
+patty1 is directly under cheese1
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer
+onion2 can be fried in a fryer after being cut
+onion2 is fried
+onion2 can be cut on a cutting board
+onion2 is cut
+onion2 is at fryer1
+onion2 is directly on top of fryer1
+onion2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table1
+cheese1 has nothing above it
+cheese1 is directly on top of patty1
+
+Player robot1:
+robot1 is a robot
+robot1 is at table1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table1 to stove1
+Move robot1 from table1 to board1
+Move robot1 from table1 to table2
+Move robot1 from table1 to fryer1
+Move robot1 from table1 to table3
+Move robot1 from table1 to table4
+Move robot1 from table1 to table5
+Unstack cheese1 from patty1 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Move robot1 from table1 to table2
+
+
+Interaction 33
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bottombun1
+table1 has patty1
+table1 has cheese1
+table1 has bottombun1 directly on top of it
+table1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station table2:
+table2 is a table
+table2 is occupied by robot1
+table2 has onion1
+table2 has onion1 directly on top of it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has onion2
+fryer1 has onion2 directly on top of it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 has topbun1
+table3 has topbun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has nothing on it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 is directly under patty1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table3
+topbun1 is directly on top of table3
+topbun1 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is at table2
+onion1 is directly on top of table2
+onion1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table1
+patty1 is directly on top of bottombun1
+patty1 is directly under cheese1
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer
+onion2 can be fried in a fryer after being cut
+onion2 is fried
+onion2 can be cut on a cutting board
+onion2 is cut
+onion2 is at fryer1
+onion2 is directly on top of fryer1
+onion2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table1
+cheese1 has nothing above it
+cheese1 is directly on top of patty1
+
+Player robot1:
+robot1 is a robot
+robot1 is at table2
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table2 to table1
+Move robot1 from table2 to stove1
+Move robot1 from table2 to board1
+Move robot1 from table2 to fryer1
+Move robot1 from table2 to table3
+Move robot1 from table2 to table4
+Move robot1 from table2 to table5
+Pick up onion1 from table2 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Pick up onion1 from table2 using robot1
+
+
+Interaction 34
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bottombun1
+table1 has patty1
+table1 has cheese1
+table1 has bottombun1 directly on top of it
+table1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station table2:
+table2 is a table
+table2 is occupied by robot1
+table2 has nothing on it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has onion2
+fryer1 has onion2 directly on top of it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 has topbun1
+table3 has topbun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has nothing on it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 is directly under patty1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table3
+topbun1 is directly on top of table3
+topbun1 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is held by robot1
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table1
+patty1 is directly on top of bottombun1
+patty1 is directly under cheese1
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer
+onion2 can be fried in a fryer after being cut
+onion2 is fried
+onion2 can be cut on a cutting board
+onion2 is cut
+onion2 is at fryer1
+onion2 is directly on top of fryer1
+onion2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table1
+cheese1 has nothing above it
+cheese1 is directly on top of patty1
+
+Player robot1:
+robot1 is a robot
+robot1 is at table2
+robot1 is holding onion1
+
+Valid Actions:
+Move robot1 from table2 to table1
+Move robot1 from table2 to stove1
+Move robot1 from table2 to board1
+Move robot1 from table2 to fryer1
+Move robot1 from table2 to table3
+Move robot1 from table2 to table4
+Move robot1 from table2 to table5
+Place onion1 on table2 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Move robot1 from table2 to board1
+
+
+Interaction 35
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bottombun1
+table1 has patty1
+table1 has cheese1
+table1 has bottombun1 directly on top of it
+table1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has onion2
+fryer1 has onion2 directly on top of it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 has topbun1
+table3 has topbun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has nothing on it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 is directly under patty1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table3
+topbun1 is directly on top of table3
+topbun1 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is held by robot1
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table1
+patty1 is directly on top of bottombun1
+patty1 is directly under cheese1
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer
+onion2 can be fried in a fryer after being cut
+onion2 is fried
+onion2 can be cut on a cutting board
+onion2 is cut
+onion2 is at fryer1
+onion2 is directly on top of fryer1
+onion2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table1
+cheese1 has nothing above it
+cheese1 is directly on top of patty1
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding onion1
+
+Valid Actions:
+Move robot1 from board1 to table1
+Move robot1 from board1 to stove1
+Move robot1 from board1 to table2
+Move robot1 from board1 to fryer1
+Move robot1 from board1 to table3
+Move robot1 from board1 to table4
+Move robot1 from board1 to table5
+Place onion1 on board1 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Place onion1 on board1 using robot1
+
+
+Interaction 36
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bottombun1
+table1 has patty1
+table1 has cheese1
+table1 has bottombun1 directly on top of it
+table1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has onion1
+board1 has onion1 directly on top of it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has onion2
+fryer1 has onion2 directly on top of it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 has topbun1
+table3 has topbun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has nothing on it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 is directly under patty1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table3
+topbun1 is directly on top of table3
+topbun1 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is at board1
+onion1 is directly on top of board1
+onion1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table1
+patty1 is directly on top of bottombun1
+patty1 is directly under cheese1
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer
+onion2 can be fried in a fryer after being cut
+onion2 is fried
+onion2 can be cut on a cutting board
+onion2 is cut
+onion2 is at fryer1
+onion2 is directly on top of fryer1
+onion2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table1
+cheese1 has nothing above it
+cheese1 is directly on top of patty1
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from board1 to table1
+Move robot1 from board1 to stove1
+Move robot1 from board1 to table2
+Move robot1 from board1 to fryer1
+Move robot1 from board1 to table3
+Move robot1 from board1 to table4
+Move robot1 from board1 to table5
+Pick up onion1 from board1 using robot1
+Cut onion1 on board1 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Cut onion1 on board1 using robot1
+
+
+Interaction 37
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bottombun1
+table1 has patty1
+table1 has cheese1
+table1 has bottombun1 directly on top of it
+table1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has onion1
+board1 has onion1 directly on top of it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has onion2
+fryer1 has onion2 directly on top of it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 has topbun1
+table3 has topbun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has nothing on it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 is directly under patty1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table3
+topbun1 is directly on top of table3
+topbun1 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is at board1
+onion1 is directly on top of board1
+onion1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table1
+patty1 is directly on top of bottombun1
+patty1 is directly under cheese1
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer
+onion2 can be fried in a fryer after being cut
+onion2 is fried
+onion2 can be cut on a cutting board
+onion2 is cut
+onion2 is at fryer1
+onion2 is directly on top of fryer1
+onion2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table1
+cheese1 has nothing above it
+cheese1 is directly on top of patty1
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from board1 to table1
+Move robot1 from board1 to stove1
+Move robot1 from board1 to table2
+Move robot1 from board1 to fryer1
+Move robot1 from board1 to table3
+Move robot1 from board1 to table4
+Move robot1 from board1 to table5
+Pick up onion1 from board1 using robot1
+Cut onion1 on board1 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Cut onion1 on board1 using robot1
+
+
+Interaction 38
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bottombun1
+table1 has patty1
+table1 has cheese1
+table1 has bottombun1 directly on top of it
+table1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has onion1
+board1 has onion1 directly on top of it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has onion2
+fryer1 has onion2 directly on top of it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 has topbun1
+table3 has topbun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has nothing on it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 is directly under patty1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table3
+topbun1 is directly on top of table3
+topbun1 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is at board1
+onion1 is directly on top of board1
+onion1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table1
+patty1 is directly on top of bottombun1
+patty1 is directly under cheese1
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer
+onion2 can be fried in a fryer after being cut
+onion2 is fried
+onion2 can be cut on a cutting board
+onion2 is cut
+onion2 is at fryer1
+onion2 is directly on top of fryer1
+onion2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table1
+cheese1 has nothing above it
+cheese1 is directly on top of patty1
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from board1 to table1
+Move robot1 from board1 to stove1
+Move robot1 from board1 to table2
+Move robot1 from board1 to fryer1
+Move robot1 from board1 to table3
+Move robot1 from board1 to table4
+Move robot1 from board1 to table5
+Pick up onion1 from board1 using robot1
+Cut onion1 on board1 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Cut onion1 on board1 using robot1
+
+
+Interaction 39
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bottombun1
+table1 has patty1
+table1 has cheese1
+table1 has bottombun1 directly on top of it
+table1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has onion1
+board1 has onion1 directly on top of it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has onion2
+fryer1 has onion2 directly on top of it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 has topbun1
+table3 has topbun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has nothing on it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 is directly under patty1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table3
+topbun1 is directly on top of table3
+topbun1 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is cut
+onion1 is at board1
+onion1 is directly on top of board1
+onion1 has nothing above it
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table1
+patty1 is directly on top of bottombun1
+patty1 is directly under cheese1
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer
+onion2 can be fried in a fryer after being cut
+onion2 is fried
+onion2 can be cut on a cutting board
+onion2 is cut
+onion2 is at fryer1
+onion2 is directly on top of fryer1
+onion2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table1
+cheese1 has nothing above it
+cheese1 is directly on top of patty1
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from board1 to table1
+Move robot1 from board1 to stove1
+Move robot1 from board1 to table2
+Move robot1 from board1 to fryer1
+Move robot1 from board1 to table3
+Move robot1 from board1 to table4
+Move robot1 from board1 to table5
+Pick up onion1 from board1 using robot1
+Cut onion1 on board1 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Pick up onion1 from board1 using robot1
+
+
+Interaction 40
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bottombun1
+table1 has patty1
+table1 has cheese1
+table1 has bottombun1 directly on top of it
+table1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has onion2
+fryer1 has onion2 directly on top of it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 has topbun1
+table3 has topbun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has nothing on it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 is directly under patty1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table3
+topbun1 is directly on top of table3
+topbun1 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is cut
+onion1 is held by robot1
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table1
+patty1 is directly on top of bottombun1
+patty1 is directly under cheese1
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer
+onion2 can be fried in a fryer after being cut
+onion2 is fried
+onion2 can be cut on a cutting board
+onion2 is cut
+onion2 is at fryer1
+onion2 is directly on top of fryer1
+onion2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table1
+cheese1 has nothing above it
+cheese1 is directly on top of patty1
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding onion1
+
+Valid Actions:
+Move robot1 from board1 to table1
+Move robot1 from board1 to stove1
+Move robot1 from board1 to table2
+Move robot1 from board1 to fryer1
+Move robot1 from board1 to table3
+Move robot1 from board1 to table4
+Move robot1 from board1 to table5
+Place onion1 on board1 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Move robot1 from board1 to table1
+
+
+Interaction 41
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 is occupied by robot1
+table1 has bottombun1
+table1 has patty1
+table1 has cheese1
+table1 has bottombun1 directly on top of it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has onion2
+fryer1 has onion2 directly on top of it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 has topbun1
+table3 has topbun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has nothing on it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 is directly under patty1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table3
+topbun1 is directly on top of table3
+topbun1 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is cut
+onion1 is held by robot1
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table1
+patty1 is directly on top of bottombun1
+patty1 is directly under cheese1
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer
+onion2 can be fried in a fryer after being cut
+onion2 is fried
+onion2 can be cut on a cutting board
+onion2 is cut
+onion2 is at fryer1
+onion2 is directly on top of fryer1
+onion2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table1
+cheese1 has nothing above it
+cheese1 is directly on top of patty1
+
+Player robot1:
+robot1 is a robot
+robot1 is at table1
+robot1 is holding onion1
+
+Valid Actions:
+Move robot1 from table1 to stove1
+Move robot1 from table1 to board1
+Move robot1 from table1 to table2
+Move robot1 from table1 to fryer1
+Move robot1 from table1 to table3
+Move robot1 from table1 to table4
+Move robot1 from table1 to table5
+Stack onion1 on top of cheese1 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Stack onion1 on top of cheese1 using robot1
+
+
+Interaction 42
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 is occupied by robot1
+table1 has bottombun1
+table1 has onion1
+table1 has patty1
+table1 has cheese1
+table1 has bottombun1 directly on top of it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has onion2
+fryer1 has onion2 directly on top of it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 has topbun1
+table3 has topbun1 directly on top of it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has nothing on it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 is directly under patty1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table3
+topbun1 is directly on top of table3
+topbun1 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is cut
+onion1 is at table1
+onion1 has nothing above it
+onion1 is directly on top of cheese1
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table1
+patty1 is directly on top of bottombun1
+patty1 is directly under cheese1
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer
+onion2 can be fried in a fryer after being cut
+onion2 is fried
+onion2 can be cut on a cutting board
+onion2 is cut
+onion2 is at fryer1
+onion2 is directly on top of fryer1
+onion2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table1
+cheese1 is directly under onion1
+cheese1 is directly on top of patty1
+
+Player robot1:
+robot1 is a robot
+robot1 is at table1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table1 to stove1
+Move robot1 from table1 to board1
+Move robot1 from table1 to table2
+Move robot1 from table1 to fryer1
+Move robot1 from table1 to table3
+Move robot1 from table1 to table4
+Move robot1 from table1 to table5
+Unstack onion1 from cheese1 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Move robot1 from table1 to table3
+
+
+Interaction 43
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bottombun1
+table1 has onion1
+table1 has patty1
+table1 has cheese1
+table1 has bottombun1 directly on top of it
+table1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has onion2
+fryer1 has onion2 directly on top of it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 is occupied by robot1
+table3 has topbun1
+table3 has topbun1 directly on top of it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has nothing on it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 is directly under patty1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table3
+topbun1 is directly on top of table3
+topbun1 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is cut
+onion1 is at table1
+onion1 has nothing above it
+onion1 is directly on top of cheese1
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table1
+patty1 is directly on top of bottombun1
+patty1 is directly under cheese1
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer
+onion2 can be fried in a fryer after being cut
+onion2 is fried
+onion2 can be cut on a cutting board
+onion2 is cut
+onion2 is at fryer1
+onion2 is directly on top of fryer1
+onion2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table1
+cheese1 is directly under onion1
+cheese1 is directly on top of patty1
+
+Player robot1:
+robot1 is a robot
+robot1 is at table3
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table3 to table1
+Move robot1 from table3 to stove1
+Move robot1 from table3 to board1
+Move robot1 from table3 to table2
+Move robot1 from table3 to fryer1
+Move robot1 from table3 to table4
+Move robot1 from table3 to table5
+Pick up topbun1 from table3 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Pick up topbun1 from table3 using robot1
+
+
+Interaction 44
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bottombun1
+table1 has onion1
+table1 has patty1
+table1 has cheese1
+table1 has bottombun1 directly on top of it
+table1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has onion2
+fryer1 has onion2 directly on top of it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 is occupied by robot1
+table3 has nothing on it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has nothing on it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 is directly under patty1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is held by robot1
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is cut
+onion1 is at table1
+onion1 has nothing above it
+onion1 is directly on top of cheese1
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table1
+patty1 is directly on top of bottombun1
+patty1 is directly under cheese1
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer
+onion2 can be fried in a fryer after being cut
+onion2 is fried
+onion2 can be cut on a cutting board
+onion2 is cut
+onion2 is at fryer1
+onion2 is directly on top of fryer1
+onion2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table1
+cheese1 is directly under onion1
+cheese1 is directly on top of patty1
+
+Player robot1:
+robot1 is a robot
+robot1 is at table3
+robot1 is holding topbun1
+
+Valid Actions:
+Move robot1 from table3 to table1
+Move robot1 from table3 to stove1
+Move robot1 from table3 to board1
+Move robot1 from table3 to table2
+Move robot1 from table3 to fryer1
+Move robot1 from table3 to table4
+Move robot1 from table3 to table5
+Place topbun1 on table3 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Move robot1 from table3 to table1
+
+
+Interaction 45
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 is occupied by robot1
+table1 has bottombun1
+table1 has onion1
+table1 has patty1
+table1 has cheese1
+table1 has bottombun1 directly on top of it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has onion2
+fryer1 has onion2 directly on top of it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 has nothing on it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has nothing on it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 is directly under patty1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is held by robot1
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is cut
+onion1 is at table1
+onion1 has nothing above it
+onion1 is directly on top of cheese1
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table1
+patty1 is directly on top of bottombun1
+patty1 is directly under cheese1
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer
+onion2 can be fried in a fryer after being cut
+onion2 is fried
+onion2 can be cut on a cutting board
+onion2 is cut
+onion2 is at fryer1
+onion2 is directly on top of fryer1
+onion2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table1
+cheese1 is directly under onion1
+cheese1 is directly on top of patty1
+
+Player robot1:
+robot1 is a robot
+robot1 is at table1
+robot1 is holding topbun1
+
+Valid Actions:
+Move robot1 from table1 to stove1
+Move robot1 from table1 to board1
+Move robot1 from table1 to table2
+Move robot1 from table1 to fryer1
+Move robot1 from table1 to table3
+Move robot1 from table1 to table4
+Move robot1 from table1 to table5
+Stack topbun1 on top of onion1 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Stack topbun1 on top of onion1 using robot1
+
+
+Interaction 46
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 is occupied by robot1
+table1 has bottombun1
+table1 has topbun1
+table1 has onion1
+table1 has patty1
+table1 has cheese1
+table1 has bottombun1 directly on top of it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has onion2
+fryer1 has onion2 directly on top of it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 has nothing on it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has nothing on it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 is directly under patty1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table1
+topbun1 has nothing above it
+topbun1 is directly on top of onion1
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is cut
+onion1 is at table1
+onion1 is directly under topbun1
+onion1 is directly on top of cheese1
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table1
+patty1 is directly on top of bottombun1
+patty1 is directly under cheese1
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer
+onion2 can be fried in a fryer after being cut
+onion2 is fried
+onion2 can be cut on a cutting board
+onion2 is cut
+onion2 is at fryer1
+onion2 is directly on top of fryer1
+onion2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table1
+cheese1 is directly under onion1
+cheese1 is directly on top of patty1
+
+Player robot1:
+robot1 is a robot
+robot1 is at table1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table1 to stove1
+Move robot1 from table1 to board1
+Move robot1 from table1 to table2
+Move robot1 from table1 to fryer1
+Move robot1 from table1 to table3
+Move robot1 from table1 to table4
+Move robot1 from table1 to table5
+Unstack topbun1 from onion1 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Move robot1 from table1 to fryer1
+
+
+Interaction 47
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bottombun1
+table1 has topbun1
+table1 has onion1
+table1 has patty1
+table1 has cheese1
+table1 has bottombun1 directly on top of it
+table1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 is occupied by robot1
+fryer1 has onion2
+fryer1 has onion2 directly on top of it
+
+Station table3:
+table3 is a table
+table3 has nothing on it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has nothing on it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 is directly under patty1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table1
+topbun1 has nothing above it
+topbun1 is directly on top of onion1
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is cut
+onion1 is at table1
+onion1 is directly under topbun1
+onion1 is directly on top of cheese1
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table1
+patty1 is directly on top of bottombun1
+patty1 is directly under cheese1
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer
+onion2 can be fried in a fryer after being cut
+onion2 is fried
+onion2 can be cut on a cutting board
+onion2 is cut
+onion2 is at fryer1
+onion2 is directly on top of fryer1
+onion2 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table1
+cheese1 is directly under onion1
+cheese1 is directly on top of patty1
+
+Player robot1:
+robot1 is a robot
+robot1 is at fryer1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from fryer1 to table1
+Move robot1 from fryer1 to stove1
+Move robot1 from fryer1 to board1
+Move robot1 from fryer1 to table2
+Move robot1 from fryer1 to table3
+Move robot1 from fryer1 to table4
+Move robot1 from fryer1 to table5
+Pick up onion2 from fryer1 using robot1
+Fry onion2 on fryer1 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Pick up onion2 from fryer1 using robot1
+
+
+Interaction 48
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bottombun1
+table1 has topbun1
+table1 has onion1
+table1 has patty1
+table1 has cheese1
+table1 has bottombun1 directly on top of it
+table1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 is occupied by robot1
+fryer1 has nothing on it
+
+Station table3:
+table3 is a table
+table3 has nothing on it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has nothing on it
+table4 has no players at it
+
+Station table5:
+table5 is a table
+table5 has nothing on it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 is directly under patty1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table1
+topbun1 has nothing above it
+topbun1 is directly on top of onion1
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is cut
+onion1 is at table1
+onion1 is directly under topbun1
+onion1 is directly on top of cheese1
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table1
+patty1 is directly on top of bottombun1
+patty1 is directly under cheese1
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer
+onion2 can be fried in a fryer after being cut
+onion2 is fried
+onion2 can be cut on a cutting board
+onion2 is cut
+onion2 is held by robot1
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table1
+cheese1 is directly under onion1
+cheese1 is directly on top of patty1
+
+Player robot1:
+robot1 is a robot
+robot1 is at fryer1
+robot1 is holding onion2
+
+Valid Actions:
+Move robot1 from fryer1 to table1
+Move robot1 from fryer1 to stove1
+Move robot1 from fryer1 to board1
+Move robot1 from fryer1 to table2
+Move robot1 from fryer1 to table3
+Move robot1 from fryer1 to table4
+Move robot1 from fryer1 to table5
+Place onion2 on fryer1 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Move robot1 from fryer1 to table4
+
+
+Interaction 49
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bottombun1
+table1 has topbun1
+table1 has onion1
+table1 has patty1
+table1 has cheese1
+table1 has bottombun1 directly on top of it
+table1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station table3:
+table3 is a table
+table3 has nothing on it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 is occupied by robot1
+table4 has nothing on it
+
+Station table5:
+table5 is a table
+table5 has nothing on it
+table5 has no players at it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at table1
+bottombun1 is directly on top of table1
+bottombun1 is directly under patty1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at table1
+topbun1 has nothing above it
+topbun1 is directly on top of onion1
+
+Item onion1:
+onion1 is an onion
+onion1 can be fried in a fryer
+onion1 can be fried in a fryer after being cut
+onion1 can be cut on a cutting board
+onion1 is cut
+onion1 is at table1
+onion1 is directly under topbun1
+onion1 is directly on top of cheese1
+
+Item patty1:
+patty1 is a hamburger patty
+patty1 can be cooked on a stove
+patty1 is cooked
+patty1 is at table1
+patty1 is directly on top of bottombun1
+patty1 is directly under cheese1
+
+Item onion2:
+onion2 is an onion
+onion2 can be fried in a fryer
+onion2 can be fried in a fryer after being cut
+onion2 is fried
+onion2 can be cut on a cutting board
+onion2 is cut
+onion2 is held by robot1
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table1
+cheese1 is directly under onion1
+cheese1 is directly on top of patty1
+
+Player robot1:
+robot1 is a robot
+robot1 is at table4
+robot1 is holding onion2
+
+Valid Actions:
+Move robot1 from table4 to table1
+Move robot1 from table4 to stove1
+Move robot1 from table4 to board1
+Move robot1 from table4 to table2
+Move robot1 from table4 to fryer1
+Move robot1 from table4 to table3
+Move robot1 from table4 to table5
+Place onion2 on table4 using robot1
+Do nothing
+
+Goal: Prepare an onion cheese burger and fried onion rings on separate tables
+
+Reasoning: ...
+
+Action: Place onion2 on table4 using robot1
+
+

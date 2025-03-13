@@ -1,0 +1,782 @@
+Interaction 1
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 is occupied by robot1
+table1 has lettuce1
+table1 has lettuce1 directly on top of it
+
+Station table2:
+table2 is a table
+table2 has lettuce2
+table2 has lettuce2 directly on top of it
+table2 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has nothing on it
+board2 has no players at it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table1
+lettuce1 is directly on top of table1
+lettuce1 has nothing above it
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is at table2
+lettuce2 is directly on top of table2
+lettuce2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table1 to table2
+Move robot1 from table1 to board1
+Move robot1 from table1 to board2
+Pick up lettuce1 from table1 using robot1
+Do nothing
+
+Goal: Fully cut all the lettuce on the boards
+
+Reasoning: ...
+
+Action: Pick up lettuce1 from table1 using robot1
+
+
+Interaction 2
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 is occupied by robot1
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has lettuce2
+table2 has lettuce2 directly on top of it
+table2 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has nothing on it
+board2 has no players at it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is held by robot1
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is at table2
+lettuce2 is directly on top of table2
+lettuce2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table1
+robot1 is holding lettuce1
+
+Valid Actions:
+Move robot1 from table1 to table2
+Move robot1 from table1 to board1
+Move robot1 from table1 to board2
+Place lettuce1 on table1 using robot1
+Do nothing
+
+Goal: Fully cut all the lettuce on the boards
+
+Reasoning: ...
+
+Action: Move robot1 from table1 to board1
+
+
+Interaction 3
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has lettuce2
+table2 has lettuce2 directly on top of it
+table2 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has nothing on it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has nothing on it
+board2 has no players at it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is held by robot1
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is at table2
+lettuce2 is directly on top of table2
+lettuce2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding lettuce1
+
+Valid Actions:
+Move robot1 from board1 to table1
+Move robot1 from board1 to table2
+Move robot1 from board1 to board2
+Place lettuce1 on board1 using robot1
+Do nothing
+
+Goal: Fully cut all the lettuce on the boards
+
+Reasoning: ...
+
+Action: Place lettuce1 on board1 using robot1
+
+
+Interaction 4
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has lettuce2
+table2 has lettuce2 directly on top of it
+table2 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has lettuce1
+board1 has lettuce1 directly on top of it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has nothing on it
+board2 has no players at it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at board1
+lettuce1 is directly on top of board1
+lettuce1 has nothing above it
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is at table2
+lettuce2 is directly on top of table2
+lettuce2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from board1 to table1
+Move robot1 from board1 to table2
+Move robot1 from board1 to board2
+Pick up lettuce1 from board1 using robot1
+Cut lettuce1 on board1 using robot1
+Do nothing
+
+Goal: Fully cut all the lettuce on the boards
+
+Reasoning: ...
+
+Action: Cut lettuce1 on board1 using robot1
+
+
+Interaction 5
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has lettuce2
+table2 has lettuce2 directly on top of it
+table2 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has lettuce1
+board1 has lettuce1 directly on top of it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has nothing on it
+board2 has no players at it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at board1
+lettuce1 is directly on top of board1
+lettuce1 has nothing above it
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is at table2
+lettuce2 is directly on top of table2
+lettuce2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from board1 to table1
+Move robot1 from board1 to table2
+Move robot1 from board1 to board2
+Pick up lettuce1 from board1 using robot1
+Cut lettuce1 on board1 using robot1
+Do nothing
+
+Goal: Fully cut all the lettuce on the boards
+
+Reasoning: ...
+
+Action: Cut lettuce1 on board1 using robot1
+
+
+Interaction 6
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has lettuce2
+table2 has lettuce2 directly on top of it
+table2 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has lettuce1
+board1 has lettuce1 directly on top of it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has nothing on it
+board2 has no players at it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at board1
+lettuce1 is directly on top of board1
+lettuce1 has nothing above it
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is at table2
+lettuce2 is directly on top of table2
+lettuce2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from board1 to table1
+Move robot1 from board1 to table2
+Move robot1 from board1 to board2
+Pick up lettuce1 from board1 using robot1
+Cut lettuce1 on board1 using robot1
+Do nothing
+
+Goal: Fully cut all the lettuce on the boards
+
+Reasoning: ...
+
+Action: Cut lettuce1 on board1 using robot1
+
+
+Interaction 7
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has lettuce2
+table2 has lettuce2 directly on top of it
+table2 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has lettuce1
+board1 has lettuce1 directly on top of it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has nothing on it
+board2 has no players at it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is cut
+lettuce1 is at board1
+lettuce1 is directly on top of board1
+lettuce1 has nothing above it
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is at table2
+lettuce2 is directly on top of table2
+lettuce2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from board1 to table1
+Move robot1 from board1 to table2
+Move robot1 from board1 to board2
+Pick up lettuce1 from board1 using robot1
+Cut lettuce1 on board1 using robot1
+Do nothing
+
+Goal: Fully cut all the lettuce on the boards
+
+Reasoning: ...
+
+Action: Move robot1 from board1 to table2
+
+
+Interaction 8
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 is occupied by robot1
+table2 has lettuce2
+table2 has lettuce2 directly on top of it
+table2 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has lettuce1
+board1 has lettuce1 directly on top of it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has nothing on it
+board2 has no players at it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is cut
+lettuce1 is at board1
+lettuce1 is directly on top of board1
+lettuce1 has nothing above it
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is at table2
+lettuce2 is directly on top of table2
+lettuce2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table2
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table2 to table1
+Move robot1 from table2 to board1
+Move robot1 from table2 to board2
+Pick up lettuce2 from table2 using robot1
+Do nothing
+
+Goal: Fully cut all the lettuce on the boards
+
+Reasoning: ...
+
+Action: Pick up lettuce2 from table2 using robot1
+
+
+Interaction 9
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 is occupied by robot1
+table2 has nothing on it
+table2 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has lettuce1
+board1 has lettuce1 directly on top of it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has nothing on it
+board2 has no players at it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is cut
+lettuce1 is at board1
+lettuce1 is directly on top of board1
+lettuce1 has nothing above it
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is held by robot1
+
+Player robot1:
+robot1 is a robot
+robot1 is at table2
+robot1 is holding lettuce2
+
+Valid Actions:
+Move robot1 from table2 to table1
+Move robot1 from table2 to board1
+Move robot1 from table2 to board2
+Place lettuce2 on table2 using robot1
+Do nothing
+
+Goal: Fully cut all the lettuce on the boards
+
+Reasoning: ...
+
+Action: Move robot1 from table2 to board2
+
+
+Interaction 10
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has lettuce1
+board1 has lettuce1 directly on top of it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 is occupied by robot1
+board2 has nothing on it
+board2 has no players at it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is cut
+lettuce1 is at board1
+lettuce1 is directly on top of board1
+lettuce1 has nothing above it
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is held by robot1
+
+Player robot1:
+robot1 is a robot
+robot1 is at board2
+robot1 is holding lettuce2
+
+Valid Actions:
+Move robot1 from board2 to table1
+Move robot1 from board2 to table2
+Move robot1 from board2 to board1
+Place lettuce2 on board2 using robot1
+Do nothing
+
+Goal: Fully cut all the lettuce on the boards
+
+Reasoning: ...
+
+Action: Place lettuce2 on board2 using robot1
+
+
+Interaction 11
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has lettuce1
+board1 has lettuce1 directly on top of it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 is occupied by robot1
+board2 has lettuce2
+board2 has lettuce2 directly on top of it
+board2 has no players at it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is cut
+lettuce1 is at board1
+lettuce1 is directly on top of board1
+lettuce1 has nothing above it
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is at board2
+lettuce2 is directly on top of board2
+lettuce2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at board2
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from board2 to table1
+Move robot1 from board2 to table2
+Move robot1 from board2 to board1
+Pick up lettuce2 from board2 using robot1
+Cut lettuce2 on board2 using robot1
+Do nothing
+
+Goal: Fully cut all the lettuce on the boards
+
+Reasoning: ...
+
+Action: Cut lettuce2 on board2 using robot1
+
+
+Interaction 12
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has lettuce1
+board1 has lettuce1 directly on top of it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 is occupied by robot1
+board2 has lettuce2
+board2 has lettuce2 directly on top of it
+board2 has no players at it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is cut
+lettuce1 is at board1
+lettuce1 is directly on top of board1
+lettuce1 has nothing above it
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is at board2
+lettuce2 is directly on top of board2
+lettuce2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at board2
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from board2 to table1
+Move robot1 from board2 to table2
+Move robot1 from board2 to board1
+Pick up lettuce2 from board2 using robot1
+Cut lettuce2 on board2 using robot1
+Do nothing
+
+Goal: Fully cut all the lettuce on the boards
+
+Reasoning: ...
+
+Action: Cut lettuce2 on board2 using robot1
+
+
+Interaction 13
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has lettuce1
+board1 has lettuce1 directly on top of it
+board1 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 is occupied by robot1
+board2 has lettuce2
+board2 has lettuce2 directly on top of it
+board2 has no players at it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is cut
+lettuce1 is at board1
+lettuce1 is directly on top of board1
+lettuce1 has nothing above it
+
+Item lettuce2:
+lettuce2 is a head of lettuce
+lettuce2 can be cut on a cutting board
+lettuce2 is at board2
+lettuce2 is directly on top of board2
+lettuce2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at board2
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from board2 to table1
+Move robot1 from board2 to table2
+Move robot1 from board2 to board1
+Pick up lettuce2 from board2 using robot1
+Cut lettuce2 on board2 using robot1
+Do nothing
+
+Goal: Fully cut all the lettuce on the boards
+
+Reasoning: ...
+
+Action: Cut lettuce2 on board2 using robot1
+
+

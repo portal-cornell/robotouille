@@ -1,0 +1,1870 @@
+Interaction 1
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 is occupied by robot1
+table1 has potato1
+table1 has potato1 directly on top of it
+
+Station table2:
+table2 is a table
+table2 has potato2
+table2 has potato2 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Item potato1:
+potato1 is a potato
+potato1 can be fried in a fryer after being cut
+potato1 can be cut on a cutting board
+potato1 is at table1
+potato1 is directly on top of table1
+potato1 has nothing above it
+
+Item potato2:
+potato2 is a potato
+potato2 can be fried in a fryer after being cut
+potato2 can be cut on a cutting board
+potato2 is at table2
+potato2 is directly on top of table2
+potato2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table1 to table2
+Move robot1 from table1 to fryer1
+Move robot1 from table1 to board1
+Pick up potato1 from table1 using robot1
+Do nothing
+
+Goal: Make some french fries by cutting then frying the potatoes
+
+Reasoning: ...
+
+Action: Pick up potato1 from table1 using robot1
+
+
+Interaction 2
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 is occupied by robot1
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has potato2
+table2 has potato2 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Item potato1:
+potato1 is a potato
+potato1 can be fried in a fryer after being cut
+potato1 can be cut on a cutting board
+potato1 is held by robot1
+
+Item potato2:
+potato2 is a potato
+potato2 can be fried in a fryer after being cut
+potato2 can be cut on a cutting board
+potato2 is at table2
+potato2 is directly on top of table2
+potato2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table1
+robot1 is holding potato1
+
+Valid Actions:
+Move robot1 from table1 to table2
+Move robot1 from table1 to fryer1
+Move robot1 from table1 to board1
+Place potato1 on table1 using robot1
+Do nothing
+
+Goal: Make some french fries by cutting then frying the potatoes
+
+Reasoning: ...
+
+Action: Move robot1 from table1 to board1
+
+
+Interaction 3
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has potato2
+table2 has potato2 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has nothing on it
+board1 has no players at it
+
+Item potato1:
+potato1 is a potato
+potato1 can be fried in a fryer after being cut
+potato1 can be cut on a cutting board
+potato1 is held by robot1
+
+Item potato2:
+potato2 is a potato
+potato2 can be fried in a fryer after being cut
+potato2 can be cut on a cutting board
+potato2 is at table2
+potato2 is directly on top of table2
+potato2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding potato1
+
+Valid Actions:
+Move robot1 from board1 to table1
+Move robot1 from board1 to table2
+Move robot1 from board1 to fryer1
+Place potato1 on board1 using robot1
+Do nothing
+
+Goal: Make some french fries by cutting then frying the potatoes
+
+Reasoning: ...
+
+Action: Place potato1 on board1 using robot1
+
+
+Interaction 4
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has potato2
+table2 has potato2 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has potato1
+board1 has potato1 directly on top of it
+board1 has no players at it
+
+Item potato1:
+potato1 is a potato
+potato1 can be fried in a fryer after being cut
+potato1 can be cut on a cutting board
+potato1 is at board1
+potato1 is directly on top of board1
+potato1 has nothing above it
+
+Item potato2:
+potato2 is a potato
+potato2 can be fried in a fryer after being cut
+potato2 can be cut on a cutting board
+potato2 is at table2
+potato2 is directly on top of table2
+potato2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from board1 to table1
+Move robot1 from board1 to table2
+Move robot1 from board1 to fryer1
+Pick up potato1 from board1 using robot1
+Cut potato1 on board1 using robot1
+Do nothing
+
+Goal: Make some french fries by cutting then frying the potatoes
+
+Reasoning: ...
+
+Action: Cut potato1 on board1 using robot1
+
+
+Interaction 5
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has potato2
+table2 has potato2 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has potato1
+board1 has potato1 directly on top of it
+board1 has no players at it
+
+Item potato1:
+potato1 is a potato
+potato1 can be fried in a fryer after being cut
+potato1 can be cut on a cutting board
+potato1 is at board1
+potato1 is directly on top of board1
+potato1 has nothing above it
+
+Item potato2:
+potato2 is a potato
+potato2 can be fried in a fryer after being cut
+potato2 can be cut on a cutting board
+potato2 is at table2
+potato2 is directly on top of table2
+potato2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from board1 to table1
+Move robot1 from board1 to table2
+Move robot1 from board1 to fryer1
+Pick up potato1 from board1 using robot1
+Cut potato1 on board1 using robot1
+Do nothing
+
+Goal: Make some french fries by cutting then frying the potatoes
+
+Reasoning: ...
+
+Action: Cut potato1 on board1 using robot1
+
+
+Interaction 6
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has potato2
+table2 has potato2 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has potato1
+board1 has potato1 directly on top of it
+board1 has no players at it
+
+Item potato1:
+potato1 is a potato
+potato1 can be fried in a fryer after being cut
+potato1 can be cut on a cutting board
+potato1 is at board1
+potato1 is directly on top of board1
+potato1 has nothing above it
+
+Item potato2:
+potato2 is a potato
+potato2 can be fried in a fryer after being cut
+potato2 can be cut on a cutting board
+potato2 is at table2
+potato2 is directly on top of table2
+potato2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from board1 to table1
+Move robot1 from board1 to table2
+Move robot1 from board1 to fryer1
+Pick up potato1 from board1 using robot1
+Cut potato1 on board1 using robot1
+Do nothing
+
+Goal: Make some french fries by cutting then frying the potatoes
+
+Reasoning: ...
+
+Action: Cut potato1 on board1 using robot1
+
+
+Interaction 7
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has potato2
+table2 has potato2 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has potato1
+board1 has potato1 directly on top of it
+board1 has no players at it
+
+Item potato1:
+potato1 is a potato
+potato1 can be fried in a fryer
+potato1 can be fried in a fryer after being cut
+potato1 can be cut on a cutting board
+potato1 is cut
+potato1 is at board1
+potato1 is directly on top of board1
+potato1 has nothing above it
+
+Item potato2:
+potato2 is a potato
+potato2 can be fried in a fryer after being cut
+potato2 can be cut on a cutting board
+potato2 is at table2
+potato2 is directly on top of table2
+potato2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from board1 to table1
+Move robot1 from board1 to table2
+Move robot1 from board1 to fryer1
+Pick up potato1 from board1 using robot1
+Cut potato1 on board1 using robot1
+Do nothing
+
+Goal: Make some french fries by cutting then frying the potatoes
+
+Reasoning: ...
+
+Action: Pick up potato1 from board1 using robot1
+
+
+Interaction 8
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has potato2
+table2 has potato2 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has nothing on it
+board1 has no players at it
+
+Item potato1:
+potato1 is a potato
+potato1 can be fried in a fryer
+potato1 can be fried in a fryer after being cut
+potato1 can be cut on a cutting board
+potato1 is cut
+potato1 is held by robot1
+
+Item potato2:
+potato2 is a potato
+potato2 can be fried in a fryer after being cut
+potato2 can be cut on a cutting board
+potato2 is at table2
+potato2 is directly on top of table2
+potato2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding potato1
+
+Valid Actions:
+Move robot1 from board1 to table1
+Move robot1 from board1 to table2
+Move robot1 from board1 to fryer1
+Place potato1 on board1 using robot1
+Do nothing
+
+Goal: Make some french fries by cutting then frying the potatoes
+
+Reasoning: ...
+
+Action: Move robot1 from board1 to fryer1
+
+
+Interaction 9
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has potato2
+table2 has potato2 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 is occupied by robot1
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Item potato1:
+potato1 is a potato
+potato1 can be fried in a fryer
+potato1 can be fried in a fryer after being cut
+potato1 can be cut on a cutting board
+potato1 is cut
+potato1 is held by robot1
+
+Item potato2:
+potato2 is a potato
+potato2 can be fried in a fryer after being cut
+potato2 can be cut on a cutting board
+potato2 is at table2
+potato2 is directly on top of table2
+potato2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at fryer1
+robot1 is holding potato1
+
+Valid Actions:
+Move robot1 from fryer1 to table1
+Move robot1 from fryer1 to table2
+Move robot1 from fryer1 to board1
+Place potato1 on fryer1 using robot1
+Do nothing
+
+Goal: Make some french fries by cutting then frying the potatoes
+
+Reasoning: ...
+
+Action: Place potato1 on fryer1 using robot1
+
+
+Interaction 10
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has potato2
+table2 has potato2 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 is occupied by robot1
+fryer1 has potato1
+fryer1 has potato1 directly on top of it
+fryer1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Item potato1:
+potato1 is a potato
+potato1 can be fried in a fryer
+potato1 can be fried in a fryer after being cut
+potato1 can be cut on a cutting board
+potato1 is cut
+potato1 is at fryer1
+potato1 is directly on top of fryer1
+potato1 has nothing above it
+
+Item potato2:
+potato2 is a potato
+potato2 can be fried in a fryer after being cut
+potato2 can be cut on a cutting board
+potato2 is at table2
+potato2 is directly on top of table2
+potato2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at fryer1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from fryer1 to table1
+Move robot1 from fryer1 to table2
+Move robot1 from fryer1 to board1
+Pick up potato1 from fryer1 using robot1
+Fry potato1 on fryer1 using robot1
+Do nothing
+
+Goal: Make some french fries by cutting then frying the potatoes
+
+Reasoning: ...
+
+Action: Fry potato1 on fryer1 using robot1
+
+
+Interaction 11
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has potato2
+table2 has potato2 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 is occupied by robot1
+fryer1 has potato1
+fryer1 has potato1 directly on top of it
+fryer1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Item potato1:
+potato1 is a potato
+potato1 can be fried in a fryer
+potato1 can be fried in a fryer after being cut
+potato1 can be cut on a cutting board
+potato1 is cut
+potato1 is at fryer1
+potato1 is directly on top of fryer1
+potato1 has nothing above it
+
+Item potato2:
+potato2 is a potato
+potato2 can be fried in a fryer after being cut
+potato2 can be cut on a cutting board
+potato2 is at table2
+potato2 is directly on top of table2
+potato2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at fryer1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from fryer1 to table1
+Move robot1 from fryer1 to table2
+Move robot1 from fryer1 to board1
+Pick up potato1 from fryer1 using robot1
+Fry potato1 on fryer1 using robot1
+Do nothing
+
+Goal: Make some french fries by cutting then frying the potatoes
+
+Reasoning: ...
+
+Action: Move robot1 from fryer1 to table2
+
+
+Interaction 12
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 is occupied by robot1
+table2 has potato2
+table2 has potato2 directly on top of it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has potato1
+fryer1 has potato1 directly on top of it
+fryer1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Item potato1:
+potato1 is a potato
+potato1 can be fried in a fryer
+potato1 can be fried in a fryer after being cut
+potato1 can be cut on a cutting board
+potato1 is cut
+potato1 is at fryer1
+potato1 is directly on top of fryer1
+potato1 has nothing above it
+
+Item potato2:
+potato2 is a potato
+potato2 can be fried in a fryer after being cut
+potato2 can be cut on a cutting board
+potato2 is at table2
+potato2 is directly on top of table2
+potato2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table2
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table2 to table1
+Move robot1 from table2 to fryer1
+Move robot1 from table2 to board1
+Pick up potato2 from table2 using robot1
+Do nothing
+
+Goal: Make some french fries by cutting then frying the potatoes
+
+Reasoning: ...
+
+Action: Pick up potato2 from table2 using robot1
+
+
+Interaction 13
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 is occupied by robot1
+table2 has nothing on it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has potato1
+fryer1 has potato1 directly on top of it
+fryer1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Item potato1:
+potato1 is a potato
+potato1 can be fried in a fryer
+potato1 can be fried in a fryer after being cut
+potato1 can be cut on a cutting board
+potato1 is cut
+potato1 is at fryer1
+potato1 is directly on top of fryer1
+potato1 has nothing above it
+
+Item potato2:
+potato2 is a potato
+potato2 can be fried in a fryer after being cut
+potato2 can be cut on a cutting board
+potato2 is held by robot1
+
+Player robot1:
+robot1 is a robot
+robot1 is at table2
+robot1 is holding potato2
+
+Valid Actions:
+Move robot1 from table2 to table1
+Move robot1 from table2 to fryer1
+Move robot1 from table2 to board1
+Place potato2 on table2 using robot1
+Do nothing
+
+Goal: Make some french fries by cutting then frying the potatoes
+
+Reasoning: ...
+
+Action: Move robot1 from table2 to board1
+
+
+Interaction 14
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has potato1
+fryer1 has potato1 directly on top of it
+fryer1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has nothing on it
+board1 has no players at it
+
+Item potato1:
+potato1 is a potato
+potato1 can be fried in a fryer
+potato1 can be fried in a fryer after being cut
+potato1 is fried
+potato1 can be cut on a cutting board
+potato1 is cut
+potato1 is at fryer1
+potato1 is directly on top of fryer1
+potato1 has nothing above it
+
+Item potato2:
+potato2 is a potato
+potato2 can be fried in a fryer after being cut
+potato2 can be cut on a cutting board
+potato2 is held by robot1
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding potato2
+
+Valid Actions:
+Move robot1 from board1 to table1
+Move robot1 from board1 to table2
+Move robot1 from board1 to fryer1
+Place potato2 on board1 using robot1
+Do nothing
+
+Goal: Make some french fries by cutting then frying the potatoes
+
+Reasoning: ...
+
+Action: Place potato2 on board1 using robot1
+
+
+Interaction 15
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has potato1
+fryer1 has potato1 directly on top of it
+fryer1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has potato2
+board1 has potato2 directly on top of it
+board1 has no players at it
+
+Item potato1:
+potato1 is a potato
+potato1 can be fried in a fryer
+potato1 can be fried in a fryer after being cut
+potato1 is fried
+potato1 can be cut on a cutting board
+potato1 is cut
+potato1 is at fryer1
+potato1 is directly on top of fryer1
+potato1 has nothing above it
+
+Item potato2:
+potato2 is a potato
+potato2 can be fried in a fryer after being cut
+potato2 can be cut on a cutting board
+potato2 is at board1
+potato2 is directly on top of board1
+potato2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from board1 to table1
+Move robot1 from board1 to table2
+Move robot1 from board1 to fryer1
+Pick up potato2 from board1 using robot1
+Cut potato2 on board1 using robot1
+Do nothing
+
+Goal: Make some french fries by cutting then frying the potatoes
+
+Reasoning: ...
+
+Action: Cut potato2 on board1 using robot1
+
+
+Interaction 16
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has potato1
+fryer1 has potato1 directly on top of it
+fryer1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has potato2
+board1 has potato2 directly on top of it
+board1 has no players at it
+
+Item potato1:
+potato1 is a potato
+potato1 can be fried in a fryer
+potato1 can be fried in a fryer after being cut
+potato1 is fried
+potato1 can be cut on a cutting board
+potato1 is cut
+potato1 is at fryer1
+potato1 is directly on top of fryer1
+potato1 has nothing above it
+
+Item potato2:
+potato2 is a potato
+potato2 can be fried in a fryer after being cut
+potato2 can be cut on a cutting board
+potato2 is at board1
+potato2 is directly on top of board1
+potato2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from board1 to table1
+Move robot1 from board1 to table2
+Move robot1 from board1 to fryer1
+Pick up potato2 from board1 using robot1
+Cut potato2 on board1 using robot1
+Do nothing
+
+Goal: Make some french fries by cutting then frying the potatoes
+
+Reasoning: ...
+
+Action: Cut potato2 on board1 using robot1
+
+
+Interaction 17
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has potato1
+fryer1 has potato1 directly on top of it
+fryer1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has potato2
+board1 has potato2 directly on top of it
+board1 has no players at it
+
+Item potato1:
+potato1 is a potato
+potato1 can be fried in a fryer
+potato1 can be fried in a fryer after being cut
+potato1 is fried
+potato1 can be cut on a cutting board
+potato1 is cut
+potato1 is at fryer1
+potato1 is directly on top of fryer1
+potato1 has nothing above it
+
+Item potato2:
+potato2 is a potato
+potato2 can be fried in a fryer after being cut
+potato2 can be cut on a cutting board
+potato2 is at board1
+potato2 is directly on top of board1
+potato2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from board1 to table1
+Move robot1 from board1 to table2
+Move robot1 from board1 to fryer1
+Pick up potato2 from board1 using robot1
+Cut potato2 on board1 using robot1
+Do nothing
+
+Goal: Make some french fries by cutting then frying the potatoes
+
+Reasoning: ...
+
+Action: Cut potato2 on board1 using robot1
+
+
+Interaction 18
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has potato1
+fryer1 has potato1 directly on top of it
+fryer1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has potato2
+board1 has potato2 directly on top of it
+board1 has no players at it
+
+Item potato1:
+potato1 is a potato
+potato1 can be fried in a fryer
+potato1 can be fried in a fryer after being cut
+potato1 is fried
+potato1 can be cut on a cutting board
+potato1 is cut
+potato1 is at fryer1
+potato1 is directly on top of fryer1
+potato1 has nothing above it
+
+Item potato2:
+potato2 is a potato
+potato2 can be fried in a fryer
+potato2 can be fried in a fryer after being cut
+potato2 can be cut on a cutting board
+potato2 is cut
+potato2 is at board1
+potato2 is directly on top of board1
+potato2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from board1 to table1
+Move robot1 from board1 to table2
+Move robot1 from board1 to fryer1
+Pick up potato2 from board1 using robot1
+Cut potato2 on board1 using robot1
+Do nothing
+
+Goal: Make some french fries by cutting then frying the potatoes
+
+Reasoning: ...
+
+Action: Move robot1 from board1 to fryer1
+
+
+Interaction 19
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 is occupied by robot1
+fryer1 has potato1
+fryer1 has potato1 directly on top of it
+fryer1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has potato2
+board1 has potato2 directly on top of it
+board1 has no players at it
+
+Item potato1:
+potato1 is a potato
+potato1 can be fried in a fryer
+potato1 can be fried in a fryer after being cut
+potato1 is fried
+potato1 can be cut on a cutting board
+potato1 is cut
+potato1 is at fryer1
+potato1 is directly on top of fryer1
+potato1 has nothing above it
+
+Item potato2:
+potato2 is a potato
+potato2 can be fried in a fryer
+potato2 can be fried in a fryer after being cut
+potato2 can be cut on a cutting board
+potato2 is cut
+potato2 is at board1
+potato2 is directly on top of board1
+potato2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at fryer1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from fryer1 to table1
+Move robot1 from fryer1 to table2
+Move robot1 from fryer1 to board1
+Pick up potato1 from fryer1 using robot1
+Fry potato1 on fryer1 using robot1
+Do nothing
+
+Goal: Make some french fries by cutting then frying the potatoes
+
+Reasoning: ...
+
+Action: Pick up potato1 from fryer1 using robot1
+
+
+Interaction 20
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 is occupied by robot1
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has potato2
+board1 has potato2 directly on top of it
+board1 has no players at it
+
+Item potato1:
+potato1 is a potato
+potato1 can be fried in a fryer
+potato1 can be fried in a fryer after being cut
+potato1 is fried
+potato1 can be cut on a cutting board
+potato1 is cut
+potato1 is held by robot1
+
+Item potato2:
+potato2 is a potato
+potato2 can be fried in a fryer
+potato2 can be fried in a fryer after being cut
+potato2 can be cut on a cutting board
+potato2 is cut
+potato2 is at board1
+potato2 is directly on top of board1
+potato2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at fryer1
+robot1 is holding potato1
+
+Valid Actions:
+Move robot1 from fryer1 to table1
+Move robot1 from fryer1 to table2
+Move robot1 from fryer1 to board1
+Place potato1 on fryer1 using robot1
+Do nothing
+
+Goal: Make some french fries by cutting then frying the potatoes
+
+Reasoning: ...
+
+Action: Move robot1 from fryer1 to table1
+
+
+Interaction 21
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 is occupied by robot1
+table1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has potato2
+board1 has potato2 directly on top of it
+board1 has no players at it
+
+Item potato1:
+potato1 is a potato
+potato1 can be fried in a fryer
+potato1 can be fried in a fryer after being cut
+potato1 is fried
+potato1 can be cut on a cutting board
+potato1 is cut
+potato1 is held by robot1
+
+Item potato2:
+potato2 is a potato
+potato2 can be fried in a fryer
+potato2 can be fried in a fryer after being cut
+potato2 can be cut on a cutting board
+potato2 is cut
+potato2 is at board1
+potato2 is directly on top of board1
+potato2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table1
+robot1 is holding potato1
+
+Valid Actions:
+Move robot1 from table1 to table2
+Move robot1 from table1 to fryer1
+Move robot1 from table1 to board1
+Place potato1 on table1 using robot1
+Do nothing
+
+Goal: Make some french fries by cutting then frying the potatoes
+
+Reasoning: ...
+
+Action: Place potato1 on table1 using robot1
+
+
+Interaction 22
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 is occupied by robot1
+table1 has potato1
+table1 has potato1 directly on top of it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has potato2
+board1 has potato2 directly on top of it
+board1 has no players at it
+
+Item potato1:
+potato1 is a potato
+potato1 can be fried in a fryer
+potato1 can be fried in a fryer after being cut
+potato1 is fried
+potato1 can be cut on a cutting board
+potato1 is cut
+potato1 is at table1
+potato1 is directly on top of table1
+potato1 has nothing above it
+
+Item potato2:
+potato2 is a potato
+potato2 can be fried in a fryer
+potato2 can be fried in a fryer after being cut
+potato2 can be cut on a cutting board
+potato2 is cut
+potato2 is at board1
+potato2 is directly on top of board1
+potato2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table1 to table2
+Move robot1 from table1 to fryer1
+Move robot1 from table1 to board1
+Pick up potato1 from table1 using robot1
+Do nothing
+
+Goal: Make some french fries by cutting then frying the potatoes
+
+Reasoning: ...
+
+Action: Move robot1 from table1 to board1
+
+
+Interaction 23
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has potato1
+table1 has potato1 directly on top of it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has potato2
+board1 has potato2 directly on top of it
+board1 has no players at it
+
+Item potato1:
+potato1 is a potato
+potato1 can be fried in a fryer
+potato1 can be fried in a fryer after being cut
+potato1 is fried
+potato1 can be cut on a cutting board
+potato1 is cut
+potato1 is at table1
+potato1 is directly on top of table1
+potato1 has nothing above it
+
+Item potato2:
+potato2 is a potato
+potato2 can be fried in a fryer
+potato2 can be fried in a fryer after being cut
+potato2 can be cut on a cutting board
+potato2 is cut
+potato2 is at board1
+potato2 is directly on top of board1
+potato2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from board1 to table1
+Move robot1 from board1 to table2
+Move robot1 from board1 to fryer1
+Pick up potato2 from board1 using robot1
+Cut potato2 on board1 using robot1
+Do nothing
+
+Goal: Make some french fries by cutting then frying the potatoes
+
+Reasoning: ...
+
+Action: Pick up potato2 from board1 using robot1
+
+
+Interaction 24
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has potato1
+table1 has potato1 directly on top of it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has nothing on it
+board1 has no players at it
+
+Item potato1:
+potato1 is a potato
+potato1 can be fried in a fryer
+potato1 can be fried in a fryer after being cut
+potato1 is fried
+potato1 can be cut on a cutting board
+potato1 is cut
+potato1 is at table1
+potato1 is directly on top of table1
+potato1 has nothing above it
+
+Item potato2:
+potato2 is a potato
+potato2 can be fried in a fryer
+potato2 can be fried in a fryer after being cut
+potato2 can be cut on a cutting board
+potato2 is cut
+potato2 is held by robot1
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding potato2
+
+Valid Actions:
+Move robot1 from board1 to table1
+Move robot1 from board1 to table2
+Move robot1 from board1 to fryer1
+Place potato2 on board1 using robot1
+Do nothing
+
+Goal: Make some french fries by cutting then frying the potatoes
+
+Reasoning: ...
+
+Action: Move robot1 from board1 to fryer1
+
+
+Interaction 25
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has potato1
+table1 has potato1 directly on top of it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 is occupied by robot1
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Item potato1:
+potato1 is a potato
+potato1 can be fried in a fryer
+potato1 can be fried in a fryer after being cut
+potato1 is fried
+potato1 can be cut on a cutting board
+potato1 is cut
+potato1 is at table1
+potato1 is directly on top of table1
+potato1 has nothing above it
+
+Item potato2:
+potato2 is a potato
+potato2 can be fried in a fryer
+potato2 can be fried in a fryer after being cut
+potato2 can be cut on a cutting board
+potato2 is cut
+potato2 is held by robot1
+
+Player robot1:
+robot1 is a robot
+robot1 is at fryer1
+robot1 is holding potato2
+
+Valid Actions:
+Move robot1 from fryer1 to table1
+Move robot1 from fryer1 to table2
+Move robot1 from fryer1 to board1
+Place potato2 on fryer1 using robot1
+Do nothing
+
+Goal: Make some french fries by cutting then frying the potatoes
+
+Reasoning: ...
+
+Action: Place potato2 on fryer1 using robot1
+
+
+Interaction 26
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has potato1
+table1 has potato1 directly on top of it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 is occupied by robot1
+fryer1 has potato2
+fryer1 has potato2 directly on top of it
+fryer1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Item potato1:
+potato1 is a potato
+potato1 can be fried in a fryer
+potato1 can be fried in a fryer after being cut
+potato1 is fried
+potato1 can be cut on a cutting board
+potato1 is cut
+potato1 is at table1
+potato1 is directly on top of table1
+potato1 has nothing above it
+
+Item potato2:
+potato2 is a potato
+potato2 can be fried in a fryer
+potato2 can be fried in a fryer after being cut
+potato2 can be cut on a cutting board
+potato2 is cut
+potato2 is at fryer1
+potato2 is directly on top of fryer1
+potato2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at fryer1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from fryer1 to table1
+Move robot1 from fryer1 to table2
+Move robot1 from fryer1 to board1
+Pick up potato2 from fryer1 using robot1
+Fry potato2 on fryer1 using robot1
+Do nothing
+
+Goal: Make some french fries by cutting then frying the potatoes
+
+Reasoning: ...
+
+Action: Fry potato2 on fryer1 using robot1
+
+
+Interaction 27
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has potato1
+table1 has potato1 directly on top of it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 is occupied by robot1
+fryer1 has potato2
+fryer1 has potato2 directly on top of it
+fryer1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Item potato1:
+potato1 is a potato
+potato1 can be fried in a fryer
+potato1 can be fried in a fryer after being cut
+potato1 is fried
+potato1 can be cut on a cutting board
+potato1 is cut
+potato1 is at table1
+potato1 is directly on top of table1
+potato1 has nothing above it
+
+Item potato2:
+potato2 is a potato
+potato2 can be fried in a fryer
+potato2 can be fried in a fryer after being cut
+potato2 can be cut on a cutting board
+potato2 is cut
+potato2 is at fryer1
+potato2 is directly on top of fryer1
+potato2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at fryer1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from fryer1 to table1
+Move robot1 from fryer1 to table2
+Move robot1 from fryer1 to board1
+Pick up potato2 from fryer1 using robot1
+Fry potato2 on fryer1 using robot1
+Do nothing
+
+Goal: Make some french fries by cutting then frying the potatoes
+
+Reasoning: ...
+
+Action: Do nothing
+
+
+Interaction 28
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has potato1
+table1 has potato1 directly on top of it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 is occupied by robot1
+fryer1 has potato2
+fryer1 has potato2 directly on top of it
+fryer1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Item potato1:
+potato1 is a potato
+potato1 can be fried in a fryer
+potato1 can be fried in a fryer after being cut
+potato1 is fried
+potato1 can be cut on a cutting board
+potato1 is cut
+potato1 is at table1
+potato1 is directly on top of table1
+potato1 has nothing above it
+
+Item potato2:
+potato2 is a potato
+potato2 can be fried in a fryer
+potato2 can be fried in a fryer after being cut
+potato2 can be cut on a cutting board
+potato2 is cut
+potato2 is at fryer1
+potato2 is directly on top of fryer1
+potato2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at fryer1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from fryer1 to table1
+Move robot1 from fryer1 to table2
+Move robot1 from fryer1 to board1
+Pick up potato2 from fryer1 using robot1
+Fry potato2 on fryer1 using robot1
+Do nothing
+
+Goal: Make some french fries by cutting then frying the potatoes
+
+Reasoning: ...
+
+Action: Do nothing
+
+
+Interaction 29
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has potato1
+table1 has potato1 directly on top of it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 is occupied by robot1
+fryer1 has potato2
+fryer1 has potato2 directly on top of it
+fryer1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Item potato1:
+potato1 is a potato
+potato1 can be fried in a fryer
+potato1 can be fried in a fryer after being cut
+potato1 is fried
+potato1 can be cut on a cutting board
+potato1 is cut
+potato1 is at table1
+potato1 is directly on top of table1
+potato1 has nothing above it
+
+Item potato2:
+potato2 is a potato
+potato2 can be fried in a fryer
+potato2 can be fried in a fryer after being cut
+potato2 can be cut on a cutting board
+potato2 is cut
+potato2 is at fryer1
+potato2 is directly on top of fryer1
+potato2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at fryer1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from fryer1 to table1
+Move robot1 from fryer1 to table2
+Move robot1 from fryer1 to board1
+Pick up potato2 from fryer1 using robot1
+Fry potato2 on fryer1 using robot1
+Do nothing
+
+Goal: Make some french fries by cutting then frying the potatoes
+
+Reasoning: ...
+
+Action: Do nothing
+
+

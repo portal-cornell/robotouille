@@ -1,0 +1,91 @@
+Interaction 1
+---------------
+
+
+Observation:
+Station counter1:
+counter1 is a counter
+counter1 is occupied by robot1
+counter1 has nothing on it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has cheese1
+fryer1 has lettuce1
+fryer1 has cheese1 directly on top of it
+fryer1 has no players at it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at fryer1
+cheese1 is directly on top of fryer1
+cheese1 is directly under lettuce1
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 is at fryer1
+lettuce1 has nothing above it
+lettuce1 is directly on top of cheese1
+
+Player robot1:
+robot1 is a robot
+robot1 is at counter1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from counter1 to fryer1
+Do nothing
+
+Goal: Unstack the stacked item
+
+Reasoning: ...
+
+Action: Move robot1 from counter1 to fryer1
+
+
+Interaction 2
+---------------
+
+
+Observation:
+Station counter1:
+counter1 is a counter
+counter1 has nothing on it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 is occupied by robot1
+fryer1 has cheese1
+fryer1 has lettuce1
+fryer1 has cheese1 directly on top of it
+fryer1 has no players at it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at fryer1
+cheese1 is directly on top of fryer1
+cheese1 is directly under lettuce1
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 is at fryer1
+lettuce1 has nothing above it
+lettuce1 is directly on top of cheese1
+
+Player robot1:
+robot1 is a robot
+robot1 is at fryer1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from fryer1 to counter1
+Unstack lettuce1 from cheese1 using robot1
+Do nothing
+
+Goal: Unstack the stacked item
+
+Reasoning: ...
+
+Action: Unstack lettuce1 from cheese1 using robot1
+
+

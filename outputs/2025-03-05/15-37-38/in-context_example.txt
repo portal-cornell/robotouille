@@ -1,0 +1,77 @@
+Interaction 1
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 is occupied by robot1
+table1 has nothing on it
+
+Station blender1:
+blender1 is a blender
+blender1 has lettuce1
+blender1 has lettuce1 directly on top of it
+blender1 has no players at it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 is at blender1
+lettuce1 is directly on top of blender1
+lettuce1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table1 to blender1
+Do nothing
+
+Goal: Pickup the item on the other station
+
+Reasoning: ...
+
+Action: Move robot1 from table1 to blender1
+
+
+Interaction 2
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has nothing on it
+
+Station blender1:
+blender1 is a blender
+blender1 is occupied by robot1
+blender1 has lettuce1
+blender1 has lettuce1 directly on top of it
+blender1 has no players at it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 is at blender1
+lettuce1 is directly on top of blender1
+lettuce1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at blender1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from blender1 to table1
+Pick up lettuce1 from blender1 using robot1
+Do nothing
+
+Goal: Pickup the item on the other station
+
+Reasoning: ...
+
+Action: Pick up lettuce1 from blender1 using robot1
+
+

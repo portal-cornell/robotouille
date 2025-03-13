@@ -1,0 +1,224 @@
+Interaction 1
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 is occupied by robot1
+table1 has tomato1
+table1 has tomato1 directly on top of it
+
+Station table2:
+table2 is a table
+table2 has no players at it
+table2 has bowl1
+
+Station stove1:
+stove1 is a stove
+stove1 is occupied by robot2
+stove1 has nothing on it
+
+Station table3:
+table3 is a table
+table3 has nothing on it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has no players at it
+table4 has pot1
+
+Station table5:
+table5 is a table
+table5 has nothing on it
+table5 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station table6:
+table6 is a table
+table6 has nothing on it
+table6 has no players at it
+
+Station sink1:
+sink1 is a sink
+sink1 has nothing on it
+sink1 has no players at it
+
+Station table7:
+table7 is a table
+table7 has nothing on it
+table7 has no players at it
+
+Item tomato1:
+tomato1 is a tomato
+tomato1 can be cut on a cutting board
+tomato1 is at table1
+tomato1 is directly on top of table1
+tomato1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table1
+robot1 is holding nothing
+
+Player robot2:
+robot2 is a robot
+robot2 is at stove1
+robot2 is holding nothing
+
+Container bowl1:
+bowl1 is a bowl
+bowl1 has nothing inside it
+bowl1 is at table2
+
+Container pot1:
+pot1 is a pot
+pot1 has nothing inside it
+pot1 is at table4
+
+Valid Actions:
+Move robot1 from table1 to table2
+Move robot1 from table1 to stove1
+Move robot1 from table1 to table3
+Move robot1 from table1 to table4
+Move robot1 from table1 to table5
+Move robot1 from table1 to board1
+Move robot1 from table1 to table6
+Move robot1 from table1 to sink1
+Move robot1 from table1 to table7
+Move robot2 from stove1 to table1
+Move robot2 from stove1 to table2
+Move robot2 from stove1 to table3
+Move robot2 from stove1 to table4
+Move robot2 from stove1 to table5
+Move robot2 from stove1 to board1
+Move robot2 from stove1 to table6
+Move robot2 from stove1 to sink1
+Move robot2 from stove1 to table7
+Pick up tomato1 from table1 using robot1
+Do nothing
+
+Goal: Cook some soup by boiling some water and adding a tomato to it.
+
+Reasoning: ...
+
+Action: Move robot1 from table1 to table5
+
+
+Interaction 2
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 is occupied by robot1
+table1 has tomato1
+table1 has tomato1 directly on top of it
+
+Station table2:
+table2 is a table
+table2 has no players at it
+table2 has bowl1
+
+Station stove1:
+stove1 is a stove
+stove1 is occupied by robot2
+stove1 has nothing on it
+
+Station table3:
+table3 is a table
+table3 has nothing on it
+table3 has no players at it
+
+Station table4:
+table4 is a table
+table4 has no players at it
+table4 has pot1
+
+Station table5:
+table5 is a table
+table5 has nothing on it
+table5 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station table6:
+table6 is a table
+table6 has nothing on it
+table6 has no players at it
+
+Station sink1:
+sink1 is a sink
+sink1 has nothing on it
+sink1 has no players at it
+
+Station table7:
+table7 is a table
+table7 has nothing on it
+table7 has no players at it
+
+Item tomato1:
+tomato1 is a tomato
+tomato1 can be cut on a cutting board
+tomato1 is at table1
+tomato1 is directly on top of table1
+tomato1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table1
+robot1 is holding nothing
+
+Player robot2:
+robot2 is a robot
+robot2 is at stove1
+robot2 is holding nothing
+
+Container bowl1:
+bowl1 is a bowl
+bowl1 has nothing inside it
+bowl1 is at table2
+
+Container pot1:
+pot1 is a pot
+pot1 has nothing inside it
+pot1 is at table4
+
+Valid Actions:
+Move robot1 from table1 to table2
+Move robot1 from table1 to stove1
+Move robot1 from table1 to table3
+Move robot1 from table1 to table4
+Move robot1 from table1 to table5
+Move robot1 from table1 to board1
+Move robot1 from table1 to table6
+Move robot1 from table1 to sink1
+Move robot1 from table1 to table7
+Move robot2 from stove1 to table1
+Move robot2 from stove1 to table2
+Move robot2 from stove1 to table3
+Move robot2 from stove1 to table4
+Move robot2 from stove1 to table5
+Move robot2 from stove1 to board1
+Move robot2 from stove1 to table6
+Move robot2 from stove1 to sink1
+Move robot2 from stove1 to table7
+Pick up tomato1 from table1 using robot1
+Do nothing
+
+Goal: Cook some soup by boiling some water and adding a tomato to it.
+
+Reasoning: ...
+
+Action: Move robot1 from table1 to table3
+
+

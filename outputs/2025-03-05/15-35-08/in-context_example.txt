@@ -1,0 +1,30 @@
+Interaction 1
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 is occupied by robot1
+table1 has nothing on it
+
+Item onion1:
+onion1 is an onion
+onion1 is held by robot1
+
+Player robot1:
+robot1 is a robot
+robot1 is at table1
+robot1 is holding onion1
+
+Valid Actions:
+Place onion1 on table1 using robot1
+Do nothing
+
+Goal: Place the item on the station
+
+Reasoning: ...
+
+Action: Place onion1 on table1 using robot1
+
+

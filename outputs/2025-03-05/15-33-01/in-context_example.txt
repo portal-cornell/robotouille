@@ -1,0 +1,144 @@
+Interaction 1
+---------------
+
+
+Observation:
+Station stove1:
+stove1 is a stove
+stove1 is occupied by robot1
+stove1 has pot1
+
+Player robot1:
+robot1 is a robot
+robot1 is at stove1
+robot1 is holding nothing
+
+Container pot1:
+pot1 is a pot
+pot1 contains water1
+pot1 is at stove1
+
+Meal water1:
+water1 is water
+water1 is inside of pot1
+
+Valid Actions:
+Pick up pot1 from stove1 using robot1
+Boil pot1's contents on stove1 using robot1
+Do nothing
+
+Goal: Boil the pot of water
+
+Reasoning: ...
+
+Action: Boil pot1's contents on stove1 using robot1
+
+
+Interaction 2
+---------------
+
+
+Observation:
+Station stove1:
+stove1 is a stove
+stove1 is occupied by robot1
+stove1 has pot1
+
+Player robot1:
+robot1 is a robot
+robot1 is at stove1
+robot1 is holding nothing
+
+Container pot1:
+pot1 is a pot
+pot1 contains water1
+pot1 is at stove1
+
+Meal water1:
+water1 is water
+water1 is inside of pot1
+
+Valid Actions:
+Pick up pot1 from stove1 using robot1
+Boil pot1's contents on stove1 using robot1
+Do nothing
+
+Goal: Boil the pot of water
+
+Reasoning: ...
+
+Action: Do nothing
+
+
+Interaction 3
+---------------
+
+
+Observation:
+Station stove1:
+stove1 is a stove
+stove1 is occupied by robot1
+stove1 has pot1
+
+Player robot1:
+robot1 is a robot
+robot1 is at stove1
+robot1 is holding nothing
+
+Container pot1:
+pot1 is a pot
+pot1 contains water1
+pot1 is at stove1
+
+Meal water1:
+water1 is water
+water1 is inside of pot1
+
+Valid Actions:
+Pick up pot1 from stove1 using robot1
+Boil pot1's contents on stove1 using robot1
+Do nothing
+
+Goal: Boil the pot of water
+
+Reasoning: ...
+
+Action: Do nothing
+
+
+Interaction 4
+---------------
+
+
+Observation:
+Station stove1:
+stove1 is a stove
+stove1 is occupied by robot1
+stove1 has pot1
+
+Player robot1:
+robot1 is a robot
+robot1 is at stove1
+robot1 is holding nothing
+
+Container pot1:
+pot1 is a pot
+pot1 contains water1
+pot1 is at stove1
+
+Meal water1:
+water1 is water
+water1 is inside of pot1
+
+Valid Actions:
+Pick up pot1 from stove1 using robot1
+Boil pot1's contents on stove1 using robot1
+Do nothing
+
+Goal: Boil the pot of water
+
+Reasoning: ...
+
+Action: Do nothing
+
+

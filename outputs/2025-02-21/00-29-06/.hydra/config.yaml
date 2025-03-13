@@ -1,0 +1,57 @@
+evaluation:
+  evaluate: false
+  environment_names: []
+  optimal_steps: []
+  testing_seeds:
+  - 42
+  - 84
+  - 126
+  - 168
+  - 210
+  - 252
+  - 294
+  - 336
+  - 378
+  - 420
+  results_path: ${hydra:runtime.output_dir}/results.json
+llm:
+  llm_model: null
+  temperature: 0.7
+  max_attempts: 10
+  debug: false
+  sleep_time: 5
+  max_feedback_steps: 5
+  feedback_attempts: 3
+  retries: 0
+  num_examples: 0
+  example_dir_path: null
+  mock: false
+  completion_tokens: 1
+  max_length: 8192
+  log_path: ${hydra:runtime.output_dir}/in-context_example.txt
+  failure_probability: 0.0
+  prompts:
+    action_proposal_prompt:
+      experiment_name: null
+      prompt_description: null
+      prompt_version: null
+      model: ${llm.llm_model}
+      temperature: ${llm.temperature}
+      max_attempts: ${llm.max_attempts}
+      debug: ${llm.debug}
+      sleep_time: ${llm.sleep_time}
+      mock: ${llm.mock}
+      completion_tokens: ${llm.completion_tokens}
+game:
+  agent_name: human
+  environment_name: multi_agent/6_double_lettuce_chicken_burger
+  seed: null
+  noisy_randomization: false
+  max_steps: 100
+  max_step_multiplier: 1
+  render_mode: human
+  stochastic: false
+  record: false
+  fourcc_str: avc1
+  video_fps: 60
+  video_path: ${hydra:runtime.output_dir}/video_human.mp4

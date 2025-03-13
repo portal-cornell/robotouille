@@ -1,0 +1,37 @@
+Interaction 1
+---------------
+
+
+Observation:
+Station sink1:
+sink1 is a sink
+sink1 is occupied by robot1
+sink1 has topbun1
+sink1 has topbun1 directly on top of it
+
+Item tomato1:
+tomato1 is a tomato
+tomato1 is held by robot1
+
+Item topbun1:
+topbun1 is a top bun
+topbun1 is at sink1
+topbun1 is directly on top of sink1
+topbun1 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at sink1
+robot1 is holding tomato1
+
+Valid Actions:
+Stack tomato1 on top of topbun1 using robot1
+Do nothing
+
+Goal: Stack the held item on the other item
+
+Reasoning: ...
+
+Action: Stack tomato1 on top of topbun1 using robot1
+
+

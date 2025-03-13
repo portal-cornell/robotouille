@@ -1,0 +1,31 @@
+Interaction 1
+---------------
+
+
+Observation:
+Station sink1:
+sink1 is a sink
+sink1 is occupied by robot1
+sink1 has nothing on it
+
+Player robot1:
+robot1 is a robot
+robot1 is at sink1
+robot1 is holding pot1
+
+Container pot1:
+pot1 is a pot
+pot1 has nothing inside it
+pot1 is held by robot1
+
+Valid Actions:
+Place pot1 on sink1 using robot1
+Do nothing
+
+Goal: Place the container at the station
+
+Reasoning: ...
+
+Action: Place pot1 on sink1 using robot1
+
+
