@@ -21,12 +21,14 @@ class Order:
         self.load_assets()
         self.scale_factor = min(window_size[0]/1440, window_size[1]/1024)
         self.width, self.height = Order.WIDTH * self.scale_factor, Order.HEIGHT * self.scale_factor
+        # get the size of the order and multipy the height
         self.screen = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
         self.background = Image(self.screen, self.background_image, self.x_percent(0), self.y_percent(0), self.scale_factor, anchor="topleft")
         self.profile = Image(self.screen, self.profile_image, self.x_percent(6), self.y_percent(6), self.scale_factor, anchor="topleft")
         self.time = time
         self.status = Order.PENDING
         self.config = config
+        # environemnts json
         self.recipe =[
             {
                 "predicate": "iscut",
@@ -79,6 +81,8 @@ class Order:
         map_id = {}
         for step in self.recipe:
             pred, arg, ids = step["predicate"], step["args"], step["ids"]
+            # should load assets based on predicates
+            # might need to build the pred list for each item first 
             if pred == "iscooked" or pred == "iscut":
                 png = pred[2:] + arg[0] 
                 map_id[ids[0]] = png

@@ -54,11 +54,17 @@ class RobotouilleRenderer:
         self.length, self.width = len(self.layout), len(self.layout[0])
         self.asset_directory = LoadingScreen.ASSET
 
+
+        width = 512
+        height = 512
+        self.width_scale = screen_size[0] / width
+        self.height_scale = screen_size[1] / height
+
+
     def update_progress_bar(self, item, x, y, percentage = 0, increment = None):
         """
         Draws an image on the canvas.
         """
-
         fg_image = self.asset_directory[RobotouilleCanvas.ASSETS_DIRECTORY]["progress_foreground.png"]
         bg_image = self.asset_directory[RobotouilleCanvas.ASSETS_DIRECTORY]["progress_background.png"]
         # image = pygame.transform.smoothscale(image, scale)
@@ -69,18 +75,15 @@ class RobotouilleRenderer:
         if item not in self.progress_bars:
             # multiply by pixel_size found in canvas
             # consistent offset based off the item
-            self.progress_bars[item] = Slider(self.screen, fg_image, bg_image, 80, 50, 80, 50, x/self.length, (y + 0.4)/self.width, filled_percent=percentage, anchor='topleft') 
+            self.progress_bars[item] = Slider(self.screen, bg_image, fg_image,
+                                              self.width_scale * 80,  self.height_scale * 50, 
+                                              self.width_scale * 80,  self.height_scale * 50, 
+                                              x/self.length, (y + 0.4)/self.width, 
+                                              filled_percent=percentage, anchor='topleft') 
         else:
             slider = self.progress_bars[item]
             value = slider.get_value()
 
-            # print(item, value, percentage, increment)
-
-            # if value >= 1:
-            #     self.completed.add(item)
-            #     self.progress_bars.pop(item)
-            #     return
-            
             # update the value 
             if percentage:
                 slider.set_value(percentage)
@@ -89,7 +92,7 @@ class RobotouilleRenderer:
                 slider.set_value(value + increment)
 
             value = slider.get_value()
-            print(item, percentage)
+
             if value >= 1:
                 self.completed.add(item)
                 self.progress_bars.pop(item)
