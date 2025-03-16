@@ -69,7 +69,10 @@ const Write = () => {
 
           <button
             type="button"
-            onClick={() => setShowPreview(true)}
+            onClick={() => {
+              console.log("Preview Content:", content); // ✅ Debugging
+              setShowPreview(true);
+            }}
             className="w-28 px-2 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition duration-300"
           >
             Preview
@@ -82,7 +85,35 @@ const Write = () => {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className=" font-roboto-slab bg-white p-6 rounded-lg w-[80%] max-w-2xl shadow-lg max-h-[80vh] overflow-hidden">
             <h2 className="text-2xl font-bold mb-4">{title || "Untitled"}</h2>
-            <div className="border p-4 rounded-lg min-h-[200px] max-h-[60vh] overflow-y-auto prose prose-lg">
+            <div className="border p-4 rounded-lg min-h-[200px] max-h-[60vh] overflow-y-auto">
+              <style>
+                {`
+      h1 {
+        font-size: 1.75em;
+        font-weight: bold;
+      }
+
+      h2 {
+        font-size: 1.40em;
+        font-weight: bold;
+      }
+
+      ol {
+        padding-left: 20px;
+        list-style-type: decimal;
+      }
+
+      ul {
+        padding-left: 20px;
+        list-style-type: disc; 
+      }
+
+      li {
+        margin-bottom: 2px;
+      }
+    `}
+              </style>
+
               {parse(content)}
             </div>
             <div className=" font-roboto-slab flex justify-end gap-4 mt-4">
