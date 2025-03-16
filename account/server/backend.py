@@ -11,6 +11,7 @@ from configuration import Config
 from typing import Optional
 from sqlalchemy.sql import func
 from models import User, RefreshToken, BlogPost, Comment
+from extensions import db
 
 # Load configuration
 config = Config(
@@ -22,7 +23,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = config.database.url
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-db = SQLAlchemy(app)
+db.init_app(app)
 
 # Set up logging
 if not os.path.exists('logs'):
@@ -100,6 +101,32 @@ def require_auth(f):
         
         return f(user_id, *args, **kwargs)
     return decorated
+
+@app.route('/')
+def index():
+    return "Hello, World!"
+
+@app.route('/auth/google/callback')
+def google_callback():
+    # Extract the authorization code from the request args
+    code = request.args.get('code')
+    if not code:
+        return "Missing code", 400
+
+    # Exchange the code for an access token
+    token_response = requests.post(
+        'https://oauth2.googleapis.com/token',
+        data={
+            'code': code,
+            'client_id': YOUR_CLIENT_ID,
+            'client_secret': YOUR_CLIENT_SECRET,
+            'redirect_uri': 'http://localhost:8000/auth/google/callback',
+            'grant_type': 'authorization_code'
+        }
+    ).json()
+
+    # token_response will contain the access_token, expires_in, etc.
+    return jsonify(token_response)
 
 @app.route('/api/login', methods=['POST'])
 def login():
@@ -363,7 +390,7 @@ def delete_blog_post(user_id, post_id):
         if not post:
             return jsonify({'status': 'error', 'message': 'Blog post not found'}), 404
         
-        if post.user_id != user_id:
+        if post.author_id != user_id:
             return jsonify({'status': 'error', 'message': 'Forbidden'}), 403
         
         db.session.delete(post)
@@ -394,7 +421,7 @@ def create_comment(user_id):
         if not blog_post:
             return jsonify({'status': 'error', 'message': 'Blog post not found'}), 404
         
-        new_comment = Comment(user_id=user_id, blog_post_id=blog_post_id, content=content)
+        new_comment = Comment(author_id=user_id, blog_post_id=blog_post_id, content=content)
         db.session.add(new_comment)
         db.session.commit()
         
@@ -423,7 +450,7 @@ def delete_comment(user_id, comment_id):
         if not comment:
             return jsonify({'status': 'error', 'message': 'Comment not found'}), 404
         
-        if comment.user_id != user_id:
+        if comment.author_id != user_id:
             return jsonify({'status': 'error', 'message': 'Forbidden'}), 403
         
         db.session.delete(comment)
