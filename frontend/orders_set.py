@@ -1,5 +1,6 @@
 from frontend.screen import ScreenInterface
 from frontend.orders import Order
+from frontend.stackable_order import StackableOrder
 from frontend.textbox import Textbox
 from frontend.image import Image
 from frontend.constants import ENDGAME
@@ -9,7 +10,43 @@ import pygame
 
 # Set up the assets directory
 ASSETS_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "orders"))
-
+HAMBURGER = [
+            {
+                "predicate": "iscut",
+                "args": ["lettuce"],
+                "ids": [1]
+            },
+            {
+                "predicate": "iscooked",
+                "args": ["patty"],
+                "ids": [2]
+            },
+            {
+                "predicate": "atop",
+                "args": ["topbun", "lettuce"],
+                "ids": [3, 1]
+            },
+            {
+                "predicate": "atop",
+                "args": ["lettuce", "patty"],
+                "ids": [1, 2]
+            },
+            {
+                "predicate": "atop",
+                "args": ["patty", "bottombun"],
+                "ids": [2, 4]
+            },
+            {
+                "predicate": "atop_container",
+                "args": ["bottombun", "bowl"],
+                "ids": [4, 5]
+            },
+            {
+                "predicate": "container_at",
+                "args": ["bowl", "customertable"],
+                "ids": [5, 6]
+            }
+        ]
 class OrdersCollection(ScreenInterface):
     def __init__(self, window_size, config):
         """
@@ -22,14 +59,15 @@ class OrdersCollection(ScreenInterface):
         self.score = 0
         self.time = 300
         self.orders = {}
-        self.add_order(1, Order(window_size, config, time= 1))
-        self.add_order(2, Order(window_size, config, time= 2))
-        self.add_order(3, Order(window_size, config, time= 10))
-        self.score_box = Textbox(self.screen, str(self.score), self.x_percent(961 + 68), self.y_percent(56 + 15), 70, 45, font_size=40, scale_factor=self.scale_factor)
-        self.time_box = Textbox(self.screen, self.convert_seconds_to_time(self.time) , self.x_percent(961 + 166 + 39.16), self.y_percent(56  + 15), 108, 45, font_size=38, scale_factor=self.scale_factor)
+        self.add_order(1, StackableOrder(window_size, config, time= 1, recipe=HAMBURGER))
+        self.add_order(2, StackableOrder(window_size, config, time= 2, recipe=HAMBURGER))
+        self.add_order(3, StackableOrder(window_size, config, time= 10, recipe=HAMBURGER))
+        self.score_box = Textbox(self.screen, str(self.score), self.x_percent(1007), self.y_percent(71), 70, 45, font_size=40, scale_factor=self.scale_factor)
+        self.time_box = Textbox(self.screen, self.convert_seconds_to_time(self.time) , self.x_percent(1162), self.y_percent(71), 108, 45, font_size=38, scale_factor=self.scale_factor)
         self.score_background = Image(self.screen, self.background_image, self.x_percent(944), self.y_percent(40), self.scale_factor)
         self.last_update_time = pygame.time.get_ticks() 
-    
+
+
     def x_percent(self, value):
         """
         Convert a horizontal position value to a scaled screen coordinate, adjusted for the offset.

@@ -106,16 +106,14 @@ class RobotouilleSimulator:
         return ans
 
     def create_bar(self, effect):
-        # 
-        print(effect)
-
-        # how does backend know what percentage they are????
+        '''
+        Recursively goes through all nested effects and create/updates the progress bar
+        '''
         if isinstance(effect, RepetitiveEffect):
-            # this one does not go to 100%
             x, y = self.get_object_location(effect.arg)
             self.renderer.update_progress_bar(effect.arg, x, y, percentage=effect.current_repetitions/effect.goal_repetitions)
         elif isinstance(effect, DelayedEffect):
-            # this one idk when to update/increment bar. 
+            # TODO: in the future this needs to be synchronized to the clock
             x, y = self.get_object_location(effect.arg)
             self.renderer.update_progress_bar(effect.arg, x, y, increment=1/effect.goal_time)
         elif isinstance(effect, ConditionalEffect):

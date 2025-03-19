@@ -4,7 +4,7 @@ import os
 import json
 from frontend.slider import Slider
 from frontend.loading import LoadingScreen
-
+from frontend.orders_set import OrdersCollection
 from .canvas import RobotouilleCanvas
 
 class RobotouilleRenderer:
@@ -54,11 +54,13 @@ class RobotouilleRenderer:
         self.length, self.width = len(self.layout), len(self.layout[0])
         self.asset_directory = LoadingScreen.ASSET
 
-
         width = 512
         height = 512
         self.width_scale = screen_size[0] / width
         self.height_scale = screen_size[1] / height
+        
+        # TODO Remove; renderer should not own the ORDERS
+        self.orders = OrdersCollection(screen_size, self.config)
 
 
     def update_progress_bar(self, item, x, y, percentage = 0, increment = None):
@@ -67,14 +69,11 @@ class RobotouilleRenderer:
         """
         fg_image = self.asset_directory[RobotouilleCanvas.ASSETS_DIRECTORY]["progress_foreground.png"]
         bg_image = self.asset_directory[RobotouilleCanvas.ASSETS_DIRECTORY]["progress_background.png"]
-        # image = pygame.transform.smoothscale(image, scale)
-        # get numbers of rows and colums of tiles floor
+
         if item in self.completed:
             return
         
         if item not in self.progress_bars:
-            # multiply by pixel_size found in canvas
-            # consistent offset based off the item
             self.progress_bars[item] = Slider(self.screen, bg_image, fg_image,
                                               self.width_scale * 80,  self.height_scale * 50, 
                                               self.width_scale * 80,  self.height_scale * 50, 
@@ -97,7 +96,6 @@ class RobotouilleRenderer:
                 self.completed.add(item)
                 self.progress_bars.pop(item)
                 
-            return
 
     
     def draw_progress_bar(self):
@@ -122,6 +120,8 @@ class RobotouilleRenderer:
         """
         self.canvas.draw_to_surface(self.screen, state)
         self.draw_progress_bar()
+        self.orders.draw()
+        self.screen.blit(self.orders.get_screen(), (0,0))
         return np.transpose(
             np.array(pygame.surfarray.pixels3d(self.screen)), axes=(1, 0, 2)
         )
