@@ -25,6 +25,7 @@ class SimpleOrder(Order):
         for id, image in self.id_image.items():
             item = image
         
+        #TODO fix the magic numbers: ypercent & scale factor
         self.product = Image(
                 self.screen,
                 self.get_image(item), 

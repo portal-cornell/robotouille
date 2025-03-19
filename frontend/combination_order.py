@@ -9,7 +9,7 @@ from frontend.orders import Order
 # Set up the assets directory
 ASSETS_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "orders"))
 
-class IngredientOrder(Order):
+class CombinationOrder(Order):
     COMPLETE, PENDING, DISCARDED = 0, 1, 2
     WIDTH, HEIGHT = 153, 165
     def __init__(self, window_size, config, time, recipe):

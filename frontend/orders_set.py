@@ -2,6 +2,7 @@ from frontend.screen import ScreenInterface
 from frontend.orders import Order
 from frontend.stackable_order import StackableOrder
 from frontend.simple_order import SimpleOrder
+from frontend.combination_order import CombinationOrder
 from frontend.textbox import Textbox
 from frontend.image import Image
 from frontend.constants import ENDGAME
