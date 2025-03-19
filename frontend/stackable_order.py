@@ -20,7 +20,7 @@ class StackableOrder(Order):
             window_size (tuple): A tuple (width, height) representing the size of the game window.
             time (int): duration of the order in seconds
         """
-        super().__init__( window_size, config, time, recipe)
+        super().__init__(window_size, config, time, recipe)
         self.convert_stack_recipe()
 
 
@@ -33,21 +33,19 @@ class StackableOrder(Order):
         """
         Render the recipe, stacking items nicely on top of each other.
         """
-        stack = []
-        map_id = self.id_image
+        id_stack = []
         for step in self.recipe:
             pred, arg, ids = step["predicate"], step["args"], step["ids"]
             if pred == "atop":
-                top_item, bottom_item = arg
                 top_id, bottom_id = ids
-                if len(stack) == 0:
-                    stack.append(map_id.get(top_id, top_item))
-                    stack.append(map_id.get(bottom_id, bottom_item))
+                if len(id_stack) == 0:
+                    id_stack.append(top_id)
+                    id_stack.append(bottom_id)
                 else:
-                    if top_item not in stack[-1]:
+                    if top_id != id_stack[-1]:
                         raise Exception("RECIPE NOT IN ORDER")
-                    stack.append(map_id.get(bottom_id, bottom_item))
-        self.draw_stack(stack)
+                    id_stack.append(bottom_id)
+        self.draw_stack(id_stack)
 
 
     def draw_stack(self, stack):
@@ -60,7 +58,8 @@ class StackableOrder(Order):
         base_y = 0.7 
         stack_offset = self.config["item"]["constants"]["STATION_ITEM_OFFSET"] * (self.scale_factor/4)
 
-        for i, item in enumerate(reversed(stack)): 
+        for i, id in enumerate(reversed(stack)): 
+            item = self.id_image.get(id, self.default_item[id])
             y_percent = base_y - (i * stack_offset)  
             image = Image(
                 self.screen,

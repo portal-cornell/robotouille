@@ -1,6 +1,7 @@
 from frontend.screen import ScreenInterface
 from frontend.orders import Order
 from frontend.stackable_order import StackableOrder
+from frontend.simple_order import SimpleOrder
 from frontend.textbox import Textbox
 from frontend.image import Image
 from frontend.constants import ENDGAME
@@ -47,6 +48,12 @@ HAMBURGER = [
                 "ids": [5, 6]
             }
         ]
+
+FRIED_CHICKEN = [{
+            "predicate": "isfried",
+            "args": ["chicken"],
+            "ids": [1]
+        }]
 class OrdersCollection(ScreenInterface):
     def __init__(self, window_size, config):
         """
@@ -61,7 +68,7 @@ class OrdersCollection(ScreenInterface):
         self.orders = {}
         self.add_order(1, StackableOrder(window_size, config, time= 1, recipe=HAMBURGER))
         self.add_order(2, StackableOrder(window_size, config, time= 2, recipe=HAMBURGER))
-        self.add_order(3, StackableOrder(window_size, config, time= 10, recipe=HAMBURGER))
+        self.add_order(3, SimpleOrder(window_size, config, time= 10, recipe=FRIED_CHICKEN))
         self.score_box = Textbox(self.screen, str(self.score), self.x_percent(1007), self.y_percent(71), 70, 45, font_size=40, scale_factor=self.scale_factor)
         self.time_box = Textbox(self.screen, self.convert_seconds_to_time(self.time) , self.x_percent(1162), self.y_percent(71), 108, 45, font_size=38, scale_factor=self.scale_factor)
         self.score_background = Image(self.screen, self.background_image, self.x_percent(944), self.y_percent(40), self.scale_factor)

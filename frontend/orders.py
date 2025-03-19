@@ -34,6 +34,7 @@ class Order:
         self.status = Order.PENDING  
         self.config = config # robotouille_env.json
         self.recipe = recipe
+        self.default_item = {}
         self.generate_images()  
 
     def create_screen(self):
@@ -70,6 +71,9 @@ class Order:
         # Iterate through the recipe and extracts predicates for steps starting with "is"
         for step in self.recipe:
             pred, arg, ids = step["predicate"], step["args"], step["ids"]
+            for i in range(len(arg)):
+                self.default_item[ids[i]] = arg[i]
+
             if pred.startswith("is"): 
                 id_item[ids[0]] = arg
                 id_pred[ids[0]].append(pred)
