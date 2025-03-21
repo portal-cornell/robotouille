@@ -85,6 +85,14 @@ const Header = () => {
               Blog
             </Link>
           }
+          {
+            <Link
+              to="/signin"
+              className="bg-primary-darkBlue font-roboto-slab text-white py-2 px-4 rounded-lg hover:bg-primary-hoverBlue transition duration-300"
+            >
+              Sign In
+            </Link>
+          }
           {/* <Link
             to="/leaderboard"
             className="bg-primary-darkBlue font-roboto-slab text-white py-2 px-4 rounded-lg hover:bg-primary-hoverBlue transition duration-300"
@@ -139,6 +147,13 @@ const Header = () => {
             onClick={() => setMenuOpen(false)}
           >
             Blog
+          </Link>
+          <Link
+            to="/signin"
+            className="nav-link font-roboto-slab  text-xl"
+            onClick={() => setMenuOpen(false)}
+          >
+            Sign In
           </Link>
         </div>
       )}

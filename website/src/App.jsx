@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+
 import Header from "./components/Header";
 import Title from "./components/Title";
 import Socials from "./components/Socials";
@@ -9,6 +11,7 @@ import About from "./pages/About";
 import Team from "./pages/Team";
 import Blog from "./pages/Blog";
 import Write from "./components/Write"; // Ensure this import is correct
+import SignInButton from "./pages/SignIn";
 
 import Footer from "./components/Footer";
 import Leaderboard from "./pages/Leaderboard";
@@ -68,6 +71,7 @@ const App = () => {
             <Route path="/write" element={<Write />} />
             {/* Leaderboard Page
             <Route path="/leaderboard" element={<Leaderboard />} /> */}
+            <Route path="/signin" element={<SignInButton />} />
           </Routes>
         </div>
       </div>
