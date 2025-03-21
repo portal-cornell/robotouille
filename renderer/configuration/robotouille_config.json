@@ -166,14 +166,11 @@
                     "underneath": "T"
                 }
             },
-            "blender": {
+            "sink": {
                 "assets": {
-                    "default": "blender_inactive.png"
+                    "default": "sink.png"
                 },
-                "constants": {
-                    "STATION_OFFSET": 0.5,
-                    "underneath": "T"
-                }
+                "constants": {}
             }
         }
     },
@@ -221,14 +218,6 @@
                     }
                 },
                 "constants": {}
-            },
-            "blendercup": {
-                "assets": {
-                    "default": "blender_empty.png"
-                },
-                "constants": {
-                    "STATION_CONTAINER_OFFSET": 0.5
-                }
             }
         }
     }
