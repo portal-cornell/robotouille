@@ -19,7 +19,7 @@
             "y": 1
         },
         {
-            "name": "fryer",
+            "name": "board",
             "x": 2,
             "y": 1
         },
@@ -29,7 +29,7 @@
             "y": 0
         },
         {
-            "name": "board",
+            "name": "fryer",
             "x": 2,
             "y": 0
         }
@@ -60,6 +60,7 @@
             "direction": [-1, 0]
         }
     ],
+    "goal_description": "Make some french fries by cutting then frying the potatoes",
     "goal": [
         {
             "predicate": "isfried",

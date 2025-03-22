@@ -1,0 +1,116 @@
+{
+    "version": "1.0.0",
+    "width": 5,
+    "height": 5,
+    "config": {
+        "num_cuts": {
+            "lettuce": 3,
+            "default": 3
+        },
+        "cook_time": {
+            "patty": 3,
+            "default": 3
+        }
+    },
+    "stations": [
+        {
+            "name": "table",
+            "x": 0,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 0,
+            "y": 3
+        },
+        {
+            "name": "board",
+            "x": 2,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 2,
+            "y": 3
+        },
+        {
+            "name": "table",
+            "x": 3,
+            "y": 3
+        }
+    ],
+    "items": [
+        {
+            "name": "bread",
+            "x": 0,
+            "y": 1,
+            "stack-level": 0
+        },
+        {
+            "name": "bread",
+            "x": 0,
+            "y": 3,
+            "stack-level": 0
+        },
+        {
+            "name": "lettuce",
+            "x": 2,
+            "y": 3,
+            "stack-level": 0,
+            "predicates": ["iscuttable"]
+        },
+        {
+            "name": "tomato",
+            "x": 3,
+            "y": 3,
+            "stack-level": 0,
+            "predicates": ["iscuttable"]
+        }
+    ],
+    "players": [
+        {
+            "name": "robot",
+            "x": 0,
+            "y": 2,
+            "direction": [0, -1]
+        }
+    ],
+    "goal_description": "Prepare a sandwich with lettuce and tomato on a table",
+    "goal": [
+        {
+            "predicate": "iscut",
+            "args": ["lettuce"],
+            "ids": [1]
+        },
+        {
+            "predicate": "iscut",
+            "args": ["tomato"],
+            "ids": [2]
+        },
+        {
+            "predicate": "item_on",
+            "args": ["bread", "table"],
+            "ids": [4, 3]
+        },
+        {
+            "predicate": "item_at",
+            "args": ["lettuce", "table"],
+            "ids": [1, 3]
+        },
+        {
+            "predicate": "item_at",
+            "args": ["tomato", "table"],
+            "ids": [2, 3]
+        },
+        {
+            "predicate": "item_at",
+            "args": ["bread", "table"],
+            "ids": [5, 3]
+        },
+        {
+            "predicate": "clear",
+            "args": ["bread"],
+            "ids": [5]
+        }
+    ]
+}

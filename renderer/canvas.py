@@ -1,9 +1,12 @@
 import os
 import pygame
 import numpy as np
+from copy import deepcopy
+
 from utils.robotouille_utils import trim_item_ID
 from backend.movement.player import Player
 import json
+from frontend.loading import LoadingScreen
 
 class RobotouilleCanvas:
     """
@@ -13,7 +16,7 @@ class RobotouilleCanvas:
     """
 
     # The directory containing the assets
-    ASSETS_DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets")
+    ASSETS_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets"))
 
     def __init__(self, config, layout, tiling, players, window_size=np.array([512,512])):
         """
@@ -39,18 +42,31 @@ class RobotouilleCanvas:
         # The scaling factor for a grid square
         self.pix_square_size = window_size / grid_dimensions
         # A dictionary which maps image names to loaded images
-        self.asset_directory = {}
+        self.asset_directory = LoadingScreen.ASSET
         # A dictionary which maps floor, players, items, and stations to their assets and constants
         self.config = config
         # Reference to tiling data
         self.tiling = tiling
         # Tileset assets
         self.ground_tileset = None
-        self.furniture_tileset = None
+        self.furniture_tileset = None # TODO(chalo2000): Remove this is not used anymore
         # Raw tiling matrices
         self.ground_matrix = None
-        self.furniture_matrix = None
+        self.furniture_matrix = None # TODO(chalo2000): Remove this is not used anymore
+    
+    def __deepcopy__(self, memo):
+        """
+        This function is called by the deepcopy function in the copy module.
 
+        This function carries over references to objects that are not deepcopyable (PyGame surfaces)
+        """
+        new_canvas = RobotouilleCanvas(self.config, self.layout, self.tiling, [], np.array([1,1]))
+        new_canvas.player_pose = deepcopy(self.player_pose, memo)
+        new_canvas.pix_square_size = self.pix_square_size # Constant
+        new_canvas.asset_directory = self.asset_directory # References to PyGame surfaces
+        memo[id(self)] = new_canvas
+        return new_canvas
+        
     def _get_station_position(self, station_name):
         """
         Gets the position of a station.
@@ -76,9 +92,7 @@ class RobotouilleCanvas:
             position (np.array): (x, y) position of the image
             scale (np.array): (width, height) to scale the image by
         """
-        if image_name not in self.asset_directory:
-            self.asset_directory[image_name] = pygame.image.load(os.path.join(RobotouilleCanvas.ASSETS_DIRECTORY, image_name)).convert_alpha()
-        image = self.asset_directory[image_name]
+        image = self.asset_directory[RobotouilleCanvas.ASSETS_DIRECTORY][image_name]
         image = pygame.transform.smoothscale(image, scale)
         surface.blit(image, position)
 

@@ -39,6 +39,7 @@
             "meal_id": []
         }
     ],
+    "goal_description": "Place the container at the station",
     "goal": [
         {
             "predicate": "container_at",

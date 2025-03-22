@@ -1,0 +1,6 @@
+evaluate: false         # Whether or not to evaluate over the following environments
+environment_names: []   # List of environment names to evaluate over
+optimal_steps: []       # The optimal number of steps for the default environment
+                        # TODO(chalo2000): Better to calculate automatically when feasible
+testing_seeds: [42, 84, 126, 168, 210, 252, 294, 336, 378, 420]
+results_path: ${hydra:runtime.output_dir}/results.json

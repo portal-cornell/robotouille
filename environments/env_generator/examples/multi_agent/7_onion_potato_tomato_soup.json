@@ -1,0 +1,146 @@
+{
+    "version": "1.0.0",
+    "width": 6,
+    "height": 6,
+    "config": {},
+    "stations": [
+        {
+            "name": "table",
+            "x": 0,
+            "y": 1
+        },
+        {
+            "name": "stove",
+            "x": 1,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 2,
+            "y": 1
+        },
+        {
+            "name": "board",
+            "x": 3,
+            "y": 1
+        },
+        {
+            "name": "sink",
+            "x": 4,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 0,
+            "y": 3
+        },
+        {
+            "name": "table",
+            "x": 1,
+            "y": 3
+        },
+        {
+            "name": "table",
+            "x": 2,
+            "y": 3
+        },
+        {
+            "name": "table",
+            "x": 3,
+            "y": 3
+        },
+        {
+            "name": "table",
+            "x": 4,
+            "y": 3
+        }
+    ],
+    "items": [
+        {
+            "name": "tomato",
+            "x": 0,
+            "y": 1,
+            "stack-level": 0,
+            "predicates": ["iscuttable"]
+        },
+        {
+            "name": "onion",
+            "x": 1,
+            "y": 3,
+            "stack-level": 0,
+            "predicates": ["iscuttable"]
+        },
+        {
+            "name": "potato",
+            "x": 2,
+            "y": 3,
+            "stack-level": 0,
+            "predicates": ["iscuttable"]
+        }
+    ],
+    "meals": [],
+    "containers": [
+        {
+            "name": "pot",
+            "x": 2,
+            "y": 1
+        },
+        {
+            "name": "bowl",
+            "x": 0,
+            "y": 3
+        }
+    ],
+    "players": [
+        {
+            "name": "robot",
+            "x": 0,
+            "y": 0,
+            "direction": [0, 1]
+        },
+        {
+            "name": "robot",
+            "x": 1,
+            "y": 0,
+            "direction": [0, 1]
+        }
+    ],
+    "goal_description": "Make an onion potato tomato soup with a cut onion, a whole potato, and a cut tomato then serve into a bowl on a table.",
+    "goal": [
+        {
+            "predicate": "in",
+            "args": ["water", "bowl"],
+            "ids": [1, 2]
+        },
+        {
+            "predicate": "container_at",
+            "args": ["bowl", "table"],
+            "ids": [2, 3]
+        },
+        {
+            "predicate": "iscut",
+            "args": ["tomato"],
+            "ids": [4]
+        },
+        {
+            "predicate": "addedto",
+            "args": ["tomato", "water"],
+            "ids": [4, 1]
+        },
+        {
+            "predicate": "iscut",
+            "args": ["onion"],
+            "ids": [5]
+        },
+        {
+            "predicate": "addedto",
+            "args": ["onion", "water"],
+            "ids": [5, 1]
+        },
+        {
+            "predicate": "addedto",
+            "args": ["potato", "water"],
+            "ids": [6, 1]
+        }
+    ]
+}

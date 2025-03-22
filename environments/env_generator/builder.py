@@ -338,8 +338,10 @@ def create_combinations(combination_dict):
         id_order += ids
         entities = combination_dict[arg]['entities']
         if entities == []:
-            for id in ids:
-                entities.append(arg + id)
+            id_counter = 1
+            for _ in ids:
+                entities.append(arg + str(id_counter))
+                id_counter += 1
         permutations = list(itertools.permutations(entities, len(ids)))
         combination_list.append(permutations)
     product = itertools.product(*combination_list)

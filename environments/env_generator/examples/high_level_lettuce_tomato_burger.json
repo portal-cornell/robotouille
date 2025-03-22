@@ -127,7 +127,7 @@
             "direction": [0, 1]
         }
     ],
-    "goal_description": "Make a lettuce burger with lettuce and tomato on top of the patty.",
+    "goal_description": "Make a lettuce burger with lettuce and tomato on top of the patty",
     "goal": [
         {
             "predicate": "iscut",

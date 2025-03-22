@@ -1,0 +1,98 @@
+{
+    "version": "1.0.0",
+    "width": 6,
+    "height": 6,
+    "config": {
+        "num_cuts": {
+            "default": 3
+        },
+        "cook_time": {
+            "default": 3
+        }
+    },
+    "stations": [
+        {
+            "name": "table",
+            "x": 0,
+            "y": 1
+        },
+        {
+            "name": "stove",
+            "x": 1,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 2,
+            "y": 1
+        },
+        {
+            "name": "board",
+            "x": 3,
+            "y": 1
+        },
+        {
+            "name": "sink",
+            "x": 4,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 0,
+            "y": 3
+        }
+    ],
+    "items": [
+        {
+            "name": "potato",
+            "x": 0,
+            "y": 1,
+            "stack-level": 0,
+            "predicates": ["iscuttable"]
+        }
+    ],
+    "meals": [],
+    "containers": [
+        {
+            "name": "pot",
+            "x": 2,
+            "y": 1
+        },
+        {
+            "name": "bowl",
+            "x": 0,
+            "y": 3
+        }
+    ],
+    "players": [
+        {
+            "name": "robot",
+            "x": 0,
+            "y": 0,
+            "direction": [0, 1]
+        }
+    ],
+    "goal_description": "Make potato soup with a whole potato and serve into a bowl on a table.",
+    "goal": [
+        {
+            "predicate": "in",
+            "args": ["water", "bowl"],
+            "ids": [1, 2]
+        },
+        {
+            "predicate": "addedto",
+            "args": ["potato", "water"],
+            "ids": [3, 1]
+        },
+        {
+            "predicate": "isboiling",
+            "args": ["water"],
+            "ids": [1]
+        },
+        {
+            "predicate": "container_at",
+            "args": ["bowl", "table"],
+            "ids": [2, 4]
+        }
+    ]
+}

@@ -1,0 +1,77 @@
+version: 1.0.0
+experiment_name: Reflexion
+prompt_description: original
+prompt_version: 1.0.0
+system: |
+  You are an agent exploring an environment with a goal to achieve. You have
+  exceeded the max number of steps allowed to complete the goal and have failed
+  to achieve it. Reflect on your previous interactions and summarize your
+  findings to better assist you in your next attempt to achieve the goal. Your
+  response will be included in future prompts to help you achieve the goal.
+instructions: |
+  You must propose a summary of findings from your previous failed interactions in the environment.
+
+  You will receive the history of states as follows:
+  ...
+  Optional[Error Feedback: ...]
+  Observation: ...
+  Valid Actions: ...
+  Goal: ...
+  Reasoning:...
+  Action: ...
+  ...
+
+  where
+  - 'Error Feedback' includes feedback about an invalid action taken in the previous interaction 
+  - 'Observation' contains state information about objects in the final state of the environment
+    - Note previous observations are not included in the history to save on space
+  - 'Valid Actions' is the list of actions you can take in the final state of the environment
+  - 'Goal' is the goal of the environment
+  - 'Reasoning' includes your reasoning on what to do next to achieve the goal
+  - 'Action' is the action you proposed to take in the environment
+
+  Always format your response as follows:
+  Summary: ...
+  Reflection: ...
+
+  where:
+    - 'Summary' is where you should include findings from the previous interactions to better assist you in achieving the goal in the next attempt.
+      - Consider including the following in your response:
+        - Why is the final state not the goal state?
+        - Were the subgoals you set appropriate?
+        - Did you repeat any actions that were not helpful?
+        - Were there any actions that you did not take that could have been helpful?
+        - Did you make any incorrect assumptions about the environment?
+    - 'Reflection' is where you should include your reflection on the findings from the previous interactions to better assist you in achieving the goal in the next attempt.
+      - This should be concise suggestion on how to improve your strategy in the next attempt to achieve the goal.
+      - This will be included in future prompts to help you achieve the goal so make sure it is informative for your future self who will start from the beginning.
+
+  Below is a description of the environment:
+  You are a robot in a kitchen environment. The objects in the kitchen and your goal are described
+  in the Observation. The various types of objects in the kitchen include
+  - Station: A location in the kitchen where you can perform special actions, e.g. cooking or cutting
+  - Item: An object that can be picked up and potentially used in a Station
+  - Player: Robots, including you, that are present in the kitchen
+  - Container: An object that can hold meals, e.g. a pot or a pan
+  - Meal: A mixture of ingredients contained within a Container
+
+  The rules of the environment are as follows:
+  - A Player can only hold a single Item at a time
+  - An Item must be placed on a Station to perform an action on it
+  - A Station must contain a single Item to perform an action on it
+  - Items can only be stacked on top of one another
+  - A Container must contain a Meal to have items added to it
+  - A Meal can be transferred between Containers
+
+  The goal of this environment is to satisfy a human's request, such as 'make me a hamburger'. These
+  goals are intentionally underspecified so common sense reasoning is required to complete them. Specifically,
+  it is important to consider
+  - the minimal ingredients required to satisfy the request
+  - any preparation steps for the ingredients like cooking, cutting, etc.
+
+  When the goal is achieved or a time limit is reached, the environment will end.
+
+  Follow this recipe guide to learn how to make food in Robotouille:
+  Sandwich - A slice of bread, stacked on prepared ingredients, stacked on another slice of bread.
+  Hamburger - A bottom bun, stacked on prepared ingredients, stacked on a top bun.
+  Soup - A pot is first filled with water, then boiled while ingredients are added, then served in a bowl when ready.

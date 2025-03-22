@@ -4,7 +4,10 @@ from utils.robotouille_wrapper import RobotouilleWrapper
 from environments.env_generator import builder
 from environments.env_generator import procedural_generator
 from robotouille.env import RobotouilleEnv
+
+import numpy as np
 import json
+import pygame
 
 def _parse_renderer_layout(environment_json):
     """
@@ -58,7 +61,7 @@ def _procedurally_generate(environment_json, seed, noisy_randomization):
             seed += 1
     return generated_environment_json
 
-def create_robotouille_env(problem_filename, animate, seed=None, noisy_randomization=False):
+def create_robotouille_env(problem_filename, movement_mode, seed=None, noisy_randomization=False, clock=pygame.time.Clock(), screen_size=np.array([512,512]), render_fps=60, screen=None):
     """
     Creates and returns an Robotouille environment.
 
@@ -67,14 +70,16 @@ def create_robotouille_env(problem_filename, animate, seed=None, noisy_randomiza
 
     Args:
         problem_filename (str): The name of the problem file (without extension).
-        animate (bool): Whether or not to enable animate mode.
+        movement_mode (bool): Whether or not to enable movement mode.
         seed (int): The seed to be used for randomization or None for the pre-created environment.
         noisy_randomization (bool): Whether or not to use noisy randomization.
+        clock (pygame.time.Clock): The master clock to fetch delta time from
+        screen_size (np.array): The size of the screen.
+        render_fps (int): The framerate of the renderer.
+        screen (pygame.Surface): Pre-existing screen to render to, if any
     
     Returns:
         env (RobotouilleWrapper): The Robotouille environment.
-        environment_json (dict): The environment json.
-        renderer (RobotouilleRenderer): The Robotouille renderer.
     """
     env_name = "robotouille"
     is_test_env = False
@@ -85,10 +90,9 @@ def create_robotouille_env(problem_filename, animate, seed=None, noisy_randomiza
     layout, tiling = _parse_renderer_layout(environment_json)
     config_filename = "robotouille_config.json"
     problem_string, environment_json = builder.build_problem(environment_json) # IDs objects in environment
-    renderer = RobotouilleRenderer(config_filename=config_filename, layout=layout, tiling=tiling, players=environment_json["players"])
-    render_fn = renderer.render
+    renderer = RobotouilleRenderer(config_filename=config_filename, layout=layout, tiling=tiling, players=environment_json["players"], screen_size=screen_size, render_fps=render_fps, screen=screen)
     domain_filename = "domain/robotouille.json"
     with open(domain_filename, "r") as domain_file:
         domain_json = json.load(domain_file)
-    env = RobotouilleEnv(domain_json, environment_json, render_fn, layout, animate)
-    return env, environment_json, renderer
+    env = RobotouilleEnv(domain_json, environment_json, renderer, layout, movement_mode, clock=clock)
+    return env

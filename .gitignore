@@ -3,3 +3,7 @@
 *-env
 robotouille.egg-info
 recordings
+**/outputs/
+**/.DS_Store
+**/*.egg-info
+.envrc
