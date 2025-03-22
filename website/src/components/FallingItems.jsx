@@ -11,7 +11,7 @@ import orange from "../assets/food/cut_orange.png";
 import potato from "../assets/food/fried_potato.png";
 import tomato from "../assets/food/tomato.png";
 import strawberry from "../assets/food/slicedstrawberry.png";
-//import watermelon from "../assets/food/watermelon.png";
+import watermelon from "../assets/food/watermelon.png";
 import "./FallingItems.css";
 
 const FallingItems = ({ animationEnabled }) => {

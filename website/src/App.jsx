@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { GoogleOAuthProvider } from "@react-oauth/google";
-
 import Header from "./components/Header";
 import Title from "./components/Title";
 import Socials from "./components/Socials";
@@ -21,7 +19,7 @@ const App = () => {
   const [animationEnabled, setAnimationEnabled] = useState(true);
 
   return (
-    <Router>
+    <>
       {/* Header is displayed on all pages */}
       <Header />
       <div className="relative">
@@ -79,7 +77,7 @@ const App = () => {
       </div>
 
       <Footer />
-    </Router>
+    </>
   );
 };
 
