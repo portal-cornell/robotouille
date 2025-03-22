@@ -1,49 +1,35 @@
 import React from "react";
 import { GoogleLogin } from "@react-oauth/google";
 import { Link } from "react-router-dom";
-
+import googleLogo from "../assets/socials/google.png";
 const SignIn = () => {
-  const handleLogin = async (response) => {
-    const { credential } = response;
-    try {
-      const res = await fetch("http://localhost:8000/api/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ access_token: credential }),
-      });
-
-      if (res.ok) {
-        const data = await res.json();
-        console.log("Logged in successfully:", data);
-      } else {
-        console.error("Login failed:", res.statusText);
-      }
-    } catch (error) {
-      console.error("Error during login:", error);
-    }
-  };
-
   return (
-    <div className="relative mt-28 px-4">
-      {/* Sign In Box Section */}
-      <div className="bg-primary-darkRed text-white font-roboto-slab rounded-lg shadow-2xl max-w-4xl mx-auto mb-12 p-6">
-        <div className="flex flex-col justify-center mt-10 ml-10">
-          <h2 className="text-2xl font-bold mb-4">Sign In to Robotouille</h2>
-          <p className="mb-6">
-            Use your Google account to sign in and start using the app.
-          </p>
+    <div className="flex items-center justify-center mt-20 mb-12 px-4">
+      <div className="bg-primary-darkRed text-white font-roboto-slab rounded-lg shadow-2xl w-full max-w-md p-6">
+        <div className="bg-white text-black rounded-lg shadow-lg p-8 flex flex-col items-center gap-6">
+          <h2 className="text-2xl font-semibold">Sign In</h2>
+          {/* <GoogleLogin
+            onSuccess={(credentialResponse) => {
+              console.log("Google Sign-In Success:", credentialResponse);
+            }}
+            onError={() => {
+              console.log("Google Sign-In Failed");
+            }}
+          /> */}
+          <button
+            // onClick={() => login()}
+            className="flex items-center gap-3 bg-white border border-gray-300 text-black px-4 py-2 rounded-lg shadow hover:bg-gray-100 transition"
+          >
+            <img src={googleLogo} alt="Google" className="w-5 h-5" />
+            <span>Sign in with Google</span>
+          </button>
 
-          {/* Google Sign In Button */}
-          <GoogleLogin
-            onSuccess={handleLogin}
-            onError={() => console.error("Login Failed")}
-            useOneTap
-            theme="filled_blue"
-            shape="pill"
-            width="100%"
-          />
+          <p className="text-sm text-gray-600">
+            Don’t have an account?{" "}
+            <Link to="/signup" className="text-primary-darkRed hover:underline">
+              Sign Up
+            </Link>
+          </p>
         </div>
       </div>
     </div>

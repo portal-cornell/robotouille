@@ -35,10 +35,12 @@ const Header = () => {
   }, []);
 
   return (
-    <header className="relative w-full z-50 bg-gradient-to-b from-[#EAEAEA] via-[#E0F2FA] to-[#E0F2FA] md:h-[270px] h-[170px]">
+    <header className="z-50 relative w-full md:h-[270px] h-[170px] ">
       {/* Background Image */}
+      <div className="absolute inset-0 z-0 bg-gradient-to-b from-[#EAEAEA] via-[#E0F2FA] to-[#E0F2FA]" />
+
       <div
-        className="absolute inset-0 w-full h-full bg-no-repeat bg-center"
+        className="absolute inset-0 w-full h-full bg-no-repeat bg-center z-40 "
         style={{
           backgroundImage: `url(${headerImage})`,
           backgroundSize: bgSize,
@@ -46,7 +48,7 @@ const Header = () => {
           zIndex: 0,
         }}
       ></div>
-      <nav className="relative flex justify-between items-center pt-16 px-20 md:px-20 z-10">
+      <nav className="relative flex justify-between items-center pt-16 px-20 md:px-20 z-50">
         <button
           className="md:hidden text-primary-darkBlue text-3xl focus:outline-none absolute top-6 left-6"
           onClick={() => setMenuOpen(!menuOpen)}
