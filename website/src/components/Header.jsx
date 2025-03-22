@@ -14,7 +14,7 @@ const Header = () => {
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 768 && window.innerWidth <= 1440) {
-        setBgPosition("-70px");
+        setBgPosition("-60px");
       } else {
         setBgPosition("-30px");
       }
@@ -35,20 +35,19 @@ const Header = () => {
   }, []);
 
   return (
-    <header className="z-50 relative w-full md:h-[270px] h-[170px] ">
+    <div className="relative w-full aspect-[18/4]">
+      {" "}
       {/* Background Image */}
-      <div className="absolute inset-0 z-0 bg-gradient-to-b from-[#EAEAEA] via-[#E0F2FA] to-[#E0F2FA]" />
-
+      <div className="absolute inset-0 bg-gradient-to-b from-[#EAEAEA] via-[#E0F2FA] to-[#E0F2FA] " />
       <div
-        className="absolute inset-0 w-full h-full bg-no-repeat bg-center z-40 "
+        className="absolute inset-0 w-full h-full bg-no-repeat bg-top overflow-visible z-10"
         style={{
           backgroundImage: `url(${headerImage})`,
           backgroundSize: bgSize,
           backgroundPosition: `center ${bgPosition}`,
-          zIndex: 0,
         }}
       ></div>
-      <nav className="relative flex justify-between items-center pt-16 px-20 md:px-20 z-50">
+      <nav className="relative flex justify-between items-center pt-16 px-20 md:px-20 z-20">
         <button
           className="md:hidden text-primary-darkBlue text-3xl focus:outline-none absolute top-6 left-6"
           onClick={() => setMenuOpen(!menuOpen)}
@@ -109,10 +108,9 @@ const Header = () => {
           </DownloadButton> */}
         </div>
       </nav>
-
       {/* mobile view */}
       {menuOpen && (
-        <div className="fixed top-0 left-0 w-full bg-primary-blue bg-opacity-5 backdrop-blur-md shadow-md flex flex-col items-center space-y-4 py-4 transition-all duration-500 ease-in-out max-h-[250px] overflow-hidden border-b border-gray-300">
+        <div className="z-40 fixed top-0 left-0 w-full bg-primary-blue bg-opacity-5 backdrop-blur-md shadow-md flex flex-col items-center space-y-4 py-4 transition-all duration-500 ease-in-out max-h-[250px] overflow-hidden border-b border-gray-300">
           {" "}
           {/* Close Button */}
           <button
@@ -159,7 +157,7 @@ const Header = () => {
           </Link>
         </div>
       )}
-    </header>
+    </div>
   );
 };
 

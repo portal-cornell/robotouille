@@ -38,10 +38,12 @@ const FallingItems = ({ animationEnabled }) => {
       item.style.setProperty("--random-duration", Math.random() * 2 + 3 + "s");
       item.style.setProperty("--random-delay", Math.random() * 3 + "s");
     });
-  }, []);
+  }, [animationEnabled]);
+
+  if (!animationEnabled) return null;
 
   return (
-    <div className={`falling-items ${animationEnabled ? "active" : "paused"}`}>
+    <div className="falling-items active">
       {items.map((item, index) => (
         <img
           key={index}
@@ -49,9 +51,7 @@ const FallingItems = ({ animationEnabled }) => {
           alt={`item-${index}`}
           className="falling-item"
           style={{
-            position: "absolute",
-            top: "-100px",
-            animation: animationEnabled ? "fall linear infinite" : "none",
+            animation: "fall linear infinite",
             animationDuration: "calc(3s + var(--random-duration))",
             animationDelay: "var(--random-delay)",
             left: `calc(100% * var(--random-position))`,

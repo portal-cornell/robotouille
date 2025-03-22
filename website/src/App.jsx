@@ -27,7 +27,7 @@ const App = () => {
       <div className="relative">
         <div className=" pt-[7.5rem] lg:pt-[6rem] overflow-hidden min-h-screen bg-primary-blue">
           {/* Falling Items */}
-          <div className="absolute -top-10 left-0 w-full h-full z-0">
+          <div className="absolute -top-10 left-0 w-full h-full z-5">
             <FallingItems
               key={animationEnabled ? 1 : 0}
               animationEnabled={animationEnabled}
