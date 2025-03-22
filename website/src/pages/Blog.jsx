@@ -15,13 +15,15 @@ const Blog = () => {
       </header>
 
       <div className="bg-primary-darkRed text-white font-roboto-slab rounded-lg shadow-2xl max-w-4xl mx-auto mb-12 p-6">
-        <div className="flex flex-col justify-center mt-10 ml-10">
-          <Link to="/write">
-            <button className="px-4 py-2 bg-primary-darkBlue text-white rounded-lg hover:bg-primary-hoverBlue">
-              Add Blog
-            </button>
-          </Link>
-          <PostList />
+        <div className="bg-white text-black rounded-lg shadow-lg p-4 overflow-y-auto max-h-[800px] h-[700px]">
+          <div className="flex flex-col justify-center mt-10 ml-10">
+            <Link to="/write">
+              <button className="px-4 py-2 bg-primary-darkBlue text-white rounded-lg hover:bg-primary-hoverBlue">
+                Add Blog
+              </button>
+            </Link>
+            <PostList />
+          </div>{" "}
         </div>
       </div>
     </div>

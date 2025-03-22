@@ -6,19 +6,17 @@ const SignIn = () => {
   const handleLogin = async (response) => {
     const { credential } = response;
     try {
-      // Send the Google OAuth token to your backend for authentication
       const res = await fetch("http://localhost:8000/api/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ access_token: credential }), // Send the token to your backend
+        body: JSON.stringify({ access_token: credential }),
       });
 
       if (res.ok) {
         const data = await res.json();
         console.log("Logged in successfully:", data);
-        // You can redirect the user or update the UI here
       } else {
         console.error("Login failed:", res.statusText);
       }
@@ -42,9 +40,9 @@ const SignIn = () => {
             onSuccess={handleLogin}
             onError={() => console.error("Login Failed")}
             useOneTap
-            theme="filled_blue" // Optional styling choice
-            shape="pill" // Optional styling choice for button shape
-            width="100%" // Make the button take full width
+            theme="filled_blue"
+            shape="pill"
+            width="100%"
           />
         </div>
       </div>
