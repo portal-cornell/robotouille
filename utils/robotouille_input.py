@@ -76,7 +76,7 @@ def create_keypress_action(pygame_event, player_loc, input_json, action_name_to_
                     return action_name, param_arg_dict
     return None, None
 
-def create_action_from_event(current_state, pygame_events, input_json, renderer):
+def create_action_from_event(current_state, pygame_events, input_json, renderer, networking_player=None):
     """This function attempts to create a valid action from the provided Pygame event.
 
     This function takes a combination of mouse clicks and key presses and maps it to a valid action.
@@ -95,6 +95,9 @@ def create_action_from_event(current_state, pygame_events, input_json, renderer)
             The input JSON containing the key press and mouse click actions.
         renderer (RobotouilleRenderer):
             The renderer to extract coordinates from.
+        networking_player (Player):
+            If the player is controlled by the networking client, this is the player object,
+            since the state cannot keep track of a "current player".
     
     Returns:
         action: The parametrized action to perform.
@@ -105,7 +108,10 @@ def create_action_from_event(current_state, pygame_events, input_json, renderer)
         AssertionError: If the Pygame event type is not supported.
     """
     if len(pygame_events) == 0: return None, None
-    player = current_state.current_player
+    if not networking_player:
+        player = current_state.current_player
+    else:
+        player = networking_player
     action_to_param_arg_dict = current_state.get_valid_actions_for_player(player)
     # Convert actions to strings for easier comparison
     action_name_to_param_arg_dict = {str(action): action_to_param_arg_dict[action] for action in action_to_param_arg_dict}

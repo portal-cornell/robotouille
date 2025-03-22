@@ -23,8 +23,8 @@ def run_server(environment_name: str, seed: int, noisy_randomization: bool, move
 
 async def server_loop(environment_name: str, seed: int, noisy_randomization: bool, movement_mode: str, display_server: bool, event: asyncio.Event):
     waiting_queue = {}
-    reference_env = create_robotouille_env(environment_name, movement_mode, seed, noisy_randomization)[0]
-    num_players = len(reference_env.get_state().get_players())
+    reference_env = create_robotouille_env(environment_name, movement_mode, seed, noisy_randomization)
+    num_players = len(reference_env.initial_state.get_players())
 
     async def simulator(connections):
         try:
@@ -39,11 +39,10 @@ async def server_loop(environment_name: str, seed: int, noisy_randomization: boo
             recording["violations"] = []
             start_time = time.monotonic()
 
-            env, json_data, renderer = create_robotouille_env(environment_name, movement_mode, seed, noisy_randomization)
+            env = create_robotouille_env(environment_name, movement_mode, seed, noisy_randomization)
             obs, info = env.reset()
             if display_server:
-                renderer.render(obs, mode='human')
-                renderer.render_fps = 0
+                env.render(render_mode='human')
             done = False
             interactive = False  # Adjust based on client commands later if needed
 
@@ -87,7 +86,7 @@ async def server_loop(environment_name: str, seed: int, noisy_randomization: boo
                             message = task.result()
                             client = receive_tasks[task]
                             player_id = sockets_to_playerID[client]
-                            player_obj = Player.get_player(obs.get_players()[player_id].name)
+                            player_obj = Player.get_player(env.current_state.get_players()[player_id].name)
                             
                             # Only process action if player is not moving
                             if not Movement.is_player_moving(player_obj.name):
@@ -95,6 +94,9 @@ async def server_loop(environment_name: str, seed: int, noisy_randomization: boo
                                 action = pickle.loads(base64.b64decode(encoded_action))
                                 actions[player_id] = action
                             # If player is moving, their action remains (None, None)
+                            else:
+                                print("Player is moving, ignoring action")
+                                print(actions)
                             
                     except asyncio.TimeoutError:
                         # No inputs, self update
@@ -106,16 +108,17 @@ async def server_loop(environment_name: str, seed: int, noisy_randomization: boo
 
                 try:
                     clock.tick()
-                    obs, reward, done, info = env.step(actions, clock=clock, interactive=interactive)
-                    recording["actions"].append((actions, env.get_state(), time.monotonic() - start_time))
+                    env.clock.tick(env.render_fps)
+                    obs, reward, done, info = env.step(actions)
+                    recording["actions"].append((actions, env.current_state, time.monotonic() - start_time))
                     if display_server:
-                        renderer.render(obs, mode='human')
+                        env.render(render_mode='human')
                 except AssertionError:
                     print("violation")
                     recording["violations"].append((actions, time.monotonic() - start_time))
                 
-                env_data = base64.b64encode(pickle.dumps(env.get_state())).decode('utf-8')
-                obs_data = base64.b64encode(pickle.dumps(obs)).decode('utf-8')
+                env_data = base64.b64encode(pickle.dumps(env.current_state)).decode('utf-8')
+                obs_data = base64.b64encode(pickle.dumps(env.get_state())).decode('utf-8')
                 player_data = base64.b64encode(pickle.dumps(Player.players)).decode('utf-8')
                 reply = json.dumps({"env": env_data, "obs": obs_data, "players": player_data, "done": done})
                 
@@ -132,7 +135,7 @@ async def server_loop(environment_name: str, seed: int, noisy_randomization: boo
                 await websocket.close()
 
             if display_server:
-                renderer.render(obs, close=True)
+                env.render(render_mode='human', close=True)
             print("GG")
             recording["end_time"] = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
 

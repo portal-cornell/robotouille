@@ -505,6 +505,9 @@ class RobotouilleEnv(gym.Env):
                 pygame.event.pump()
                 self.clock.tick(self.render_fps)
         return img
+    
+    def set_current_state(self, current_state):
+        self.current_state = current_state  
 
         
 

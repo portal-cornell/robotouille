@@ -12,12 +12,7 @@ from utils.robotouille_input import create_action_from_event
 from robotouille.robotouille_env import create_robotouille_env
 from backend.movement.player import Player
 from backend.movement.movement import Movement
-
-import networking.server as robotouille_server
-import networking.client as robotouille_client
-import networking.utils.single_player as robotouille_single_player
-import networking.utils.replay as robotouille_replay
-import networking.utils.render as robotouille_render
+from networking.controller import run_networking
 
 # Deprecated - Use run_robotouille instead
 def simulator(environment_name, seed = None, noisy_randomization = False, movement_mode = 'traverse'):
@@ -96,6 +91,21 @@ def run_robotouille(environment_name: str, agent_name: str, **kwargs: Dict[str, 
                     The kwargs for the LLM agent.
                     - log_path (str):
                         The path to the log file to write to.
+            Optional Network Parameters:
+                - role (str):
+                    The network role.
+                    "local" for local play with no networking overhead. 
+                    "server" to run the server.
+                    "client" to run the client.
+                    "single" to run the server and client for a single-player game.
+                    "replay" to replay a recording.
+                    "render" to render a recording into a video.
+                - host (str):
+                    The host to connect to.
+                - display_server (bool):
+                    Whether to display the server.
+                - recording (str):
+                    The recording to replay.
     
     Returns:
         done (bool):
@@ -103,6 +113,18 @@ def run_robotouille(environment_name: str, agent_name: str, **kwargs: Dict[str, 
         steps (int):
             The number of steps taken in the environment.
     """
+    role = kwargs.get('role', 'local')
+    # Run networking if not local
+    if role != "local":
+        seed = kwargs.get("seed", None)
+        noisy_randomization = kwargs.get("noisy_randomization", False)
+        movement_mode = kwargs.get("movement_mode", "traverse")
+        display_server = kwargs.get("display_server", False)
+        host = kwargs.get("host", "ws://localhost:8765")
+        recording = kwargs.get("recording", "")
+        run_networking(environment_name, role, seed, noisy_randomization, movement_mode, host, display_server, recording)
+        return
+
     # Initialize environment
     movement_mode = kwargs.get('movement_mode', 'immediate')
     assert movement_mode != 'traverse' or agent_name == "human", "Traverse movement mode only supported for human agent"

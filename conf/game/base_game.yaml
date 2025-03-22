@@ -14,3 +14,8 @@ record: false                                             # Whether to record th
 fourcc_str: 'avc1'                                        # The fourcc string to use for the video codec. Defaults to mp4 w/ H.264 codec.
 video_fps: 60                                             # The frames per second to record the video at
 video_path: ${hydra:runtime.output_dir}/video_human.mp4   # The name of the file to save a playback video to
+
+role: "local"                                             # The networking role to use. Options: ['local', 'server', 'client', 'single', 'replay', 'render']
+host: "ws://localhost:8765"                               # The host to connect to
+display_server: false                                     # Whether to display the server window
+recording: ""                                             # The recording to replay
