@@ -4,8 +4,8 @@ class Node(ABC):
     def __init__(self, screen, surface, x_percent, y_percent, anchor="center"):
         """
         Args:
-            screen (pygame.Surface): The screen on which to draw the NinePatch.
-            image_source (pygame.Surface): A temp surface, used to determine the boundaries
+            screen (pygame.Surface): The screen.
+            surface (pygame.Surface): A temp surface, used to determine the boundaries
             x_percent (float): The horizontal position of the button as a percentage of the screen width.
             y_percent (float): The vertical position of the button as a percentage of the screen height.
             anchor (str): Positioning anchor, either "topleft" or "center".

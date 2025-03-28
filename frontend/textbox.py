@@ -28,7 +28,7 @@ class Textbox(Node):
         
         
         self.text = text
-        self.font = pygame.font.Font(font_path, int(font_size * scale_factor))
+        self.font = pygame.font.Font(font_path, int(font_size))
         self.text_color = text_color
         self.scale_factor = scale_factor
         self.align_text = align_text

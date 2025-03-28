@@ -12,6 +12,19 @@ import pygame
 
 # Set up the assets directory
 ASSETS_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "orders"))
+TOMATO_SOUP = [
+        {
+            "predicate": "addedto",
+            "args": ["tomato", "water"],
+            "ids": ["a", "b"]
+        },
+        {
+            "predicate": "in",
+            "args": ["water", "bowl"],
+            "ids": ["b", "d"]
+        }
+]
+
 HAMBURGER = [
             {
                 "predicate": "iscut",
@@ -67,8 +80,8 @@ class OrdersCollection(ScreenInterface):
         self.score = 0
         self.time = 300
         self.orders = {}
-        self.add_order(1, StackableOrder(window_size, config, time= 1, recipe=HAMBURGER))
-        self.add_order(2, StackableOrder(window_size, config, time= 2, recipe=HAMBURGER))
+        self.add_order(1, CombinationOrder(window_size, config, time= 5, recipe=TOMATO_SOUP))
+        self.add_order(2, StackableOrder(window_size, config, time= 8, recipe=HAMBURGER))
         self.add_order(3, SimpleOrder(window_size, config, time= 10, recipe=FRIED_CHICKEN))
         self.score_box = Textbox(self.screen, str(self.score), self.x_percent(1007), self.y_percent(71), 70, 45, font_size=40, scale_factor=self.scale_factor)
         self.time_box = Textbox(self.screen, self.convert_seconds_to_time(self.time) , self.x_percent(1162), self.y_percent(71), 108, 45, font_size=38, scale_factor=self.scale_factor)

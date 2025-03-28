@@ -21,34 +21,9 @@ class StackableOrder(Order):
             time (int): duration of the order in seconds
         """
         super().__init__(window_size, config, time, recipe)
-        self.convert_stack_recipe()
-
-
-    def create_screen(self):
-        #TODO override so that screen size changes
-        return super().create_screen()
-
+        self.list_to_image()
     
-    def convert_stack_recipe(self):
-        """
-        Render the recipe, stacking items nicely on top of each other.
-        """
-        id_stack = []
-        for step in self.recipe:
-            pred, arg, ids = step["predicate"], step["args"], step["ids"]
-            if pred == "atop":
-                top_id, bottom_id = ids
-                if len(id_stack) == 0:
-                    id_stack.append(top_id)
-                    id_stack.append(bottom_id)
-                else:
-                    if top_id != id_stack[-1]:
-                        raise Exception("RECIPE NOT IN ORDER")
-                    id_stack.append(bottom_id)
-        self.draw_stack(id_stack)
-
-
-    def draw_stack(self, stack):
+    def list_to_image(self):
         """
         Draw the stack in the correct order based on `self.recipe_images`.
         Each item is rendered centered on the screen, with incremental upward stacking.
@@ -58,8 +33,8 @@ class StackableOrder(Order):
         base_y = 0.7 
         stack_offset = self.config["item"]["constants"]["STATION_ITEM_OFFSET"] * (self.scale_factor/4)
 
-        for i, id in enumerate(reversed(stack)): 
-            item = self.id_image.get(id, self.default_item[id])
+        for i, id in enumerate(self.id_stack): 
+            item = self.id_to_image.get(id, self.id_to_item[id])
             y_percent = base_y - (i * stack_offset)  
             image = Image(
                 self.screen,
@@ -70,7 +45,6 @@ class StackableOrder(Order):
                 anchor="center",
             )
             self.recipe_images.append(image)  
-
 
     def draw(self):
         """

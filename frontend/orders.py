@@ -15,6 +15,8 @@ class Order:
     # Default dimensions for an order (in pixels)
     WIDTH, HEIGHT = 153, 165
     
+    PREDICATES = {"atop", "addedto", "in"}
+
     def __init__(self, window_size, config, time, recipe):
         """
         Initialize an Order object with the necessary parameters.
@@ -25,7 +27,9 @@ class Order:
             config (dict): Configuration details for the game.
             recipe (list): List of steps or actions required for this order.
         """
-        self.load_assets()  
+        self.load_assets() 
+        self.seen = set()
+        self.id_stack = []
         self.scale_factor = min(window_size[0]/1440, window_size[1]/1024)  
         self.create_screen()  
         self.background = Image(self.screen, self.background_image, self.x_percent(0), self.y_percent(0), self.scale_factor, anchor="topleft")
@@ -34,8 +38,42 @@ class Order:
         self.status = Order.PENDING  
         self.config = config # robotouille_env.json
         self.recipe = recipe
-        self.default_item = {}
+        self.id_to_item = {} # maps id to the name of the item
+        self.id_to_image = {} # maps id to image (based on predicates)
         self.generate_images()  
+        self.valid_items = set(self.config["item"]["entities"].keys()) # list of ingredients that are in the config
+        self.items = defaultdict(int) # list of id in the recipe that are contained in valid_items
+        self.convert_recipe_to_list() 
+        
+    def add_item(self, item, id):
+        if item in self.valid_items and id not in self.seen:
+            self.items[id] += 1
+            self.seen.add(id)
+        
+    def convert_recipe_to_list(self):
+        """
+        Converts the recipe into a ordered list. For stackable orders, the 
+        list is from bottom to top. For combination order, the list in order
+        of how it's cooked: (i.e bowl-water-tomato)
+        """
+        for step in self.recipe:
+            pred, arg, ids = step["predicate"], step["args"], step["ids"]
+            if pred in Order.PREDICATES:
+                top, bottom = arg
+                top_id, bottom_id = ids
+                if len(self.id_stack) == 0:
+                    self.id_stack.append(top_id)
+                    self.id_stack.append(bottom_id)
+                    self.add_item(top, top_id)
+                    self.add_item(bottom, bottom_id)
+                else:
+                    if top_id != self.id_stack[-1]:
+                        raise Exception("RECIPE NOT IN ORDER")
+                    self.id_stack.append(bottom_id)      
+                    self.add_item(bottom, bottom_id)
+
+        self.items = self.items
+        self.id_stack = list(reversed(self.id_stack)) # id stack 
 
     def create_screen(self):
         """
@@ -61,35 +99,34 @@ class Order:
 
     def generate_images(self):
         """
-        Generate images for the steps in the recipe starting with "IS".
+        Generate images for items that have been modified with predicate.
+        Currently only handles predicates that begin with "IS".
 
-        The function processes the recipe and identifies which images should be used based on the predicates and arguments.
+        The function processes the recipe and identifies which images 
+        should be used based on the predicates and arguments.
         """
-        id_item = defaultdict(str)
         id_pred = defaultdict(list)
         
         # Iterate through the recipe and extracts predicates for steps starting with "is"
         for step in self.recipe:
             pred, arg, ids = step["predicate"], step["args"], step["ids"]
             for i in range(len(arg)):
-                self.default_item[ids[i]] = arg[i]
+                self.id_to_item[ids[i]] = arg[i]
 
             if pred.startswith("is"): 
-                id_item[ids[0]] = arg
                 id_pred[ids[0]].append(pred)
         
         # Generate a mapping of ID to image based on the predicates
-        self.id_image = {}
-        for id in id_item:
-            assets = self.config["item"]["entities"][id_item[id][0]]["assets"]
+
+        for id in id_pred:
+            assets = self.config["item"]["entities"][self.id_to_item[id]]["assets"]
             for pred, map in assets.items():
                 if pred == "default":
                     continue
                 asset, predicates = map["asset"], map["predicates"]
                 if self.array_equal(id_pred[id], predicates):  # Check if predicates match
-                    self.id_image[id] = asset
+                    self.id_to_image[id] = asset
                     break
-
     def get_image(self, image_name):
         """
         Retrieve an image from the asset directory.

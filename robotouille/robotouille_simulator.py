@@ -17,40 +17,8 @@ from backend.movement.movement import Movement
 def simulator(environment_name, seed = None, noisy_randomization = False, movement_mode = 'traverse'):
     env = create_robotouille_env(environment_name, movement_mode, seed, noisy_randomization)
 
-<<<<<<< Updated upstream
     obs, info = env.reset()
     done = False
-=======
-class RobotouilleSimulator:
-    def __init__(self, canvas, environment_name: str, seed: int = 42, noisy_randomization: bool = False, movement_mode: str = 'immediate', human = True, render_fps=60):
-        """
-        Initialize the Robotouille simulator.
-
-        Args:
-            canvas (pygame.Surface): The main display canvas.
-            environment_name (str): The name of the environment to load.
-            seed (int): Seed for randomization (default: 42).
-            noisy_randomization (bool): Whether to introduce noise into randomization (default: False).
-            movement_mode (str): The movement mode for the environment (default: 'traverse').
-            human (bool): Whether a human player is controlling the game (default: True).
-            render_fps (int): Frames per second for rendering (default: 60).
-        """
-
-        self.human = human
-        self.canvas = canvas
-        self.env, self.json, self.renderer = create_robotouille_env(environment_name, movement_mode, seed, noisy_randomization)
-        self.obs, self.info = self.env.reset()
-        self.done = False
-        self.interactive = False  # Set to True to interact with the environment through terminal REPL (ignores input)
-        screen_size = canvas.get_size()
-        self.surface = pygame.Surface(screen_size)
-        self.pause = PauseScreen(screen_size)
-        self.clock = pygame.time.Clock()
-        self.players = self.obs.get_players()
-        self.actions = []
-        self.render_fps = render_fps
-        self.next_screen = None
->>>>>>> Stashed changes
     
     actions = []
     current_state = env.current_state
@@ -58,79 +26,8 @@ class RobotouilleSimulator:
     while not done:
         env.render("human")
 
-<<<<<<< Updated upstream
         # Construct action from input
         pygame_events = pygame.event.get()
-=======
-        Specifies the screen that should be displayed after the current screen.
-
-        Args:
-           next_screen (str): Identifier for the next screen (e.g., `MAIN_MENU`, `SETTINGS`).
-
-        """
-        self.next_screen = next_screen
-
-    def draw(self):
-        """
-        Renders the current state of the game environment and pause screen onto the canvas.
-        """
-
-        self.renderer.render(self.obs, mode='human')
-        self.surface.blit(self.renderer.surface, (0, 0))
-        self.surface.blit(self.pause.get_screen(), (0, 0))
-        self.canvas.blit(self.surface, (0, 0))
-        # The framerate of the renderer. This isn't too important since the renderer
-        # self.clock.tick(self.render_fps)
-
-
-    def handle_pause(self, pygame_events):
-        """
-        Handles pause functionality, including toggling the pause screen and switching game states.
-
-        Args:
-            pygame_events (list): List of pygame events to handle.
-        """
-
-        if not self.human:
-            return
-        for event in pygame_events:
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_q:
-                    self.done = True
-                if event.key == pygame.K_p:
-                    self.pause.toggle()
-
-        if self.pause.next_screen is not None:
-            current_screen = self.pause.next_screen
-            self.pause.set_next_screen(None)
-            return current_screen
-
-        self.pause.update(pygame_events)
-
-
-    def update(self):
-        """
-        Main update loop for the simulation. Handles rendering, input, and game logic.
-
-        """
-        
-        if self.done:
-            self.renderer.render(self.obs, close=True)
-            self.next_screen = ENDGAME
-            return
-        
-        if self.pause.next_screen is not None:
-            self.next_screen = self.pause.next_screen
-            self.pause.set_next_screen(None)
-            self.pause.toggle()
-            return
-        
-        pygame_events = pygame.event.get()
-            
-        self.draw()
-        self.handle_pause(pygame_events)
-
->>>>>>> Stashed changes
         mousedown_events = list(filter(lambda e: e.type == pygame.MOUSEBUTTONDOWN, pygame_events))
         keydown_events = list(filter(lambda e: e.type == pygame.KEYDOWN, pygame_events))
         player_obj = Player.get_player(current_state.current_player.name)

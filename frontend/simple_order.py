@@ -22,16 +22,16 @@ class SimpleOrder(Order):
         """
         super().__init__(window_size, config, time, recipe)
         item = None
-        for id, image in self.id_image.items():
+        for id, image in self.id_to_image.items():
             item = image
         
-        #TODO fix the magic numbers: ypercent & scale factor
+        #TODO fix the magic numbers: ypercent & scale factor. ALL THE IMAGES ARE NOT THE SAME SIZE!!!!
         self.product = Image(
                 self.screen,
                 self.get_image(item), 
                 x_percent=0.5,
                 y_percent=0.6,
-                scale_factor=self.scale_factor/5,
+                scale_factor=(self.scale_factor/5),
                 anchor="center",
             )
         

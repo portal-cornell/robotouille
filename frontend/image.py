@@ -21,10 +21,13 @@ class Image(Node):
         original_width, original_height = self.image.get_size()
         self.scaled_width = original_width * scale_factor
         self.scaled_height = original_height * scale_factor
-        self.image = pygame.transform.smoothscale(image_source, (self.scaled_width, self.scaled_height))
+        # self.image = pygame.transform.smoothscale(self.image, (self.scaled_width, self.scaled_height))
+        self.scale_to_size(self.scaled_width, self.scaled_height)
         super().__init__(screen, self.image, x_percent, y_percent, anchor)
 
-     
+    
+    def scale_to_size(self, length, width):
+        self.image = pygame.transform.smoothscale(self.image, (length, width))
 
     def draw(self):
         """Draws the image to the screen."""
