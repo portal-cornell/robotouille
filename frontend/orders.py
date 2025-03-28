@@ -44,6 +44,7 @@ class Order:
         self.valid_items = set(self.config["item"]["entities"].keys()) # list of ingredients that are in the config
         self.items = defaultdict(int) # list of id in the recipe that are contained in valid_items
         self.convert_recipe_to_list() 
+        self.hover = False
         
     def add_item(self, item, id):
         if item in self.valid_items and id not in self.seen:

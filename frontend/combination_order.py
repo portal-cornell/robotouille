@@ -22,12 +22,69 @@ class CombinationOrder(Order):
             time (int): duration of the order in seconds
         """
         super().__init__(window_size, config, time, recipe)
-        self.product = None
-    
-    def _choose_container_asset(self):
+        self.choose_container_asset()
+        self.product = Image(
+            self.screen,
+            self.get_image(self.product_image), 
+            x_percent=0.5,
+            y_percent=0.6,
+            scale_factor=(self.scale_factor/5),
+            anchor="center",
+        )
+        
+    def choose_container_asset(self):
         container = self.id_to_item[self.id_stack[0]]
-        self.config["container"]["entities"][container]["assets"]
-  
+        container_assets = self.config["container"]["entities"][container]["assets"]
+        meal_name = None
+        item_predicates = []
+        for pred in self.recipe:
+            item_predicates.append({"name": pred["predicate"], "params": pred["args"]})
+            if pred["predicate"] == "in" and pred["args"][1] == container:
+                meal_name = pred["args"][0]
+                break
+        if not meal_name:
+            return container_assets.get("default", None)
+        self.product_image = self.find_best_asset(container_assets, item_predicates)
+        
+    def _predicate_match(self, p1, p2):
+        """Check if two predicates match, treating '' as wildcard."""
+        if p1["name"] != p2["name"]:
+            return False
+        if len(p1["params"]) != len(p2["params"]):
+            return False
+        for a, b in zip(p1["params"], p2["params"]):
+            if a != "" and b != "" and a != b:
+                return False
+        return True
+
+    def _count_predicate_matches(self, target_predicates, item_predicates):
+        count = 0
+        for item_p in item_predicates:
+            for target_p in target_predicates:
+                if self._predicate_match(target_p, item_p):
+                    count += 1
+                    break  
+        return count
+
+    def find_best_asset(self, asset, item_predicate):
+        best_match = asset["default"]
+        max_matches = 0
+
+        def dfs(subtree):
+            nonlocal best_match, max_matches
+            if isinstance(subtree, dict):
+                if "asset" in subtree and "predicates" in subtree:
+                    matches = self._count_predicate_matches(subtree["predicates"], item_predicate)
+                    if matches > max_matches:
+                        max_matches = matches
+                        best_match = subtree["asset"]
+                else:                
+                    for v in subtree.values():
+                        dfs(v)
+        
+        dfs(asset)
+        return best_match
+
 
     def convert_recipe_to_list(self):
         super().convert_recipe_to_list()
@@ -96,8 +153,11 @@ class CombinationOrder(Order):
         Draw all components of the order onto the screen surface.
         """
         super().draw()
-        for image in self.recipe_images:
-            image.draw()
+        if self.hover:
+            for image in self.recipe_images:
+                image.draw()
+        else:
+            self.product.draw()
  
     
     def load_assets(self):

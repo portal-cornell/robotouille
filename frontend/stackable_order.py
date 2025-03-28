@@ -31,7 +31,7 @@ class StackableOrder(Order):
         self.recipe_images = [] 
         base_x = 0.5  
         base_y = 0.7 
-        stack_offset = self.config["item"]["constants"]["STATION_ITEM_OFFSET"] * (self.scale_factor/4)
+        stack_offset = self.config["item"]["constants"]["STATION_ITEM_OFFSET"] * (self.scale_factor/2)
 
         for i, id in enumerate(self.id_stack): 
             item = self.id_to_image.get(id, self.id_to_item[id])
