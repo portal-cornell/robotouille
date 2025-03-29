@@ -7,7 +7,8 @@ from frontend.constants import DEBUG
 class Slider(Node):
     def __init__(self, screen, background_image, foreground_image, background_width, background_height, 
                 foreground_width, foreground_height, x_percent, y_percent,
-                foreground_padding=(10, 10, 10, 10), background_padding=(10, 10, 10, 10), scale_factor=1, filled_percent=0.5, knob_image=None, anchor = "topleft"):
+                foreground_padding=(10, 10, 10, 10), background_padding=(10, 10, 10, 10), scale_factor=1,
+                filled_percent=0.5, knob_image=None, anchor = "topleft", offset_x=0, offset_y=0):
         """
         Initialize a Slider object.
 
@@ -33,7 +34,7 @@ class Slider(Node):
         self.background_height = background_height * scale_factor
         self.foreground_width = foreground_width * scale_factor
         self.foreground_height = foreground_height * scale_factor
-        super().__init__(screen, pygame.Surface((int(self.background_width), int(self.background_height))), x_percent, y_percent, anchor)
+        super().__init__(screen, pygame.Surface((int(self.background_width), int(self.background_height))), x_percent, y_percent, offset_x, offset_y, anchor)
         self.scale_factor = scale_factor
 
         self.background = NinePatch(screen, background_image, self.x, self.y, self.background_width, self.background_height, scale_factor=self.scale_factor, padding=background_padding)

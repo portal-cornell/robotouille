@@ -12,7 +12,7 @@ import os
 ASSETS_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "pause_screen"))
 
 class PauseScreen(ScreenInterface):
-    def __init__(self, window_size):
+    def __init__(self, window_size, mouse_offset_x=0, mouse_offset_y=0):
         """
         Initialize the Main Menu Screen.
 

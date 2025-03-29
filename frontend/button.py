@@ -6,7 +6,10 @@ from frontend.textbox import Textbox
 from frontend.constants import FONT_PATH
 
 class Button(Node):
-    def __init__(self, screen, normal_image_source, x_percent, y_percent, scale_factor=1.0, hover_image_source = None, pressed_image_source = None, text=None, font_path=FONT_PATH, font_size= 60, text_color=(0, 0, 0), anchor="topleft"):
+    def __init__(self, screen, normal_image_source, x_percent, y_percent, scale_factor=1.0,
+                hover_image_source = None, pressed_image_source = None, text=None,
+                font_path=FONT_PATH, font_size= 60, text_color=(0, 0, 0), anchor="topleft", 
+                offset_x=0, offset_y=0):
         """
         Initialize a Button instance.
 
@@ -28,7 +31,7 @@ class Button(Node):
             anchor (str): Anchor point for positioning. Defaults to "topleft".
         """
         self.normal_image = Image(screen, normal_image_source, x_percent, y_percent, scale_factor, anchor=anchor)
-        super().__init__(screen, self.normal_image.image, x_percent, y_percent, anchor)
+        super().__init__(screen, self.normal_image.image, x_percent, y_percent, offset_x, offset_y, anchor)
 
         self.text = None
 
@@ -65,16 +68,16 @@ class Button(Node):
         if DEBUG:
             pygame.draw.rect(self.screen, (255, 0, 0), self.rect, 2)  # Draw a red outline of the clickable region
 
-            
+
     def in_bound(self):
         """
-        Check if the mouse is over the button.
+        Check if the location is over the object.
 
         Returns:
-           (bool) True if the mouse position is within the button's bounds; False otherwise.
+           (bool) True if the  position is within the objects's bounds; False otherwise.
         """
-        return self.rect.collidepoint(pygame.mouse.get_pos())
-
+        return self._in_bound(pygame.mouse.get_pos()) 
+    
     def is_hovered(self):
         """
         Check if the mouse is hovering over the button without an outside click in progress.

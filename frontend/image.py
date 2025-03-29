@@ -2,7 +2,7 @@ import pygame
 from frontend.node import Node
 
 class Image(Node):
-    def __init__(self, screen, image_source, x_percent, y_percent, scale_factor=1.0, anchor="topleft"):
+    def __init__(self, screen, image_source, x_percent, y_percent, scale_factor=1.0, anchor="topleft", offset_x=0, offset_y=0):
         """
         Initialize an Image object.
 
@@ -23,7 +23,7 @@ class Image(Node):
         self.scaled_height = original_height * scale_factor
         # self.image = pygame.transform.smoothscale(self.image, (self.scaled_width, self.scaled_height))
         self.scale_to_size(self.scaled_width, self.scaled_height)
-        super().__init__(screen, self.image, x_percent, y_percent, anchor)
+        super().__init__(screen, self.image, x_percent, y_percent, offset_x, offset_y, anchor)
 
     
     def scale_to_size(self, length, width):
