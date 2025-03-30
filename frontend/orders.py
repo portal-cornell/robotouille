@@ -17,7 +17,7 @@ class Order:
     
     PREDICATES = {"atop", "addedto", "in"}
 
-    def __init__(self, window_size, config, time, recipe):
+    def __init__(self, window_size, config, time, recipe, offset_x, offset_y):
         """
         Initialize an Order object with the necessary parameters.
 
@@ -30,23 +30,64 @@ class Order:
         self.load_assets() 
         self.seen = set()
         self.id_stack = []
-        self.scale_factor = min(window_size[0]/1440, window_size[1]/1024)  
-        self.create_screen()  
-        self.background = Image(self.screen, self.background_image, self.x_percent(0), self.y_percent(0), self.scale_factor, anchor="topleft")
-        self.profile = Image(self.screen, self.profile_image, self.x_percent(6), self.y_percent(6), self.scale_factor, anchor="topleft")
         self.time = time 
         self.status = Order.PENDING  
         self.config = config # robotouille_env.json
         self.recipe = recipe
         self.id_to_item = {} # maps id to the name of the item
         self.id_to_image = {} # maps id to image (based on predicates)
-        self.generate_images()  
+        self.hover = False
+        self.offset_y = offset_y
+        self.offset_x = offset_x
         self.valid_items = set(self.config["item"]["entities"].keys()) # list of ingredients that are in the config
         self.items = defaultdict(int) # list of id in the recipe that are contained in valid_items
+        self.scale_factor = min(window_size[0]/1440, window_size[1]/1024)  
+        self.generate_images() 
         self.convert_recipe_to_list() 
-        self.hover = False
+        self.create_screen()  
+        self.background = Image(self.screen, self.background_image, self.x_percent(0), self.y_percent(0), self.scale_factor, anchor="topleft")
+        self.profile = Image(self.screen, self.profile_image, self.x_percent(6), self.y_percent(6), self.scale_factor, anchor="topleft")
+
+
+    def set_hover(self):
+        """
+        Check whether mouse is over the recipe
+        """
+        self.hover = self._in_bound(pygame.mouse.get_pos())
+        if self.hover:
+            # change screen size
+            pass
+        else:
+            pass
+
+    def _in_bound(self, mouse_pos):
+        """
+        Check if the mouse is over the object.
+
+        Returns:
+           (bool) True if the  position is within the objects's bounds; False otherwise.
+        """
+        mouse_x, mouse_y = mouse_pos
+        local_x = mouse_x - self.offset_x
+        local_y = mouse_y - self.offset_y
+
+        #TODO change based on the size of the order
+        if self.hover:
+            return self.screen.collidepoint(self.adjusted_mouse_position((local_x, local_y)))
+        else:
+            return self.screen.collidepoint(self.adjusted_mouse_position((local_x, local_y)))
+    
+    def set_offset(self, offset_x, offset_y):
+        """
+        Set the screen offset relative to parent
+        """
+        self.offset_x = offset_x
+        self.offset_y = offset_y
         
-    def add_item(self, item, id):
+    def _add_item(self, item, id):
+        """
+        Add new ingredient to the item list
+        """
         if item in self.valid_items and id not in self.seen:
             self.items[id] += 1
             self.seen.add(id)
@@ -65,13 +106,13 @@ class Order:
                 if len(self.id_stack) == 0:
                     self.id_stack.append(top_id)
                     self.id_stack.append(bottom_id)
-                    self.add_item(top, top_id)
-                    self.add_item(bottom, bottom_id)
+                    self._add_item(top, top_id)
+                    self._add_item(bottom, bottom_id)
                 else:
                     if top_id != self.id_stack[-1]:
                         raise Exception("RECIPE NOT IN ORDER")
                     self.id_stack.append(bottom_id)      
-                    self.add_item(bottom, bottom_id)
+                    self._add_item(bottom, bottom_id)
 
         self.items = self.items
         self.id_stack = list(reversed(self.id_stack)) # id stack 
@@ -82,7 +123,7 @@ class Order:
 
         This screen will have a size scaled based on the scale factor and the default width/height.
         """
-        self.width, self.height = Order.WIDTH * self.scale_factor, Order.HEIGHT * self.scale_factor
+        self.width, self.height = self.WIDTH * self.scale_factor, self.HEIGHT * self.scale_factor
         self.screen = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
 
     def array_equal(self, arr1, arr2):
@@ -118,7 +159,6 @@ class Order:
                 id_pred[ids[0]].append(pred)
         
         # Generate a mapping of ID to image based on the predicates
-
         for id in id_pred:
             assets = self.config["item"]["entities"][self.id_to_item[id]]["assets"]
             for pred, map in assets.items():
@@ -128,6 +168,7 @@ class Order:
                 if self.array_equal(id_pred[id], predicates):  # Check if predicates match
                     self.id_to_image[id] = asset
                     break
+
     def get_image(self, image_name):
         """
         Retrieve an image from the asset directory.
@@ -178,8 +219,16 @@ class Order:
         Draw all components of the order onto the screen surface.
         """
         self.background.draw() 
-        self.profile.draw()  
-    
+        self.profile.draw() 
+
+        #TODO remove FOR TESTING
+        length = self.WIDTH * self.scale_factor * 2
+        width = self.HEIGHT * self.scale_factor * 2
+        x = 0
+        y = 0
+        box_color = (0, 128, 255)
+        pygame.draw.rect(self.screen, box_color, pygame.Rect(x, y, length, width))
+
     def get_screen(self):
         """
         Get the rendered screen of the order.

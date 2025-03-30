@@ -12,8 +12,9 @@ ASSETS_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(
 
 class CombinationOrder(Order):
     COMPLETE, PENDING, DISCARDED = 0, 1, 2
-    WIDTH, HEIGHT = 153, 199
-    def __init__(self, window_size, config, time, recipe):
+    WIDTH, HEIGHT = 153, 165
+    ITEM = 34
+    def __init__(self, window_size, config, time, recipe, offset_x, offset_y):
         """
         Initialize an Order object.
 
@@ -21,8 +22,9 @@ class CombinationOrder(Order):
             window_size (tuple): A tuple (width, height) representing the size of the game window.
             time (int): duration of the order in seconds
         """
-        super().__init__(window_size, config, time, recipe)
-        self.choose_container_asset()
+        super().__init__(window_size, config, time, recipe, offset_x, offset_y)
+        self.list_to_image() # generate recipe assets
+        self.choose_container_asset() # generate complete order asset
         self.product = Image(
             self.screen,
             self.get_image(self.product_image), 
@@ -31,8 +33,20 @@ class CombinationOrder(Order):
             scale_factor=(self.scale_factor/5),
             anchor="center",
         )
-        
+    
+    def create_screen(self):
+        """
+        Create a surface representing the order's screen.
+
+        This screen will have a size scaled based on the scale factor and the default width/height.
+        """
+        self.width, self.height = CombinationOrder.WIDTH * self.scale_factor, CombinationOrder.HEIGHT * self.scale_factor + (CombinationOrder.ITEM * ((len(self.items) - 1)//2))
+        self.screen = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
+
     def choose_container_asset(self):
+        """
+        Generates the complete order asset
+        """
         container = self.id_to_item[self.id_stack[0]]
         container_assets = self.config["container"]["entities"][container]["assets"]
         meal_name = None
@@ -84,11 +98,6 @@ class CombinationOrder(Order):
         
         dfs(asset)
         return best_match
-
-
-    def convert_recipe_to_list(self):
-        super().convert_recipe_to_list()
-        self.list_to_image()
     
     def add_ingredient(self, item, count, x_percent, y_percent):
         count = 2
@@ -110,7 +119,7 @@ class CombinationOrder(Order):
         )
         self.recipe_images.append(image)  
         
-        if count > 1:
+        if count > 2:
             count = Button(
                 self.screen,
                 self.count, 
@@ -147,13 +156,12 @@ class CombinationOrder(Order):
                 self.add_ingredient(item, count, (base_x + ((i%2) * offset_x), base_y + ((i//2) * offset_y)))
                 i += 1
         
-        
     def draw(self):
         """
         Draw all components of the order onto the screen surface.
         """
         super().draw()
-        if self.hover:
+        if not self.hover:
             for image in self.recipe_images:
                 image.draw()
         else:

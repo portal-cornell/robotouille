@@ -8,8 +8,8 @@ class Node(ABC):
             surface (pygame.Surface): A temp surface, used to determine the boundaries
             x_percent (float): The horizontal position of the button as a percentage of the screen width.
             y_percent (float): The vertical position of the button as a percentage of the screen height.
-            offsetx (int): Represents the number of pixels vertically this nodes is offseted from the parent screen
-            offsety (int): Represents the number of pixels horizonally this nodes is offseted from the parent screen
+            offset_x (int): Represents the number of pixels vertically this nodes is offseted from the parent screen
+            offset_y (int): Represents the number of pixels horizonally this nodes is offseted from the parent screen
             anchor (str): Positioning anchor, either "topleft" or "center".
         """
         self.screen = screen
@@ -20,6 +20,17 @@ class Node(ABC):
         self.offset_x = offset_x
         self.offset_y = offset_y
         self.calculate_position()
+    
+    def set_offset(self, new_offset_x, new_offset_y):
+        """
+        Updates the offset_x and offset_y positions
+
+        Args:
+            offset_x (int): Represents the number of pixels vertically this nodes is offseted from the parent screen
+            offset_y (int): Represents the number of pixels horizonally this nodes is offseted from the parent screen
+        """
+        self.offset_x = new_offset_x
+        self.offset_y = new_offset_y
 
     def set_percentage(self, new_x_percent = None, new_y_percent= None):
         """

@@ -80,9 +80,12 @@ class OrdersCollection(ScreenInterface):
         self.score = 0
         self.time = 300
         self.orders = {}
-        self.add_order(1, CombinationOrder(window_size, config, time= 5, recipe=TOMATO_SOUP))
-        self.add_order(2, StackableOrder(window_size, config, time= 8, recipe=HAMBURGER))
-        self.add_order(3, SimpleOrder(window_size, config, time= 10, recipe=FRIED_CHICKEN))
+
+        for count in range(3):
+            x_coord = 12 + (count * 161)
+            if count == 0: self.add_order(count, CombinationOrder(window_size, config, 5, TOMATO_SOUP, self.x_percent(x_coord) * self.screen_width, 0))
+            if count == 1: self.add_order(2, StackableOrder(window_size, config, 8, HAMBURGER, self.x_percent(x_coord) * self.screen_width, 0))
+            if count == 2: self.add_order(3, SimpleOrder(window_size, config, 10, FRIED_CHICKEN, self.x_percent(x_coord) * self.screen_width, 0))
         self.score_box = Textbox(self.screen, str(self.score), self.x_percent(1007), self.y_percent(71), 70, 45, font_size=40, scale_factor=self.scale_factor)
         self.time_box = Textbox(self.screen, self.convert_seconds_to_time(self.time) , self.x_percent(1162), self.y_percent(71), 108, 45, font_size=38, scale_factor=self.scale_factor)
         self.score_background = Image(self.screen, self.background_image, self.x_percent(944), self.y_percent(40), self.scale_factor)
@@ -141,6 +144,7 @@ class OrdersCollection(ScreenInterface):
         """
         Update the remaining time by decrementing it based on the elapsed time.
         """
+        # updates the game clock
         current_time = pygame.time.get_ticks()
         elapsed_time = current_time - self.last_update_time
         seconds_passed = 0
@@ -157,11 +161,23 @@ class OrdersCollection(ScreenInterface):
                 self.next_screen = ENDGAME
 
         self.time_box.set_text(self.convert_seconds_to_time(self.time))
-
+        
+        # discard expire orders 
+        discarded_order = False
         for id, order in list(self.orders.items()):
             order.update(seconds_passed)  
             if order.status == Order.DISCARDED:
                 self.complete_order(id)
+                discarded_order = True
+
+        # if order is discard, let children know position have been shifted 
+        if discarded_order:
+            count = 0
+            for _, order in self.orders.items():
+                x_coord = 12 + (count * 161)
+                order.set_offset(self.x_percent(x_coord) * self.screen_width, 0)
+                count += 1
+
 
     def load_assets(self):
         """

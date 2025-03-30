@@ -12,7 +12,7 @@ ASSETS_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(
 class StackableOrder(Order):
     COMPLETE, PENDING, DISCARDED = 0, 1, 2
     WIDTH, HEIGHT = 153, 165
-    def __init__(self, window_size, config, time, recipe):
+    def __init__(self, window_size, config, time, recipe, offset_x, offset_y):
         """
         Initialize an Order object.
 
@@ -20,7 +20,7 @@ class StackableOrder(Order):
             window_size (tuple): A tuple (width, height) representing the size of the game window.
             time (int): duration of the order in seconds
         """
-        super().__init__(window_size, config, time, recipe)
+        super().__init__(window_size, config, time, recipe, offset_x, offset_y)
         self.list_to_image()
     
     def list_to_image(self):
