@@ -28,11 +28,11 @@ class CombinationOrder(Order):
         self.product = Image(
             self.screen,
             self.get_image(self.product_image), 
-            x_percent=0.5,
-            y_percent=0.6,
+            x_percent=(self.scale_factor * 32)/self.width,
+            y_percent=(self.scale_factor * 51)/self.height,
             scale_factor=(self.scale_factor/5),
-            anchor="center",
         )
+        self.check_hover()
     
     def create_screen(self):
         """
@@ -113,8 +113,8 @@ class CombinationOrder(Order):
         image = Image(
             self.screen,
             self.get_image(item),
-            x_percent + 6/CombinationOrder.WIDTH,
-            y_percent + 7/CombinationOrder.HEIGHT,
+            x_percent + (self.scale_factor * 6)/self.width,
+            y_percent + (self.scale_factor * 7)/self.height,
             scale_factor=self.scale_factor/14,
         )
         self.recipe_images.append(image)  
@@ -123,8 +123,8 @@ class CombinationOrder(Order):
             count = Button(
                 self.screen,
                 self.count, 
-                x_percent=x_percent + 38/CombinationOrder.WIDTH,
-                y_percent=y_percent + 33/CombinationOrder.HEIGHT,
+                x_percent=x_percent + (self.scale_factor * 38)/self.width,
+                y_percent=y_percent + (self.scale_factor * 33)/self.height,
                 scale_factor=self.scale_factor,
                 text=str(count),
                 font_size=15
@@ -136,32 +136,43 @@ class CombinationOrder(Order):
         Draw circle and item
         """
         self.recipe_images = [] 
-        offset_y = self.scale_factor * (59/CombinationOrder.WIDTH)
-        offset_x = self.scale_factor * (53/CombinationOrder.HEIGHT)
+        offset_y = (self.scale_factor * 59)/self.height
+        offset_x = (self.scale_factor * 53)/self.width
         
         if len(self.items) <= 2:
-            base_x = 51/CombinationOrder.WIDTH
-            base_y = 62/CombinationOrder.HEIGHT
+            base_x = (self.scale_factor * 51)/self.width
+            base_y = (self.scale_factor * 62)/self.height
             i = 0
             for id, count in self.items.items(): 
                 item = self.id_to_image.get(id, self.id_to_item[id])
                 self.add_ingredient(item, count, base_x, base_y + (i * offset_y))
                 i += 1
         else:
-            base_x = 27/CombinationOrder.WIDTH
-            base_y = 74/CombinationOrder.HEIGHT
+            base_x = (self.scale_factor * 27)/self.width
+            base_y = (self.scale_factor * 74)/self.height
             i = 0
             for id, count in self.items.items(): 
                 item = self.id_to_image.get(id, self.id_to_item[id])
                 self.add_ingredient(item, count, (base_x + ((i%2) * offset_x), base_y + ((i//2) * offset_y)))
                 i += 1
-        
+
+    def check_hover(self): 
+        """
+        Check whether mouse is over the recipe
+        """
+        self.hover = self._in_bound(pygame.mouse.get_pos())
+        if not self.hover:
+            self.background.scale_to_size(CombinationOrder.WIDTH, self.height/self.scale_factor)
+        else:
+            self.background.scale_to_size(CombinationOrder.WIDTH, CombinationOrder.HEIGHT)
+
+
     def draw(self):
         """
         Draw all components of the order onto the screen surface.
         """
         super().draw()
-        if not self.hover:
+        if self.hover:
             for image in self.recipe_images:
                 image.draw()
         else:

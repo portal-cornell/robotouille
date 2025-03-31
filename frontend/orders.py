@@ -49,17 +49,29 @@ class Order:
         self.profile = Image(self.screen, self.profile_image, self.x_percent(6), self.y_percent(6), self.scale_factor, anchor="topleft")
 
 
-    def set_hover(self):
+    def check_hover(self):
         """
         Check whether mouse is over the recipe
         """
-        self.hover = self._in_bound(pygame.mouse.get_pos())
-        if self.hover:
-            # change screen size
-            pass
-        else:
-            pass
+        pass
 
+    def adjusted_mouse_position(self, mouse_pos):
+        """
+        Adjusts the global mouse position to account for the position of this node,
+        allowing for local interaction within the node's surface.
+        Args:
+            mouse_pos (tuple): The current mouse position in global screen coordinates (x, y).
+        Returns:
+            tuple: The adjusted mouse position relative to this node's surface.
+        """
+        # Unpack global mouse position.
+        mouse_x, mouse_y = mouse_pos
+
+        # Adjust the position relative to the node's position.
+        local_x = mouse_x - self.offset_x
+        local_y = mouse_y - self.offset_y
+        return (local_x, local_y)
+    
     def _in_bound(self, mouse_pos):
         """
         Check if the mouse is over the object.
@@ -70,12 +82,7 @@ class Order:
         mouse_x, mouse_y = mouse_pos
         local_x = mouse_x - self.offset_x
         local_y = mouse_y - self.offset_y
-
-        #TODO change based on the size of the order
-        if self.hover:
-            return self.screen.collidepoint(self.adjusted_mouse_position((local_x, local_y)))
-        else:
-            return self.screen.collidepoint(self.adjusted_mouse_position((local_x, local_y)))
+        return self.background._in_bound(self.adjusted_mouse_position((local_x, local_y)))
     
     def set_offset(self, offset_x, offset_y):
         """
@@ -218,16 +225,9 @@ class Order:
         """
         Draw all components of the order onto the screen surface.
         """
+        self.screen.fill((0,0,0,0))
         self.background.draw() 
         self.profile.draw() 
-
-        #TODO remove FOR TESTING
-        length = self.WIDTH * self.scale_factor * 2
-        width = self.HEIGHT * self.scale_factor * 2
-        x = 0
-        y = 0
-        box_color = (0, 128, 255)
-        pygame.draw.rect(self.screen, box_color, pygame.Rect(x, y, length, width))
 
     def get_screen(self):
         """

@@ -83,7 +83,7 @@ class OrdersCollection(ScreenInterface):
 
         for count in range(3):
             x_coord = 12 + (count * 161)
-            if count == 0: self.add_order(count, CombinationOrder(window_size, config, 5, TOMATO_SOUP, self.x_percent(x_coord) * self.screen_width, 0))
+            if count == 0: self.add_order(count, CombinationOrder(window_size, config, 50, TOMATO_SOUP, self.x_percent(x_coord) * self.screen_width, 0))
             if count == 1: self.add_order(2, StackableOrder(window_size, config, 8, HAMBURGER, self.x_percent(x_coord) * self.screen_width, 0))
             if count == 2: self.add_order(3, SimpleOrder(window_size, config, 10, FRIED_CHICKEN, self.x_percent(x_coord) * self.screen_width, 0))
         self.score_box = Textbox(self.screen, str(self.score), self.x_percent(1007), self.y_percent(71), 70, 45, font_size=40, scale_factor=self.scale_factor)
@@ -222,6 +222,7 @@ class OrdersCollection(ScreenInterface):
 
         count = 0
         for _, order in self.orders.items():
+            order.check_hover()
             order.draw()
             x_coord = 12 + (count * 161)
             self.screen.blit(order.get_screen(), (self.x_percent(x_coord) * self.screen_width, 0))
