@@ -1,9 +1,5 @@
-import pygame
 from frontend.image import Image
-from frontend.loading import LoadingScreen
-from renderer.canvas import RobotouilleCanvas
 import os
-from collections import defaultdict
 from frontend.orders import Order
 
 # Set up the assets directory
@@ -18,7 +14,11 @@ class SimpleOrder(Order):
 
         Args:
             window_size (tuple): A tuple (width, height) representing the size of the game window.
-            time (int): duration of the order in seconds
+            config (dict): Configuration details for the game.
+            time (int): duration of the order in seconds.
+            recipe (list): List of steps or actions required for this order.
+            offset_x (int): Represents the number of pixels vertically this nodes is offseted from the parent screen
+            offset_y (int): Represents the number of pixels horizonally this nodes is offseted from the parent screen
         """
         super().__init__(window_size, config, time, recipe, offset_x, offset_y)
         item = None

@@ -22,6 +22,8 @@ class Textbox(Node):
             scale_factor (float): Scale factor for resizing the text. Defaults to 1.0.
             align_text (str): The alignment of the text within the textbox. Options are "left", "center", or "right". Defaults to "center".
             anchor (str): Determines how the textbox rectangle is anchored on the screen. Options are "center" or "topleft". Defaults to "topleft".
+            offset_x (int): Represents the number of pixels vertically this nodes is offseted from the parent screen
+            offset_y (int): Represents the number of pixels horizonally this nodes is offseted from the parent screen
         """
 
         super().__init__(screen, pygame.Surface((width * scale_factor, height* scale_factor), pygame.SRCALPHA), x_percent, y_percent, offset_x, offset_y, anchor)
@@ -35,6 +37,19 @@ class Textbox(Node):
         self.background_color = (255, 255, 255, 0) 
         self.text_surface = None
         
+        self.update_text_rect()
+
+    def scale_to_size(self, width, height):
+        """
+        Scale the textbox surface to a new width and height.
+        Note: This does not change the font size or rerender the text,
+        so the text may appear stretched or squashed if the new size is very different.
+
+        Args:
+            width (int): New width of the textbox surface.
+            height (int): New height of the textbox surface.
+        """
+        self.surface = pygame.Surface((width, height), pygame.SRCALPHA)
         self.update_text_rect()
 
     def update_text_rect(self):

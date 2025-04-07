@@ -13,6 +13,21 @@ import pygame
 # Set up the assets directory
 ASSETS_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "orders"))
 TOMATO_SOUP = [
+       {
+            "predicate": "addedto",
+            "args": ["lettuce", "water"],
+            "ids": ["x", "b"]
+        },
+           {
+            "predicate": "addedto",
+            "args": ["tomato", "water"],
+            "ids": ["y", "b"]
+        },
+           {
+            "predicate": "addedto",
+            "args": ["tomato", "water"],
+            "ids": ["z", "b"]
+        },
         {
             "predicate": "addedto",
             "args": ["tomato", "water"],

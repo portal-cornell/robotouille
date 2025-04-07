@@ -29,6 +29,8 @@ class Button(Node):
             font_size (int): The size of the font.
             text_color (tuple): Color of the text in RGB format. Defaults to black.
             anchor (str): Anchor point for positioning. Defaults to "topleft".
+            offset_x (int): Represents the number of pixels vertically this nodes is offseted from the parent screen
+            offset_y (int): Represents the number of pixels horizonally this nodes is offseted from the parent screen
         """
         self.normal_image = Image(screen, normal_image_source, x_percent, y_percent, scale_factor, anchor=anchor)
         super().__init__(screen, self.normal_image.image, x_percent, y_percent, offset_x, offset_y, anchor)
@@ -45,6 +47,16 @@ class Button(Node):
         self.current_image = self.normal_image
        
         self.is_pressed = False
+    
+    def scale_to_size(self, width, height):
+        """
+        Scales the button to a specific pixel dimension, adjusted by scale factor
+        """
+        self.hover_image.scale_to_size(width, height)
+        self.normal_image.scale_to_size(width, height)
+        self.pressed_image.scale_to_size(width, height)
+        self.text.scale_to_size(width, height)
+
 
     def draw(self):
         """

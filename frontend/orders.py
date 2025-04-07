@@ -14,7 +14,7 @@ class Order:
     
     # Default dimensions for an order (in pixels)
     WIDTH, HEIGHT = 153, 165
-    
+    SCREEN_WIDTH, SCREEN_HEIGHT = 1440, 1024
     PREDICATES = {"atop", "addedto", "in"}
 
     def __init__(self, window_size, config, time, recipe, offset_x, offset_y):
@@ -23,9 +23,11 @@ class Order:
 
         Args:
             window_size (tuple): A tuple (width, height) representing the size of the game window.
-            time (int): duration of the order in seconds.
             config (dict): Configuration details for the game.
+            time (int): duration of the order in seconds.
             recipe (list): List of steps or actions required for this order.
+            offset_x (int): Represents the number of pixels vertically this nodes is offseted from the parent screen
+            offset_y (int): Represents the number of pixels horizonally this nodes is offseted from the parent screen
         """
         self.load_assets() 
         self.seen = set()
@@ -41,11 +43,12 @@ class Order:
         self.offset_x = offset_x
         self.valid_items = set(self.config["item"]["entities"].keys()) # list of ingredients that are in the config
         self.items = defaultdict(int) # list of id in the recipe that are contained in valid_items
-        self.scale_factor = min(window_size[0]/1440, window_size[1]/1024)  
+        self.scale_factor = min(window_size[0]/Order.SCREEN_WIDTH, window_size[1]/Order.SCREEN_HEIGHT)  
         self.generate_images() 
         self.convert_recipe_to_list() 
         self.create_screen()  
         self.background = Image(self.screen, self.background_image, self.x_percent(0), self.y_percent(0), self.scale_factor, anchor="topleft")
+        self.background.scale_to_size(Order.WIDTH, Order.HEIGHT)
         self.profile = Image(self.screen, self.profile_image, self.x_percent(6), self.y_percent(6), self.scale_factor, anchor="topleft")
 
 
@@ -79,10 +82,7 @@ class Order:
         Returns:
            (bool) True if the  position is within the objects's bounds; False otherwise.
         """
-        mouse_x, mouse_y = mouse_pos
-        local_x = mouse_x - self.offset_x
-        local_y = mouse_y - self.offset_y
-        return self.background._in_bound(self.adjusted_mouse_position((local_x, local_y)))
+        return self.background._in_bound(self.adjusted_mouse_position(mouse_pos))
     
     def set_offset(self, offset_x, offset_y):
         """
@@ -95,8 +95,9 @@ class Order:
         """
         Add new ingredient to the item list
         """
+        item = self.id_to_image.get(id, item)
         if item in self.valid_items and id not in self.seen:
-            self.items[id] += 1
+            self.items[item] += 1
             self.seen.add(id)
         
     def convert_recipe_to_list(self):
