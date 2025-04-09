@@ -17,5 +17,5 @@ video_path: ${hydra:runtime.output_dir}/video_human.mp4   # The name of the file
 
 role: "local"                                             # The networking role to use. Options: ['local', 'server', 'client', 'single', 'replay', 'render']
 host: "ws://localhost:8765"                               # The host to connect to
-display_server: false                                     # Whether to display the server window
+display_server: true                                     # Whether to display the server window
 recording: ""                                             # The recording to replay

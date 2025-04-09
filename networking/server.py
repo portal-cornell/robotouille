@@ -16,7 +16,7 @@ from backend.movement.movement import Movement
 SIMULATE_LATENCY = False
 SIMULATED_LATENCY_DURATION = 0.25
 
-UPDATE_INTERVAL = 1/25
+UPDATE_INTERVAL = 1/60
 
 def run_server(environment_name: str, seed: int, noisy_randomization: bool, movement_mode: str, display_server: bool=False, event: asyncio.Event=None):
     asyncio.run(server_loop(environment_name, seed, noisy_randomization, movement_mode, display_server, event))
@@ -94,9 +94,6 @@ async def server_loop(environment_name: str, seed: int, noisy_randomization: boo
                                 action = pickle.loads(base64.b64decode(encoded_action))
                                 actions[player_id] = action
                             # If player is moving, their action remains (None, None)
-                            else:
-                                print("Player is moving, ignoring action")
-                                print(actions)
                             
                     except asyncio.TimeoutError:
                         # No inputs, self update
@@ -108,11 +105,12 @@ async def server_loop(environment_name: str, seed: int, noisy_randomization: boo
 
                 try:
                     clock.tick()
-                    env.clock.tick(env.render_fps)
                     obs, reward, done, info = env.step(actions)
                     recording["actions"].append((actions, env.current_state, time.monotonic() - start_time))
                     if display_server:
                         env.render(render_mode='human')
+                    else:
+                        env.clock.tick(env.render_fps)
                 except AssertionError:
                     print("violation")
                     recording["violations"].append((actions, time.monotonic() - start_time))

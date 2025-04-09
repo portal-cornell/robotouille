@@ -32,7 +32,7 @@ async def client_loop(environment_name: str, seed: int, noisy_randomization: boo
                 if online:
                     encoded_action = base64.b64encode(pickle.dumps((action, args))).decode('utf-8')
                     await websocket.send(json.dumps(encoded_action))
-            env.render(render_mode = 'human')
+            # env.render(render_mode = 'human')
 
             await asyncio.sleep(0)  # Yield control to allow other tasks to run
 
@@ -45,6 +45,8 @@ async def client_loop(environment_name: str, seed: int, noisy_randomization: boo
             shared_state["env"].set_current_state(pickle.loads(base64.b64decode(data["env"])))
             shared_state["obs"] = pickle.loads(base64.b64decode(data["obs"]))
             Player.players = pickle.loads(base64.b64decode(data["players"]))
+
+            shared_state["env"].render(render_mode='human')
 
     async with websockets.connect(uri) as websocket:
         env = create_robotouille_env(environment_name, movement_mode, seed, noisy_randomization)
@@ -59,7 +61,7 @@ async def client_loop(environment_name: str, seed: int, noisy_randomization: boo
         player = env.initial_state.get_players()[player_index]
         shared_state["player"] = player
 
-        sender = asyncio.create_task(send_actions(websocket, shared_state))
         receiver = asyncio.create_task(receive_responses(websocket, shared_state))
-        await asyncio.gather(sender, receiver)
+        await send_actions(websocket, shared_state)
+        await receiver
         # Additional cleanup if necessary
