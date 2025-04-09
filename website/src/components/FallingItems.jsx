@@ -43,7 +43,7 @@ const FallingItems = ({ animationEnabled }) => {
   if (!animationEnabled) return null;
 
   return (
-    <div className="falling-items active">
+    <div className=".falling-zone ">
       {items.map((item, index) => (
         <img
           key={index}
@@ -55,8 +55,6 @@ const FallingItems = ({ animationEnabled }) => {
             animationDuration: "calc(3s + var(--random-duration))",
             animationDelay: "var(--random-delay)",
             left: `calc(100% * var(--random-position))`,
-            width: "70px",
-            height: "auto",
           }}
         />
       ))}

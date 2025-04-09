@@ -4,13 +4,20 @@
   }
 
   100% {
-    transform: translateY(calc(100vh + 600px));
+    transform: translateY(calc(100vh + 700px));
     opacity: 1;
   }
+}
+.falling-zone {
+  height: calc(100vh - 100px); /* Adjust this based on your footer height */
+  overflow: hidden;
+  width: 100%;
+  z-index: 1;
 }
 
 .falling-item {
   position: absolute;
+
   top: -150px; /* Start below the cloud (adjust as needed) */
   left: calc(100% * var(--random-position));
   animation: fall linear infinite;

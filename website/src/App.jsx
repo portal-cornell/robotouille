@@ -10,7 +10,7 @@ import Team from "./pages/Team";
 import Blog from "./pages/Blog";
 import Write from "./components/Write"; // Ensure this import is correct
 import SignInButton from "./pages/SignIn";
-
+import Profile from "./pages/MyProfile";
 import Footer from "./components/Footer";
 import Leaderboard from "./pages/Leaderboard";
 import FallingItems from "./components/FallingItems";
@@ -71,6 +71,7 @@ const App = () => {
               {/* Leaderboard Page
             <Route path="/leaderboard" element={<Leaderboard />} /> */}
               <Route path="/signin" element={<SignInButton />} />
+              <Route path="/profile" element={<Profile />} />
             </Routes>
           </div>
         </div>{" "}

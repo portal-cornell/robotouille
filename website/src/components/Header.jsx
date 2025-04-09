@@ -5,11 +5,36 @@ import { FiMenu, FiX } from "react-icons/fi";
 import headerImage from "../assets/header-image.png";
 
 const Header = () => {
+  const [user, setUser] = useState(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [bgPosition, setBgPosition] = useState(
     window.innerWidth > 768 ? "-70px" : "-30px"
   );
   const [bgSize, setBgSize] = useState("auto 120px");
+
+  useEffect(() => {
+    const loadUser = () => {
+      const storedUser = localStorage.getItem("user");
+      setUser(storedUser ? JSON.parse(storedUser) : null);
+    };
+
+    loadUser();
+
+    const interval = setInterval(() => {
+      loadUser(); // check every 500ms
+    }, 500);
+
+    const handleStorageChange = () => {
+      loadUser();
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+      clearInterval(interval);
+    };
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -86,14 +111,28 @@ const Header = () => {
               Blog
             </Link>
           }
-          {
+          {user ? (
+            <Link
+              to="/profile"
+              className="bg-primary-darkBlue font-roboto-slab text-white py-2 px-4 rounded-lg hover:bg-primary-hoverBlue transition duration-300 flex items-center gap-2"
+            >
+              {user.picture && (
+                <img
+                  src={user.picture}
+                  alt="Profile"
+                  className="w-6 h-6 rounded-full border"
+                />
+              )}
+              <span>{"My Profile"}</span>
+            </Link>
+          ) : (
             <Link
               to="/signin"
               className="bg-primary-darkBlue font-roboto-slab text-white py-2 px-4 rounded-lg hover:bg-primary-hoverBlue transition duration-300"
             >
               Sign In
             </Link>
-          }
+          )}
           {/* <Link
             to="/leaderboard"
             className="bg-primary-darkBlue font-roboto-slab text-white py-2 px-4 rounded-lg hover:bg-primary-hoverBlue transition duration-300"
@@ -148,13 +187,23 @@ const Header = () => {
           >
             Blog
           </Link>
-          <Link
-            to="/signin"
-            className="nav-link font-roboto-slab  text-xl"
-            onClick={() => setMenuOpen(false)}
-          >
-            Sign In
-          </Link>
+          {user ? (
+            <Link
+              to="/profile"
+              className="nav-link font-roboto-slab text-xl"
+              onClick={() => setMenuOpen(false)}
+            >
+              My Profile
+            </Link>
+          ) : (
+            <Link
+              to="/signin"
+              className="nav-link font-roboto-slab  text-xl"
+              onClick={() => setMenuOpen(false)}
+            >
+              Sign In
+            </Link>
+          )}
         </div>
       )}
     </div>
