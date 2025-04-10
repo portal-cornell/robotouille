@@ -118,6 +118,7 @@ class RobotouilleRenderer:
             close (bool):
                 Whether to close the pygame window
         """
+        self.screen.fill((0,0,0,0))
         self.canvas.draw_to_surface(self.screen, state)
         self.draw_progress_bar()
         self.orders.draw()

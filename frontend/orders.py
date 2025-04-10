@@ -4,6 +4,7 @@ from frontend.loading import LoadingScreen
 from renderer.canvas import RobotouilleCanvas
 import os
 from collections import defaultdict
+from collections import deque
 
 # Set up the assets directory for the frontend orders
 ASSETS_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "orders"))
@@ -106,24 +107,31 @@ class Order:
         list is from bottom to top. For combination order, the list in order
         of how it's cooked: (i.e bowl-water-tomato)
         """
+        graph = defaultdict(list)
+        in_degree = defaultdict(int)
+        all_id = set()
         for step in self.recipe:
             pred, arg, ids = step["predicate"], step["args"], step["ids"]
             if pred in Order.PREDICATES:
                 top, bottom = arg
                 top_id, bottom_id = ids
-                if len(self.id_stack) == 0:
-                    self.id_stack.append(top_id)
-                    self.id_stack.append(bottom_id)
-                    self._add_item(top, top_id)
-                    self._add_item(bottom, bottom_id)
-                else:
-                    if top_id != self.id_stack[-1]:
-                        raise Exception("RECIPE NOT IN ORDER")
-                    self.id_stack.append(bottom_id)      
-                    self._add_item(bottom, bottom_id)
+                all_id.update(ids)
+                graph[top_id].append(bottom_id)
+                in_degree[bottom_id] += 1
+                self._add_item(top, top_id)
+                self._add_item(bottom, bottom_id)
 
-        self.items = self.items
-        self.id_stack = list(reversed(self.id_stack)) # id stack 
+        queue = deque([id for id in all_id if in_degree[id] == 0])
+        self.id_stack = []
+
+        while queue:
+            current = queue.popleft()
+            self.id_stack.append(current)
+            for neighbor in graph[current]:
+                in_degree[neighbor] -= 1
+                if in_degree[neighbor] == 0:
+                    queue.append(neighbor)
+        self.id_stack = list(reversed(self.id_stack))
 
     def create_screen(self):
         """

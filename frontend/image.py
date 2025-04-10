@@ -16,6 +16,7 @@ class Image(Node):
             offset_x (int): Represents the number of pixels vertically this nodes is offseted from the parent screen
             offset_y (int): Represents the number of pixels horizonally this nodes is offseted from the parent screen
         """
+        self.source_image = image_source
         self.image = image_source
         self.scale_factor = scale_factor
         
@@ -32,7 +33,7 @@ class Image(Node):
         """
         Scales the image to a specific pixel dimension, adjusted by scale factor
         """
-        self.image = pygame.transform.smoothscale(self.image, (self.scale_factor * width, self.scale_factor * height))
+        self.image = pygame.transform.smoothscale(self.source_image, (self.scale_factor * width, self.scale_factor * height))
         self.surface = self.image
         self.calculate_position()
 
@@ -50,4 +51,7 @@ class Image(Node):
         self.image.set_alpha(alpha)
 
     def set_image(self, image):
+        """
+        """
+        self.source_image = image
         self.image = pygame.transform.smoothscale(image, (self.scaled_width, self.scaled_height))

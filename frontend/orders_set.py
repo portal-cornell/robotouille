@@ -12,6 +12,14 @@ import pygame
 
 # Set up the assets directory
 ASSETS_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "orders"))
+
+"""
+ADD new recipes consider edge cases
+Soup + burger with lots of unique ingredients
+
+What screen needs routes/website 
+- needs to be connected to backend 
+"""
 TOMATO_SOUP = [
        {
             "predicate": "addedto",
@@ -99,8 +107,8 @@ class OrdersCollection(ScreenInterface):
         for count in range(3):
             x_coord = 12 + (count * 161)
             if count == 0: self.add_order(count, CombinationOrder(window_size, config, 50, TOMATO_SOUP, self.x_percent(x_coord) * self.screen_width, 0))
-            if count == 1: self.add_order(2, StackableOrder(window_size, config, 8, HAMBURGER, self.x_percent(x_coord) * self.screen_width, 0))
-            if count == 2: self.add_order(3, SimpleOrder(window_size, config, 10, FRIED_CHICKEN, self.x_percent(x_coord) * self.screen_width, 0))
+            if count == 1: self.add_order(2, StackableOrder(window_size, config, 80, HAMBURGER, self.x_percent(x_coord) * self.screen_width, 0))
+            if count == 2: self.add_order(3, SimpleOrder(window_size, config, 100, FRIED_CHICKEN, self.x_percent(x_coord) * self.screen_width, 0))
         self.score_box = Textbox(self.screen, str(self.score), self.x_percent(1007), self.y_percent(71), 70, 45, font_size=40, scale_factor=self.scale_factor)
         self.time_box = Textbox(self.screen, self.convert_seconds_to_time(self.time) , self.x_percent(1162), self.y_percent(71), 108, 45, font_size=38, scale_factor=self.scale_factor)
         self.score_background = Image(self.screen, self.background_image, self.x_percent(944), self.y_percent(40), self.scale_factor)

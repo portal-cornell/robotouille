@@ -101,7 +101,9 @@ class CombinationOrder(Order):
             for item_p in item_predicates:
                 if self._predicate_match(target_p, item_p):
                     count += 1
-                    break  
+                    break 
+        if count != len(target_predicates):
+            return 0
         return count
 
     def find_best_asset(self, asset, item_predicate):
@@ -124,6 +126,7 @@ class CombinationOrder(Order):
             if isinstance(subtree, dict):
                 if "asset" in subtree and "predicates" in subtree:
                     matches = self._count_predicate_matches(subtree["predicates"], item_predicate)
+                    # should be an exact match
                     if matches > max_matches:
                         max_matches = matches
                         best_match = subtree["asset"]

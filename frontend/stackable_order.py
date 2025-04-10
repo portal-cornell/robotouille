@@ -11,8 +11,8 @@ class StackableOrder(Order):
     WIDTH, HEIGHT = 153, 165
     ITEM = 17
     SPACE = 9
-    X, Y = 42, 38  #represents the topleft corner
-    EY = 63 # Y coordinate of the topleft expanded corner
+    X, Y = 42, 43  #represents the topleft corner
+    EY = 25 # Y coordinate of the topleft expanded corner
     def __init__(self, window_size, config, time, recipe, offset_x, offset_y):
         """
         Initialize an Order object.
@@ -38,7 +38,7 @@ class StackableOrder(Order):
         This screen will have a size scaled based on the scale factor and the default width/height.
         """
 
-        self.width, self.height = StackableOrder.WIDTH * self.scale_factor, StackableOrder.HEIGHT * self.scale_factor + (StackableOrder.ITEM * len(self.items))
+        self.width, self.height = StackableOrder.WIDTH * self.scale_factor, (StackableOrder.HEIGHT + (StackableOrder.ITEM * len(self.items))) * self.scale_factor 
         self.screen = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
 
     def check_hover(self): 
