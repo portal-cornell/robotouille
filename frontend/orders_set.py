@@ -86,6 +86,144 @@ HAMBURGER = [
             }
         ]
 
+BIG_HAMBURGER = [
+            {
+                "predicate": "iscut",
+                "args": ["lettuce"],
+                "ids": [1]
+            },
+            {
+                "predicate": "iscut",
+                "args": ["lettuce"],
+                "ids": [11]
+            },
+            {
+                "predicate": "iscut",
+                "args": ["lettuce"],
+                "ids": [12]
+            },
+            {
+                "predicate": "iscut",
+                "args": ["lettuce"],
+                "ids": [13]
+            },
+            {
+                "predicate": "iscut",
+                "args": ["lettuce"],
+                "ids": [14]
+            },
+            {
+                "predicate": "iscut",
+                "args": ["lettuce"],
+                "ids": [15]
+            },
+            {
+                "predicate": "iscooked",
+                "args": ["patty"],
+                "ids": [2]
+            },
+            {
+                "predicate": "iscooked",
+                "args": ["patty"],
+                "ids": [21]
+            },
+            {
+                "predicate": "iscooked",
+                "args": ["patty"],
+                "ids": [22]
+            },
+              {
+                "predicate": "iscooked",
+                "args": ["patty"],
+                "ids": [23]
+            },
+            {
+                "predicate": "iscooked",
+                "args": ["patty"],
+                "ids": [24]
+            },
+            {
+                "predicate": "iscooked",
+                "args": ["patty"],
+                "ids": [25]
+            },
+            {
+                "predicate": "atop",
+                "args": ["topbun", "lettuce"],
+                "ids": [3, 1]
+            },
+            {
+                "predicate": "atop",
+                "args": ["lettuce", "patty"],
+                "ids": [1, 21]
+            },
+            {
+                "predicate": "atop",
+                "args": ["patty", "lettuce"],
+                "ids": [21, 11]
+            },
+            {
+                "predicate": "atop",
+                "args": ["lettuce", "patty"],
+                "ids": [11, 22]
+            },
+            {
+                "predicate": "atop",
+                "args": ["patty", "lettuce"],
+                "ids": [22, 12]
+            },
+            {
+                "predicate": "atop",
+                "args": ["lettuce", "patty"],
+                "ids": [12, 23]
+            },
+            {
+                "predicate": "atop",
+                "args": ["patty", "lettuce"],
+                "ids": [23, 13]
+            },
+            {
+                "predicate": "atop",
+                "args": ["lettuce", "patty"],
+                "ids": [13, 24]
+            },
+            {
+                "predicate": "atop",
+                "args": ["lettuce", "patty"],
+                "ids": [14, 25]
+            },
+            {
+                "predicate": "atop",
+                "args": ["patty", "lettuce"],
+                "ids": [24, 14]
+            },
+            {
+                "predicate": "atop",
+                "args": ["patty", "lettuce"],
+                "ids": [25, 15]
+            },
+            {
+                "predicate": "atop",
+                "args": ["lettuce", "patty"],
+                "ids": [15, 2]
+            },
+            {
+                "predicate": "atop",
+                "args": ["patty", "bottombun"],
+                "ids": [2, 4]
+            },
+            {
+                "predicate": "atop_container",
+                "args": ["bottombun", "bowl"],
+                "ids": [4, 5]
+            },
+            {
+                "predicate": "container_at",
+                "args": ["bowl", "customertable"],
+                "ids": [5, 6]
+            }
+        ]
+
 FRIED_CHICKEN = [{
             "predicate": "isfried",
             "args": ["chicken"],
@@ -107,7 +245,8 @@ class OrdersCollection(ScreenInterface):
         for count in range(3):
             x_coord = 12 + (count * 161)
             if count == 0: self.add_order(count, CombinationOrder(window_size, config, 50, TOMATO_SOUP, self.x_percent(x_coord) * self.screen_width, 0))
-            if count == 1: self.add_order(2, StackableOrder(window_size, config, 80, HAMBURGER, self.x_percent(x_coord) * self.screen_width, 0))
+            # if count == 1: self.add_order(2, StackableOrder(window_size, config, 80, HAMBURGER, self.x_percent(x_coord) * self.screen_width, 0))
+            if count == 1: self.add_order(2, StackableOrder(window_size, config, 80, BIG_HAMBURGER, self.x_percent(x_coord) * self.screen_width, 0))
             if count == 2: self.add_order(3, SimpleOrder(window_size, config, 100, FRIED_CHICKEN, self.x_percent(x_coord) * self.screen_width, 0))
         self.score_box = Textbox(self.screen, str(self.score), self.x_percent(1007), self.y_percent(71), 70, 45, font_size=40, scale_factor=self.scale_factor)
         self.time_box = Textbox(self.screen, self.convert_seconds_to_time(self.time) , self.x_percent(1162), self.y_percent(71), 108, 45, font_size=38, scale_factor=self.scale_factor)

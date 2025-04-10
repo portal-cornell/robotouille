@@ -11,8 +11,8 @@ class StackableOrder(Order):
     WIDTH, HEIGHT = 153, 165
     ITEM = 17
     SPACE = 9
-    X, Y = 42, 43  #represents the topleft corner
-    EY = 25 # Y coordinate of the topleft expanded corner
+    X, Y = 42, 44  #represents the topleft corner
+    EY = 38 # Y coordinate of the topleft expanded corner
     def __init__(self, window_size, config, time, recipe, offset_x, offset_y):
         """
         Initialize an Order object.
@@ -26,10 +26,12 @@ class StackableOrder(Order):
             offset_y (int): Represents the number of pixels horizonally this nodes is offseted from the parent screen
         """
         super().__init__(window_size, config, time, recipe, offset_x, offset_y)
-        self.stack_offset = StackableOrder.SPACE * self.scale_factor/self.height
-        self.collapsed_y = (StackableOrder.Y + ((len(self.recipe) - 1) * StackableOrder.SPACE)) * self.scale_factor/self.height
-        self.expanded_y =  (StackableOrder.EY + ((len(self.recipe) - 1) * StackableOrder.ITEM)) * self.scale_factor/self.height
+        self.stack_collapse_offset = (StackableOrder.SPACE * self.scale_factor)/self.height
+        self.stack_expanded_offset = (StackableOrder.ITEM * self.scale_factor)/self.height
+        self.collapsed_y = (StackableOrder.Y  * self.scale_factor)/self.height # represents the last image, the y coordinate of the bottom image in the stack
+        self.expanded_y = (StackableOrder.EY  * self.scale_factor)/self.height
         self.list_to_image()
+        self.background.scale_to_size(StackableOrder.WIDTH, self.compressed_height/self.scale_factor)
     
     def create_screen(self):
         """
@@ -37,8 +39,10 @@ class StackableOrder(Order):
 
         This screen will have a size scaled based on the scale factor and the default width/height.
         """
-
-        self.width, self.height = StackableOrder.WIDTH * self.scale_factor, (StackableOrder.HEIGHT + (StackableOrder.ITEM * len(self.items))) * self.scale_factor 
+        print("stackable order, height :", len(self.id_stack))
+        print(self.id_stack)
+        self.compressed_height = (StackableOrder.HEIGHT + (StackableOrder.SPACE * (len(self.id_stack)-4))) * self.scale_factor 
+        self.width, self.height = StackableOrder.WIDTH * self.scale_factor, (StackableOrder.HEIGHT + (StackableOrder.ITEM * (len(self.id_stack)-2))) * self.scale_factor 
         self.screen = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
 
     def check_hover(self): 
@@ -50,7 +54,7 @@ class StackableOrder(Order):
             self.background.scale_to_size(StackableOrder.WIDTH, self.height/self.scale_factor)
             self.expanded_location()
         else:
-            self.background.scale_to_size(StackableOrder.WIDTH, StackableOrder.HEIGHT)
+            self.background.scale_to_size(StackableOrder.WIDTH, self.compressed_height/self.scale_factor)
             self.collapsed_location()
 
 
@@ -59,8 +63,8 @@ class StackableOrder(Order):
         Relocate all ingredients, expanding the space between the ingredients.
         """
         for i, item in enumerate(self.recipe_images):
-            y_percent = self.expanded_y - (i * self.stack_offset * 3)  
-            item.set_percentage(StackableOrder.Y * self.scale_factor/self.width, y_percent)
+            y_percent = self.expanded_y + ((len(self.recipe_images) - i) * self.stack_expanded_offset)  
+            item.set_percentage(StackableOrder.X * self.scale_factor/self.width, y_percent)
 
 
     def collapsed_location(self):
@@ -68,8 +72,8 @@ class StackableOrder(Order):
         Relocate all ingredients to default location.
         """
         for i, item in enumerate(self.recipe_images):
-            y_percent = self.collapsed_y - (i * self.stack_offset)  
-            item.set_percentage(StackableOrder.Y * self.scale_factor/self.width, y_percent)
+            y_percent = self.collapsed_y + ((len(self.recipe_images) - i) * self.stack_collapse_offset)  
+            item.set_percentage(StackableOrder.X * self.scale_factor/self.width, y_percent)
     
     def list_to_image(self):
         """
@@ -79,11 +83,11 @@ class StackableOrder(Order):
         self.recipe_images = [] 
         for i, id in enumerate(self.id_stack): 
             item = self.id_to_image.get(id, self.id_to_item[id])
-            y_percent = self.collapsed_y - (i * self.stack_offset)  
+            y_percent = self.collapsed_y + ((len(self.recipe_images) - i) * self.stack_collapse_offset)   
             image = Image(
                 self.screen,
                 self.get_image(item), 
-                x_percent=StackableOrder.Y * self.scale_factor/self.width,
+                x_percent=StackableOrder.X * self.scale_factor/self.width,
                 y_percent=y_percent,
                 scale_factor=self.scale_factor,
             )

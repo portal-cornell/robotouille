@@ -1,5 +1,6 @@
 import pygame
 from frontend.image import Image
+from frontend.ninepatch import NinePatch
 from frontend.loading import LoadingScreen
 from renderer.canvas import RobotouilleCanvas
 import os
@@ -48,8 +49,8 @@ class Order:
         self.generate_images() 
         self.convert_recipe_to_list() 
         self.create_screen()  
-        self.background = Image(self.screen, self.background_image, self.x_percent(0), self.y_percent(0), self.scale_factor, anchor="topleft")
-        self.background.scale_to_size(Order.WIDTH, Order.HEIGHT)
+        self.background = NinePatch(self.screen, self.background_image, 0, 0, Order.WIDTH, Order.HEIGHT, padding=(15, 15, 15, 15), scale_factor = self.scale_factor)
+
         self.profile = Image(self.screen, self.profile_image, self.x_percent(6), self.y_percent(6), self.scale_factor, anchor="topleft")
 
 
@@ -98,6 +99,7 @@ class Order:
         """
         item = self.id_to_image.get(id, item)
         if item in self.valid_items and id not in self.seen:
+            print(item, id)
             self.items[item] += 1
             self.seen.add(id)
         
@@ -107,12 +109,14 @@ class Order:
         list is from bottom to top. For combination order, the list in order
         of how it's cooked: (i.e bowl-water-tomato)
         """
+        print("converting recipe -----------------------",self.recipe)
         graph = defaultdict(list)
         in_degree = defaultdict(int)
         all_id = set()
         for step in self.recipe:
             pred, arg, ids = step["predicate"], step["args"], step["ids"]
             if pred in Order.PREDICATES:
+                print(step)
                 top, bottom = arg
                 top_id, bottom_id = ids
                 all_id.update(ids)
