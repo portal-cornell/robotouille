@@ -10,6 +10,14 @@ from frontend.loading import LoadingScreen
 import os
 import pygame
 
+"""
+TODO BACKEND INTEGRATION
+- complete_order: when the backend identifies that the order is complete 
+
+TODO HENRY
+After customers have been integrated, fetch the recipes from json
+- add_order
+"""
 # Set up the assets directory
 ASSETS_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "orders"))
 

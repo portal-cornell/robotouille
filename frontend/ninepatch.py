@@ -86,15 +86,15 @@ class NinePatch:
             return pygame.transform.smoothscale(img, (w, h)) if img else None
 
         self.slices = {
-            'top_left':     scale(self.raw_slices['top_left'], left, top),
+            'top_left':     self.raw_slices['top_left'],
             'top':          scale(self.raw_slices['top'], center_w, top),
-            'top_right':    scale(self.raw_slices['top_right'], right, top),
+            'top_right':    self.raw_slices['top_right'],
             'left':         scale(self.raw_slices['left'], left, center_h),
             'center':       scale(self.raw_slices['center'], center_w, center_h),
             'right':        scale(self.raw_slices['right'], right, center_h),
-            'bottom_left':  scale(self.raw_slices['bottom_left'], left, bottom),
+            'bottom_left':  self.raw_slices['bottom_left'],
             'bottom':       scale(self.raw_slices['bottom'], center_w, bottom),
-            'bottom_right': scale(self.raw_slices['bottom_right'], right, bottom),
+            'bottom_right': self.raw_slices['bottom_right'],
         }
         
         left, right, top, bottom = self.padding

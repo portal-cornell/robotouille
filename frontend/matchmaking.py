@@ -6,6 +6,13 @@ from frontend.screen import ScreenInterface
 from frontend.loading import LoadingScreen
 import os
 
+"""
+TODO BACKEND INTEGRATION
+
+BACKEND NEEDS 
+- Tell every player the names of player currently in the lobby
+screens[current_screen].set_players(["Player1", "Player2"])
+"""
 # Set up the assets directory
 ASSETS_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "matchmaking"))
 

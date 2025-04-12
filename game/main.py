@@ -18,7 +18,7 @@ pygame.display.init()
 screen_size = (1440, 1024)
 screen = pygame.display.set_mode(screen_size)
 simulator_screen_size = (512, 512) # TODO: Make this scale based on screen size
-simulator_screen_size = screen_size
+# simulator_screen_size = screen_size
 fps = 60
 pygame.display.set_caption('Robotouille Simulator')
 clock = pygame.time.Clock()

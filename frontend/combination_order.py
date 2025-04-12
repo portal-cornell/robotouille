@@ -45,7 +45,7 @@ class CombinationOrder(Order):
         if len(self.items) == 2:
              self.width, self.height = CombinationOrder.WIDTH * self.scale_factor, (CombinationOrder.ITEM + CombinationOrder.HEIGHT) * self.scale_factor
         else:
-            self.width, self.height = CombinationOrder.WIDTH * self.scale_factor, CombinationOrder.HEIGHT * self.scale_factor + (CombinationOrder.ITEM * ((len(self.items) + 1)//2))
+            self.width, self.height = CombinationOrder.WIDTH * self.scale_factor,  self.scale_factor * (CombinationOrder.HEIGHT + (CombinationOrder.ITEM * ((len(self.items) + 1)//2)))
         self.screen = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
 
     def choose_container_asset(self):
