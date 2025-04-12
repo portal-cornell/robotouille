@@ -49,7 +49,7 @@ class Order:
         self.generate_images() 
         self.convert_recipe_to_list() 
         self.create_screen()  
-        self.background = NinePatch(self.screen, self.background_image, 0, 0, Order.WIDTH, Order.HEIGHT, padding=(10,10,10,20), scale_factor = self.scale_factor)
+        self.background = NinePatch(self.screen, self.background_image, 0, 0, Order.WIDTH, Order.HEIGHT, padding=(0,0,10,10), scale_factor = self.scale_factor)
 
         self.profile = Image(self.screen, self.profile_image, self.x_percent(6), self.y_percent(6), self.scale_factor, anchor="topleft")
 

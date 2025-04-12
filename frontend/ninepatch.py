@@ -1,9 +1,12 @@
 import pygame
+from frontend.constants import DEBUG
 
 class NinePatch:
     def __init__(self, screen, image_source, x, y, width, height, padding=(10, 10, 10, 10), scale_factor = 1, offset_x=0, offset_y=0):
         """
         Initializes the NinePatch object.
+
+        CURRENT BUGGY WHEN YOU SCALE DOWN
 
         Args:
             screen (pygame.Surface): The screen on which to draw the NinePatch.
@@ -27,7 +30,6 @@ class NinePatch:
         self.offset_x = offset_x
         self.offset_y = offset_y
         self.scale_factor = scale_factor
-
         self.raw_slices = self.slice_image() # slices original image into 9 pieces
         self.slices = {}
         self.update_scaled_slices()
@@ -74,7 +76,8 @@ class NinePatch:
         """
         Updates self.slices by scaling the raw pieces based on current width and height.
         """
-        left, right, top, bottom = self.padding
+        padding = (p * self.scale_factor for p in self.padding)
+        left, right, top, bottom = padding
 
         center_w = max(0, self.width - left - right)
         center_h = max(0, self.height - top - bottom)
@@ -83,26 +86,33 @@ class NinePatch:
             """
             Scales the image if it exist otherwise returns None
             """
-            return pygame.transform.smoothscale(img, (w, h)) if img else None
+            if img and w>0 and h>0: 
+                return pygame.transform.smoothscale(img, (w, h)) 
+            else:
+                return None
+
+        shrunk_top =  (top/ (top + bottom)) * self.height if top + bottom > 0 else 0
+        shrunk_bottom =  (bottom/ (top + bottom)) * self.height if top + bottom > 0 else 0
+        shrunk_left = (left/ (left + right)) * self.width if left + right > 0 else 0
+        shrunk_right = (left/ (left + right)) * self.width if left + right > 0 else 0
 
         self.slices = {
-            'top_left':     self.raw_slices['top_left'],
-            'top':          scale(self.raw_slices['top'], center_w, top),
-            'top_right':    self.raw_slices['top_right'],
-            'left':         scale(self.raw_slices['left'], left, center_h),
+            'top_left':     scale(self.raw_slices['top_left'], min(shrunk_left, left), min(shrunk_top, top)),
+            'top':          scale(self.raw_slices['top'], center_w,  min(shrunk_top, top)),
+            'top_right':    scale(self.raw_slices['top_right'], min(shrunk_right, right),  min(shrunk_top, top)),
+            'left':         scale(self.raw_slices['left'], min(shrunk_left, left), center_h),
             'center':       scale(self.raw_slices['center'], center_w, center_h),
-            'right':        scale(self.raw_slices['right'], right, center_h),
-            'bottom_left':  self.raw_slices['bottom_left'],
-            'bottom':       scale(self.raw_slices['bottom'], center_w, bottom),
-            'bottom_right': self.raw_slices['bottom_right'],
+            'right':        scale(self.raw_slices['right'], min(shrunk_right, right), center_h),
+            'bottom_left':  scale(self.raw_slices['bottom_left'], min(shrunk_left, left),  min(shrunk_bottom, bottom)),
+            'bottom':       scale(self.raw_slices['bottom'], center_w, min(shrunk_bottom, bottom)),
+            'bottom_right': scale(self.raw_slices['bottom_right'], min(shrunk_right, right), min(shrunk_bottom, bottom))
         }
-        
-        left, right, top, bottom = self.padding
+
         x, y = int(self.x), int(self.y)
 
         # Compute positions for each column and row
-        x_pos = {'left': x, 'center': x + left, 'right': x + self.width - right}
-        y_pos = {'top': y, 'center': y + top, 'bottom': y + self.height - bottom}
+        x_pos = {'left': x, 'center': x + left, 'right': max(x,x + self.width - right)}
+        y_pos = {'top': y, 'center': y + top, 'bottom': max(y,y + self.height - bottom)}
 
         self.draw_map = {
             'top_left':     (x_pos['left'],   y_pos['top']),
@@ -160,9 +170,10 @@ class NinePatch:
 
     def draw(self):
         """
-        Draws the NinePatch using pre-scaled slices. Only draws slices that are available.
+        Draws the NinePatch using available slices.
         """
-
-        for key, img in self.slices.items():
+        for key in self.slices:
+            img = self.slices[key]
             if img:
                 self.screen.blit(img, self.draw_map[key])
+        if DEBUG: pygame.draw.rect(self.screen, (255, 0, 0), (self.x, self.y, self.width, self.height), 1)
