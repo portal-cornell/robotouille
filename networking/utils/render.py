@@ -11,27 +11,27 @@ def render(recording_name: str):
     with open(p / (recording_name + '.pkl'), 'rb') as f:
         recording = pickle.load(f)
     
-    env, _, renderer = create_robotouille_env(recording["environment_name"], recording["movement_mode"], recording["seed"], recording["noisy_randomization"])
+    env = create_robotouille_env(recording["environment_name"], recording["movement_mode"], recording["seed"], recording["noisy_randomization"])
     obs, _ = env.reset()
-    frame = renderer.render(obs, mode='rgb_array')
+    frame = env.render(render_mode="rgb_array")
 
     vp = Path('recordings')
     vp.mkdir(exist_ok=True)
-    fps = 20
+    fps = 60
     video_writer = imageio.get_writer(vp / (recording_name + '.mp4'), fps=fps)
 
     i = 0
     t = 0
+
     while i < len(recording["actions"]):
         actions, state, time_stamp = recording["actions"][i]
-        while t > time_stamp:
-            obs, reward, done, info = env.step(actions=actions, interactive=False)
-            frame = renderer.render(obs, mode='rgb_array')
+
+        if t > time_stamp:
+            obs, reward, done, info = env.step(actions)
             i += 1
-            if i >= len(recording["actions"]):
-                break
-            action, state, time_stamp = recording["actions"][i]
+        
+        frame = env.render(render_mode="rgb_array")
         t += 1 / fps
         video_writer.append_data(frame)
-    renderer.render(obs, close=True)
+    env.render(render_mode="human", close=True)
     video_writer.close()

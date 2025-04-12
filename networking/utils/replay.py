@@ -14,14 +14,14 @@ def replay(recording_name: str):
     with open(p / (recording_name + '.pkl'), 'rb') as f:
         recording = pickle.load(f)
     
-    env, _, renderer = create_robotouille_env(recording["environment_name"], recording["movement_mode"], recording["seed"], recording["noisy_randomization"])
+    env = create_robotouille_env(recording["environment_name"], recording["movement_mode"], recording["seed"], recording["noisy_randomization"])
     obs, _ = env.reset()
-    renderer.render(obs, mode='human')
+    env.render(render_mode='human')
 
     previous_time = 0
     for actions, state, t in recording["actions"]:
         time.sleep(t - previous_time)
         previous_time = t
-        obs, reward, done, info = env.step(actions=actions, interactive=False)
-        renderer.render(obs, mode='human')
-    renderer.render(obs, close=True)
+        obs, reward, done, info = env.step(actions)
+        env.render(render_mode='human')
+    env.render(render_mode='human', close=True)

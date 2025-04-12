@@ -32,7 +32,6 @@ async def client_loop(environment_name: str, seed: int, noisy_randomization: boo
                 if online:
                     encoded_action = base64.b64encode(pickle.dumps((action, args))).decode('utf-8')
                     await websocket.send(json.dumps(encoded_action))
-            # env.render(render_mode = 'human')
 
             await asyncio.sleep(0)  # Yield control to allow other tasks to run
 
