@@ -11,8 +11,8 @@ ASSETS_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(
 class CombinationOrder(Order):
     COMPLETE, PENDING, DISCARDED = 0, 1, 2
     WIDTH, HEIGHT = 153, 165
-    ITEM = 34
-    def __init__(self, window_size, config, time, recipe, offset_x, offset_y):
+    ITEM = 44
+    def __init__(self, window_size, config, time, recipe, offset_x = 0, offset_y = 0):
         """
         Initialize an Order object.
 
@@ -45,7 +45,7 @@ class CombinationOrder(Order):
         if len(self.items) == 2:
              self.width, self.height = CombinationOrder.WIDTH * self.scale_factor, (CombinationOrder.ITEM + CombinationOrder.HEIGHT) * self.scale_factor
         else:
-            self.width, self.height = CombinationOrder.WIDTH * self.scale_factor, CombinationOrder.HEIGHT * self.scale_factor + (CombinationOrder.ITEM * ((len(self.items) - 1)//2))
+            self.width, self.height = CombinationOrder.WIDTH * self.scale_factor, CombinationOrder.HEIGHT * self.scale_factor + (CombinationOrder.ITEM * ((len(self.items) + 1)//2))
         self.screen = pygame.Surface((self.width, self.height), pygame.SRCALPHA)
 
     def choose_container_asset(self):
@@ -200,9 +200,13 @@ class CombinationOrder(Order):
             base_x = (self.scale_factor * 27)/self.width
             base_y = (self.scale_factor * 74)/self.height
             i = 0
+            length = len(self.items)
             for item, count in self.items.items(): 
-                self.add_ingredient(item, count, base_x + ((i%2) * offset_x), base_y + ((i//2) * offset_y))
-                i += 1
+                if length % 2 == 1 and i == length - 1:
+                    self.add_ingredient(item, count, (self.scale_factor * 51)/self.width, base_y + ((i//2) * offset_y))
+                else:
+                    self.add_ingredient(item, count, base_x + ((i%2) * offset_x), base_y + ((i//2) * offset_y))
+                    i += 1
 
     def check_hover(self): 
         """

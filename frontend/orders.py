@@ -99,7 +99,6 @@ class Order:
         """
         item = self.id_to_image.get(id, item)
         if item in self.valid_items and id not in self.seen:
-            print(item, id)
             self.items[item] += 1
             self.seen.add(id)
         
@@ -109,14 +108,12 @@ class Order:
         list is from bottom to top. For combination order, the list in order
         of how it's cooked: (i.e bowl-water-tomato)
         """
-        print("converting recipe -----------------------",self.recipe)
         graph = defaultdict(list)
         in_degree = defaultdict(int)
         all_id = set()
         for step in self.recipe:
             pred, arg, ids = step["predicate"], step["args"], step["ids"]
             if pred in Order.PREDICATES:
-                print(step)
                 top, bottom = arg
                 top_id, bottom_id = ids
                 all_id.update(ids)

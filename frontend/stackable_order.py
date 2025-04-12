@@ -39,8 +39,6 @@ class StackableOrder(Order):
 
         This screen will have a size scaled based on the scale factor and the default width/height.
         """
-        print("stackable order, height :", len(self.id_stack))
-        print(self.id_stack)
         self.compressed_height = (StackableOrder.HEIGHT + (StackableOrder.SPACE * (len(self.id_stack)-4))) * self.scale_factor 
         self.width, self.height = StackableOrder.WIDTH * self.scale_factor, (StackableOrder.HEIGHT + (StackableOrder.ITEM * (len(self.id_stack)-2))) * self.scale_factor 
         self.screen = pygame.Surface((self.width, self.height), pygame.SRCALPHA)

@@ -48,6 +48,114 @@ TOMATO_SOUP = [
         }
 ]
 
+BIG_SOUP = [
+     {
+            "predicate": "addedto",
+            "args": ["potato", "water"],
+            "ids": ["xaa", "b"]
+        },
+           {
+            "predicate": "addedto",
+            "args": ["tomato", "water"],
+            "ids": ["xba", "b"]
+        },
+           {
+            "predicate": "addedto",
+            "args": ["onion", "water"],
+            "ids": ["xca", "b"]
+        },
+           {
+            "predicate": "addedto",
+            "args": ["lettuce", "water"],
+            "ids": ["xda", "b"]
+        },
+           {
+            "predicate": "addedto",
+            "args": ["patty", "water"],
+            "ids": ["xea", "b"]
+        },
+           {
+            "predicate": "addedto",
+            "args": ["chicken", "water"],
+            "ids": ["xaf", "b"]
+        },
+       {
+            "predicate": "addedto",
+            "args": ["potato", "water"],
+            "ids": ["xa", "b"]
+        },
+           {
+            "predicate": "addedto",
+            "args": ["tomato", "water"],
+            "ids": ["xb", "b"]
+        },
+           {
+            "predicate": "addedto",
+            "args": ["onion", "water"],
+            "ids": ["xc", "b"]
+        },
+           {
+            "predicate": "addedto",
+            "args": ["lettuce", "water"],
+            "ids": ["xd", "b"]
+        },
+           {
+            "predicate": "addedto",
+            "args": ["patty", "water"],
+            "ids": ["xe", "b"]
+        },
+           {
+            "predicate": "addedto",
+            "args": ["chicken", "water"],
+            "ids": ["xf", "b"]
+        },
+           {
+            "predicate": "addedto",
+            "args": ["cheese", "water"],
+            "ids": ["xg", "b"]
+        },
+           {
+            "predicate": "addedto",
+            "args": ["bread", "water"],
+            "ids": ["xh", "b"]
+        },
+           {
+            "predicate": "addedto",
+            "args": ["topbun", "water"],
+            "ids": ["xi", "b"]
+        },
+        #    {
+        #     "predicate": "addedto",
+        #     "args": ["bottombun", "water"],
+        #     "ids": ["xj", "b"]
+        # },
+       {
+            "predicate": "addedto",
+            "args": ["lettuce", "water"],
+            "ids": ["xk", "b"]
+        },
+           {
+            "predicate": "addedto",
+            "args": ["tomato", "water"],
+            "ids": ["y", "b"]
+        },
+           {
+            "predicate": "addedto",
+            "args": ["tomato", "water"],
+            "ids": ["z", "b"]
+        },
+        {
+            "predicate": "addedto",
+            "args": ["tomato", "water"],
+            "ids": ["a", "b"]
+        },
+        {
+            "predicate": "in",
+            "args": ["water", "bowl"],
+            "ids": ["b", "d"]
+        }
+]
+
 HAMBURGER = [
             {
                 "predicate": "iscut",
@@ -242,17 +350,17 @@ class OrdersCollection(ScreenInterface):
         self.time = 300
         self.orders = {}
 
-        for count in range(3):
+        for count in range(4):
             x_coord = 12 + (count * 161)
-            if count == 0: self.add_order(count, CombinationOrder(window_size, config, 50, TOMATO_SOUP, self.x_percent(x_coord) * self.screen_width, 0))
-            # if count == 1: self.add_order(2, StackableOrder(window_size, config, 80, HAMBURGER, self.x_percent(x_coord) * self.screen_width, 0))
+            if count == 0: self.add_order(count, CombinationOrder(window_size, config, 50, BIG_SOUP, self.x_percent(x_coord) * self.screen_width, 0))
+            if count == 3: self.add_order(20, StackableOrder(window_size, config, 80, HAMBURGER, self.x_percent(x_coord) * self.screen_width, 0))
             if count == 1: self.add_order(2, StackableOrder(window_size, config, 80, BIG_HAMBURGER, self.x_percent(x_coord) * self.screen_width, 0))
             if count == 2: self.add_order(3, SimpleOrder(window_size, config, 100, FRIED_CHICKEN, self.x_percent(x_coord) * self.screen_width, 0))
         self.score_box = Textbox(self.screen, str(self.score), self.x_percent(1007), self.y_percent(71), 70, 45, font_size=40, scale_factor=self.scale_factor)
         self.time_box = Textbox(self.screen, self.convert_seconds_to_time(self.time) , self.x_percent(1162), self.y_percent(71), 108, 45, font_size=38, scale_factor=self.scale_factor)
         self.score_background = Image(self.screen, self.background_image, self.x_percent(944), self.y_percent(40), self.scale_factor)
         self.last_update_time = pygame.time.get_ticks() 
-
+        self.update_order_offsets()
 
     def x_percent(self, value):
         """
@@ -334,12 +442,17 @@ class OrdersCollection(ScreenInterface):
 
         # if order is discard, let children know position have been shifted 
         if discarded_order:
-            count = 0
-            for _, order in self.orders.items():
-                x_coord = 12 + (count * 161)
-                order.set_offset(self.x_percent(x_coord) * self.screen_width, 0)
-                count += 1
+            self.update_order_offsets()
 
+    def update_order_offsets(self):
+        """
+        Updates the menu offset
+        """
+        count = 0
+        for _, order in self.orders.items():
+            x_coord = 12 + (count * 161)
+            order.set_offset(self.x_percent(x_coord) * self.screen_width, 0)
+            count += 1
 
     def load_assets(self):
         """

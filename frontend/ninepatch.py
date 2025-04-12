@@ -1,20 +1,21 @@
 import pygame
 
 class NinePatch:
-    def __init__(self, screen, image_source, x, y, width, height, padding=(10, 10, 10, 10), offset_x=0, offset_y=0, scale_factor = 1):
+    def __init__(self, screen, image_source, x, y, width, height, padding=(10, 10, 10, 10), scale_factor = 1, offset_x=0, offset_y=0):
         """
         Initializes the NinePatch object.
 
         Args:
-            screen (pygame.Surface): Where the NinePatch will be drawn.
-            image_source (pygame.Surface): Source image to slice.
-            x (float): Top-left X coordinate in pixel of the patch on screen.
-            y (float): Top-left Y coordinate in pixel of the patch on screen.
-            width (int): Desired width on screen.
-            height (int): Desired height on screen.
-            padding (tuple): (left, right, top, bottom) padding for slicing.
-            offset_x (int): Additional X offset for positioning.
-            offset_y (int): Additional Y offset for positioning.
+            screen (pygame.Surface): The screen on which to draw the NinePatch.
+            image_source (pygame.Surface): The source image to slice.
+            x (float): The x-coordinate of the top-left corner of the NinePatch on the screen.
+            y (float): The y-coordinate of the top-left corner of the NinePatch on the screen.
+            width (int): The total width of the NinePatch to be drawn.
+            height (int): The total height of the NinePatch to be drawn.
+            padding (tuple): Padding values (left, right, top, bottom) that define the borders for slicing the UNSCALED image.
+            scale_factor (float, optional): Scale factor for resizing the images. Defaults to 1.0.
+            offset_x (int): Represents the number of pixels vertically this nodes is offseted from the parent screen
+            offset_y (int): Represents the number of pixels horizonally this nodes is offseted from the parent screen
         """
         self.screen = screen
         self.image_source = image_source
