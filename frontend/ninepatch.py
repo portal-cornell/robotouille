@@ -76,7 +76,7 @@ class NinePatch:
         """
         Updates self.slices by scaling the raw pieces based on current width and height.
         """
-        padding = (p * self.scale_factor for p in self.padding)
+        padding = (int(p * self.scale_factor) for p in self.padding)
         left, right, top, bottom = padding
 
         center_w = max(0, self.width - left - right)

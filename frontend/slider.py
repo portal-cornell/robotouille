@@ -99,20 +99,26 @@ class Slider(Node):
         Handle mouse events to update the slider value.
 
         Args:
-           event (pygame.event.Event): The Pygame event to handle, typically of type MOUSEBUTTONDOWN or MOUSEMOTION.
+            event (pygame.event.Event): The Pygame event to handle, typically of type MOUSEBUTTONDOWN or MOUSEMOTION.
         """
-
-        if event.type in [pygame.MOUSEBUTTONDOWN, pygame.MOUSEMOTION]:
-            if pygame.mouse.get_pressed()[0]: 
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:  # Left click
                 mouse_x, mouse_y = event.pos
                 if self.is_mouse_over_slider(mouse_x, mouse_y):
                     new_value = (mouse_x - (self.x + (self.background_width - self.foreground_width) / 2)) / self.foreground_width
                     self.set_value(new_value)
                     self.moving = True
-            else:
-                self.moving = False 
-        else:
-            self.moving = False 
+
+        elif event.type == pygame.MOUSEMOTION:
+            if self.moving and pygame.mouse.get_pressed()[0]:  
+                mouse_x, mouse_y = event.pos
+                new_value = (mouse_x - (self.x + (self.background_width - self.foreground_width) / 2)) / self.foreground_width
+                self.set_value(new_value)
+
+        elif event.type == pygame.MOUSEBUTTONUP:
+            if event.button == 1:
+                self.moving = False
+
 
     def is_moving(self):
         """
