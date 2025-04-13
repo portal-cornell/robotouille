@@ -12,7 +12,7 @@
 
     "floor": {
         "ground": ["tileset_flooring"],
-        "furniture": ["tileset_table", "tileset_counter"],
+        "furniture": ["tileset_table"],
         "default": "floorkitchen.png"
     },
 
@@ -148,12 +148,6 @@
             "table": {
                 "assets": {
                     "tile": "T"
-                },
-                "constants": {}
-            },
-            "counter": {
-                "assets": {
-                    "tile": "C"
                 },
                 "constants": {}
             },

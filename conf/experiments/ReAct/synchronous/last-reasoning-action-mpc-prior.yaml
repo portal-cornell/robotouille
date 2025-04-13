@@ -14,7 +14,7 @@ evaluation:
     "synchronous/4_cheeseburger",
     "synchronous/5_double_cheeseburger",
     "synchronous/6_lettuce_tomato_cheeseburger",
-    "synchronous/7_two_lettuce_chicken_sandwich"
+    "synchronous/7_two_lettuce_chicken_sandwich",
     "synchronous/8_two_lettuce_tomato_burger",
     "synchronous/9_onion_cheese_burger_and_lettuce_tomato_chicken_sandwich"
   ]
@@ -59,18 +59,18 @@ llm:
   is_last_reasoning_action: true
   is_last_obs_reasoning_action: false
   prior: |
-  It is *important* to follow these rules before proposing an action:
-  - A Player can pick up a single Item at a time
-    - This means that you should not attempt to pick up an Item if you are already holding one
-  - An Item must be placed on a Station to perform an action on it
-    - This means that you cannot perform an action on an Item while holding it or if it is stacked on another Item at a Station
-    - This also means that you must perform an action on an Item at a Station for state changes to occur (e.g. cooking)
-  - A Station must contain a single Item to perform an action on it
-    - This means that you can only bring an Item to a Station if it is already empty
-  - Items can be stacked on top of one another
-    - This means that Items are stacked on top of Items
-  
-  
-  In addition, do not blindly follow these rules; think about how your actions will affect future actions since your plan may
-  require you to break rules in the future to achieve the goal.
+    It is *important* to follow these rules before proposing an action:
+    - A Player can pick up a single Item at a time
+      - This means that you should not attempt to pick up an Item if you are already holding one
+    - An Item must be placed on a Station to perform an action on it
+      - This means that you cannot perform an action on an Item while holding it or if it is stacked on another Item at a Station
+      - This also means that you must perform an action on an Item at a Station for state changes to occur (e.g. cooking)
+    - A Station must contain a single Item to perform an action on it
+      - This means that you can only bring an Item to a Station if it is already empty
+    - Items can be stacked on top of one another
+      - This means that Items are stacked on top of Items
+    
+    
+    In addition, do not blindly follow these rules; think about how your actions will affect future actions since your plan may
+    require you to break rules in the future to achieve the goal.
     

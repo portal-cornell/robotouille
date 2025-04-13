@@ -7,9 +7,9 @@ defaults:
 evaluation:
   evaluate: true
   environment_names: [
-    "sequential/0_cheese_sandwich",
-    "sequential/1_lettuce_sandwich",
-    "sequential/2_lettuce_tomato_sandwich"
+    "synchronous/0_cheese_sandwich",
+    "synchronous/1_lettuce_sandwich",
+    "synchronous/2_lettuce_tomato_sandwich"
   ]
   optimal_steps: [10, 14, 24]
   testing_seeds: [42, 84, 126]

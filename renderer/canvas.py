@@ -54,7 +54,7 @@ class RobotouilleCanvas:
 
         This function carries over references to objects that are not deepcopyable (PyGame surfaces)
         """
-        new_canvas = RobotouilleCanvas(self.config, self.layout, [], np.array([1,1]))
+        new_canvas = RobotouilleCanvas(self.config, self.layout, self.tiling, [], np.array([1,1]))
         new_canvas.player_pose = deepcopy(self.player_pose, memo)
         new_canvas.pix_square_size = self.pix_square_size # Constant
         new_canvas.asset_directory = self.asset_directory # References to PyGame surfaces

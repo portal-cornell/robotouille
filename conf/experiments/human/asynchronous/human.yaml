@@ -36,7 +36,7 @@ game:
   agent_name: human
   max_steps: null
   max_step_multiplier: 1.5
-  render_mode: "rgb_array"
+  render_mode: "human"
 
   record: true
   video_fps: 3

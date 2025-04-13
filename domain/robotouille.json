@@ -15,13 +15,6 @@
             }
         },
         {
-            "name": "iscounter",
-            "param_types": ["station"],
-            "language_descriptors": {
-                "0": "{0} is a counter"
-            }
-        },
-        {
             "name": "isstove",
             "param_types": ["station"],
             "language_descriptors": {

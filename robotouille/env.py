@@ -456,6 +456,7 @@ class RobotouilleEnv(gym.Env):
         self.size = size
         self.window_size = 512
         
+        self.domain_json = domain_json
         self.environment_json = environment_json
         self.initial_state = build_state(domain_json, environment_json)
         self.current_state = copy.deepcopy(self.initial_state)
@@ -485,6 +486,14 @@ class RobotouilleEnv(gym.Env):
     def render(self, render_mode, close=False):
         assert render_mode is None or render_mode in self.metadata["render_modes"]
         return self.renderer.render(self.current_state, render_mode, close=close)
+
+    def __deepcopy__(self, memo):
+        env = RobotouilleEnv(self.domain_json, self.environment_json, self.renderer)
+        env.current_state = copy.deepcopy(self.current_state)
+        env.window = self.window
+        env.clock = self.clock
+        memo[id(self)] = env
+        return env
 
         
 

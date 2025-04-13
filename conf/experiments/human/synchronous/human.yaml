@@ -13,7 +13,7 @@ evaluation:
     "synchronous/4_cheeseburger",
     "synchronous/5_double_cheeseburger",
     "synchronous/6_lettuce_tomato_cheeseburger",
-    "synchronous/7_two_lettuce_chicken_sandwich"
+    "synchronous/7_two_lettuce_chicken_sandwich",
     "synchronous/8_two_lettuce_tomato_burger",
     "synchronous/9_onion_cheese_burger_and_lettuce_tomato_chicken_sandwich"
   ]
@@ -36,7 +36,7 @@ game:
   agent_name: human
   max_steps: null
   max_step_multiplier: 1.5
-  render_mode: "rgb_array"
+  render_mode: "human"
 
   record: true
   video_fps: 3
