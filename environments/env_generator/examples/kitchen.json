@@ -19,7 +19,7 @@
         "CCCCC"],
     "stations": [
         {
-            "name": "counter",
+            "name": "table",
             "x": 0,
             "y": 3
         },
@@ -29,12 +29,12 @@
             "y": 4
         },
         {
-            "name": "counter",
+            "name": "table",
             "x": 0,
             "y": 1
         },
         {
-            "name": "counter",
+            "name": "table",
             "x": 2,
             "y": 4
         },
@@ -49,12 +49,12 @@
             "y": 1
         },
         {
-            "name": "counter",
+            "name": "table",
             "x": 0,
             "y": 4
         },
         {
-            "name": "counter",
+            "name": "table",
             "x": 3,
             "y": 4
         },
