@@ -1,20 +1,94 @@
 import pygame
 import pygame_gui
-from pygame_gui.elements import *
+from pygame_gui.elements import UIButton
+from domain_elements import EditorPanel, DraggableBlock, ActionWorkspace
 
 pygame.init()
 pygame.display.set_caption("Domain Editor")
 
-# game window
-SCREEN_WIDTH = 1200
-SCREEN_HEIGHT = 800
-LOWER_MARGIN = 300
-SIDE_MARGIN = 300
+# Window & manager
+SCREEN_WIDTH, SCREEN_HEIGHT = 1200, 800
+window_surface = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+manager = pygame_gui.UIManager((SCREEN_WIDTH, SCREEN_HEIGHT))
 
+# Panels
 LEFT_WIDTH = 200
 RIGHT_WIDTH = 200
 CENTER_WIDTH = SCREEN_WIDTH - LEFT_WIDTH - RIGHT_WIDTH
 
-window_surface = pygame.display.set_mode(
-    (SCREEN_WIDTH + SIDE_MARGIN, SCREEN_HEIGHT + LOWER_MARGIN)
+left_panel = EditorPanel(pygame.Rect(0, 0, LEFT_WIDTH, SCREEN_HEIGHT), manager)
+center_panel = EditorPanel(
+    pygame.Rect(LEFT_WIDTH, 0, CENTER_WIDTH, SCREEN_HEIGHT), manager
 )
+right_panel = EditorPanel(
+    pygame.Rect(SCREEN_WIDTH - RIGHT_WIDTH, 0, RIGHT_WIDTH, SCREEN_HEIGHT), manager
+)
+
+# "Preset" buttons in the left panel:
+preset_texts = ["iscuttable", "isfried", "iscooked", "isboard", "loc", "isrolled"]
+preset_buttons = []
+for i, text in enumerate(preset_texts):
+    button = UIButton(
+        relative_rect=pygame.Rect(10, 10 + i * 50, 180, 40),
+        text=text,
+        manager=manager,
+        container=left_panel,
+    )
+    preset_buttons.append(button)
+
+# create new action!
+spawn_workspace_button = UIButton(
+    relative_rect=pygame.Rect(10, 10, 180, 40),
+    text="New Action",
+    manager=manager,
+    container=left_panel,
+)
+
+all_workspaces = []
+
+clock = pygame.time.Clock()
+is_running = True
+
+while is_running:
+    time_delta = clock.tick(60) / 1000.0
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            is_running = False
+
+        elif event.type == pygame_gui.UI_BUTTON_PRESSED:
+            # If user clicked one of the left-panel "source" buttons:
+            if event.ui_element in preset_buttons:
+                # Get mouse position relative to the center panel
+                mouse_pos = pygame.mouse.get_pos()
+                center_panel_topleft = center_panel.get_relative_rect().topleft
+                relative_mouse_pos = (
+                    mouse_pos[0] - center_panel_topleft[0],
+                    mouse_pos[1] - center_panel_topleft[1],
+                )
+
+                # Create a brand new DraggableBlock in the center panel
+                new_block = DraggableBlock(
+                    relative_rect=pygame.Rect((30, 60), (120, 40)),
+                    manager=manager,
+                    container=center_panel,
+                    text=event.ui_element.text,
+                )
+            elif event.ui_element == spawn_workspace_button:
+                ws_x = center_panel.rect.x + 50
+                ws_y = center_panel.rect.y + 50
+                new_ws = ActionWorkspace(
+                    relative_rect=pygame.Rect(ws_x, ws_y, 500, 600),
+                    manager=manager,
+                    # no container => root UI container;
+                    # or if you want it inside center_bg, pass container=center_bg
+                )
+                all_workspaces.append(new_ws)
+
+        manager.process_events(event)
+
+    manager.update(time_delta)
+    window_surface.fill(pygame.Color("#EDE8D0"))
+    manager.draw_ui(window_surface)
+    pygame.display.update()
+
+pygame.quit()

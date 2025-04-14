@@ -1,54 +1,123 @@
 import pygame
 import pygame_gui
-from pygame_gui.elements import *
+from pygame_gui.elements import UIPanel, UIButton, UILabel, UITextBox
+
+
+# def update_positions(root):
+#     stack = [root]
+#     while stack:
+#         current = stack.pop()
+
+#         for child in current.child_blocks:
+
+#             child.abs_pos = current.abs_pos + child.local_offset
+#             child.set_relative_position(child.abs_pos)
+#             stack.append(child)
 
 
 class DraggableBlock(UIButton):
-    def __init__(self, relative_rect, manager, text="", parent_block=None, **kwargs):
-        super().__init__(relative_rect, manager, text=text, **kwargs)
-        self.parent_block = parent_block
-        self.child_blocks = []
-        self.local_offset = (0, 0)
+    def __init__(self, relative_rect, manager, text="", container=None, **kwargs):
+        # The 'starting_height' or 'starting_layer_height' param ensures it’s above panels
+        super().__init__(
+            relative_rect=relative_rect,
+            manager=manager,
+            container=container,
+            text=text,
+            starting_height=2,
+            **kwargs,
+        )
         self.is_dragging = False
-        self.toggle_state = False
+        self.drag_offset = (0, 0)
 
-    def toggle(self):
-        self.toggle_state = not self.toggle_state
+    def process_event(self, event):
+        handled = super().process_event(event)
+
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            if self.rect.collidepoint(event.pos):
+                self.is_dragging = True
+                abs_rect = self.get_abs_rect()
+                mouse_x, mouse_y = event.pos
+                self.drag_offset = (abs_rect.x - mouse_x, abs_rect.y - mouse_y)
+                return True
+
+        elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
+            self.is_dragging = False
+            return True
+
+        elif event.type == pygame.MOUSEMOTION and self.is_dragging:
+            mouse_x, mouse_y = event.pos
+
+            abs_new_x = mouse_x + self.drag_offset[0]
+            abs_new_y = mouse_y + self.drag_offset[1]
+
+            container_rect = (
+                self.ui_container.get_abs_rect()
+                if self.ui_container
+                else pygame.Rect(0, 0, 0, 0)
+            )
+
+            rel_new_x = abs_new_x - container_rect.x
+            rel_new_y = abs_new_y - container_rect.y
+
+            self.set_relative_position((rel_new_x, rel_new_y))
+
+        return handled
 
 
 class EditorPanel(UIPanel):
-    def __init__(self, relative_rect, manager, **kwargs):
-        super().__init__(relative_rect, manager, **kwargs)
-        self.blocks = []
-
-    def add_block(self, block):
-        # TODO
-        return
-
-    def serialize(self):
-        return [b.serialize() for b in self.blocks]
+    def __init__(self, relative_rect, manager, bg_color=pygame.Color("#2d2d2d")):
+        super().__init__(relative_rect=relative_rect, manager=manager)
+        self.background_colour = bg_color
+        self.rebuild()
 
 
-# handling block dragging:
+class ActionWorkspace(UIPanel):
+    def __init__(
+        self,
+        relative_rect,
+        manager,
+        container=None,
+        text="New Action",
+        bg_color=pygame.Color(168, 208, 230),
+        **kwargs
+    ):
+        super().__init__(
+            relative_rect=relative_rect,
+            manager=manager,
+            container=container,
+            starting_height=1,
+            **kwargs,
+        )
+        self.background_colour = bg_color
+        self.rebuild()
+        self.attached_blocks = []
+        self.top_label = UITextBox(
+            html_text="<font color=#FFFFFF><b>New Action</b></font>",
+            relative_rect=pygame.Rect(0, 0, 500, 50),
+            manager=manager,
+            container=self,
+        )
 
+        self.preconditions_label = UITextBox(
+            html_text="<font color=#FFFFFF><b>Preconditions</b></font>",
+            relative_rect=pygame.Rect(0, 50, 150, 50),
+            manager=manager,
+            container=self,
+        )
 
-def get_global_position(block):
-    if block.parent:
-        return get_global_position(block.parent) + block.local_offset
-    else:
-        return block.local_offset
+        self.immediateFX_label = UITextBox(
+            html_text="<font color=#FFFFFF><b>Immediate FX</b></font>",
+            relative_rect=pygame.Rect(0, 250, 150, 50),
+            manager=manager,
+            container=self,
+        )
 
+        self.specialFX_label = UITextBox(
+            html_text="<font color=#FFFFFF><b>Special FX</b></font>",
+            relative_rect=pygame.Rect(0, 400, 150, 50),
+            manager=manager,
+            container=self,
+        )
 
-# 4/12 trying a stack now becausse last time the recursion depth was hit when i did it
-# recursively:
-
-
-def update_positions(root):
-    stack = [root]
-
-    while stack:
-        current = stack.pop()
-
-        for child in current.children:
-            child.abs_pos = current.abs_pos + child.local_offset
-            stack.append(child)
+    def attach_block(self, block):
+        self.attached_blocks.append(block)
