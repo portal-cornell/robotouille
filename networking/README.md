@@ -6,14 +6,13 @@ Built into Robotouille is networking support for multiplayer. Robotouille uses a
 
 ## Available Modes
 
-Several modes are offered, which can be chosen using the `--role` argument:
+Several modes are offered, which can be chosen using the `++game.role` argument:
 
 1. `local`
 2. `server`
 3. `client`
-4. `single`
-5. `replay`
-6. `render`
+4. `replay`
+5. `render`
 
 ## Local
 
@@ -21,7 +20,7 @@ This mode runs Robotouille without any networking overhead.
 
 E.g.
 ```sh
-python main.py --environment_name original
+python main.py ++game.environment_name=original
 ```
 
 ## Server
@@ -30,12 +29,12 @@ This mode sets up an Robotouille server. Clients that connect are automatically 
 
 E.g.
 ```sh
-python main.py --role server
+python main.py ++game.role=server
 ```
 
 To render active games:
 ```sh
-python main.py --role server --display_server
+python main.py ++game.role=server ++game.display_server=true
 ```
 
 ## Client
@@ -44,37 +43,28 @@ This mode runs the Robotouille client. Use argument `host` to choose which host 
 
 Connect to local host:
 ```sh
-python main.py --role client
+python main.py ++game.role=client
 ```
 
 Connect to another host:
 ```sh
-python main.py --role client --host ws://example.com:8765
-```
-
-## Single
-
-This mode runs both the server and client for a single player experience. Server features, such as game recordings, remain available.
-
-E.g.
-```sh
-python main.py --role single
+python main.py ++game.role=client ++game.host=ws://example.com:8765
 ```
 
 ## Replay
 
-This mode replays a recorded game through a window. The recording is specified with argument `recording` (exclude file extension).
+This mode replays a recorded game through a window. The recording is specified with argument `recording` in base_game.yaml. 
 
 E.g.
 ```sh
-python main.py --role replay --recording 20241018_164547_745081
+python main.py ++game.role=replay
 ```
 
 ## Render
 
-This mode renders a recording game into a video. The video is exported to the recordings folder. The recording is specified with argument `recording` (exclude file extension).
+This mode renders a recording game into a video. The video is exported to the recordings folder. The recording is specified with argument `recording` in base_game.yaml. 
 
 E.g.
 ```sh
-python main.py --role render --recording 20241018_164547_745081
+python main.py ++game.role=render
 ```

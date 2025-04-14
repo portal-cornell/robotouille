@@ -5,6 +5,10 @@ import networking.server as robotouille_server
 import networking.client as robotouille_client
 import multiprocessing
 
+# TODO: This file does not work currently, but is not a high priority as we do not
+# likely need to run a server and client on the same terminal. However, useful 
+# to investigate why it does not work. 
+
 def launch_server(environment_name, seed, noisy_randomization, movement_mode, event):
     robotouille_server.run_server(
         environment_name=environment_name,

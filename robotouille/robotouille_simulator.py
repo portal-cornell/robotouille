@@ -97,7 +97,6 @@ def run_robotouille(environment_name: str, agent_name: str, **kwargs: Dict[str, 
                     "local" for local play with no networking overhead. 
                     "server" to run the server.
                     "client" to run the client.
-                    "single" to run the server and client for a single-player game.
                     "replay" to replay a recording.
                     "render" to render a recording into a video.
                 - host (str):

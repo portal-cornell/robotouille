@@ -1,5 +1,3 @@
-from typing import Dict, Any
-
 import networking.server as robotouille_server
 import networking.client as robotouille_client
 import networking.utils.single_player as robotouille_single_player
@@ -17,7 +15,6 @@ def run_networking(environment_name: str, role: str, seed: int, noisy_randomizat
             The network role.
             "server" to run the server.
             "client" to run the client.
-            "single" to run the server and client for a single-player game.
             "replay" to replay a recording.
             "render" to render a recording into a video.
         
@@ -45,7 +42,6 @@ def run_networking(environment_name: str, role: str, seed: int, noisy_randomizat
             The number of steps taken in the environment.
     """
     # We assume that if a recording is provided, then the user would like to replay it
-    movement_mode = "traverse"
     if recording != "" and role != "replay" and role != "render":
         role = "replay"
 
@@ -53,8 +49,6 @@ def run_networking(environment_name: str, role: str, seed: int, noisy_randomizat
         robotouille_server.run_server(environment_name, seed, noisy_randomization, movement_mode, display_server)
     elif role == "client":
         robotouille_client.run_client(environment_name, seed, noisy_randomization, movement_mode, host)
-    elif role == "single":
-        robotouille_single_player.run_single(environment_name, seed, noisy_randomization, movement_mode)
     elif role == "replay":
         robotouille_replay.run_replay(recording)
     elif role == "render":

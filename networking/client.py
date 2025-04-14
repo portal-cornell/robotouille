@@ -9,12 +9,39 @@ from utils.robotouille_input import create_action_from_event
 from backend.movement.player import Player
 
 def run_client(environment_name: str, seed: int, noisy_randomization: bool, movement_mode: str, host: str="ws://localhost:8765"):
+    """
+    Runs the client by starting the asynchronous client loop.
+
+    Args:
+        environment_name (str): The name of the environment to run.
+        seed (int):The seed for the environment.
+        noisy_randomization (bool): Whether to use noisy randomization.
+        movement_mode (str): The movement mode to use.
+        host (str): The host to connect to.
+    """
     asyncio.run(client_loop(environment_name, seed, noisy_randomization, movement_mode, host))
 
 async def client_loop(environment_name: str, seed: int, noisy_randomization: bool, movement_mode: str, host: str="ws://localhost:8765"):
+    """
+    Main asynchronous loop for the client. Manages communication with the server and user inputs.
+
+    Args:
+        environment_name (str): Name of the environment to connect to.
+        seed (int): Random seed for environment initialization.
+        noisy_randomization (bool): Whether to use noisy randomization.
+        movement_mode (str): Mode of movement for the environment agent.
+        host (str): The host to connect to.
+    """
     uri = host
 
     async def send_actions(websocket, shared_state):
+        """
+        Handles user input and sends encoded actions to the server via the websocket.
+
+        Args:
+            websocket: The websocket connection to the server.
+            shared_state (dict): Shared state dictionary containing the environment and player info.
+        """
         env = shared_state["env"]
         env.render(render_mode = 'human')
         player = shared_state["player"]
@@ -36,6 +63,13 @@ async def client_loop(environment_name: str, seed: int, noisy_randomization: boo
             await asyncio.sleep(0)  # Yield control to allow other tasks to run
 
     async def receive_responses(websocket, shared_state):
+        """
+        Receives state updates from the server and updates the local environment state.
+
+        Args:
+            websocket: The websocket connection to the server.
+            shared_state (dict): Shared state dictionary containing the environment and player info.
+        """
         while not shared_state["done"]:
             response = await websocket.recv()
             data = json.loads(response)
@@ -45,6 +79,7 @@ async def client_loop(environment_name: str, seed: int, noisy_randomization: boo
             shared_state["obs"] = pickle.loads(base64.b64decode(data["obs"]))
             Player.players = pickle.loads(base64.b64decode(data["players"]))
 
+            # We render the environment here so that the client stays consistent with the server, preventing lags
             shared_state["env"].render(render_mode='human')
 
     async with websockets.connect(uri) as websocket:

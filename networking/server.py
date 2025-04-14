@@ -19,14 +19,50 @@ SIMULATED_LATENCY_DURATION = 0.25
 UPDATE_INTERVAL = 1/60
 
 def run_server(environment_name: str, seed: int, noisy_randomization: bool, movement_mode: str, display_server: bool=False, event: asyncio.Event=None):
+    """
+    Runs the server by starting the asynchronous server loop.
+
+    Args:
+        environment_name (str): The name of the environment to run.
+        seed (int):The seed for the environment.
+        noisy_randomization (bool): Whether to use noisy randomization.
+        movement_mode (str): The movement mode to use.
+        display_server (bool): Whether to display the server.
+        event (asyncio.Event): An event to signal when the server is ready.
+    """
     asyncio.run(server_loop(environment_name, seed, noisy_randomization, movement_mode, display_server, event))
 
 async def server_loop(environment_name: str, seed: int, noisy_randomization: bool, movement_mode: str, display_server: bool, event: asyncio.Event):
+    """
+    Main asynchronous loop for the server. Manages communication with the server and user inputs.
+
+    Args:
+        environment_name (str): Name of the environment to connect to.
+        seed (int): Random seed for environment initialization.
+        noisy_randomization (bool): Whether to use noisy randomization.
+        movement_mode (str): Mode of movement for the environment agent.
+        display_server (bool): Whether to display the server.
+        event (asyncio.Event): An event to signal when the server is ready.
+    """
     waiting_queue = {}
     reference_env = create_robotouille_env(environment_name, movement_mode, seed, noisy_randomization)
     num_players = len(reference_env.initial_state.get_players())
 
     async def simulator(connections):
+        """
+        Runs the main simulation loop for a single game session.
+
+        Steps the environment at a fixed rate, handles incoming player actions,
+        and broadcasts updated environment states to all connected clients.
+
+        It uses base64 and pickle to encode/decode game states and actions. 
+        It also logs the entire session including actions, state snapshots, and violations.
+        This method assumes all expected players are already connected when called.
+
+        Args:
+            connections (dict): Mapping from WebSocket client connections to asyncio queues
+                                where incoming messages are stored.
+        """
         try:
             print("Start game", connections.keys())
             recording = {}
@@ -143,6 +179,16 @@ async def server_loop(environment_name: str, seed: int, noisy_randomization: boo
                 pickle.dump(recording, f)
     
     async def handle_connection(websocket):
+        """
+        Handles a single client connection.
+
+        Registers the client in the waiting queue and starts the simulation
+        once the required number of players have joined. Forwards all messages
+        from the client into a shared queue used by the simulator.
+
+        Args:
+            websocket: The WebSocket connection object from the client.
+        """
         # TODO(aac77): #41
         # cannot handle disconnections
         print("Hello client", websocket)

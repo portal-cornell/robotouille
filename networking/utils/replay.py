@@ -7,6 +7,19 @@ def run_replay(recording_name: str):
     replay(recording_name)
 
 def replay(recording_name: str):
+    """
+    Replays a recorded game session by stepping through saved actions and states.
+
+    Loads a `.pkl` recording file from the `recordings/` directory, reconstructs the original
+    environment, and plays back the session in real-time using time deltas from the recording.
+
+    Args:
+        recording_name (str): The filename (without extension) of the recording to replay.
+
+    Raises:
+        ValueError: If an empty `recording_name` is provided.
+        FileNotFoundError: If the specified recording does not exist.
+    """
     if not recording_name:
         raise ValueError("Empty recording_name supplied")
 

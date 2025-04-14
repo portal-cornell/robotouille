@@ -7,6 +7,20 @@ def run_render(recording_name: str):
     render(recording_name)
 
 def render(recording_name: str):
+    """
+    Renders a recorded gameplay session as a video file (.mp4) using RGB frames.
+
+    Loads a `.pkl` recording file from the `recordings/` directory, reconstructs the original
+    game environment, and creates a frame-by-frame video at a fixed frame rate.
+
+    The output video is saved as `recordings/<recording_name>.mp4`.
+
+    Args:
+        recording_name (str): The filename (without extension) of the recording to render.
+
+    Raises:
+        FileNotFoundError: If the specified recording does not exist.
+    """
     p = Path('recordings')
     with open(p / (recording_name + '.pkl'), 'rb') as f:
         recording = pickle.load(f)

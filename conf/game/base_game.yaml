@@ -15,7 +15,7 @@ fourcc_str: 'avc1'                                        # The fourcc string to
 video_fps: 60                                             # The frames per second to record the video at
 video_path: ${hydra:runtime.output_dir}/video_human.mp4   # The name of the file to save a playback video to
 
-role: "local"                                             # The networking role to use. Options: ['local', 'server', 'client', 'single', 'replay', 'render']
+role: "local"                                             # The networking role to use. Options: ['local', 'server', 'client', 'replay', 'render']
 host: "ws://localhost:8765"                               # The host to connect to
-display_server: true                                     # Whether to display the server window
-recording: "20250412_105932_150239"                      # The recording to replay
+display_server: false                                     # Whether to display the server window
+recording: ""                                             # The recording to replay
