@@ -38,13 +38,14 @@ for i, text in enumerate(preset_texts):
 
 # create new action!
 spawn_workspace_button = UIButton(
-    relative_rect=pygame.Rect(10, 10, 180, 40),
+    relative_rect=pygame.Rect(10, 10 + len(preset_texts) * 50, 180, 40),
     text="New Action",
     manager=manager,
     container=left_panel,
 )
 
 all_workspaces = []
+blocks = []
 
 clock = pygame.time.Clock()
 is_running = True
@@ -54,11 +55,11 @@ while is_running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             is_running = False
+        manager.process_events(event)
+        if event.type == pygame_gui.UI_BUTTON_PRESSED:
 
-        elif event.type == pygame_gui.UI_BUTTON_PRESSED:
-            # If user clicked one of the left-panel "source" buttons:
             if event.ui_element in preset_buttons:
-                # Get mouse position relative to the center panel
+
                 mouse_pos = pygame.mouse.get_pos()
                 center_panel_topleft = center_panel.get_relative_rect().topleft
                 relative_mouse_pos = (
@@ -66,13 +67,13 @@ while is_running:
                     mouse_pos[1] - center_panel_topleft[1],
                 )
 
-                # Create a brand new DraggableBlock in the center panel
                 new_block = DraggableBlock(
-                    relative_rect=pygame.Rect((30, 60), (120, 40)),
+                    relative_rect=pygame.Rect((30, relative_mouse_pos[1]), (120, 40)),
                     manager=manager,
                     container=center_panel,
                     text=event.ui_element.text,
                 )
+                blocks.append(new_block)
             elif event.ui_element == spawn_workspace_button:
                 ws_x = center_panel.rect.x + 50
                 ws_y = center_panel.rect.y + 50
@@ -80,11 +81,8 @@ while is_running:
                     relative_rect=pygame.Rect(ws_x, ws_y, 500, 600),
                     manager=manager,
                     # no container => root UI container;
-                    # or if you want it inside center_bg, pass container=center_bg
                 )
                 all_workspaces.append(new_ws)
-
-        manager.process_events(event)
 
     manager.update(time_delta)
     window_surface.fill(pygame.Color("#EDE8D0"))

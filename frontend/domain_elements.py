@@ -28,6 +28,18 @@ class DraggableBlock(UIButton):
         )
         self.is_dragging = False
         self.drag_offset = (0, 0)
+        self.mouse_down_pos = None
+        self.toggled = False
+
+    def toggle_color(self):
+        self.toggled = not self.toggled
+        if self.toggled:
+            self.colours["normal_bg"] = pygame.Color("green")
+            self.colours["hovered_bg"] = pygame.Color("darkgreen")
+        else:
+            self.colours["normal_bg"] = pygame.Color("red")
+            self.colours["hovered_bg"] = pygame.Color("darkred")
+        self.rebuild()
 
     def process_event(self, event):
         handled = super().process_event(event)
@@ -35,14 +47,25 @@ class DraggableBlock(UIButton):
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
             if self.rect.collidepoint(event.pos):
                 self.is_dragging = True
+                self.mouse_down_pos = event.pos
                 abs_rect = self.get_abs_rect()
                 mouse_x, mouse_y = event.pos
                 self.drag_offset = (abs_rect.x - mouse_x, abs_rect.y - mouse_y)
-                return True
+                return handled
 
         elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
-            self.is_dragging = False
-            return True
+            if self.is_dragging:
+                self.is_dragging = False
+                self.unfocus()
+
+                # Check if mouse moved significantly -> drag vs click
+                if self.mouse_down_pos is not None:
+                    dx = abs(event.pos[0] - self.mouse_down_pos[0])
+                    dy = abs(event.pos[1] - self.mouse_down_pos[1])
+                    if dx < 5 and dy < 5:  # Treat as a click
+                        self.toggle_color()
+
+                return handled
 
         elif event.type == pygame.MOUSEMOTION and self.is_dragging:
             mouse_x, mouse_y = event.pos
