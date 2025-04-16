@@ -105,6 +105,9 @@ class ConditionalEffect(SpecialEffect):
         if self.completed: return
         for condition, value in self.condition.items():
             if state.predicates[condition] != value:
+                # Negate the effects
+                for effect, value in self.effects.items():
+                    state.update_predicate(effect, not value)
                 return
         for effect, value in self.effects.items():
             state.update_predicate(effect, value)

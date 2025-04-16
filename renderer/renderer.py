@@ -13,49 +13,42 @@ class RobotouilleRenderer:
     provides that function but also setups up the pygame window to allow for rendering.
     """
 
-    def __init__(self,  config_filename, layout=[], tiling=None, players=[], customers=[], window_size=np.array([512,512]), render_fps=60):
+
+    def __init__(self,  config_filename, layout=[], tiling=None, players=[], customers=[], creen_size=np.array([512,512]), render_fps=60, screen=None):
         """
         Initializes the renderer.
 
         Args:
+            config_filename (str): Name of the configuration file
             layout (List[List[Optional[str]]]): 2D array of station names (or None)
             tiling (Dict): Dictionary with tiling data
-            window_size (np.array): (width, height) of the window
+            players (List[Dict]): List of player dictionaries
+            screen_size (np.array): (width, height) of the screen
             render_fps (int): Framerate of the renderer
+            screen (pygame.Surface): Pre-existing screen to render to, if any
         """
         # Opens the configuration file to be used in the canvas.
         CONFIG_DIR = os.path.join(os.path.dirname(__file__), "configuration")
         with open(os.path.join(CONFIG_DIR, config_filename), "r") as f:
-            config = json.load(f)
+            self.config = json.load(f)
+        # The layout of the game.
+        self.layout = layout
+        # The players in the game.
+        self.players = players
         # Empty tiling if not provided
-        if not tiling and layout:
-            tiling = {"furniture": ["*" * len(layout[0])] * len(layout)}
+        self.tiling = tiling
+        # The size of the screen
+        self.screen_size = screen_size
         # The canvas is responsible for drawing the game state on a pygame surface.
-        self.canvas = RobotouilleCanvas(config, layout, tiling, players, customers, window_size)
-        # The pygame window size.
-        self.window_size = window_size
-        # The framerate of the renderer. This isn't too important since the renderer
-        # displays static drawings.
+        self.canvas = RobotouilleCanvas(self.config, layout, self.tiling, players, customers, self.screen_size)
+        # The framerate of the renderer.
         self.render_fps = render_fps
-        # The pygame window
-        self.window = None
-        # The pygame clock
-        self.clock = None
-    
-    def _init_setup(self, render_mode):
-        """
-        This function initializes the pygame window and clock if not already initialized.
+        if os.getenv("DISPLAY") is None and os.getenv("SDL_VIDEODRIVER") is None:
+            os.environ["SDL_VIDEODRIVER"] = "dummy" # For headless rendering
+            print("Warning: Running in headless mode. No window will be displayed.")
+        # The PyGame screen
+        self.screen = pygame.display.set_mode(screen_size) if screen is None else screen
 
-        Args:
-            render_mode (str): Either "human" or "rgb_array"
-        """
-        if self.window is None and render_mode == "human":
-            pygame.init()
-            pygame.display.init()
-            self.window = pygame.display.set_mode(self.window_size)
-            pygame.display.set_caption('Robotouille Simulator')
-        if self.clock is None and render_mode == "human":
-            self.clock = pygame.time.Clock()
     
     def _render_frame(self, gamemode, render_mode):
         """
@@ -88,7 +81,7 @@ class RobotouilleRenderer:
                 np.array(pygame.surfarray.pixels3d(surface)), axes=(1, 0, 2)
             )
 
-    def render(self, gamemode, mode='human', close=False):
+    def render(self, state):
         """
         This function is called by PDDLGym environments to render the game state.
 
@@ -96,16 +89,23 @@ class RobotouilleRenderer:
         and the display. Since pygame doesn't close the window until the script
         ends, we also hide the window.
 
-        Args:
-            gamemode (GameMode): The game mode object
-            mode (str): Either "human" or "rgb_array"
-            close (bool): Whether to close the pygame window
+        Parameters:
+            state (State):
+                The current game state
+            mode (str):
+                Either "human" or "rgb_array"
+            close (bool):
+                Whether to close the pygame window
         """
-        if close:
-            self.window = None
-            self.clock = None
-            pygame.display.set_mode(self.window_size, flags=pygame.HIDDEN) # Hide the window
-            pygame.display.quit()
-            pygame.quit()
-        else:
-            return self._render_frame(gamemode, mode)
+        self.canvas.draw_to_surface(self.screen, state)
+        return np.transpose(
+            np.array(pygame.surfarray.pixels3d(self.screen)), axes=(1, 0, 2)
+        )
+    
+    def reset(self):
+        """
+        Resets the renderer.
+
+        This function is called by PDDLGym environments when they are reset.
+        """
+        self.canvas = RobotouilleCanvas(self.config, self.layout, self.tiling, self.players, self.screen_size)

@@ -46,6 +46,7 @@
             "direction": [0, 1]
         }
     ],
+    "goal_description": "Place the item on the other station",
     "goal": [
         {
             "predicate": "item_on",

@@ -53,6 +53,7 @@
             "direction": [0, 1]
         }
     ],
+    "goal_description": "Stack the held item on the other item",
     "goal": [
         {
             "predicate": "atop",

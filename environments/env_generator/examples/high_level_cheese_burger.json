@@ -131,7 +131,7 @@
             "direction": [0, 1]
         }
     ],
-    "goal_description": "Make a cheese burger with cheese on top of the patty.",
+    "goal_description": "Make a cheese burger with cheese on top of the patty",
     "goal": [
         {
             "predicate": "iscooked",

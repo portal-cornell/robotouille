@@ -86,7 +86,7 @@
             "direction": [0, 1]
         }
     ],
-    "goal_description": "Put together two plain burgers.",
+    "goal_description": "Put together two plain burgers",
     "goal": [
         {
             "predicate": "atop",

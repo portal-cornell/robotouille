@@ -114,7 +114,7 @@
             "direction": [0, 1]
         }
     ],
-    "goal_description": "Make a big american meal; fried chicken on bottom, fried onion in middle, and french fries on top.",
+    "goal_description": "Make a big american meal; fried chicken on bottom, fried onion in middle, and french fries on top",
     "goal": [
         {
             "predicate": "isfried",

@@ -10,9 +10,9 @@ The features we currently support are:
 
 - Changing the width/height of the environment
 - Adding various items and stations into the environment
-  - See `object_enums.py` and `robotouille.pddl` for the items and stations we support
-  - For 'wildcard' items or stations, you can use the word 'item' or 'station' in your JSON
-- Single player
+    - See `object_enums.py` and `domain/robotouille.json` for the items and stations we support
+    - For 'wildcard' items or stations, you can use the word 'item' or 'station' in your environment JSON
+- Single and multiplayer
 - Expressive goal descriptions
 
 #### Goal Descriptions

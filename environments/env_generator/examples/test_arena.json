@@ -184,7 +184,7 @@
             "direction": [-1, 0]
         }
     ],
-    "goal_description": "Make a burger with patty, tomato, lettuce, cheese, in that order, a cooked chicken, and a fried onion, fried chicken, fried potato sandwich (any order).",
+    "goal_description": "Make a burger with patty, tomato, lettuce, cheese, in that order, a cooked chicken, and a fried onion, fried chicken, fried potato sandwich (any order)",
     "goal": [
         {
             "predicate": "iscut",

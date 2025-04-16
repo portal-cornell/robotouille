@@ -42,6 +42,7 @@
             "direction": [0, 1]
         }
     ],
+    "goal_description": "Cook the patty and pick it up when its fully cooked",
     "goal": [
         {
             "predicate": "iscooked",

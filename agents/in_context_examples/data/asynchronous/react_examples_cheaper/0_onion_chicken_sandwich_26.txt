@@ -1,0 +1,466 @@
+Interaction 1
+---------------
+
+
+Observation: ...
+
+Valid Actions: ...
+
+Goal: Prepare an onion chicken sandwich on a table
+
+
+Reasoning: The goal is to make an onion chicken sandwich on a table. I can cook chicken while doing other tasks. Thus, I
+will stack the ingredients from bottom to top as follows: table -> bread -> onion -> chicken -> bread.
+
+1. First I will leave the chicken cooking. I see chicken1 on table2. I must pick it up and place it on a stove to cook it.
+
+Action: Pick up chicken1 from table2 using robot1
+
+
+Interaction 2
+---------------
+
+
+Observation: ...
+
+Valid Actions: ...
+
+Goal: Prepare an onion chicken sandwich on a table
+
+
+Reasoning: The goal is to make an onion chicken sandwich on a table. I can cook chicken while doing other tasks. Thus, I
+will stack the ingredients from bottom to top as follows: table -> bread -> onion -> chicken -> bread.
+
+1. First I will leave the chicken cooking. I am holding chicken1. I must place it on a stove to cook it. I see stove1 is empty. Thus, I will move to stove1.
+
+Action: Move robot1 from table2 to stove1
+
+
+Interaction 3
+---------------
+
+
+Observation: ...
+
+Valid Actions: ...
+
+Goal: Prepare an onion chicken sandwich on a table
+
+
+Reasoning: The goal is to make an onion chicken sandwich on a table. I can cook chicken while doing other tasks. Thus, I
+will stack the ingredients from bottom to top as follows: table -> bread -> onion -> chicken -> bread.
+
+1. First I will leave the chicken cooking. I am holding chicken1. I must place it on a stove to cook it. I am at stove1 which is empty. I will place chicken1 on stove1.
+
+Action: Place chicken1 on stove1 using robot1
+
+
+Interaction 4
+---------------
+
+
+Observation: ...
+
+Valid Actions: ...
+
+Goal: Prepare an onion chicken sandwich on a table
+
+
+Reasoning: The goal is to make an onion chicken sandwich on a table. I can cook chicken while doing other tasks. Thus, I
+will stack the ingredients from bottom to top as follows: table -> bread -> onion -> chicken -> bread.
+
+1. First I will leave the chicken cooking. chicken1 is on stove1. I must cook it before I can stack it on the sandwich.
+
+Action: Cook chicken1 on stove1 using robot1
+
+
+Interaction 5
+---------------
+
+
+Observation: ...
+
+Valid Actions: ...
+
+Goal: Prepare an onion chicken sandwich on a table
+
+
+Reasoning: The goal is to make an onion chicken sandwich on a table. I can cook chicken while doing other tasks. Thus, I
+will stack the ingredients from bottom to top as follows: table -> bread -> onion -> chicken -> bread.
+
+1. First I will leave the chicken cooking. chicken1 is already cooking on stove1. Thus, I will leave it in place.
+
+2. The first ingredient is bread. I see bread1 on table1 and bread2 on fryer2. Since bread1 is on top of a table, it will serve as the base of the sandwich. I will leave it in place since it is already in the correct position.
+
+3. The second ingredient is onion. I see onion1 on sink3 and onion2 on sink4. I must cut an onion fully before I can stack it on top of bread1. onion1 and onion2 can be cut on a cutting board. I will move to sink4 to pick up onion2.
+
+Action: Move robot1 from stove1 to sink4
+
+
+Interaction 6
+---------------
+
+
+Observation: ...
+
+Valid Actions: ...
+
+Goal: Prepare an onion chicken sandwich on a table
+
+
+Reasoning: The goal is to make an onion chicken sandwich on a table. I can cook chicken while doing other tasks. Thus, I
+will stack the ingredients from bottom to top as follows: table -> bread -> onion -> chicken -> bread.
+
+...
+
+3. The second ingredient is onion. I see onion1 on sink3 and onion2 on sink4. I must cut an onion fully before I can stack it on top of bread1. onion1 and onion2 can be cut on a cutting board. I will pickup onion2 from sink4 to cut it.
+
+Action: Pick up onion2 from sink4 using robot1
+
+
+Interaction 7
+---------------
+
+
+Observation: ...
+
+Valid Actions: ...
+
+Goal: Prepare an onion chicken sandwich on a table
+
+
+Reasoning: The goal is to make an onion chicken sandwich on a table. I can cook chicken while doing other tasks. Thus, I
+will stack the ingredients from bottom to top as follows: table -> bread -> onion -> chicken -> bread.
+
+...
+
+3. The second ingredient is onion. I see onion1 on sink3 and am holding onion2. I must cut an onion fully before I can stack it on top of bread1. onion2 can be cut on a cutting board. I see board1 has lettuce1 on it and board2 has nothing on it. I will move to board2 to cut onion2.
+
+Action: Move robot1 from sink4 to board2
+
+
+Interaction 8
+---------------
+
+
+Observation: ...
+
+Valid Actions: ...
+
+Goal: Prepare an onion chicken sandwich on a table
+
+
+Reasoning: The goal is to make an onion chicken sandwich on a table. I can cook chicken while doing other tasks. Thus, I
+will stack the ingredients from bottom to top as follows: table -> bread -> onion -> chicken -> bread.
+
+1. First I will leave the chicken cooking. chicken1 has already been cooked and is at stove1. Thus, I will leave it in place until I am ready to stack it on the sandwich.
+
+...
+
+3. The second ingredient is onion. I see onion1 on sink3 and am holding onion2. I must cut an onion fully before I can stack it on top of bread1. onion2 can be cut on a cutting board. I see board1 has lettuce1 on it and board2 has nothing on it. Since I am at board2, I will place onion2 on it to cut it.
+
+Action: Place onion2 on board2 using robot1
+
+
+Interaction 9
+---------------
+
+
+Observation: ...
+
+Valid Actions: ...
+
+Goal: Prepare an onion chicken sandwich on a table
+
+
+Reasoning: The goal is to make an onion chicken sandwich on a table. I can cook chicken while doing other tasks. Thus, I
+will stack the ingredients from bottom to top as follows: table -> bread -> onion -> chicken -> bread.
+
+...
+
+3. The second ingredient is onion. I see onion1 on sink3 and onion2 on board2. I must cut an onion fully before I can stack it on top of bread1. onion2 can be cut on a cutting board. I see board1 has lettuce1 on it and board2 has onion2 on it. Since I am at board2, I will cut onion2.
+
+Action: Cut onion2 on board2 using robot1
+
+
+Interaction 10
+---------------
+
+
+Observation: ...
+
+Valid Actions: ...
+
+Goal: Prepare an onion chicken sandwich on a table
+
+
+Reasoning: The goal is to make an onion chicken sandwich on a table. I can cook chicken while doing other tasks. Thus, I
+will stack the ingredients from bottom to top as follows: table -> bread -> onion -> chicken -> bread.
+
+...
+
+3. The second ingredient is onion. I see onion1 on sink3 and onion2 on board2. I must cut an onion fully before I can stack it on top of bread1. onion2 can be cut on a cutting board. I see board1 has lettuce1 on it and board2 has onion2 on it. Since I am at board2, I will continue to cut onion2.
+
+Action: Cut onion2 on board2 using robot1
+
+
+Interaction 11
+---------------
+
+
+Observation: ...
+
+Valid Actions: ...
+
+Goal: Prepare an onion chicken sandwich on a table
+
+
+Reasoning: The goal is to make an onion chicken sandwich on a table. I can cook chicken while doing other tasks. Thus, I
+will stack the ingredients from bottom to top as follows: table -> bread -> onion -> chicken -> bread.
+
+...
+
+3. The second ingredient is onion. I see onion1 on sink3 and onion2 on board2. I must cut an onion fully before I can stack it on top of bread1. onion2 can be cut on a cutting board. I see board1 has lettuce1 on it and board2 has onion2 on it. Since I am at board2, I will continue to cut onion2.
+
+Action: Cut onion2 on board2 using robot1
+
+
+Interaction 12
+---------------
+
+
+Observation: ...
+
+Valid Actions: ...
+
+Goal: Prepare an onion chicken sandwich on a table
+
+
+Reasoning: The goal is to make an onion chicken sandwich on a table. I can cook chicken while doing other tasks. Thus, I
+will stack the ingredients from bottom to top as follows: table -> bread -> onion -> chicken -> bread.
+
+...
+
+3. The second ingredient is onion. I see onion1 on sink3 and onion2 on board2. onion2 has already been cut and is on board2. I will pick up onion2 from board2 to stack it on top of bread1.
+
+Action: Pick up onion2 from board2 using robot1
+
+
+Interaction 13
+---------------
+
+
+Observation: ...
+
+Valid Actions: ...
+
+Goal: Prepare an onion chicken sandwich on a table
+
+
+Reasoning: The goal is to make an onion chicken sandwich on a table. I can cook chicken while doing other tasks. Thus, I
+will stack the ingredients from bottom to top as follows: table -> bread -> onion -> chicken -> bread.
+
+...
+
+3. The second ingredient is onion. I see onion1 on sink3 and am holding onion2. Since onion2 has already been cut, I will stack it on bread1 to build the sandwich. Since bread1 is on table1, I will move from board2 to table1 to stack onion2 on top of bread1.
+
+Action: Move robot1 from board2 to table1
+
+
+Interaction 14
+---------------
+
+
+Observation: ...
+
+Valid Actions: ...
+
+Goal: Prepare an onion chicken sandwich on a table
+
+
+Reasoning: The goal is to make an onion chicken sandwich on a table. I can cook chicken while doing other tasks. Thus, I
+will stack the ingredients from bottom to top as follows: table -> bread -> onion -> chicken -> bread.
+
+...
+
+3. The second ingredient is onion. I see onion1 on sink3 and am holding onion2. Since onion2 has already been cut and I am at table1 where bread1 currently is, I will stack onion2 on bread1 to build the sandwich.
+
+Action: Stack onion2 on top of bread1 using robot1
+
+
+Interaction 15
+---------------
+
+
+Observation: ...
+
+Valid Actions: ...
+
+Goal: Prepare an onion chicken sandwich on a table
+
+
+Reasoning: The goal is to make an onion chicken sandwich on a table. I can cook chicken while doing other tasks. Thus, I
+will stack the ingredients from bottom to top as follows: table -> bread -> onion -> chicken -> bread.
+
+...
+
+3. The second ingredient is onion. I see onion2 stacked on bread1. Since onion2 is already stacked on bread1, I will leave it in place and move to the next step.
+
+4. The third ingredient is chicken. I see chicken1 cooked and at stove1. I will move to stove1 to pick up chicken1 and then stack it on top of onion2.
+
+Action: Move robot1 from table1 to stove1
+
+
+Interaction 16
+---------------
+
+
+Observation: ...
+
+Valid Actions: ...
+
+Goal: Prepare an onion chicken sandwich on a table
+
+
+Reasoning: The goal is to make an onion chicken sandwich on a table. I can cook chicken while doing other tasks. Thus, I
+will stack the ingredients from bottom to top as follows: table -> bread -> onion -> chicken -> bread.
+
+...
+
+4. The third ingredient is chicken. I am at stove1 where chicken1 has been cooked. I will pick up chicken1 and then stack it on top of onion2.
+
+Action: Pick up chicken1 from stove1 using robot1
+
+
+Interaction 17
+---------------
+
+
+Observation: ...
+
+Valid Actions: ...
+
+Goal: Prepare an onion chicken sandwich on a table
+
+
+Reasoning: The goal is to make an onion chicken sandwich on a table. I can cook chicken while doing other tasks. Thus, I
+will stack the ingredients from bottom to top as follows: table -> bread -> onion -> chicken -> bread.
+
+1. First I will leave the chicken cooking. chicken1 is already cooked and is held by robot1.
+
+...
+
+4. The third ingredient is chicken. I am holding chicken1 and must stack it on onion2. onion2 is at table1 so I will move from stove1 to table1 to stack chicken1 on top of onion2.
+
+Action: Move robot1 from stove1 to table1
+
+
+Interaction 18
+---------------
+
+
+Observation: ...
+
+Valid Actions: ...
+
+Goal: Prepare an onion chicken sandwich on a table
+
+
+Reasoning: The goal is to make an onion chicken sandwich on a table. I can cook chicken while doing other tasks. Thus, I
+will stack the ingredients from bottom to top as follows: table -> bread -> onion -> chicken -> bread.
+
+...
+
+4. The third ingredient is chicken. I am holding chicken1 and am at table1 where onion2 is. I will stack chicken1 on top of onion2 to continue building the sandwich.
+
+Action: Stack chicken1 on top of onion2 using robot1
+
+
+Interaction 19
+---------------
+
+
+Observation: ...
+
+Valid Actions: ...
+
+Goal: Prepare an onion chicken sandwich on a table
+
+
+Reasoning: The goal is to make an onion chicken sandwich on a table. I can cook chicken while doing other tasks. Thus, I
+will stack the ingredients from bottom to top as follows: table -> bread -> onion -> chicken -> bread.
+
+1. First I will leave the chicken cooking. chicken1 is already cooked and in the sandwich.
+
+...
+
+4. The third ingredient is chicken. I see chicken1 stacked on onion2. Since chicken1 is already stacked on onion2, I will leave it in place and move to the next step.
+
+5. The fourth ingredient is bread. I see bread2 on fryer2. I will move from table1 to fryer2 to pick up bread2 and stack it on top of chicken1 to complete the sandwich.
+
+Action: Move robot1 from table1 to fryer2
+
+
+Interaction 20
+---------------
+
+
+Observation: ...
+
+Valid Actions: ...
+
+Goal: Prepare an onion chicken sandwich on a table
+
+
+Reasoning: The goal is to make an onion chicken sandwich on a table. I can cook chicken while doing other tasks. Thus, I
+will stack the ingredients from bottom to top as follows: table -> bread -> onion -> chicken -> bread.
+
+...
+
+5. The fourth ingredient is bread. I see bread2 on fryer2. Since I am at fryer2, I will pick up bread2 and stack it on top of chicken1 to complete the sandwich.
+
+Action: Pick up bread2 from fryer2 using robot1
+
+
+Interaction 21
+---------------
+
+
+Observation: ...
+
+Valid Actions: ...
+
+Goal: Prepare an onion chicken sandwich on a table
+
+
+Reasoning: The goal is to make an onion chicken sandwich on a table. I can cook chicken while doing other tasks. Thus, I
+will stack the ingredients from bottom to top as follows: table -> bread -> onion -> chicken -> bread.
+
+...
+
+5. The fourth ingredient is bread. I am holding bread2 and must stack bread2 on chicken1. Since I am at fryer2, I will move from fryer2 to table1 to stack bread2 on top of chicken1 to complete the sandwich.
+
+Action: Move robot1 from fryer2 to table1
+
+
+Interaction 22
+---------------
+
+
+Observation: ...
+
+Valid Actions: ...
+
+Goal: Prepare an onion chicken sandwich on a table
+
+
+Reasoning: The goal is to make an onion chicken sandwich on a table. I can cook chicken while doing other tasks. Thus, I
+will stack the ingredients from bottom to top as follows: table -> bread -> onion -> chicken -> bread.
+
+...
+
+5. The fourth ingredient is bread. I am holding bread2 and must stack bread2 on chicken1. Since I am at table1, I will stack bread2 on top of chicken1 to complete the sandwich.
+
+Action: Stack bread2 on top of chicken1 using robot1
+
+

@@ -1,0 +1,136 @@
+{
+    "version": "1.0.0",
+    "width": 5,
+    "height": 5,
+    "config": {
+        "num_cuts": {
+            "default": 3
+        },
+        "cook_time": {
+            "default": 3
+        }
+    },
+    "stations": [
+        {
+            "name": "table",
+            "x": 0,
+            "y": 1
+        },
+        {
+            "name": "board",
+            "x": 2,
+            "y": 1
+        },
+        {
+            "name": "fryer",
+            "x": 3,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 1,
+            "y": 3
+        },
+        {
+            "name": "table",
+            "x": 2,
+            "y": 3
+        },
+        {
+            "name": "table",
+            "x": 3,
+            "y": 3
+        }
+    ],
+    "items": [
+        {
+            "name": "bread",
+            "x": 0,
+            "y": 1,
+            "stack-level": 0
+        },
+        {
+            "name": "bread",
+            "x": 0,
+            "y": 1,
+            "stack-level": 1
+        },
+        {
+            "name": "chicken",
+            "x": 1,
+            "y": 3,
+            "stack-level": 0,
+            "predicates": ["isfryable"]
+        },
+        {
+            "name": "lettuce",
+            "x": 2,
+            "y": 3,
+            "stack-level": 0,
+            "predicates": ["iscuttable"]
+        },
+        {
+            "name": "tomato",
+            "x": 3,
+            "y": 3,
+            "stack-level": 0,
+            "predicates": ["iscuttable"]
+        }
+    ],
+    "players": [
+        {
+            "name": "robot",
+            "x": 0,
+            "y": 2,
+            "direction": [0, -1]
+        }
+    ],
+    "goal_description": "Prepare a fried chicken sandwich with lettuce and tomato on a table",
+    "goal": [
+        {
+            "predicate": "item_on",
+            "args": ["bread", "table"],
+            "ids": [1, 2]
+        },
+        {
+            "predicate": "iscut",
+            "args": ["lettuce"],
+            "ids": [3]
+        },
+        {
+            "predicate": "item_at",
+            "args": ["lettuce", "table"],
+            "ids": [3, 2]
+        },
+        {
+            "predicate": "iscut",
+            "args": ["tomato"],
+            "ids": [4]
+        },
+        {
+            "predicate": "item_at",
+            "args": ["tomato", "table"],
+            "ids": [4, 2]
+        },
+        {
+            "predicate": "isfried",
+            "args": ["chicken"],
+            "ids": [5]
+        },
+        {
+            "predicate": "item_at",
+            "args": ["chicken", "table"],
+            "ids": [5, 2]
+        },
+        {
+            "predicate": "item_at",
+            "args": ["bread", "table"],
+            "ids": [6, 2]
+        },
+        {
+            "predicate": "clear",
+            "args": ["bread"],
+            "ids": [6]
+        }
+    ]
+}

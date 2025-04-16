@@ -38,6 +38,7 @@
             "direction": [0, 1]
         }
     ],
+    "goal_description": "Move to the other station",
     "goal": [
         {
             "predicate": "loc",

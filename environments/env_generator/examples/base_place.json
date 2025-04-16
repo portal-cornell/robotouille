@@ -43,6 +43,7 @@
     ],
     "meals": [],
     "containers": [],
+    "goal_description": "Place the item on the station",
     "goal": [
         {
             "predicate": "item_on",

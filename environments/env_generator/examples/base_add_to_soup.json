@@ -58,6 +58,7 @@
             "id": "a"
         }
     ],
+    "goal_description": "Add tomato to the pot of boiling water",
     "goal": [
         {
             "predicate": "addedto",

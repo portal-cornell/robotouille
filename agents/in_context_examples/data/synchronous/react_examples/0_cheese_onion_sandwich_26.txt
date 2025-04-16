@@ -1,0 +1,3442 @@
+Interaction 1
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bread1
+table1 has bread1 directly on top of it
+table1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has lettuce1
+board1 has lettuce1 directly on top of it
+board1 has no players at it
+
+Station sink1:
+sink1 is a sink
+sink1 has nothing on it
+sink1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 is occupied by robot1
+stove1 has bread2
+stove1 has bread2 directly on top of it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has onion1
+fryer1 has onion1 directly on top of it
+fryer1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has bottombun1
+board2 has bottombun1 directly on top of it
+board2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has nothing on it
+table3 has no players at it
+
+Station sink2:
+sink2 is a sink
+sink2 has potato1
+sink2 has potato1 directly on top of it
+sink2 has no players at it
+
+Station sink3:
+sink3 is a sink
+sink3 has cheese1
+sink3 has cheese1 directly on top of it
+sink3 has no players at it
+
+Station sink4:
+sink4 is a sink
+sink4 has onion2
+sink4 has onion2 directly on top of it
+sink4 has no players at it
+
+Station fryer2:
+fryer2 is a fryer
+fryer2 has nothing on it
+fryer2 has no players at it
+
+Item bread1:
+bread1 is a bread slice
+bread1 is at table1
+bread1 is directly on top of table1
+bread1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at board1
+lettuce1 is directly on top of board1
+lettuce1 has nothing above it
+
+Item bread2:
+bread2 is a bread slice
+bread2 is at stove1
+bread2 is directly on top of stove1
+bread2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is at fryer1
+onion1 is directly on top of fryer1
+onion1 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at board2
+bottombun1 is directly on top of board2
+bottombun1 has nothing above it
+
+Item potato1:
+potato1 is a potato
+potato1 is at sink2
+potato1 is directly on top of sink2
+potato1 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at sink3
+cheese1 is directly on top of sink3
+cheese1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at sink4
+onion2 is directly on top of sink4
+onion2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at stove1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from stove1 to table1
+Move robot1 from stove1 to board1
+Move robot1 from stove1 to sink1
+Move robot1 from stove1 to fryer1
+Move robot1 from stove1 to table2
+Move robot1 from stove1 to board2
+Move robot1 from stove1 to table3
+Move robot1 from stove1 to sink2
+Move robot1 from stove1 to sink3
+Move robot1 from stove1 to sink4
+Move robot1 from stove1 to fryer2
+Pick up bread2 from stove1 using robot1
+Do nothing
+
+Goal: Prepare a onion cheese sandwich on a table
+
+
+Reasoning: The goal is to make an onion cheese sandwich on a table. I need ingredients stacked from bottom to top: table -> bread -> onion -> cheese -> bread
+
+1. The first ingredient is bread. I see bread1 on table1 and bread2 on stove2. Since bread1 is on top of a table, it will serve as the base of the sandwich. I will leave it in place since it is already in the correct position.
+
+2. The second ingredient is onion. I see onion1 on fryer1 and onion2 on sink4. I must cut an onion fully before I can stack it on top of bread1. onion1 and onion2 can be cut on a cutting board. I see board1 has lettuce1 on it and board2 has bottombun1 on it. The board must be empty before I can cut onion1 on it. I will move robot1 from stove1 to board1.
+
+Action: Move robot1 from stove1 to board1
+
+
+Interaction 2
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bread1
+table1 has bread1 directly on top of it
+table1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has lettuce1
+board1 has lettuce1 directly on top of it
+
+Station sink1:
+sink1 is a sink
+sink1 has nothing on it
+sink1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has bread2
+stove1 has bread2 directly on top of it
+stove1 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has onion1
+fryer1 has onion1 directly on top of it
+fryer1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has bottombun1
+board2 has bottombun1 directly on top of it
+board2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has nothing on it
+table3 has no players at it
+
+Station sink2:
+sink2 is a sink
+sink2 has potato1
+sink2 has potato1 directly on top of it
+sink2 has no players at it
+
+Station sink3:
+sink3 is a sink
+sink3 has cheese1
+sink3 has cheese1 directly on top of it
+sink3 has no players at it
+
+Station sink4:
+sink4 is a sink
+sink4 has onion2
+sink4 has onion2 directly on top of it
+sink4 has no players at it
+
+Station fryer2:
+fryer2 is a fryer
+fryer2 has nothing on it
+fryer2 has no players at it
+
+Item bread1:
+bread1 is a bread slice
+bread1 is at table1
+bread1 is directly on top of table1
+bread1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at board1
+lettuce1 is directly on top of board1
+lettuce1 has nothing above it
+
+Item bread2:
+bread2 is a bread slice
+bread2 is at stove1
+bread2 is directly on top of stove1
+bread2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is at fryer1
+onion1 is directly on top of fryer1
+onion1 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at board2
+bottombun1 is directly on top of board2
+bottombun1 has nothing above it
+
+Item potato1:
+potato1 is a potato
+potato1 is at sink2
+potato1 is directly on top of sink2
+potato1 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at sink3
+cheese1 is directly on top of sink3
+cheese1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at sink4
+onion2 is directly on top of sink4
+onion2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from board1 to table1
+Move robot1 from board1 to sink1
+Move robot1 from board1 to stove1
+Move robot1 from board1 to fryer1
+Move robot1 from board1 to table2
+Move robot1 from board1 to board2
+Move robot1 from board1 to table3
+Move robot1 from board1 to sink2
+Move robot1 from board1 to sink3
+Move robot1 from board1 to sink4
+Move robot1 from board1 to fryer2
+Pick up lettuce1 from board1 using robot1
+Cut lettuce1 on board1 using robot1
+Do nothing
+
+Goal: Prepare a onion cheese sandwich on a table
+
+
+Reasoning: The goal is to make an onion cheese sandwich on a table. I need ingredients stacked from bottom to top: table -> bread -> onion -> cheese -> bread
+
+1. The first ingredient is bread. I see bread1 on table1 and bread2 on stove2. Since bread1 is on top of a table, it will serve as the base of the sandwich. I will leave it in place since it is already in the correct position.
+
+2. The second ingredient is onion. I see onion1 on fryer1 and onion2 on sink4. I must cut an onion fully before I can stack it on top of bread1. onion1 and onion2 can be cut on a cutting board. I see board1 has lettuce1 on it and board2 has bottombun1 on it. The board must be empty before I can cut onion1 on it. Since robot1 is at board1, I will pick up lettuce1 from board1 using robot1 and move it elsewhere.
+
+Action: Pick up lettuce1 from board1 using robot1
+
+
+Interaction 3
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bread1
+table1 has bread1 directly on top of it
+table1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has nothing on it
+
+Station sink1:
+sink1 is a sink
+sink1 has nothing on it
+sink1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has bread2
+stove1 has bread2 directly on top of it
+stove1 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has onion1
+fryer1 has onion1 directly on top of it
+fryer1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has bottombun1
+board2 has bottombun1 directly on top of it
+board2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has nothing on it
+table3 has no players at it
+
+Station sink2:
+sink2 is a sink
+sink2 has potato1
+sink2 has potato1 directly on top of it
+sink2 has no players at it
+
+Station sink3:
+sink3 is a sink
+sink3 has cheese1
+sink3 has cheese1 directly on top of it
+sink3 has no players at it
+
+Station sink4:
+sink4 is a sink
+sink4 has onion2
+sink4 has onion2 directly on top of it
+sink4 has no players at it
+
+Station fryer2:
+fryer2 is a fryer
+fryer2 has nothing on it
+fryer2 has no players at it
+
+Item bread1:
+bread1 is a bread slice
+bread1 is at table1
+bread1 is directly on top of table1
+bread1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is held by robot1
+
+Item bread2:
+bread2 is a bread slice
+bread2 is at stove1
+bread2 is directly on top of stove1
+bread2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is at fryer1
+onion1 is directly on top of fryer1
+onion1 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at board2
+bottombun1 is directly on top of board2
+bottombun1 has nothing above it
+
+Item potato1:
+potato1 is a potato
+potato1 is at sink2
+potato1 is directly on top of sink2
+potato1 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at sink3
+cheese1 is directly on top of sink3
+cheese1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at sink4
+onion2 is directly on top of sink4
+onion2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding lettuce1
+
+Valid Actions:
+Move robot1 from board1 to table1
+Move robot1 from board1 to sink1
+Move robot1 from board1 to stove1
+Move robot1 from board1 to fryer1
+Move robot1 from board1 to table2
+Move robot1 from board1 to board2
+Move robot1 from board1 to table3
+Move robot1 from board1 to sink2
+Move robot1 from board1 to sink3
+Move robot1 from board1 to sink4
+Move robot1 from board1 to fryer2
+Place lettuce1 on board1 using robot1
+Do nothing
+
+Goal: Prepare a onion cheese sandwich on a table
+
+
+Reasoning: The goal is to make an onion cheese sandwich on a table. I need ingredients stacked from bottom to top: table -> bread -> onion -> cheese -> bread
+
+1. The first ingredient is bread. I see bread1 on table1 and bread2 on stove2. Since bread1 is on top of a table, it will serve as the base of the sandwich. I will leave it in place since it is already in the correct position.
+
+2. The second ingredient is onion. I see onion1 on fryer1 and onion2 on sink4. I must cut an onion fully before I can stack it on top of bread1. onion1 and onion2 can be cut on a cutting board. I see board1 is empty and board2 has bottombun1 on it. Since board1 is empty, I will use it to cut onion1. Since robot1 is holding lettuce1 after clearing board1, I must move the lettuce to another location. table3 is empty, so I will move robot1 from board1 to table3 to place lettuce1 on it.
+
+Action: Move robot1 from board1 to table3
+
+
+Interaction 4
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bread1
+table1 has bread1 directly on top of it
+table1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station sink1:
+sink1 is a sink
+sink1 has nothing on it
+sink1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has bread2
+stove1 has bread2 directly on top of it
+stove1 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has onion1
+fryer1 has onion1 directly on top of it
+fryer1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has bottombun1
+board2 has bottombun1 directly on top of it
+board2 has no players at it
+
+Station table3:
+table3 is a table
+table3 is occupied by robot1
+table3 has nothing on it
+
+Station sink2:
+sink2 is a sink
+sink2 has potato1
+sink2 has potato1 directly on top of it
+sink2 has no players at it
+
+Station sink3:
+sink3 is a sink
+sink3 has cheese1
+sink3 has cheese1 directly on top of it
+sink3 has no players at it
+
+Station sink4:
+sink4 is a sink
+sink4 has onion2
+sink4 has onion2 directly on top of it
+sink4 has no players at it
+
+Station fryer2:
+fryer2 is a fryer
+fryer2 has nothing on it
+fryer2 has no players at it
+
+Item bread1:
+bread1 is a bread slice
+bread1 is at table1
+bread1 is directly on top of table1
+bread1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is held by robot1
+
+Item bread2:
+bread2 is a bread slice
+bread2 is at stove1
+bread2 is directly on top of stove1
+bread2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is at fryer1
+onion1 is directly on top of fryer1
+onion1 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at board2
+bottombun1 is directly on top of board2
+bottombun1 has nothing above it
+
+Item potato1:
+potato1 is a potato
+potato1 is at sink2
+potato1 is directly on top of sink2
+potato1 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at sink3
+cheese1 is directly on top of sink3
+cheese1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at sink4
+onion2 is directly on top of sink4
+onion2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table3
+robot1 is holding lettuce1
+
+Valid Actions:
+Move robot1 from table3 to table1
+Move robot1 from table3 to board1
+Move robot1 from table3 to sink1
+Move robot1 from table3 to stove1
+Move robot1 from table3 to fryer1
+Move robot1 from table3 to table2
+Move robot1 from table3 to board2
+Move robot1 from table3 to sink2
+Move robot1 from table3 to sink3
+Move robot1 from table3 to sink4
+Move robot1 from table3 to fryer2
+Place lettuce1 on table3 using robot1
+Do nothing
+
+Goal: Prepare a onion cheese sandwich on a table
+
+
+Reasoning: The goal is to make an onion cheese sandwich on a table. I need ingredients stacked from bottom to top: table -> bread -> onion -> cheese -> bread
+
+1. The first ingredient is bread. I see bread1 on table1 and bread2 on stove2. Since bread1 is on top of a table, it will serve as the base of the sandwich. I will leave it in place since it is already in the correct position.
+
+2. The second ingredient is onion. I see onion1 on fryer1 and onion2 on sink4. I must cut an onion fully before I can stack it on top of bread1. onion1 and onion2 can be cut on a cutting board. I see board1 is empty and board2 has bottombun1 on it. Since board1 is empty, I will use it to cut onion1. Since robot1 is holding lettuce1 and can only hold one item at a time, I will place lettuce1 on table3 because it is empty and we are using neither table3 nor lettuce1 for the sandwich.
+
+Action: Place lettuce1 on table3 using robot1
+
+
+Interaction 5
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bread1
+table1 has bread1 directly on top of it
+table1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station sink1:
+sink1 is a sink
+sink1 has nothing on it
+sink1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has bread2
+stove1 has bread2 directly on top of it
+stove1 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has onion1
+fryer1 has onion1 directly on top of it
+fryer1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has bottombun1
+board2 has bottombun1 directly on top of it
+board2 has no players at it
+
+Station table3:
+table3 is a table
+table3 is occupied by robot1
+table3 has lettuce1
+table3 has lettuce1 directly on top of it
+
+Station sink2:
+sink2 is a sink
+sink2 has potato1
+sink2 has potato1 directly on top of it
+sink2 has no players at it
+
+Station sink3:
+sink3 is a sink
+sink3 has cheese1
+sink3 has cheese1 directly on top of it
+sink3 has no players at it
+
+Station sink4:
+sink4 is a sink
+sink4 has onion2
+sink4 has onion2 directly on top of it
+sink4 has no players at it
+
+Station fryer2:
+fryer2 is a fryer
+fryer2 has nothing on it
+fryer2 has no players at it
+
+Item bread1:
+bread1 is a bread slice
+bread1 is at table1
+bread1 is directly on top of table1
+bread1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table3
+lettuce1 is directly on top of table3
+lettuce1 has nothing above it
+
+Item bread2:
+bread2 is a bread slice
+bread2 is at stove1
+bread2 is directly on top of stove1
+bread2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is at fryer1
+onion1 is directly on top of fryer1
+onion1 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at board2
+bottombun1 is directly on top of board2
+bottombun1 has nothing above it
+
+Item potato1:
+potato1 is a potato
+potato1 is at sink2
+potato1 is directly on top of sink2
+potato1 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at sink3
+cheese1 is directly on top of sink3
+cheese1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at sink4
+onion2 is directly on top of sink4
+onion2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table3
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table3 to table1
+Move robot1 from table3 to board1
+Move robot1 from table3 to sink1
+Move robot1 from table3 to stove1
+Move robot1 from table3 to fryer1
+Move robot1 from table3 to table2
+Move robot1 from table3 to board2
+Move robot1 from table3 to sink2
+Move robot1 from table3 to sink3
+Move robot1 from table3 to sink4
+Move robot1 from table3 to fryer2
+Pick up lettuce1 from table3 using robot1
+Do nothing
+
+Goal: Prepare a onion cheese sandwich on a table
+
+
+Reasoning: The goal is to make an onion cheese sandwich on a table. I need ingredients stacked from bottom to top: table -> bread -> onion -> cheese -> bread
+
+1. The first ingredient is bread. I see bread1 on table1 and bread2 on stove2. Since bread1 is on top of a table, it will serve as the base of the sandwich. I will leave it in place since it is already in the correct position.
+
+2. The second ingredient is onion. I see onion1 on fryer1 and onion2 on sink4. I must cut an onion fully before I can stack it on top of bread1. onion1 and onion2 can be cut on a cutting board. I see board1 is empty and board2 has bottombun1 on it. Since board1 is empty, I will use it to cut onion1. I will move robot1 from table3 to fryer1 to pick up onion1.
+
+Action: Move robot1 from table3 to fryer1
+
+
+Interaction 6
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bread1
+table1 has bread1 directly on top of it
+table1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station sink1:
+sink1 is a sink
+sink1 has nothing on it
+sink1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has bread2
+stove1 has bread2 directly on top of it
+stove1 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 is occupied by robot1
+fryer1 has onion1
+fryer1 has onion1 directly on top of it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has bottombun1
+board2 has bottombun1 directly on top of it
+board2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has lettuce1
+table3 has lettuce1 directly on top of it
+table3 has no players at it
+
+Station sink2:
+sink2 is a sink
+sink2 has potato1
+sink2 has potato1 directly on top of it
+sink2 has no players at it
+
+Station sink3:
+sink3 is a sink
+sink3 has cheese1
+sink3 has cheese1 directly on top of it
+sink3 has no players at it
+
+Station sink4:
+sink4 is a sink
+sink4 has onion2
+sink4 has onion2 directly on top of it
+sink4 has no players at it
+
+Station fryer2:
+fryer2 is a fryer
+fryer2 has nothing on it
+fryer2 has no players at it
+
+Item bread1:
+bread1 is a bread slice
+bread1 is at table1
+bread1 is directly on top of table1
+bread1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table3
+lettuce1 is directly on top of table3
+lettuce1 has nothing above it
+
+Item bread2:
+bread2 is a bread slice
+bread2 is at stove1
+bread2 is directly on top of stove1
+bread2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is at fryer1
+onion1 is directly on top of fryer1
+onion1 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at board2
+bottombun1 is directly on top of board2
+bottombun1 has nothing above it
+
+Item potato1:
+potato1 is a potato
+potato1 is at sink2
+potato1 is directly on top of sink2
+potato1 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at sink3
+cheese1 is directly on top of sink3
+cheese1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at sink4
+onion2 is directly on top of sink4
+onion2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at fryer1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from fryer1 to table1
+Move robot1 from fryer1 to board1
+Move robot1 from fryer1 to sink1
+Move robot1 from fryer1 to stove1
+Move robot1 from fryer1 to table2
+Move robot1 from fryer1 to board2
+Move robot1 from fryer1 to table3
+Move robot1 from fryer1 to sink2
+Move robot1 from fryer1 to sink3
+Move robot1 from fryer1 to sink4
+Move robot1 from fryer1 to fryer2
+Pick up onion1 from fryer1 using robot1
+Do nothing
+
+Goal: Prepare a onion cheese sandwich on a table
+
+
+Reasoning: The goal is to make an onion cheese sandwich on a table. I need ingredients stacked from bottom to top: table -> bread -> onion -> cheese -> bread
+
+1. The first ingredient is bread. I see bread1 on table1 and bread2 on stove2. Since bread1 is on top of a table, it will serve as the base of the sandwich. I will leave it in place since it is already in the correct position.
+
+2. The second ingredient is onion. I see onion1 on fryer1 and onion2 on sink4. I must cut an onion fully before I can stack it on top of bread1. onion1 and onion2 can be cut on a cutting board. I see board1 is empty and board2 has bottombun1 on it. Since robot1 is at fryer1, I will use it to pick up onion1 to cut at board1.
+
+Action: Pick up onion1 from fryer1 using robot1
+
+
+Interaction 7
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bread1
+table1 has bread1 directly on top of it
+table1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station sink1:
+sink1 is a sink
+sink1 has nothing on it
+sink1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has bread2
+stove1 has bread2 directly on top of it
+stove1 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 is occupied by robot1
+fryer1 has nothing on it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has bottombun1
+board2 has bottombun1 directly on top of it
+board2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has lettuce1
+table3 has lettuce1 directly on top of it
+table3 has no players at it
+
+Station sink2:
+sink2 is a sink
+sink2 has potato1
+sink2 has potato1 directly on top of it
+sink2 has no players at it
+
+Station sink3:
+sink3 is a sink
+sink3 has cheese1
+sink3 has cheese1 directly on top of it
+sink3 has no players at it
+
+Station sink4:
+sink4 is a sink
+sink4 has onion2
+sink4 has onion2 directly on top of it
+sink4 has no players at it
+
+Station fryer2:
+fryer2 is a fryer
+fryer2 has nothing on it
+fryer2 has no players at it
+
+Item bread1:
+bread1 is a bread slice
+bread1 is at table1
+bread1 is directly on top of table1
+bread1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table3
+lettuce1 is directly on top of table3
+lettuce1 has nothing above it
+
+Item bread2:
+bread2 is a bread slice
+bread2 is at stove1
+bread2 is directly on top of stove1
+bread2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is held by robot1
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at board2
+bottombun1 is directly on top of board2
+bottombun1 has nothing above it
+
+Item potato1:
+potato1 is a potato
+potato1 is at sink2
+potato1 is directly on top of sink2
+potato1 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at sink3
+cheese1 is directly on top of sink3
+cheese1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at sink4
+onion2 is directly on top of sink4
+onion2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at fryer1
+robot1 is holding onion1
+
+Valid Actions:
+Move robot1 from fryer1 to table1
+Move robot1 from fryer1 to board1
+Move robot1 from fryer1 to sink1
+Move robot1 from fryer1 to stove1
+Move robot1 from fryer1 to table2
+Move robot1 from fryer1 to board2
+Move robot1 from fryer1 to table3
+Move robot1 from fryer1 to sink2
+Move robot1 from fryer1 to sink3
+Move robot1 from fryer1 to sink4
+Move robot1 from fryer1 to fryer2
+Place onion1 on fryer1 using robot1
+Do nothing
+
+Goal: Prepare a onion cheese sandwich on a table
+
+
+Reasoning: The goal is to make an onion cheese sandwich on a table. I need ingredients stacked from bottom to top: table -> bread -> onion -> cheese -> bread
+
+1. The first ingredient is bread. I see bread1 on table1 and bread2 on stove2. Since bread1 is on top of a table, it will serve as the base of the sandwich. I will leave it in place since it is already in the correct position.
+
+2. The second ingredient is onion. I see onion1 held by robot1 and onion2 on sink4. I must cut an onion fully before I can stack it on top of bread1. onion1 and onion2 can be cut on a cutting board. I see board1 is empty and board2 has bottombun1 on it. Since robot1 is at fryer1 and holding onion1, I will move it to board1 to place and begin cutting the onion.
+
+Action: Move robot1 from fryer1 to board1
+
+
+Interaction 8
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bread1
+table1 has bread1 directly on top of it
+table1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has nothing on it
+
+Station sink1:
+sink1 is a sink
+sink1 has nothing on it
+sink1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has bread2
+stove1 has bread2 directly on top of it
+stove1 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has bottombun1
+board2 has bottombun1 directly on top of it
+board2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has lettuce1
+table3 has lettuce1 directly on top of it
+table3 has no players at it
+
+Station sink2:
+sink2 is a sink
+sink2 has potato1
+sink2 has potato1 directly on top of it
+sink2 has no players at it
+
+Station sink3:
+sink3 is a sink
+sink3 has cheese1
+sink3 has cheese1 directly on top of it
+sink3 has no players at it
+
+Station sink4:
+sink4 is a sink
+sink4 has onion2
+sink4 has onion2 directly on top of it
+sink4 has no players at it
+
+Station fryer2:
+fryer2 is a fryer
+fryer2 has nothing on it
+fryer2 has no players at it
+
+Item bread1:
+bread1 is a bread slice
+bread1 is at table1
+bread1 is directly on top of table1
+bread1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table3
+lettuce1 is directly on top of table3
+lettuce1 has nothing above it
+
+Item bread2:
+bread2 is a bread slice
+bread2 is at stove1
+bread2 is directly on top of stove1
+bread2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is held by robot1
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at board2
+bottombun1 is directly on top of board2
+bottombun1 has nothing above it
+
+Item potato1:
+potato1 is a potato
+potato1 is at sink2
+potato1 is directly on top of sink2
+potato1 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at sink3
+cheese1 is directly on top of sink3
+cheese1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at sink4
+onion2 is directly on top of sink4
+onion2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding onion1
+
+Valid Actions:
+Move robot1 from board1 to table1
+Move robot1 from board1 to sink1
+Move robot1 from board1 to stove1
+Move robot1 from board1 to fryer1
+Move robot1 from board1 to table2
+Move robot1 from board1 to board2
+Move robot1 from board1 to table3
+Move robot1 from board1 to sink2
+Move robot1 from board1 to sink3
+Move robot1 from board1 to sink4
+Move robot1 from board1 to fryer2
+Place onion1 on board1 using robot1
+Do nothing
+
+Goal: Prepare a onion cheese sandwich on a table
+
+
+Reasoning: The goal is to make an onion cheese sandwich on a table. I need ingredients stacked from bottom to top: table -> bread -> onion -> cheese -> bread
+
+1. The first ingredient is bread. I see bread1 on table1 and bread2 on stove2. Since bread1 is on top of a table, it will serve as the base of the sandwich. I will leave it in place since it is already in the correct position.
+
+2. The second ingredient is onion. I see onion1 held by robot1 and onion2 on sink4. I must cut an onion fully before I can stack it on top of bread1. onion1 and onion2 can be cut on a cutting board. I see board1 is empty and board2 has bottombun1 on it. Since robot1 is at board1 and holding onion1, I will place onion1 on board1 to begin cutting it.
+
+Action: Place onion1 on board1 using robot1
+
+
+Interaction 9
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bread1
+table1 has bread1 directly on top of it
+table1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has onion1
+board1 has onion1 directly on top of it
+
+Station sink1:
+sink1 is a sink
+sink1 has nothing on it
+sink1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has bread2
+stove1 has bread2 directly on top of it
+stove1 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has bottombun1
+board2 has bottombun1 directly on top of it
+board2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has lettuce1
+table3 has lettuce1 directly on top of it
+table3 has no players at it
+
+Station sink2:
+sink2 is a sink
+sink2 has potato1
+sink2 has potato1 directly on top of it
+sink2 has no players at it
+
+Station sink3:
+sink3 is a sink
+sink3 has cheese1
+sink3 has cheese1 directly on top of it
+sink3 has no players at it
+
+Station sink4:
+sink4 is a sink
+sink4 has onion2
+sink4 has onion2 directly on top of it
+sink4 has no players at it
+
+Station fryer2:
+fryer2 is a fryer
+fryer2 has nothing on it
+fryer2 has no players at it
+
+Item bread1:
+bread1 is a bread slice
+bread1 is at table1
+bread1 is directly on top of table1
+bread1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table3
+lettuce1 is directly on top of table3
+lettuce1 has nothing above it
+
+Item bread2:
+bread2 is a bread slice
+bread2 is at stove1
+bread2 is directly on top of stove1
+bread2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is at board1
+onion1 is directly on top of board1
+onion1 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at board2
+bottombun1 is directly on top of board2
+bottombun1 has nothing above it
+
+Item potato1:
+potato1 is a potato
+potato1 is at sink2
+potato1 is directly on top of sink2
+potato1 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at sink3
+cheese1 is directly on top of sink3
+cheese1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at sink4
+onion2 is directly on top of sink4
+onion2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from board1 to table1
+Move robot1 from board1 to sink1
+Move robot1 from board1 to stove1
+Move robot1 from board1 to fryer1
+Move robot1 from board1 to table2
+Move robot1 from board1 to board2
+Move robot1 from board1 to table3
+Move robot1 from board1 to sink2
+Move robot1 from board1 to sink3
+Move robot1 from board1 to sink4
+Move robot1 from board1 to fryer2
+Pick up onion1 from board1 using robot1
+Cut onion1 on board1 using robot1
+Do nothing
+
+Goal: Prepare a onion cheese sandwich on a table
+
+
+Reasoning: The goal is to make an onion cheese sandwich on a table. I need ingredients stacked from bottom to top: table -> bread -> onion -> cheese -> bread
+
+1. The first ingredient is bread. I see bread1 on table1 and bread2 on stove2. Since bread1 is on top of a table, it will serve as the base of the sandwich. I will leave it in place since it is already in the correct position.
+
+2. The second ingredient is onion. I see onion1 on board1 and onion2 on sink4. I must cut an onion fully before I can stack it on top of bread1. Since robot1 is at board1 and onion1 is on board1, I will use robot1 to cut onion1.
+
+Action: Cut onion1 on board1 using robot1
+
+
+Interaction 10
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bread1
+table1 has bread1 directly on top of it
+table1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has onion1
+board1 has onion1 directly on top of it
+
+Station sink1:
+sink1 is a sink
+sink1 has nothing on it
+sink1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has bread2
+stove1 has bread2 directly on top of it
+stove1 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has bottombun1
+board2 has bottombun1 directly on top of it
+board2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has lettuce1
+table3 has lettuce1 directly on top of it
+table3 has no players at it
+
+Station sink2:
+sink2 is a sink
+sink2 has potato1
+sink2 has potato1 directly on top of it
+sink2 has no players at it
+
+Station sink3:
+sink3 is a sink
+sink3 has cheese1
+sink3 has cheese1 directly on top of it
+sink3 has no players at it
+
+Station sink4:
+sink4 is a sink
+sink4 has onion2
+sink4 has onion2 directly on top of it
+sink4 has no players at it
+
+Station fryer2:
+fryer2 is a fryer
+fryer2 has nothing on it
+fryer2 has no players at it
+
+Item bread1:
+bread1 is a bread slice
+bread1 is at table1
+bread1 is directly on top of table1
+bread1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table3
+lettuce1 is directly on top of table3
+lettuce1 has nothing above it
+
+Item bread2:
+bread2 is a bread slice
+bread2 is at stove1
+bread2 is directly on top of stove1
+bread2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is at board1
+onion1 is directly on top of board1
+onion1 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at board2
+bottombun1 is directly on top of board2
+bottombun1 has nothing above it
+
+Item potato1:
+potato1 is a potato
+potato1 is at sink2
+potato1 is directly on top of sink2
+potato1 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at sink3
+cheese1 is directly on top of sink3
+cheese1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at sink4
+onion2 is directly on top of sink4
+onion2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from board1 to table1
+Move robot1 from board1 to sink1
+Move robot1 from board1 to stove1
+Move robot1 from board1 to fryer1
+Move robot1 from board1 to table2
+Move robot1 from board1 to board2
+Move robot1 from board1 to table3
+Move robot1 from board1 to sink2
+Move robot1 from board1 to sink3
+Move robot1 from board1 to sink4
+Move robot1 from board1 to fryer2
+Pick up onion1 from board1 using robot1
+Cut onion1 on board1 using robot1
+Do nothing
+
+Goal: Prepare a onion cheese sandwich on a table
+
+
+Reasoning: The goal is to make an onion cheese sandwich on a table. I need ingredients stacked from bottom to top: table -> bread -> onion -> cheese -> bread
+
+1. The first ingredient is bread. I see bread1 on table1 and bread2 on stove2. Since bread1 is on top of a table, it will serve as the base of the sandwich. I will leave it in place since it is already in the correct position.
+
+2. The second ingredient is onion. I see onion1 on board1 and onion2 on sink4. I must cut an onion fully before I can stack it on top of bread1. Since robot1 is at board1 and onion1 is on board1, I will use robot1 to cut onion1.
+
+Action: Cut onion1 on board1 using robot1
+
+
+Interaction 11
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bread1
+table1 has bread1 directly on top of it
+table1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has onion1
+board1 has onion1 directly on top of it
+
+Station sink1:
+sink1 is a sink
+sink1 has nothing on it
+sink1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has bread2
+stove1 has bread2 directly on top of it
+stove1 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has bottombun1
+board2 has bottombun1 directly on top of it
+board2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has lettuce1
+table3 has lettuce1 directly on top of it
+table3 has no players at it
+
+Station sink2:
+sink2 is a sink
+sink2 has potato1
+sink2 has potato1 directly on top of it
+sink2 has no players at it
+
+Station sink3:
+sink3 is a sink
+sink3 has cheese1
+sink3 has cheese1 directly on top of it
+sink3 has no players at it
+
+Station sink4:
+sink4 is a sink
+sink4 has onion2
+sink4 has onion2 directly on top of it
+sink4 has no players at it
+
+Station fryer2:
+fryer2 is a fryer
+fryer2 has nothing on it
+fryer2 has no players at it
+
+Item bread1:
+bread1 is a bread slice
+bread1 is at table1
+bread1 is directly on top of table1
+bread1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table3
+lettuce1 is directly on top of table3
+lettuce1 has nothing above it
+
+Item bread2:
+bread2 is a bread slice
+bread2 is at stove1
+bread2 is directly on top of stove1
+bread2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is at board1
+onion1 is directly on top of board1
+onion1 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at board2
+bottombun1 is directly on top of board2
+bottombun1 has nothing above it
+
+Item potato1:
+potato1 is a potato
+potato1 is at sink2
+potato1 is directly on top of sink2
+potato1 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at sink3
+cheese1 is directly on top of sink3
+cheese1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at sink4
+onion2 is directly on top of sink4
+onion2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from board1 to table1
+Move robot1 from board1 to sink1
+Move robot1 from board1 to stove1
+Move robot1 from board1 to fryer1
+Move robot1 from board1 to table2
+Move robot1 from board1 to board2
+Move robot1 from board1 to table3
+Move robot1 from board1 to sink2
+Move robot1 from board1 to sink3
+Move robot1 from board1 to sink4
+Move robot1 from board1 to fryer2
+Pick up onion1 from board1 using robot1
+Cut onion1 on board1 using robot1
+Do nothing
+
+Goal: Prepare a onion cheese sandwich on a table
+
+
+Reasoning: The goal is to make an onion cheese sandwich on a table. I need ingredients stacked from bottom to top: table -> bread -> onion -> cheese -> bread
+
+1. The first ingredient is bread. I see bread1 on table1 and bread2 on stove2. Since bread1 is on top of a table, it will serve as the base of the sandwich. I will leave it in place since it is already in the correct position.
+
+2. The second ingredient is onion. I see onion1 on board1 and onion2 on sink4. I must cut an onion fully before I can stack it on top of bread1. Since robot1 is at board1 and onion1 is on board1, I will use robot1 to cut onion1.
+
+Action: Cut onion1 on board1 using robot1
+
+
+Interaction 12
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bread1
+table1 has bread1 directly on top of it
+table1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has onion1
+board1 has onion1 directly on top of it
+
+Station sink1:
+sink1 is a sink
+sink1 has nothing on it
+sink1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has bread2
+stove1 has bread2 directly on top of it
+stove1 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has bottombun1
+board2 has bottombun1 directly on top of it
+board2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has lettuce1
+table3 has lettuce1 directly on top of it
+table3 has no players at it
+
+Station sink2:
+sink2 is a sink
+sink2 has potato1
+sink2 has potato1 directly on top of it
+sink2 has no players at it
+
+Station sink3:
+sink3 is a sink
+sink3 has cheese1
+sink3 has cheese1 directly on top of it
+sink3 has no players at it
+
+Station sink4:
+sink4 is a sink
+sink4 has onion2
+sink4 has onion2 directly on top of it
+sink4 has no players at it
+
+Station fryer2:
+fryer2 is a fryer
+fryer2 has nothing on it
+fryer2 has no players at it
+
+Item bread1:
+bread1 is a bread slice
+bread1 is at table1
+bread1 is directly on top of table1
+bread1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table3
+lettuce1 is directly on top of table3
+lettuce1 has nothing above it
+
+Item bread2:
+bread2 is a bread slice
+bread2 is at stove1
+bread2 is directly on top of stove1
+bread2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is cut
+onion1 is at board1
+onion1 is directly on top of board1
+onion1 has nothing above it
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at board2
+bottombun1 is directly on top of board2
+bottombun1 has nothing above it
+
+Item potato1:
+potato1 is a potato
+potato1 is at sink2
+potato1 is directly on top of sink2
+potato1 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at sink3
+cheese1 is directly on top of sink3
+cheese1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at sink4
+onion2 is directly on top of sink4
+onion2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from board1 to table1
+Move robot1 from board1 to sink1
+Move robot1 from board1 to stove1
+Move robot1 from board1 to fryer1
+Move robot1 from board1 to table2
+Move robot1 from board1 to board2
+Move robot1 from board1 to table3
+Move robot1 from board1 to sink2
+Move robot1 from board1 to sink3
+Move robot1 from board1 to sink4
+Move robot1 from board1 to fryer2
+Pick up onion1 from board1 using robot1
+Cut onion1 on board1 using robot1
+Do nothing
+
+Goal: Prepare a onion cheese sandwich on a table
+
+
+Reasoning: The goal is to make an onion cheese sandwich on a table. I need ingredients stacked from bottom to top: table -> bread -> onion -> cheese -> bread
+
+1. The first ingredient is bread. I see bread1 on table1 and bread2 on stove2. Since bread1 is on top of a table, it will serve as the base of the sandwich. I will leave it in place since it is already in the correct position.
+
+2. The second ingredient is onion. I see onion1 on board1 and onion2 on sink4. I must cut an onion fully before I can stack it on top of bread1. onion1 is fully cut and ready to be stacked on top of bread1. Since robot1 is at board1 and onion1 is on board1, I will use robot1 to pick up onion1.
+
+Action: Pick up onion1 from board1 using robot1
+
+
+Interaction 13
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bread1
+table1 has bread1 directly on top of it
+table1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 is occupied by robot1
+board1 has nothing on it
+
+Station sink1:
+sink1 is a sink
+sink1 has nothing on it
+sink1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has bread2
+stove1 has bread2 directly on top of it
+stove1 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has bottombun1
+board2 has bottombun1 directly on top of it
+board2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has lettuce1
+table3 has lettuce1 directly on top of it
+table3 has no players at it
+
+Station sink2:
+sink2 is a sink
+sink2 has potato1
+sink2 has potato1 directly on top of it
+sink2 has no players at it
+
+Station sink3:
+sink3 is a sink
+sink3 has cheese1
+sink3 has cheese1 directly on top of it
+sink3 has no players at it
+
+Station sink4:
+sink4 is a sink
+sink4 has onion2
+sink4 has onion2 directly on top of it
+sink4 has no players at it
+
+Station fryer2:
+fryer2 is a fryer
+fryer2 has nothing on it
+fryer2 has no players at it
+
+Item bread1:
+bread1 is a bread slice
+bread1 is at table1
+bread1 is directly on top of table1
+bread1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table3
+lettuce1 is directly on top of table3
+lettuce1 has nothing above it
+
+Item bread2:
+bread2 is a bread slice
+bread2 is at stove1
+bread2 is directly on top of stove1
+bread2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is cut
+onion1 is held by robot1
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at board2
+bottombun1 is directly on top of board2
+bottombun1 has nothing above it
+
+Item potato1:
+potato1 is a potato
+potato1 is at sink2
+potato1 is directly on top of sink2
+potato1 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at sink3
+cheese1 is directly on top of sink3
+cheese1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at sink4
+onion2 is directly on top of sink4
+onion2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at board1
+robot1 is holding onion1
+
+Valid Actions:
+Move robot1 from board1 to table1
+Move robot1 from board1 to sink1
+Move robot1 from board1 to stove1
+Move robot1 from board1 to fryer1
+Move robot1 from board1 to table2
+Move robot1 from board1 to board2
+Move robot1 from board1 to table3
+Move robot1 from board1 to sink2
+Move robot1 from board1 to sink3
+Move robot1 from board1 to sink4
+Move robot1 from board1 to fryer2
+Place onion1 on board1 using robot1
+Do nothing
+
+Goal: Prepare a onion cheese sandwich on a table
+
+
+Reasoning: The goal is to make an onion cheese sandwich on a table. I need ingredients stacked from bottom to top: table -> bread -> onion -> cheese -> bread
+
+1. The first ingredient is bread. I see bread1 on table1 and bread2 on stove2. Since bread1 is on top of a table, it will serve as the base of the sandwich. I will leave it in place since it is already in the correct position.
+
+2. The second ingredient is onion. I see onion1 held by robot1 and onion2 on sink4. I must cut an onion fully before I can stack it on top of bread1. onion1 is fully cut and ready to be stacked on top of bread1. Since robot1 is holding onion1 and bread1 is on table1, I will move robot1 to table1 to stack onion1 on top of bread1.
+
+Action: Move robot1 from board1 to table1
+
+
+Interaction 14
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 is occupied by robot1
+table1 has bread1
+table1 has bread1 directly on top of it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station sink1:
+sink1 is a sink
+sink1 has nothing on it
+sink1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has bread2
+stove1 has bread2 directly on top of it
+stove1 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has bottombun1
+board2 has bottombun1 directly on top of it
+board2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has lettuce1
+table3 has lettuce1 directly on top of it
+table3 has no players at it
+
+Station sink2:
+sink2 is a sink
+sink2 has potato1
+sink2 has potato1 directly on top of it
+sink2 has no players at it
+
+Station sink3:
+sink3 is a sink
+sink3 has cheese1
+sink3 has cheese1 directly on top of it
+sink3 has no players at it
+
+Station sink4:
+sink4 is a sink
+sink4 has onion2
+sink4 has onion2 directly on top of it
+sink4 has no players at it
+
+Station fryer2:
+fryer2 is a fryer
+fryer2 has nothing on it
+fryer2 has no players at it
+
+Item bread1:
+bread1 is a bread slice
+bread1 is at table1
+bread1 is directly on top of table1
+bread1 has nothing above it
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table3
+lettuce1 is directly on top of table3
+lettuce1 has nothing above it
+
+Item bread2:
+bread2 is a bread slice
+bread2 is at stove1
+bread2 is directly on top of stove1
+bread2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is cut
+onion1 is held by robot1
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at board2
+bottombun1 is directly on top of board2
+bottombun1 has nothing above it
+
+Item potato1:
+potato1 is a potato
+potato1 is at sink2
+potato1 is directly on top of sink2
+potato1 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at sink3
+cheese1 is directly on top of sink3
+cheese1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at sink4
+onion2 is directly on top of sink4
+onion2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table1
+robot1 is holding onion1
+
+Valid Actions:
+Move robot1 from table1 to board1
+Move robot1 from table1 to sink1
+Move robot1 from table1 to stove1
+Move robot1 from table1 to fryer1
+Move robot1 from table1 to table2
+Move robot1 from table1 to board2
+Move robot1 from table1 to table3
+Move robot1 from table1 to sink2
+Move robot1 from table1 to sink3
+Move robot1 from table1 to sink4
+Move robot1 from table1 to fryer2
+Stack onion1 on top of bread1 using robot1
+Do nothing
+
+Goal: Prepare a onion cheese sandwich on a table
+
+
+Reasoning: The goal is to make an onion cheese sandwich on a table. I need ingredients stacked from bottom to top: table -> bread -> onion -> cheese -> bread
+
+1. The first ingredient is bread. I see bread1 on table1 and bread2 on stove2. Since bread1 is on top of a table, it will serve as the base of the sandwich. I will leave it in place since it is already in the correct position.
+
+2. The second ingredient is onion. I see onion1 held by robot1 and onion2 on sink4. I must cut an onion fully before I can stack it on top of bread1. onion1 is fully cut and ready to be stacked on top of bread1. Since robot1 is holding onion1 and at table1 and bread1 is on table1, I will use robot1 to to stack onion1 on top of bread1.
+
+Action: Stack onion1 on top of bread1 using robot1
+
+
+Interaction 15
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 is occupied by robot1
+table1 has bread1
+table1 has onion1
+table1 has bread1 directly on top of it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station sink1:
+sink1 is a sink
+sink1 has nothing on it
+sink1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has bread2
+stove1 has bread2 directly on top of it
+stove1 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has bottombun1
+board2 has bottombun1 directly on top of it
+board2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has lettuce1
+table3 has lettuce1 directly on top of it
+table3 has no players at it
+
+Station sink2:
+sink2 is a sink
+sink2 has potato1
+sink2 has potato1 directly on top of it
+sink2 has no players at it
+
+Station sink3:
+sink3 is a sink
+sink3 has cheese1
+sink3 has cheese1 directly on top of it
+sink3 has no players at it
+
+Station sink4:
+sink4 is a sink
+sink4 has onion2
+sink4 has onion2 directly on top of it
+sink4 has no players at it
+
+Station fryer2:
+fryer2 is a fryer
+fryer2 has nothing on it
+fryer2 has no players at it
+
+Item bread1:
+bread1 is a bread slice
+bread1 is at table1
+bread1 is directly on top of table1
+bread1 is directly under onion1
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table3
+lettuce1 is directly on top of table3
+lettuce1 has nothing above it
+
+Item bread2:
+bread2 is a bread slice
+bread2 is at stove1
+bread2 is directly on top of stove1
+bread2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is cut
+onion1 is at table1
+onion1 has nothing above it
+onion1 is directly on top of bread1
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at board2
+bottombun1 is directly on top of board2
+bottombun1 has nothing above it
+
+Item potato1:
+potato1 is a potato
+potato1 is at sink2
+potato1 is directly on top of sink2
+potato1 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at sink3
+cheese1 is directly on top of sink3
+cheese1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at sink4
+onion2 is directly on top of sink4
+onion2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table1 to board1
+Move robot1 from table1 to sink1
+Move robot1 from table1 to stove1
+Move robot1 from table1 to fryer1
+Move robot1 from table1 to table2
+Move robot1 from table1 to board2
+Move robot1 from table1 to table3
+Move robot1 from table1 to sink2
+Move robot1 from table1 to sink3
+Move robot1 from table1 to sink4
+Move robot1 from table1 to fryer2
+Unstack onion1 from bread1 using robot1
+Do nothing
+
+Goal: Prepare a onion cheese sandwich on a table
+
+
+Reasoning: The goal is to make an onion cheese sandwich on a table. I need ingredients stacked from bottom to top: table -> bread -> onion -> cheese -> bread
+
+1. The first ingredient is bread. I see bread1 on table1 and bread2 on stove2. Since bread1 is on top of a table, it will serve as the base of the sandwich. I will leave it in place since it is already in the correct position.
+
+2. The second ingredient is onion. I see onion1 stacked on bread1. onion1 is fully cut. I will leave it in place since it is already in the correct position.
+
+3. The third ingredient is cheese. I see cheese1 on sink3. I must pick up cheese1 and stack it on top of onion1. Since robot1 is at table1 and cheese1 is on sink3, I will move robot1 to sink3 to pick up cheese1.
+
+Action: Move robot1 from table1 to sink3
+
+
+Interaction 16
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bread1
+table1 has onion1
+table1 has bread1 directly on top of it
+table1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station sink1:
+sink1 is a sink
+sink1 has nothing on it
+sink1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has bread2
+stove1 has bread2 directly on top of it
+stove1 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has bottombun1
+board2 has bottombun1 directly on top of it
+board2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has lettuce1
+table3 has lettuce1 directly on top of it
+table3 has no players at it
+
+Station sink2:
+sink2 is a sink
+sink2 has potato1
+sink2 has potato1 directly on top of it
+sink2 has no players at it
+
+Station sink3:
+sink3 is a sink
+sink3 is occupied by robot1
+sink3 has cheese1
+sink3 has cheese1 directly on top of it
+
+Station sink4:
+sink4 is a sink
+sink4 has onion2
+sink4 has onion2 directly on top of it
+sink4 has no players at it
+
+Station fryer2:
+fryer2 is a fryer
+fryer2 has nothing on it
+fryer2 has no players at it
+
+Item bread1:
+bread1 is a bread slice
+bread1 is at table1
+bread1 is directly on top of table1
+bread1 is directly under onion1
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table3
+lettuce1 is directly on top of table3
+lettuce1 has nothing above it
+
+Item bread2:
+bread2 is a bread slice
+bread2 is at stove1
+bread2 is directly on top of stove1
+bread2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is cut
+onion1 is at table1
+onion1 has nothing above it
+onion1 is directly on top of bread1
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at board2
+bottombun1 is directly on top of board2
+bottombun1 has nothing above it
+
+Item potato1:
+potato1 is a potato
+potato1 is at sink2
+potato1 is directly on top of sink2
+potato1 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at sink3
+cheese1 is directly on top of sink3
+cheese1 has nothing above it
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at sink4
+onion2 is directly on top of sink4
+onion2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at sink3
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from sink3 to table1
+Move robot1 from sink3 to board1
+Move robot1 from sink3 to sink1
+Move robot1 from sink3 to stove1
+Move robot1 from sink3 to fryer1
+Move robot1 from sink3 to table2
+Move robot1 from sink3 to board2
+Move robot1 from sink3 to table3
+Move robot1 from sink3 to sink2
+Move robot1 from sink3 to sink4
+Move robot1 from sink3 to fryer2
+Pick up cheese1 from sink3 using robot1
+Do nothing
+
+Goal: Prepare a onion cheese sandwich on a table
+
+
+Reasoning: The goal is to make an onion cheese sandwich on a table. I need ingredients stacked from bottom to top: table -> bread -> onion -> cheese -> bread
+
+1. The first ingredient is bread. I see bread1 on table1 and bread2 on stove2. Since bread1 is on top of a table, it will serve as the base of the sandwich. I will leave it in place since it is already in the correct position.
+
+2. The second ingredient is onion. I see onion1 stacked on bread1. onion1 is fully cut. I will leave it in place since it is already in the correct position.
+
+3. The third ingredient is cheese. I see cheese1 on sink3. I must pick up cheese1 and stack it on top of onion1. Since robot1 is at sink3 and cheese1 is on sink3, I will use robot1 to pick up cheese1.
+
+Action: Pick up cheese1 from sink3 using robot1
+
+
+Interaction 17
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bread1
+table1 has onion1
+table1 has bread1 directly on top of it
+table1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station sink1:
+sink1 is a sink
+sink1 has nothing on it
+sink1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has bread2
+stove1 has bread2 directly on top of it
+stove1 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has bottombun1
+board2 has bottombun1 directly on top of it
+board2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has lettuce1
+table3 has lettuce1 directly on top of it
+table3 has no players at it
+
+Station sink2:
+sink2 is a sink
+sink2 has potato1
+sink2 has potato1 directly on top of it
+sink2 has no players at it
+
+Station sink3:
+sink3 is a sink
+sink3 is occupied by robot1
+sink3 has nothing on it
+
+Station sink4:
+sink4 is a sink
+sink4 has onion2
+sink4 has onion2 directly on top of it
+sink4 has no players at it
+
+Station fryer2:
+fryer2 is a fryer
+fryer2 has nothing on it
+fryer2 has no players at it
+
+Item bread1:
+bread1 is a bread slice
+bread1 is at table1
+bread1 is directly on top of table1
+bread1 is directly under onion1
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table3
+lettuce1 is directly on top of table3
+lettuce1 has nothing above it
+
+Item bread2:
+bread2 is a bread slice
+bread2 is at stove1
+bread2 is directly on top of stove1
+bread2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is cut
+onion1 is at table1
+onion1 has nothing above it
+onion1 is directly on top of bread1
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at board2
+bottombun1 is directly on top of board2
+bottombun1 has nothing above it
+
+Item potato1:
+potato1 is a potato
+potato1 is at sink2
+potato1 is directly on top of sink2
+potato1 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is held by robot1
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at sink4
+onion2 is directly on top of sink4
+onion2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at sink3
+robot1 is holding cheese1
+
+Valid Actions:
+Move robot1 from sink3 to table1
+Move robot1 from sink3 to board1
+Move robot1 from sink3 to sink1
+Move robot1 from sink3 to stove1
+Move robot1 from sink3 to fryer1
+Move robot1 from sink3 to table2
+Move robot1 from sink3 to board2
+Move robot1 from sink3 to table3
+Move robot1 from sink3 to sink2
+Move robot1 from sink3 to sink4
+Move robot1 from sink3 to fryer2
+Place cheese1 on sink3 using robot1
+Do nothing
+
+Goal: Prepare a onion cheese sandwich on a table
+
+
+Reasoning: The goal is to make an onion cheese sandwich on a table. I need ingredients stacked from bottom to top: table -> bread -> onion -> cheese -> bread
+
+1. The first ingredient is bread. I see bread1 on table1 and bread2 on stove2. Since bread1 is on top of a table, it will serve as the base of the sandwich. I will leave it in place since it is already in the correct position.
+
+2. The second ingredient is onion. I see onion1 stacked on bread1. onion1 is fully cut. I will leave it in place since it is already in the correct position.
+
+3. The third ingredient is cheese. I see cheese1 held by robot1. I must stack cheese1 on top of onion1. Since robot1 is at sink3 and cheese1 is held by robot1, I will move robot1 to table1 to stack cheese1 on top of onion1.
+
+Action: Move robot1 from sink3 to table1
+
+
+Interaction 18
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 is occupied by robot1
+table1 has bread1
+table1 has onion1
+table1 has bread1 directly on top of it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station sink1:
+sink1 is a sink
+sink1 has nothing on it
+sink1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has bread2
+stove1 has bread2 directly on top of it
+stove1 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has bottombun1
+board2 has bottombun1 directly on top of it
+board2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has lettuce1
+table3 has lettuce1 directly on top of it
+table3 has no players at it
+
+Station sink2:
+sink2 is a sink
+sink2 has potato1
+sink2 has potato1 directly on top of it
+sink2 has no players at it
+
+Station sink3:
+sink3 is a sink
+sink3 has nothing on it
+sink3 has no players at it
+
+Station sink4:
+sink4 is a sink
+sink4 has onion2
+sink4 has onion2 directly on top of it
+sink4 has no players at it
+
+Station fryer2:
+fryer2 is a fryer
+fryer2 has nothing on it
+fryer2 has no players at it
+
+Item bread1:
+bread1 is a bread slice
+bread1 is at table1
+bread1 is directly on top of table1
+bread1 is directly under onion1
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table3
+lettuce1 is directly on top of table3
+lettuce1 has nothing above it
+
+Item bread2:
+bread2 is a bread slice
+bread2 is at stove1
+bread2 is directly on top of stove1
+bread2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is cut
+onion1 is at table1
+onion1 has nothing above it
+onion1 is directly on top of bread1
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at board2
+bottombun1 is directly on top of board2
+bottombun1 has nothing above it
+
+Item potato1:
+potato1 is a potato
+potato1 is at sink2
+potato1 is directly on top of sink2
+potato1 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is held by robot1
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at sink4
+onion2 is directly on top of sink4
+onion2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table1
+robot1 is holding cheese1
+
+Valid Actions:
+Move robot1 from table1 to board1
+Move robot1 from table1 to sink1
+Move robot1 from table1 to stove1
+Move robot1 from table1 to fryer1
+Move robot1 from table1 to table2
+Move robot1 from table1 to board2
+Move robot1 from table1 to table3
+Move robot1 from table1 to sink2
+Move robot1 from table1 to sink3
+Move robot1 from table1 to sink4
+Move robot1 from table1 to fryer2
+Stack cheese1 on top of onion1 using robot1
+Do nothing
+
+Goal: Prepare a onion cheese sandwich on a table
+
+
+Reasoning: The goal is to make an onion cheese sandwich on a table. I need ingredients stacked from bottom to top: table -> bread -> onion -> cheese -> bread
+
+1. The first ingredient is bread. I see bread1 on table1 and bread2 on stove2. Since bread1 is on top of a table, it will serve as the base of the sandwich. I will leave it in place since it is already in the correct position.
+
+2. The second ingredient is onion. I see onion1 stacked on bread1. onion1 is fully cut. I will leave it in place since it is already in the correct position.
+
+3. The third ingredient is cheese. I see cheese1 held by robot1. I must stack cheese1 on top of onion1. Since robot1 is at table1 and cheese1 is held by robot1, I will use robot1 to stack cheese1 on top of onion1.
+
+Action: Stack cheese1 on top of onion1 using robot1
+
+
+Interaction 19
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 is occupied by robot1
+table1 has bread1
+table1 has onion1
+table1 has cheese1
+table1 has bread1 directly on top of it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station sink1:
+sink1 is a sink
+sink1 has nothing on it
+sink1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has bread2
+stove1 has bread2 directly on top of it
+stove1 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has bottombun1
+board2 has bottombun1 directly on top of it
+board2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has lettuce1
+table3 has lettuce1 directly on top of it
+table3 has no players at it
+
+Station sink2:
+sink2 is a sink
+sink2 has potato1
+sink2 has potato1 directly on top of it
+sink2 has no players at it
+
+Station sink3:
+sink3 is a sink
+sink3 has nothing on it
+sink3 has no players at it
+
+Station sink4:
+sink4 is a sink
+sink4 has onion2
+sink4 has onion2 directly on top of it
+sink4 has no players at it
+
+Station fryer2:
+fryer2 is a fryer
+fryer2 has nothing on it
+fryer2 has no players at it
+
+Item bread1:
+bread1 is a bread slice
+bread1 is at table1
+bread1 is directly on top of table1
+bread1 is directly under onion1
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table3
+lettuce1 is directly on top of table3
+lettuce1 has nothing above it
+
+Item bread2:
+bread2 is a bread slice
+bread2 is at stove1
+bread2 is directly on top of stove1
+bread2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is cut
+onion1 is at table1
+onion1 is directly on top of bread1
+onion1 is directly under cheese1
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at board2
+bottombun1 is directly on top of board2
+bottombun1 has nothing above it
+
+Item potato1:
+potato1 is a potato
+potato1 is at sink2
+potato1 is directly on top of sink2
+potato1 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table1
+cheese1 has nothing above it
+cheese1 is directly on top of onion1
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at sink4
+onion2 is directly on top of sink4
+onion2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from table1 to board1
+Move robot1 from table1 to sink1
+Move robot1 from table1 to stove1
+Move robot1 from table1 to fryer1
+Move robot1 from table1 to table2
+Move robot1 from table1 to board2
+Move robot1 from table1 to table3
+Move robot1 from table1 to sink2
+Move robot1 from table1 to sink3
+Move robot1 from table1 to sink4
+Move robot1 from table1 to fryer2
+Unstack cheese1 from onion1 using robot1
+Do nothing
+
+Goal: Prepare a onion cheese sandwich on a table
+
+
+Reasoning: The goal is to make an onion cheese sandwich on a table. I need ingredients stacked from bottom to top: table -> bread -> onion -> cheese -> bread
+
+1. The first ingredient is bread. I see bread1 on table1 and bread2 on stove2. Since bread1 is on top of a table, it will serve as the base of the sandwich. I will leave it in place since it is already in the correct position.
+
+2. The second ingredient is onion. I see onion1 stacked on bread1. onion1 is fully cut. I will leave it in place since it is already in the correct position.
+
+3. The third ingredient is cheese. I see cheese1 stacked on onion1. I will leave it in place since it is already in the correct position.
+
+4. The fourth ingredient is bread. I see bread2 on stove1. Since robot1 is at table1 and bread2 is on stove1, I will move robot1 to stove1 to pick up bread2.
+
+Action: Move robot1 from table1 to stove1
+
+
+Interaction 20
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bread1
+table1 has onion1
+table1 has cheese1
+table1 has bread1 directly on top of it
+table1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station sink1:
+sink1 is a sink
+sink1 has nothing on it
+sink1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 is occupied by robot1
+stove1 has bread2
+stove1 has bread2 directly on top of it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has bottombun1
+board2 has bottombun1 directly on top of it
+board2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has lettuce1
+table3 has lettuce1 directly on top of it
+table3 has no players at it
+
+Station sink2:
+sink2 is a sink
+sink2 has potato1
+sink2 has potato1 directly on top of it
+sink2 has no players at it
+
+Station sink3:
+sink3 is a sink
+sink3 has nothing on it
+sink3 has no players at it
+
+Station sink4:
+sink4 is a sink
+sink4 has onion2
+sink4 has onion2 directly on top of it
+sink4 has no players at it
+
+Station fryer2:
+fryer2 is a fryer
+fryer2 has nothing on it
+fryer2 has no players at it
+
+Item bread1:
+bread1 is a bread slice
+bread1 is at table1
+bread1 is directly on top of table1
+bread1 is directly under onion1
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table3
+lettuce1 is directly on top of table3
+lettuce1 has nothing above it
+
+Item bread2:
+bread2 is a bread slice
+bread2 is at stove1
+bread2 is directly on top of stove1
+bread2 has nothing above it
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is cut
+onion1 is at table1
+onion1 is directly on top of bread1
+onion1 is directly under cheese1
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at board2
+bottombun1 is directly on top of board2
+bottombun1 has nothing above it
+
+Item potato1:
+potato1 is a potato
+potato1 is at sink2
+potato1 is directly on top of sink2
+potato1 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table1
+cheese1 has nothing above it
+cheese1 is directly on top of onion1
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at sink4
+onion2 is directly on top of sink4
+onion2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at stove1
+robot1 is holding nothing
+
+Valid Actions:
+Move robot1 from stove1 to table1
+Move robot1 from stove1 to board1
+Move robot1 from stove1 to sink1
+Move robot1 from stove1 to fryer1
+Move robot1 from stove1 to table2
+Move robot1 from stove1 to board2
+Move robot1 from stove1 to table3
+Move robot1 from stove1 to sink2
+Move robot1 from stove1 to sink3
+Move robot1 from stove1 to sink4
+Move robot1 from stove1 to fryer2
+Pick up bread2 from stove1 using robot1
+Do nothing
+
+Goal: Prepare a onion cheese sandwich on a table
+
+
+Reasoning: The goal is to make an onion cheese sandwich on a table. I need ingredients stacked from bottom to top: table -> bread -> onion -> cheese -> bread
+
+1. The first ingredient is bread. I see bread1 on table1 and bread2 on stove2. Since bread1 is on top of a table, it will serve as the base of the sandwich. I will leave it in place since it is already in the correct position.
+
+2. The second ingredient is onion. I see onion1 stacked on bread1. onion1 is fully cut. I will leave it in place since it is already in the correct position.
+
+3. The third ingredient is cheese. I see cheese1 stacked on onion1. I will leave it in place since it is already in the correct position.
+
+4. The fourth ingredient is bread. I see bread2 on stove1. Since robot1 is at table1 and bread2 is on stove1, I will move robot1 to stove1 to pick up bread2.
+
+Action: Pick up bread2 from stove1 using robot1
+
+
+Interaction 21
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 has bread1
+table1 has onion1
+table1 has cheese1
+table1 has bread1 directly on top of it
+table1 has no players at it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station sink1:
+sink1 is a sink
+sink1 has nothing on it
+sink1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 is occupied by robot1
+stove1 has nothing on it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has bottombun1
+board2 has bottombun1 directly on top of it
+board2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has lettuce1
+table3 has lettuce1 directly on top of it
+table3 has no players at it
+
+Station sink2:
+sink2 is a sink
+sink2 has potato1
+sink2 has potato1 directly on top of it
+sink2 has no players at it
+
+Station sink3:
+sink3 is a sink
+sink3 has nothing on it
+sink3 has no players at it
+
+Station sink4:
+sink4 is a sink
+sink4 has onion2
+sink4 has onion2 directly on top of it
+sink4 has no players at it
+
+Station fryer2:
+fryer2 is a fryer
+fryer2 has nothing on it
+fryer2 has no players at it
+
+Item bread1:
+bread1 is a bread slice
+bread1 is at table1
+bread1 is directly on top of table1
+bread1 is directly under onion1
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table3
+lettuce1 is directly on top of table3
+lettuce1 has nothing above it
+
+Item bread2:
+bread2 is a bread slice
+bread2 is held by robot1
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is cut
+onion1 is at table1
+onion1 is directly on top of bread1
+onion1 is directly under cheese1
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at board2
+bottombun1 is directly on top of board2
+bottombun1 has nothing above it
+
+Item potato1:
+potato1 is a potato
+potato1 is at sink2
+potato1 is directly on top of sink2
+potato1 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table1
+cheese1 has nothing above it
+cheese1 is directly on top of onion1
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at sink4
+onion2 is directly on top of sink4
+onion2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at stove1
+robot1 is holding bread2
+
+Valid Actions:
+Move robot1 from stove1 to table1
+Move robot1 from stove1 to board1
+Move robot1 from stove1 to sink1
+Move robot1 from stove1 to fryer1
+Move robot1 from stove1 to table2
+Move robot1 from stove1 to board2
+Move robot1 from stove1 to table3
+Move robot1 from stove1 to sink2
+Move robot1 from stove1 to sink3
+Move robot1 from stove1 to sink4
+Move robot1 from stove1 to fryer2
+Place bread2 on stove1 using robot1
+Do nothing
+
+Goal: Prepare a onion cheese sandwich on a table
+
+
+Reasoning: The goal is to make an onion cheese sandwich on a table. I need ingredients stacked from bottom to top: table -> bread -> onion -> cheese -> bread
+
+1. The first ingredient is bread. I see bread1 on table1 and bread2 on stove2. Since bread1 is on top of a table, it will serve as the base of the sandwich. I will leave it in place since it is already in the correct position.
+
+2. The second ingredient is onion. I see onion1 stacked on bread1. onion1 is fully cut. I will leave it in place since it is already in the correct position.
+
+3. The third ingredient is cheese. I see cheese1 stacked on onion1. I will leave it in place since it is already in the correct position.
+
+4. The fourth ingredient is bread. I see bread2 held by robot1. I must stack bread2 on top of cheese1. Since robot1 is holding bread2 and cheese1 is at table1, I will move robot1 to table1 to stack bread2 on top of cheese1.
+
+Action: Move robot1 from stove1 to table1
+
+
+Interaction 22
+---------------
+
+
+Observation:
+Station table1:
+table1 is a table
+table1 is occupied by robot1
+table1 has bread1
+table1 has onion1
+table1 has cheese1
+table1 has bread1 directly on top of it
+
+Station board1:
+board1 is a cutting board
+board1 has nothing on it
+board1 has no players at it
+
+Station sink1:
+sink1 is a sink
+sink1 has nothing on it
+sink1 has no players at it
+
+Station stove1:
+stove1 is a stove
+stove1 has nothing on it
+stove1 has no players at it
+
+Station fryer1:
+fryer1 is a fryer
+fryer1 has nothing on it
+fryer1 has no players at it
+
+Station table2:
+table2 is a table
+table2 has nothing on it
+table2 has no players at it
+
+Station board2:
+board2 is a cutting board
+board2 has bottombun1
+board2 has bottombun1 directly on top of it
+board2 has no players at it
+
+Station table3:
+table3 is a table
+table3 has lettuce1
+table3 has lettuce1 directly on top of it
+table3 has no players at it
+
+Station sink2:
+sink2 is a sink
+sink2 has potato1
+sink2 has potato1 directly on top of it
+sink2 has no players at it
+
+Station sink3:
+sink3 is a sink
+sink3 has nothing on it
+sink3 has no players at it
+
+Station sink4:
+sink4 is a sink
+sink4 has onion2
+sink4 has onion2 directly on top of it
+sink4 has no players at it
+
+Station fryer2:
+fryer2 is a fryer
+fryer2 has nothing on it
+fryer2 has no players at it
+
+Item bread1:
+bread1 is a bread slice
+bread1 is at table1
+bread1 is directly on top of table1
+bread1 is directly under onion1
+
+Item lettuce1:
+lettuce1 is a head of lettuce
+lettuce1 can be cut on a cutting board
+lettuce1 is at table3
+lettuce1 is directly on top of table3
+lettuce1 has nothing above it
+
+Item bread2:
+bread2 is a bread slice
+bread2 is held by robot1
+
+Item onion1:
+onion1 is an onion
+onion1 can be cut on a cutting board
+onion1 is cut
+onion1 is at table1
+onion1 is directly on top of bread1
+onion1 is directly under cheese1
+
+Item bottombun1:
+bottombun1 is a bottom bun
+bottombun1 is at board2
+bottombun1 is directly on top of board2
+bottombun1 has nothing above it
+
+Item potato1:
+potato1 is a potato
+potato1 is at sink2
+potato1 is directly on top of sink2
+potato1 has nothing above it
+
+Item cheese1:
+cheese1 is a cheese slice
+cheese1 is at table1
+cheese1 has nothing above it
+cheese1 is directly on top of onion1
+
+Item onion2:
+onion2 is an onion
+onion2 can be cut on a cutting board
+onion2 is at sink4
+onion2 is directly on top of sink4
+onion2 has nothing above it
+
+Player robot1:
+robot1 is a robot
+robot1 is at table1
+robot1 is holding bread2
+
+Valid Actions:
+Move robot1 from table1 to board1
+Move robot1 from table1 to sink1
+Move robot1 from table1 to stove1
+Move robot1 from table1 to fryer1
+Move robot1 from table1 to table2
+Move robot1 from table1 to board2
+Move robot1 from table1 to table3
+Move robot1 from table1 to sink2
+Move robot1 from table1 to sink3
+Move robot1 from table1 to sink4
+Move robot1 from table1 to fryer2
+Stack bread2 on top of cheese1 using robot1
+Do nothing
+
+Goal: Prepare a onion cheese sandwich on a table
+
+
+Reasoning: The goal is to make an onion cheese sandwich on a table. I need ingredients stacked from bottom to top: table -> bread -> onion -> cheese -> bread
+
+1. The first ingredient is bread. I see bread1 on table1 and bread2 on stove2. Since bread1 is on top of a table, it will serve as the base of the sandwich. I will leave it in place since it is already in the correct position.
+
+2. The second ingredient is onion. I see onion1 stacked on bread1. onion1 is fully cut. I will leave it in place since it is already in the correct position.
+
+3. The third ingredient is cheese. I see cheese1 stacked on onion1. I will leave it in place since it is already in the correct position.
+
+4. The fourth ingredient is bread. I see bread2 held by robot1. I must stack bread2 on top of cheese1. Since robot1 is at table1 and bread2 is held by robot1, I will use robot1 to stack bread2 on top of cheese1.
+
+Action: Stack bread2 on top of cheese1 using robot1
+
+
