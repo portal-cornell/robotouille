@@ -7,7 +7,7 @@ from frontend.constants import DEBUG
 class Slider(Node):
     def __init__(self, screen, background_image, foreground_image, background_width, background_height, 
                 foreground_width, foreground_height, x_percent, y_percent,
-                foreground_padding=(10, 10, 0, 0), background_padding=(10, 10, 0, 0), scale_factor=1,
+                foreground_padding=(0, 0, 0, 0), background_padding=(0, 0, 0, 0), scale_factor=1,
                 filled_percent=0.5, knob_image=None, anchor = "topleft", offset_x=0, offset_y=0):
         """
         Initialize a Slider object.

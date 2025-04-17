@@ -11,12 +11,16 @@ import os
 import pygame
 
 """
+Should be instantiated by 
+
 TODO BACKEND INTEGRATION
 - complete_order: when the backend identifies that the order is complete 
+- display orders, global time, and adding orders, score, etc
 
 TODO HENRY
 After customers have been integrated, fetch the recipes from json
 - add_order
+- update time based on someone passing in values
 """
 # Set up the assets directory
 ASSETS_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "orders"))

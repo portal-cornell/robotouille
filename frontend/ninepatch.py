@@ -6,7 +6,7 @@ class NinePatch:
         """
         Initializes the NinePatch object.
 
-        CURRENT BUGGY WHEN YOU SCALE DOWN
+        CURRENT BUGGY WHEN YOU SCALE DOWN (less than 10pixels)
 
         Args:
             screen (pygame.Surface): The screen on which to draw the NinePatch.
@@ -86,6 +86,7 @@ class NinePatch:
             """
             Scales the image if it exist otherwise returns None
             """
+            w, h = int(w), int(h)
             if img and w>0 and h>0: 
                 return pygame.transform.smoothscale(img, (w, h)) 
             else:
@@ -111,8 +112,8 @@ class NinePatch:
         x, y = int(self.x), int(self.y)
 
         # Compute positions for each column and row
-        x_pos = {'left': x, 'center': x + left, 'right': max(x,x + self.width - right)}
-        y_pos = {'top': y, 'center': y + top, 'bottom': max(y,y + self.height - bottom)}
+        x_pos = {'left': x, 'center': x + left, 'right': max(x, x + int(self.width) - right - 1)}
+        y_pos = {'top': y, 'center': y + top, 'bottom': max(y, y + int(self.height) - bottom - 1)}
 
         self.draw_map = {
             'top_left':     (x_pos['left'],   y_pos['top']),

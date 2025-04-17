@@ -10,6 +10,9 @@ import os
 """
 TODO BACKEND INTEGRATION
 
+# list of player 
+# if someone clicks play again/ exit communicate with backend 
+
 BACKEND MUST communicate with ENDSCREEN 
 - call create_profile and pass it the list of users. The list should be in the form [(player_id, player_name)].
 player_id should uniquely identify the user (i.e their device) and player_name is the name the player choose
@@ -22,6 +25,8 @@ player_id should uniquely identify the user (i.e their device) and player_name i
 
 TODO HENRY
 - add play again functionality 
+- add timer
+- players should be reupdated (status)
 """
 # Set up the assets directory
 ASSETS_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "endgame"))
@@ -59,7 +64,7 @@ class EndScreen(ScreenInterface):
         self.bells = Image(self.screen, self.bell_image, self.x_percent(881.5), self.y_percent(438.74), self.scale_factor, anchor="center")
         self.bells_text = Textbox(self.screen, "214", self.x_percent(984), self.y_percent(430), 188, 72, font_size=40, scale_factor=self.scale_factor, anchor="center")
 
-    def create_profile(self, players):
+    def create_profile(self, players): 
         """Create UI elements for each player.
 
         Args:

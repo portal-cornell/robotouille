@@ -77,11 +77,11 @@ def game():
 
         else:
             if current_screen == MATCHMAKING:
-                screens[current_screen].set_players(["Player1", "Player2"])
+                screens[current_screen].set_players(["Player1", "Player2"]) # list of dictionary of profile + names [{name: ----, profile_image: ----.png, id: ___}]
             
             if current_screen == ENDGAME:
-                screens[current_screen].create_profile([(1,  "Player 1"), (2, "Player 2")])
-                screens[current_screen].set_stars(1)
+                screens[current_screen].create_profile([(1,  "Player 1", "profile"), (2, "Player 2", "profile")]) # [{id, name, profile, status}]
+                screens[current_screen].set_stars(1) # 
                 screens[current_screen].set_coin(12)
                 screens[current_screen].set_bell(121)
             update_screen()
