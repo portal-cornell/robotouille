@@ -109,6 +109,7 @@ class RobotouilleSimulator:
         '''
         Recursively goes through all nested effects and create/updates the progress bar
         '''
+        print(effect)
         if isinstance(effect, RepetitiveEffect):
             x, y = self.get_object_location(effect.arg)
             self.renderer.update_progress_bar(effect.arg, x, y, percentage=effect.current_repetitions/effect.goal_repetitions)

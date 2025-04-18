@@ -1,6 +1,7 @@
 import pygame
 import numpy as np
 import os
+import re
 import json
 from frontend.slider import Slider
 from frontend.loading import LoadingScreen
@@ -50,6 +51,9 @@ class RobotouilleRenderer:
         # The PyGame screen
         self.screen = pygame.display.set_mode(screen_size) if screen is None else screen
         self.progress_bars = {}
+        self.item_to_object = {}
+        self.draw_bar = {}
+
         self.completed = set()
         self.length, self.width = len(self.layout), len(self.layout[0])
         self.asset_directory = LoadingScreen.ASSET
@@ -66,7 +70,17 @@ class RobotouilleRenderer:
     def update_progress_bar(self, item, x, y, percentage = 0, increment = None):
         """
         Draws an image on the canvas.
+
+        TODO: need to get the station at (x,y) store it when you initialize the image
+        if the object is not on the same station, needs to hide the progress bar
         """
+
+        object = None
+        if 0 <= y < len(self.layout) and 0 <= x < len(self.layout[0]):
+            object = self.layout[int(y)][int(x)]
+        if object: 
+            object = re.sub(r'\d+$', '', object)
+
         fg_image = self.asset_directory[RobotouilleCanvas.ASSETS_DIRECTORY]["progress_foreground.png"]
         bg_image = self.asset_directory[RobotouilleCanvas.ASSETS_DIRECTORY]["progress_background.png"]
 
@@ -79,7 +93,14 @@ class RobotouilleRenderer:
                                               self.width_scale * 80,  self.height_scale * 50, 
                                               x/self.length, (y + 0.4)/self.width, 
                                               filled_percent=percentage, anchor='topleft') 
+            self.draw_bar[item] = True
+            self.item_to_object[item] = object
         else:
+            if self.item_to_object[item] != object:
+                self.draw_bar[item] = False
+                return
+
+            self.draw_bar[item] = True
             slider = self.progress_bars[item]
             value = slider.get_value()
 
@@ -95,12 +116,14 @@ class RobotouilleRenderer:
             if value >= 1:
                 self.completed.add(item)
                 self.progress_bars.pop(item)
-                
+                self.item_to_object.pop(item)
+                self.draw_bar.pop(item)
 
     
     def draw_progress_bar(self):
         for id, bar in self.progress_bars.items():
-            bar.draw()
+            if self.draw_bar[id]:
+                bar.draw()
 
     def render(self, state):
         """
