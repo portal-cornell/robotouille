@@ -63,7 +63,44 @@ const Write = () => {
         </div>
 
         <div className="flex gap-4">
-          <button className="w-28 px-2 py-2 bg-primary-darkBlue text-white rounded-lg hover:bg-primary-hoverBlue transition duration-300">
+          <button
+            type="button"
+            onClick={async () => {
+              if (!title.trim() || !content.trim()) {
+                alert("Please fill in both title and content.");
+                return;
+              }
+
+              try {
+                const res = await fetch("http://localhost:8000/api/blogposts", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem(
+                      "accessToken"
+                    )}`,
+                  },
+                  body: JSON.stringify({
+                    title,
+                    content,
+                  }),
+                });
+
+                const data = await res.json();
+
+                if (data.status === "success") {
+                  alert("Post published!");
+                  window.location.href = "/blog"; // or use navigate("/blog") if using useNavigate()
+                } else {
+                  alert("Failed to publish post: " + data.message);
+                }
+              } catch (err) {
+                console.error("Error submitting blog:", err);
+                alert("Error submitting blog post.");
+              }
+            }}
+            className="w-28 px-2 py-2 bg-primary-darkBlue text-white rounded-lg hover:bg-primary-hoverBlue transition duration-300"
+          >
             Save Blog
           </button>
 

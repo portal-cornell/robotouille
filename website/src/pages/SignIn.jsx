@@ -23,12 +23,12 @@ const SignIn = () => {
         console.log("Server response:", data);
 
         if (data.status === "success") {
-          alert(`Welcome, ${data.user.name}!`);
+          console.log(`Log in success`);
           localStorage.setItem("user", JSON.stringify(data.user));
           localStorage.setItem("accessToken", data.access_token);
           navigate("/profile");
         } else {
-          alert(`Login failed: ${data.message}`);
+          console.log(`Login failed: ${data.message}`);
         }
       } catch (err) {
         console.error("Login error:", err);
