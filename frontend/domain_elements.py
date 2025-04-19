@@ -13,11 +13,24 @@ from pygame_gui.elements import UIPanel, UIButton, UILabel, UITextBox
 #             child.abs_pos = current.abs_pos + child.local_offset
 #             child.set_relative_position(child.abs_pos)
 #             stack.append(child)
+SNAP_TOLERANCE = 20
+all_workspaces = []
+
+
+class Slot:
+    """A docking slot living inside an ActionWorkspace."""
+
+    def __init__(self, rel_pos):
+        self.rel_pos = rel_pos  # tuple (x,y) inside the workspace
+        self.size = (120, 40)  # same size as block
+        self.occupied = None  # points to DraggableBlock or None
+
+    def rect(self):
+        return pygame.Rect(self.rel_pos, self.size)
 
 
 class DraggableBlock(UIButton):
     def __init__(self, relative_rect, manager, text="", container=None, **kwargs):
-        # The 'starting_height' or 'starting_layer_height' param ensures it’s above panels
         super().__init__(
             relative_rect=relative_rect,
             manager=manager,
@@ -30,27 +43,32 @@ class DraggableBlock(UIButton):
         self.drag_offset = (0, 0)
         self.mouse_down_pos = None
         self.toggled = False
+        self.docked_slot = None
 
     def toggle_color(self):
         self.toggled = not self.toggled
         if self.toggled:
-            self.colours["normal_bg"] = pygame.Color("green")
-            self.colours["hovered_bg"] = pygame.Color("darkgreen")
+            self.colours["normal_bg"] = pygame.Color("darkgreen")
+            self.colours["hovered_bg"] = pygame.Color("black")
         else:
-            self.colours["normal_bg"] = pygame.Color("red")
-            self.colours["hovered_bg"] = pygame.Color("darkred")
+            self.colours["normal_bg"] = pygame.Color("darkred")
+            self.colours["hovered_bg"] = pygame.Color("black")
         self.rebuild()
 
     def process_event(self, event):
         handled = super().process_event(event)
 
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+            if self.docked_slot:
+                self.docked_slot.occupied = None
+                self.docked_slot = None
+
             if self.rect.collidepoint(event.pos):
                 self.is_dragging = True
                 self.mouse_down_pos = event.pos
-                abs_rect = self.get_abs_rect()
-                mouse_x, mouse_y = event.pos
-                self.drag_offset = (abs_rect.x - mouse_x, abs_rect.y - mouse_y)
+                abs_r = self.get_abs_rect()
+                mx, my = event.pos
+                self.drag_offset = (abs_r.x - mx, abs_r.y - my)
                 return handled
 
         elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
@@ -58,12 +76,32 @@ class DraggableBlock(UIButton):
                 self.is_dragging = False
                 self.unfocus()
 
-                # Check if mouse moved significantly -> drag vs click
-                if self.mouse_down_pos is not None:
-                    dx = abs(event.pos[0] - self.mouse_down_pos[0])
-                    dy = abs(event.pos[1] - self.mouse_down_pos[1])
-                    if dx < 5 and dy < 5:  # Treat as a click
-                        self.toggle_color()
+                # look for a free slot in any workspace
+                for ws in all_workspaces:
+                    snap = ws.get_snap_slot(self.get_abs_rect())
+                    if snap:
+                        # dock into it
+                        self.docked_slot = snap
+                        snap.occupied = self
+                        # THIS re‑parents the block into the workspace
+                        abs_slot_x = ws.get_abs_rect().x + snap.rel_pos[0]
+                        abs_slot_y = ws.get_abs_rect().y + snap.rel_pos[1]
+
+                        # now get this block's container (still center_panel)
+                        container_rect = self.ui_container.get_abs_rect()
+
+                        # set rel position inside that panel, calculated from abs position
+                        rel_x = abs_slot_x - container_rect.x
+                        rel_y = abs_slot_y - container_rect.y
+
+                        self.set_relative_position((rel_x, rel_y))
+                        break
+
+                # small‑click still toggles
+                dx = abs(event.pos[0] - self.mouse_down_pos[0])
+                dy = abs(event.pos[1] - self.mouse_down_pos[1])
+                if dx < 5 and dy < 5:
+                    self.toggle_color()
 
                 return handled
 
@@ -114,6 +152,9 @@ class ActionWorkspace(UIPanel):
         self.background_colour = bg_color
         self.rebuild()
         self.attached_blocks = []
+
+        self.slots = []
+
         self.top_label = UITextBox(
             html_text="<font color=#FFFFFF><b>New Action</b></font>",
             relative_rect=pygame.Rect(0, 0, 500, 50),
@@ -141,6 +182,65 @@ class ActionWorkspace(UIPanel):
             manager=manager,
             container=self,
         )
+
+        # ───── CONFIG ─────
+        NUM_SLOTS = 8
+        SLOT_W, SLOT_H = 120, 40
+        MARGIN_X = 20  # px on left & right
+        H_SPACING = 10  # horizontal gap
+        V_SPACING = 10  # vertical gap
+
+        # find how many fit per row
+        ws_w = self.get_relative_rect().width
+        avail = ws_w - 2 * MARGIN_X
+        slots_per_row = max(1, int((avail + H_SPACING) // (SLOT_W + H_SPACING)))
+
+        # recompute spacing so it’s evenly spread
+        if slots_per_row > 1:
+            spacing_x = (avail - slots_per_row * SLOT_W) / (slots_per_row - 1)
+        else:
+            spacing_x = 0
+
+        # Y‑coordinates under each label
+        y_pre = self.preconditions_label.get_relative_rect().bottom + V_SPACING
+        y_ifx = self.immediateFX_label.get_relative_rect().bottom + V_SPACING
+        y_sfx = self.specialFX_label.get_relative_rect().bottom + V_SPACING
+
+        # build wrapped rows for each section
+        for base_y in (y_pre, y_ifx, y_sfx):
+            for i in range(NUM_SLOTS):
+                row, col = divmod(i, slots_per_row)
+                x = MARGIN_X + col * (SLOT_W + spacing_x)
+                y = base_y + row * (SLOT_H + V_SPACING)
+                self.slots.append(Slot((x, y)))
+
+    # def draw_debug_slots(self, surf):
+    #     for slot in self.slots:
+    #         abs_x = self.get_abs_rect().x + slot.rel_pos[0]
+    #         abs_y = self.get_abs_rect().y + slot.rel_pos[1]
+    #         pygame.draw.rect(
+    #             surf,
+    #             (
+    #                 pygame.Color("gray")
+    #                 if slot.occupied is None
+    #                 else pygame.Color("darkgreen")
+    #             ),
+    #             pygame.Rect((abs_x, abs_y), slot.size),
+    #             2,
+    #         )
+
+    def get_snap_slot(self, block_abs_rect):
+        """Return a free Slot whose (inflated) rect contains block centre, else None."""
+        cx, cy = block_abs_rect.center
+        for slot in self.slots:
+            if slot.occupied is None:
+                big = slot.rect()
+                big = big.inflate(SNAP_TOLERANCE, SNAP_TOLERANCE)
+                # convert slot rect to ABSOLUTE coords:
+                abs_slot = big.move(self.get_abs_rect().topleft)
+                if abs_slot.collidepoint(cx, cy):
+                    return slot
+        return None
 
     def attach_block(self, block):
         self.attached_blocks.append(block)

@@ -1,7 +1,7 @@
 import pygame
 import pygame_gui
 from pygame_gui.elements import UIButton
-from domain_elements import EditorPanel, DraggableBlock, ActionWorkspace
+from domain_elements import EditorPanel, DraggableBlock, ActionWorkspace, all_workspaces
 
 pygame.init()
 pygame.display.set_caption("Domain Editor")
@@ -44,11 +44,12 @@ spawn_workspace_button = UIButton(
     container=left_panel,
 )
 
-all_workspaces = []
+
 blocks = []
 
 clock = pygame.time.Clock()
 is_running = True
+
 
 while is_running:
     time_delta = clock.tick(60) / 1000.0
@@ -78,7 +79,7 @@ while is_running:
                 ws_x = center_panel.rect.x + 50
                 ws_y = center_panel.rect.y + 50
                 new_ws = ActionWorkspace(
-                    relative_rect=pygame.Rect(ws_x, ws_y, 500, 600),
+                    relative_rect=pygame.Rect(ws_x, ws_y, 700, 700),
                     manager=manager,
                     # no container => root UI container;
                 )
@@ -87,6 +88,8 @@ while is_running:
     manager.update(time_delta)
     window_surface.fill(pygame.Color("#EDE8D0"))
     manager.draw_ui(window_surface)
+    # for ws in all_workspaces:
+    #     ws.draw_debug_slots(window_surface)
     pygame.display.update()
 
 pygame.quit()
