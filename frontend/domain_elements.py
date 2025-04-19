@@ -18,21 +18,6 @@ all_workspaces = []
 blocks = []
 
 
-class ParamSlot:
-    """A slot *inside* a DraggableBlock that can accept another block."""
-
-    def __init__(self, rel_pos, size=(80, 30)):
-        self.rel_pos = rel_pos  # pos inside parent block
-        self.size = size
-        self.occupied = None  # points to child DraggableBlock or None
-
-    def rect(self, parent_abs_topleft):
-        """Return an ABSOLUTE pygame.Rect for hit-testing."""
-        x = parent_abs_topleft[0] + self.rel_pos[0]
-        y = parent_abs_topleft[1] + self.rel_pos[1]
-        return pygame.Rect((x, y), self.size)
-
-
 class Slot:
     """A docking slot living inside an ActionWorkspace."""
 
@@ -50,7 +35,7 @@ class DraggableBlock(UIButton):
         self, relative_rect, manager, text, container, param_defs=None, **kwargs
     ):
 
-        # ❶ the block *itself* (acts as the drag handle too)
+        # the block *itself* (acts as the drag handle too)
         super().__init__(
             relative_rect=relative_rect,
             text=text,
@@ -59,14 +44,14 @@ class DraggableBlock(UIButton):
             **kwargs,
         )
 
-        # ❷ create & memorise each param dropdown
+        #  create & memorise each param dropdown
         self._param_widgets = []  # list of (offset, widget)
         for label, pos, options in param_defs or []:
             dd = UIDropDownMenu(
                 options_list=options,
                 starting_option=options[0],
                 relative_rect=pygame.Rect(
-                    relative_rect.x + pos[0], relative_rect.y + pos[1], 50, 30
+                    relative_rect.x + pos[0] - 40, relative_rect.y + pos[1] - 10, 50, 30
                 ),
                 manager=manager,
                 container=container,
@@ -78,27 +63,28 @@ class DraggableBlock(UIButton):
         self.is_dragging = False
         self._drag_offset = (0, 0)
         self.docked_slot = None
+        self.toggled = False
 
-    # --------------------------------------------------------------
-    # helper – reposition overlay widgets whenever the button moves
-    # --------------------------------------------------------------
     def _sync_params(self):
         abs_tl = self.get_abs_rect().topleft
         for offset, widget in self._param_widgets:
             new_pos = (abs_tl[0] + offset.x, abs_tl[1] + offset.y)
             widget.set_position(new_pos)
 
-    # --------------------------------------------------------------
-    # OVERRIDE set_relative_position so every move stays in sync
-    # --------------------------------------------------------------
     def set_relative_position(self, pos):
         super().set_relative_position(pos)
         self._sync_params()
 
-    # --------------------------------------------------------------
-    # process_event: **exactly** your old working drag logic
-    # (shortened here – add snapping back in as you had before)
-    # --------------------------------------------------------------
+    def toggle_color(self):
+        self.toggled = not self.toggled
+        if self.toggled:
+            self.colours["normal_bg"] = pygame.Color("darkgreen")
+            self.colours["hovered_bg"] = pygame.Color("black")
+        else:
+            self.colours["normal_bg"] = pygame.Color("darkred")
+            self.colours["hovered_bg"] = pygame.Color("black")
+        self.rebuild()
+
     def process_event(self, event):
         handled = super().process_event(event)
 

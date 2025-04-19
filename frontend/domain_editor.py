@@ -89,7 +89,7 @@ while is_running:
                 #     )
 
                 new_block = DraggableBlock(
-                    pygame.Rect((30, relative_mouse_pos[1]), (200, 60)),
+                    pygame.Rect((30, relative_mouse_pos[1]), (150, 40)),
                     manager=manager,
                     container=center_panel,
                     text="iscuttable",
