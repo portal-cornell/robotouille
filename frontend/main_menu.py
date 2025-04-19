@@ -1,5 +1,5 @@
 import pygame
-from frontend.constants import WHITE, SHARED_DIRECTORY, MATCHMAKING, SETTINGS
+from frontend.constants import WHITE, SHARED_DIRECTORY, MATCHMAKING, SETTINGS, BLACK
 from frontend.button import Button
 from frontend.image import Image
 from frontend.screen import ScreenInterface
@@ -31,6 +31,17 @@ class MenuScreen(ScreenInterface):
                                     pressed_image_source= self.start_pressed_button_image, 
                                     text = "SETTINGS", text_color=WHITE, anchor="center")
 
+        self.profile_button = Button(self.screen, self.profile_image, self.x_percent(1289), self.y_percent(33), 
+                                      self.scale_factor, anchor="topleft")
+        self.edit_profile_button = Button(self.screen, self.edit_profile_button_image, self.x_percent(956),
+                                          self.y_percent(158),  self.scale_factor, text="   edit profile", 
+                                          font_size = 40, text_color=BLACK, anchor="topleft", align_text = "left")
+        self.setting_logo_button = Button(self.screen, self.settings_button_image, self.x_percent(956), 
+                                          self.y_percent(230),  self.scale_factor,  text="   settings", font_size = 40, 
+                                          text_color=BLACK, anchor="topleft", align_text = "left")
+        self.dropdown_visible = False
+
+
     def load_assets(self):
         """
         Loads necessary assets.
@@ -39,12 +50,21 @@ class MenuScreen(ScreenInterface):
         self.start_button_image = LoadingScreen.ASSET[SHARED_DIRECTORY]["button_b.png"]
         self.start_hover_button_image = LoadingScreen.ASSET[SHARED_DIRECTORY]["button_b_h.png"]
         self.start_pressed_button_image = LoadingScreen.ASSET[SHARED_DIRECTORY]["button_b_p.png"]
+        self.profile_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["menu_profile.png"]
+        self.edit_profile_button_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["edit_profile_button.png"]
+        self.settings_button_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["settings_button.png"]
+
     
     def draw(self):
         """Draws all the screen components."""
         self.background.draw()
         self.start_button.draw()
         self.setting_button.draw()
+        self.profile_button.draw()
+        if self.dropdown_visible:
+            self.edit_profile_button.draw()
+            self.setting_logo_button.draw()
+
 
     def update(self):
         """Update the screen and handle events."""
@@ -55,6 +75,16 @@ class MenuScreen(ScreenInterface):
             # Transitions to Matchmaking when start_button is pressed.
             if self.start_button.handle_event(event):
                 self.set_next_screen(MATCHMAKING)
-            # ransitions to Settings when setting_button is pressed.
+            # Transitions to Settings when setting_button is pressed.
             if self.setting_button.handle_event(event):
                 self.set_next_screen(SETTINGS)
+            
+            # Transitions for profile button
+            if self.profile_button.handle_event(event):
+                self.dropdown_visible = not self.dropdown_visible
+
+            if self.dropdown_visible:
+                if self.edit_profile_button.handle_event(event):
+                    self.set_next_screen(SETTINGS)
+                if self.setting_logo_button.handle_event(event):
+                    self.set_next_screen(SETTINGS)

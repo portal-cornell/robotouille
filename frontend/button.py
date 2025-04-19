@@ -9,7 +9,7 @@ class Button(Node):
     def __init__(self, screen, normal_image_source, x_percent, y_percent, scale_factor=1.0,
                 hover_image_source = None, pressed_image_source = None, text=None,
                 font_path=FONT_PATH, font_size= 60, text_color=(0, 0, 0), anchor="topleft", 
-                offset_x=0, offset_y=0):
+                offset_x=0, offset_y=0, align_text="center"):
         """
         Initialize a Button instance.
 
@@ -39,7 +39,7 @@ class Button(Node):
 
         width, height = self.rect.width, self.rect.height
         if text is not None:
-            self.text = Textbox(screen, text, x_percent, y_percent, width, height, text_color=text_color, font_path=font_path, font_size=font_size * scale_factor, anchor=anchor)
+            self.text = Textbox(screen, text, x_percent, y_percent, width, height, text_color=text_color, font_path=font_path, font_size=font_size * scale_factor, align_text = align_text, anchor=anchor)
 
 
         self.hover_image = Image(screen, hover_image_source if hover_image_source else normal_image_source, x_percent, y_percent, scale_factor, anchor=anchor)
