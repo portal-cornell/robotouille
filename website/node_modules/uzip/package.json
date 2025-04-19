@@ -1,0 +1,7 @@
+{
+	"name": "uzip",
+	"version": "0.20201231.0",
+	"files": [ "LICENSE", "README.md", "UZIP.js", "package.json" ],
+	"main": "./UZIP",
+	"license": "MIT"
+}
