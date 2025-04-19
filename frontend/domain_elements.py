@@ -1,6 +1,6 @@
 import pygame
 import pygame_gui
-from pygame_gui.elements import UIPanel, UIButton, UILabel, UITextBox
+from pygame_gui.elements import UIPanel, UIButton, UILabel, UITextBox, UIDropDownMenu
 
 
 # def update_positions(root):
@@ -15,6 +15,22 @@ from pygame_gui.elements import UIPanel, UIButton, UILabel, UITextBox
 #             stack.append(child)
 SNAP_TOLERANCE = 20
 all_workspaces = []
+blocks = []
+
+
+class ParamSlot:
+    """A slot *inside* a DraggableBlock that can accept another block."""
+
+    def __init__(self, rel_pos, size=(80, 30)):
+        self.rel_pos = rel_pos  # pos inside parent block
+        self.size = size
+        self.occupied = None  # points to child DraggableBlock or None
+
+    def rect(self, parent_abs_topleft):
+        """Return an ABSOLUTE pygame.Rect for hit-testing."""
+        x = parent_abs_topleft[0] + self.rel_pos[0]
+        y = parent_abs_topleft[1] + self.rel_pos[1]
+        return pygame.Rect((x, y), self.size)
 
 
 class Slot:
@@ -30,31 +46,59 @@ class Slot:
 
 
 class DraggableBlock(UIButton):
-    def __init__(self, relative_rect, manager, text="", container=None, **kwargs):
+    def __init__(
+        self, relative_rect, manager, text, container, param_defs=None, **kwargs
+    ):
+
+        # ❶ the block *itself* (acts as the drag handle too)
         super().__init__(
             relative_rect=relative_rect,
+            text=text,
             manager=manager,
             container=container,
-            text=text,
-            starting_height=2,
             **kwargs,
         )
+
+        # ❷ create & memorise each param dropdown
+        self._param_widgets = []  # list of (offset, widget)
+        for label, pos, options in param_defs or []:
+            dd = UIDropDownMenu(
+                options_list=options,
+                starting_option=options[0],
+                relative_rect=pygame.Rect(
+                    relative_rect.x + pos[0], relative_rect.y + pos[1], 50, 30
+                ),
+                manager=manager,
+                container=container,
+            )
+            offset = pygame.Vector2(pos)  # offset w.r.t. block.topleft
+            self._param_widgets.append((offset, dd))
+
+        # ❸ drag state
         self.is_dragging = False
-        self.drag_offset = (0, 0)
-        self.mouse_down_pos = None
-        self.toggled = False
+        self._drag_offset = (0, 0)
         self.docked_slot = None
 
-    def toggle_color(self):
-        self.toggled = not self.toggled
-        if self.toggled:
-            self.colours["normal_bg"] = pygame.Color("darkgreen")
-            self.colours["hovered_bg"] = pygame.Color("black")
-        else:
-            self.colours["normal_bg"] = pygame.Color("darkred")
-            self.colours["hovered_bg"] = pygame.Color("black")
-        self.rebuild()
+    # --------------------------------------------------------------
+    # helper – reposition overlay widgets whenever the button moves
+    # --------------------------------------------------------------
+    def _sync_params(self):
+        abs_tl = self.get_abs_rect().topleft
+        for offset, widget in self._param_widgets:
+            new_pos = (abs_tl[0] + offset.x, abs_tl[1] + offset.y)
+            widget.set_position(new_pos)
 
+    # --------------------------------------------------------------
+    # OVERRIDE set_relative_position so every move stays in sync
+    # --------------------------------------------------------------
+    def set_relative_position(self, pos):
+        super().set_relative_position(pos)
+        self._sync_params()
+
+    # --------------------------------------------------------------
+    # process_event: **exactly** your old working drag logic
+    # (shortened here – add snapping back in as you had before)
+    # --------------------------------------------------------------
     def process_event(self, event):
         handled = super().process_event(event)
 
@@ -123,6 +167,12 @@ class DraggableBlock(UIButton):
             self.set_relative_position((rel_new_x, rel_new_y))
 
         return handled
+
+    # (optional) tidy‑up when the block is killed
+    def kill(self):
+        for _, widget in self._param_widgets:
+            widget.kill()
+        super().kill()
 
 
 class EditorPanel(UIPanel):

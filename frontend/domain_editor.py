@@ -1,7 +1,7 @@
 import pygame
 import pygame_gui
 from pygame_gui.elements import UIButton
-from domain_elements import EditorPanel, DraggableBlock, ActionWorkspace, all_workspaces
+from domain_elements import *
 
 pygame.init()
 pygame.display.set_caption("Domain Editor")
@@ -24,7 +24,7 @@ right_panel = EditorPanel(
     pygame.Rect(SCREEN_WIDTH - RIGHT_WIDTH, 0, RIGHT_WIDTH, SCREEN_HEIGHT), manager
 )
 
-# "Preset" buttons in the left panel:
+# "preset" buttons in the left panel:
 preset_texts = ["iscuttable", "isfried", "iscooked", "isboard", "loc", "isrolled"]
 preset_buttons = []
 for i, text in enumerate(preset_texts):
@@ -44,8 +44,16 @@ spawn_workspace_button = UIButton(
     container=left_panel,
 )
 
+# preset predicate parameters:
+# i1 = UIButton(
+#     relative_rect=pygame.Rect(60, 60 + len(preset_texts) * 50, 30, 30),
+#     text="i1",
+#     manager=manager,
+#     container=left_panel,
+# )
 
-blocks = []
+# preset_buttons.append(i1)
+
 
 clock = pygame.time.Clock()
 is_running = True
@@ -68,12 +76,28 @@ while is_running:
                     mouse_pos[1] - center_panel_topleft[1],
                 )
 
+                # if event.ui_element == i1:
+                #     new_block = DraggableBlock(
+                #         relative_rect=pygame.Rect(
+                #             (30, relative_mouse_pos[1]), (30, 30)
+                #         ),
+                #         manager=manager,
+                #         container=center_panel,
+                #         text=event.ui_element.text,
+                #         starting_height=3,
+                #         is_parameter=True,
+                #     )
+
                 new_block = DraggableBlock(
-                    relative_rect=pygame.Rect((30, relative_mouse_pos[1]), (120, 40)),
+                    pygame.Rect((30, relative_mouse_pos[1]), (200, 60)),
                     manager=manager,
                     container=center_panel,
-                    text=event.ui_element.text,
+                    text="iscuttable",
+                    param_defs=[
+                        ("obj", (130, 15), ["i1", "s1"]),
+                    ],
                 )
+
                 blocks.append(new_block)
             elif event.ui_element == spawn_workspace_button:
                 ws_x = center_panel.rect.x + 50
