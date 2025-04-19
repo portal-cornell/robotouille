@@ -97,6 +97,9 @@ class NinePatch:
         shrunk_left = (left/ (left + right)) * self.width if left + right > 0 else 0
         shrunk_right = (left/ (left + right)) * self.width if left + right > 0 else 0
 
+        if all(val < 5 for val in (shrunk_top, shrunk_bottom, shrunk_left, shrunk_right)):
+            shrunk_top = shrunk_bottom = shrunk_left = shrunk_right = 0
+            
         self.slices = {
             'top_left':     scale(self.raw_slices['top_left'], min(shrunk_left, left), min(shrunk_top, top)),
             'top':          scale(self.raw_slices['top'], center_w,  min(shrunk_top, top)),

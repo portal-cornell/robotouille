@@ -87,9 +87,9 @@ class RobotouilleSimulator:
 
  
     def get_object_location(self, name):
-        '''
+        """"
         name is instance of Backend.Object
-        '''
+        """
         ans = None
         for k,v in self.env.current_state.predicates.items():
             if ans is not None:
@@ -106,10 +106,9 @@ class RobotouilleSimulator:
         return ans
 
     def create_bar(self, effect):
-        '''
+        """
         Recursively goes through all nested effects and create/updates the progress bar
-        '''
-        print(effect)
+        """
         if isinstance(effect, RepetitiveEffect):
             x, y = self.get_object_location(effect.arg)
             self.renderer.update_progress_bar(effect.arg, x, y, percentage=effect.current_repetitions/effect.goal_repetitions)
@@ -122,9 +121,9 @@ class RobotouilleSimulator:
                 self.create_bar(subeffect)
 
     def update_bars(self):
-        '''
+        """
         iterates through special effects to update special effects
-        '''
+        """
         for effect in self.env.current_state.special_effects:
             self.create_bar(effect)
         
@@ -133,9 +132,7 @@ class RobotouilleSimulator:
     def update(self):
         """
         Main update loop for the simulation. Handles rendering, input, and game logic.
-
         """
-        
         if self.done:
             self.renderer.render(self.env.current_state)
             self.next_screen = ENDGAME

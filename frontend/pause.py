@@ -30,12 +30,12 @@ class PauseScreen(ScreenInterface):
         self.music_minus_button = Button(self.screen, self.minus_button_image, self.x_percent(549), self.y_percent(326), self.scale_factor)
         self.music_slider = Slider(self.screen, self.bar_bg_image, self.bar_fg_image, 327.71, 37, 304, 25,
                                     self.x_percent(556), self.y_percent(333), scale_factor=self.scale_factor,
-                                    foreground_padding=(10, 10, 0, 0), background_padding=(10, 10, 0, 0), anchor="topleft")
+                                    foreground_padding=(15, 15, 0, 0), background_padding=(15, 15, 0, 0), anchor="topleft")
         self.sfx_plus_button = Button(self.screen, self.plus_button_image, self.x_percent(840), self.y_percent(430), self.scale_factor)
         self.sfx_minus_button = Button(self.screen, self.minus_button_image, self.x_percent(549), self.y_percent(430), self.scale_factor)
         self.sfx_slider = Slider(self.screen, self.bar_bg_image, self.bar_fg_image, 327.71, 37, 304, 25,
                                     self.x_percent(556), self.y_percent(437.81), scale_factor=self.scale_factor, 
-                                    foreground_padding=(10, 10, 0, 0), background_padding=(10, 10, 0, 0),anchor="topleft")
+                                    foreground_padding=(15, 15, 0, 0), background_padding=(15, 15, 0, 0),anchor="topleft")
         self.resume_button = Button(self.screen, self.resume_button_image, self.x_percent(556), self.y_percent(501.1), self.scale_factor)
         self.retry_button = Button(self.screen, self.retry_button_image, self.x_percent(556), self.y_percent(619), self.scale_factor)
         self.exit_button = Button(self.screen, self.back_image, self.x_percent(556 + 335/2), self.y_percent(619), self.scale_factor)

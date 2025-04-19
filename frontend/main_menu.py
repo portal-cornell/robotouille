@@ -30,6 +30,9 @@ class MenuScreen(ScreenInterface):
                                     hover_image_source= self.start_hover_button_image, 
                                     pressed_image_source= self.start_pressed_button_image, 
                                     text = "SETTINGS", text_color=WHITE, anchor="center")
+        
+        self.start_button.scale_to_size(328, 100)
+        self.setting_button.scale_to_size(328, 100)
 
     def load_assets(self):
         """
