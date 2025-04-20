@@ -22,6 +22,7 @@ ENDGAME = 'end_game'
 LOADING = 'loading'
 LOGO = 'logo'
 MATCHMAKING = 'matchmaking'
+PROFILE = 'profile'
 
 SHARED_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "shared"))
 

@@ -1,5 +1,5 @@
 import pygame
-from frontend.constants import WHITE, SHARED_DIRECTORY, MATCHMAKING, SETTINGS, BLACK
+from frontend.constants import WHITE, SHARED_DIRECTORY, MATCHMAKING, SETTINGS, BLACK, PROFILE
 from frontend.button import Button
 from frontend.image import Image
 from frontend.screen import ScreenInterface
@@ -69,9 +69,14 @@ class MenuScreen(ScreenInterface):
     def update(self):
         """Update the screen and handle events."""
         super().update() 
-
+        mouse_pos = pygame.mouse.get_pos()
+        clicked_anywhere = False
         # Handle events
         for event in pygame.event.get():
+            # Check if the mouse is clicked anywhere on screen.
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                clicked_anywhere=True
+
             # Transitions to Matchmaking when start_button is pressed.
             if self.start_button.handle_event(event):
                 self.set_next_screen(MATCHMAKING)
@@ -79,12 +84,18 @@ class MenuScreen(ScreenInterface):
             if self.setting_button.handle_event(event):
                 self.set_next_screen(SETTINGS)
             
-            # Transitions for profile button
+            # Transitions for profile button.
             if self.profile_button.handle_event(event):
                 self.dropdown_visible = not self.dropdown_visible
 
             if self.dropdown_visible:
                 if self.edit_profile_button.handle_event(event):
-                    self.set_next_screen(SETTINGS)
+                    self.set_next_screen(PROFILE)
                 if self.setting_logo_button.handle_event(event):
                     self.set_next_screen(SETTINGS)
+        
+        # Close dropdown if mouse is clicked outside of the dropdown area.
+        if clicked_anywhere and self.dropdown_visible:
+            if not (self.edit_profile_button.in_bound() or self.setting_logo_button.in_bound() or
+                     self.profile_button.in_bound()):
+                self.dropdown_visible = False

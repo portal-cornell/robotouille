@@ -3,19 +3,20 @@ import pygame
 
 from game.simulator import RobotouilleSimulator
 
-from frontend.constants import SETTINGS, MAIN_MENU, GAME, ENDGAME, LOADING, LOGO, MATCHMAKING
+from frontend.constants import SETTINGS, MAIN_MENU, GAME, ENDGAME, LOADING, LOGO, MATCHMAKING, PROFILE
 from frontend.main_menu import MenuScreen
 from frontend.settings import SettingScreen
 from frontend.loading import LoadingScreen
 from frontend.logo import LogoScreen
 from frontend.endgame import EndScreen
 from frontend.matchmaking import MatchMakingScreen
+from frontend.profile import ProfileScreen
 
 from omegaconf import DictConfig, OmegaConf
 
 pygame.init()
 pygame.display.init()
-screen_size = (1440, 1024)
+screen_size = (800, 600)
 screen = pygame.display.set_mode(screen_size)
 simulator_screen_size = (512, 512) # TODO: Make this scale based on screen size
 # simulator_screen_size = screen_size
@@ -46,6 +47,7 @@ def game():
                 screens[SETTINGS] = SettingScreen(screen_size)
                 screens[ENDGAME] = EndScreen(screen_size)
                 screens[MATCHMAKING] = MatchMakingScreen(screen_size)
+                screens[PROFILE] = ProfileScreen(screen_size)
 
             if screen_obj.next_screen is not None:
                 current_screen = screen_obj.next_screen
