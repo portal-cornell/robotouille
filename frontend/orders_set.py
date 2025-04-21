@@ -21,6 +21,7 @@ TODO HENRY
 After customers have been integrated, fetch the recipes from json
 - add_order
 - update time based on someone passing in values
+- The owner of order_set should query for next_screen, if it's ENDGAME, the game should end 
 """
 # Set up the assets directory
 ASSETS_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "orders"))
@@ -136,11 +137,6 @@ BIG_SOUP = [
             "args": ["topbun", "water"],
             "ids": ["xi", "b"]
         },
-        #    {
-        #     "predicate": "addedto",
-        #     "args": ["bottombun", "water"],
-        #     "ids": ["xj", "b"]
-        # },
        {
             "predicate": "addedto",
             "args": ["lettuce", "water"],
@@ -350,16 +346,18 @@ FRIED_CHICKEN = [{
             "ids": [1]
         }]
 class OrdersCollection(ScreenInterface):
-    def __init__(self, window_size, config):
+    def __init__(self, window_size, config, time=30):
         """
         Initialize the OrdersCollection screen.  This class manage and display a collection of orders in the game.
 
         Args:
             window_size (tuple): A tuple (width, height) representing the size of the game window.
+            config (dict): A dictionary which maps floor, players, items, and stations to their assets and constants. 
+            time (int): number of seconds before before the level is over.
         """
         super().__init__(window_size)
         self.score = 0
-        self.time = 300
+        self.time = time
         self.orders = {}
 
         for count in range(4):
@@ -422,6 +420,21 @@ class OrdersCollection(ScreenInterface):
         remaining_seconds = seconds % 60
         return f"{minutes:02}:{remaining_seconds:02}"
     
+    def set_time(self, time):
+        """
+        Modifies the in-game clock.
+
+        time (int): represents the amount of time remaining.
+        """
+        self.time = max(time, 0)
+
+        self.time_box.text = self.convert_seconds_to_time(self.time)
+
+        if self.time == 0:
+            self.next_screen = ENDGAME
+
+        self.time_box.set_text(self.convert_seconds_to_time(self.time))
+
     def update_time(self):
         """
         Update the remaining time by decrementing it based on the elapsed time.
@@ -432,17 +445,8 @@ class OrdersCollection(ScreenInterface):
         seconds_passed = 0
         if elapsed_time >= 1000:
             seconds_passed = elapsed_time // 1000
-            self.time -= seconds_passed
+            self.set_time(self.time - seconds_passed)
             self.last_update_time += seconds_passed * 1000
-
-            self.time = max(self.time, 0)
-
-            self.time_box.text = self.convert_seconds_to_time(self.time)
-
-            if self.time == 0:
-                self.next_screen = ENDGAME
-
-        self.time_box.set_text(self.convert_seconds_to_time(self.time))
         
         # discard expire orders 
         discarded_order = False
