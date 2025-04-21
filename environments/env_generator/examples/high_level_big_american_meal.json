@@ -132,22 +132,22 @@
             "ids": [3]
         },
         {
-            "predicate": "atop",
+            "predicate": "atop_item",
             "args": ["topbun", "potato"],
             "ids": [4, 3]
         },
         {
-            "predicate": "atop",
+            "predicate": "atop_item",
             "args": ["potato", "onion"],
             "ids": [3, 1]
         },
         {
-            "predicate": "atop",
+            "predicate": "atop_item",
             "args": ["onion", "chicken"],
             "ids": [1, 2]
         },
         {
-            "predicate": "atop",
+            "predicate": "atop_item",
             "args": ["chicken", "bottombun"],
             "ids": [2, 5]
         }

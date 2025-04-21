@@ -56,7 +56,7 @@
     "goal_description": "Stack the held item on the other item",
     "goal": [
         {
-            "predicate": "atop",
+            "predicate": "atop_item",
             "args": ["item", "item"],
             "ids": ["a", "b"]
         }

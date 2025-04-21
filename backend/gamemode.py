@@ -7,12 +7,13 @@ class GameMode(ABC):
     and keeps track of their score. 
     """
     
-    def __init__(self, state, environment_json, recipe_json):
+    def __init__(self, state, domain_json, environment_json, recipe_json):
         """
         Initializes the GameMode object.
 
         Args:
             state (State): The game state.
+            domain_json (dict): The domain dictionary.
             environment_json (dict): The environment dictionary.
             recipe_json (dict): The recipe dictionary.
         """
@@ -38,7 +39,7 @@ class GameMode(ABC):
         self.customers = {}
         self.customer_id_counter = 0
         self.customer_queue = []
-        Customer.build_customers(environment_json, recipe_json, self)
+        Customer.build_customers(domain_json, environment_json, recipe_json, self)
 
     def get_state(self):
         """
@@ -69,18 +70,18 @@ class GameMode(ABC):
         pass
     
     @abstractmethod
-    def step(self, time, actions):
+    def step(self, actions, clock):
         """
         Steps the game mode.
 
         Args:
-            time (pygame.time): The time object.
             actions (List[Tuple[Action, Dictionary[str, Object]]): A list of
                 tuples where the first element is the action to perform, and the
                 second element is a dictionary of arguments for the action. The 
                 length of the list is the number of players, where actions[i] is
                 the action for player i. If player i is not performing an action,
                 actions[i] is None.
+            clock (pygame.time.Clock): The clock object.
 
         Returns:
             new_state (State): The successor state.

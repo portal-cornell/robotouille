@@ -25,11 +25,17 @@
         },
         {
             "name": "iscustomertable",
-            "param_types": ["station"]
+            "param_types": ["station"],
+            "language_descriptors": {
+                "0": "{0} is a customer table"
+            }
         },
         {
             "name": "iscustomerspawn",
-            "param_types": ["station"]
+            "param_types": ["station"],
+            "language_descriptors": {
+                "0": "{0} is a customer spawn point"
+            }
         },
         {
             "name": "isstove",
@@ -72,6 +78,13 @@
             "param_types": ["player"],
             "language_descriptors": {
                 "0": "{0} is a robot"
+            }
+        },
+        {
+            "name": "isgirl",
+            "param_types": ["customer"],
+            "language_descriptors": {
+                "0": "{0} is a girl"
             }
         },
         {
@@ -245,28 +258,42 @@
         },
         {
             "name": "customer_loc",
-            "param_types": ["customer", "station"]
+            "param_types": ["customer", "station"],
+            "language_descriptors": {
+                "0": "{0} is at {1}",
+                "1": "{1} is occupied by {0}"
+            }
         },
         {
             "name": "customer_served",
-            "param_types": ["customer"]
+            "param_types": ["customer"],
+            "language_descriptors": {
+                "0": "{0} has been served"            
+            }
         },
         {
             "name": "customer_has_eaten",
-            "param_types": ["customer"]
+            "param_types": ["customer"],
+            "language_descriptors": {
+                "0": "{0} has eaten"
+            }
         },
         {
             "name": "table_occupied",
-            "param_types": ["station"]
+            "param_types": ["station"],
+            "language_descriptors": {
+                "0": "{0} is occupied by a customer"
+            }
         },
         {
             "name": "customer_in_game",
-            "param_types": ["customer"]
+            "param_types": ["customer"],
+            "language_descriptors": {
+                "0": "{0} is in the game"
+            }
         },
         {
             "name": "at_station",
-            "param_types": ["item", "station"]
-            "name": "item_at",
             "param_types": ["item", "station"],
             "language_descriptors": {
                 "0": "{0} is at {1}",
@@ -275,7 +302,11 @@
         },
         {
             "name": "at_container",
-            "param_types": ["item", "container"]
+            "param_types": ["item", "container"],
+            "language_descriptors": {
+                "0": "{0} is at {1}",
+                "1": "{1} has {0}"
+            }
         },
         {
             "name": "nothing",
@@ -300,7 +331,10 @@
         },
         {
             "name": "container_clear",
-            "param_types": ["container"]
+            "param_types": ["container"],
+            "language_descriptors": {
+                "0": "{0} is clear"
+            }
         },
         {
             "name": "item_on",
@@ -325,8 +359,16 @@
             }
         },
         {
-            "name": "atop",
+            "name": "atop_item",
             "param_types": ["item", "item"],
+            "language_descriptors": {
+                "0": "{0} is directly on top of {1}",
+                "1": "{1} is directly under {0}"
+            }
+        },
+        {
+            "name": "atop_container",
+            "param_types": ["item", "container"],
             "language_descriptors": {
                 "0": "{0} is directly on top of {1}",
                 "1": "{1} is directly under {0}"
@@ -1152,7 +1194,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "atop",
+                    "predicate": "atop_item",
                     "params": ["i1", "i2"],
                     "is_true": true
                 },
@@ -1189,7 +1231,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "atop",
+                    "predicate": "atop_item",
                     "params": ["i1", "i2"],
                     "is_true": true
                 },
@@ -1226,7 +1268,7 @@
                     "is_true": false
                 },
                 {
-                    "predicate": "atop",
+                    "predicate": "atop_item",
                     "params": ["i1", "i2"],
                     "is_true": false
                 },
@@ -1305,7 +1347,8 @@
                     "is_true": true
                 }
             ],
-            "sfx": []
+            "sfx": [],
+            "language_description": "Place {i1} on top of {c1} using {p1}"
         },
         {
             "name": "pickup-from-container",
@@ -1368,7 +1411,8 @@
                     "is_true": false
                 }
             ],
-            "sfx": []
+            "sfx": [],
+            "language_description": "Pick up {i1} from {c1} using {p1}"
         },
         {
             "name": "stack-onto-container-stack",
@@ -1411,7 +1455,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "atop",
+                    "predicate": "atop_item",
                     "params": ["i1", "i2"],
                     "is_true": true
                 },
@@ -1431,7 +1475,8 @@
                     "is_true": false
                 }
             ],
-            "sfx": []
+            "sfx": [],
+            "language_description": "Stack {i1} on top of {i2} using {p1}"
         },
         {
             "name": "unstack-from-container-stack",
@@ -1447,7 +1492,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "atop",
+                    "predicate": "atop_item",
                     "params": ["i1", "i2"],
                     "is_true": true
                 },
@@ -1489,7 +1534,7 @@
                     "is_true": false
                 },
                 {
-                    "predicate": "atop",
+                    "predicate": "atop_item",
                     "params": ["i1", "i2"],
                     "is_true": false
                 },
@@ -1504,7 +1549,8 @@
                     "is_true": false
                 }
             ],
-            "sfx": []
+            "sfx": [],
+            "language_description": "Unstack {i1} from {i2} using {p1}"
         },
         {
             "name": "wait",
@@ -1532,7 +1578,8 @@
                     "is_true": true
                 }
             ],
-            "sfx": []
+            "sfx": [],
+            "language_description": "Enter the game using {npc1}"
         },
         {
             "name": "customer_move",
@@ -1560,7 +1607,8 @@
                     "is_true": true
                 }
             ],
-            "sfx": []
+            "sfx": [],
+            "language_description": "Move {npc1} to {s2}"
         },
         {
             "name": "customer_eat",
@@ -1629,7 +1677,8 @@
                         }
                     ]
                 }
-            ]
+            ],
+            "language_description": "Eat from {c1} on {s1} using {npc1}"
         },
         {
             "name": "customer_leave",
@@ -1677,7 +1726,8 @@
                     "is_true": true
                 }
             ],
-            "sfx": []
+            "sfx": [],
+            "language_description": "Leave {s1} using {npc1}"
         }
     ]
 }

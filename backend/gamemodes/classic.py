@@ -8,17 +8,18 @@ class Classic(GameMode):
     limit. They win if they do this, and lose otherwise. 
     """
 
-    def __init__(self, state, environment_json, recipe_json):
+    def __init__(self, state, domain_json, environment_json, recipe_json):
         """
         Initializes the Classic gamemode.
 
         Args:
             state (State): The game state.
+            domain_json (dict): The domain dictionary.
             environment_json (dict): The environment dictionary. 
             recipe_json (dict): The recipe dictionary.   
             movement (Movement): The movement object.
         """
-        super().__init__(state, environment_json, recipe_json)
+        super().__init__(state, domain_json, environment_json, recipe_json)
         self.time_limit = environment_json["gamemode"]["time"]
 
     def check_if_player_has_won(self, time):
@@ -35,7 +36,7 @@ class Classic(GameMode):
             self.win = True
             self.score = 1
 
-    def step(self, actions, clock, time):
+    def step(self, actions, time, clock):
         """
         Steps the game mode.
 
@@ -46,8 +47,8 @@ class Classic(GameMode):
                 length of the list is the number of players, where actions[i] is
                 the action for player i. If player i is not performing an action,
                 actions[i] is None.
-            clock (pygame.time.Clock): The clock object.
             time (pygame.time): The time object.
+            clock (pygame.time.Clock): The clock object.
 
         Returns:
             new_state (State): The successor state.

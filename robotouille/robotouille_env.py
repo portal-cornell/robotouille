@@ -94,5 +94,5 @@ def create_robotouille_env(problem_filename, movement_mode, seed=None, noisy_ran
     domain_filename = "domain/robotouille.json"
     with open(domain_filename, "r") as domain_file:
         domain_json = json.load(domain_file)
-    env = RobotouilleEnv(domain_json, environment_json, renderer, layout, movement_mode, clock=clock)
+    env = RobotouilleEnv(domain_json, environment_json, renderer, layout, movement_mode, time=pygame.time)
     return env

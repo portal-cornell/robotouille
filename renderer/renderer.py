@@ -14,7 +14,7 @@ class RobotouilleRenderer:
     """
 
 
-    def __init__(self,  config_filename, layout=[], tiling=None, players=[], customers=[], creen_size=np.array([512,512]), render_fps=60, screen=None):
+    def __init__(self,  config_filename, layout=[], tiling=None, players=[], customers=[], screen_size=np.array([512,512]), render_fps=60, screen=None):
         """
         Initializes the renderer.
 
@@ -35,6 +35,8 @@ class RobotouilleRenderer:
         self.layout = layout
         # The players in the game.
         self.players = players
+        # The customers in the game.
+        self.customers = customers
         # Empty tiling if not provided
         self.tiling = tiling
         # The size of the screen
@@ -81,7 +83,7 @@ class RobotouilleRenderer:
                 np.array(pygame.surfarray.pixels3d(surface)), axes=(1, 0, 2)
             )
 
-    def render(self, state):
+    def render(self, gamemode):
         """
         This function is called by PDDLGym environments to render the game state.
 
@@ -90,14 +92,14 @@ class RobotouilleRenderer:
         ends, we also hide the window.
 
         Parameters:
-            state (State):
-                The current game state
+            state (Gamemode): 
+                The game mode object
             mode (str):
                 Either "human" or "rgb_array"
             close (bool):
                 Whether to close the pygame window
         """
-        self.canvas.draw_to_surface(self.screen, state)
+        self.canvas.draw_to_surface(self.screen, gamemode)
         return np.transpose(
             np.array(pygame.surfarray.pixels3d(self.screen)), axes=(1, 0, 2)
         )
@@ -108,4 +110,4 @@ class RobotouilleRenderer:
 
         This function is called by PDDLGym environments when they are reset.
         """
-        self.canvas = RobotouilleCanvas(self.config, self.layout, self.tiling, self.players, self.screen_size)
+        self.canvas = RobotouilleCanvas(self.config, self.layout, self.tiling, self.players, self.customers, self.screen_size)

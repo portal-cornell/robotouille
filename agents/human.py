@@ -95,8 +95,8 @@ class Human(Agent):
                 The proposed actions to take; humans take one action at a time.
         """
         current_state = env.current_state
-        player_obj = Player.get_player(current_state.current_player.name)
-        if Movement.is_player_moving(player_obj.name):
+        player_obj = Player.get_player(env.gamemode, current_state.current_player.name)
+        if env.gamemode.movement.is_player_moving(player_obj.name):
             return [(None, None)]
         # Retrieve action from human input
         pygame_events = pygame.event.get()

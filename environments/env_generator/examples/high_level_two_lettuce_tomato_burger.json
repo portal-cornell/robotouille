@@ -252,22 +252,22 @@
             "ids": [3]
         },
         {
-            "predicate": "atop",
+            "predicate": "atop_item",
             "args": ["topbun", "lettuce"],
             "ids": [4, 1]
         },
         {
-            "predicate": "atop",
+            "predicate": "atop_item",
             "args": ["lettuce", "tomato"],
             "ids": [1, 2]
         },
         {
-            "predicate": "atop",
+            "predicate": "atop_item",
             "args": ["tomato", "patty"],
             "ids": [2, 3]
         },
         {
-            "predicate": "atop",
+            "predicate": "atop_item",
             "args": ["patty", "bottombun"],
             "ids": [3, 5]
         },
@@ -287,22 +287,22 @@
             "ids": [8]
         },
         {
-            "predicate": "atop",
+            "predicate": "atop_item",
             "args": ["topbun", "lettuce"],
             "ids": [9, 6]
         },
         {
-            "predicate": "atop",
+            "predicate": "atop_item",
             "args": ["lettuce", "tomato"],
             "ids": [6, 7]
         },
         {
-            "predicate": "atop",
+            "predicate": "atop_item",
             "args": ["tomato", "patty"],
             "ids": [7, 8]
         },
         {
-            "predicate": "atop",
+            "predicate": "atop_item",
             "args": ["patty", "bottombun"],
             "ids": [8, 10]
         }

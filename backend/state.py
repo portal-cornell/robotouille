@@ -156,7 +156,7 @@ class State(object):
         """
         return [obj for obj in self.objects if obj.object_type == "customer"]
       
-    def initialize(self, domain, objects, true_predicates, all_goals, goal_description, movement, special_effects=[]):
+    def initialize(self, domain, objects, true_predicates, all_goals, goal_description, special_effects=[]):
         """
         Initializes a state object.
 
@@ -179,8 +179,6 @@ class State(object):
                 The goal predicates of the game. 
             goal_description (str):
                 The natural language description of the goal.
-            movement (Movement): The movement object that handles the movement
-                of players in the state.
             special_effects (List[Special_effects]): The special effects that 
                 are active in the state.
 
@@ -213,7 +211,6 @@ class State(object):
         self.actions, self.npc_actions = self._build_actions(objects)
         self.goal = all_goals
         self.goal_description = goal_description
-        self.movement = movement
         self.special_effects = special_effects
 
         return self
@@ -477,6 +474,7 @@ class State(object):
             - The current state is stepped to the next state with the provided actions
         
         Returns:
+            new_state (State): The new state after the actions are performed.
             done (bool): True if the goal is reached, False otherwise.
 
         Raises:
@@ -496,8 +494,7 @@ class State(object):
                 self.special_effects.remove(special_effect)
         
         if self.is_goal_reached():
-            return True
+            return self, True
         
-
-        return False
+        return self, False
     

@@ -139,12 +139,12 @@
             "ids": [1]
         },
         {
-            "predicate": "atop",
+            "predicate": "atop_item",
             "args": ["topbun", "chicken"],
             "ids": [2, 1]
         },
         {
-            "predicate": "atop",
+            "predicate": "atop_item",
             "args": ["chicken", "bottombun"],
             "ids": [1, 3]
         }

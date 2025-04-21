@@ -114,12 +114,12 @@ def _build_special_effects(defn, param_objs, predicate_dict):
 
     return special_effects
 
-def _build_action_defs(input_json, predicate_defs, action_type):
+def _build_action_defs(domain_json, predicate_defs, action_type):
     """
     This function builds action definitions from a JSON input.
 
     Args:
-        input_json (str): The JSON input.
+        domain_json (Dict[str, Any]): The JSON representation of the domain.
         predicate_defs (List[Predicate]): The predicate definitions.
         action_type (str): Whether the action is a player action or an NPC action.
 
@@ -133,7 +133,7 @@ def _build_action_defs(input_json, predicate_defs, action_type):
 
     param_objs = {}
 
-    for action in input_json[action_type]:
+    for action in domain_json[action_type]:
 
         name = action["name"]
         precons = _build_pred_list(
@@ -165,9 +165,9 @@ def build_domain(domain_json):
 
     predicate_defs = _build_predicate_defs(domain_json)
 
-    action_defs = _build_action_defs(input_json, predicate_defs, "player_action_defs")
+    action_defs = _build_action_defs(domain_json, predicate_defs, "player_action_defs")
 
-    npc_action_defs = _build_action_defs(input_json, predicate_defs, "npc_action_defs")
+    npc_action_defs = _build_action_defs(domain_json, predicate_defs, "npc_action_defs")
 
     domain = Domain().initialize(name, object_types, predicate_defs, action_defs, npc_action_defs)
 

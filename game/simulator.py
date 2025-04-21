@@ -57,7 +57,7 @@ class RobotouilleSimulator:
         """
         Renders the current state of the game environment and pause screen onto the main screen.
         """
-        self.renderer.render(self.env.current_state)
+        self.renderer.render(self.env.gamemode)
         self.screen.blit(self.renderer.screen, (0, 0))
         self.screen.blit(self.pause.get_screen(), (0, 0))
 
@@ -92,7 +92,7 @@ class RobotouilleSimulator:
         """
         
         if self.done:
-            self.renderer.render(self.env.current_state)
+            self.renderer.render(self.env.gamemode)
             self.next_screen = ENDGAME
             return
         

@@ -10,7 +10,7 @@ class Customer(object):
     order to them. 
     """
 
-    def __init__(self, name, pos, direction, order, time_to_serve, enter_time, gamemode):
+    def __init__(self, name, pos, direction, order_name, order, time_to_serve, enter_time, gamemode):
         """
         Initializes the customer object.
 
@@ -18,7 +18,8 @@ class Customer(object):
             name (str): The name of the customer.
             pos (tuple): The position of the customer in the form (x, y).
             direction (tuple): The unit vector of the customer's direction.
-            order (str): The name of the order the customer wants.
+            order_name (str): The name of the order the customer wants.
+            order (list): The list of predicates that make up the order.
             time_to_serve (int): The time left that the player has to serve the 
                 customer in milliseconds.
             enter_time (int): The time at which the customer enters the game
@@ -29,6 +30,7 @@ class Customer(object):
         self.name = name
         self.pos = pos
         self.direction = direction
+        self.order_name = order_name
         self.order = order
         self.time_to_serve = time_to_serve
         self.enter_time = enter_time
@@ -42,11 +44,12 @@ class Customer(object):
         gamemode.customer_id_counter += 1
         gamemode.customers[name] = self
     
-    def build_customers(environment_json, recipe_json, gamemode):
+    def build_customers(domain_json, environment_json, recipe_json, gamemode):
         """
         Builds the customers in the environment.
 
         Args:
+            domain_json (dict): The domain json.
             environment_json (dict): The environment json.
             recipe_json (dict): The recipe_json
             gamemode (GameMode): The game mode object.
@@ -66,10 +69,11 @@ class Customer(object):
                 name = customer["name"]
                 pos = (customer["x"], customer["y"])
                 direction = (customer["direction"][0], customer["direction"][1])
-                order = customer["order"]
+                order_name = customer["order"]
+                order = build_goal(domain_json, environment_json, recipe_json["recipes"][order_name])
                 time_to_serve = customer["time_to_serve"]
                 enter_time = customer["enter_time"]
-                customer = Customer(name, pos, direction, order, time_to_serve, enter_time, gamemode)
+                customer = Customer(name, pos, direction, order_name, order, time_to_serve, enter_time, gamemode)
                 customer_obj = Object(customer.name, "customer")
                 customers.append(customer_obj)
         return customers
@@ -87,10 +91,8 @@ class Customer(object):
 
         Returns:
             bool: True if the order is satisfied, False otherwise.
-        """
-        order_list = build_goal(gamemode.environment_json, gamemode.recipe_json["recipes"][self.order])
-        
-        for order in order_list:
+        """        
+        for order in self.order:
             result = True
             for predicate in order:
                 result &= state.get_predicate_value(predicate)
@@ -98,7 +100,7 @@ class Customer(object):
                 return True
         return False
     
-    def _get_empty_table(self, state):
+    def _get_empty_table(self, gamemode):
         """
         Checks if a table is available for the customer.
 
@@ -109,12 +111,17 @@ class Customer(object):
             table (Object): Returns the first empty table or None if no tables
                 are available.
         """
+        state = gamemode.get_state()
         customer_tables = []
 
         for predicate, value in state.predicates.items():
             if predicate.name == "iscustomertable" and value:
                 customer_tables.append(predicate.params[0])
 
+        for customer in gamemode.customers.values():
+            if customer.assigned_table:
+                customer_tables.remove(customer.assigned_table)
+        
         for predicate, value in state.predicates.items():
             if predicate.name == "table_occupied" and not value and predicate.params[0] in customer_tables:
                 return predicate.params[0]
@@ -193,7 +200,7 @@ class Customer(object):
         # and if there are any available tables
         elif len(gamemode.customer_queue) > 0:
             if gamemode.customer_queue[0] == self:
-                self.assigned_table = self._get_empty_table(state)
+                self.assigned_table = self._get_empty_table(gamemode)
                 if self.assigned_table:
                     gamemode.customer_queue.pop()
         
@@ -218,6 +225,7 @@ class Customer(object):
                         and param_arg_dict["s2"].name == "customerspawn1" and param_arg_dict["s1"].name == self.assigned_table.name:
                     assert action.is_valid(state, param_arg_dict)
                     self.in_game = False
+                    self.assigned_table = None
                     return (action, param_arg_dict)
                 
                 # Customer should move to the table if they have been assigned a table

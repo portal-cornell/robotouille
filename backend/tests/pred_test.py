@@ -23,7 +23,7 @@ is_lettuce_def = Predicate().initialize("is_lettuce", ["item"])
 is_onion_def = Predicate().initialize("is_onion", ["item"])
 is_table_def = Predicate().initialize("is_table", ["station"])
 on_def = Predicate().initialize("on", ["station", "item"])
-atop_def = Predicate().initialize("atop", ["item", "item"])
+atop_def = Predicate().initialize("atop_item", ["item", "item"])
 
 patty1 = Object("patty1", "item")
 patty2 = Object("patty2", "item")
@@ -51,7 +51,7 @@ state = State().initialize(domain,
                 Predicate().initialize("is_table", ["station"], [table2]),
                 Predicate().initialize("on", ["station", "item"], [table1, patty1]),
                 Predicate().initialize("on", ["station", "item"], [table2, lettuce1]),
-                Predicate().initialize("atop", ["item", "item"], [patty1, lettuce1]),
+                Predicate().initialize("atop_item", ["item", "item"], [patty1, lettuce1]),
             },
             [])
 
@@ -68,5 +68,5 @@ assert state.get_predicate_value(Predicate().initialize("is_onion", ["item"], [o
 assert state.get_predicate_value(Predicate().initialize("is_table", ["station"], [table2]))
 assert state.get_predicate_value(Predicate().initialize("on", ["station", "item"], [table1, patty1]))
 assert state.get_predicate_value(Predicate().initialize("on", ["station", "item"], [table2, lettuce1]))
-assert state.get_predicate_value(Predicate().initialize("atop", ["item", "item"], [patty1, lettuce1]))
+assert state.get_predicate_value(Predicate().initialize("atop_item", ["item", "item"], [patty1, lettuce1]))
 

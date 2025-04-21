@@ -671,7 +671,7 @@ class RobotouilleCanvas:
                 # Place the item slightly above the station
                 pos[1] -= station_item_offset 
                 self._draw_item_image(surface, item, obs, pos * self.pix_square_size)
-            if is_true and literal.name == 'atop':
+            if is_true and literal.name == 'atop_item':
                 stack = (literal.params[0].name, literal.params[1].name)
                 stack_list.append(stack)
             if is_true and literal.name == "atop_container":
