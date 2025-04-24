@@ -33,13 +33,13 @@ for x in range(TAB1_TYPES):
     img = pygame.transform.scale(img, (TILE_SIZE, TILE_SIZE))
     img_list.append(img)
 
-print(img_list)
+# print(img_list)
 img_list1 = img_list[:3]
-print(img_list1)
+# print(img_list1)
 img_list2 = img_list[3:6]
-print(img_list2)
+# print(img_list2)
 img_list3 = img_list[6:]
-print(img_list3)
+# print(img_list3)
 
 background = pygame.Surface((SCREEN_WIDTH + SIDE_MARGIN, SCREEN_HEIGHT + LOWER_MARGIN))
 background.fill(BEIGE)
@@ -118,27 +118,28 @@ while is_running:
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            print("[Finished in " + str(time_delta)  + "s]")
+            # print("[Finished in " + str(time_delta)  + "s]")
             is_running = False
         if event.type == pygame_gui.UI_BUTTON_PRESSED:
-            print(selected_tab)
+            print(layer_list, selected_tab)
             if selected_tab == 1:
+                print('tab1', selected_tab, len(button_list1))
                 for i in range(len(button_list1)):
                     if event.ui_element == button_list1[i]:
                         selected_item = i + 1
-                        print(f"Selected: item {selected_item}")
+                        print(f"Selected: item {selected_item}", button_list1[i].text)
             elif selected_tab == 2:
-                print(button_list2)
+                print("inside", button_list2)
                 for i in range(len(button_list2)):
-                    print(event.ui_element == button_list2[i])
-                    # if event.ui_element == button_list[i]:
-                    #     selected_item = 3 + i + 1
-                    #     print(f"Selected: item {selected_item}")
+                    print("tab 2", event.ui_element == button_list2[i])
+                    if event.ui_element == button_list2[i]:
+                        selected_item = 3 + i + 1
+                        print(f"Selected: item {selected_item}", button_list2[i].text)
             elif selected_tab == 3:
                 for i in range(len(button_list3)):
                     if event.ui_element == button_list3[i]:
                         selected_item = 6 + i + 1
-                        print(f"Selected: item {selected_item}")
+                        print(f"Selected: item {selected_item}", button_list3[i].text)
             # for i in range(len(button_list)):
             #     if event.ui_element == button_list[i]:
             #         selected_item = i + 1
@@ -163,7 +164,7 @@ while is_running:
                         for i in range(3):
                             tile_button = pygame_gui.elements.UIButton(
                                 relative_rect=pygame.Rect(((75 * button_col) + 50, 75 * button_row + 100),
-                                                          (50, 50)), text='', manager=manager, container=side_panel)
+                                                          (50, 50)), text='item' + str(i + 1), manager=manager, container=side_panel)
                             caption_label = pygame_gui.elements.UILabel(
                                 relative_rect=pygame.Rect(((75 * button_col) + 40, 75 * button_row + 150),
                                                           (75, 25)), text='item' + str(i + 1), manager=manager, container=side_panel)
@@ -175,8 +176,8 @@ while is_running:
                                 button_col = 0
                     elif selected_tab == 2:
                         for i in range(3):
-                            print(button_list2)
-                            tile_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((SCREEN_WIDTH + (75 * button_col) + 50, 75 * button_row + 100), (50, 50)), text='', manager=manager)
+                            # print(button_list2)
+                            tile_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((SCREEN_WIDTH + (75 * button_col) + 50, 75 * button_row + 100), (50, 50)),  text='item' + str(3 + i + 1), manager=manager)
                             caption_label = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((SCREEN_WIDTH + (75 * button_col) + 40, 75 * button_row + 150), (75, 25)), text='item' + str(3 + i + 1), manager=manager)
                             button_list2.append(tile_button)
                             caption_list2.append(caption_label)
@@ -187,7 +188,7 @@ while is_running:
 
                     else:
                         for i in range(2):
-                            tile_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((SCREEN_WIDTH + (75 * button_col) + 50, 75 * button_row + 100), (50, 50)), text='', manager=manager)
+                            tile_button = pygame_gui.elements.UIButton(relative_rect=pygame.Rect((SCREEN_WIDTH + (75 * button_col) + 50, 75 * button_row + 100), (50, 50)), text='item' + str(6 + i + 1), manager=manager)
                             caption_label = pygame_gui.elements.UILabel(relative_rect=pygame.Rect((SCREEN_WIDTH + (75 * button_col) + 40, 75 * button_row + 150), (75, 25)), text='item' + str(6 + i + 1), manager=manager)
                             button_list3.append(tile_button)
                             caption_list3.append(caption_label)
