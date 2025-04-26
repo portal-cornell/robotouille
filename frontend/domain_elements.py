@@ -1,6 +1,12 @@
 import pygame
 import pygame_gui
-from pygame_gui.elements import UIPanel, UIButton, UILabel, UITextBox, UIDropDownMenu
+from pygame_gui.elements import (
+    UIPanel,
+    UIButton,
+    UIScrollingContainer,
+    UITextBox,
+    UIDropDownMenu,
+)
 
 
 # def update_positions(root):
@@ -41,25 +47,31 @@ class DraggableBlock(UIButton):
             text=text,
             manager=manager,
             container=container,
+            starting_height=2,
             **kwargs,
         )
 
         #  create & memorise each param dropdown
         self._param_widgets = []  # list of (offset, widget)
         for label, pos, options in param_defs or []:
+            dd_rect = pygame.Rect(
+                relative_rect.x + pos[0] - 25, relative_rect.y + pos[1] - 10, 50, 30
+            )
             dd = UIDropDownMenu(
                 options_list=options,
                 starting_option=options[0],
-                relative_rect=pygame.Rect(
-                    relative_rect.x + pos[0] - 40, relative_rect.y + pos[1] - 10, 50, 30
-                ),
+                relative_rect=dd_rect,
                 manager=manager,
                 container=container,
             )
-            offset = pygame.Vector2(pos)  # offset w.r.t. block.topleft
+
+            # real offset = menu-topleft minus block-topleft
+            offset = pygame.Vector2(dd_rect.topleft) - pygame.Vector2(
+                relative_rect.topleft
+            )
             self._param_widgets.append((offset, dd))
 
-        # ❸ drag state
+        # drag state
         self.is_dragging = False
         self._drag_offset = (0, 0)
         self.docked_slot = None
@@ -161,9 +173,19 @@ class DraggableBlock(UIButton):
         super().kill()
 
 
-class EditorPanel(UIPanel):
-    def __init__(self, relative_rect, manager, bg_color=pygame.Color("#2d2d2d")):
-        super().__init__(relative_rect=relative_rect, manager=manager)
+class EditorPanel(UIScrollingContainer):
+    def __init__(
+        self,
+        relative_rect,
+        manager,
+        bg_color=pygame.Color("#E0F1F8"),
+        starting_height=1,
+    ):
+        super().__init__(
+            relative_rect=relative_rect,
+            manager=manager,
+            starting_height=starting_height,
+        )
         self.background_colour = bg_color
         self.rebuild()
 
@@ -174,8 +196,7 @@ class ActionWorkspace(UIPanel):
         relative_rect,
         manager,
         container=None,
-        text="New Action",
-        bg_color=pygame.Color(168, 208, 230),
+        bg_color=pygame.Color("#DCEAF4"),
         **kwargs
     ):
         super().__init__(
@@ -193,7 +214,7 @@ class ActionWorkspace(UIPanel):
 
         self.top_label = UITextBox(
             html_text="<font color=#FFFFFF><b>New Action</b></font>",
-            relative_rect=pygame.Rect(0, 0, 500, 50),
+            relative_rect=pygame.Rect(0, 0, self.relative_rect.w, 50),
             manager=manager,
             container=self,
         )
@@ -250,20 +271,20 @@ class ActionWorkspace(UIPanel):
                 y = base_y + row * (SLOT_H + V_SPACING)
                 self.slots.append(Slot((x, y)))
 
-    # def draw_debug_slots(self, surf):
-    #     for slot in self.slots:
-    #         abs_x = self.get_abs_rect().x + slot.rel_pos[0]
-    #         abs_y = self.get_abs_rect().y + slot.rel_pos[1]
-    #         pygame.draw.rect(
-    #             surf,
-    #             (
-    #                 pygame.Color("gray")
-    #                 if slot.occupied is None
-    #                 else pygame.Color("darkgreen")
-    #             ),
-    #             pygame.Rect((abs_x, abs_y), slot.size),
-    #             2,
-    #         )
+    def draw_debug_slots(self, surf):
+        for slot in self.slots:
+            abs_x = self.get_abs_rect().x + slot.rel_pos[0]
+            abs_y = self.get_abs_rect().y + slot.rel_pos[1]
+            pygame.draw.rect(
+                surf,
+                (
+                    pygame.Color("gray")
+                    if slot.occupied is None
+                    else pygame.Color("darkgreen")
+                ),
+                pygame.Rect((abs_x, abs_y), slot.size),
+                2,
+            )
 
     def get_snap_slot(self, block_abs_rect):
         """Return a free Slot whose (inflated) rect contains block centre, else None."""
@@ -280,3 +301,26 @@ class ActionWorkspace(UIPanel):
 
     def attach_block(self, block):
         self.attached_blocks.append(block)
+
+
+class ObjectWorkspace(UIPanel):
+    def __init__(
+        self,
+        relative_rect,
+        manager,
+        container=None,
+        bg_color=pygame.Color("#DCEAF4"),
+        **kwargs
+    ):
+        super().__init__(
+            relative_rect=relative_rect,
+            manager=manager,
+            container=container,
+            starting_height=1,
+            **kwargs,
+        )
+        self.background_colour = bg_color
+        self.rebuild()
+        self.attached_blocks = []
+
+        self.slots = []
