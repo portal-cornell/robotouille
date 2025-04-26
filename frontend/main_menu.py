@@ -69,7 +69,6 @@ class MenuScreen(ScreenInterface):
     def update(self):
         """Update the screen and handle events."""
         super().update() 
-        mouse_pos = pygame.mouse.get_pos()
         clicked_anywhere = False
         # Handle events
         for event in pygame.event.get():
