@@ -45,7 +45,7 @@ def get_openai_llms():
     if len(OPENAI_MODELS) == 0:
         client = openai.OpenAI()
         openai_models = client.models.list()
-        OPENAI_MODELS = [model.id for model in openai_models if 'gpt' in model.id]
+        OPENAI_MODELS = [model.id for model in openai_models]
     return OPENAI_MODELS
 
 def convert_to_google_message(messages):

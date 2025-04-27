@@ -9,12 +9,14 @@ class CostEstimator:
     MODEL_SYNONYMS = {
         "gpt-4": "gpt-4-0613",
         "gpt-3.5-turbo": "gpt-3.5-turbo-0125",
+        "o4-mini": "o4-mini-2025-04-16",
     }
 
     # Source: https://openai.com/pricing
     # Prices in $ per 1000 tokens
     # Last updated: 2024-01-26
     PRICES = {
+        "o4-mini-2025-04-16": {"input": 0.00110, "output": 0.00440},
         "gpt-4o-mini": {"input": 0.00015, "output": 0.0006},
         "gpt-4o-2024-08-06": {"input": 0.0025, "output": 0.01},
         "gpt-4o": {"input": 0.0025, "output": 0.01},
