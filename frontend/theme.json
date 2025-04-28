@@ -1,6 +1,28 @@
 {
-    "defaults": 
+    "button":
     {
-        
+        "misc":
+        {
+            "text_horiz_alignment": "left",
+            "shape": "rounded_rectangle",
+            "shape_corner_radius": "10"
+
+        }
+    },
+    "panel":
+    {
+        "misc":
+        {
+            "shape": "rounded_rectangle",
+            "shape_corner_radius": "10"
+        }
+    },
+    "text_box":
+    {
+        "misc":
+        {
+            "shape": "rounded_rectangle",
+            "shape_corner_radius": "10"
+        }
     }
 }

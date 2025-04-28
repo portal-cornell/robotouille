@@ -2,25 +2,38 @@ import pygame
 import pygame_gui
 from pygame_gui.elements import UIButton
 from domain_elements import *
+import json
+import os
+
+# json initialization
+
+json_path = os.path.join(os.path.dirname(__file__), "..", "domain", "robotouille.json")
+json_path = os.path.normpath(json_path)
+with open(json_path, "r") as file:
+    data = json.load(file)
+
+# def serialize_new_action(action: ActionWorkspace):
+
 
 pygame.init()
 pygame.display.set_caption("Domain Editor")
 
-# Window & manager
+
+# window & manager
 SCREEN_WIDTH, SCREEN_HEIGHT = 1600, 1000
 window_surface = pygame.display.set_mode(
     (SCREEN_WIDTH, SCREEN_HEIGHT), pygame.RESIZABLE
 )
-manager = pygame_gui.UIManager((SCREEN_WIDTH, SCREEN_HEIGHT))
+manager = pygame_gui.UIManager((SCREEN_WIDTH, SCREEN_HEIGHT), "theme.json")
 
 
-# Panels
-LEFT_WIDTH = 200
-RIGHT_WIDTH = 200
+# panels
+LEFT_WIDTH = 250
+RIGHT_WIDTH = 250
 CENTER_WIDTH = SCREEN_WIDTH - LEFT_WIDTH - RIGHT_WIDTH
 
 INITIAL_TOTAL = 1600
-INITIAL_SIDE = 200
+INITIAL_SIDE = 250
 SIDE_RATIO = INITIAL_SIDE / INITIAL_TOTAL
 
 left_panel = EditorPanel(
@@ -28,6 +41,7 @@ left_panel = EditorPanel(
     manager,
     starting_height=1,
     bg_color=pygame.Color("#DCEAF4"),
+    allow_scroll_x=False,
 )
 center_panel = EditorPanel(
     pygame.Rect(LEFT_WIDTH, 0, CENTER_WIDTH, SCREEN_HEIGHT), manager
@@ -56,13 +70,15 @@ right_panel.get_container().set_anchors(
     {"top": "top", "bottom": "bottom", "right": "right"}
 )
 
-left_panel.set_scrollable_area_dimensions((LEFT_WIDTH, SCREEN_HEIGHT * 2))
+left_panel.set_scrollable_area_dimensions((LEFT_WIDTH, SCREEN_HEIGHT * 3))
 center_panel.set_scrollable_area_dimensions((CENTER_WIDTH, SCREEN_HEIGHT * 2))
 right_panel.set_scrollable_area_dimensions((RIGHT_WIDTH, SCREEN_HEIGHT * 2))
 
 
 # "preset" buttons in the left panel:
-preset_texts = ["iscuttable", "isfried", "iscooked", "isboard", "loc", "isrolled"]
+preset_texts = []
+for pred in data["predicate_defs"]:
+    preset_texts.append(pred["name"])
 preset_buttons = []
 for i, text in enumerate(preset_texts):
     button = UIButton(
@@ -75,11 +91,27 @@ for i, text in enumerate(preset_texts):
 
 # create new action!
 spawn_workspace_button = UIButton(
-    relative_rect=pygame.Rect(10, 10 + len(preset_texts) * 50, 180, 40),
+    relative_rect=pygame.Rect(680, 10, 110, 40),
     text="New Action",
     manager=manager,
-    container=left_panel,
+    container=center_panel,
 )
+# serialize a new action!
+save_as_action_button = UIButton(
+    relative_rect=pygame.Rect(790, 10, 110, 40),
+    text="Save Action",
+    manager=manager,
+    container=center_panel,
+)
+
+# load an action in!
+load_action = UIButton(
+    relative_rect=pygame.Rect(570, 10, 110, 40),
+    text="Load Action",
+    manager=manager,
+    container=center_panel,
+)
+
 
 # preset predicate parameters:
 # i1 = UIButton(
@@ -126,7 +158,7 @@ while is_running:
                 #     )
 
                 new_block = DraggableBlock(
-                    pygame.Rect((30, relative_mouse_pos[1]), (120, 40)),
+                    pygame.Rect((30, relative_mouse_pos[1]), (160, 40)),
                     manager=manager,
                     container=center_panel,
                     text=event.ui_element.text,
@@ -138,13 +170,23 @@ while is_running:
                 blocks.append(new_block)
             elif event.ui_element == spawn_workspace_button:
                 ws_x = center_panel.rect.x
-                ws_y = center_panel.rect.y + 50
+                ws_y = center_panel.rect.y + 50 + (len(all_workspaces) * 700 + 75)
                 new_ws = ActionWorkspace(
                     relative_rect=pygame.Rect(ws_x - 50, ws_y, 700, 700),
                     manager=manager,
                     container=center_panel,
                 )
                 all_workspaces.append(new_ws)
+                current_height = center_panel.scrollable_container.relative_rect.height
+                new_height = len(all_workspaces) * SCREEN_HEIGHT + 100
+                new_width = center_panel.scrollable_container.relative_rect.width
+
+                center_panel.set_scrollable_area_dimensions((new_width, new_height))
+            elif event.ui_element == save_as_action_button:
+                if len(all_workspaces) > 0:
+                    for ws in all_workspaces:
+                        action_json = ws.serialize()
+                        print(action_json)
 
         if event.type == pygame.VIDEORESIZE:
 

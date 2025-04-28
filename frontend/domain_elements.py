@@ -6,6 +6,7 @@ from pygame_gui.elements import (
     UIScrollingContainer,
     UITextBox,
     UIDropDownMenu,
+    UITextEntryBox,
 )
 
 
@@ -23,17 +24,27 @@ SNAP_TOLERANCE = 20
 all_workspaces = []
 blocks = []
 
+current_id = 0
+
+blocks_by_id = {}
+block_slots = {}
+
 
 class Slot:
     """A docking slot living inside an ActionWorkspace."""
 
-    def __init__(self, rel_pos):
+    def __init__(self, rel_pos, section=None):
         self.rel_pos = rel_pos  # tuple (x,y) inside the workspace
-        self.size = (120, 40)  # same size as block
+        self.size = (160, 40)  # same size as block
         self.occupied = None  # points to DraggableBlock or None
+        self.section = section
 
     def rect(self):
         return pygame.Rect(self.rel_pos, self.size)
+
+    # for debugging
+    def show_section(self):
+        print(self.section)
 
 
 class DraggableBlock(UIButton):
@@ -55,7 +66,7 @@ class DraggableBlock(UIButton):
         self._param_widgets = []  # list of (offset, widget)
         for label, pos, options in param_defs or []:
             dd_rect = pygame.Rect(
-                relative_rect.x + pos[0] - 25, relative_rect.y + pos[1] - 10, 50, 30
+                relative_rect.x + pos[0] - 5, relative_rect.y + pos[1] - 10, 50, 30
             )
             dd = UIDropDownMenu(
                 options_list=options,
@@ -70,12 +81,26 @@ class DraggableBlock(UIButton):
                 relative_rect.topleft
             )
             self._param_widgets.append((offset, dd))
-
+        self.params = param_defs
         # drag state
         self.is_dragging = False
         self._drag_offset = (0, 0)
         self.docked_slot = None
         self.toggled = False
+        self.slot_section = None
+        global current_id
+        self.id = current_id
+        current_id += 1
+        blocks_by_id[self.id] = self
+
+    def to_json(self):
+        precon_json = {}
+        precon_json["predicate"] = self.text
+        precon_json["params"] = []
+        for param in self.params:
+            precon_json["params"].append(param[2])
+        precon_json["is_true"] = self.toggled
+        return precon_json
 
     def _sync_params(self):
         abs_tl = self.get_abs_rect().topleft
@@ -123,8 +148,10 @@ class DraggableBlock(UIButton):
                     snap = ws.get_snap_slot(self.get_abs_rect())
                     if snap:
                         # dock into it
-                        self.docked_slot = snap
-                        snap.occupied = self
+                        if snap:  # when docking
+                            block_slots[self.id] = snap
+                        else:  # when undocking
+                            block_slots.pop(self.id, None)
                         # THIS re‑parents the block into the workspace
                         abs_slot_x = ws.get_abs_rect().x + snap.rel_pos[0]
                         abs_slot_y = ws.get_abs_rect().y + snap.rel_pos[1]
@@ -137,6 +164,12 @@ class DraggableBlock(UIButton):
                         rel_y = abs_slot_y - container_rect.y
 
                         self.set_relative_position((rel_x, rel_y))
+                        # for debugging:
+                        # snap.show_section()
+
+                        # print(ws.attached_blocks)
+
+                        # ws.calculate_slots()
                         break
 
                 # small‑click still toggles
@@ -170,6 +203,8 @@ class DraggableBlock(UIButton):
     def kill(self):
         for _, widget in self._param_widgets:
             widget.kill()
+        block_slots.pop(self.id, None)
+        blocks_by_id.pop(self.id, None)
         super().kill()
 
 
@@ -180,11 +215,13 @@ class EditorPanel(UIScrollingContainer):
         manager,
         bg_color=pygame.Color("#E0F1F8"),
         starting_height=1,
+        allow_scroll_x=True,
     ):
         super().__init__(
             relative_rect=relative_rect,
             manager=manager,
             starting_height=starting_height,
+            allow_scroll_x=allow_scroll_x,
         )
         self.background_colour = bg_color
         self.rebuild()
@@ -209,11 +246,15 @@ class ActionWorkspace(UIPanel):
         self.background_colour = bg_color
         self.rebuild()
         self.attached_blocks = []
+        self.name = ""
+        self.precons = []
+        self.ifxs = []
+        self.sfxs = []
+        # TODO make a typable text box for this later
 
         self.slots = []
 
-        self.top_label = UITextBox(
-            html_text="<font color=#FFFFFF><b>New Action</b></font>",
+        self.top_label = UITextEntryBox(
             relative_rect=pygame.Rect(0, 0, self.relative_rect.w, 50),
             manager=manager,
             container=self,
@@ -235,16 +276,16 @@ class ActionWorkspace(UIPanel):
 
         self.specialFX_label = UITextBox(
             html_text="<font color=#FFFFFF><b>Special FX</b></font>",
-            relative_rect=pygame.Rect(0, 400, 150, 50),
+            relative_rect=pygame.Rect(0, 450, 150, 50),
             manager=manager,
             container=self,
         )
 
         # ───── CONFIG ─────
         NUM_SLOTS = 8
-        SLOT_W, SLOT_H = 120, 40
+        SLOT_W, SLOT_H = 160, 40
         MARGIN_X = 20  # px on left & right
-        H_SPACING = 10  # horizontal gap
+        H_SPACING = 5  # horizontal gap
         V_SPACING = 10  # vertical gap
 
         # find how many fit per row
@@ -259,17 +300,26 @@ class ActionWorkspace(UIPanel):
             spacing_x = 0
 
         # Y‑coordinates under each label
-        y_pre = self.preconditions_label.get_relative_rect().bottom + V_SPACING
-        y_ifx = self.immediateFX_label.get_relative_rect().bottom + V_SPACING
-        y_sfx = self.specialFX_label.get_relative_rect().bottom + V_SPACING
+        y_pre = self.preconditions_label.get_relative_rect().bottom + V_SPACING + 10
+        y_ifx = self.immediateFX_label.get_relative_rect().bottom + V_SPACING + 10
+        y_sfx = self.specialFX_label.get_relative_rect().bottom + V_SPACING + 10
 
         # build wrapped rows for each section
+        counter = 0
         for base_y in (y_pre, y_ifx, y_sfx):
             for i in range(NUM_SLOTS):
+                counter += 1
                 row, col = divmod(i, slots_per_row)
                 x = MARGIN_X + col * (SLOT_W + spacing_x)
                 y = base_y + row * (SLOT_H + V_SPACING)
-                self.slots.append(Slot((x, y)))
+                if counter < 9:
+                    section = "preconditions"
+                elif counter < 17:
+                    section = "ifx"
+                else:
+                    section = "sfx"
+
+                self.slots.append(Slot((x, y), section=section))
 
     def draw_debug_slots(self, surf):
         for slot in self.slots:
@@ -299,8 +349,41 @@ class ActionWorkspace(UIPanel):
                     return slot
         return None
 
-    def attach_block(self, block):
+    def attach_block(self, block, slot: Slot):
+        if slot.section == "preconditions":
+            self.precons.append(block)
+        elif slot.section == "ifx":
+            self.ifxs.append(block)
+        else:
+            self.sfxs.append(block)
         self.attached_blocks.append(block)
+
+    def calculate_slots(self):
+        self.precons, self.ifxs, self.sfxs = [], [], []
+
+        for block_id, slot in block_slots.items():
+            block = blocks_by_id.get(block_id)
+            if not block:  # block was killed, ignore
+                continue
+
+            sect = slot.section
+            if sect == "preconditions":
+                self.precons.append(block)
+            elif sect == "ifx":
+                self.ifxs.append(block)
+            else:
+                self.sfxs.append(block)
+
+    def serialize(self):
+        self.calculate_slots()
+        action = {
+            "name": self.name,
+            "precons": [b.to_json() for b in self.precons],
+            "immediate_fx": [b.to_json() for b in self.ifxs],
+            "sfx": [b.to_json() for b in self.sfxs],
+            "language_description": "",
+        }
+        return action
 
 
 class ObjectWorkspace(UIPanel):
