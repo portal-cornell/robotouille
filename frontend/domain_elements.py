@@ -49,7 +49,14 @@ class Slot:
 
 class DraggableBlock(UIButton):
     def __init__(
-        self, relative_rect, manager, text, container, param_defs=None, **kwargs
+        self,
+        relative_rect,
+        manager,
+        text,
+        container,
+        param_defs=None,
+        is_true=False,
+        **kwargs
     ):
 
         # the block *itself* (acts as the drag handle too)
@@ -86,7 +93,8 @@ class DraggableBlock(UIButton):
         self.is_dragging = False
         self._drag_offset = (0, 0)
         self.docked_slot = None
-        self.toggled = False
+        self.toggled = is_true
+
         self.slot_section = None
         global current_id
         self.id = current_id
@@ -349,14 +357,25 @@ class ActionWorkspace(UIPanel):
                     return slot
         return None
 
-    def attach_block(self, block, slot: Slot):
-        if slot.section == "preconditions":
-            self.precons.append(block)
-        elif slot.section == "ifx":
-            self.ifxs.append(block)
-        else:
-            self.sfxs.append(block)
-        self.attached_blocks.append(block)
+    # used for adding block during loading of action from json
+    def attach_block(self, block: DraggableBlock, slot: Slot):
+        # same docking logic from block process event
+        block_slots[block.id] = slot
+
+        abs_slot_x = self.get_abs_rect().x + slot.rel_pos[0]
+        abs_slot_y = self.get_abs_rect().y + slot.rel_pos[1]
+
+        # now get this block's container (still center_panel)
+        container_rect = block.ui_container.get_abs_rect()
+
+        # set rel position inside that panel, calculated from abs position
+        rel_x = abs_slot_x - container_rect.x
+        rel_y = abs_slot_y - container_rect.y
+
+        slot.occupied = block
+        block.slot_section = slot
+
+        block.set_relative_position((rel_x, rel_y))
 
     def calculate_slots(self):
         self.precons, self.ifxs, self.sfxs = [], [], []

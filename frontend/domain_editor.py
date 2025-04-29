@@ -12,6 +12,67 @@ json_path = os.path.normpath(json_path)
 with open(json_path, "r") as file:
     data = json.load(file)
 
+
+def find_slot(predicate_json, workspace: ActionWorkspace, section: str):
+    for slot in workspace.slots:
+        params = predicate_json.get("params", predicate_json.get("param"))
+        if slot.occupied == None and slot.section == section:
+            block = DraggableBlock(
+                pygame.Rect((30, 30), (160, 40)),
+                manager=manager,
+                container=center_panel,
+                text=predicate_json["predicate"],
+                param_defs=[
+                    ("obj", (130, 15), params),
+                ],
+                is_true=predicate_json["is_true"],
+            )
+            block.toggle_color()
+            if predicate_json["is_true"]:
+                block.toggle_color()
+            workspace.attach_block(block, slot)
+            print(
+                "Added "
+                + predicate_json["predicate"]
+                + " to slot at ("
+                + str(slot.rel_pos[0])
+                + ", "
+                + str(slot.rel_pos[1])
+                + "). It is in state: "
+                + str(predicate_json["is_true"])
+            )
+            break
+
+
+def json_to_action(name: str, ws_x, ws_y):
+    # pull the action from the json
+    action = None
+    actions_json = data["action_defs"]
+    print(actions_json)
+    for action_json in actions_json:
+        print(action_json["name"])
+        if action_json["name"] == name:
+            action = action_json
+
+    print(action)
+
+    # create a new action workspace
+    loaded_act = ActionWorkspace(
+        relative_rect=pygame.Rect(ws_x - 50, ws_y, 700, 700),
+        manager=manager,
+        container=center_panel,
+    )
+
+    for pred in action["precons"]:
+        find_slot(pred, loaded_act, "preconditions")
+
+    for pred in action["immediate_fx"]:
+        find_slot(pred, loaded_act, "ifx")
+
+    # for pred in action["sfx"]:
+    #     find_slot(pred, loaded_act, "sfx")
+
+
 # def serialize_new_action(action: ActionWorkspace):
 
 
@@ -105,7 +166,7 @@ save_as_action_button = UIButton(
 )
 
 # load an action in!
-load_action = UIButton(
+load_action_button = UIButton(
     relative_rect=pygame.Rect(570, 10, 110, 40),
     text="Load Action",
     manager=manager,
@@ -187,6 +248,10 @@ while is_running:
                     for ws in all_workspaces:
                         action_json = ws.serialize()
                         print(action_json)
+            elif event.ui_element == load_action_button:
+                ws_x = center_panel.rect.x
+                ws_y = center_panel.rect.y + 50 + (len(all_workspaces) * 700 + 75)
+                json_to_action("cut", ws_x, ws_y)
 
         if event.type == pygame.VIDEORESIZE:
 
