@@ -56,6 +56,11 @@ class Classic(GameMode):
         """
         
         for customer in self.customers.values():
+            if customer.has_been_served:
+                self.order_controller.mark_order_completed(customer.id)
+            elif customer.time_to_serve <= 0:
+                self.order_controller.mark_order_failed(customer.id)
+                
             action = customer.step(time, self)
     
             if action is not None:

@@ -1,4 +1,6 @@
 from backend.customer import Customer
+from backend.order_controller import OrderController
+from backend.lobby_manager import LobbyManager
 from abc import ABC, abstractmethod
 
 class GameMode(ABC):
@@ -40,6 +42,25 @@ class GameMode(ABC):
         self.customer_id_counter = 0
         self.customer_queue = []
         Customer.build_customers(domain_json, environment_json, recipe_json, self)
+
+        self.order_controller = OrderController(config=environment_json)
+        self.lobby_manager = LobbyManager()
+
+    def get_order_status(self):
+        return {
+            "global_time": self.order_controller.get_global_time(),
+            "score": self.order_controller.get_score(),
+            "completed_orders": self.order_controller.get_completed_order_ids()
+        }
+    
+    def get_lobby_profiles(self):
+        return self.lobby_manager.get_lobby_profiles()
+
+    def post_play_again_status(self, player_id, status):
+        self.lobby_manager.update_play_again_status(player_id, status)
+
+    def get_play_again_statuses(self):
+        return self.lobby_manager.get_play_again_statuses()
 
     def get_state(self):
         """
