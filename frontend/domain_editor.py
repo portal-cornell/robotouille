@@ -30,6 +30,8 @@ def find_slot(predicate_json, workspace: ActionWorkspace, section: str):
             block.toggle_color()
             if predicate_json["is_true"]:
                 block.toggle_color()
+            else:
+                block.toggle_color()
             workspace.attach_block(block, slot)
             print(
                 "Added "
@@ -61,6 +63,7 @@ def json_to_action(name: str, ws_x, ws_y):
         relative_rect=pygame.Rect(ws_x - 50, ws_y, 700, 700),
         manager=manager,
         container=center_panel,
+        text=action["name"],
     )
 
     for pred in action["precons"]:
@@ -71,6 +74,7 @@ def json_to_action(name: str, ws_x, ws_y):
 
     # for pred in action["sfx"]:
     #     find_slot(pred, loaded_act, "sfx")
+    return loaded_act
 
 
 # def serialize_new_action(action: ActionWorkspace):
@@ -136,19 +140,56 @@ center_panel.set_scrollable_area_dimensions((CENTER_WIDTH, SCREEN_HEIGHT * 2))
 right_panel.set_scrollable_area_dimensions((RIGHT_WIDTH, SCREEN_HEIGHT * 2))
 
 
-# "preset" buttons in the left panel:
-preset_texts = []
-for pred in data["predicate_defs"]:
-    preset_texts.append(pred["name"])
-preset_buttons = []
-for i, text in enumerate(preset_texts):
-    button = UIButton(
-        relative_rect=pygame.Rect(10, 10 + i * 50, 180, 40),
-        text=text,
-        manager=manager,
-        container=left_panel,
-    )
-    preset_buttons.append(button)
+# predicate defs buttons in the left panel:
+preds = []
+pred_buttons = []
+
+
+def populate_predicates():
+    left_panel.get_container().clear()
+
+    preds.clear()
+    pred_buttons.clear()
+
+    for pred in data["predicate_defs"]:
+        preds.append(pred["name"])
+
+    for i, text in enumerate(preds):
+        button = UIButton(
+            relative_rect=pygame.Rect(10, 10 + i * 50, 180, 40),
+            text=text,
+            manager=manager,
+            container=left_panel,
+        )
+        pred_buttons.append(button)
+
+
+# action defs buttons in left panel
+actions = []
+action_buttons = []
+
+
+def populate_actions():
+    left_panel.get_container().clear()
+
+    actions.clear()
+    action_buttons.clear()
+    for action in data["action_defs"]:
+        actions.append(action["name"])
+
+    for i, text in enumerate(actions):
+        button = UIButton(
+            relative_rect=pygame.Rect(10, 10 + i * 50, 180, 40),
+            text=text,
+            manager=manager,
+            container=left_panel,
+        )
+        action_buttons.append(button)
+        print("Added " + text)
+
+
+populate_predicates()
+
 
 # create new action!
 spawn_workspace_button = UIButton(
@@ -165,10 +206,11 @@ save_as_action_button = UIButton(
     container=center_panel,
 )
 
-# load an action in!
-load_action_button = UIButton(
-    relative_rect=pygame.Rect(570, 10, 110, 40),
-    text="Load Action",
+
+# buttons for toggling predicates to
+toggle_button = UIButton(
+    relative_rect=pygame.Rect(10, 10, 150, 40),
+    text="Show Actions",
     manager=manager,
     container=center_panel,
 )
@@ -197,7 +239,7 @@ while is_running:
         manager.process_events(event)
         if event.type == pygame_gui.UI_BUTTON_PRESSED:
 
-            if event.ui_element in preset_buttons:
+            if event.ui_element in pred_buttons:
 
                 mouse_pos = pygame.mouse.get_pos()
                 center_panel_topleft = center_panel.get_relative_rect().topleft
@@ -229,6 +271,16 @@ while is_running:
                 )
 
                 blocks.append(new_block)
+            elif event.ui_element in action_buttons:
+                ws_x = center_panel.rect.x
+                ws_y = center_panel.rect.y + 50 + (len(all_workspaces) * 700 + 75)
+                new_action = json_to_action(event.ui_element.text, ws_x, ws_y)
+                all_workspaces.append(new_action)
+                current_height = center_panel.scrollable_container.relative_rect.height
+                new_height = len(all_workspaces) * SCREEN_HEIGHT + 100
+                new_width = center_panel.scrollable_container.relative_rect.width
+
+                center_panel.set_scrollable_area_dimensions((new_width, new_height))
             elif event.ui_element == spawn_workspace_button:
                 ws_x = center_panel.rect.x
                 ws_y = center_panel.rect.y + 50 + (len(all_workspaces) * 700 + 75)
@@ -248,10 +300,17 @@ while is_running:
                     for ws in all_workspaces:
                         action_json = ws.serialize()
                         print(action_json)
-            elif event.ui_element == load_action_button:
-                ws_x = center_panel.rect.x
-                ws_y = center_panel.rect.y + 50 + (len(all_workspaces) * 700 + 75)
-                json_to_action("cut", ws_x, ws_y)
+
+            elif event.ui_element == toggle_button:
+                left_panel.showing_predicates = not left_panel.showing_predicates
+
+                if left_panel.showing_predicates:
+                    toggle_button.set_text("Show Actions")
+                    populate_predicates()
+                else:
+                    toggle_button.set_text("Show Predicates")
+                    populate_actions()
+        # if event.type == pygame.
 
         if event.type == pygame.VIDEORESIZE:
 

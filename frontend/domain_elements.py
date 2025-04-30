@@ -151,36 +151,35 @@ class DraggableBlock(UIButton):
                 self.is_dragging = False
                 self.unfocus()
 
-                # look for a free slot in any workspace
+                snapped = False
                 for ws in all_workspaces:
                     snap = ws.get_snap_slot(self.get_abs_rect())
                     if snap:
-                        # dock into it
-                        if snap:  # when docking
-                            block_slots[self.id] = snap
-                        else:  # when undocking
-                            block_slots.pop(self.id, None)
-                        # THIS re‑parents the block into the workspace
+                        # Dock into the new slot
+                        if self.docked_slot:
+                            self.docked_slot.occupied = None  # Clear previous slot
+                        snap.occupied = self
+                        self.docked_slot = snap
+                        block_slots[self.id] = snap
+
                         abs_slot_x = ws.get_abs_rect().x + snap.rel_pos[0]
                         abs_slot_y = ws.get_abs_rect().y + snap.rel_pos[1]
 
-                        # now get this block's container (still center_panel)
                         container_rect = self.ui_container.get_abs_rect()
-
-                        # set rel position inside that panel, calculated from abs position
                         rel_x = abs_slot_x - container_rect.x
                         rel_y = abs_slot_y - container_rect.y
 
                         self.set_relative_position((rel_x, rel_y))
-                        # for debugging:
-                        # snap.show_section()
-
-                        # print(ws.attached_blocks)
-
-                        # ws.calculate_slots()
+                        snapped = True
                         break
 
-                # small‑click still toggles
+                if not snapped and self.docked_slot:
+                    # Undocked: clear previous slot
+                    self.docked_slot.occupied = None
+                    self.docked_slot = None
+                    block_slots.pop(self.id, None)
+
+                # Small click toggles
                 dx = abs(event.pos[0] - self.mouse_down_pos[0])
                 dy = abs(event.pos[1] - self.mouse_down_pos[1])
                 if dx < 5 and dy < 5:
@@ -233,6 +232,7 @@ class EditorPanel(UIScrollingContainer):
         )
         self.background_colour = bg_color
         self.rebuild()
+        self.showing_predicates = True
 
 
 class ActionWorkspace(UIPanel):
@@ -242,6 +242,7 @@ class ActionWorkspace(UIPanel):
         manager,
         container=None,
         bg_color=pygame.Color("#DCEAF4"),
+        text="",
         **kwargs
     ):
         super().__init__(
@@ -258,6 +259,8 @@ class ActionWorkspace(UIPanel):
         self.precons = []
         self.ifxs = []
         self.sfxs = []
+        self.text = text
+
         # TODO make a typable text box for this later
 
         self.slots = []
@@ -266,6 +269,8 @@ class ActionWorkspace(UIPanel):
             relative_rect=pygame.Rect(0, 0, self.relative_rect.w, 50),
             manager=manager,
             container=self,
+            initial_text=self.text,
+            placeholder_text="Enter your action name...",
         )
 
         self.preconditions_label = UITextBox(
@@ -287,6 +292,21 @@ class ActionWorkspace(UIPanel):
             relative_rect=pygame.Rect(0, 450, 150, 50),
             manager=manager,
             container=self,
+        )
+        self.ex_button = UIButton(
+            relative_rect=pygame.Rect(535, 0, 80, 50),
+            text="Close",
+            manager=manager,
+            container=self,
+            starting_height=2,
+        )
+
+        self.save_button = UIButton(
+            relative_rect=pygame.Rect(615, 0, 80, 50),
+            text="Save",
+            manager=manager,
+            container=self,
+            starting_height=2,
         )
 
         # ───── CONFIG ─────
@@ -328,6 +348,22 @@ class ActionWorkspace(UIPanel):
                     section = "sfx"
 
                 self.slots.append(Slot((x, y), section=section))
+
+    def process_event(self, event):
+        handled = super().process_event(event)
+        if event.type == pygame_gui.UI_BUTTON_PRESSED:
+            if event.ui_element == self.save_button:
+                action = self.serialize()
+                print(action)
+            elif event.ui_element == self.ex_button:
+                all_workspaces.remove(self)
+                for slot in self.slots:
+                    if slot.occupied != None:
+                        slot.occupied.kill()
+
+                self.slots.clear()
+                self.kill()
+        return handled
 
     def draw_debug_slots(self, surf):
         for slot in self.slots:
