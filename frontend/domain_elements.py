@@ -56,7 +56,8 @@ class DraggableBlock(UIButton):
         container,
         param_defs=None,
         is_true=False,
-        **kwargs
+        starting_height=2,
+        **kwargs,
     ):
 
         # the block *itself* (acts as the drag handle too)
@@ -65,7 +66,7 @@ class DraggableBlock(UIButton):
             text=text,
             manager=manager,
             container=container,
-            starting_height=2,
+            starting_height=starting_height,
             **kwargs,
         )
 
@@ -134,11 +135,11 @@ class DraggableBlock(UIButton):
         handled = super().process_event(event)
 
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-            if self.docked_slot:
-                self.docked_slot.occupied = None
-                self.docked_slot = None
 
             if self.rect.collidepoint(event.pos):
+                if self.docked_slot:
+                    self.docked_slot.occupied = None
+                    self.docked_slot = None
                 self.is_dragging = True
                 self.mouse_down_pos = event.pos
                 abs_r = self.get_abs_rect()
@@ -243,13 +244,14 @@ class ActionWorkspace(UIPanel):
         container=None,
         bg_color=pygame.Color("#DCEAF4"),
         text="",
-        **kwargs
+        starting_height=1,
+        **kwargs,
     ):
         super().__init__(
             relative_rect=relative_rect,
             manager=manager,
             container=container,
-            starting_height=1,
+            starting_height=starting_height,
             **kwargs,
         )
         self.background_colour = bg_color
@@ -356,14 +358,26 @@ class ActionWorkspace(UIPanel):
                 action = self.serialize()
                 print(action)
             elif event.ui_element == self.ex_button:
-                all_workspaces.remove(self)
-                for slot in self.slots:
-                    if slot.occupied != None:
-                        slot.occupied.kill()
-
-                self.slots.clear()
                 self.kill()
         return handled
+
+    def preview_layer(self, top_layer):
+        self.change_layer(top_layer)
+        for child in self.get_container().elements:
+            child.change_layer(top_layer + 1)
+        for slot in self.slots:
+            if slot.occupied != None:
+                slot.occupied.change_layer(top_layer + 1)
+
+    def kill(self):
+
+        all_workspaces.remove(self)
+        for slot in self.slots:
+            if slot.occupied != None:
+                slot.occupied.kill()
+
+        self.slots.clear()
+        super().kill()
 
     def draw_debug_slots(self, surf):
         for slot in self.slots:
@@ -432,7 +446,7 @@ class ActionWorkspace(UIPanel):
     def serialize(self):
         self.calculate_slots()
         action = {
-            "name": self.name,
+            "name": self.top_label.get_text(),
             "precons": [b.to_json() for b in self.precons],
             "immediate_fx": [b.to_json() for b in self.ifxs],
             "sfx": [b.to_json() for b in self.sfxs],
@@ -448,7 +462,7 @@ class ObjectWorkspace(UIPanel):
         manager,
         container=None,
         bg_color=pygame.Color("#DCEAF4"),
-        **kwargs
+        **kwargs,
     ):
         super().__init__(
             relative_rect=relative_rect,

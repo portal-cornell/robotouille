@@ -5,77 +5,6 @@ from domain_elements import *
 import json
 import os
 
-# json initialization
-
-json_path = os.path.join(os.path.dirname(__file__), "..", "domain", "robotouille.json")
-json_path = os.path.normpath(json_path)
-with open(json_path, "r") as file:
-    data = json.load(file)
-
-
-def find_slot(predicate_json, workspace: ActionWorkspace, section: str):
-    for slot in workspace.slots:
-        params = predicate_json.get("params", predicate_json.get("param"))
-        if slot.occupied == None and slot.section == section:
-            block = DraggableBlock(
-                pygame.Rect((30, 30), (160, 40)),
-                manager=manager,
-                container=center_panel,
-                text=predicate_json["predicate"],
-                param_defs=[
-                    ("obj", (130, 15), params),
-                ],
-                is_true=predicate_json["is_true"],
-            )
-            block.toggle_color()
-            if predicate_json["is_true"]:
-                block.toggle_color()
-            else:
-                block.toggle_color()
-            workspace.attach_block(block, slot)
-            print(
-                "Added "
-                + predicate_json["predicate"]
-                + " to slot at ("
-                + str(slot.rel_pos[0])
-                + ", "
-                + str(slot.rel_pos[1])
-                + "). It is in state: "
-                + str(predicate_json["is_true"])
-            )
-            break
-
-
-def json_to_action(name: str, ws_x, ws_y):
-    # pull the action from the json
-    action = None
-    actions_json = data["action_defs"]
-    print(actions_json)
-    for action_json in actions_json:
-        print(action_json["name"])
-        if action_json["name"] == name:
-            action = action_json
-
-    print(action)
-
-    # create a new action workspace
-    loaded_act = ActionWorkspace(
-        relative_rect=pygame.Rect(ws_x - 50, ws_y, 700, 700),
-        manager=manager,
-        container=center_panel,
-        text=action["name"],
-    )
-
-    for pred in action["precons"]:
-        find_slot(pred, loaded_act, "preconditions")
-
-    for pred in action["immediate_fx"]:
-        find_slot(pred, loaded_act, "ifx")
-
-    # for pred in action["sfx"]:
-    #     find_slot(pred, loaded_act, "sfx")
-    return loaded_act
-
 
 # def serialize_new_action(action: ActionWorkspace):
 
@@ -144,6 +73,81 @@ right_panel.set_scrollable_area_dimensions((RIGHT_WIDTH, SCREEN_HEIGHT * 2))
 preds = []
 pred_buttons = []
 
+# json initialization
+
+json_path = os.path.join(os.path.dirname(__file__), "..", "domain", "robotouille.json")
+json_path = os.path.normpath(json_path)
+with open(json_path, "r") as file:
+    data = json.load(file)
+
+
+def find_slot(
+    predicate_json, workspace: ActionWorkspace, section: str, container=center_panel
+):
+    for slot in workspace.slots:
+        params = predicate_json.get("params", predicate_json.get("param"))
+        if slot.occupied == None and slot.section == section:
+            block = DraggableBlock(
+                pygame.Rect((30, 30), (160, 40)),
+                manager=manager,
+                container=container,
+                text=predicate_json["predicate"],
+                param_defs=[
+                    ("obj", (130, 15), params),
+                ],
+                is_true=predicate_json["is_true"],
+                starting_height=workspace.get_starting_height(),
+            )
+            block.toggle_color()
+            if predicate_json["is_true"]:
+                block.toggle_color()
+            else:
+                block.toggle_color()
+            workspace.attach_block(block, slot)
+            print(
+                "Added "
+                + predicate_json["predicate"]
+                + " to slot at ("
+                + str(slot.rel_pos[0])
+                + ", "
+                + str(slot.rel_pos[1])
+                + "). It is in state: "
+                + str(predicate_json["is_true"])
+            )
+            break
+
+
+def json_to_action(name: str, ws_x, ws_y, container=center_panel):
+    # pull the action from the json
+    action = None
+    actions_json = data["action_defs"]
+    print(actions_json)
+    for action_json in actions_json:
+        print(action_json["name"])
+        if action_json["name"] == name:
+            action = action_json
+
+    print(action)
+
+    # create a new action workspace
+    loaded_act = ActionWorkspace(
+        relative_rect=pygame.Rect(ws_x - 50, ws_y, 700, 700),
+        manager=manager,
+        container=container,
+        text=action["name"],
+        starting_height=1,
+    )
+
+    for pred in action["precons"]:
+        find_slot(pred, loaded_act, "preconditions", container)
+
+    for pred in action["immediate_fx"]:
+        find_slot(pred, loaded_act, "ifx", container)
+
+    # for pred in action["sfx"]:
+    #     find_slot(pred, loaded_act, "sfx")
+    return loaded_act
+
 
 def populate_predicates():
     left_panel.get_container().clear()
@@ -167,6 +171,7 @@ def populate_predicates():
 # action defs buttons in left panel
 actions = []
 action_buttons = []
+action_hover = None
 
 
 def populate_actions():
@@ -275,6 +280,8 @@ while is_running:
                 ws_x = center_panel.rect.x
                 ws_y = center_panel.rect.y + 50 + (len(all_workspaces) * 700 + 75)
                 new_action = json_to_action(event.ui_element.text, ws_x, ws_y)
+                a_blocks = new_action.attached_blocks
+                print(a_blocks)
                 all_workspaces.append(new_action)
                 current_height = center_panel.scrollable_container.relative_rect.height
                 new_height = len(all_workspaces) * SCREEN_HEIGHT + 100
@@ -310,7 +317,18 @@ while is_running:
                 else:
                     toggle_button.set_text("Show Predicates")
                     populate_actions()
-        # if event.type == pygame.
+        if event.type == pygame_gui.UI_BUTTON_ON_HOVERED:
+            if event.ui_element in action_buttons:
+                mouse_pos = pygame.mouse.get_pos()
+                action = json_to_action(
+                    event.ui_element.text, mouse_pos[0], mouse_pos[1], container=None
+                )
+                all_workspaces.append(action)
+                action.preview_layer(5)
+        if event.type == pygame_gui.UI_BUTTON_ON_UNHOVERED:
+            if event.ui_element in action_buttons:
+
+                action.kill()
 
         if event.type == pygame.VIDEORESIZE:
 
