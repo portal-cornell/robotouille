@@ -6,9 +6,6 @@ import json
 import os
 
 
-# def serialize_new_action(action: ActionWorkspace):
-
-
 pygame.init()
 pygame.display.set_caption("Domain Editor")
 
@@ -221,17 +218,6 @@ toggle_button = UIButton(
 )
 
 
-# preset predicate parameters:
-# i1 = UIButton(
-#     relative_rect=pygame.Rect(60, 60 + len(preset_texts) * 50, 30, 30),
-#     text="i1",
-#     manager=manager,
-#     container=left_panel,
-# )
-
-# preset_buttons.append(i1)
-
-
 clock = pygame.time.Clock()
 is_running = True
 
@@ -323,11 +309,12 @@ while is_running:
                 action = json_to_action(
                     event.ui_element.text, mouse_pos[0], mouse_pos[1], container=None
                 )
-                all_workspaces.append(action)
+                temp_workspaces.append(action)
                 action.preview_layer(5)
+
         if event.type == pygame_gui.UI_BUTTON_ON_UNHOVERED:
             if event.ui_element in action_buttons:
-
+                temp_workspaces.clear()
                 action.kill()
 
         if event.type == pygame.VIDEORESIZE:

@@ -10,18 +10,9 @@ from pygame_gui.elements import (
 )
 
 
-# def update_positions(root):
-#     stack = [root]
-#     while stack:
-#         current = stack.pop()
-
-#         for child in current.child_blocks:
-
-#             child.abs_pos = current.abs_pos + child.local_offset
-#             child.set_relative_position(child.abs_pos)
-#             stack.append(child)
 SNAP_TOLERANCE = 20
 all_workspaces = []
+temp_workspaces = []
 blocks = []
 
 current_id = 0
@@ -156,9 +147,9 @@ class DraggableBlock(UIButton):
                 for ws in all_workspaces:
                     snap = ws.get_snap_slot(self.get_abs_rect())
                     if snap:
-                        # Dock into the new slot
+                        # dock into the new slot
                         if self.docked_slot:
-                            self.docked_slot.occupied = None  # Clear previous slot
+                            self.docked_slot.occupied = None  # clear previous slot
                         snap.occupied = self
                         self.docked_slot = snap
                         block_slots[self.id] = snap
@@ -175,12 +166,12 @@ class DraggableBlock(UIButton):
                         break
 
                 if not snapped and self.docked_slot:
-                    # Undocked: clear previous slot
+                    # undocked: clear previous slot
                     self.docked_slot.occupied = None
                     self.docked_slot = None
                     block_slots.pop(self.id, None)
 
-                # Small click toggles
+                # small click toggles
                 dx = abs(event.pos[0] - self.mouse_down_pos[0])
                 dy = abs(event.pos[1] - self.mouse_down_pos[1])
                 if dx < 5 and dy < 5:
@@ -207,7 +198,7 @@ class DraggableBlock(UIButton):
 
         return handled
 
-    # (optional) tidy‑up when the block is killed
+    #  tidy‑up when the block is killed
     def kill(self):
         for _, widget in self._param_widgets:
             widget.kill()
@@ -370,8 +361,9 @@ class ActionWorkspace(UIPanel):
                 slot.occupied.change_layer(top_layer + 1)
 
     def kill(self):
+        if self in all_workspaces:
+            all_workspaces.remove(self)
 
-        all_workspaces.remove(self)
         for slot in self.slots:
             if slot.occupied != None:
                 slot.occupied.kill()
