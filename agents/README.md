@@ -8,6 +8,11 @@ This directory contains the code for agents used in Robotouille. These agents in
 
 ## Prerequisites for running an LLM Agent
 
+### Set your environment keys
+
+To use API-based models you must set your environment keys. Check `.envrctemplate` for the required
+keys. We use [direnv](https://direnv.net/) to load our environment variables using an `.envrc` file.
+
 ### Setup your agent
 Check the Hydra `/conf/experiments` directory for the configuration files to run an LLM agent experiment. Specifically,
 - the `llm` field allows for specifying the `llm_model`, the prompt to use from `prompt_builder` (see inner `README.md` for more information), and the `num_examples` along with the `example_dir_path` located under `in_context_examples`.
@@ -44,7 +49,7 @@ python main.py +experiments=IO_CoT/asynchronous/io-cot
 To run an agent on a different LLM model, you can override `llm.llm_model`
 ```sh
 # Runs the I/O agent on the synchronous dataset with the gemini-1.5-flash model
-python main.py +experiments=IO/synchronous/io +llm.llm_model=gemini-1.5-flash
+python main.py +experiments=IO/synchronous/io ++llm.llm_model=gemini-1.5-flash
 ```
 
 To collect human demonstrations formatted as ReAct in-context examples, you can use the following command:
