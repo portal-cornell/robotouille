@@ -1,8 +1,13 @@
+import tkinter as tk
+from tkinter import filedialog
 import pygame
 import pygame_gui
 from pygame_gui.elements import UIPanel
 import os
 from typing import List, Optional
+
+root = tk.Tk()
+root.withdraw()
 
 pygame.init()
 pygame.display.set_caption("Level Editor")
@@ -152,8 +157,8 @@ def main():
     )
 
     # game variables
-    ROWS = 12
-    MAX_COLUMNS = 16
+    ROWS = 6
+    MAX_COLUMNS = 6
     TILE_SIZE = 64
 
     # colors
@@ -177,6 +182,51 @@ def main():
         text="Stations",
         manager=manager,
     )
+
+    def level_state_to_json(level: LevelState) -> dict:
+        stations_json = []
+        for station in level.get_all_stations():
+            stations_json.append(
+                {"name": station.name, "x": station.pos.x, "y": station.pos.y}
+            )
+
+        items_json = []
+        for item in level.get_all_items():
+            items_json.append(
+                {
+                    "name": item.name,
+                    "x": item.pos.x,
+                    "y": item.pos.y,
+                    "stack-level": 0,  # This is hardcoded for now
+                    "predicates": item.predicates,
+                }
+            )
+
+        level_json = {
+            "version": "1.0.0",
+            "width": level.width,
+            "height": level.height,
+            "config": {
+                "num_cuts": {"lettuce": 3, "default": 3},
+                "cook_time": {"patty": 3, "default": 3},
+            },
+            "stations": stations_json,
+            "items": items_json,
+            "players": [{"name": "robot", "x": 0, "y": 0, "direction": [0, 1]}],
+            "goal_description": "Make a cheese burger with cheese on top of the patty",
+            "goal": [
+                {"predicate": "iscooked", "args": ["patty"], "ids": [1]},
+                {"predicate": "atop", "args": ["topbun", "cheese"], "ids": [2, 3]},
+                {"predicate": "atop", "args": ["cheese", "patty"], "ids": [3, 1]},
+                {"predicate": "atop", "args": ["patty", "bottombun"], "ids": [1, 4]},
+            ],
+        }
+        return level_json
+
+    import json
+    import tkinter as tk
+    from tkinter import filedialog
+
     items_button = pygame_gui.elements.UIButton(
         relative_rect=pygame.Rect((10, 802), (100, 50)),
         text="Items",
@@ -184,8 +234,15 @@ def main():
     )
     selected_mode = "stations"  # Default selection
 
+    export_button = pygame_gui.elements.UIButton(
+        relative_rect=pygame.Rect((SCREEN_WIDTH, 842), (100, 50)),
+        text="Save",
+        manager=manager,
+    )
+
     stations_button.show()
     items_button.show()
+    export_button.show()
 
     clock = pygame.time.Clock()
     running = True
@@ -202,6 +259,16 @@ def main():
                     selected_mode = "stations"
                 elif event.ui_element == items_button:
                     selected_mode = "items"
+                elif event.ui_element == export_button:
+                    # export the state to the given json format. place the player at position (0, 0), with goal description "test", and a goal of [predicate=iscooked], args=friedchicken, id=1
+                    root = tk.Tk()
+                    root.withdraw()
+                    file_path = filedialog.asksaveasfilename(defaultextension=".json")
+                    if file_path:
+                        level_json = level_state_to_json(test_level)
+                        with open(file_path, "w") as f:
+                            json.dump(level_json, f, indent=4)
+                        print(f"Level saved to {file_path}")
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
