@@ -1,5 +1,5 @@
 import pygame
-from frontend.constants import WHITE, SHARED_DIRECTORY, MATCHMAKING, SETTINGS, BLACK, PROFILE
+from frontend.constants import WHITE, SHARED_DIRECTORY, MATCHMAKING, SETTINGS, BLACK, PROFILE, JOINLOBBY
 from frontend.button import Button
 from frontend.image import Image
 from frontend.screen import ScreenInterface
@@ -76,9 +76,12 @@ class MenuScreen(ScreenInterface):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 clicked_anywhere=True
 
-            # Transitions to Matchmaking when start_button is pressed.
+            # Transitions to JoinLobby when start_button is pressed.
             if self.start_button.handle_event(event):
-                self.set_next_screen(MATCHMAKING)
+                self.set_next_screen(JOINLOBBY)
+                #self.set_next_screen(MATCHMAKING)
+
+
             # Transitions to Settings when setting_button is pressed.
             if self.setting_button.handle_event(event):
                 self.set_next_screen(SETTINGS)

@@ -23,6 +23,7 @@ LOADING = 'loading'
 LOGO = 'logo'
 MATCHMAKING = 'matchmaking'
 PROFILE = 'profile'
+JOINLOBBY = 'joinlobby'
 
 SHARED_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "shared"))
 

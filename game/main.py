@@ -3,7 +3,7 @@ import pygame
 
 from game.simulator import RobotouilleSimulator
 
-from frontend.constants import SETTINGS, MAIN_MENU, GAME, ENDGAME, LOADING, LOGO, MATCHMAKING, PROFILE
+from frontend.constants import SETTINGS, MAIN_MENU, GAME, ENDGAME, LOADING, LOGO, MATCHMAKING, PROFILE, JOINLOBBY
 from frontend.main_menu import MenuScreen
 from frontend.settings import SettingScreen
 from frontend.loading import LoadingScreen
@@ -11,6 +11,7 @@ from frontend.logo import LogoScreen
 from frontend.endgame import EndScreen
 from frontend.matchmaking import MatchMakingScreen
 from frontend.profile import ProfileScreen
+from frontend.joinlobby import JoinLobbyScreen
 
 from omegaconf import DictConfig, OmegaConf
 
@@ -48,6 +49,7 @@ def game():
                 screens[ENDGAME] = EndScreen(screen_size)
                 screens[MATCHMAKING] = MatchMakingScreen(screen_size)
                 screens[PROFILE] = ProfileScreen(screen_size)
+                screens[JOINLOBBY] = JoinLobbyScreen(screen_size)
 
             if screen_obj.next_screen is not None:
                 current_screen = screen_obj.next_screen
