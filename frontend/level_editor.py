@@ -166,7 +166,6 @@ def main():
     project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
     # Pygame UI setup
-    button_path = os.path.join(os.path.dirname(__file__), "button.json")
     manager = pygame_gui.UIManager(
         (SCREEN_WIDTH + SIDE_MARGIN, SCREEN_HEIGHT + LOWER_MARGIN),
     )
