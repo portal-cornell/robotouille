@@ -5,8 +5,8 @@ from frontend.constants import GREY, LIGHT_GREY
 
 class EditableTextbox(Textbox):
     def __init__(self, screen, text, x_percent, y_percent, width, height, 
-                char_limit = 10, text_color=GREY, font_path=FONT_PATH, 
-                font_size= 60, scale_factor=1.0, align_text="center", anchor="topleft",
+                char_limit=10, text_color=GREY, font_path=FONT_PATH, 
+                font_size=60, scale_factor=1.0, align_text="center", anchor="topleft",
                 offset_x=0, offset_y=0):
         """
         Initialize a Editable Textbox (user's can modify the content inside the textbox) object.
@@ -25,8 +25,9 @@ class EditableTextbox(Textbox):
             scale_factor (float): Scale factor for resizing the text. Defaults to 1.0.
             align_text (str): The alignment of the text within the textbox. Options are "left", "center", or "right". Defaults to "center".
             anchor (str): Determines how the textbox rectangle is anchored on the screen. Options are "center" or "topleft". Defaults to "topleft".
-        """
-        
+            offset_x (int): Represents the number of pixels vertically this nodes is offseted from the top level parent screen
+            offset_y (int): Represents the number of pixels horizonally this nodes is offseted from the top level parent screen
+        """   
         super().__init__(screen, text, x_percent, y_percent, width, height, text_color, font_path, font_size, scale_factor, align_text, anchor, offset_x, offset_y)
         self.is_editing = False
         self.original_font_size = int(font_size * scale_factor)
@@ -62,7 +63,6 @@ class EditableTextbox(Textbox):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if self._in_bound(event.pos):
                 self.toggle_editing()
-        
         if event.type == pygame.KEYDOWN and self.is_editing:
             if event.key == pygame.K_RETURN:
                 self.toggle_editing()

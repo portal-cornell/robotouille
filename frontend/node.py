@@ -26,8 +26,8 @@ class Node(ABC):
         Updates the offset_x and offset_y positions
 
         Args:
-            offset_x (int): Represents the number of pixels vertically this nodes is offseted from the parent screen
-            offset_y (int): Represents the number of pixels horizonally this nodes is offseted from the parent screen
+            offset_x (int): Represents the number of pixels vertically this nodes is offseted from the top level parent screen
+            offset_y (int): Represents the number of pixels horizonally this nodes is offseted from the top level parent screen
         """
         self.offset_x = new_offset_x
         self.offset_y = new_offset_y

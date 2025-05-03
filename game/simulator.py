@@ -87,8 +87,14 @@ class RobotouilleSimulator:
 
  
     def get_object_location(self, name):
-        """"
-        name is instance of Backend.Object
+        """
+        Retrieves the (x, y) position of the object if found; otherwise, returns (-999, -999).
+
+        Args:
+            name (Backend.Object): The game object to locate.
+
+        Returns:
+            tuple: A tuple (x, y) representing the object's position, or (-999, -999) if not found.
         """
         ans = None
         for k,v in self.env.current_state.predicates.items():

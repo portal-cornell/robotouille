@@ -7,27 +7,6 @@ from frontend.screen import ScreenInterface
 from frontend.loading import LoadingScreen
 import os
 
-"""
-TODO BACKEND INTEGRATION
-
-# list of player 
-# if someone clicks play again/ exit communicate with backend 
-
-BACKEND MUST communicate with ENDSCREEN 
-- call create_profile and pass it the list of users. The list should be in the form [(player_id, player_name)].
-player_id should uniquely identify the user (i.e their device) and player_name is the name the player choose
-
--call set_star, which translates the score to a 3 star system (1/3 star will be golden)
--call set_coin
--call set_bell
-
-
-
-TODO HENRY
-- add play again functionality 
-- add timer
-- players should be reupdated (status)
-"""
 # Set up the assets directory
 ASSETS_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "endgame"))
 

@@ -6,16 +6,7 @@ from frontend.screen import ScreenInterface
 from frontend.loading import LoadingScreen
 import os
 
-"""
-TODO BACKEND INTEGRATION
 
-BACKEND NEEDS 
-- Tell every player the names of player currently in the lobby
-screens[current_screen].set_players(["Player1", "Player2"])
-
-TODO HENRY
-- ADD PROFILES 
-"""
 # Set up the assets directory
 ASSETS_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "matchmaking"))
 
@@ -26,6 +17,8 @@ class MatchMakingScreen(ScreenInterface):
 
         Args:
             window_size (tuple): (width, height) of the window
+            offset_x (int): Represents the number of pixels vertically this nodes is offseted from the top level parent screen
+            offset_y (int): Represents the number of pixels horizonally this nodes is offseted from the top level parent screen
         """
         super().__init__(window_size, mouse_offset_x=offset_x, mouse_offset_y=offset_y) 
         self.background = Image(self.screen, self.background_image, 0.5, 0.5, self.scale_factor, anchor="center")
