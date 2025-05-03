@@ -109,6 +109,9 @@ class NoStationAtLocationError(Exception):
     pass
 
 
+import os
+
+
 def render_level(level: LevelState) -> pygame.Surface:
     width = level.width
     height = level.height
@@ -129,28 +132,21 @@ def render_level(level: LevelState) -> pygame.Surface:
 
     # Draw stations
     for station in level.get_all_stations():
-        img = pygame.image.load("assets/" + station.asset_file).convert_alpha()
+        project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+        asset_path = os.path.join(project_root, "assets", station.asset_file)
+        img = pygame.image.load(asset_path).convert_alpha()
         img = pygame.transform.scale(img, (tile_size, tile_size))
         surface.blit(img, (station.pos.x * tile_size, station.pos.y * tile_size))
 
     # Draw items
     for item in level.get_all_items():
-        img = pygame.image.load(item.asset_file).convert_alpha()
+        project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+        asset_path = os.path.join(project_root, "assets", item.asset_file)
+        img = pygame.image.load(asset_path).convert_alpha()
         img = pygame.transform.scale(img, (tile_size, tile_size))
         surface.blit(img, (item.pos.x * tile_size, item.pos.y * item.pos.y))
 
     return surface
-
-
-def editor_v2():
-    test_level = LevelState(5, 5)
-    test_level.put_station_at(Station("fryer", "./../assets/fryer.png", Vec2(0, 0)))
-    test_level.put_item_at(
-        Item("fried chicken", "assets/friedchicken.png", Vec2(0, 0), ["isfried"])
-    )
-
-    level_surface = render_level(test_level)
-    pygame.image.save(level_surface, "level.png")
 
 
 def editor_v1():
@@ -158,9 +154,8 @@ def editor_v1():
     TAB1_TYPES = 8
     img_list = []
     for x in range(TAB1_TYPES):
-        img = pygame.image.load(
-            os.path.join(os.path.dirname(__file__), f"{x}.png")
-        ).convert_alpha()
+        image_path = os.path.join(os.path.dirname(__file__), f"{x}.png")
+        img = pygame.image.load(image_path).convert_alpha()
         img = pygame.transform.scale(img, (TILE_SIZE, TILE_SIZE))
         img_list.append(img)
 
@@ -177,9 +172,10 @@ def editor_v1():
     )
     background.fill(BEIGE)
     clock = pygame.time.Clock()
+    button_path = os.path.join(os.path.dirname(__file__), "button.json")
     manager = pygame_gui.UIManager(
         (SCREEN_WIDTH + SIDE_MARGIN, SCREEN_HEIGHT + LOWER_MARGIN),
-        theme_path=os.path.join(os.path.dirname(__file__), "button.json"),
+        theme_path=button_path,
     )
     manager.set_visual_debug_mode(True)
 
@@ -340,9 +336,6 @@ def editor_v1():
         pygame.display.update()
 
 
-# editor_v2()
-
-
 def main():
     pygame.init()
     pygame.display.set_caption("Level Renderer")
@@ -369,9 +362,12 @@ def main():
     BEIGE = pygame.Color("#EDE8D0")
 
     test_level = LevelState(5, 5)
-    test_level.put_station_at(Station("fryer", "./../assets/fryer.png", Vec2(0, 0)))
+    project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+    asset_path = os.path.join(project_root, "assets", "fryer.png")
+    test_level.put_station_at(Station("fryer", "fryer.png", Vec2(0, 0)))
+    item_path = os.path.join(project_root, "assets", "friedchicken.png")
     test_level.put_item_at(
-        Item("fried chicken", "assets/friedchicken.png", Vec2(0, 0), ["isfried"])
+        Item("fried chicken", "friedchicken.png", Vec2(0, 0), ["isfried"])
     )
 
     running = True
