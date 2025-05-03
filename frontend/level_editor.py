@@ -236,7 +236,7 @@ def main():
         text="Items",
         manager=manager,
     )
-    selected_mode = "stations"  # Default selection
+    selected_mode = "stations"  # user should start drawing stations before objects; floors not implemented yet
 
     export_button = pygame_gui.elements.UIButton(
         relative_rect=pygame.Rect((SCREEN_WIDTH, 842), (100, 50)),
@@ -259,12 +259,12 @@ def main():
                 running = False
 
             if event.type == pygame_gui.UI_BUTTON_PRESSED:
+                # export to file; app config to add to recently saved files?
                 if event.ui_element == stations_button:
                     selected_mode = "stations"
                 elif event.ui_element == items_button:
                     selected_mode = "items"
                 elif event.ui_element == export_button:
-                    # export the state to the given json format. place the player at position (0, 0), with goal description "test", and a goal of [predicate=iscooked], args=friedchicken, id=1
                     root = tk.Tk()
                     root.withdraw()
                     file_path = filedialog.asksaveasfilename(defaultextension=".json")
