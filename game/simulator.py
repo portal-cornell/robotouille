@@ -138,10 +138,14 @@ class RobotouilleSimulator:
             self.next_screen = ENDGAME
             return
         
-        if self.pause.next_screen is not None:
+        if self.pause.next_screen:
             self.next_screen = self.pause.next_screen
             self.pause.set_next_screen(None)
             self.pause.toggle()
+            return
+        
+        if self.renderer.next_screen:
+            self.next_screen = self.renderer.next_screen
             return
         
         pygame_events = pygame.event.get()

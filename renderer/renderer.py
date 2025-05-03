@@ -65,6 +65,14 @@ class RobotouilleRenderer:
         
         # TODO Remove; renderer should not own the ORDERS
         self.orders = OrdersCollection(screen_size, self.config)
+        self.next_screen = None
+
+    def update_next_screen(self):
+        """
+        TODO move this to order's controller/parent
+        """
+        if self.orders.next_screen:
+            self.next_screen = self.orders.next_screen
 
 
     def update_progress_bar(self, item, x, y, percentage = 0, increment = None):
@@ -145,6 +153,7 @@ class RobotouilleRenderer:
         self.canvas.draw_to_surface(self.screen, state)
         self.draw_progress_bar()
         self.orders.draw()
+        self.update_next_screen() # TODO remove to order owner
         self.screen.blit(self.orders.get_screen(), (0,0))
         return np.transpose(
             np.array(pygame.surfarray.pixels3d(self.screen)), axes=(1, 0, 2)

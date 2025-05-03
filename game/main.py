@@ -33,9 +33,10 @@ def game():
     current_screen = LOGO
     running = True
     simulator_instance = None
+    need_update = True
 
     def update_screen():
-        nonlocal current_screen
+        nonlocal current_screen, need_update
         if current_screen in screens:
             screen_obj = screens[current_screen]
             screen_obj.update()
@@ -50,6 +51,7 @@ def game():
             if screen_obj.next_screen is not None:
                 current_screen = screen_obj.next_screen
                 screen_obj.set_next_screen(None)
+                need_update = True
 
     while running:
         screen.fill((0,0,0))
@@ -76,14 +78,17 @@ def game():
                 screen = pygame.display.set_mode(screen_size)
 
         else:
-            if current_screen == MATCHMAKING:
+            if current_screen == MATCHMAKING and need_update:
+                # TODO should be a packet that sends player data over network
                 screens[current_screen].set_players(["Player1", "Player2"]) # list of dictionary of profile + names [{name: ----, profile_image: ----.png, id: ___}]
-            
-            if current_screen == ENDGAME:
+                need_update = False
+            if current_screen == ENDGAME and need_update:
+                # TODO should be a packet that sends player data over network
                 screens[current_screen].create_profile([(1,  "Player 1", "profile"), (2, "Player 2", "profile")]) # [{id, name, profile, status}]
-                screens[current_screen].set_stars(1) # 
+                screens[current_screen].set_stars(2) # 
                 screens[current_screen].set_coin(12)
                 screens[current_screen].set_bell(121)
+                need_update = False
             update_screen()
 
         pygame.display.flip()

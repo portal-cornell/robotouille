@@ -19,7 +19,7 @@ TODO BACKEND INTEGRATION
 
 TODO HENRY
 After customers have been integrated, fetch the recipes from json
-- add_order
+- add_order (i.e remove hard coded recipes)
 - update time based on someone passing in values
 - The owner of order_set should query for next_screen, if it's ENDGAME, the game should end 
 """
@@ -346,7 +346,7 @@ FRIED_CHICKEN = [{
             "ids": [1]
         }]
 class OrdersCollection(ScreenInterface):
-    def __init__(self, window_size, config, time=30):
+    def __init__(self, window_size, config, time=3):
         """
         Initialize the OrdersCollection screen.  This class manage and display a collection of orders in the game.
 
