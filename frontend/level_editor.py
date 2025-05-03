@@ -283,7 +283,7 @@ def main():
                             test_level.put_station_at(new_station)
                         elif selected_mode == "items":
                             new_item = Item(
-                                "fried chicken",
+                                "chicken",
                                 "friedchicken.png",
                                 Vec2(x, y),
                                 ["isfried"],
