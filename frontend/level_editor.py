@@ -85,6 +85,50 @@ class LevelState:
             self._items.remove(existing_item)
             self._items.append(item)
 
+    def serialize(self) -> dict:
+        stations_json = []
+        for station in self.get_all_stations():
+            stations_json.append(
+                {
+                    "name": station.name,
+                    "x": station.pos.x,
+                    "y": self.height - 1 - station.pos.y,
+                }
+            )
+
+        items_json = []
+        for item in self.get_all_items():
+            items_json.append(
+                {
+                    "name": item.name,
+                    "x": item.pos.x,
+                    "y": self.height - 1 - item.pos.y,
+                    "stack-level": 0,  # This is hardcoded for now
+                    "predicates": item.predicates,
+                }
+            )
+
+        level_json = {
+            "version": "1.0.0",
+            "width": self.width,
+            "height": self.height,
+            "config": {
+                "num_cuts": {"lettuce": 3, "default": 3},
+                "cook_time": {"patty": 3, "default": 3},
+            },
+            "stations": stations_json,
+            "items": items_json,
+            "players": [{"name": "robot", "x": 0, "y": 0, "direction": [0, 1]}],
+            "goal_description": "Make a cheese burger with cheese on top of the patty",
+            "goal": [
+                {"predicate": "iscooked", "args": ["patty"], "ids": [1]},
+                {"predicate": "atop", "args": ["topbun", "cheese"], "ids": [2, 3]},
+                {"predicate": "atop", "args": ["cheese", "patty"], "ids": [3, 1]},
+                {"predicate": "atop", "args": ["patty", "bottombun"], "ids": [1, 4]},
+            ],
+        }
+        return level_json
+
 
 class NoStationAtLocationError(Exception):
     """Raised when trying to place an item at a location without a station."""
@@ -183,50 +227,6 @@ def main():
         manager=manager,
     )
 
-    def level_state_to_json(level: LevelState) -> dict:
-        stations_json = []
-        for station in level.get_all_stations():
-            stations_json.append(
-                {
-                    "name": station.name,
-                    "x": station.pos.x,
-                    "y": level.height - 1 - station.pos.y,
-                }
-            )
-
-        items_json = []
-        for item in level.get_all_items():
-            items_json.append(
-                {
-                    "name": item.name,
-                    "x": item.pos.x,
-                    "y": level.height - 1 - item.pos.y,
-                    "stack-level": 0,  # This is hardcoded for now
-                    "predicates": item.predicates,
-                }
-            )
-
-        level_json = {
-            "version": "1.0.0",
-            "width": level.width,
-            "height": level.height,
-            "config": {
-                "num_cuts": {"lettuce": 3, "default": 3},
-                "cook_time": {"patty": 3, "default": 3},
-            },
-            "stations": stations_json,
-            "items": items_json,
-            "players": [{"name": "robot", "x": 0, "y": 0, "direction": [0, 1]}],
-            "goal_description": "Make a cheese burger with cheese on top of the patty",
-            "goal": [
-                {"predicate": "iscooked", "args": ["patty"], "ids": [1]},
-                {"predicate": "atop", "args": ["topbun", "cheese"], "ids": [2, 3]},
-                {"predicate": "atop", "args": ["cheese", "patty"], "ids": [3, 1]},
-                {"predicate": "atop", "args": ["patty", "bottombun"], "ids": [1, 4]},
-            ],
-        }
-        return level_json
-
     import json
     import tkinter as tk
     from tkinter import filedialog
@@ -269,7 +269,7 @@ def main():
                     root.withdraw()
                     file_path = filedialog.asksaveasfilename(defaultextension=".json")
                     if file_path:
-                        level_json = level_state_to_json(test_level)
+                        level_json = test_level.serialize()
                         with open(file_path, "w") as f:
                             json.dump(level_json, f, indent=4)
                         print(f"Level saved to {file_path}")
