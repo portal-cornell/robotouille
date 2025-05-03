@@ -2,14 +2,12 @@ import pygame
 
 from frontend.pause import PauseScreen
 from frontend.constants import ENDGAME
+from game.progress_bar import ProgressBarScreen
 
 from utils.robotouille_input import create_action_from_event
 from robotouille.robotouille_env import create_robotouille_env
 from backend.movement.player import Player
 from backend.movement.movement import Movement
-from backend.special_effects.repetitive_effect import RepetitiveEffect
-from backend.special_effects.delayed_effect import DelayedEffect
-from backend.special_effects.conditional_effect import ConditionalEffect
 
 class RobotouilleSimulator:
     def __init__(self, screen, environment_name, seed=42, noisy_randomization=False, movement_mode='traverse', clock=pygame.time.Clock(), screen_size=(512, 512), render_fps=60):
@@ -34,6 +32,7 @@ class RobotouilleSimulator:
         self.players = self.env.current_state.get_players()
         self.actions = []
         self.next_screen = None
+        self.progress_bar = ProgressBarScreen(screen_size, self.env, self.renderer)
     
     def set_next_screen(self, next_screen):
         """
@@ -85,55 +84,6 @@ class RobotouilleSimulator:
 
         self.pause.update(pygame_events)
 
- 
-    def get_object_location(self, name):
-        """
-        Retrieves the (x, y) position of the object if found; otherwise, returns (-999, -999).
-
-        Args:
-            name (Backend.Object): The game object to locate.
-
-        Returns:
-            tuple: A tuple (x, y) representing the object's position, or (-999, -999) if not found.
-        """
-        ans = None
-        for k,v in self.env.current_state.predicates.items():
-            if ans is not None:
-                break
-            if not v or len(k.params) < 2:
-                continue
-            f, s = k.params
-            if s == name:
-                ans = self.renderer.canvas._get_station_position(f.name)
-            if f == name:
-                ans = self.renderer.canvas._get_station_position(s.name)
-        if ans is None: 
-            return -999, -999
-        return ans
-
-    def create_bar(self, effect):
-        """
-        Recursively goes through all nested effects and create/updates the progress bar
-        """
-        if isinstance(effect, RepetitiveEffect):
-            x, y = self.get_object_location(effect.arg)
-            self.renderer.update_progress_bar(effect.arg, x, y, percentage=effect.current_repetitions/effect.goal_repetitions)
-        elif isinstance(effect, DelayedEffect):
-            # TODO: in the future this needs to be synchronized to the clock
-            x, y = self.get_object_location(effect.arg)
-            self.renderer.update_progress_bar(effect.arg, x, y, increment=1/effect.goal_time)
-        elif isinstance(effect, ConditionalEffect):
-            for subeffect in effect.special_effects:
-                self.create_bar(subeffect)
-
-    def update_bars(self):
-        """
-        iterates through special effects to update special effects
-        """
-        for effect in self.env.current_state.special_effects:
-            self.create_bar(effect)
-        
-
 
     def update(self):
         """
@@ -183,6 +133,6 @@ class RobotouilleSimulator:
             self.obs, reward, self.done, self.info = self.env.step(self.actions)
             self.actions = []
 
-        self.update_bars()
+        self.progress_bar.update()
 
         return 
