@@ -174,12 +174,12 @@ def main():
 
     # Buttons
     stations_button = pygame_gui.elements.UIButton(
-        relative_rect=pygame.Rect((10, 8), (100, 50)),
+        relative_rect=pygame.Rect((10, 842), (100, 50)),
         text="Stations",
         manager=manager,
     )
     items_button = pygame_gui.elements.UIButton(
-        relative_rect=pygame.Rect((10, 48), (100, 50)),
+        relative_rect=pygame.Rect((10, 802), (100, 50)),
         text="Items",
         manager=manager,
     )
@@ -222,7 +222,10 @@ def main():
                                 Vec2(x, y),
                                 ["isfried"],
                             )
-                            test_level.put_item_at(new_item)
+                            try:
+                                test_level.put_item_at(new_item)
+                            except NoStationAtLocationError:
+                                pass
 
             manager.process_events(event)
         manager.update(time_delta)
