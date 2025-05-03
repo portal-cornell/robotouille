@@ -187,7 +187,11 @@ def main():
         stations_json = []
         for station in level.get_all_stations():
             stations_json.append(
-                {"name": station.name, "x": station.pos.x, "y": station.pos.y}
+                {
+                    "name": station.name,
+                    "x": station.pos.x,
+                    "y": level.height - 1 - station.pos.y,
+                }
             )
 
         items_json = []
@@ -196,7 +200,7 @@ def main():
                 {
                     "name": item.name,
                     "x": item.pos.x,
-                    "y": item.pos.y,
+                    "y": level.height - 1 - item.pos.y,
                     "stack-level": 0,  # This is hardcoded for now
                     "predicates": item.predicates,
                 }
