@@ -8,6 +8,8 @@ from pygame_gui.elements import (
     UIDropDownMenu,
     UITextEntryBox,
 )
+from pygame_gui.windows import UIFileDialog
+import os
 
 
 SNAP_TOLERANCE = 20
@@ -72,7 +74,7 @@ class DraggableBlock(UIButton):
                 starting_option=options[0],
                 relative_rect=dd_rect,
                 manager=manager,
-                container=container,
+                container=self.ui_container,
             )
 
             # real offset = menu-topleft minus block-topleft
@@ -135,7 +137,7 @@ class DraggableBlock(UIButton):
                 self.mouse_down_pos = event.pos
                 abs_r = self.get_abs_rect()
                 mx, my = event.pos
-                self.drag_offset = (abs_r.x - mx, abs_r.y - my)
+                self._drag_offset = (abs_r.x - mx, abs_r.y - my)
                 return handled
 
         elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
@@ -182,8 +184,8 @@ class DraggableBlock(UIButton):
         elif event.type == pygame.MOUSEMOTION and self.is_dragging:
             mouse_x, mouse_y = event.pos
 
-            abs_new_x = mouse_x + self.drag_offset[0]
-            abs_new_y = mouse_y + self.drag_offset[1]
+            abs_new_x = mouse_x + self._drag_offset[0]
+            abs_new_y = mouse_y + self._drag_offset[1]
 
             container_rect = (
                 self.ui_container.get_abs_rect()
@@ -454,6 +456,7 @@ class ObjectWorkspace(UIPanel):
         manager,
         container=None,
         bg_color=pygame.Color("#DCEAF4"),
+        text="",
         **kwargs,
     ):
         super().__init__(
@@ -463,8 +466,87 @@ class ObjectWorkspace(UIPanel):
             starting_height=1,
             **kwargs,
         )
+        self.text = text
         self.background_colour = bg_color
         self.rebuild()
         self.attached_blocks = []
+        self.manager = manager
 
         self.slots = []
+
+        self.top_label = UITextEntryBox(
+            relative_rect=pygame.Rect(0, 0, self.relative_rect.w, 50),
+            manager=manager,
+            container=self,
+            initial_text=self.text,
+            placeholder_text="Enter your object name...",
+        )
+
+        self.type_label = UITextBox(
+            html_text="<font color=#FFFFFF><b>Object Type:</b></font>",
+            relative_rect=pygame.Rect(0, 50, 150, 50),
+            manager=manager,
+            container=self,
+        )
+
+        self.object_type_dd = UIDropDownMenu(
+            options_list=[
+                "Item",
+                "Station",
+                "Container",
+            ],
+            starting_option="Item",
+            relative_rect=pygame.Rect(150, 50, 150, 50),
+            manager=manager,
+            container=self,
+        )
+
+        self.upload_button = UIButton(
+            relative_rect=pygame.Rect(580, 0, 115, 50),
+            text="Upload asset",
+            manager=manager,
+            container=self,
+            starting_height=2,
+        )
+
+        self.ex_button = UIButton(
+            relative_rect=pygame.Rect(500, 0, 80, 50),
+            text="Close",
+            manager=manager,
+            container=self,
+            starting_height=2,
+        )
+
+    def process_event(self, event):
+        handled = super().process_event(event)
+        if event.type == pygame_gui.UI_BUTTON_PRESSED:
+            if event.ui_element == self.upload_button:
+                file_dialog = UIFileDialog(
+                    rect=pygame.Rect(580, 0, 500, 500),
+                    manager=self.manager,
+                    window_title="Select a File",
+                    initial_file_path=os.path.expanduser("~"),
+                    allow_existing_files_only=True,
+                )
+            elif event.ui_element == self.ex_button:
+                self.kill()
+        elif event.type == pygame_gui.UI_FILE_DIALOG_PATH_PICKED:
+            file_path = event.text
+            # TODO use this file path to display image selected
+            print(file_path)
+
+        return handled
+
+    def get_snap_slot(self, block_abs_rect):
+        pass
+
+    def kill(self):
+        if self in all_workspaces:
+            all_workspaces.remove(self)
+
+        for slot in self.slots:
+            if slot.occupied != None:
+                slot.occupied.kill()
+
+        self.slots.clear()
+        super().kill()

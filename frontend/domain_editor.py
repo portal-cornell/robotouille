@@ -1,9 +1,10 @@
 import pygame
 import pygame_gui
-from pygame_gui.elements import UIButton
+from pygame_gui.elements import UIButton, UIImage
 from domain_elements import *
 import json
 import os
+from pygame_gui.core import ObjectID
 
 
 pygame.init()
@@ -42,6 +43,7 @@ right_panel = EditorPanel(
     manager,
     starting_height=1,
     bg_color=pygame.Color("#DCEAF4"),
+    allow_scroll_x=False,
 )
 
 left_panel.set_anchors({"top": "top", "bottom": "bottom", "left": "left"})
@@ -171,6 +173,19 @@ action_buttons = []
 action_hover = None
 
 
+# helper func to determine an action's parameters
+def identify_params(name: str):
+    params = {}
+    actions = data["action_defs"]
+    action = actions[name]
+    for precon in action["precons"]:
+        for param in precon["params"]:
+            params.add(param)
+    for ifx in action["immediate_fx"]:
+        for param in ifx["params"]:
+            params.add(param)
+
+
 def populate_actions():
     left_panel.get_container().clear()
 
@@ -187,7 +202,63 @@ def populate_actions():
             container=left_panel,
         )
         action_buttons.append(button)
-        print("Added " + text)
+
+
+# TODO fix all this, doesn't work right now
+# current_dir = os.path.dirname(__file__)
+# assets_dir = os.path.normpath(os.path.join(current_dir, "..", "assets"))
+
+# ignore_list = {".DS_Store", "tileset", "frontend"}
+
+# asset_buttons = []
+# asset_paths = []
+
+# for filename in os.listdir(assets_dir):
+
+#     if filename in ignore_list:
+#         continue
+
+#     full_path = os.path.join(assets_dir, filename)
+
+#     if os.path.isfile(full_path) and filename.lower().endswith(".png"):
+#         asset_paths.append(full_path)
+
+
+# def populate_assets():
+#     right_panel.get_container().clear()
+
+#     for i, name in enumerate(asset_paths):
+
+#         image_surface = pygame.image.load(name).convert_alpha()
+#         button = UIImage(
+#             relative_rect=pygame.Rect(0, 10 + i * 50, 50, 50),
+#             image_surface=image_surface,
+#             manager=manager,
+#             container=right_panel,
+#         )
+#         button.set_image(image_surface)
+#         asset_buttons.append(button)
+
+
+# populate_assets()
+
+sfxs = ["conditional", "repetitive", "delayed"]
+sfx_buttons = []
+
+
+def populate_sfx():
+    left_panel.get_container().clear()
+    sfx_buttons.clear()
+    for i, text in enumerate(sfxs):
+        button = UIButton(
+            relative_rect=pygame.Rect(10, 10 + i * 50, 180, 40),
+            text=text,
+            manager=manager,
+            container=left_panel,
+        )
+        button.colours["normal_bg"] = pygame.Color(30, 0, 93)
+        button.rebuild()
+        sfx_buttons.append(button)
 
 
 populate_predicates()
@@ -200,10 +271,11 @@ spawn_workspace_button = UIButton(
     manager=manager,
     container=center_panel,
 )
-# serialize a new action!
-save_as_action_button = UIButton(
+
+# create new object!
+spawn_object_button = UIButton(
     relative_rect=pygame.Rect(790, 10, 110, 40),
-    text="Save Action",
+    text="New Object",
     manager=manager,
     container=center_panel,
 )
@@ -213,6 +285,13 @@ save_as_action_button = UIButton(
 toggle_button = UIButton(
     relative_rect=pygame.Rect(10, 10, 150, 40),
     text="Show Actions",
+    manager=manager,
+    container=center_panel,
+)
+
+show_sfx_button = UIButton(
+    relative_rect=pygame.Rect(160, 10, 150, 40),
+    text="Show SFX",
     manager=manager,
     container=center_panel,
 )
@@ -239,18 +318,6 @@ while is_running:
                     mouse_pos[1] - center_panel_topleft[1],
                 )
 
-                # if event.ui_element == i1:
-                #     new_block = DraggableBlock(
-                #         relative_rect=pygame.Rect(
-                #             (30, relative_mouse_pos[1]), (30, 30)
-                #         ),
-                #         manager=manager,
-                #         container=center_panel,
-                #         text=event.ui_element.text,
-                #         starting_height=3,
-                #         is_parameter=True,
-                #     )
-
                 new_block = DraggableBlock(
                     pygame.Rect((30, relative_mouse_pos[1]), (160, 40)),
                     manager=manager,
@@ -263,8 +330,14 @@ while is_running:
 
                 blocks.append(new_block)
             elif event.ui_element in action_buttons:
+                if all_workspaces:
+                    last_ws = all_workspaces[-1]
+                    last_ws_rect = last_ws.get_relative_rect()
+                    ws_y = last_ws_rect.y + last_ws_rect.height + 25
+                else:
+                    ws_y = 50
+
                 ws_x = center_panel.rect.x
-                ws_y = center_panel.rect.y + 50 + (len(all_workspaces) * 700 + 75)
                 new_action = json_to_action(event.ui_element.text, ws_x, ws_y)
                 a_blocks = new_action.attached_blocks
                 print(a_blocks)
@@ -275,8 +348,14 @@ while is_running:
 
                 center_panel.set_scrollable_area_dimensions((new_width, new_height))
             elif event.ui_element == spawn_workspace_button:
+                if all_workspaces:
+                    last_ws = all_workspaces[-1]
+                    last_ws_rect = last_ws.get_relative_rect()
+                    ws_y = last_ws_rect.y + last_ws_rect.height + 25
+                else:
+                    ws_y = 50
+
                 ws_x = center_panel.rect.x
-                ws_y = center_panel.rect.y + 50 + (len(all_workspaces) * 700 + 75)
                 new_ws = ActionWorkspace(
                     relative_rect=pygame.Rect(ws_x - 50, ws_y, 700, 700),
                     manager=manager,
@@ -288,12 +367,26 @@ while is_running:
                 new_width = center_panel.scrollable_container.relative_rect.width
 
                 center_panel.set_scrollable_area_dimensions((new_width, new_height))
-            elif event.ui_element == save_as_action_button:
-                if len(all_workspaces) > 0:
-                    for ws in all_workspaces:
-                        action_json = ws.serialize()
-                        print(action_json)
+            elif event.ui_element == spawn_object_button:
+                if all_workspaces:
+                    last_ws = all_workspaces[-1]
+                    last_ws_rect = last_ws.get_relative_rect()
+                    ws_y = last_ws_rect.y + last_ws_rect.height + 25
+                else:
+                    ws_y = 50
 
+                ws_x = center_panel.rect.x
+                new_ws = ObjectWorkspace(
+                    relative_rect=pygame.Rect(ws_x - 50, ws_y, 700, 800),
+                    manager=manager,
+                    container=center_panel,
+                )
+                all_workspaces.append(new_ws)
+                current_height = center_panel.scrollable_container.relative_rect.height
+                new_height = len(all_workspaces) * SCREEN_HEIGHT + 100
+                new_width = center_panel.scrollable_container.relative_rect.width
+
+                center_panel.set_scrollable_area_dimensions((new_width, new_height))
             elif event.ui_element == toggle_button:
                 left_panel.showing_predicates = not left_panel.showing_predicates
 
@@ -303,6 +396,8 @@ while is_running:
                 else:
                     toggle_button.set_text("Show Predicates")
                     populate_actions()
+            elif event.ui_element == show_sfx_button:
+                populate_sfx()
         if event.type == pygame_gui.UI_BUTTON_ON_HOVERED:
             if event.ui_element in action_buttons:
                 mouse_pos = pygame.mouse.get_pos()
@@ -314,8 +409,9 @@ while is_running:
 
         if event.type == pygame_gui.UI_BUTTON_ON_UNHOVERED:
             if event.ui_element in action_buttons:
+                for w in temp_workspaces:
+                    w.kill()
                 temp_workspaces.clear()
-                action.kill()
 
         if event.type == pygame.VIDEORESIZE:
 
@@ -342,7 +438,8 @@ while is_running:
     window_surface.fill(pygame.Color("#EDE8D0"))
     manager.draw_ui(window_surface)
     for ws in all_workspaces:
-        ws.draw_debug_slots(window_surface)
+        if isinstance(ws, ActionWorkspace):
+            ws.draw_debug_slots(window_surface)
     pygame.display.update()
 
 pygame.quit()

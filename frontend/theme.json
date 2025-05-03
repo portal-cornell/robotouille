@@ -9,6 +9,443 @@
 
         }
     },
+    "@asset_buttons":
+    {
+        "#floorkitchen.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/floorkitchen.png",
+                "sub_surface_rect": "0,0,32,32"
+                
+              }
+            }
+          },
+          "#fryer.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/fryer.png"
+                
+              }
+            }
+          },
+          "#cuttomato.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/cuttomato.png"
+                
+              }
+            }
+          },
+          "#bowl.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/bowl.png"
+                
+              }
+            }
+          },
+          "#pot_soup.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/pot_soup.png"
+                
+              }
+            }
+          },
+          "#cookedpatty.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/cookedpatty.png"
+                
+              }
+            }
+          },
+          "#bread.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/bread.png"
+                
+              }
+            }
+          },
+          "#potato.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/potato.png"
+                
+              }
+            }
+          },
+          "#pot_water_boil.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/pot_water_boil.png"
+                
+              }
+            }
+          },
+          "#robot_right_3.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/robot_right_3.png"
+                
+              }
+            }
+          },
+          "#blender_empty.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/blender_empty.png"
+                
+              }
+            }
+          },
+          "#cutpotato.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/cutpotato.png"
+                
+              }
+            }
+          },
+          "#robot_right_2.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/robot_right_2.png"
+                
+              }
+            }
+          },
+          "#bottombun.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/bottombun.png"
+                
+              }
+            }
+          },
+          "#chicken.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/chicken.png"
+                
+              }
+            }
+          },
+          "#cutonion.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/cutonion.png"
+                
+              }
+            }
+          },
+          "#robot_back_4.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/robot_back_4.png"
+                
+              }
+            }
+          },
+          "#robot_right_1.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/robot_right_1.png"
+                
+              }
+            }
+          },
+          "#onion.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/onion.png"
+                
+              }
+            }
+          },
+          "#robot_back_1.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/robot_back_1.png"
+                
+              }
+            }
+          },
+          "#robot_right_4.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/robot_right_4.png"
+                
+              }
+            }
+          },
+          "#tomato.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/tomato.png"
+                
+              }
+            }
+          },
+          "#robot_back_3.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/robot_back_3.png"
+                
+              }
+            }
+          },
+          "#patty.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/patty.png"
+                
+              }
+            }
+          },
+          "#robot_back_2.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/robot_back_2.png"
+                
+              }
+            }
+          },
+          "#friedchicken.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/friedchicken.png"
+                
+              }
+            }
+          },
+          "#floorwood.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/floorwood.png"
+                
+              }
+            }
+          },
+          "#robot_front_1.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/robot_front_1.png"
+                
+              }
+            }
+          },
+          "#pot.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/pot.png"
+                
+              }
+            }
+          },
+          "#robot_front_2.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/robot_front_2.png"
+                
+              }
+            }
+          },
+          "#robot_front_3.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/robot_front_3.png"
+                
+              }
+            }
+          },
+          "#cheese.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/cheese.png"
+                
+              }
+            }
+          },
+          "#robot_left_4.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/robot_left_4.png"
+                
+              }
+            }
+          },
+          "#pot_water.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/pot_water.png"
+                
+              }
+            }
+          },
+          "#robot_back.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/robot_back.png"
+                
+              }
+            }
+          },
+          "#stove.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/stove.png"
+                
+              }
+            }
+          },
+          "#robot_left_1.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/robot_left_1.png"
+                
+              }
+            }
+          },
+          "#blender_inactive.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/blender_inactive.png"
+                
+              }
+            }
+          },
+          "#robot_right.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/robot_right.png"
+                
+              }
+            }
+          },
+          "#robot_front.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/robot_front.png"
+                
+              }
+            }
+          },
+          "#robot_left_3.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/robot_left_3.png"
+                
+              }
+            }
+          },
+          "#board.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/board.png"
+                
+              }
+            }
+          },
+          "#robot_front_4.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/robot_front_4.png"
+                
+              }
+            }
+          },
+          "#robot_left_2.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/robot_left_2.png"
+                
+              }
+            }
+          },
+          "#friedonion.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/friedonion.png"
+                
+              }
+            }
+          },
+          "#friedpotato.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/friedpotato.png"
+                
+              }
+            }
+          },
+          "#lettuce.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/lettuce.png"
+                
+              }
+            }
+          },
+          "#cookedchicken.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/cookedchicken.png"
+                
+              }
+            }
+          },
+          "#table.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/table.png"
+                
+              }
+            }
+          },
+          "#topbun.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/topbun.png"
+                
+              }
+            }
+          },
+          "#cutlettuce.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/cutlettuce.png"
+                
+              }
+            }
+          },
+          "#robot_left.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/robot_left.png",
+                "scale": "0.5"
+              }
+            }
+          },
+          "#sink.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/sink.png"
+                
+              }
+            }
+          },
+          "#bowl_soup.png": {
+            "images": {
+              "normal_image": {
+                "path": "../assets/bowl_soup.png"
+                
+              }
+            }
+          }
+    },
+    
     "panel":
     {
         "misc":
