@@ -58,6 +58,16 @@ class ItemInstance:
         self.predicates = predicates
         self.pos = pos
 
+    def get_asset(self, predicates: List[str]) -> Optional[str]:
+        """
+        This function takes a list of string predicates and returns an option(str)
+        representing an some/none filepath.
+        """
+        try:
+            return self.source_item.state_map[frozenset(predicates)]
+        except KeyError:
+            return None
+
 
 fried_chicken = Item(
     "chicken",
@@ -135,11 +145,11 @@ class LevelState:
         for item in self.get_all_items():
             items_json.append(
                 {
-                    "name": item.name,
+                    "name": item.source_item.name,
                     "x": item.pos.x,
                     "y": self.height - 1 - item.pos.y,
                     "stack-level": 0,  # This is hardcoded for now
-                    "predicates": item.predicates,
+                    "predicates": list(item.predicates),
                 }
             )
 
@@ -253,6 +263,8 @@ def main():
     test_level = LevelState(MAX_COLUMNS, ROWS)
     project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
+    saved_file_path: Optional[str] = None
+
     # Pygame UI setup
     manager = pygame_gui.UIManager(
         (SCREEN_WIDTH + SIDE_MARGIN, SCREEN_HEIGHT + LOWER_MARGIN),
@@ -283,6 +295,23 @@ def main():
         manager=manager,
     )
 
+    run_file_button = pygame_gui.elements.UIButton(
+        relative_rect=pygame.Rect((SCREEN_WIDTH, 816), (100, 50)),
+        text="Run Saved",
+        manager=manager,
+    )
+
+    run_file_button.show()
+
+    import subprocess
+
+    def run_file(file_path):
+        filename = file_path.split("/")[-1].replace(".json", "")
+        command = f"python main.py ++game.envrionment_name={filename}"
+        print(f"Running command: {command}")
+        project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+        subprocess.Popen(command, shell=True, cwd=project_root, env=os.environ)
+
     stations_button.show()
     items_button.show()
     export_button.show()
@@ -306,12 +335,18 @@ def main():
                 elif event.ui_element == export_button:
                     root = tk.Tk()
                     root.withdraw()
-                    file_path = filedialog.asksaveasfilename(defaultextension=".json")
-                    if file_path:
+                    saved_file_path = filedialog.asksaveasfilename(
+                        defaultextension=".json"
+                    )
+                    if saved_file_path:
                         level_json = test_level.serialize()
-                        with open(file_path, "w") as f:
+                        with open(saved_file_path, "w") as f:
                             json.dump(level_json, f, indent=4)
-                        print(f"Level saved to {file_path}")
+                        filename = saved_file_path.split("/")[-1].replace(".json", "")
+                        print(f"Level saved to {filename}")
+                elif event.ui_element == run_file_button:
+                    if saved_file_path != None:
+                        run_file(saved_file_path)
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
