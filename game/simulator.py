@@ -60,7 +60,9 @@ class RobotouilleSimulator:
         Renders the current state of the game environment and pause screen onto the main screen.
         """
         self.renderer.render(self.env.current_state)
+        self.progress_bar.draw()
         self.screen.blit(self.renderer.screen, (0, 0))
+        self.screen.blit(self.progress_bar.screen, (0, 0))
         self.screen.blit(self.pause.get_screen(), (0, 0))
 
     def handle_pause(self, pygame_events):
