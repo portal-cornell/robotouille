@@ -26,12 +26,47 @@ class Station:
         self.pos = pos
 
 
+class PredicateDict(dict):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def __getitem__(self, key: set):
+        frozenkey: Hashable = frozenset(key) if isinstance(key, set) else key
+        return super().__getitem__(frozenkey)
+
+    def __setitem__(self, key: set, value):
+        frozenkey: Hashable = frozenset(key) if isinstance(key, set) else key
+        return super().__setitem__(frozenkey, value)
+
+    def __contains__(self, key):
+        if isinstance(key, set):
+            key = frozenset(key)
+        return super().__contains__(key)
+
+
 class Item:
-    def __init__(self, name: str, asset_file: str, pos: Vec2, predicates: List[str]):
+    def __init__(self, name: str, state_map: list[tuple[list[str], str]]):
         self.name = name
-        self.asset_file = asset_file
+        frozen_state_map = {frozenset(k): v for k, v in state_map}
+        self.state_map: PredicateDict = PredicateDict(frozen_state_map)
+
+
+class ItemInstance:
+    def __init__(self, source_item: Item, predicates: set[str], pos: Vec2):
+        self.source_item = source_item
+        self.state = source_item.state_map[frozenset(predicates)]
+        self.predicates = predicates
         self.pos = pos
-        self.predicates: List[str] = []
+
+
+fried_chicken = Item(
+    "chicken",
+    [
+        ([], "chicken.png"),
+        (["isfried"], "friedchicken.png"),
+        (["iscooked"], "cookedchicken.png"),
+    ],
+)
 
 
 class LevelState:
@@ -39,7 +74,7 @@ class LevelState:
         self.width: int = width
         self.height: int = height
         self._stations: List[Station] = []
-        self._items: List[Item] = []
+        self._items: List[ItemInstance] = []
 
     def get_station_at(self, pos: Vec2) -> Optional[Station]:
         # gets station with given position, or returns None
@@ -48,7 +83,7 @@ class LevelState:
                 return station
         return None
 
-    def get_item_at(self, pos: Vec2) -> Optional[Item]:
+    def get_item_at(self, pos: Vec2) -> Optional[ItemInstance]:
         # gets item with given position, or returns None
         for item in self._items:
             if item.pos.x == pos.x and item.pos.y == pos.y:
@@ -70,7 +105,7 @@ class LevelState:
             self._stations.remove(existing_station)
             self._stations.append(station)
 
-    def put_item_at(self, item: Item):
+    def put_item_at(self, item: ItemInstance):
         pos = item.pos
         existing_station = self.get_station_at(pos)
         if existing_station is None:
@@ -178,7 +213,11 @@ def render_level(level: LevelState, tile_size: int) -> pygame.Surface:
     # Draw items
     for item in level.get_all_items():
         project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-        asset_path = os.path.join(project_root, "assets", item.asset_file)
+        asset_path = os.path.join(
+            project_root,
+            "assets",
+            item.source_item.state_map[frozenset(item.predicates)],
+        )
         img = pygame.image.load(asset_path).convert_alpha()
         img = pygame.transform.scale(img, (tile_size, tile_size))
         surface.blit(img, (item.pos.x * tile_size, item.pos.y * tile_size))
@@ -286,11 +325,10 @@ def main():
                             new_station = Station("fryer", "fryer.png", Vec2(x, y))
                             test_level.put_station_at(new_station)
                         elif selected_mode == "items":
-                            new_item = Item(
-                                "chicken",
-                                "friedchicken.png",
+                            new_item = ItemInstance(
+                                fried_chicken,
+                                set(["isfried"]),  # Pass a set of strings
                                 Vec2(x, y),
-                                ["isfried"],
                             )
                             try:
                                 test_level.put_item_at(new_item)
