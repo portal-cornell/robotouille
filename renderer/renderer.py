@@ -50,8 +50,8 @@ class RobotouilleRenderer:
             print("Warning: Running in headless mode. No window will be displayed.")
         # The PyGame screen
         self.screen = pygame.display.set_mode(screen_size) if screen is None else screen
-    
-        # TODO Remove; renderer should not own the ORDERS
+        
+        # TODO (lsuyean): Remove; renderer should not own the ORDERS. Should be own by customer controller/ GameMode class
         self.orders = OrdersCollection(screen_size, self.config)
 
 

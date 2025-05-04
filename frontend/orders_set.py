@@ -10,29 +10,10 @@ from frontend.loading import LoadingScreen
 import os
 import pygame
 
-"""
-Should be instantiated by 
-
-TODO BACKEND INTEGRATION
-- complete_order: when the backend identifies that the order is complete 
-- display orders, global time, and adding orders, score, etc
-
-TODO HENRY
-After customers have been integrated, fetch the recipes from json
-- add_order
-- update time based on someone passing in values
-- The owner of order_set should query for next_screen, if it's ENDGAME, the game should end 
-"""
 # Set up the assets directory
 ASSETS_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "orders"))
 
-"""
-ADD new recipes consider edge cases
-Soup + burger with lots of unique ingredients
-
-What screen needs routes/website 
-- needs to be connected to backend 
-"""
+# TODO here that this is dummy data and will need to be replaced later. Should be retrieve via jsons after customer PR
 TOMATO_SOUP = [
        {
             "predicate": "addedto",
