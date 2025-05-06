@@ -105,7 +105,7 @@ class Movement(object):
             possible_destinations.append(next_pos)
         return possible_destinations
 
-    def _get_path(self, character, destinations, gamemode):
+    def _get_character_path(self, character, destinations, gamemode):
         """
         Gets the path for the player or customer to move to the destination.
 
@@ -158,7 +158,7 @@ class Movement(object):
 
         If the movement mode is traverse, the player path is calculated
         and the player moves the first step in the path.
-
+-
         Args:
             gamemode (GameMode): The game mode object.
             character (Player or Customer): The player or customer to move.
@@ -179,38 +179,35 @@ class Movement(object):
         """
         state = gamemode.get_state()
 
-        if gamemode.players.get(character.name) is not None:
-            obj = gamemode.players[character.name]
-        else:
-            obj = gamemode.customers[character.name]
+        character_obj = gamemode.players.get(character.name, gamemode.customers[character.name])
 
         destination_pos = gamemode.stations[destination.name].pos
-        possible_destinations = self._get_possible_destinations(obj, destination_pos, gamemode)
+        possible_destinations = self._get_possible_destinations(character_obj, destination_pos, gamemode)
         # If player is already at the destination, the state predicates are immediately updated
-        if obj.pos in possible_destinations:
+        if character_obj.pos in possible_destinations:
             action.perform_action(state, param_arg_dict)
-            obj.direction = (destination_pos[0] - obj.pos[0], destination_pos[1] - obj.pos[1])
+            character_obj.direction = (destination_pos[0] - character_obj.pos[0], destination_pos[1] - character_obj.pos[1])
             return
         # Get the path to the destination
-        path = self._get_path(obj, possible_destinations, gamemode)
+        path = self._get_character_path(character_obj, possible_destinations, gamemode)
         # If movement mode is immediate, move the player to the destination
         if self.mode == Mode.IMMEDIATE:
-            obj.pos = path[-1]
-            obj.direction = (destination_pos[0] - obj.pos[0], destination_pos[1] - obj.pos[1])
+            character_obj.pos = path[-1]
+            character_obj.direction = (destination_pos[0] - character_obj.pos[0], destination_pos[1] - character_obj.pos[1])
             action.perform_action(state, param_arg_dict)
         else:
             # Animate the movement by updating the player's position depending on the time
             prev_pos = path[0]
             next_pos = path[1]
             data = MetaData(path, 0)
-            self.metadata[obj.name] = data
-            obj.direction = (next_pos[0] - prev_pos[0], next_pos[1] - prev_pos[1])
+            self.metadata[character_obj.name] = data
+            character_obj.direction = (next_pos[0] - prev_pos[0], next_pos[1] - prev_pos[1])
             data.time += clock.get_time()
             dt = data.time/self.ms_per_tile
             current_x = prev_pos[0] + dt * (next_pos[0] - prev_pos[0])
             current_y = prev_pos[1] + dt * (next_pos[1] - prev_pos[1])
-            obj.pos = (current_x, current_y)
-            obj.action = (action, param_arg_dict)
+            character_obj.pos = (current_x, current_y)
+            character_obj.action = (action, param_arg_dict)
 
     def _step_player_and_customer(self, gamemode, clock):
         """

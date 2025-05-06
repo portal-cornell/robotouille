@@ -29,7 +29,7 @@ class Classic(GameMode):
         Args:
             clock (pygame.time): The time object.
 
-        Modifies:
+        Side Effects:
             self.win (bool): True if the player has won, False otherwise.
         """
         if all([customer.has_been_served for customer in self.customers.values()]) and time.get_ticks() <= self.time_limit:
@@ -55,7 +55,9 @@ class Classic(GameMode):
             done (bool): True if the goal is reached, False otherwise.
         """
         
+        # Step customers
         for customer in self.customers.values():
+            # Check whether player has completed or failed customer orders
             if customer.has_been_served:
                 self.order_controller.mark_order_completed(customer.id)
             elif customer.time_to_serve <= 0:
@@ -66,13 +68,15 @@ class Classic(GameMode):
             if action is not None:
                 actions.append(action)
 
+        # Step the game state
         new_state, done = self.state.step(actions)
 
+        # Step movement
         self.movement.step(self, clock, actions)
-
         if self.movement.mode == Mode.TRAVERSE:
             new_state.current_player = new_state.next_player()
-
+        
+        # Check win condition
         self.check_if_player_has_won(time)
 
         return new_state, done
