@@ -43,6 +43,9 @@ class ProgressBarScreen(ScreenInterface):
 
         self.width_scale = screen_size[0] / ProgressBarScreen.WIDTH
         self.height_scale = screen_size[1] / ProgressBarScreen.HEIGHT
+
+        self.tile_row = 6/self.rows
+        self.tile_col = 6/self.columns
         
         
     def get_object_location(self, name):
@@ -77,11 +80,11 @@ class ProgressBarScreen(ScreenInterface):
         """
         if isinstance(effect, RepetitiveEffect):
             x, y = self.get_object_location(effect.arg)
-            self.update_progress_bar(effect.arg, x, y, percentage=effect.current_repetitions/effect.goal_repetitions)
+            self.update_progress_bar((effect.arg, str(effect.effects)), x, y, percentage=effect.current_repetitions/effect.goal_repetitions)
         elif isinstance(effect, DelayedEffect):
             # TODO: in the future this needs to be synchronized to the clock
             x, y = self.get_object_location(effect.arg)
-            self.update_progress_bar(effect.arg, x, y, increment=1/effect.goal_time)
+            self.update_progress_bar((effect.arg, str(effect.effects)), x, y, increment=1/effect.goal_time)
         elif isinstance(effect, ConditionalEffect):
             for subeffect in effect.special_effects:
                 self.create_bar(subeffect)
@@ -112,10 +115,12 @@ class ProgressBarScreen(ScreenInterface):
         bg_image = self.asset_directory[ASSETS_DIRECTORY]["progress_background.png"]
         
         if item not in self.progress_bars:
+            # TODO check it works on a rectangular board, if it does not switch self.tile_row and self.tile_col
             self.progress_bars[item] = Slider(self.screen, bg_image, fg_image,
-                                              self.width_scale * 80,  self.height_scale * 50, 
-                                              self.width_scale * 80,  self.height_scale * 50, 
+                                              self.width_scale * 80 * self.tile_row,  self.height_scale * 50 * self.tile_col, 
+                                              self.width_scale * 80 * self.tile_row,  self.height_scale * 50 * self.tile_col , 
                                               x/self.rows, (y + 0.4)/self.columns, 
+                                              foreground_padding=(10, 10, 0, 0), background_padding=(10, 10, 0, 0),
                                               filled_percent=percentage, anchor='topleft') 
             self.draw_bar[item] = True
             self.item_to_object[item] = object
