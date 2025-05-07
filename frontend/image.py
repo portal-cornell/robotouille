@@ -56,6 +56,10 @@ class Image(Node):
 
     def set_image(self, image):
         """
+        Set the image to be displayed 
+        
+        Args:
+            image (pygame.Surface): new image object.
         """
         self.source_image = image
         self.image = pygame.transform.smoothscale(image, (self.scaled_width, self.scaled_height))
