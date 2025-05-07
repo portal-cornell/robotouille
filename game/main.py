@@ -18,6 +18,7 @@ pygame.display.init()
 screen_size = (1440, 1024)
 screen = pygame.display.set_mode(screen_size)
 simulator_screen_size = (512, 512) # TODO: Make this scale based on screen size
+# simulator_screen_size = screen_size
 fps = 60
 pygame.display.set_caption('Robotouille Simulator')
 clock = pygame.time.Clock()
@@ -76,11 +77,11 @@ def game():
 
         else:
             if current_screen == MATCHMAKING:
-                screens[current_screen].set_players(["Player1", "Player2"])
+                screens[current_screen].set_players(["Player1", "Player2"]) # list of dictionary [{id: ---, name: ---, profile_image: ---.png, status: None}]
             
             if current_screen == ENDGAME:
-                screens[current_screen].create_profile([(1,  "Player 1"), (2, "Player 2")])
-                screens[current_screen].set_stars(1)
+                screens[current_screen].create_profile([(1,  "Player 1", "profile"), (2, "Player 2", "profile")])  # list of dictionary [{id: ---, name: ---, profile_image: ---.png, status: None}]
+                screens[current_screen].set_stars(1) 
                 screens[current_screen].set_coin(12)
                 screens[current_screen].set_bell(121)
             update_screen()
