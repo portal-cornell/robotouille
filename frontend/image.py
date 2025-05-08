@@ -13,8 +13,8 @@ class Image(Node):
             y_percent (float): Vertical position as a percentage of screen height.
             scale_factor (float): Factor by which to scale the image. Defaults to 1.s
             anchor (str): Positioning anchor, either "topleft" or "center". Defaults to "topleft".
-            offset_x (int): Represents the number of pixels vertically this nodes is offseted from the parent screen
-            offset_y (int): Represents the number of pixels horizonally this nodes is offseted from the parent screen
+            offset_x (int): Represents the number of pixels vertically this nodes is offseted from the top level parent screen
+            offset_y (int): Represents the number of pixels horizonally this nodes is offseted from the top level parent screen
         """
         self.source_image = image_source
         self.image = image_source
@@ -32,6 +32,10 @@ class Image(Node):
     def scale_to_size(self, width, height):
         """
         Scales the image to a specific pixel dimension, adjusted by scale factor
+
+        Args:
+            width (int): the width in pixels of the image before scaling (i.e found in figma)
+            height (int): the height in pixels of the image before scaling (i.e found in figma)
         """
         self.image = pygame.transform.smoothscale(self.source_image, (self.scale_factor * width, self.scale_factor * height))
         self.surface = self.image
@@ -52,6 +56,10 @@ class Image(Node):
 
     def set_image(self, image):
         """
+        Set the image to be displayed 
+        
+        Args:
+            image (pygame.Surface): new image object.
         """
         self.source_image = image
         self.image = pygame.transform.smoothscale(image, (self.scaled_width, self.scaled_height))

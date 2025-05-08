@@ -50,20 +50,8 @@ class RobotouilleRenderer:
             print("Warning: Running in headless mode. No window will be displayed.")
         # The PyGame screen
         self.screen = pygame.display.set_mode(screen_size) if screen is None else screen
-        self.progress_bars = {}
-        self.item_to_object = {}
-        self.draw_bar = {}
-
-        self.completed = set()
-        self.length, self.width = len(self.layout), len(self.layout[0])
-        self.asset_directory = LoadingScreen.ASSET
-
-        width = 512
-        height = 512
-        self.width_scale = screen_size[0] / width
-        self.height_scale = screen_size[1] / height
         
-        # TODO Remove; renderer should not own the ORDERS
+        # TODO (lsuyean): Remove; renderer should not own the ORDERS. Should be own by customer controller/ GameMode class
         self.orders = OrdersCollection(screen_size, self.config)
         self.next_screen = None
 
@@ -73,65 +61,6 @@ class RobotouilleRenderer:
         """
         if self.orders.next_screen:
             self.next_screen = self.orders.next_screen
-
-
-    def update_progress_bar(self, item, x, y, percentage = 0, increment = None):
-        """
-        Draws an image on the canvas.
-
-        TODO: need to get the station at (x,y) store it when you initialize the image
-        if the object is not on the same station, needs to hide the progress bar
-        """
-
-        object = None
-        if 0 <= y < len(self.layout) and 0 <= x < len(self.layout[0]):
-            object = self.layout[int(y)][int(x)]
-        if object: 
-            object = re.sub(r'\d+$', '', object)
-
-        fg_image = self.asset_directory[RobotouilleCanvas.ASSETS_DIRECTORY]["progress_foreground.png"]
-        bg_image = self.asset_directory[RobotouilleCanvas.ASSETS_DIRECTORY]["progress_background.png"]
-
-        if item in self.completed:
-            return
-        
-        if item not in self.progress_bars:
-            self.progress_bars[item] = Slider(self.screen, bg_image, fg_image,
-                                              self.width_scale * 80,  self.height_scale * 50, 
-                                              self.width_scale * 80,  self.height_scale * 50, 
-                                              x/self.length, (y + 0.4)/self.width, 
-                                              filled_percent=percentage, anchor='topleft') 
-            self.draw_bar[item] = True
-            self.item_to_object[item] = object
-        else:
-            if self.item_to_object[item] != object:
-                self.draw_bar[item] = False
-                return
-
-            self.draw_bar[item] = True
-            slider = self.progress_bars[item]
-            value = slider.get_value()
-
-            # update the value 
-            if percentage:
-                slider.set_value(percentage)
-            
-            if increment:
-                slider.set_value(value + increment)
-
-            value = slider.get_value()
-
-            if value >= 1:
-                self.completed.add(item)
-                self.progress_bars.pop(item)
-                self.item_to_object.pop(item)
-                self.draw_bar.pop(item)
-
-    
-    def draw_progress_bar(self):
-        for id, bar in self.progress_bars.items():
-            if self.draw_bar[id]:
-                bar.draw()
 
     def render(self, state):
         """
@@ -151,10 +80,9 @@ class RobotouilleRenderer:
         """
         self.screen.fill((0,0,0,0))
         self.canvas.draw_to_surface(self.screen, state)
-        self.draw_progress_bar()
         self.orders.draw()
-        self.update_next_screen() # TODO remove to order owner
         self.screen.blit(self.orders.get_screen(), (0,0))
+        self.update_next_screen() # TODO remove to order owner
         return np.transpose(
             np.array(pygame.surfarray.pixels3d(self.screen)), axes=(1, 0, 2)
         )

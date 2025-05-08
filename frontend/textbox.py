@@ -22,8 +22,8 @@ class Textbox(Node):
             scale_factor (float): Scale factor for resizing the text. Defaults to 1.0.
             align_text (str): The alignment of the text within the textbox. Options are "left", "center", or "right". Defaults to "center".
             anchor (str): Determines how the textbox rectangle is anchored on the screen. Options are "center" or "topleft". Defaults to "topleft".
-            offset_x (int): Represents the number of pixels vertically this nodes is offseted from the parent screen
-            offset_y (int): Represents the number of pixels horizonally this nodes is offseted from the parent screen
+            offset_x (int): Represents the number of pixels vertically this nodes is offseted from the top level parent screen
+            offset_y (int): Represents the number of pixels horizonally this nodes is offseted from the top level parent screen
         """
 
         super().__init__(screen, pygame.Surface((width * scale_factor, height* scale_factor), pygame.SRCALPHA), x_percent, y_percent, offset_x, offset_y, anchor)

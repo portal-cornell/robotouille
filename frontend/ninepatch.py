@@ -17,8 +17,8 @@ class NinePatch:
             height (int): The total height of the NinePatch to be drawn.
             padding (tuple): Padding values (left, right, top, bottom) that define the borders for slicing the UNSCALED image.
             scale_factor (float, optional): Scale factor for resizing the images. Defaults to 1.0.
-            offset_x (int): Represents the number of pixels vertically this nodes is offseted from the parent screen
-            offset_y (int): Represents the number of pixels horizonally this nodes is offseted from the parent screen
+            offset_x (int): Represents the number of pixels vertically this nodes is offseted from the top level parent screen
+            offset_y (int): Represents the number of pixels horizonally this nodes is offseted from the top level parent screen
         """
         self.screen = screen
         self.image_source = image_source
