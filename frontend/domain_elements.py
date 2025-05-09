@@ -11,7 +11,14 @@ from pygame_gui.elements import (
 from pygame_gui.windows import UIFileDialog
 from pygame_gui.core import ObjectID
 import os
+import json
 
+# other json initialization
+
+json_path = os.path.join(os.path.dirname(__file__), "..", "domain", "robotouille.json")
+json_path = os.path.normpath(json_path)
+
+out_file = open(json_path, "w")
 
 SNAP_TOLERANCE = 20
 all_workspaces = []
@@ -74,7 +81,7 @@ class DraggableBlock(UIButton):
         self._param_widgets = []  # list of (offset, widget)
         for label, pos, options in param_defs or []:
             dd_rect = pygame.Rect(
-                relative_rect.x + pos[0], relative_rect.y + pos[1] - 10, 50, 30
+                relative_rect.x + pos[0] + 25, relative_rect.y + pos[1] - 10, 50, 30
             )
             dd = UIDropDownMenu(
                 options_list=options,
@@ -91,7 +98,7 @@ class DraggableBlock(UIButton):
 
             if len(options) > 1:
                 dd2_rect = pygame.Rect(
-                    relative_rect.x + pos[0] - 50, relative_rect.y + pos[1] - 10, 50, 30
+                    relative_rect.x + pos[0] - 25, relative_rect.y + pos[1] - 10, 50, 30
                 )
                 dd2 = UIDropDownMenu(
                     options_list=options,
@@ -319,7 +326,7 @@ class ActionWorkspace(UIPanel):
             container=self,
         )
         self.ex_button = UIButton(
-            relative_rect=pygame.Rect(535, 0, 80, 50),
+            relative_rect=pygame.Rect(690, 0, 80, 50),
             text="Close",
             manager=manager,
             container=self,
@@ -327,7 +334,7 @@ class ActionWorkspace(UIPanel):
         )
 
         self.save_button = UIButton(
-            relative_rect=pygame.Rect(615, 0, 80, 50),
+            relative_rect=pygame.Rect(770, 0, 80, 50),
             text="Save",
             manager=manager,
             container=self,
@@ -380,6 +387,7 @@ class ActionWorkspace(UIPanel):
             if event.ui_element == self.save_button:
                 action = self.serialize()
                 print(action)
+                json.dump(action, out_file, indent=4)
             elif event.ui_element == self.ex_button:
                 self.kill()
         return handled
@@ -613,3 +621,35 @@ class ObjectWorkspace(UIPanel):
 
         self.slots.clear()
         super().kill()
+
+
+class PredicateCreator(UIPanel):
+    def __init__(
+        self,
+        relative_rect,
+        manager,
+        container=None,
+        bg_color=pygame.Color("#DCEAF4"),
+        **kwargs,
+    ):
+        super().__init__(
+            relative_rect=relative_rect,
+            manager=manager,
+            container=container,
+            starting_height=1,
+            **kwargs,
+        )
+        self.background_colour = bg_color
+        self.rebuild()
+        self.manager = manager
+
+        self.top_label = UITextEntryBox(
+            relative_rect=pygame.Rect(0, 0, self.relative_rect.w, 50),
+            manager=manager,
+            container=self,
+            initial_text="",
+            placeholder_text="Enter your predicate name...",
+        )
+
+
+out_file.close()

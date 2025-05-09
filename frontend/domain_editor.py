@@ -297,6 +297,13 @@ show_sfx_button = UIButton(
     container=center_panel,
 )
 
+new_pred_button = UIButton(
+    relative_rect=pygame.Rect(310, 10, 150, 40),
+    text="New Predicate",
+    manager=manager,
+    container=center_panel,
+)
+
 
 clock = pygame.time.Clock()
 is_running = True
