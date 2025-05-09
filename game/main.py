@@ -29,7 +29,8 @@ def game():
         LOGO: LogoScreen(screen_size),
         LOADING: LoadingScreen(screen_size),
     }
-
+    # TODO create websocket for client (could also be in the loading screen)
+    
     current_screen = LOGO
     running = True
     simulator_instance = None

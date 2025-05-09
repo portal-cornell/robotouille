@@ -7,27 +7,6 @@ from frontend.screen import ScreenInterface
 from frontend.loading import LoadingScreen
 import os
 
-"""
-TODO BACKEND INTEGRATION
-
-# list of player 
-# if someone clicks play again/ exit communicate with backend 
-
-BACKEND MUST communicate with ENDSCREEN 
-- call create_profile and pass it the list of users. The list should be in the form [(player_id, player_name)].
-player_id should uniquely identify the user (i.e their device) and player_name is the name the player choose
-
--call set_star, which translates the score to a 3 star system (1/3 star will be golden)
--call set_coin
--call set_bell
-
-
-
-TODO HENRY
-- add play again functionality 
-- add timer
-- players should be reupdated (status)
-"""
 # Set up the assets directory
 ASSETS_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "endgame"))
 
@@ -91,10 +70,6 @@ class EndScreen(ScreenInterface):
             "name": Textbox(self.screen, players[i][1], self.x_percent(pos), self.y_percent(697), 188, 72, font_size=40, scale_factor=self.scale_factor, text_color=WHITE, anchor="center"),
             "status": Image(self.screen, self.pending_image, self.x_percent(pos + 98.5), self.y_percent(503), self.scale_factor, anchor="center")
             }
-        
-        for i in range(len(players)):
-            print(players[i][0])
-            # self.profiles[players[i][0]]["status"].set_image(self.yes_image)
 
     def set_stars(self, count):
         """Set the number of stars to display as filled.
@@ -172,19 +147,18 @@ class EndScreen(ScreenInterface):
                     self.timer_started = True
                     self.timer_start_time = pygame.time.get_ticks()
 
-                # print(self.profiles)
-                # for player_id in self.profiles:
-                #     print('player_id', id)
-                # print('set image for player 1')
+                # TODO notify the server that player wants to play again
                 self.profiles[1]["status"].set_image(self.yes_image)
 
             if self.quit_button.handle_event(event):
+                # TODO disconnect websocket
                 self.set_next_screen(MAIN_MENU)
+                self.timer_started = False
 
 
         if self.timer_started:
             elapsed_time = (pygame.time.get_ticks() - self.timer_start_time) / 1000  # seconds
-            print(f"Timer running: {elapsed_time:.2f} seconds")
+            # print(f"Timer running: {elapsed_time:.2f} seconds")
             if elapsed_time >= 5:
                 self.timer_start_time = 0
                 self.timer_started = False
