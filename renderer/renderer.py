@@ -1,8 +1,11 @@
 import pygame
 import numpy as np
 import os
+import re
 import json
-
+from frontend.slider import Slider
+from frontend.loading import LoadingScreen
+from frontend.orders_set import OrdersCollection
 from .canvas import RobotouilleCanvas
 
 class RobotouilleRenderer:
@@ -47,6 +50,10 @@ class RobotouilleRenderer:
             print("Warning: Running in headless mode. No window will be displayed.")
         # The PyGame screen
         self.screen = pygame.display.set_mode(screen_size) if screen is None else screen
+        
+        # TODO (lsuyean): Remove; renderer should not own the ORDERS. Should be own by customer controller/ GameMode class
+        self.orders = OrdersCollection(screen_size, self.config)
+
 
     def render(self, state):
         """
@@ -64,7 +71,10 @@ class RobotouilleRenderer:
             close (bool):
                 Whether to close the pygame window
         """
+        self.screen.fill((0,0,0,0))
         self.canvas.draw_to_surface(self.screen, state)
+        self.orders.draw()
+        self.screen.blit(self.orders.get_screen(), (0,0))
         return np.transpose(
             np.array(pygame.surfarray.pixels3d(self.screen)), axes=(1, 0, 2)
         )

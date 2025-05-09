@@ -463,6 +463,13 @@ class State(object):
             AssertionError: If the action is invalid with the given arguments in
             the given state.
         """
+
+        for special_effect in self.special_effects:
+            if special_effect.completed:
+                self.special_effects.remove(special_effect)
+            special_effect.update(self)
+        
+
         for action, param_arg_dict in actions:
             if action is None:
                 continue
@@ -473,10 +480,6 @@ class State(object):
         self.movement.step(self, clock, actions)
 
 
-        for special_effect in self.special_effects:
-            special_effect.update(self)
-            if special_effect.completed:
-                self.special_effects.remove(special_effect)
         
         if self.is_goal_reached():
             return True
