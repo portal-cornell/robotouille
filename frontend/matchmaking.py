@@ -84,6 +84,8 @@ class MatchMakingScreen(ScreenInterface):
                 # Transitions to Main Menu when key Q is pressed.
                 if event.key == pygame.K_q:
                     self.set_next_screen(MAIN_MENU)
-                 # Transitions to the Game when key G is pressed.
+                    # TODO this should disconnect client from server
+                # Transitions to the Game when key G is pressed.
                 elif event.key == pygame.K_g:
                     self.set_next_screen(GAME)
+                    # TODO remove this functionality? Game start should now be based on server

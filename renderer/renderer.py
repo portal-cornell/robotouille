@@ -53,7 +53,14 @@ class RobotouilleRenderer:
         
         # TODO (lsuyean): Remove; renderer should not own the ORDERS. Should be own by customer controller/ GameMode class
         self.orders = OrdersCollection(screen_size, self.config)
+        self.next_screen = None
 
+    def update_next_screen(self):
+        """
+        TODO move this to order's controller/parent
+        """
+        if self.orders.next_screen:
+            self.next_screen = self.orders.next_screen
 
     def render(self, state):
         """
@@ -75,6 +82,7 @@ class RobotouilleRenderer:
         self.canvas.draw_to_surface(self.screen, state)
         self.orders.draw()
         self.screen.blit(self.orders.get_screen(), (0,0))
+        self.update_next_screen() # TODO remove to order owner
         return np.transpose(
             np.array(pygame.surfarray.pixels3d(self.screen)), axes=(1, 0, 2)
         )

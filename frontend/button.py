@@ -6,10 +6,10 @@ from frontend.textbox import Textbox
 from frontend.constants import FONT_PATH
 
 class Button(Node):
-    def __init__(self, screen, normal_image_source, x_percent, y_percent, scale_factor=1.0,
-                hover_image_source = None, pressed_image_source = None, text=None,
-                font_path=FONT_PATH, font_size= 60, text_color=(0, 0, 0), anchor="topleft", 
-                offset_x=0, offset_y=0):
+    def __init__(self, screen, normal_image_source, x_percent, y_percent, 
+                 scale_factor=1.0, hover_image_source = None, pressed_image_source = None, 
+                 text=None, font_path=FONT_PATH, font_size= 60, text_color=(0, 0, 0), 
+                 anchor="topleft", offset_x = 0, offset_y = 0):
         """
         Initialize a Button instance.
 
@@ -29,8 +29,8 @@ class Button(Node):
             font_size (int): The size of the font.
             text_color (tuple): Color of the text in RGB format. Defaults to black.
             anchor (str): Anchor point for positioning. Defaults to "topleft".
-            offset_x (int): Represents the number of pixels vertically this nodes is offseted from the top level parent screen
-            offset_y (int): Represents the number of pixels horizonally this nodes is offseted from the top level parent screen
+            offset_x (int): Represents the number of pixels vertically this nodes is offseted from the parent screen
+            offset_y (int): Represents the number of pixels horizonally this nodes is offseted from the parent screen
         """
         self.normal_image = Image(screen, normal_image_source, x_percent, y_percent, scale_factor, anchor=anchor)
         super().__init__(screen, self.normal_image.image, x_percent, y_percent, offset_x, offset_y, anchor)

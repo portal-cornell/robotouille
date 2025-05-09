@@ -42,6 +42,8 @@ class EndScreen(ScreenInterface):
         self.coins_text = Textbox(self.screen, "213", self.x_percent(577), self.y_percent(431), 188, 72, font_size=40, scale_factor=self.scale_factor, anchor="center")
         self.bells = Image(self.screen, self.bell_image, self.x_percent(881.5), self.y_percent(438.74), self.scale_factor, anchor="center")
         self.bells_text = Textbox(self.screen, "214", self.x_percent(984), self.y_percent(430), 188, 72, font_size=40, scale_factor=self.scale_factor, anchor="center")
+        self.timer_started = False
+        self.timer_start_time = 0
 
     def create_profile(self, players): 
         """Create UI elements for each player.
@@ -67,7 +69,7 @@ class EndScreen(ScreenInterface):
             "profile": Image(self.screen, self.profile_image, self.x_percent(pos), self.y_percent(616.5), self.scale_factor, anchor="center"),
             "name": Textbox(self.screen, players[i][1], self.x_percent(pos), self.y_percent(697), 188, 72, font_size=40, scale_factor=self.scale_factor, text_color=WHITE, anchor="center"),
             "status": Image(self.screen, self.pending_image, self.x_percent(pos + 98.5), self.y_percent(503), self.scale_factor, anchor="center")
-        }
+            }
 
     def set_stars(self, count):
         """Set the number of stars to display as filled.
@@ -136,14 +138,28 @@ class EndScreen(ScreenInterface):
 
     def update(self):
         """Update the screen and handle events."""
-        super().update() 
+        super().update()
 
         # Handle events
         for event in pygame.event.get():
-            # Restarts level if play_again_button is pressed
             if self.play_again_button.handle_event(event):
-                self.set_next_screen(GAME)
-             # Return to main menu when quit_button is pressed
+                if not self.timer_started:
+                    self.timer_started = True
+                    self.timer_start_time = pygame.time.get_ticks()
+
+                # TODO notify the server that player wants to play again
+                self.profiles[1]["status"].set_image(self.yes_image)
+
             if self.quit_button.handle_event(event):
+                # TODO disconnect websocket
                 self.set_next_screen(MAIN_MENU)
-            
+                self.timer_started = False
+
+
+        if self.timer_started:
+            elapsed_time = (pygame.time.get_ticks() - self.timer_start_time) / 1000  # seconds
+            # print(f"Timer running: {elapsed_time:.2f} seconds")
+            if elapsed_time >= 5:
+                self.timer_start_time = 0
+                self.timer_started = False
+                self.set_next_screen(GAME)
