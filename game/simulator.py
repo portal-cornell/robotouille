@@ -2,6 +2,7 @@ import pygame
 
 from frontend.pause import PauseScreen
 from frontend.constants import ENDGAME
+from game.progress_bar import ProgressBarScreen
 
 from utils.robotouille_input import create_action_from_event
 from robotouille.robotouille_env import create_robotouille_env
@@ -31,6 +32,7 @@ class RobotouilleSimulator:
         self.players = self.env.current_state.get_players()
         self.actions = []
         self.next_screen = None
+        self.progress_bar = ProgressBarScreen(screen_size, self.env, self.renderer)
     
     def set_next_screen(self, next_screen):
         """
@@ -58,7 +60,9 @@ class RobotouilleSimulator:
         Renders the current state of the game environment and pause screen onto the main screen.
         """
         self.renderer.render(self.env.gamemode)
+        self.progress_bar.draw()
         self.screen.blit(self.renderer.screen, (0, 0))
+        self.screen.blit(self.progress_bar.screen, (0, 0))
         self.screen.blit(self.pause.get_screen(), (0, 0))
 
     def handle_pause(self, pygame_events):
@@ -74,12 +78,10 @@ class RobotouilleSimulator:
                     self.done = True
                 if event.key == pygame.K_p:
                     self.pause.toggle()
-                    print("pause toggled")
 
         if self.pause.next_screen is not None:
             current_screen = self.pause.next_screen
             self.pause.set_next_screen(None)
-            print("returning pause")
             return current_screen
 
         self.pause.update(pygame_events)
@@ -88,9 +90,7 @@ class RobotouilleSimulator:
     def update(self):
         """
         Main update loop for the simulation. Handles rendering, input, and game logic.
-
         """
-        
         if self.done:
             self.renderer.render(self.env.gamemode)
             self.next_screen = ENDGAME
@@ -134,5 +134,7 @@ class RobotouilleSimulator:
         if len(self.actions) == len(self.players):
             self.obs, reward, self.done, self.info = self.env.step(self.actions)
             self.actions = []
+
+        self.progress_bar.update()
 
         return 
