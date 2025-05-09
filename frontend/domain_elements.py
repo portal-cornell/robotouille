@@ -9,6 +9,7 @@ from pygame_gui.elements import (
     UITextEntryBox,
 )
 from pygame_gui.windows import UIFileDialog
+from pygame_gui.core import ObjectID
 import os
 
 
@@ -22,13 +23,19 @@ current_id = 0
 blocks_by_id = {}
 block_slots = {}
 
+# button color constants
+PLAYER_C = "633B48"
+ITEM_C = "21005D"
+STATION_C = "852221"
+MEAL_C = "BF6A02"
+
 
 class Slot:
     """A docking slot living inside an ActionWorkspace."""
 
     def __init__(self, rel_pos, section=None):
         self.rel_pos = rel_pos  # tuple (x,y) inside the workspace
-        self.size = (160, 40)  # same size as block
+        self.size = (185, 40)  # same size as block
         self.occupied = None  # points to DraggableBlock or None
         self.section = section
 
@@ -67,7 +74,7 @@ class DraggableBlock(UIButton):
         self._param_widgets = []  # list of (offset, widget)
         for label, pos, options in param_defs or []:
             dd_rect = pygame.Rect(
-                relative_rect.x + pos[0] - 5, relative_rect.y + pos[1] - 10, 50, 30
+                relative_rect.x + pos[0], relative_rect.y + pos[1] - 10, 50, 30
             )
             dd = UIDropDownMenu(
                 options_list=options,
@@ -81,6 +88,22 @@ class DraggableBlock(UIButton):
             offset = pygame.Vector2(dd_rect.topleft) - pygame.Vector2(
                 relative_rect.topleft
             )
+
+            if len(options) > 1:
+                dd2_rect = pygame.Rect(
+                    relative_rect.x + pos[0] - 50, relative_rect.y + pos[1] - 10, 50, 30
+                )
+                dd2 = UIDropDownMenu(
+                    options_list=options,
+                    starting_option=options[1],
+                    relative_rect=dd2_rect,
+                    manager=manager,
+                    container=self.ui_container,
+                )
+                second_offset = pygame.Vector2(dd2_rect.topleft) - pygame.Vector2(
+                    relative_rect.topleft
+                )
+                self._param_widgets.append((second_offset, dd2))
             self._param_widgets.append((offset, dd))
         self.params = param_defs
         # drag state
@@ -165,6 +188,7 @@ class DraggableBlock(UIButton):
 
                         self.set_relative_position((rel_x, rel_y))
                         snapped = True
+                        ws.parametrize()
                         break
 
                 if not snapped and self.docked_slot:
@@ -172,13 +196,15 @@ class DraggableBlock(UIButton):
                     self.docked_slot.occupied = None
                     self.docked_slot = None
                     block_slots.pop(self.id, None)
+                    print(all_workspaces)
 
                 # small click toggles
                 dx = abs(event.pos[0] - self.mouse_down_pos[0])
                 dy = abs(event.pos[1] - self.mouse_down_pos[1])
                 if dx < 5 and dy < 5:
                     self.toggle_color()
-
+                for ws in all_workspaces:
+                    ws.parametrize()
                 return handled
 
         elif event.type == pygame.MOUSEMOTION and self.is_dragging:
@@ -238,6 +264,7 @@ class ActionWorkspace(UIPanel):
         bg_color=pygame.Color("#DCEAF4"),
         text="",
         starting_height=1,
+        parameters=set(),
         **kwargs,
     ):
         super().__init__(
@@ -255,6 +282,9 @@ class ActionWorkspace(UIPanel):
         self.ifxs = []
         self.sfxs = []
         self.text = text
+        self.parameters = parameters
+        self.param_boxes = []
+        self.manager = manager
 
         # TODO make a typable text box for this later
 
@@ -306,9 +336,9 @@ class ActionWorkspace(UIPanel):
 
         # ───── CONFIG ─────
         NUM_SLOTS = 8
-        SLOT_W, SLOT_H = 160, 40
+        SLOT_W, SLOT_H = 185, 40
         MARGIN_X = 20  # px on left & right
-        H_SPACING = 5  # horizontal gap
+        H_SPACING = 3  # horizontal gap
         V_SPACING = 10  # vertical gap
 
         # find how many fit per row
@@ -387,6 +417,43 @@ class ActionWorkspace(UIPanel):
                 pygame.Rect((abs_x, abs_y), slot.size),
                 2,
             )
+
+    def parametrize(self):
+
+        for box in self.param_boxes:
+            box.kill()
+
+        self.parameters.clear()
+        self.param_boxes.clear()
+
+        for slot in self.slots:
+            if slot.occupied is None:
+                continue
+            else:
+                block = slot.occupied
+                for label, pos, opts in block.params:
+                    self.parameters.update(opts)
+
+        for i, param in enumerate(self.parameters):
+            if param[0] == "i":
+                obj_id = "#item"
+            elif param[0] == "s":
+                obj_id = "#station"
+            elif param[0] == "p":
+                obj_id = "#player"
+            elif param[0] == "c":
+                obj_id = "#container"
+            else:
+                obj_id = "#meal"
+
+            param_box = UITextBox(
+                html_text="<font color=#FFFFFF>" + param + "</font>",
+                relative_rect=pygame.Rect(485 - i * 50, 0, 50, 50),
+                manager=self.manager,
+                container=self,
+                object_id=ObjectID(class_id="@parameter_boxes", object_id=obj_id),
+            )
+            self.param_boxes.append(param_box)
 
     def get_snap_slot(self, block_abs_rect):
         """Return a free Slot whose (inflated) rect contains block centre, else None."""
@@ -490,11 +557,7 @@ class ObjectWorkspace(UIPanel):
         )
 
         self.object_type_dd = UIDropDownMenu(
-            options_list=[
-                "Item",
-                "Station",
-                "Container",
-            ],
+            options_list=["Item", "Station", "Container", "Meal"],
             starting_option="Item",
             relative_rect=pygame.Rect(150, 50, 150, 50),
             manager=manager,

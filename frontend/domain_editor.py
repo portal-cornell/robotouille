@@ -87,7 +87,7 @@ def find_slot(
         params = predicate_json.get("params", predicate_json.get("param"))
         if slot.occupied == None and slot.section == section:
             block = DraggableBlock(
-                pygame.Rect((30, 30), (160, 40)),
+                pygame.Rect((30, 30), (185, 40)),
                 manager=manager,
                 container=container,
                 text=predicate_json["predicate"],
@@ -130,7 +130,7 @@ def json_to_action(name: str, ws_x, ws_y, container=center_panel):
 
     # create a new action workspace
     loaded_act = ActionWorkspace(
-        relative_rect=pygame.Rect(ws_x - 50, ws_y, 700, 700),
+        relative_rect=pygame.Rect(ws_x - 50, ws_y, 850, 700),
         manager=manager,
         container=container,
         text=action["name"],
@@ -145,6 +145,7 @@ def json_to_action(name: str, ws_x, ws_y, container=center_panel):
 
     # for pred in action["sfx"]:
     #     find_slot(pred, loaded_act, "sfx")
+    loaded_act.parametrize()
     return loaded_act
 
 
@@ -318,13 +319,35 @@ while is_running:
                     mouse_pos[1] - center_panel_topleft[1],
                 )
 
+                params = data["predicate_defs"]
+                param_list = []
+                i, s, p, c, m = 1, 1, 1, 1, 1
+                for param in params:
+                    if param["name"] == event.ui_element.text:
+                        for param_type in param["param_types"]:
+                            if param_type[0] == "i":
+                                param_list.append("i" + str(i))
+                                i += 1
+                            elif param_type[0] == "s":
+                                param_list.append("s" + str(s))
+                                s += 1
+                            elif param_type[0] == "p":
+                                param_list.append("p" + str(p))
+                                p += 1
+                            elif param_type[0] == "c":
+                                param_list.append("c" + str(c))
+                                c += 1
+                            else:
+                                param_list.append("m" + str(m))
+                                m += 1
+
                 new_block = DraggableBlock(
-                    pygame.Rect((30, relative_mouse_pos[1]), (160, 40)),
+                    pygame.Rect((30, relative_mouse_pos[1]), (185, 40)),
                     manager=manager,
                     container=center_panel,
                     text=event.ui_element.text,
                     param_defs=[
-                        ("obj", (130, 15), ["i1", "s1"]),
+                        ("obj", (130, 15), param_list),
                     ],
                 )
 
@@ -337,7 +360,7 @@ while is_running:
                 else:
                     ws_y = 50
 
-                ws_x = center_panel.rect.x
+                ws_x = center_panel.rect.x - 50
                 new_action = json_to_action(event.ui_element.text, ws_x, ws_y)
                 a_blocks = new_action.attached_blocks
                 print(a_blocks)
@@ -357,7 +380,7 @@ while is_running:
 
                 ws_x = center_panel.rect.x
                 new_ws = ActionWorkspace(
-                    relative_rect=pygame.Rect(ws_x - 50, ws_y, 700, 700),
+                    relative_rect=pygame.Rect(ws_x - 100, ws_y, 850, 700),
                     manager=manager,
                     container=center_panel,
                 )
@@ -377,7 +400,7 @@ while is_running:
 
                 ws_x = center_panel.rect.x
                 new_ws = ObjectWorkspace(
-                    relative_rect=pygame.Rect(ws_x - 50, ws_y, 700, 800),
+                    relative_rect=pygame.Rect(ws_x - 100, ws_y, 700, 800),
                     manager=manager,
                     container=center_panel,
                 )

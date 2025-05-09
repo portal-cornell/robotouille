@@ -456,10 +456,53 @@
     },
     "text_box":
     {
+        "colours": 
+        {
+           "dark_bg": "#1e1e1e"
+        },
         "misc":
         {
             "shape": "rounded_rectangle",
             "shape_corner_radius": "10"
         }
-    }
+    },
+    "@parameter_boxes":
+    {
+        
+    },
+    "#item":
+        {
+          "colours":
+          {
+            "dark_bg": "#21005D"
+          }
+        },
+        "#player":
+        {
+          "colours":
+          {
+            "dark_bg": "#633B48"
+          }
+        },
+        "#station":
+        {
+          "colours":
+          {
+            "dark_bg": "#1F291E"
+          }
+        },
+        "#container":
+        {
+          "colours": 
+          {
+            "dark_bg": "#F5C242"
+          }
+        },
+        "#meal":
+        {
+          "colours":
+          {
+            "dark_bg": "#BF6A02"
+          }
+        }
 }
