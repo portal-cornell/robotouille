@@ -179,7 +179,10 @@ class Movement(object):
         """
         state = gamemode.get_state()
 
-        character_obj = gamemode.players.get(character.name, gamemode.customers[character.name])
+        character_obj = (
+            gamemode.players.get(character.name)
+            or gamemode.customers.get(character.name)
+        )
 
         destination_pos = gamemode.stations[destination.name].pos
         possible_destinations = self._get_possible_destinations(character_obj, destination_pos, gamemode)
