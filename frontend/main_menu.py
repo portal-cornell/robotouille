@@ -21,10 +21,16 @@ class MenuScreen(ScreenInterface):
         self.background = Image(self.screen, self.background_image, 0.5, 0.5, self.scale_factor, anchor="center")
 
         self.start_button = Button(self.screen, self.start_button_image, 
-                                    self.x_percent(556), self.y_percent(342), self.scale_factor, 
+                                    self.x_percent(366), self.y_percent(320), self.scale_factor, 
                                     hover_image_source= self.start_hover_button_image,
                                     pressed_image_source= self.start_pressed_button_image, 
-                                    text = "START", text_color=WHITE)
+                                    text = "PLAY NOW", text_color=WHITE)
+        self.join_lobby = Button(self.screen, self.start_button_image, 
+                                    self.x_percent(729), self.y_percent(320), self.scale_factor, 
+                                    hover_image_source= self.start_hover_button_image,
+                                    pressed_image_source= self.start_pressed_button_image, 
+                                    text = "JOIN LOBBY", font_size = 52,text_color=WHITE)
+        
         self.setting_button = Button(self.screen, self.start_button_image, 
                                     self.x_percent(720), self.y_percent(524), self.scale_factor,
                                     hover_image_source= self.start_hover_button_image, 
@@ -59,6 +65,7 @@ class MenuScreen(ScreenInterface):
         """Draws all the screen components."""
         self.background.draw()
         self.start_button.draw()
+        self.join_lobby.draw()
         self.setting_button.draw()
         self.profile_button.draw()
         if self.dropdown_visible:
@@ -76,10 +83,11 @@ class MenuScreen(ScreenInterface):
             if event.type == pygame.MOUSEBUTTONDOWN:
                 clicked_anywhere=True
 
-            # Transitions to JoinLobby when start_button is pressed.
+            # Transitions to Match Making or Join Lobby when start_button is pressed.
             if self.start_button.handle_event(event):
+                self.set_next_screen(MATCHMAKING)
+            if self.join_lobby.handle_event(event):
                 self.set_next_screen(JOINLOBBY)
-                #self.set_next_screen(MATCHMAKING)
 
 
             # Transitions to Settings when setting_button is pressed.

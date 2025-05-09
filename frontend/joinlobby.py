@@ -11,6 +11,62 @@ import os
 # Set up the assets directory
 ASSETS_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "joinlobby"))
 
+class LobbyButton:
+    def __init__(self, screen, x, y, x_name, x_lobby, y_button, lobby, scale_factor, font_path, button_img, profile_img,  empty_profile_img, player_icon_positions):
+        self.screen = screen
+        self.lobby = lobby  # dict with 'name', 'id', 'players'
+        self.scale = scale_factor
+        self.x = x
+        self.y = y
+        self.x_name = x_name
+        self.x_lobby = x_lobby
+        self.y_button = y_button
+        self.player_icon_positions = player_icon_positions
+        self.empty_profile_img = empty_profile_img
+        
+        # Lobby background (this spans the full row)
+        self.background = Button(
+            screen, 
+            button_img,  
+            x, y, 
+            scale_factor, 
+            anchor="topleft"
+        )
+              
+        # PARTY NAME — aligned to left padding
+        self.name_text = Textbox(
+            screen, lobby["name"],x_name, y_button,
+            338, 71,
+            text_color=WHITE, scale_factor=scale_factor, anchor="topleft"
+        )
+
+        # LOBBY ID — aligned toward center-right
+        self.id_text = Textbox(
+            screen, lobby["id"],
+            x_lobby, y_button,
+            338, 71,
+            text_color=WHITE, font_path=font_path, 
+            scale_factor=scale_factor, anchor="topleft"
+        )
+
+        # Player icons — aligned at the far right side
+        self.player_icons = []
+        num_players = len(lobby["players"])
+        for i, (x_percent, y_percent) in enumerate(player_icon_positions):
+            img = profile_img if i < num_players else empty_profile_img
+            icon = Image(screen, img, x_percent, y_percent, scale_factor, anchor="topleft")
+            self.player_icons.append(icon)
+
+    def draw(self):
+        self.background.draw()
+        self.name_text.draw()
+        self.id_text.draw()
+        for icon in self.player_icons:
+            icon.draw()
+
+    def handle_event(self, event):
+        if self.background.handle_event(event):
+                self.set_next_screen(MAIN_MENU)
 
 class JoinLobbyScreen(ScreenInterface):
     def __init__(self, window_size):
@@ -79,7 +135,7 @@ class JoinLobbyScreen(ScreenInterface):
                                             pressed_image_source= self.private_unpressed_img,  text = "PRIVATE", 
                                             font_path=FONT_PATH, font_size=60, text_color=BLACK, anchor="topleft")
 
-        
+
     def load_assets(self):
         """
         Loads necessary assets.
@@ -111,6 +167,42 @@ class JoinLobbyScreen(ScreenInterface):
 
         self.private_pressed_img = LoadingScreen.ASSET[ASSETS_DIRECTORY]["private_pressed.png"]
         self.private_unpressed_img = LoadingScreen.ASSET[ASSETS_DIRECTORY]["private_unpressed.png"]
+        
+        self.lobby_button_img = LoadingScreen.ASSET[ASSETS_DIRECTORY]["lobbybutton.png"]
+        self.empty_profile_img = LoadingScreen.ASSET[ASSETS_DIRECTORY]["empty_profile.png"]
+        self.profile_img = LoadingScreen.ASSET[ASSETS_DIRECTORY]["profile_img.png"]
+
+
+    def set_lobbies(self, lobbies_data):
+        self.lobby_buttons = []
+        for i, lobby in enumerate(lobbies_data):
+            x = self.x_percent(174)
+            y = self.y_percent(352 + i * 86)
+            x_name = self.x_percent(190) 
+            y_button = self.y_percent(352 + i * 86 + 6)
+            x_lobby = self.x_percent(566)
+            player_icon_positions = []
+            for i in range(4):
+                x_icon = 942 + i * 84  # pixel X position
+                x_icon_percent = self.x_percent(x_icon)
+                player_icon_positions.append((x_icon_percent, y_button))  
+                
+            btn = LobbyButton(
+                screen=self.screen,
+                x=x,
+                y=y,
+                x_name = x_name,
+                x_lobby = x_lobby,
+                y_button = y_button,
+                lobby=lobby,
+                scale_factor=self.scale_factor,
+                font_path=FONT_PATH,
+                button_img=self.lobby_button_img,
+                profile_img=self.profile_img,
+                empty_profile_img=self.empty_profile_img,
+                player_icon_positions=player_icon_positions
+            )
+            self.lobby_buttons.append(btn)
 
     def draw(self):
         """Draws all the screen components."""
@@ -121,6 +213,8 @@ class JoinLobbyScreen(ScreenInterface):
         self.create.draw()
         self.reload.draw()
         self.open_lobbies.draw()
+        for btn in getattr(self, 'lobby_buttons', []):
+                btn.draw()
 
         if self.show_create_lobby:
           self.create_lobby_background.draw()
@@ -128,14 +222,15 @@ class JoinLobbyScreen(ScreenInterface):
           self.party_name.draw()
           self.create_lobby.draw()
           self.cancel.draw()
+
           if self.lobby_visibility == "PUBLIC":
             self.public_pressed.draw()
             self.private_unpressed.draw()
           else:
               self.public_unpressed.draw()
               self.private_pressed.draw() 
-
-        
+            
+            
 
     def update(self):
         """Update the screen and handle events."""
@@ -153,7 +248,6 @@ class JoinLobbyScreen(ScreenInterface):
             # Only handle modal buttons if the modal is visible
             if self.show_create_lobby:
                 self.party_name.handle_event(event)
-
                 if self.cancel.handle_event(event):
                     # Hide the popup and reset relevant fields
                     self.show_create_lobby = False
@@ -164,3 +258,5 @@ class JoinLobbyScreen(ScreenInterface):
                     self.lobby_visibility = "PUBLIC"
                 if self.private_pressed.handle_event(event):
                     self.lobby_visibility = "PRIVATE"
+            for btn in getattr(self, 'lobby_buttons', []):
+                btn.handle_event(event)

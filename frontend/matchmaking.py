@@ -60,9 +60,9 @@ class MatchMakingScreen(ScreenInterface):
         self.lobby_id_txt = Textbox(self.screen, '#12345', self.x_percent(584), self.y_percent(58), 271, 95, WHITE, font_size=80, scale_factor=self.scale_factor, anchor="topleft")
 
         #kick button
-        self.kick_button = Button(self.screen, self.kick_button_image, self.x_percent(968), self.y_percent(55),
-                                  self.scale_factor, hover_image_source= self.kick_button_hover_image, text = "KICK", font_path = FONT_PATH,
-                                  font_size = 60, text_color = WHITE, anchor="topleft")
+        #self.kick_button = Button(self.screen, self.kick_button_image, self.x_percent(968), self.y_percent(55),
+        #                          self.scale_factor, hover_image_source= self.kick_button_hover_image, text = "KICK", font_path = FONT_PATH,
+        #                          font_size = 60, text_color = WHITE, anchor="topleft")
         #start button
         self.start = Button(self.screen, self.start_button_image, self.x_percent(556), self.y_percent(686), self.scale_factor, 
                               hover_image_source= self.start_hover_button_image, pressed_image_source= self.start_pressed_button_image, 
@@ -82,8 +82,8 @@ class MatchMakingScreen(ScreenInterface):
 
         self.lobby_id_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["number_box.png"]
 
-        self.kick_button_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["kick_button.png"]
-        self.kick_button_hover_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["kick_button_hover.png"]
+        #self.kick_button_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["kick_button.png"]
+        #self.kick_button_hover_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["kick_button_hover.png"]
         self.start_button_image = LoadingScreen.ASSET[SHARED_DIRECTORY]["button_b.png"]
         self.start_hover_button_image = LoadingScreen.ASSET[SHARED_DIRECTORY]["button_b_h.png"]
         self.start_pressed_button_image = LoadingScreen.ASSET[SHARED_DIRECTORY]["button_b_p.png"]
@@ -129,7 +129,7 @@ class MatchMakingScreen(ScreenInterface):
         self.lobby_id_image.draw()
         self.lobby_id_txt.draw()
 
-        self.kick_button.draw()
+        #self.kick_button.draw()
 
 
     def update(self):

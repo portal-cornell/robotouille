@@ -88,6 +88,27 @@ def game():
                 screens[current_screen].set_stars(1) # 
                 screens[current_screen].set_coin(12)
                 screens[current_screen].set_bell(121)
+
+            #lobby fake data
+            lobbies = [
+                {
+                    "name": "lobby 1",
+                    "id": "40956",
+                    "players": [(1,  "Player 1", "profile"), (2, "Player 2", "profile")]
+                },
+                {
+                    "name": "lobby 2",
+                    "id": "40957",
+                    "players": [(3,  "Player 1", "profile"), (4, "Player 2", "profile"),(5, "Player 2", "profile")]
+                },
+                {
+                    "name": "lobby 3",
+                    "id": "40958",
+                    "players": [(6,  "Player 1", "profile"), (7, "Player 2", "profile"),(8, "Player 2", "profile"),(9, "Player 2", "profile")]
+                }
+            ]
+            if current_screen == JOINLOBBY:
+                screens[current_screen].set_lobbies(lobbies)
             update_screen()
 
         pygame.display.flip()
