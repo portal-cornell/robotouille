@@ -117,6 +117,13 @@ def setup() -> EditorState:
         items[item_name] = Item(item_name, state_map)
 
     stations = {}  # stations not loaded from config, hardcoded in loop()
+    station_entities = config_data["station"]["entities"]
+    stations = {}
+    for station_name, station_data in station_entities.items():
+        assets = station_data["assets"]
+        default_asset = assets.get("default", "cheese.png")
+        stations[station_name] = Station(station_name, default_asset)
+
     return EditorState(
         project_root_path,
         asset_dir_path,
@@ -161,13 +168,52 @@ def loop(editor_state: EditorState):
     )
     manager.set_visual_debug_mode(True)
 
-    # Side Panel
+    # Side Panels
     item_panel_width = 200
     item_panel = pygame_gui.elements.UIScrollingContainer(
         relative_rect=pygame.Rect((SCREEN_WIDTH, 0), (item_panel_width, SCREEN_HEIGHT)),
         manager=manager,
         visible=False,
     )
+
+    station_panel = pygame_gui.elements.UIScrollingContainer(
+        relative_rect=pygame.Rect(
+            (SCREEN_WIDTH + item_panel_width, 0), (item_panel_width, SCREEN_HEIGHT)
+        ),
+        manager=manager,
+        visible=False,
+    )
+
+    # Station Buttons
+    station_buttons = {}
+    button_width = 50
+    button_height = 50
+    button_x = 10
+    button_y = 10
+    for station in editor_state.get_stations():
+        station_asset_path = os.path.join(
+            editor_state.get_project_root_path(), "assets", station.asset_file
+        )
+        try:
+            img = pygame.image.load(station_asset_path).convert_alpha()
+            img = pygame.transform.scale(img, (button_width, button_height))
+            station_button = pygame_gui.elements.UIButton(
+                relative_rect=pygame.Rect(
+                    (button_x, button_y), (button_width, button_height)
+                ),
+                text="",
+                manager=manager,
+                container=station_panel.get_container(),
+            )
+            station_button.normal_image = img
+            station_button.hovered_image = img
+            station_button.pressed_image = img
+            station_button.rebuild()
+            station_buttons[station.name] = station_button
+
+            button_y += button_height + 10
+        except FileNotFoundError:
+            print(f"Asset not found: {station_asset_path}")
 
     # Buttons
     stations_button = pygame_gui.elements.UIButton(
@@ -246,13 +292,13 @@ def loop(editor_state: EditorState):
     items_button.show()
     export_button.show()
 
-    def toggle_item_panel():
-        if selected_mode == "items":
+    def set_selected_mode(mode):
+        item_panel.hide()
+        station_panel.hide()
+        if mode == "items":
             item_panel.show()
-        else:
-            item_panel.hide()
-
-    toggle_item_panel()
+        elif mode == "stations":
+            station_panel.show()
 
     clock = pygame.time.Clock()
     running = True
@@ -266,11 +312,9 @@ def loop(editor_state: EditorState):
 
             if event.type == pygame_gui.UI_BUTTON_PRESSED:
                 if event.ui_element == stations_button:
-                    selected_mode = "stations"
-                    toggle_item_panel()
+                    set_selected_mode("stations")
                 elif event.ui_element == items_button:
-                    selected_mode = "items"
-                    toggle_item_panel()
+                    set_selected_mode("items")
                 elif event.ui_element == export_button:
                     root = tk.Tk()
                     root.withdraw()
@@ -303,6 +347,21 @@ def loop(editor_state: EditorState):
                             )
                             print(f"Selected item: {item_name}")
                             break
+                    # Check if it's a station button
+                    for station_name, button in station_buttons.items():
+                        if event.ui_element == button:
+                            editor_state.set_selected(
+                                next(
+                                    (
+                                        station
+                                        for station in editor_state.get_stations()
+                                        if station.name == station_name
+                                    ),
+                                    None,
+                                )
+                            )
+                            print(f"Selected station: {station_name}")
+                            break
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
@@ -313,9 +372,11 @@ def loop(editor_state: EditorState):
                         x = x // TILE_SIZE
                         y = y // TILE_SIZE
                         if selected_mode == "stations":
-                            station = Station("fryer", "fryer.png")
-                            new_station = StationInstance(station, Vec2(x, y))
-                            test_level.put_station_at(new_station)
+                            if editor_state.get_selected():
+                                new_station = StationInstance(
+                                    editor_state.get_selected(), Vec2(x, y)
+                                )
+                                test_level.put_station_at(new_station)
                         elif selected_mode == "items":
                             if editor_state.get_selected():
                                 new_item = ItemInstance(
