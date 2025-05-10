@@ -13,6 +13,9 @@ from pygame_gui.core import ObjectID
 import os
 import json
 
+import tkinter as tk
+from tkinter import filedialog
+
 # other json initialization
 
 # json_path = os.path.join(os.path.dirname(__file__), "..", "domain", "robotouille.json")
@@ -20,6 +23,27 @@ import json
 
 # out_file = open(json_path, "w")
 
+def open_file_dialog(title="Select a file", filetypes=None, initial_dir=None):
+    """Opens a native file dialog and returns the selected file path"""
+    root = tk.Tk()
+    root.withdraw()
+    
+    if filetypes is None:
+        filetypes = [
+            ("All files", "*.*")
+        ]
+    
+    if initial_dir is None:
+        initial_dir = os.path.expanduser("~")
+    
+    file_path = filedialog.askopenfilename(
+        title=title,
+        filetypes=filetypes,
+        initialdir=initial_dir
+    )
+    
+    root.destroy()
+    return file_path
 SNAP_TOLERANCE = 20
 all_workspaces = []
 temp_workspaces = []
@@ -591,14 +615,29 @@ class ObjectWorkspace(UIPanel):
     def process_event(self, event):
         handled = super().process_event(event)
         if event.type == pygame_gui.UI_BUTTON_PRESSED:
+            # if event.ui_element == self.upload_button:
+            #     file_dialog = UIFileDialog(
+            #         rect=pygame.Rect(580, 0, 500, 500),
+            #         manager=self.manager,
+            #         window_title="Select a File",
+            #         initial_file_path=os.path.expanduser("~"),
+            #         allow_existing_files_only=True,
+            #     )
+            #changed from python gui to tkinter
+
             if event.ui_element == self.upload_button:
-                file_dialog = UIFileDialog(
-                    rect=pygame.Rect(580, 0, 500, 500),
-                    manager=self.manager,
-                    window_title="Select a File",
-                    initial_file_path=os.path.expanduser("~"),
-                    allow_existing_files_only=True,
+                
+                file_path = open_file_dialog(
+                    title="Select Asset File",
+                    filetypes=[
+                        ("Image files", "*.png *.jpg *.jpeg *.gif *.bmp"),
+                        ("All files", "*.*")
+                    ]
                 )
+                
+                if file_path:
+                    print(f"Selected file: {file_path}")
+                    # TODO: still need to handle the file/image/etc
             elif event.ui_element == self.ex_button:
                 self.kill()
         elif event.type == pygame_gui.UI_FILE_DIALOG_PATH_PICKED:
