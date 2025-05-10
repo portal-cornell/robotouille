@@ -5,12 +5,7 @@ import pygame_gui
 from pygame_gui.elements import UIPanel
 import os
 from typing import List, Optional
-
-root = tk.Tk()
-root.withdraw()
-
-pygame.init()
-pygame.display.set_caption("Level Editor")
+import json
 
 
 class Vec2:
@@ -69,6 +64,50 @@ class ItemInstance:
             return None
 
 
+root = tk.Tk()
+root.withdraw()
+
+pygame.init()
+pygame.display.set_caption("Level Editor")
+
+root = tk.Tk()
+root.withdraw()
+
+dev_mode = True
+
+config_file_path = (
+    filedialog.askopenfilename(
+        title="Select Robotouille Config", filetypes=[("JSON files", "*.json")]
+    )
+    if not dev_mode
+    else "renderer/configuration/robotouille_config.json"
+)
+
+if not config_file_path:
+    print("No config file selected. Exiting.")
+    exit()
+
+with open(config_file_path, "r") as f:
+    config_data = json.load(f)
+
+item_entities = config_data["item"]["entities"]
+items = {}
+for item_name, item_data in item_entities.items():
+    assets = item_data["assets"]
+    state_map = []
+    default_asset = assets.get("default")
+    if default_asset:
+        state_map.append(([], default_asset))
+    for state_name, state_info in assets.items():
+        if (
+            state_name != "default"
+            and "asset" in state_info
+            and "predicates" in state_info
+        ):
+            state_map.append((state_info["predicates"], state_info["asset"]))
+    items[item_name] = Item(item_name, state_map)
+
+
 fried_chicken = Item(
     "chicken",
     [
@@ -87,14 +126,12 @@ class LevelState:
         self._items: List[ItemInstance] = []
 
     def get_station_at(self, pos: Vec2) -> Optional[Station]:
-        # gets station with given position, or returns None
         for station in self._stations:
             if station.pos.x == pos.x and station.pos.y == pos.y:
                 return station
         return None
 
     def get_item_at(self, pos: Vec2) -> Optional[ItemInstance]:
-        # gets item with given position, or returns None
         for item in self._items:
             if item.pos.x == pos.x and item.pos.y == pos.y:
                 return item
@@ -191,10 +228,10 @@ def render_level(level: LevelState, tile_size: int) -> pygame.Surface:
     BEIGE = pygame.Color("#EDE8D0")
     width = level.width
     height = level.height
-    tile_size = 64  # Assuming TILE_SIZE is defined
+    tile_size = 64
 
     surface = pygame.Surface((width * tile_size, height * tile_size))
-    surface.fill(BEIGE)  # Assuming BEIGE is defined
+    surface.fill(BEIGE)
 
     # Draw grid
     for x in range(width + 1):
@@ -271,16 +308,20 @@ def main():
     )
     manager.set_visual_debug_mode(True)
 
+    # Side Panel
+    item_panel_width = 200
+    item_panel = pygame_gui.elements.UIPanel(
+        relative_rect=pygame.Rect((SCREEN_WIDTH, 0), (item_panel_width, SCREEN_HEIGHT)),
+        manager=manager,
+        visible=False,
+    )
+
     # Buttons
     stations_button = pygame_gui.elements.UIButton(
         relative_rect=pygame.Rect((10, 842), (100, 50)),
         text="Stations",
         manager=manager,
     )
-
-    import json
-    import tkinter as tk
-    from tkinter import filedialog
 
     items_button = pygame_gui.elements.UIButton(
         relative_rect=pygame.Rect((10, 802), (100, 50)),
@@ -294,6 +335,37 @@ def main():
         text="Save",
         manager=manager,
     )
+
+    # Item Buttons
+    item_buttons = {}
+    button_width = 50
+    button_height = 50
+    button_x = 10
+    button_y = 10
+    for item_name, item in items.items():
+        default_asset = item.state_map[frozenset()]
+        project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+        asset_path = os.path.join(project_root, "assets", default_asset)
+        try:
+            img = pygame.image.load(asset_path).convert_alpha()
+            img = pygame.transform.scale(img, (button_width, button_height))
+            item_button = pygame_gui.elements.UIButton(
+                relative_rect=pygame.Rect(
+                    (button_x, button_y), (button_width, button_height)
+                ),
+                text="",
+                manager=manager,
+                container=item_panel,
+            )
+            item_button.normal_image = img
+            item_button.hovered_image = img
+            item_button.pressed_image = img
+            item_button.rebuild()
+            item_buttons[item_name] = item_button
+
+            button_y += button_height + 10
+        except FileNotFoundError:
+            print(f"Asset not found: {asset_path}")
 
     run_file_button = pygame_gui.elements.UIButton(
         relative_rect=pygame.Rect((SCREEN_WIDTH, 816), (100, 50)),
@@ -316,6 +388,28 @@ def main():
     items_button.show()
     export_button.show()
 
+    selected_item = None
+
+    def set_selected_item(item_name):
+        nonlocal selected_item
+        selected_item = item_name
+
+    def toggle_item_panel():
+        if selected_mode == "items":
+            item_panel.show()
+        else:
+            item_panel.hide()
+
+    toggle_item_panel()
+
+    def toggle_item_panel():
+        if selected_mode == "items":
+            item_panel.show()
+        else:
+            item_panel.hide()
+
+    toggle_item_panel()
+
     clock = pygame.time.Clock()
     running = True
 
@@ -327,11 +421,12 @@ def main():
                 running = False
 
             if event.type == pygame_gui.UI_BUTTON_PRESSED:
-                # export to file; app config to add to recently saved files?
                 if event.ui_element == stations_button:
                     selected_mode = "stations"
+                    toggle_item_panel()
                 elif event.ui_element == items_button:
                     selected_mode = "items"
+                    toggle_item_panel()
                 elif event.ui_element == export_button:
                     root = tk.Tk()
                     root.withdraw()
@@ -347,6 +442,13 @@ def main():
                 elif event.ui_element == run_file_button:
                     if saved_file_path != None:
                         run_file(saved_file_path)
+                else:
+                    # Check if it's an item button
+                    for item_name, button in item_buttons.items():
+                        if event.ui_element == button:
+                            selected_item = item_name
+                            print(f"Selected item: {item_name}")
+                            break
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
@@ -360,15 +462,16 @@ def main():
                             new_station = Station("fryer", "fryer.png", Vec2(x, y))
                             test_level.put_station_at(new_station)
                         elif selected_mode == "items":
-                            new_item = ItemInstance(
-                                fried_chicken,
-                                set(["isfried"]),  # Pass a set of strings
-                                Vec2(x, y),
-                            )
-                            try:
-                                test_level.put_item_at(new_item)
-                            except NoStationAtLocationError:
-                                pass
+                            if selected_item:
+                                new_item = ItemInstance(
+                                    items[selected_item],
+                                    set(),  # Pass a set of strings
+                                    Vec2(x, y),
+                                )
+                                try:
+                                    test_level.put_item_at(new_item)
+                                except NoStationAtLocationError:
+                                    pass
 
             manager.process_events(event)
         manager.update(time_delta)
