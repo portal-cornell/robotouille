@@ -6,6 +6,36 @@ import os
 from typing import Optional
 import json
 
+NEUTRAL2 = pygame.Color("#ececec")
+NEUTRAL5 = pygame.Color("#656565")
+NEUTRAL4 = pygame.Color("#8b8b8b")
+NEUTRAL1 = pygame.Color("#ffffff")
+NEUTRAL3 = pygame.Color("#cacaca")
+RED1 = pygame.Color("#ff4343")
+GREEN2 = pygame.Color("#36c536")
+NEUTRAL6 = pygame.Color("#474747")
+BEIGE4 = pygame.Color("#e5b38f")
+BEIGE1 = pygame.Color("#fff1dd")
+BEIGE2 = pygame.Color("#ffe7c6")
+BEIGE3 = pygame.Color("#f2c8a6")
+BLUE4 = pygame.Color("#126dc9")
+BLUE2 = pygame.Color("#2e8cea")
+BLUE1 = pygame.Color("#58a5f2")
+BLUE3 = pygame.Color("#2980d7")
+BEIGE6 = pygame.Color("#aa6336")
+BEIGE5 = pygame.Color("#c67d5e")
+GREEN3 = pygame.Color("#1da21a")
+GREEN4 = pygame.Color("#2a881b")
+GREEN1 = pygame.Color("#67d13d")
+BEIGE7 = pygame.Color("#654c44")
+GREENPASTEL = pygame.Color("#8dc57f")
+GREEN0 = pygame.Color("#d3fdbf")
+BLUE0 = pygame.Color("#d9ecff")
+RED3 = pygame.Color("#c91e1e")
+RED2 = pygame.Color("#e72121")
+RED0 = pygame.Color("#ff5656")
+NEUTRALDARK = pygame.Color("#292929")
+
 from declarations import Vec2, Item, Station, ItemInstance, StationInstance
 from level_state import LevelState, NoStationAtLocationError, Goal
 from editor_state import EditorState
@@ -16,29 +46,28 @@ def render_level(
 ) -> pygame.Surface:
     # colors
     WHITE = (255, 255, 255)
-    BEIGE = pygame.Color("#EDE8D0")
     width = level.width
     height = level.height
     tile_size = 64
 
     surface = pygame.Surface((width * tile_size, height * tile_size))
-    surface.fill(BEIGE)
+    surface.fill(BEIGE2)
 
     # Draw border
-    pygame.draw.rect(surface, pygame.Color("#000000"), surface.get_rect(), 5)
+    pygame.draw.rect(surface, NEUTRAL6, surface.get_rect(), 1)
 
     # Draw grid
     for x in range(width + 1):
         pygame.draw.line(
             surface,
-            pygame.Color("#000000"),
+            NEUTRAL6,
             (x * tile_size, 0),
             (x * tile_size, height * tile_size),
         )
     for y in range(height + 1):
         pygame.draw.line(
             surface,
-            pygame.Color("#000000"),
+            NEUTRAL6,
             (0, y * tile_size),
             (width * tile_size, y * tile_size),
         )
@@ -79,11 +108,10 @@ def render_level(
 
 def render_goal(tile_size: int, asset_dir_path: str, goal: Goal) -> pygame.Surface:
     # colors
-    BEIGE = pygame.Color("#EDE8D0")
     surface = pygame.Surface((tile_size, tile_size))
-    surface.fill(BEIGE)
+    surface.fill(BEIGE2)
 
-    pygame.draw.rect(surface, pygame.Color("#000000"), surface.get_rect(), 5)
+    pygame.draw.rect(surface, NEUTRAL6, surface.get_rect(), 1)
 
     items = goal._goal_stack
     for i, item in enumerate(items):
@@ -188,12 +216,6 @@ def loop(editor_state: EditorState):
     ROWS = 6
     MAX_COLUMNS = 6
     TILE_SIZE = 64
-
-    # colors
-    WHITE = (255, 255, 255)
-    BLACK = (0, 0, 0)
-    GREEN = (144, 201, 120)
-    BEIGE = pygame.Color("#EDE8D0")
 
     test_level = LevelState(MAX_COLUMNS, ROWS)
 
@@ -468,7 +490,7 @@ def loop(editor_state: EditorState):
             manager.process_events(event)
         manager.update(time_delta)
 
-        window_surface.fill(BEIGE)
+        window_surface.fill(GREENPASTEL)
         if editing_goal:
             goal_surface = render_goal(
                 TILE_SIZE,
