@@ -1,0 +1,41 @@
+{
+  "version": "1.0.0",
+  "width": 6,
+  "height": 6,
+  "config": {
+    "num_cuts": {
+      "lettuce": 3,
+      "default": 3
+    },
+    "cook_time": {
+      "patty": 3,
+      "default": 3
+    }
+  },
+  "stations": [
+    {
+      "name": "fryer",
+      "x": 3,
+      "y": 5
+    }
+  ],
+  "items": [
+    {
+      "name": "fried chicken",
+      "x": 3,
+      "y": 5,
+      "stack-level": 0,
+      "predicates": []
+    }
+  ],
+  "players": [
+    {
+      "name": "robot",
+      "x": 0,
+      "y": 0,
+      "direction": [0, 1]
+    }
+  ],
+  "goal_description": "Make a cheese burger with cheese on top of the patty",
+  "goal": []
+}

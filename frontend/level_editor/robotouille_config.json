@@ -167,6 +167,7 @@
       },
       "table": {
         "assets": {
+          "default": "table.png",
           "tile": "T"
         },
         "constants": {}

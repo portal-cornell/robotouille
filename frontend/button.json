@@ -1,0 +1,10 @@
+{
+  "button": {
+    "images": {
+      "normal_image": {
+        "path": "0.png",
+        "sub_surface_rect": "50, 50"
+      }
+    }
+  }
+}
