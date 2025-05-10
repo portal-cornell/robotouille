@@ -21,6 +21,7 @@ class Classic(GameMode):
         """
         super().__init__(state, domain_json, environment_json, recipe_json)
         self.time_limit = environment_json["gamemode"]["time"]
+        self.active_orders = []
 
     def check_if_player_has_won(self, time):
         """
@@ -35,6 +36,30 @@ class Classic(GameMode):
         if all([customer.has_been_served for customer in self.customers.values()]) and time.get_ticks() <= self.time_limit:
             self.win = True
             self.score = 1
+
+    def get_active_orders(self):
+        """
+        Returns a list of dicts for every customer who is currently seated
+        and not yet served, e.g.
+        [
+          {"customer": "cust1", "table": "tableA", "time_left": 12000},
+          {"customer": "cust2", "table": "tableB", "time_left":  8000},
+          ...
+        ]
+        """
+        active = []
+        state = self.state  # the latest State object
+
+        for cust in self.customers.values():
+            # only those actually at their table and not yet served
+            if cust.is_at_table(state) and not cust.has_been_served:
+                active.append({
+                    "customer":  cust.name,
+                    "table":     cust.assigned_table.name,
+                    "time_left": cust.time_to_serve
+                })
+
+        return active
 
     def step(self, actions, time, dt):
         """
@@ -61,6 +86,8 @@ class Classic(GameMode):
     
             if action is not None:
                 actions.append(action)
+
+        self.active_orders = self.get_active_orders()
 
         # Step movement
         self.movement.step(self, dt, actions)

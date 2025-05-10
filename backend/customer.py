@@ -128,7 +128,7 @@ class Customer(object):
                 return predicate.params[0]
         return None
 
-    def _is_at_table(self, state):
+    def is_at_table(self, state):
         """
         Checks if the customer is at a table.
 
@@ -180,7 +180,7 @@ class Customer(object):
         
         # If the customer is at a table, decrement the time to serve
         # and check if the customer has been served
-        if self._is_at_table(state) and not self.has_been_served:
+        if self.is_at_table(state) and not self.has_been_served:
             self.time_to_serve -= dt
             if self.order_is_satisfied(state, gamemode):
                 self.has_been_served = True
