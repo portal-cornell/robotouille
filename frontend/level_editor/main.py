@@ -5,6 +5,7 @@ import pygame_gui
 import os
 from typing import Optional
 import json
+from typing import Tuple, Set
 
 NEUTRAL2 = pygame.Color("#ececec")
 NEUTRAL5 = pygame.Color("#656565")
@@ -469,6 +470,7 @@ def loop(editor_state: EditorState):
                             break
 
             if event.type == pygame.MOUSEBUTTONDOWN:
+
                 if event.button == 1:
                     x, y = event.pos
                     if x > SCREEN_WIDTH or y > SCREEN_HEIGHT:
@@ -478,10 +480,11 @@ def loop(editor_state: EditorState):
                         y = (y - level_y) // TILE_SIZE
                         if 0 <= x < test_level.width and 0 <= y < test_level.height:
                             if editing_goal:
-                                if isinstance(editor_state.get_selected(), Item):
+                                if isinstance(editor_state.get_selected(), tuple):
+                                    item, predicates = editor_state.get_selected()
                                     new_item = ItemInstance(
-                                        editor_state.get_selected(),
-                                        set(),  # Pass a set of strings
+                                        item,
+                                        predicates,
                                         Vec2(x, y),
                                     )
                                     test_level.goal.push_goal(new_item)
