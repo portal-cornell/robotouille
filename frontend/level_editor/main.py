@@ -293,12 +293,29 @@ def loop(editor_state: EditorState):
     clock = pygame.time.Clock()
     running = True
 
+    def save_level():
+        root = tk.Tk()
+        root.withdraw()
+        saved_file_path = filedialog.asksaveasfilename(defaultextension=".json")
+        if saved_file_path:
+            level_json = test_level.serialize()
+            with open(saved_file_path, "w") as f:
+                json.dump(level_json, f, indent=4)
+            filename = saved_file_path.split("/")[-1].replace(".json", "")
+            print(f"Level saved to {filename}")
+
     while running:
         time_delta = clock.tick(60) / 1000.0
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+
+            if event.type == pygame.KEYDOWN:
+                if (event.key == pygame.K_s) and (
+                    event.mod & pygame.KMOD_CTRL or event.mod & pygame.KMOD_META
+                ):
+                    save_level()
 
             if event.type == pygame_gui.UI_BUTTON_PRESSED:
                 if event.ui_element == stations_button:
