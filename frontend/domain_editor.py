@@ -130,7 +130,7 @@ def json_to_action(name: str, ws_x, ws_y, container=center_panel):
 
     # create a new action workspace
     loaded_act = ActionWorkspace(
-        relative_rect=pygame.Rect(ws_x - 50, ws_y, 850, 700),
+        relative_rect=pygame.Rect(ws_x - 100, ws_y, 850, 700),
         manager=manager,
         container=container,
         text=action["name"],
@@ -304,6 +304,26 @@ new_pred_button = UIButton(
     container=center_panel,
 )
 
+pred_buttons = {}
+
+
+# little helper for calculating workspace coords
+def calc_workspace_coords():
+    if all_workspaces:
+        last_ws = all_workspaces[-1]
+        last_ws_rect = last_ws.get_relative_rect()
+        ws_y = last_ws_rect.y + last_ws_rect.height + 25
+    else:
+        ws_y = 50
+    ws_x = center_panel.rect.x - 50
+    return ws_x, ws_y
+
+
+def set_new_scrollable_dims():
+    new_height = len(all_workspaces) * SCREEN_HEIGHT + 100
+    new_width = center_panel.scrollable_container.relative_rect.width
+    center_panel.set_scrollable_area_dimensions((new_width, new_height))
+
 
 clock = pygame.time.Clock()
 is_running = True
@@ -360,63 +380,32 @@ while is_running:
 
                 blocks.append(new_block)
             elif event.ui_element in action_buttons:
-                if all_workspaces:
-                    last_ws = all_workspaces[-1]
-                    last_ws_rect = last_ws.get_relative_rect()
-                    ws_y = last_ws_rect.y + last_ws_rect.height + 25
-                else:
-                    ws_y = 50
-
-                ws_x = center_panel.rect.x - 50
+                ws_x, ws_y = calc_workspace_coords()
                 new_action = json_to_action(event.ui_element.text, ws_x, ws_y)
                 a_blocks = new_action.attached_blocks
                 print(a_blocks)
                 all_workspaces.append(new_action)
-                current_height = center_panel.scrollable_container.relative_rect.height
-                new_height = len(all_workspaces) * SCREEN_HEIGHT + 100
-                new_width = center_panel.scrollable_container.relative_rect.width
-
-                center_panel.set_scrollable_area_dimensions((new_width, new_height))
+                set_new_scrollable_dims()
             elif event.ui_element == spawn_workspace_button:
-                if all_workspaces:
-                    last_ws = all_workspaces[-1]
-                    last_ws_rect = last_ws.get_relative_rect()
-                    ws_y = last_ws_rect.y + last_ws_rect.height + 25
-                else:
-                    ws_y = 50
 
-                ws_x = center_panel.rect.x
+                ws_x, ws_y = calc_workspace_coords()
+
                 new_ws = ActionWorkspace(
                     relative_rect=pygame.Rect(ws_x - 100, ws_y, 850, 700),
                     manager=manager,
                     container=center_panel,
                 )
                 all_workspaces.append(new_ws)
-                current_height = center_panel.scrollable_container.relative_rect.height
-                new_height = len(all_workspaces) * SCREEN_HEIGHT + 100
-                new_width = center_panel.scrollable_container.relative_rect.width
-
-                center_panel.set_scrollable_area_dimensions((new_width, new_height))
+                set_new_scrollable_dims()
             elif event.ui_element == spawn_object_button:
-                if all_workspaces:
-                    last_ws = all_workspaces[-1]
-                    last_ws_rect = last_ws.get_relative_rect()
-                    ws_y = last_ws_rect.y + last_ws_rect.height + 25
-                else:
-                    ws_y = 50
-
-                ws_x = center_panel.rect.x
+                ws_x, ws_y = calc_workspace_coords()
                 new_ws = ObjectWorkspace(
                     relative_rect=pygame.Rect(ws_x - 100, ws_y, 700, 800),
                     manager=manager,
                     container=center_panel,
                 )
                 all_workspaces.append(new_ws)
-                current_height = center_panel.scrollable_container.relative_rect.height
-                new_height = len(all_workspaces) * SCREEN_HEIGHT + 100
-                new_width = center_panel.scrollable_container.relative_rect.width
-
-                center_panel.set_scrollable_area_dimensions((new_width, new_height))
+                set_new_scrollable_dims()
             elif event.ui_element == toggle_button:
                 left_panel.showing_predicates = not left_panel.showing_predicates
 
@@ -428,6 +417,30 @@ while is_running:
                     populate_actions()
             elif event.ui_element == show_sfx_button:
                 populate_sfx()
+            elif event.ui_element == new_pred_button:
+                ws_x, ws_y = calc_workspace_coords()
+                rel_rect = pygame.Rect(ws_x - 100, ws_y, 500, 100)
+                pred_workspace = PredicateCreator(
+                    relative_rect=rel_rect,
+                    manager=manager,
+                    container=center_panel,
+                )
+                all_workspaces.append(pred_workspace)
+                save_pred_button = UIButton(
+                    relative_rect=pygame.Rect(
+                        rel_rect.x + 300, rel_rect.y - 50, 100, 50
+                    ),
+                    text="Save",
+                    manager=manager,
+                    container=pred_workspace.get_container(),
+                )
+                pred_buttons[save_pred_button] = pred_workspace
+
+                set_new_scrollable_dims()
+            elif event.ui_element in pred_buttons:
+                pred = pred_buttons[event.ui_element]
+                pred_json = pred.serialize()
+
         if event.type == pygame_gui.UI_BUTTON_ON_HOVERED:
             if event.ui_element in action_buttons:
                 mouse_pos = pygame.mouse.get_pos()

@@ -15,10 +15,10 @@ import json
 
 # other json initialization
 
-json_path = os.path.join(os.path.dirname(__file__), "..", "domain", "robotouille.json")
-json_path = os.path.normpath(json_path)
+# json_path = os.path.join(os.path.dirname(__file__), "..", "domain", "robotouille.json")
+# json_path = os.path.normpath(json_path)
 
-out_file = open(json_path, "w")
+# out_file = open(json_path, "w")
 
 SNAP_TOLERANCE = 20
 all_workspaces = []
@@ -387,7 +387,7 @@ class ActionWorkspace(UIPanel):
             if event.ui_element == self.save_button:
                 action = self.serialize()
                 print(action)
-                json.dump(action, out_file, indent=4)
+                # json.dump(action, out_file, indent=4)
             elif event.ui_element == self.ex_button:
                 self.kill()
         return handled
@@ -651,5 +651,25 @@ class PredicateCreator(UIPanel):
             placeholder_text="Enter your predicate name...",
         )
 
+        self.options = ["none", "item", "station", "player", "container", "meal"]
 
-out_file.close()
+        self.first_param = UIDropDownMenu(
+            options_list=self.options,
+            starting_option=self.options[0],
+            relative_rect=pygame.Rect(relative_rect.x, relative_rect.y + 50, 100, 50),
+            manager=manager,
+            container=self.ui_container,
+        )
+
+        self.second_param = UIDropDownMenu(
+            options_list=self.options,
+            starting_option=self.options[0],
+            relative_rect=pygame.Rect(
+                relative_rect.x + 100, relative_rect.y + 50, 100, 50
+            ),
+            manager=manager,
+            container=self.ui_container,
+        )
+
+    def serialize():
+        pass
