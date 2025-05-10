@@ -189,14 +189,28 @@ def loop(editor_state: EditorState):
         relative_rect=pygame.Rect((SCREEN_WIDTH, 0), (item_panel_width, SCREEN_HEIGHT)),
         manager=manager,
         visible=False,
+        container=None,
+        starting_height=100,
+    )
+    item_label = pygame_gui.elements.UILabel(
+        relative_rect=pygame.Rect((0, 0), (item_panel_width, 30)),
+        text="Items",
+        manager=manager,
+        container=item_panel.get_container(),
     )
 
     station_panel = pygame_gui.elements.UIScrollingContainer(
-        relative_rect=pygame.Rect(
-            (SCREEN_WIDTH + item_panel_width, 0), (item_panel_width, SCREEN_HEIGHT)
-        ),
+        relative_rect=pygame.Rect((SCREEN_WIDTH, 0), (item_panel_width, SCREEN_HEIGHT)),
         manager=manager,
         visible=False,
+        container=None,
+        starting_height=100,
+    )
+    station_label = pygame_gui.elements.UILabel(
+        relative_rect=pygame.Rect((0, 0), (item_panel_width, 30)),
+        text="Stations",
+        manager=manager,
+        container=station_panel.get_container(),
     )
 
     # Station Buttons
@@ -244,13 +258,13 @@ def loop(editor_state: EditorState):
     )
 
     export_button = pygame_gui.elements.UIButton(
-        relative_rect=pygame.Rect((SCREEN_WIDTH, 842), (100, 50)),
+        relative_rect=pygame.Rect((10, 742), (100, 50)),
         text="Save",
         manager=manager,
     )
 
     goal_button = pygame_gui.elements.UIButton(
-        relative_rect=pygame.Rect((SCREEN_WIDTH, 782), (100, 50)),
+        relative_rect=pygame.Rect((10, 682), (100, 50)),
         text="Goal",
         manager=manager,
     )
