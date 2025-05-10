@@ -436,29 +436,30 @@ def loop(editor_state: EditorState):
                     else:
                         x = (x - level_x) // TILE_SIZE
                         y = (y - level_y) // TILE_SIZE
-                        if editing_goal:
-                            if isinstance(editor_state.get_selected(), Item):
+                        if 0 <= x < test_level.width and 0 <= y < test_level.height:
+                            if editing_goal:
+                                if isinstance(editor_state.get_selected(), Item):
+                                    new_item = ItemInstance(
+                                        editor_state.get_selected(),
+                                        set(),  # Pass a set of strings
+                                        Vec2(x, y),
+                                    )
+                                    test_level.goal.push_goal(new_item)
+                            elif isinstance(editor_state.get_selected(), Station):
+                                new_station = StationInstance(
+                                    editor_state.get_selected(), Vec2(x, y)
+                                )
+                                test_level.put_station_at(new_station)
+                            elif isinstance(editor_state.get_selected(), Item):
                                 new_item = ItemInstance(
                                     editor_state.get_selected(),
                                     set(),  # Pass a set of strings
                                     Vec2(x, y),
                                 )
-                                test_level.goal.push_goal(new_item)
-                        elif isinstance(editor_state.get_selected(), Station):
-                            new_station = StationInstance(
-                                editor_state.get_selected(), Vec2(x, y)
-                            )
-                            test_level.put_station_at(new_station)
-                        elif isinstance(editor_state.get_selected(), Item):
-                            new_item = ItemInstance(
-                                editor_state.get_selected(),
-                                set(),  # Pass a set of strings
-                                Vec2(x, y),
-                            )
-                            try:
-                                test_level.put_item_at(new_item)
-                            except NoStationAtLocationError:
-                                pass
+                                try:
+                                    test_level.put_item_at(new_item)
+                                except NoStationAtLocationError:
+                                    pass
                 elif event.button == 3 and editing_goal:
                     test_level.goal.pop_goal()
 
