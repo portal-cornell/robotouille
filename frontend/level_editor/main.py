@@ -228,10 +228,6 @@ def main():
 
     selected_item = None
 
-    def set_selected_item(item_name):
-        nonlocal selected_item
-        selected_item = item_name
-
     def toggle_item_panel():
         if selected_mode == "items":
             item_panel.show()
