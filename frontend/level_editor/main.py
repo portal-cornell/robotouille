@@ -2,7 +2,6 @@ import tkinter as tk
 from tkinter import filedialog
 import pygame
 import pygame_gui
-from pygame_gui.elements import UIPanel
 import os
 from typing import Optional
 import json
@@ -236,7 +235,6 @@ def loop(editor_state: EditorState):
         text="Items",
         manager=manager,
     )
-    selected_mode = "stations"  # user should start drawing stations before objects; floors not implemented yet
 
     export_button = pygame_gui.elements.UIButton(
         relative_rect=pygame.Rect((SCREEN_WIDTH, 842), (100, 50)),
@@ -276,8 +274,6 @@ def loop(editor_state: EditorState):
         except FileNotFoundError:
             print(f"Asset not found: {item_asset_path}")
 
-    import subprocess
-
     stations_button.show()
     items_button.show()
     export_button.show()
@@ -286,8 +282,12 @@ def loop(editor_state: EditorState):
         item_panel.hide()
         station_panel.hide()
         if mode == "items":
+            if not isinstance(editor_state.get_selected(), Item):
+                editor_state.set_selected(None)
             item_panel.show()
         elif mode == "stations":
+            if not isinstance(editor_state.get_selected(), Station):
+                editor_state.set_selected(None)
             station_panel.show()
 
     clock = pygame.time.Clock()

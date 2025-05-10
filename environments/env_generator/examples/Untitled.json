@@ -20,53 +20,13 @@
         },
         {
             "name": "table",
-            "x": 1,
-            "y": 1
-        },
-        {
-            "name": "sink",
-            "x": 2,
-            "y": 3
-        },
-        {
-            "name": "table",
             "x": 2,
             "y": 1
         },
         {
-            "name": "sink",
-            "x": 3,
-            "y": 3
-        },
-        {
             "name": "table",
-            "x": 3,
-            "y": 1
-        },
-        {
-            "name": "sink",
             "x": 4,
-            "y": 3
-        },
-        {
-            "name": "table",
-            "x": 5,
-            "y": 3
-        },
-        {
-            "name": "table",
-            "x": 5,
-            "y": 2
-        },
-        {
-            "name": "table",
-            "x": 5,
             "y": 1
-        },
-        {
-            "name": "table",
-            "x": 5,
-            "y": 0
         }
     ],
     "items": [
@@ -78,17 +38,52 @@
             "predicates": []
         },
         {
-            "name": "patty",
+            "name": "bottombun",
             "x": 0,
             "y": 1,
             "stack-level": 1,
             "predicates": []
         },
         {
-            "name": "topbun",
+            "name": "bottombun",
             "x": 0,
             "y": 1,
             "stack-level": 2,
+            "predicates": []
+        },
+        {
+            "name": "bottombun",
+            "x": 2,
+            "y": 1,
+            "stack-level": 0,
+            "predicates": []
+        },
+        {
+            "name": "bottombun",
+            "x": 2,
+            "y": 1,
+            "stack-level": 1,
+            "predicates": []
+        },
+        {
+            "name": "bottombun",
+            "x": 2,
+            "y": 1,
+            "stack-level": 2,
+            "predicates": []
+        },
+        {
+            "name": "bottombun",
+            "x": 4,
+            "y": 1,
+            "stack-level": 0,
+            "predicates": []
+        },
+        {
+            "name": "bottombun",
+            "x": 4,
+            "y": 1,
+            "stack-level": 1,
             "predicates": []
         }
     ],
