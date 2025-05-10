@@ -309,6 +309,22 @@ def loop(editor_state: EditorState):
         # colors
         BEIGE = pygame.Color("#EDE8D0")
         surface.fill(BEIGE)
+
+        pygame.draw.line(
+            surface,
+            pygame.Color("#000000"),
+            (tile_size, 0),
+            (tile_size, tile_size),
+            width=3,
+        )
+        pygame.draw.line(
+            surface,
+            pygame.Color("#000000"),
+            (0, tile_size),
+            (tile_size, tile_size),
+            width=3,
+        )
+
         items = goal._goal_stack
         for i, item in enumerate(items):
             item_asset_path = os.path.join(
