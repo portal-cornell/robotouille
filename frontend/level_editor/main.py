@@ -24,6 +24,9 @@ def render_level(
     surface = pygame.Surface((width * tile_size, height * tile_size))
     surface.fill(BEIGE)
 
+    # Draw border
+    pygame.draw.rect(surface, pygame.Color("#000000"), surface.get_rect(), 5)
+
     # Draw grid
     for x in range(width + 1):
         pygame.draw.line(
@@ -169,6 +172,10 @@ def loop(editor_state: EditorState):
     test_level = LevelState(MAX_COLUMNS, ROWS)
 
     saved_file_path: Optional[str] = None
+
+    # Level surface position
+    level_x = 0
+    level_y = 0
 
     # Pygame UI setup
     manager = pygame_gui.UIManager(
@@ -359,6 +366,10 @@ def loop(editor_state: EditorState):
             if event.type == pygame.QUIT:
                 running = False
 
+            if event.type == pygame.MOUSEWHEEL:
+                level_x -= event.x * 10
+                level_y += event.y * 10
+
             if event.type == pygame.KEYDOWN:
                 if (event.key == pygame.K_s) and (
                     event.mod & pygame.KMOD_CTRL or event.mod & pygame.KMOD_META
@@ -423,8 +434,8 @@ def loop(editor_state: EditorState):
                     if x > SCREEN_WIDTH or y > SCREEN_HEIGHT:
                         print("Clicked outside grid")
                     else:
-                        x = x // TILE_SIZE
-                        y = y // TILE_SIZE
+                        x = (x - level_x) // TILE_SIZE
+                        y = (y - level_y) // TILE_SIZE
                         if editing_goal:
                             if isinstance(editor_state.get_selected(), Item):
                                 new_item = ItemInstance(
@@ -468,7 +479,7 @@ def loop(editor_state: EditorState):
             level_surface = render_level(
                 test_level, TILE_SIZE, editor_state.get_asset_dir_path()
             )
-            window_surface.blit(level_surface, (0, 0))
+            window_surface.blit(level_surface, (level_x, level_y))
         manager.draw_ui(window_surface)
         pygame.display.update()
 
