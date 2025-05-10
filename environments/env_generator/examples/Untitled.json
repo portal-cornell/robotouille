@@ -20,70 +20,40 @@
         },
         {
             "name": "table",
+            "x": 1,
+            "y": 1
+        },
+        {
+            "name": "table",
             "x": 2,
             "y": 1
         },
         {
             "name": "table",
-            "x": 4,
+            "x": 3,
             "y": 1
         }
     ],
     "items": [
         {
-            "name": "bottombun",
+            "name": "topbun",
             "x": 0,
             "y": 1,
             "stack-level": 0,
             "predicates": []
         },
         {
-            "name": "bottombun",
-            "x": 0,
-            "y": 1,
-            "stack-level": 1,
-            "predicates": []
-        },
-        {
-            "name": "bottombun",
-            "x": 0,
-            "y": 1,
-            "stack-level": 2,
-            "predicates": []
-        },
-        {
-            "name": "bottombun",
-            "x": 2,
+            "name": "topbun",
+            "x": 1,
             "y": 1,
             "stack-level": 0,
             "predicates": []
         },
         {
-            "name": "bottombun",
+            "name": "topbun",
             "x": 2,
-            "y": 1,
-            "stack-level": 1,
-            "predicates": []
-        },
-        {
-            "name": "bottombun",
-            "x": 2,
-            "y": 1,
-            "stack-level": 2,
-            "predicates": []
-        },
-        {
-            "name": "bottombun",
-            "x": 4,
             "y": 1,
             "stack-level": 0,
-            "predicates": []
-        },
-        {
-            "name": "bottombun",
-            "x": 4,
-            "y": 1,
-            "stack-level": 1,
             "predicates": []
         }
     ],
@@ -101,11 +71,13 @@
     "goal_description": "Make a cheese burger with cheese on top of the patty",
     "goal": [
         {
-            "predicate": "iscooked",
+            "predicate": "atop",
             "args": [
-                "patty"
+                "topbun",
+                "topbun"
             ],
             "ids": [
+                2,
                 1
             ]
         },
@@ -113,33 +85,11 @@
             "predicate": "atop",
             "args": [
                 "topbun",
-                "cheese"
-            ],
-            "ids": [
-                2,
-                3
-            ]
-        },
-        {
-            "predicate": "atop",
-            "args": [
-                "cheese",
-                "patty"
+                "topbun"
             ],
             "ids": [
                 3,
-                1
-            ]
-        },
-        {
-            "predicate": "atop",
-            "args": [
-                "patty",
-                "bottombun"
-            ],
-            "ids": [
-                1,
-                4
+                2
             ]
         }
     ]

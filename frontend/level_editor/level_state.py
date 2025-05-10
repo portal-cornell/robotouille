@@ -8,6 +8,51 @@ class NoStationAtLocationError(Exception):
     pass
 
 
+class Goal:
+    def __init__(self):
+        self._goal_stack: List[ItemInstance] = []
+
+    def push_goal(self, item: ItemInstance):
+        self._goal_stack.append(item)
+
+    def pop_goal(self) -> Optional[ItemInstance]:
+        if self._goal_stack:
+            return self._goal_stack.pop()
+        return None
+
+    def serialize(self) -> list:
+        goal_json = []
+        item_id_map = {}
+        next_id = 1
+        for i, item in enumerate(self._goal_stack):
+            item_id = next_id
+            next_id += 1
+            item_id_map[item] = item_id
+
+            # Add predicates for the item
+            for predicate in item.predicates:
+                goal_json.append(
+                    {
+                        "predicate": predicate,
+                        "args": [item.source_item.name],
+                        "ids": [item_id],
+                    }
+                )
+
+            # Add atop relation if it's not the bottom item
+            if i > 0:
+                bottom_item = self._goal_stack[i - 1]
+                bottom_item_id = item_id_map[bottom_item]
+                goal_json.append(
+                    {
+                        "predicate": "atop",
+                        "args": [item.source_item.name, bottom_item.source_item.name],
+                        "ids": [item_id, bottom_item_id],
+                    }
+                )
+        return goal_json
+
+
 class LevelState:
     def __init__(self, width: int, height: int):
         self.width: int = width
@@ -18,6 +63,7 @@ class LevelState:
         self._items: List[List[List[ItemInstance]]] = [
             [[] for _ in range(height)] for _ in range(width)
         ]
+        self.goal: Goal = Goal()
 
     def get_station_at(self, pos: Vec2) -> Optional[StationInstance]:
         return self._stations[pos.x][pos.y]
@@ -92,11 +138,6 @@ class LevelState:
             "items": items_json,
             "players": [{"name": "robot", "x": 0, "y": 0, "direction": [0, 1]}],
             "goal_description": "Make a cheese burger with cheese on top of the patty",
-            "goal": [
-                {"predicate": "iscooked", "args": ["patty"], "ids": [1]},
-                {"predicate": "atop", "args": ["topbun", "cheese"], "ids": [2, 3]},
-                {"predicate": "atop", "args": ["cheese", "patty"], "ids": [3, 1]},
-                {"predicate": "atop", "args": ["patty", "bottombun"], "ids": [1, 4]},
-            ],
+            "goal": self.goal.serialize(),
         }
         return level_json

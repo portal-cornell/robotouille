@@ -7,7 +7,7 @@ from typing import Optional
 import json
 
 from declarations import Vec2, Item, Station, ItemInstance, StationInstance
-from level_state import LevelState, NoStationAtLocationError
+from level_state import LevelState, NoStationAtLocationError, Goal
 from editor_state import EditorState
 
 
@@ -242,6 +242,12 @@ def loop(editor_state: EditorState):
         manager=manager,
     )
 
+    goal_button = pygame_gui.elements.UIButton(
+        relative_rect=pygame.Rect((SCREEN_WIDTH, 782), (100, 50)),
+        text="Goal",
+        manager=manager,
+    )
+
     # Item Buttons
     item_buttons = {}
     button_width = 50
@@ -277,6 +283,10 @@ def loop(editor_state: EditorState):
     stations_button.show()
     items_button.show()
     export_button.show()
+    goal_button.show()
+
+    selected_mode = "stations"
+    editing_goal = False
 
     def set_selected_mode(mode):
         item_panel.hide()
@@ -292,6 +302,28 @@ def loop(editor_state: EditorState):
 
     clock = pygame.time.Clock()
     running = True
+
+    def render_goal(
+        surface: pygame.Surface, tile_size: int, asset_dir_path: str, goal: Goal
+    ):
+        # colors
+        BEIGE = pygame.Color("#EDE8D0")
+        surface.fill(BEIGE)
+        items = goal._goal_stack
+        for i, item in enumerate(items):
+            item_asset_path = os.path.join(
+                asset_dir_path,
+                item.source_item.state_map[frozenset(item.predicates)],
+            )
+            img = pygame.image.load(item_asset_path).convert_alpha()
+            img = pygame.transform.scale(img, (tile_size, tile_size))
+            surface.blit(
+                img,
+                (
+                    0,
+                    0 - i * (tile_size / 4),
+                ),
+            )
 
     def save_level():
         root = tk.Tk()
@@ -322,6 +354,8 @@ def loop(editor_state: EditorState):
                     set_selected_mode("stations")
                 elif event.ui_element == items_button:
                     set_selected_mode("items")
+                elif event.ui_element == goal_button:
+                    editing_goal = not editing_goal
                 elif event.ui_element == export_button:
                     root = tk.Tk()
                     root.withdraw()
@@ -375,7 +409,15 @@ def loop(editor_state: EditorState):
                     else:
                         x = x // TILE_SIZE
                         y = y // TILE_SIZE
-                        if isinstance(editor_state.get_selected(), Station):
+                        if editing_goal:
+                            if isinstance(editor_state.get_selected(), Item):
+                                new_item = ItemInstance(
+                                    editor_state.get_selected(),
+                                    set(),  # Pass a set of strings
+                                    Vec2(x, y),
+                                )
+                                test_level.goal.push_goal(new_item)
+                        elif isinstance(editor_state.get_selected(), Station):
                             new_station = StationInstance(
                                 editor_state.get_selected(), Vec2(x, y)
                             )
@@ -390,15 +432,27 @@ def loop(editor_state: EditorState):
                                 test_level.put_item_at(new_item)
                             except NoStationAtLocationError:
                                 pass
+                elif event.button == 3 and editing_goal:
+                    test_level.goal.pop_goal()
 
             manager.process_events(event)
         manager.update(time_delta)
 
         window_surface.fill(BEIGE)
-        level_surface = render_level(
-            test_level, TILE_SIZE, editor_state.get_asset_dir_path()
-        )
-        window_surface.blit(level_surface, (0, 0))
+        if editing_goal:
+            goal_surface = pygame.Surface((TILE_SIZE, TILE_SIZE))
+            render_goal(
+                goal_surface,
+                TILE_SIZE,
+                editor_state.get_asset_dir_path(),
+                test_level.goal,
+            )
+            window_surface.blit(goal_surface, (0, 0))
+        else:
+            level_surface = render_level(
+                test_level, TILE_SIZE, editor_state.get_asset_dir_path()
+            )
+            window_surface.blit(level_surface, (0, 0))
         manager.draw_ui(window_surface)
         pygame.display.update()
 
