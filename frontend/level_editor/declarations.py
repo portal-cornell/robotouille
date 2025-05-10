@@ -8,9 +8,14 @@ class Vec2:
 
 
 class Station:
-    def __init__(self, name: str, asset_file: str, pos: Vec2):
+    def __init__(self, name: str, asset_file: str):
         self.name = name
         self.asset_file = asset_file
+
+
+class StationInstance:
+    def __init__(self, source_station: Station, pos: Vec2):
+        self.source_station = source_station
         self.pos = pos
 
 

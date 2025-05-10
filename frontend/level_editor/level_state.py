@@ -1,4 +1,4 @@
-from declarations import Vec2, Item, Station, ItemInstance
+from declarations import Vec2, Item, Station, ItemInstance, StationInstance
 from typing import List, Optional
 
 
@@ -12,10 +12,10 @@ class LevelState:
     def __init__(self, width: int, height: int):
         self.width: int = width
         self.height: int = height
-        self._stations: List[Station] = []
+        self._stations: List[StationInstance] = []
         self._items: List[ItemInstance] = []
 
-    def get_station_at(self, pos: Vec2) -> Optional[Station]:
+    def get_station_at(self, pos: Vec2) -> Optional[StationInstance]:
         for station in self._stations:
             if station.pos.x == pos.x and station.pos.y == pos.y:
                 return station
@@ -27,13 +27,13 @@ class LevelState:
                 return item
         return None
 
-    def get_all_stations(self) -> List[Station]:
+    def get_all_stations(self) -> List[StationInstance]:
         return self._stations
 
-    def get_all_items(self) -> List[Item]:
+    def get_all_items(self) -> List[ItemInstance]:
         return self._items
 
-    def put_station_at(self, station: Station):
+    def put_station_at(self, station: StationInstance):
         pos = station.pos
         existing_station = self.get_station_at(pos)
         if existing_station is None:
@@ -62,7 +62,7 @@ class LevelState:
         for station in self.get_all_stations():
             stations_json.append(
                 {
-                    "name": station.name,
+                    "name": station.source_station.name,
                     "x": station.pos.x,
                     "y": self.height - 1 - station.pos.y,
                 }

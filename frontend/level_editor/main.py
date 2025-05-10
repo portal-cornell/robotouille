@@ -7,7 +7,7 @@ import os
 from typing import Optional
 import json
 
-from declarations import Vec2, Item, Station, ItemInstance
+from declarations import Vec2, Item, Station, ItemInstance, StationInstance
 from level_state import LevelState, NoStationAtLocationError
 
 root = tk.Tk()
@@ -89,11 +89,16 @@ def render_level(level: LevelState, tile_size: int) -> pygame.Surface:
         )
 
     # Draw stations
-    for station in level.get_all_stations():
-        station_asset_path = os.path.join(asset_dir_path, station.asset_file)
+    for station_instance in level.get_all_stations():
+        station_asset_path = os.path.join(
+            asset_dir_path, station_instance.source_station.asset_file
+        )
         img = pygame.image.load(station_asset_path).convert_alpha()
         img = pygame.transform.scale(img, (tile_size, tile_size))
-        surface.blit(img, (station.pos.x * tile_size, station.pos.y * tile_size))
+        surface.blit(
+            img,
+            (station_instance.pos.x * tile_size, station_instance.pos.y * tile_size),
+        )
 
     # Draw items
     for item in level.get_all_items():
@@ -292,7 +297,8 @@ def main():
                         x = x // TILE_SIZE
                         y = y // TILE_SIZE
                         if selected_mode == "stations":
-                            new_station = Station("fryer", "fryer.png", Vec2(x, y))
+                            station = Station("fryer", "fryer.png")
+                            new_station = StationInstance(station, Vec2(x, y))
                             test_level.put_station_at(new_station)
                         elif selected_mode == "items":
                             if selected_item:
