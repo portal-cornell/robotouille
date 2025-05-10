@@ -470,7 +470,6 @@ def loop(editor_state: EditorState):
                             break
 
             if event.type == pygame.MOUSEBUTTONDOWN:
-
                 if event.button == 1:
                     x, y = event.pos
                     if x > SCREEN_WIDTH or y > SCREEN_HEIGHT:
@@ -504,8 +503,17 @@ def loop(editor_state: EditorState):
                                     test_level.put_item_at(new_item)
                                 except NoStationAtLocationError:
                                     pass
-                elif event.button == 3 and editing_goal:
-                    test_level.goal.pop_goal()
+                elif event.button == 3:
+                    if editing_goal:
+                        test_level.goal.pop_goal()
+                    else:
+                        x, y = event.pos
+                        if x > SCREEN_WIDTH or y > SCREEN_HEIGHT:
+                            print("Clicked outside grid")
+                        else:
+                            x = (x - level_x) // TILE_SIZE
+                            y = (y - level_y) // TILE_SIZE
+                            test_level.pop_item_at(Vec2(x, y))
 
             manager.process_events(event)
         manager.update(time_delta)

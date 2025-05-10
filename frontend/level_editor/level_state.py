@@ -101,6 +101,10 @@ class LevelState:
             )
         self._items[pos.x][pos.y].append(item)
 
+    def pop_item_at(self, pos: Vec2):
+        if len(self._items[pos.x][pos.y]) > 0:
+            self._items[pos.x][pos.y].pop()
+
     def serialize(self) -> dict:
         stations_json = []
         for station in self.get_all_stations():

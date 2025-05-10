@@ -21,7 +21,7 @@
         {
             "name": "table",
             "x": 1,
-            "y": 1
+            "y": 2
         },
         {
             "name": "table",
@@ -31,30 +31,91 @@
         {
             "name": "table",
             "x": 3,
+            "y": 2
+        },
+        {
+            "name": "table",
+            "x": 4,
             "y": 1
+        },
+        {
+            "name": "table",
+            "x": 5,
+            "y": 2
         }
     ],
     "items": [
         {
-            "name": "topbun",
-            "x": 0,
-            "y": 1,
-            "stack-level": 0,
-            "predicates": []
-        },
-        {
-            "name": "topbun",
+            "name": "chicken",
             "x": 1,
-            "y": 1,
+            "y": 2,
             "stack-level": 0,
-            "predicates": []
+            "predicates": [
+                "iscooked"
+            ]
         },
         {
-            "name": "topbun",
-            "x": 2,
+            "name": "chicken",
+            "x": 1,
+            "y": 2,
+            "stack-level": 1,
+            "predicates": [
+                "iscooked"
+            ]
+        },
+        {
+            "name": "chicken",
+            "x": 1,
+            "y": 2,
+            "stack-level": 2,
+            "predicates": [
+                "iscooked"
+            ]
+        },
+        {
+            "name": "chicken",
+            "x": 3,
+            "y": 2,
+            "stack-level": 0,
+            "predicates": [
+                "iscooked"
+            ]
+        },
+        {
+            "name": "chicken",
+            "x": 3,
+            "y": 2,
+            "stack-level": 1,
+            "predicates": [
+                "iscooked"
+            ]
+        },
+        {
+            "name": "chicken",
+            "x": 4,
             "y": 1,
             "stack-level": 0,
-            "predicates": []
+            "predicates": [
+                "iscooked"
+            ]
+        },
+        {
+            "name": "chicken",
+            "x": 4,
+            "y": 1,
+            "stack-level": 1,
+            "predicates": [
+                "iscooked"
+            ]
+        },
+        {
+            "name": "chicken",
+            "x": 5,
+            "y": 2,
+            "stack-level": 0,
+            "predicates": [
+                "iscooked"
+            ]
         }
     ],
     "players": [
@@ -69,28 +130,5 @@
         }
     ],
     "goal_description": "Make a cheese burger with cheese on top of the patty",
-    "goal": [
-        {
-            "predicate": "atop",
-            "args": [
-                "topbun",
-                "topbun"
-            ],
-            "ids": [
-                2,
-                1
-            ]
-        },
-        {
-            "predicate": "atop",
-            "args": [
-                "topbun",
-                "topbun"
-            ],
-            "ids": [
-                3,
-                2
-            ]
-        }
-    ]
+    "goal": []
 }
