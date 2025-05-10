@@ -239,33 +239,37 @@ def loop(editor_state: EditorState):
     manager.set_visual_debug_mode(True)
 
     # Side Panels
-    item_panel_width = 200
-    item_panel = pygame_gui.elements.UIScrollingContainer(
-        relative_rect=pygame.Rect((SCREEN_WIDTH, 0), (item_panel_width, SCREEN_HEIGHT)),
+    item_panel_width = SIDE_MARGIN
+    item_panel = pygame_gui.elements.UIPanel(
+        relative_rect=pygame.Rect(
+            (SCREEN_WIDTH, 0),
+            (SIDE_MARGIN, SCREEN_HEIGHT + LOWER_MARGIN),
+        ),
         manager=manager,
         visible=False,
         container=None,
-        starting_height=100,
     )
     item_label = pygame_gui.elements.UILabel(
         relative_rect=pygame.Rect((0, 0), (item_panel_width, 30)),
         text="Items",
         manager=manager,
-        container=item_panel.get_container(),
+        container=item_panel,
     )
 
-    station_panel = pygame_gui.elements.UIScrollingContainer(
-        relative_rect=pygame.Rect((SCREEN_WIDTH, 0), (item_panel_width, SCREEN_HEIGHT)),
+    station_panel = pygame_gui.elements.UIPanel(
+        relative_rect=pygame.Rect(
+            (SCREEN_WIDTH, 0),
+            (SIDE_MARGIN, SCREEN_HEIGHT + LOWER_MARGIN),
+        ),
         manager=manager,
         visible=False,
         container=None,
-        starting_height=100,
     )
     station_label = pygame_gui.elements.UILabel(
         relative_rect=pygame.Rect((0, 0), (item_panel_width, 30)),
         text="Stations",
         manager=manager,
-        container=station_panel.get_container(),
+        container=station_panel,
     )
 
     # Station Buttons
@@ -287,7 +291,7 @@ def loop(editor_state: EditorState):
                 ),
                 text="",
                 manager=manager,
-                container=station_panel.get_container(),
+                container=station_panel,
             )
             station_button.normal_image = img
             station_button.hovered_image = img
@@ -344,7 +348,7 @@ def loop(editor_state: EditorState):
                 ),
                 text="",
                 manager=manager,
-                container=item_panel.get_container(),
+                container=item_panel,
             )
             item_button.normal_image = img
             item_button.hovered_image = img
