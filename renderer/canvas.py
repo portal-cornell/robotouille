@@ -604,7 +604,7 @@ class RobotouilleCanvas:
                 customers.append(literal.params[0].name)
         return customers
 
-    def draw_customer(self, surface, gamemode):
+    def _draw_customer(self, surface, gamemode):
         """
         Draws the customer on the canvas.
 
@@ -824,6 +824,6 @@ class RobotouilleCanvas:
         self._draw_furniture(surface)
         self._draw_stations(surface)
         self._draw_player(surface, gamemode)
-        self.draw_customer(surface, gamemode)
+        self._draw_customer(surface, gamemode)
         self._draw_container(surface, obs)
         self._draw_item(surface, gamemode)

@@ -34,6 +34,7 @@ class Customer(object):
         self.order = order
         self.time_to_serve = time_to_serve
         self.enter_time = enter_time
+        self.time_passed = 0
         self.has_been_served = False
         self.has_eaten = False
         self.in_game = False
@@ -143,7 +144,7 @@ class Customer(object):
                 result = True
         return result
 
-    def step(self, time, gamemode):
+    def step(self, dt, gamemode):
         """
         Steps the customer.
 
@@ -162,7 +163,7 @@ class Customer(object):
         customer has expired.
 
         Args:
-            time (pygame.time): The time object.
+            dt (int): The time delta in milliseconds.
             gamemode (GameMode): The game mode object.
 
         Returns:
@@ -171,6 +172,8 @@ class Customer(object):
         """
         state = gamemode.get_state()
 
+        self.time_passed += dt
+
         # If the customer is not performing an action, do nothing
         if self.action:
             return None
@@ -178,15 +181,14 @@ class Customer(object):
         # If the customer is at a table, decrement the time to serve
         # and check if the customer has been served
         if self._is_at_table(state) and not self.has_been_served:
-            clock = time.Clock()
-            self.time_to_serve -= clock.get_time()
+            self.time_to_serve -= dt
             if self.order_is_satisfied(state, gamemode):
                 self.has_been_served = True
         
         # If the customer needs to enter the game, perform the customer_enter action
         # and add the customer to the queue
         elif not self.has_left_queue and self not in gamemode.customer_queue \
-            and time.get_ticks() >= self.enter_time:
+            and self.time_passed >= self.enter_time:
             gamemode.customer_queue.append(self)
             for action, param_arg_dict_list in state.npc_actions.items():
                 if action.name == "customer_enter":

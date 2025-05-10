@@ -80,6 +80,7 @@ def build_gamemode(environment_json, domain_json, state, layout, animate):
         gamemode (GameMode): The gamemode of the environment
     """
     name = environment_json["gamemode"]["name"]
+    assert name in ["classic"]
 
     recipe_json_name = domain_json["recipe_json"]
     with open(recipe_json_name, "r") as recipe_json_file:
@@ -87,8 +88,7 @@ def build_gamemode(environment_json, domain_json, state, layout, animate):
     if name == "classic":
         gamemode = Classic(state, domain_json, environment_json, recipe_json)
         gamemode.movement = Movement(layout, animate, environment_json, gamemode)
-        return gamemode
-    return None
+    return gamemode
 
 class LanguageSpace(gym.spaces.Text):
     
@@ -191,7 +191,8 @@ class RobotouilleEnv(gym.Env):
         self.observation_space = state
 
     def step(self, actions):
-        _, done = self.gamemode.step(actions, self.time, self.clock)
+        dt = self.clock.tick(self.render_fps)
+        _, done = self.gamemode.step(actions, self.time, dt)
         self.current_state = copy.deepcopy(self.gamemode.state)
         obs = LanguageSpace.state_to_language_description(self.current_state)
         return obs, 0, done, {}
@@ -213,7 +214,6 @@ class RobotouilleEnv(gym.Env):
                 pygame.display.set_mode(size=(1,1), flags=pygame.HIDDEN) # Hide the window
             else:
                 pygame.event.pump()
-                self.clock.tick(self.render_fps)
         return img
 
         

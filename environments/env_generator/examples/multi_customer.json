@@ -160,7 +160,7 @@
     ],
     "customers": [
         {
-            "name": "girl",
+            "name": "customer",
             "x": 7,
             "y": 0,
             "direction": [-1, 0],
@@ -169,7 +169,7 @@
             "enter_time": 5000
         },
         {
-            "name": "girl",
+            "name": "customer",
             "x": 7,
             "y": 0,
             "direction": [-1, 0],
@@ -182,12 +182,12 @@
     "goal": [
         {
             "predicate": "customer_has_eaten",
-            "args": ["girl"],
+            "args": ["customer"],
             "ids": [1]
         },
         {
             "predicate": "customer_has_eaten",
-            "args": ["girl"],
+            "args": ["customer"],
             "ids": [2]
         }
     ]

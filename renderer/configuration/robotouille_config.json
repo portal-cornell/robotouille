@@ -11,7 +11,7 @@
     },
 
     "customer": {
-        "girl": {
+        "customer": {
             "front": ["customer_temp.png", "customer_temp.png", "customer_temp.png", "customer_temp.png"],
             "back": ["customer_temp.png", "customer_temp.png", "customer_temp.png", "customer_temp.png"],
             "left": ["customer_temp.png", "customer_temp.png", "customer_temp.png", "customer_temp.png"],

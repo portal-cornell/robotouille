@@ -491,8 +491,8 @@ class State(object):
         for action, param_arg_dict in actions:
             if action is None:
                 continue
-            assert action.is_valid(self, param_arg_dict)
             if action.name not in ["move", "customer_move", "customer_leave"]:
+                assert action.is_valid(self, param_arg_dict)
                 self = action.perform_action(self, param_arg_dict)
 
         

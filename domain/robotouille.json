@@ -81,10 +81,10 @@
             }
         },
         {
-            "name": "isgirl",
+            "name": "iscustomer",
             "param_types": ["customer"],
             "language_descriptors": {
-                "0": "{0} is a girl"
+                "0": "{0} is a customer"
             }
         },
         {

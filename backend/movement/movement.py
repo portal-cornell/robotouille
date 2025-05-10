@@ -149,7 +149,7 @@ class Movement(object):
         assert current in destinations, "Player or Customer cannot reach the destination."
         return path
     
-    def _move(self, gamemode, character, destination, action, param_arg_dict, clock):
+    def _move(self, gamemode, character, destination, action, param_arg_dict, dt):
         """
         Moves the player or customer to the destination.
 
@@ -165,7 +165,7 @@ class Movement(object):
             destination (Object): The destination station.
             action (Action): The move action.
             param_arg_dict (Dictionary[str, Object]): The arguments of the action.
-            clock (pygame.time.Clock): The pygame clock.
+            dt (float): The time delta.
 
         Modifies:
             player (Player): Modifies the direction and pos fields of the player
@@ -199,27 +199,23 @@ class Movement(object):
             character_obj.direction = (destination_pos[0] - character_obj.pos[0], destination_pos[1] - character_obj.pos[1])
             action.perform_action(state, param_arg_dict)
         else:
-            # Animate the movement by updating the player's position depending on the time
-            prev_pos = path[0]
-            next_pos = path[1]
+            # Set the path and time for the player or customer
             data = MetaData(path, 0)
             self.metadata[character_obj.name] = data
-            character_obj.direction = (next_pos[0] - prev_pos[0], next_pos[1] - prev_pos[1])
-            data.time += clock.get_time()
-            dt = data.time/self.ms_per_tile
-            current_x = prev_pos[0] + dt * (next_pos[0] - prev_pos[0])
-            current_y = prev_pos[1] + dt * (next_pos[1] - prev_pos[1])
-            character_obj.pos = (current_x, current_y)
+            character_obj.direction = (
+                path[1][0] - path[0][0],
+                path[1][1] - path[0][1],
+            )
             character_obj.action = (action, param_arg_dict)
 
-    def _step_player_and_customer(self, gamemode, clock):
+    def _step_player_and_customer(self, gamemode, dt):
         """
         This helper function steps each player and customer in the environment 
         that is currently in motion.
 
         Args:
             gamemode (GameMode): The game mode object.
-            clock (pygame.time.Clock): The pygame clock.
+            dt (int): The time delta since the last step in milliseconds.
         
         Modifies:
             gamemode.players: Modifies the direction, pos, sprite_value, and 
@@ -233,24 +229,22 @@ class Movement(object):
         ending_movement = []
         for name, data in self.metadata.items():
             is_player = name in gamemode.players
-            if is_player:
-                obj = gamemode.players[name]
-            else:
-                obj = gamemode.customers[name]
+            obj = gamemode.players[name] if is_player else gamemode.customers[name]
             next_pos = data.path[1]
             prev_pos = data.path[0]
             obj.direction = (next_pos[0] - prev_pos[0], next_pos[1] - prev_pos[1])
             obj.sprite_value += 1
-            data.time += clock.get_time()
-            dt = data.time/self.ms_per_tile
-            if dt >= 1:
+            data.time += dt
+            progress = data.time/self.ms_per_tile
+            if progress >= 1:
                 data.path.pop(0)
                 data.time = 0
                 obj.pos = next_pos
             else:
-                current_x = prev_pos[0] + dt * (next_pos[0] - prev_pos[0])
-                current_y = prev_pos[1] + dt * (next_pos[1] - prev_pos[1])
-                obj.pos = (current_x, current_y)
+                obj.pos = (
+                    prev_pos[0] + progress * (next_pos[0] - prev_pos[0]),
+                    prev_pos[1] + progress * (next_pos[1] - prev_pos[1]),
+                )
             if len(data.path) == 1:
                 obj.action[0].perform_action(state, obj.action[1])
                 destination = obj.action[1]["s2"]

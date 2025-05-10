@@ -1,6 +1,4 @@
 from backend.customer import Customer
-from backend.order_controller import OrderController
-from backend.lobby_manager import LobbyManager
 from abc import ABC, abstractmethod
 
 class GameMode(ABC):
@@ -42,9 +40,6 @@ class GameMode(ABC):
         self.customer_id_counter = 0
         self.customer_queue = []
         Customer.build_customers(domain_json, environment_json, recipe_json, self)
-
-        self.order_controller = OrderController(config=environment_json)
-        self.lobby_manager = LobbyManager()
 
     def get_order_status(self):
         return {
@@ -91,7 +86,7 @@ class GameMode(ABC):
         pass
     
     @abstractmethod
-    def step(self, actions, clock):
+    def step(self, actions, time, dt):
         """
         Steps the game mode.
 
@@ -102,7 +97,8 @@ class GameMode(ABC):
                 length of the list is the number of players, where actions[i] is
                 the action for player i. If player i is not performing an action,
                 actions[i] is None.
-            clock (pygame.time.Clock): The clock object.
+            time (pygame.time): The time object.
+            dt (float): The time delta since the last frame.
 
         Returns:
             new_state (State): The successor state.

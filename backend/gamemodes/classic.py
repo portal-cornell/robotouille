@@ -36,7 +36,7 @@ class Classic(GameMode):
             self.win = True
             self.score = 1
 
-    def step(self, actions, time, clock):
+    def step(self, actions, time, dt):
         """
         Steps the game mode.
 
@@ -48,7 +48,7 @@ class Classic(GameMode):
                 the action for player i. If player i is not performing an action,
                 actions[i] is None.
             time (pygame.time): The time object.
-            clock (pygame.time.Clock): The clock object.
+            dt (int): The time delta since the last step in milliseconds.
 
         Returns:
             new_state (State): The successor state.
@@ -57,22 +57,16 @@ class Classic(GameMode):
         
         # Step customers
         for customer in self.customers.values():
-            # Check whether player has completed or failed customer orders
-            if customer.has_been_served:
-                self.order_controller.mark_order_completed(customer.id)
-            elif customer.time_to_serve <= 0:
-                self.order_controller.mark_order_failed(customer.id)
-                
-            action = customer.step(time, self)
+            action = customer.step(dt, self)
     
             if action is not None:
                 actions.append(action)
 
+        # Step movement
+        self.movement.step(self, dt, actions)
+
         # Step the game state
         new_state, done = self.state.step(actions)
-
-        # Step movement
-        self.movement.step(self, clock, actions)
         if self.movement.mode == Mode.TRAVERSE:
             new_state.current_player = new_state.next_player()
         

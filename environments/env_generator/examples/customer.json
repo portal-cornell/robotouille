@@ -109,7 +109,7 @@
     ],
     "customers": [
         {
-            "name": "girl",
+            "name": "customer",
             "x": 7,
             "y": 0,
             "direction": [-1, 0],
@@ -122,7 +122,7 @@
     "goal": [
         {
             "predicate": "customer_has_eaten",
-            "args": ["girl"],
+            "args": ["customer"],
             "ids": [1]
         }
     ]

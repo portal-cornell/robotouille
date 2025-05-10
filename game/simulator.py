@@ -7,7 +7,7 @@ from game.progress_bar import ProgressBarScreen
 from utils.robotouille_input import create_action_from_event
 from robotouille.robotouille_env import create_robotouille_env
 from backend.movement.player import Player
-from backend.movement.movement import Movement
+from backend.movement.movement import Movement, Mode
 
 class RobotouilleSimulator:
     def __init__(self, screen, environment_name, seed=42, noisy_randomization=False, movement_mode='traverse', clock=pygame.time.Clock(), screen_size=(512, 512), render_fps=60):
@@ -109,11 +109,12 @@ class RobotouilleSimulator:
 
         mousedown_events = list(filter(lambda e: e.type == pygame.MOUSEBUTTONDOWN, pygame_events))
         keydown_events = list(filter(lambda e: e.type == pygame.KEYDOWN, pygame_events))
-        player_obj = Player.get_player(self.env.current_state.current_player.name)
+        player_obj = Player.get_player(self.env.gamemode, self.env.current_state.current_player.name)
         no_action = True
 
         # If player is moving, do not allow any action; action will be None
-        if Movement.is_player_moving(player_obj.name):
+        movement = self.env.gamemode.get_movement()
+        if movement.is_player_moving(player_obj.name):
             action, args = None, None
             no_action = False
         # If player is not moving, allow action
