@@ -1,5 +1,5 @@
 from declarations import Vec2, Item, Station, ItemInstance, StationInstance
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 
 class NoStationAtLocationError(Exception):
@@ -12,35 +12,39 @@ class LevelState:
     def __init__(self, width: int, height: int):
         self.width: int = width
         self.height: int = height
-        self._stations: List[StationInstance] = []
-        self._items: List[ItemInstance] = []
+        self._stations: List[List[Optional[StationInstance]]] = [
+            [None for _ in range(height)] for _ in range(width)
+        ]
+        self._items: List[List[List[ItemInstance]]] = [
+            [[] for _ in range(height)] for _ in range(width)
+        ]
 
     def get_station_at(self, pos: Vec2) -> Optional[StationInstance]:
-        for station in self._stations:
-            if station.pos.x == pos.x and station.pos.y == pos.y:
-                return station
-        return None
+        return self._stations[pos.x][pos.y]
 
-    def get_item_at(self, pos: Vec2) -> Optional[ItemInstance]:
-        for item in self._items:
-            if item.pos.x == pos.x and item.pos.y == pos.y:
-                return item
-        return None
+    def get_items_at(self, pos: Vec2) -> List[ItemInstance]:
+        return self._items[pos.x][pos.y]
 
     def get_all_stations(self) -> List[StationInstance]:
-        return self._stations
+        stations = []
+        for x in range(self.width):
+            for y in range(self.height):
+                station = self._stations[x][y]
+                if station:
+                    stations.append(station)
+        return stations
 
     def get_all_items(self) -> List[ItemInstance]:
-        return self._items
+        items = []
+        for x in range(self.width):
+            for y in range(self.height):
+                for item in self._items[x][y]:
+                    items.append(item)
+        return items
 
     def put_station_at(self, station: StationInstance):
         pos = station.pos
-        existing_station = self.get_station_at(pos)
-        if existing_station is None:
-            self._stations.append(station)
-        else:
-            self._stations.remove(existing_station)
-            self._stations.append(station)
+        self._stations[pos.x][pos.y] = station
 
     def put_item_at(self, item: ItemInstance):
         pos = item.pos
@@ -49,13 +53,7 @@ class LevelState:
             raise NoStationAtLocationError(
                 "Cannot place item at location without a station"
             )
-
-        existing_item = self.get_item_at(pos)
-        if existing_item is None:
-            self._items.append(item)
-        else:
-            self._items.remove(existing_item)
-            self._items.append(item)
+        self._items[pos.x][pos.y].append(item)
 
     def serialize(self) -> dict:
         stations_json = []
@@ -69,16 +67,18 @@ class LevelState:
             )
 
         items_json = []
-        for item in self.get_all_items():
-            items_json.append(
-                {
-                    "name": item.source_item.name,
-                    "x": item.pos.x,
-                    "y": self.height - 1 - item.pos.y,
-                    "stack-level": 0,  # This is hardcoded for now
-                    "predicates": list(item.predicates),
-                }
-            )
+        for x in range(self.width):
+            for y in range(self.height):
+                for i, item in enumerate(self._items[x][y]):
+                    items_json.append(
+                        {
+                            "name": item.source_item.name,
+                            "x": item.pos.x,
+                            "y": self.height - 1 - item.pos.y,
+                            "stack-level": i,
+                            "predicates": list(item.predicates),
+                        }
+                    )
 
         level_json = {
             "version": "1.0.0",

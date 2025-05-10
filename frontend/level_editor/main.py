@@ -54,14 +54,23 @@ def render_level(
         )
 
     # Draw items
-    for item in level.get_all_items():
-        item_asset_path = os.path.join(
-            asset_dir_path,
-            item.source_item.state_map[frozenset(item.predicates)],
-        )
-        img = pygame.image.load(item_asset_path).convert_alpha()
-        img = pygame.transform.scale(img, (tile_size, tile_size))
-        surface.blit(img, (item.pos.x * tile_size, item.pos.y * tile_size))
+    for x in range(level.width):
+        for y in range(level.height):
+            items = level.get_items_at(Vec2(x, y))
+            for i, item in enumerate(items):
+                item_asset_path = os.path.join(
+                    asset_dir_path,
+                    item.source_item.state_map[frozenset(item.predicates)],
+                )
+                img = pygame.image.load(item_asset_path).convert_alpha()
+                img = pygame.transform.scale(img, (tile_size, tile_size))
+                surface.blit(
+                    img,
+                    (
+                        item.pos.x * tile_size,
+                        item.pos.y * tile_size - i * (tile_size / 4),
+                    ),
+                )
 
     return surface
 

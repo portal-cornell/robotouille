@@ -22,19 +22,186 @@
             "name": "table",
             "x": 1,
             "y": 1
+        },
+        {
+            "name": "table",
+            "x": 2,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 3,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 5,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 5,
+            "y": 0
+        },
+        {
+            "name": "table",
+            "x": 5,
+            "y": 2
+        },
+        {
+            "name": "table",
+            "x": 5,
+            "y": 3
+        },
+        {
+            "name": "table",
+            "x": 4,
+            "y": 3
+        },
+        {
+            "name": "table",
+            "x": 3,
+            "y": 3
+        },
+        {
+            "name": "table",
+            "x": 2,
+            "y": 3
+        },
+        {
+            "name": "table",
+            "x": 0,
+            "y": 3
+        },
+        {
+            "name": "table",
+            "x": 0,
+            "y": 4
+        },
+        {
+            "name": "table",
+            "x": 0,
+            "y": 5
+        },
+        {
+            "name": "table",
+            "x": 1,
+            "y": 5
+        },
+        {
+            "name": "table",
+            "x": 2,
+            "y": 5
+        },
+        {
+            "name": "table",
+            "x": 3,
+            "y": 5
+        },
+        {
+            "name": "table",
+            "x": 4,
+            "y": 5
+        },
+        {
+            "name": "table",
+            "x": 5,
+            "y": 5
+        },
+        {
+            "name": "table",
+            "x": 5,
+            "y": 4
         }
     ],
     "items": [
         {
-            "name": "topbun",
+            "name": "bottombun",
             "x": 0,
-            "y": 1,
+            "y": 3,
             "stack-level": 0,
             "predicates": []
         },
         {
             "name": "topbun",
+            "x": 0,
+            "y": 4,
+            "stack-level": 0,
+            "predicates": []
+        },
+        {
+            "name": "bread",
             "x": 1,
+            "y": 5,
+            "stack-level": 0,
+            "predicates": []
+        },
+        {
+            "name": "cheese",
+            "x": 2,
+            "y": 5,
+            "stack-level": 0,
+            "predicates": []
+        },
+        {
+            "name": "chicken",
+            "x": 3,
+            "y": 5,
+            "stack-level": 0,
+            "predicates": []
+        },
+        {
+            "name": "patty",
+            "x": 4,
+            "y": 5,
+            "stack-level": 0,
+            "predicates": []
+        },
+        {
+            "name": "lettuce",
+            "x": 5,
+            "y": 4,
+            "stack-level": 0,
+            "predicates": []
+        },
+        {
+            "name": "onion",
+            "x": 4,
+            "y": 3,
+            "stack-level": 0,
+            "predicates": []
+        },
+        {
+            "name": "potato",
+            "x": 3,
+            "y": 3,
+            "stack-level": 0,
+            "predicates": []
+        },
+        {
+            "name": "tomato",
+            "x": 2,
+            "y": 3,
+            "stack-level": 0,
+            "predicates": []
+        },
+        {
+            "name": "tomato",
+            "x": 3,
+            "y": 1,
+            "stack-level": 0,
+            "predicates": []
+        },
+        {
+            "name": "tomato",
+            "x": 1,
+            "y": 1,
+            "stack-level": 0,
+            "predicates": []
+        },
+        {
+            "name": "tomato",
+            "x": 5,
             "y": 1,
             "stack-level": 0,
             "predicates": []
