@@ -77,6 +77,32 @@ def render_level(
     return surface
 
 
+def render_goal(tile_size: int, asset_dir_path: str, goal: Goal) -> pygame.Surface:
+    # colors
+    BEIGE = pygame.Color("#EDE8D0")
+    surface = pygame.Surface((tile_size, tile_size))
+    surface.fill(BEIGE)
+
+    pygame.draw.rect(surface, pygame.Color("#000000"), surface.get_rect(), 5)
+
+    items = goal._goal_stack
+    for i, item in enumerate(items):
+        item_asset_path = os.path.join(
+            asset_dir_path,
+            item.source_item.state_map[frozenset(item.predicates)],
+        )
+        img = pygame.image.load(item_asset_path).convert_alpha()
+        img = pygame.transform.scale(img, (tile_size, tile_size))
+        surface.blit(
+            img,
+            (
+                0,
+                0 - i * (tile_size / 4),
+            ),
+        )
+    return surface
+
+
 def setup() -> EditorState:
     root = tk.Tk()
     root.withdraw()
@@ -324,44 +350,6 @@ def loop(editor_state: EditorState):
     clock = pygame.time.Clock()
     running = True
 
-    def render_goal(
-        surface: pygame.Surface, tile_size: int, asset_dir_path: str, goal: Goal
-    ):
-        # colors
-        BEIGE = pygame.Color("#EDE8D0")
-        surface.fill(BEIGE)
-
-        pygame.draw.line(
-            surface,
-            pygame.Color("#000000"),
-            (tile_size, 0),
-            (tile_size, tile_size),
-            width=3,
-        )
-        pygame.draw.line(
-            surface,
-            pygame.Color("#000000"),
-            (0, tile_size),
-            (tile_size, tile_size),
-            width=3,
-        )
-
-        items = goal._goal_stack
-        for i, item in enumerate(items):
-            item_asset_path = os.path.join(
-                asset_dir_path,
-                item.source_item.state_map[frozenset(item.predicates)],
-            )
-            img = pygame.image.load(item_asset_path).convert_alpha()
-            img = pygame.transform.scale(img, (tile_size, tile_size))
-            surface.blit(
-                img,
-                (
-                    0,
-                    0 - i * (tile_size / 4),
-                ),
-            )
-
     def save_level():
         root = tk.Tk()
         root.withdraw()
@@ -482,14 +470,12 @@ def loop(editor_state: EditorState):
 
         window_surface.fill(BEIGE)
         if editing_goal:
-            goal_surface = pygame.Surface((TILE_SIZE, TILE_SIZE))
-            render_goal(
-                goal_surface,
+            goal_surface = render_goal(
                 TILE_SIZE,
                 editor_state.get_asset_dir_path(),
                 test_level.goal,
             )
-            window_surface.blit(goal_surface, (0, 0))
+            window_surface.blit(goal_surface, (level_x, level_y))
         else:
             level_surface = render_level(
                 test_level, TILE_SIZE, editor_state.get_asset_dir_path()
