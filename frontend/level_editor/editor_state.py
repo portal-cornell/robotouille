@@ -8,15 +8,15 @@ class EditorState:
         project_root_path: str,
         asset_dir_path: str,
         config_file_path: str,
-        items: Item,
-        stations: Station,
+        items: list[Item],
+        stations: list[Station],
         saved_file: Optional[str] = None,
     ):
         self._project_root_path: str = project_root_path
         self._asset_dir_path: str = asset_dir_path
         self._config_file_path: str = config_file_path
-        self._items: Item = items
-        self._stations: Station = stations
+        self._items: list[Item] = items
+        self._stations: list[Station] = stations
         self._saved_file: Optional[str] = saved_file
         self._selected: Optional[Union[Item, Station]] = None
 

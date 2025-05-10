@@ -9,59 +9,12 @@ import json
 
 from declarations import Vec2, Item, Station, ItemInstance, StationInstance
 from level_state import LevelState, NoStationAtLocationError
-
-root = tk.Tk()
-root.withdraw()
-
-pygame.init()
-pygame.display.set_caption("Level Editor")
-
-root = tk.Tk()
-root.withdraw()
-
-dev_mode = True
-
-project_root_path = os.path.abspath(os.path.join(__file__, "./../../../"))
-asset_dir_path = os.path.join(project_root_path, "assets")
-print(f"[CONFIG] project root path: {project_root_path}")
-print(f"[CONFIG] asset dir path: {asset_dir_path}")
-config_file_path = (
-    filedialog.askopenfilename(
-        title="Select Robotouille Config", filetypes=[("JSON files", "*.json")]
-    )
-    if not dev_mode
-    else "renderer/configuration/robotouille_config.json"
-)
-
-if not config_file_path:
-    print("No config file selected. Exiting.")
-    exit()
-else:
-    print(f"[CONFIG] config path: {config_file_path}")
-
-with open(config_file_path, "r") as f:
-    config_data = json.load(f)
-
-item_entities = config_data["item"]["entities"]
-items = {}
-for item_name, item_data in item_entities.items():
-    assets = item_data["assets"]
-    state_map = []
-    default_asset = assets.get("default")
-    if default_asset:
-        state_map.append(([], default_asset))
-    for state_name, state_info in assets.items():
-        if (
-            state_name != "default"
-            and "asset" in state_info
-            and "predicates" in state_info
-        ):
-            state_map.append((state_info["predicates"], state_info["asset"]))
-    items[item_name] = Item(item_name, state_map)
+from editor_state import EditorState
 
 
-def render_level(level: LevelState, tile_size: int) -> pygame.Surface:
-
+def render_level(
+    level: LevelState, tile_size: int, asset_dir_path: str
+) -> pygame.Surface:
     # colors
     WHITE = (255, 255, 255)
     BEIGE = pygame.Color("#EDE8D0")
@@ -113,7 +66,67 @@ def render_level(level: LevelState, tile_size: int) -> pygame.Surface:
     return surface
 
 
-def main():
+def setup() -> EditorState:
+    root = tk.Tk()
+    root.withdraw()
+
+    pygame.init()
+    pygame.display.set_caption("Level Editor")
+
+    root = tk.Tk()
+    root.withdraw()
+
+    dev_mode = True
+
+    project_root_path = os.path.abspath(os.path.join(__file__, "./../../../"))
+    asset_dir_path = os.path.join(project_root_path, "assets")
+    print(f"[CONFIG] project root path: {project_root_path}")
+    print(f"[CONFIG] asset dir path: {asset_dir_path}")
+    config_file_path = (
+        filedialog.askopenfilename(
+            title="Select Robotouille Config", filetypes=[("JSON files", "*.json")]
+        )
+        if not dev_mode
+        else "renderer/configuration/robotouille_config.json"
+    )
+
+    if not config_file_path:
+        print("No config file selected. Exiting.")
+        exit()
+    else:
+        print(f"[CONFIG] config path: {config_file_path}")
+
+    with open(config_file_path, "r") as f:
+        config_data = json.load(f)
+
+    item_entities = config_data["item"]["entities"]
+    items = {}
+    for item_name, item_data in item_entities.items():
+        assets = item_data["assets"]
+        state_map = []
+        default_asset = assets.get("default")
+        if default_asset:
+            state_map.append(([], default_asset))
+        for state_name, state_info in assets.items():
+            if (
+                state_name != "default"
+                and "asset" in state_info
+                and "predicates" in state_info
+            ):
+                state_map.append((state_info["predicates"], state_info["asset"]))
+        items[item_name] = Item(item_name, state_map)
+
+    stations = {}  # stations not loaded from config, hardcoded in loop()
+    return EditorState(
+        project_root_path,
+        asset_dir_path,
+        config_file_path,
+        list(items.values()),
+        list(stations.values()),
+    )
+
+
+def loop(editor_state: EditorState):
     pygame.init()
     pygame.display.set_caption("Level Renderer")
 
@@ -182,9 +195,11 @@ def main():
     button_height = 50
     button_x = 10
     button_y = 10
-    for item_name, item in items.items():
+    for item in editor_state.get_items():
         default_asset = item.state_map[frozenset()]
-        item_asset_path = os.path.join(project_root_path, "assets", default_asset)
+        item_asset_path = os.path.join(
+            editor_state.get_project_root_path(), "assets", default_asset
+        )
         try:
             img = pygame.image.load(item_asset_path).convert_alpha()
             img = pygame.transform.scale(img, (button_width, button_height))
@@ -200,7 +215,7 @@ def main():
             item_button.hovered_image = img
             item_button.pressed_image = img
             item_button.rebuild()
-            item_buttons[item_name] = item_button
+            item_buttons[item.name] = item_button
 
             button_y += button_height + 10
         except FileNotFoundError:
@@ -220,21 +235,16 @@ def main():
         filename = file_path.split("/")[-1].replace(".json", "")
         command = f"python main.py ++game.envrionment_name={filename}"
         print(f"Running command: {command}")
-        subprocess.Popen(command, shell=True, cwd=project_root_path, env=os.environ)
+        subprocess.Popen(
+            command,
+            shell=True,
+            cwd=editor_state.get_project_root_path(),
+            env=os.environ,
+        )
 
     stations_button.show()
     items_button.show()
     export_button.show()
-
-    selected_item = None
-
-    def toggle_item_panel():
-        if selected_mode == "items":
-            item_panel.show()
-        else:
-            item_panel.hide()
-
-    toggle_item_panel()
 
     def toggle_item_panel():
         if selected_mode == "items":
@@ -280,7 +290,17 @@ def main():
                     # Check if it's an item button
                     for item_name, button in item_buttons.items():
                         if event.ui_element == button:
-                            selected_item = item_name
+                            # selected_item = item_name
+                            editor_state.set_selected(
+                                next(
+                                    (
+                                        item
+                                        for item in editor_state.get_items()
+                                        if item.name == item_name
+                                    ),
+                                    None,
+                                )
+                            )
                             print(f"Selected item: {item_name}")
                             break
 
@@ -297,9 +317,9 @@ def main():
                             new_station = StationInstance(station, Vec2(x, y))
                             test_level.put_station_at(new_station)
                         elif selected_mode == "items":
-                            if selected_item:
+                            if editor_state.get_selected():
                                 new_item = ItemInstance(
-                                    items[selected_item],
+                                    editor_state.get_selected(),
                                     set(),  # Pass a set of strings
                                     Vec2(x, y),
                                 )
@@ -312,7 +332,9 @@ def main():
         manager.update(time_delta)
 
         window_surface.fill(BEIGE)
-        level_surface = render_level(test_level, TILE_SIZE)
+        level_surface = render_level(
+            test_level, TILE_SIZE, editor_state.get_asset_dir_path()
+        )
         window_surface.blit(level_surface, (0, 0))
         manager.draw_ui(window_surface)
         pygame.display.update()
@@ -321,7 +343,8 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    editor_state = setup()
+    loop(editor_state)
 
 
 # def editor_v1():
