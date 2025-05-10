@@ -1,5 +1,5 @@
 from declarations import Item, Station
-from typing import Optional, Union
+from typing import Optional, Union, Tuple, Set
 
 
 class EditorState:
@@ -10,6 +10,7 @@ class EditorState:
         config_file_path: str,
         items: list[Item],
         stations: list[Station],
+        item_states: list[Tuple[Item, Set[str]]],
         saved_file: Optional[str] = None,
     ):
         self._project_root_path: str = project_root_path
@@ -17,8 +18,12 @@ class EditorState:
         self._config_file_path: str = config_file_path
         self._items: list[Item] = items
         self._stations: list[Station] = stations
+        self._item_states: list[Tuple[Item, Set[str]]] = item_states
         self._saved_file: Optional[str] = saved_file
-        self._selected: Optional[Union[Item, Station]] = None
+        self._selected: Optional[Union[Station, Tuple[Item, Set[str]]]] = None
+
+    def get_item_states(self) -> list[Tuple[Item, Set[str]]]:
+        return self._item_states
 
     def get_project_root_path(self) -> str:
         return self._project_root_path
@@ -41,16 +46,23 @@ class EditorState:
     def set_saved_file(self, saved_file: Optional[str]) -> None:
         self._saved_file = saved_file
 
-    def get_selected(self) -> Optional[Union[Item, Station]]:
+    def get_selected(self) -> Optional[Union[Station, Tuple[Item, Set[str]]]]:
         return self._selected
 
-    def set_selected(self, selected: Optional[Union[Item, Station]]) -> None:
-        if (
-            selected is not None
-            and selected not in self._items
-            and selected not in self._stations
-        ):
-            raise ValueError(
-                "selected must be None or an item from _items or a station from _stations"
-            )
+    def set_selected(
+        self, selected: Optional[Union[Station, Tuple[Item, Set[str]]]]
+    ) -> None:
+        if selected is not None:
+            if isinstance(selected, tuple):
+                if selected[0] not in self._items:  # check if item in tuple is in items
+                    raise ValueError(
+                        "selected item must be None or an item from _items or a station from _stations"
+                    )
+            elif (
+                selected not in self._stations
+            ):  # if not a tuple, check if it is a station
+                raise ValueError(
+                    "selected must be None or an item from _items or a station from _stations"
+                )
+
         self._selected = selected

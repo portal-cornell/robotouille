@@ -189,12 +189,19 @@ def setup() -> EditorState:
         default_asset = assets.get("default", "cheese.png")
         stations[station_name] = Station(station_name, default_asset)
 
+    item_states = []
+    for item in items.values():
+        for predicates_frozen in item.state_map.keys():
+            predicates = set(predicates_frozen)
+            item_states.append((item, predicates))
+
     return EditorState(
         project_root_path,
         asset_dir_path,
         config_file_path,
         list(items.values()),
         list(stations.values()),
+        item_states,
     )
 
 
@@ -323,12 +330,12 @@ def loop(editor_state: EditorState):
     button_height = 50
     button_x = 10
     button_y = 10
-    for item in editor_state.get_items():
-        default_asset = item.state_map[frozenset()]
-        item_asset_path = os.path.join(
-            editor_state.get_project_root_path(), "assets", default_asset
-        )
+    for item, predicates in editor_state.get_item_states():
         try:
+            asset = item.state_map[frozenset(predicates)]
+            item_asset_path = os.path.join(
+                editor_state.get_project_root_path(), "assets", asset
+            )
             img = pygame.image.load(item_asset_path).convert_alpha()
             img = pygame.transform.scale(img, (button_width, button_height))
             item_button = pygame_gui.elements.UIButton(
@@ -343,11 +350,13 @@ def loop(editor_state: EditorState):
             item_button.hovered_image = img
             item_button.pressed_image = img
             item_button.rebuild()
-            item_buttons[item.name] = item_button
+            item_buttons[(item.name, tuple(predicates))] = item_button
 
             button_y += button_height + 10
         except FileNotFoundError:
             print(f"Asset not found: {item_asset_path}")
+        except KeyError:
+            print(f"No asset found for predicates: {predicates} for item {item.name}")
 
     stations_button.show()
     items_button.show()
@@ -421,20 +430,23 @@ def loop(editor_state: EditorState):
                         print(f"Level saved to {filename}")
                 else:
                     # Check if it's an item button
-                    for item_name, button in item_buttons.items():
+                    for (item_name, predicates), button in item_buttons.items():
                         if event.ui_element == button:
-                            # selected_item = item_name
-                            editor_state.set_selected(
-                                next(
-                                    (
-                                        item
-                                        for item in editor_state.get_items()
-                                        if item.name == item_name
-                                    ),
-                                    None,
-                                )
+                            selected_item = next(
+                                (
+                                    item
+                                    for item in editor_state.get_items()
+                                    if item.name == item_name
+                                ),
+                                None,
                             )
-                            print(f"Selected item: {item_name}")
+                            if selected_item:
+                                editor_state.set_selected(
+                                    (selected_item, set(predicates))
+                                )
+                                print(
+                                    f"Selected item: {item_name} with predicates: {predicates}"
+                                )
                             break
                     # Check if it's a station button
                     for station_name, button in station_buttons.items():
@@ -474,10 +486,11 @@ def loop(editor_state: EditorState):
                                     editor_state.get_selected(), Vec2(x, y)
                                 )
                                 test_level.put_station_at(new_station)
-                            elif isinstance(editor_state.get_selected(), Item):
+                            elif isinstance(editor_state.get_selected(), tuple):
+                                item, predicates = editor_state.get_selected()
                                 new_item = ItemInstance(
-                                    editor_state.get_selected(),
-                                    set(),  # Pass a set of strings
+                                    item,
+                                    predicates,
                                     Vec2(x, y),
                                 )
                                 try:
