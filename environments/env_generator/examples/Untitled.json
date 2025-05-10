@@ -16,12 +16,22 @@
         {
             "name": "table",
             "x": 0,
+            "y": 5
+        },
+        {
+            "name": "table",
+            "x": 0,
             "y": 1
         },
         {
             "name": "table",
             "x": 1,
-            "y": 2
+            "y": 3
+        },
+        {
+            "name": "table",
+            "x": 2,
+            "y": 5
         },
         {
             "name": "table",
@@ -30,8 +40,8 @@
         },
         {
             "name": "table",
-            "x": 3,
-            "y": 2
+            "x": 4,
+            "y": 5
         },
         {
             "name": "table",
@@ -41,81 +51,65 @@
         {
             "name": "table",
             "x": 5,
-            "y": 2
+            "y": 3
         }
     ],
     "items": [
         {
             "name": "chicken",
-            "x": 1,
-            "y": 2,
+            "x": 0,
+            "y": 5,
             "stack-level": 0,
-            "predicates": [
-                "iscooked"
-            ]
+            "predicates": []
         },
         {
             "name": "chicken",
             "x": 1,
-            "y": 2,
-            "stack-level": 1,
-            "predicates": [
-                "iscooked"
-            ]
-        },
-        {
-            "name": "chicken",
-            "x": 1,
-            "y": 2,
-            "stack-level": 2,
-            "predicates": [
-                "iscooked"
-            ]
-        },
-        {
-            "name": "chicken",
-            "x": 3,
-            "y": 2,
+            "y": 3,
             "stack-level": 0,
-            "predicates": [
-                "iscooked"
-            ]
+            "predicates": []
         },
         {
             "name": "chicken",
-            "x": 3,
-            "y": 2,
+            "x": 1,
+            "y": 3,
             "stack-level": 1,
-            "predicates": [
-                "iscooked"
-            ]
+            "predicates": []
+        },
+        {
+            "name": "chicken",
+            "x": 2,
+            "y": 5,
+            "stack-level": 0,
+            "predicates": []
         },
         {
             "name": "chicken",
             "x": 4,
             "y": 1,
             "stack-level": 0,
-            "predicates": [
-                "iscooked"
-            ]
-        },
-        {
-            "name": "chicken",
-            "x": 4,
-            "y": 1,
-            "stack-level": 1,
-            "predicates": [
-                "iscooked"
-            ]
+            "predicates": []
         },
         {
             "name": "chicken",
             "x": 5,
-            "y": 2,
+            "y": 3,
             "stack-level": 0,
-            "predicates": [
-                "iscooked"
-            ]
+            "predicates": []
+        },
+        {
+            "name": "chicken",
+            "x": 5,
+            "y": 3,
+            "stack-level": 1,
+            "predicates": []
+        },
+        {
+            "name": "chicken",
+            "x": 5,
+            "y": 3,
+            "stack-level": 2,
+            "predicates": []
         }
     ],
     "players": [
@@ -130,5 +124,26 @@
         }
     ],
     "goal_description": "Make a cheese burger with cheese on top of the patty",
-    "goal": []
+    "goal": [
+        {
+            "predicate": "iscooked",
+            "args": [
+                "chicken"
+            ],
+            "ids": [
+                2
+            ]
+        },
+        {
+            "predicate": "atop",
+            "args": [
+                "chicken",
+                "chicken"
+            ],
+            "ids": [
+                2,
+                1
+            ]
+        }
+    ]
 }

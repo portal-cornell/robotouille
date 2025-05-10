@@ -92,6 +92,9 @@ class LevelState:
         pos = station.pos
         self._stations[pos.x][pos.y] = station
 
+    def remove_station_at(self, pos: Vec2):
+        self._stations[pos.x][pos.y] = None
+
     def put_item_at(self, item: ItemInstance):
         pos = item.pos
         existing_station = self.get_station_at(pos)

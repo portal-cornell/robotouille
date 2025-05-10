@@ -513,7 +513,10 @@ def loop(editor_state: EditorState):
                         else:
                             x = (x - level_x) // TILE_SIZE
                             y = (y - level_y) // TILE_SIZE
-                            test_level.pop_item_at(Vec2(x, y))
+                            if len(test_level.get_items_at(Vec2(x, y))) > 0:
+                                test_level.pop_item_at(Vec2(x, y))
+                            else:
+                                test_level.remove_station_at(Vec2(x, y))
 
             manager.process_events(event)
         manager.update(time_delta)
