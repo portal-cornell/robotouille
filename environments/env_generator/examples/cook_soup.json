@@ -3,6 +3,10 @@
     "width": 6,
     "height": 6,
     "config": {},
+    "gamemode": {
+        "name": "classic",
+        "time": 60000
+    },
     "stations": [
         {
             "name": "table",

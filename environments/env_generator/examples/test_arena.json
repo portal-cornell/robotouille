@@ -212,27 +212,27 @@
             "ids": [5]
         },
         {
-            "predicate": "atop",
+            "predicate": "atop_item",
             "args": ["topbun", "cheese"],
             "ids": [6, 10]
         },
         {
-            "predicate": "atop",
+            "predicate": "atop_item",
             "args": ["cheese", "lettuce"],
             "ids": [10, 1]
         },
         {
-            "predicate": "atop",
+            "predicate": "atop_item",
             "args": ["lettuce", "tomato"],
             "ids": [1, 2]
         },
         {
-            "predicate": "atop",
+            "predicate": "atop_item",
             "args": ["tomato", "patty"],
             "ids": [2, 4]
         },
         {
-            "predicate": "atop",
+            "predicate": "atop_item",
             "args": ["patty", "bottombun"],
             "ids": [4, 7]
         },
@@ -242,17 +242,17 @@
             "ids": [8, 9]
         },
         {
-            "predicate": "item_at",
+            "predicate": "at_station",
             "args": ["onion", "table"],
             "ids": [3, 9]
         },
         {
-            "predicate": "item_at",
+            "predicate": "at_station",
             "args": ["chicken", "table"],
             "ids": [5, 9]
         },
         {
-            "predicate": "item_at",
+            "predicate": "at_station",
             "args": ["bread", "table"],
             "ids": [11, 9]
         },

@@ -1,0 +1,129 @@
+{
+    "version": "1.1.0",
+    "width": 8,
+    "height": 8,
+    "config": {
+        "num_cuts": {
+            "lettuce": 3,
+            "default": 3
+        },
+        "cook_time": {
+            "patty": 3,
+            "default": 3
+        }
+    },
+    "gamemode": {
+        "name": "classic",
+        "time": 60000
+    },
+    "stations": [
+        {
+            "name": "table",
+            "x": 2,
+            "y": 5
+        },
+        {
+            "name": "table",
+            "x": 1,
+            "y": 5
+        },
+        {
+            "name": "stove",
+            "x": 3,
+            "y": 3
+        },
+        {
+            "name": "table",
+            "x": 3,
+            "y": 6
+        },
+        {
+            "name": "table",
+            "x": 5,
+            "y": 5
+        },
+        {
+            "name": "board",
+            "x": 6,
+            "y": 6
+        },
+        {
+            "name": "table",
+            "x": 7,
+            "y": 4
+        },
+        {
+            "name": "customertable",
+            "x": 1,
+            "y": 1
+        },
+        {
+            "name": "customerspawn",
+            "x": 7,
+            "y": 1
+        }
+    ],
+    "items": [
+        {
+            "name": "patty",
+            "x": 2,
+            "y": 5,
+            "stack-level": 0,
+            "predicates": ["iscookable"]
+        },
+        {
+            "name": "lettuce",
+            "x": 3,
+            "y": 6,
+            "stack-level": 0,
+            "predicates": ["iscuttable"]
+        },
+        {
+            "name": "bottombun",
+            "x": 5,
+            "y": 5,
+            "stack-level": 0
+        },
+        {
+            "name": "topbun",
+            "x": 7,
+            "y": 4,
+            "stack-level": 0
+        }
+    ],
+    "players": [
+        {
+            "name": "robot",
+            "x": 3,
+            "y": 2,
+            "direction": [0, 1]
+        }
+    ],
+    "meals": [],
+    "containers": [
+        {
+            "name": "bowl",
+            "x": 1,
+            "y": 5
+        }
+    ],
+    "customers": [
+        {
+            "name": "customer",
+            "x": 7,
+            "y": 0,
+            "direction": [-1, 0],
+            "order": "lettuceburger",
+            "time_to_serve": 45000,
+            "enter_time": 5000
+        }
+    ],
+    "goal_description": "Serve the customer",
+    "goal": [
+        {
+            "predicate": "customer_has_eaten",
+            "args": ["customer"],
+            "ids": [1]
+        }
+    ]
+}

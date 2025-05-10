@@ -16,7 +16,8 @@ class RobotouilleRenderer:
     provides that function but also setups up the pygame window to allow for rendering.
     """
 
-    def __init__(self,  config_filename, layout=[], tiling=None, players=[], screen_size=np.array([512,512]), render_fps=60, screen=None):
+
+    def __init__(self,  config_filename, layout=[], tiling=None, players=[], customers=[], screen_size=np.array([512,512]), render_fps=60, screen=None):
         """
         Initializes the renderer.
 
@@ -37,12 +38,14 @@ class RobotouilleRenderer:
         self.layout = layout
         # The players in the game.
         self.players = players
+        # The customers in the game.
+        self.customers = customers
         # Empty tiling if not provided
         self.tiling = tiling
         # The size of the screen
         self.screen_size = screen_size
         # The canvas is responsible for drawing the game state on a pygame surface.
-        self.canvas = RobotouilleCanvas(self.config, layout, self.tiling, players, self.screen_size)
+        self.canvas = RobotouilleCanvas(self.config, layout, self.tiling, players, customers, self.screen_size)
         # The framerate of the renderer.
         self.render_fps = render_fps
         if os.getenv("DISPLAY") is None and os.getenv("SDL_VIDEODRIVER") is None:
@@ -55,7 +58,39 @@ class RobotouilleRenderer:
         self.orders = OrdersCollection(screen_size, self.config)
 
 
-    def render(self, state):
+    
+    def _render_frame(self, gamemode, render_mode):
+        """
+        This function renders a single frame of the game.
+
+        The frame is drawn on the canvas before being copied to the pygame window if
+        rendering in human mode or returned if rendering in rgb_array mode.
+
+        Args:
+            gamemode (GameMode): The game mode object
+            render_mode (str): Either "human" or "rgb_array"
+        
+        Returns:
+            np.array: The RGB array of the frame (only if render_mode == "rgb_array")
+        """
+        self._init_setup(render_mode)
+        surface = pygame.Surface(self.window_size)
+        self.canvas.draw_to_surface(surface, gamemode)
+        if render_mode == "human":
+            # The following line copies our drawings from `canvas` to the visible window
+            self.window.blit(surface, surface.get_rect())
+            pygame.event.pump()
+            pygame.display.update()
+
+            # We need to ensure that human-rendering occurs at the predefined framerate.
+            # The following line will automatically add a delay to keep the framerate stable.
+            self.clock.tick(self.render_fps)
+        else:  # rgb_array
+            return np.transpose(
+                np.array(pygame.surfarray.pixels3d(surface)), axes=(1, 0, 2)
+            )
+
+    def render(self, gamemode):
         """
         This function is called by PDDLGym environments to render the game state.
 
@@ -64,15 +99,15 @@ class RobotouilleRenderer:
         ends, we also hide the window.
 
         Parameters:
-            state (State):
-                The current game state
+            state (Gamemode): 
+                The game mode object
             mode (str):
                 Either "human" or "rgb_array"
             close (bool):
                 Whether to close the pygame window
         """
         self.screen.fill((0,0,0,0))
-        self.canvas.draw_to_surface(self.screen, state)
+        self.canvas.draw_to_surface(self.screen, gamemode)
         self.orders.draw()
         self.screen.blit(self.orders.get_screen(), (0,0))
         return np.transpose(
@@ -85,4 +120,4 @@ class RobotouilleRenderer:
 
         This function is called by PDDLGym environments when they are reset.
         """
-        self.canvas = RobotouilleCanvas(self.config, self.layout, self.tiling, self.players, self.screen_size)
+        self.canvas = RobotouilleCanvas(self.config, self.layout, self.tiling, self.players, self.customers, self.screen_size)

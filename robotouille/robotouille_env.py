@@ -90,9 +90,9 @@ def create_robotouille_env(problem_filename, movement_mode, seed=None, noisy_ran
     layout, tiling = _parse_renderer_layout(environment_json)
     config_filename = "robotouille_config.json"
     problem_string, environment_json = builder.build_problem(environment_json) # IDs objects in environment
-    renderer = RobotouilleRenderer(config_filename=config_filename, layout=layout, tiling=tiling, players=environment_json["players"], screen_size=screen_size, render_fps=render_fps, screen=screen)
+    renderer = RobotouilleRenderer(config_filename=config_filename, layout=layout, tiling=tiling, players=environment_json["players"], customers=environment_json.get("customers"), screen_size=screen_size, render_fps=render_fps, screen=screen)
     domain_filename = "domain/robotouille.json"
     with open(domain_filename, "r") as domain_file:
         domain_json = json.load(domain_file)
-    env = RobotouilleEnv(domain_json, environment_json, renderer, layout, movement_mode, clock=clock)
+    env = RobotouilleEnv(domain_json, environment_json, renderer, layout, movement_mode, time=pygame.time)
     return env

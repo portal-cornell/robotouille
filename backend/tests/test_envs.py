@@ -51,8 +51,11 @@ ALL_TESTS = {
         'high_level_two_lettuce_tomato_burger',
         'kitchen',
         'original',
-        'test_arena_blender',
-        'test_arena'
+        'customer',
+        'multi_customer',
+        'kitchen',
+        'test_arena',
+        'test_arena_blender'
     ]
 }
 

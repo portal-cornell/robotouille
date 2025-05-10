@@ -71,12 +71,12 @@
             "ids": [3]
         },
         {
-            "predicate": "atop",
+            "predicate": "atop_item",
             "args": ["patty", "bottombun"],
             "ids": [3, 1]
         },
         {
-            "predicate": "atop",
+            "predicate": "atop_item",
             "args": ["topbun", "patty"],
             "ids": [4, 3]
         }

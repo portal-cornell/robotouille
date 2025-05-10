@@ -10,6 +10,15 @@
         }
     },
 
+    "customer": {
+        "customer": {
+            "front": ["customer_temp.png", "customer_temp.png", "customer_temp.png", "customer_temp.png"],
+            "back": ["customer_temp.png", "customer_temp.png", "customer_temp.png", "customer_temp.png"],
+            "left": ["customer_temp.png", "customer_temp.png", "customer_temp.png", "customer_temp.png"],
+            "right": ["customer_temp.png", "customer_temp.png", "customer_temp.png", "customer_temp.png"]
+        }
+    },
+
     "floor": {
         "ground": ["tileset_flooring"],
         "furniture": ["tileset_table", "tileset_counter"],
@@ -20,7 +29,8 @@
         "constants": {
             "STATION_ITEM_OFFSET" : 0.25,
             "X_SCALE_FACTOR": 0.125,
-            "Y_SCALE_FACTOR": 0.75
+            "Y_SCALE_FACTOR": 0.75,
+            "CONTAINER_ITEM_OFFSET": 0.35
         },
         "entities": {
             "bottombun": {
@@ -148,6 +158,18 @@
             "table": {
                 "assets": {
                     "tile": "T"
+                },
+                "constants": {}
+            },
+            "customertable": {
+                "assets": {
+                    "tile": "C"
+                },
+                "constants": {}
+            },
+            "customerspawn": {
+                "assets": {
+                    "default": "customerspawn.png"
                 },
                 "constants": {}
             },

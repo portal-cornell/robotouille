@@ -1,0 +1,42 @@
+{
+    "version": "1.0.0",
+    "recipes": {
+        "lettuceburger": [
+            {
+                "predicate": "iscut",
+                "args": ["lettuce"],
+                "ids": [1]
+            },
+            {
+                "predicate": "iscooked",
+                "args": ["patty"],
+                "ids": [2]
+            },
+            {
+                "predicate": "atop_item",
+                "args": ["topbun", "lettuce"],
+                "ids": [3, 1]
+            },
+            {
+                "predicate": "atop_item",
+                "args": ["lettuce", "patty"],
+                "ids": [1, 2]
+            },
+            {
+                "predicate": "atop_item",
+                "args": ["patty", "bottombun"],
+                "ids": [2, 4]
+            },
+            {
+                "predicate": "atop_container",
+                "args": ["bottombun", "bowl"],
+                "ids": [4, 5]
+            },
+            {
+                "predicate": "container_at",
+                "args": ["bowl", "customertable"],
+                "ids": [5, 6]
+            }
+        ]
+    }
+}

@@ -1,10 +1,11 @@
 from backend.movement.player import Player
 from backend.movement.station import Station
+from backend.customer import Customer
 from enum import Enum
 
 class MetaData(object):
     """
-    This class represents the metadata of a player's movement. 
+    This class represents the metadata of a player or customer's movement. 
     """
     def __init__(self, path, time):
         """
@@ -44,13 +45,7 @@ class Movement(object):
     be forced to wait at their current location. 
     """
 
-    # (Int) The number of milliseconds it takes for a player to move one tile
-    MS_PER_TILE = 100
-
-    # (Dict[str, MetaData]) The player movement data, with the key being the player name
-    metadata = {}
-
-    def __init__(self, layout, mode, environment_json):
+    def __init__(self, layout, mode, environment_json, gamemode, ms_per_tile=100):
         """
         Initializes the Movement object.
         
@@ -58,27 +53,46 @@ class Movement(object):
             layout (list): The layout of the environment.
             mode (str): The movement mode.
             environment_json (dict): The environment JSON.
+            gamemode (GameMode): The game mode object.
+            ms_per_tile (int): The number of milliseconds it takes for a player to move one tile.
         """
         self.layout = layout
         self.mode = Mode(mode)
-        Player.build_players(environment_json)
-        Station.build_stations(environment_json)
-    
-    def _get_possible_destinations(self, player, destination):
+        self.ms_per_tile = ms_per_tile
+        Player.build_players(environment_json, gamemode)
+        Station.build_stations(environment_json, gamemode)
+        
+        # (Dict[str, MetaData]) The player movement data, with the key being the player name
+        self.metadata = {}
+
+    def _get_possible_destinations(self, character, destination, gamemode):
         """
         Gets the possible destination positions for a player.
 
         Args:
-            player (Player): The player.
+            character (Player or Customer): The player or customer.
             destination (tuple): The destination position.
+            gamemode (GameMode): The game mode object.
 
         Returns:
             possible_destinations (List[tuple]): The possible destination positions.
+
+        Raises:
+            AssertionError: If both player and customer are None, or if both player
+                and customer are not None.
         """
+        # Get the locations of all stations, players, and customers
+        other_station_locations = Station.get_station_locations(gamemode)
+        character_locations = [p.pos for p in gamemode.players.values() if p != character]
+        character_locations += [c.pos for c in gamemode.customers.values() if c != character and c.in_game]
+        
+        # Get the destinations of all other players and customers in motion
+        character_destinations = []
+        for name, data in self.metadata.items():
+            if data.path and name != character.name:
+                    character_destinations.append(data.path[-1])
+        
         possible_destinations = []
-        other_station_locations = Station.get_station_locations()
-        player_locations = [p.pos for p in Player.players.values() if p != player]
-        player_destinations = [data.path[-1] for name, data in Movement.metadata.items() if data.path and name != player.name]
         width, height = len(self.layout[0]), len(self.layout)
         for i, j in [(0, 1), (0, -1), (1, 0), (-1, 0)]:
             next_pos = (destination[0] + i, destination[1] + j)
@@ -86,35 +100,36 @@ class Movement(object):
             if next_pos[0] < 0 or next_pos[0] >= width or next_pos[1] < 0 or next_pos[1] >= height:
                 continue
             # Skipping - inside stations or players current/future locations
-            if next_pos in other_station_locations or next_pos in player_locations or next_pos in player_destinations:
+            if next_pos in other_station_locations or next_pos in character_locations or next_pos in character_destinations:
                 continue
             possible_destinations.append(next_pos)
         return possible_destinations
 
-    def _get_player_path(self, player, destinations):
+    def _get_character_path(self, character, destinations, gamemode):
         """
-        Gets the path for the player to move to the destination.
+        Gets the path for the player or customer to move to the destination.
 
-        The destinations account for other player locations and station locations 
-        when the move action is first called
+        The destinations account for other player locations, customer locations,
+        and station locations when the move action is first called
 
         Args:
-            player (Player): The player.
+            character (Player or Customer): The player or customer to move.
             destinations (List[tuple]): The possible destination positions
+            gamemode (GameMode): The game mode object.
 
         Returns:
             path (list[Tuple]): The path to the destination. Each 
                 element in the list is a tuple representing the (x, y) position.
 
         Raises:
-            AssertionError: If the player cannot reach the destination.
+            AssertionError: If the player or customer cannot reach the destination.
         """
         width, height = len(self.layout[0]), len(self.layout)
-        obstacle_locations = Station.get_station_locations()
+        obstacle_locations = Station.get_station_locations(gamemode)
         visited = set()
-        current = player.pos
+        current = character.pos
         path = [current]
-        queue = [(player.pos, path)]
+        queue = [(current, path)]
         while queue:
             current, path = queue.pop(0)
             if current in destinations:
@@ -131,107 +146,122 @@ class Movement(object):
                 new_path = path.copy()
                 new_path.append(next_pos)
                 queue.append((next_pos, new_path))
-        assert current in destinations, "Player cannot reach the destination."
+        assert current in destinations, "Player or Customer cannot reach the destination."
         return path
     
-    def _move(self, state, player, destination, action, param_arg_dict, clock):
+    def _move(self, gamemode, character, destination, action, param_arg_dict, dt):
         """
-        Moves the player to the destination.
+        Moves the player or customer to the destination.
 
         If the movement mode is immediate, the player moves to the destination
         immediately.
 
         If the movement mode is traverse, the player path is calculated
         and the player moves the first step in the path.
-
+-
         Args:
-            state (State): The state of the environment.
-            player (Player): The player to move.
+            gamemode (GameMode): The game mode object.
+            character (Player or Customer): The player or customer to move.
             destination (Object): The destination station.
             action (Action): The move action.
             param_arg_dict (Dictionary[str, Object]): The arguments of the action.
-            clock (pygame.time.Clock): The pygame clock.
+            dt (float): The time delta.
 
         Modifies:
-            player (Player): Modifies the direction and pos fields of the player.
+            player (Player): Modifies the direction and pos fields of the player
+                if the movement mode is for a player.
+            customer (Customer): Modifies the destination field of the customer
+                if the movement mode is for a customer.
+
+        Raises:
+            AssertionError: If both player and customer are None, or if both player
+                and customer are not None.
         """
-        player_obj = Player.players[player.name]
-        destination_pos = Station.stations[destination.name].pos
-        possible_destinations = self._get_possible_destinations(player_obj, destination_pos)
+        state = gamemode.get_state()
+
+        character_obj = (
+            gamemode.players.get(character.name)
+            or gamemode.customers.get(character.name)
+        )
+
+        destination_pos = gamemode.stations[destination.name].pos
+        possible_destinations = self._get_possible_destinations(character_obj, destination_pos, gamemode)
         # If player is already at the destination, the state predicates are immediately updated
-        if player_obj.pos in possible_destinations:
+        if character_obj.pos in possible_destinations:
             action.perform_action(state, param_arg_dict)
-            player_obj.direction = (destination_pos[0] - player_obj.pos[0], destination_pos[1] - player_obj.pos[1])
+            character_obj.direction = (destination_pos[0] - character_obj.pos[0], destination_pos[1] - character_obj.pos[1])
             return
         # Get the path to the destination
-        path = self._get_player_path(player_obj, possible_destinations)
+        path = self._get_character_path(character_obj, possible_destinations, gamemode)
         # If movement mode is immediate, move the player to the destination
         if self.mode == Mode.IMMEDIATE:
-            player_obj.pos = path[-1]
-            player_obj.direction = (destination_pos[0] - player_obj.pos[0], destination_pos[1] - player_obj.pos[1])
+            character_obj.pos = path[-1]
+            character_obj.direction = (destination_pos[0] - character_obj.pos[0], destination_pos[1] - character_obj.pos[1])
             action.perform_action(state, param_arg_dict)
         else:
-            # Animate the movement of the player by updating the player's position depending on the time
-            prev_pos = path[0]
-            next_pos = path[1]
+            # Set the path and time for the player or customer
             data = MetaData(path, 0)
-            Movement.metadata[player.name] = data
-            player_obj.direction = (next_pos[0] - prev_pos[0], next_pos[1] - prev_pos[1])
-            data.time += clock.get_time()
-            dt = data.time/Movement.MS_PER_TILE
-            current_x = prev_pos[0] + dt * (next_pos[0] - prev_pos[0])
-            current_y = prev_pos[1] + dt * (next_pos[1] - prev_pos[1])
-            player_obj.pos = (current_x, current_y)
-            player_obj.action = (action, param_arg_dict)
+            self.metadata[character_obj.name] = data
+            character_obj.direction = (
+                path[1][0] - path[0][0],
+                path[1][1] - path[0][1],
+            )
+            character_obj.action = (action, param_arg_dict)
 
-    def _step_player(self, state, clock):
+    def _step_player_and_customer(self, gamemode, dt):
         """
-        This helper function steps each player in the environment that is 
-        currently in motion.
+        This helper function steps each player and customer in the environment 
+        that is currently in motion.
 
         Args:
-            state (State): The state of the environment.
-            clock (pygame.time.Clock): The pygame clock.
+            gamemode (GameMode): The game mode object.
+            dt (int): The time delta since the last step in milliseconds.
         
         Modifies:
-            Player.players: Modifies the direction, pos, sprite_value, and 
+            gamemode.players: Modifies the direction, pos, sprite_value, and 
                 action fields of the player.
-            Movement.metadata: Modifies the path and time fields of the player.
+            gamemode.customers: Modifies the pos and sprite_value fields of the 
+                customer.
+            self.metadata: Modifies the path and time fields of the player 
+                or customer.
         """
-        players_ending_movement = []
-        for name, data in Movement.metadata.items():
-            player = Player.players[name]
+        state = gamemode.get_state()
+        ending_movement = []
+        for name, data in self.metadata.items():
+            is_player = name in gamemode.players
+            obj = gamemode.players[name] if is_player else gamemode.customers[name]
             next_pos = data.path[1]
             prev_pos = data.path[0]
-            player.direction = (next_pos[0] - prev_pos[0], next_pos[1] - prev_pos[1])
-            player.sprite_value += 1
-            data.time += clock.get_time()
-            dt = data.time/Movement.MS_PER_TILE
-            if dt >= 1:
+            obj.direction = (next_pos[0] - prev_pos[0], next_pos[1] - prev_pos[1])
+            obj.sprite_value += 1
+            data.time += dt
+            progress = data.time/self.ms_per_tile
+            if progress >= 1:
                 data.path.pop(0)
                 data.time = 0
-                player.pos = next_pos
+                obj.pos = next_pos
             else:
-                current_x = prev_pos[0] + dt * (next_pos[0] - prev_pos[0])
-                current_y = prev_pos[1] + dt * (next_pos[1] - prev_pos[1])
-                player.pos = (current_x, current_y)
+                obj.pos = (
+                    prev_pos[0] + progress * (next_pos[0] - prev_pos[0]),
+                    prev_pos[1] + progress * (next_pos[1] - prev_pos[1]),
+                )
             if len(data.path) == 1:
-                player.action[0].perform_action(state, player.action[1])
-                destination = player.action[1]["s2"]
-                station_pos = Station.stations[destination.name].pos
-                player.direction = (station_pos[0] - next_pos[0], station_pos[1] - next_pos[1])
-                player.action = None
-                player.sprite_value = 0
-                players_ending_movement.append(name)
-        for name in players_ending_movement:
-            del Movement.metadata[name]
+                obj.action[0].perform_action(state, obj.action[1])
+                destination = obj.action[1]["s2"]
+                station_pos = gamemode.stations[destination.name].pos
+                obj.direction = (station_pos[0] - next_pos[0], station_pos[1] - next_pos[1])
+                obj.sprite_value = 0
+                obj.action = None
+                ending_movement.append(name)
+        for name in ending_movement:
+            del self.metadata[name]
         
-    def step(self, state, clock, actions):
+    def step(self, gamemode, clock, actions):
         """
         This function represents one time step in the environment.
 
         Args:
-            state (State): The state of the environment.
+            gamemode (GameMode): The game mode object.
             clock (pygame.time.Clock): The pygame clock.
             actions (List[Tuple[Action, Dictionary[str, Object]]): A list of
                 tuples where the first element is the action to perform, and the
@@ -240,7 +270,7 @@ class Movement(object):
                 the action for player i. If player i is not performing an action,
                 actions[i] is None.
         """
-        self._step_player(state, clock)
+        self._step_player_and_customer(gamemode, clock)
 
         for action, param_arg_dict in actions:
             if not action:
@@ -249,10 +279,18 @@ class Movement(object):
             if action.name == "move":
                 player = param_arg_dict["p1"]
                 destination = param_arg_dict["s2"]
-                self._move(state, player, destination, action, param_arg_dict, clock)
+                self._move(gamemode, player, destination, action, param_arg_dict, clock)
+            elif action.name == "customer_move":
+                customer = param_arg_dict["npc1"]
+                destination = param_arg_dict["s2"]
+                self._move(gamemode, customer, destination, action, param_arg_dict, clock)
+            elif action.name == "customer_leave":
+                customer = param_arg_dict["npc1"]
+                destination = param_arg_dict["s2"]
+                self._move(gamemode, customer, destination, action, param_arg_dict, clock)
         
 
-    def is_player_moving(player_name):
+    def is_player_moving(self, player_name):
         """
         Returns True if the player is in motion, False otherwise.
 
@@ -262,4 +300,4 @@ class Movement(object):
         Returns:
             is_moving (bool): True if the player is in motion, False otherwise.
         """
-        return player_name in Movement.metadata
+        return player_name in self.metadata

@@ -4,7 +4,9 @@
 
     "input_json": "domain/input.json",
 
-    "object_types": ["station", "item", "player", "container", "meal"],
+    "recipe_json": "domain/recipes.json",
+
+    "object_types": ["station", "item", "player", "container", "meal", "customer"],
 
     "predicate_defs": [
         {
@@ -19,6 +21,20 @@
             "param_types": ["station"],
             "language_descriptors": {
                 "0": "{0} is a counter"
+            }
+        },
+        {
+            "name": "iscustomertable",
+            "param_types": ["station"],
+            "language_descriptors": {
+                "0": "{0} is a customer table"
+            }
+        },
+        {
+            "name": "iscustomerspawn",
+            "param_types": ["station"],
+            "language_descriptors": {
+                "0": "{0} is a customer spawn point"
             }
         },
         {
@@ -62,6 +78,13 @@
             "param_types": ["player"],
             "language_descriptors": {
                 "0": "{0} is a robot"
+            }
+        },
+        {
+            "name": "iscustomer",
+            "param_types": ["customer"],
+            "language_descriptors": {
+                "0": "{0} is a customer"
             }
         },
         {
@@ -234,8 +257,52 @@
             }
         },
         {
-            "name": "item_at",
+            "name": "customer_loc",
+            "param_types": ["customer", "station"],
+            "language_descriptors": {
+                "0": "{0} is at {1}",
+                "1": "{1} is occupied by {0}"
+            }
+        },
+        {
+            "name": "customer_served",
+            "param_types": ["customer"],
+            "language_descriptors": {
+                "0": "{0} has been served"            
+            }
+        },
+        {
+            "name": "customer_has_eaten",
+            "param_types": ["customer"],
+            "language_descriptors": {
+                "0": "{0} has eaten"
+            }
+        },
+        {
+            "name": "table_occupied",
+            "param_types": ["station"],
+            "language_descriptors": {
+                "0": "{0} is occupied by a customer"
+            }
+        },
+        {
+            "name": "customer_in_game",
+            "param_types": ["customer"],
+            "language_descriptors": {
+                "0": "{0} is in the game"
+            }
+        },
+        {
+            "name": "at_station",
             "param_types": ["item", "station"],
+            "language_descriptors": {
+                "0": "{0} is at {1}",
+                "1": "{1} has {0}"
+            }
+        },
+        {
+            "name": "at_container",
+            "param_types": ["item", "container"],
             "language_descriptors": {
                 "0": "{0} is at {1}",
                 "1": "{1} has {0}"
@@ -263,6 +330,13 @@
             }
         },
         {
+            "name": "container_clear",
+            "param_types": ["container"],
+            "language_descriptors": {
+                "0": "{0} is clear"
+            }
+        },
+        {
             "name": "item_on",
             "param_types": ["item", "station"],
             "language_descriptors": {
@@ -285,8 +359,16 @@
             }
         },
         {
-            "name": "atop",
+            "name": "atop_item",
             "param_types": ["item", "item"],
+            "language_descriptors": {
+                "0": "{0} is directly on top of {1}",
+                "1": "{1} is directly under {0}"
+            }
+        },
+        {
+            "name": "atop_container",
+            "param_types": ["item", "container"],
             "language_descriptors": {
                 "0": "{0} is directly on top of {1}",
                 "1": "{1} is directly under {0}"
@@ -334,7 +416,7 @@
         }
     ],
 
-    "action_defs": [
+    "player_action_defs": [
         {
             "name": "move",
             "precons": [
@@ -400,7 +482,7 @@
                     "is_true": false
                 },
                 {
-                    "predicate": "item_at",
+                    "predicate": "at_station",
                     "params": ["i1", "s1"],
                     "is_true": false
                 },
@@ -444,7 +526,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "item_at",
+                    "predicate": "at_station",
                     "params": ["i1", "s1"],
                     "is_true": true
                 },
@@ -597,6 +679,11 @@
                     "predicate": "nothing",
                     "params": ["p1"],
                     "is_true": true
+                },
+                {
+                    "predicate": "iscooked",
+                    "params": ["i1"],
+                    "is_true": false
                 }
             ],
             "immediate_fx": [],
@@ -673,6 +760,11 @@
                     "predicate": "nothing",
                     "params": ["p1"],
                     "is_true": true
+                },
+                {
+                    "predicate": "iscut",
+                    "params": ["i1"],
+                    "is_true": false
                 }
             ],
             "immediate_fx": [],
@@ -748,6 +840,11 @@
                     "predicate": "nothing",
                     "params": ["p1"],
                     "is_true": true
+                },
+                {
+                    "predicate": "isfried",
+                    "params": ["i1"],
+                    "is_true": false
                 }
             ],
             "immediate_fx": [],
@@ -905,6 +1002,11 @@
                     "predicate": "nothing",
                     "params": ["p1"],
                     "is_true": true
+                },
+                {
+                    "predicate": "isboiling",
+                    "params": ["m1"],
+                    "is_true": false
                 }
             ],
             "immediate_fx": [],
@@ -1057,7 +1159,7 @@
             "language_description": "Fill {c1} with {c2}'s contents using {p1}"
         },
         {
-            "name": "stack",
+            "name": "stack-onto-station-stack",
             "precons": [
                 {
                     "predicate": "has_item",
@@ -1074,8 +1176,8 @@
                     "params": ["p1", "s1"],
                     "is_true": true
                 },
-                {
-                    "predicate": "item_at",
+                { 
+                    "predicate": "at_station",
                     "params": ["i2", "s1"],
                     "is_true": true
                 }
@@ -1087,12 +1189,12 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "item_at",
+                    "predicate": "at_station",
                     "params": ["i1", "s1"],
                     "is_true": true
                 },
                 {
-                    "predicate": "atop",
+                    "predicate": "atop_item",
                     "params": ["i1", "i2"],
                     "is_true": true
                 },
@@ -1116,7 +1218,7 @@
             "language_description": "Stack {i1} on top of {i2} using {p1}"
         },
         {
-            "name": "unstack",
+            "name": "unstack-from-station-stack",
             "precons": [
                 {
                     "predicate": "nothing",
@@ -1129,7 +1231,7 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "atop",
+                    "predicate": "atop_item",
                     "params": ["i1", "i2"],
                     "is_true": true
                 },
@@ -1139,12 +1241,12 @@
                     "is_true": true
                 },
                 {
-                    "predicate": "item_at",
+                    "predicate": "at_station",
                     "params": ["i1", "s1"],
                     "is_true": true
                 },
                 {
-                    "predicate": "item_at",
+                    "predicate": "at_station",
                     "params": ["i2", "s1"],
                     "is_true": true
                 }
@@ -1166,7 +1268,7 @@
                     "is_true": false
                 },
                 {
-                    "predicate": "atop",
+                    "predicate": "atop_item",
                     "params": ["i1", "i2"],
                     "is_true": false
                 },
@@ -1176,8 +1278,274 @@
                     "is_true": false
                 },
                 {
-                    "predicate": "item_at",
+                    "predicate": "at_station",
                     "params": ["i1", "s1"],
+                    "is_true": false
+                }
+            ],
+            "sfx": [],
+            "language_description": "Unstack {i1} from {i2} using {p1}"
+        },
+        {
+            "name": "place-on-container",
+            "precons":[
+                {
+                    "predicate": "has_item",
+                    "params": ["p1", "i1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "container_clear",
+                    "params": ["c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "container_empty",
+                    "params": ["c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "loc",
+                    "params": ["p1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "container_at",
+                    "params": ["c1", "s1"],
+                    "is_true": true
+                }
+            ],
+            "immediate_fx": [
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "atop_container",
+                    "params": ["i1", "c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "clear",
+                    "params": ["i1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "has_item",
+                    "params": ["p1", "i1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "container_clear",
+                    "params": ["c1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "at_container",
+                    "params": ["i1", "c1"],
+                    "is_true": true
+                }
+            ],
+            "sfx": [],
+            "language_description": "Place {i1} on top of {c1} using {p1}"
+        },
+        {
+            "name": "pickup-from-container",
+            "precons": [
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "clear",
+                    "params": ["i1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "atop_container",
+                    "params": ["i1", "c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "loc",
+                    "params": ["p1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "container_at",
+                    "params": ["c1", "s1"],
+                    "is_true": true
+                }
+            ],
+            "immediate_fx": [
+                {
+                    "predicate": "has_item",
+                    "params": ["p1", "i1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "clear",
+                    "params": ["i1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "atop_container",
+                    "params": ["i1", "c1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "container_clear",
+                    "params": ["c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "at_container",
+                    "params": ["i1", "c1"],
+                    "is_true": false
+                }
+            ],
+            "sfx": [],
+            "language_description": "Pick up {i1} from {c1} using {p1}"
+        },
+        {
+            "name": "stack-onto-container-stack",
+            "precons": [
+                {
+                    "predicate": "has_item",
+                    "params": ["p1", "i1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "clear",
+                    "params": ["i2"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "loc",
+                    "params": ["p1", "s1"],
+                    "is_true": true
+                },
+                { 
+                    "predicate": "at_container",
+                    "params": ["i2", "c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "container_at",
+                    "params": ["c1", "s1"],
+                    "is_true": true
+                }
+            ],
+            "immediate_fx": [
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "at_container",
+                    "params": ["i1", "c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "atop_item",
+                    "params": ["i1", "i2"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "clear",
+                    "params": ["i1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "clear",
+                    "params": ["i2"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "has_item",
+                    "params": ["p1", "i1"],
+                    "is_true": false
+                }
+            ],
+            "sfx": [],
+            "language_description": "Stack {i1} on top of {i2} using {p1}"
+        },
+        {
+            "name": "unstack-from-container-stack",
+            "precons": [
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "clear",
+                    "params": ["i1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "atop_item",
+                    "params": ["i1", "i2"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "loc",
+                    "params": ["p1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "at_container",
+                    "params": ["i1", "c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "at_container",
+                    "params": ["i2", "c1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "container_at",
+                    "params": ["c1", "s1"],
+                    "is_true": true
+                }
+            ],
+            "immediate_fx": [
+                {
+                    "predicate": "has_item",
+                    "params": ["p1", "i1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "clear",
+                    "params": ["i2"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "nothing",
+                    "params": ["p1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "atop_item",
+                    "params": ["i1", "i2"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "clear",
+                    "params": ["i1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "at_container",
+                    "params": ["i1", "c1"],
                     "is_true": false
                 }
             ],
@@ -1190,6 +1558,176 @@
             "immediate_fx": [],
             "sfx": [],
             "language_description": "Do nothing"
+        }
+    ],
+
+    "npc_action_defs": [
+        {
+            "name": "customer_enter",
+            "precons": [
+                {
+                    "predicate": "customer_in_game",
+                    "params": ["npc1"],
+                    "is_true": false
+                }
+            ],
+            "immediate_fx": [
+                {
+                    "predicate": "customer_in_game",
+                    "params": ["npc1"],
+                    "is_true": true
+                }
+            ],
+            "sfx": [],
+            "language_description": "Enter the game using {npc1}"
+        },
+        {
+            "name": "customer_move",
+            "precons": [
+                {
+                    "predicate": "table_occupied",
+                    "params": ["s2"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "iscustomertable",
+                    "params": ["s2"],
+                    "is_true": true
+                }
+            ],
+            "immediate_fx": [
+                {
+                    "predicate": "customer_loc",
+                    "params": ["npc1", "s2"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "table_occupied",
+                    "params": ["s2"],
+                    "is_true": true
+                }
+            ],
+            "sfx": [],
+            "language_description": "Move {npc1} to {s2}"
+        },
+        {
+            "name": "customer_eat",
+            "precons": [
+                {
+                    "predicate": "customer_in_game",
+                    "params": ["npc1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "iscustomertable",
+                    "params": ["s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "customer_loc",
+                    "params": ["npc1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "table_occupied",
+                    "params": ["s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "container_at",
+                    "params": ["c1", "s1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "customer_has_eaten",
+                    "params": ["npc1"],
+                    "is_true": false
+                }
+            ],
+            "immediate_fx":[],
+            "sfx":[
+                {
+                    "type": "repetitive",
+                    "param": "c1",
+                    "fx": [
+                        {
+                            "predicate": "container_empty",
+                            "params": ["c1"],
+                            "is_true": true
+                        }
+                    ],
+                    "sfx": [
+                        {
+                            "type": "parametrized_deletion",
+                            "param": "c1",
+                            "predicate": "at_container",
+                            "fx": [
+                                {
+                                    "predicate": "customer_has_eaten",
+                                    "params": ["npc1"],
+                                    "is_true": true
+                                },
+                                {
+                                    "predicate": "container_clear",
+                                    "params": ["c1"],
+                                    "is_true": true
+                                }
+                            ],
+                            "sfx": []
+                        }
+                    ]
+                }
+            ],
+            "language_description": "Eat from {c1} on {s1} using {npc1}"
+        },
+        {
+            "name": "customer_leave",
+            "precons": [
+                {
+                    "predicate": "customer_in_game",
+                    "params": ["npc1"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "iscustomerspawn",
+                    "params": ["s2"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "customer_loc",
+                    "params": ["npc1", "s1"],
+                    "is_true": true
+                }
+            ],
+            "immediate_fx": [
+                {
+                    "predicate": "customer_loc",
+                    "params": ["npc1", "s1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "customer_loc",
+                    "params": ["npc1", "s2"],
+                    "is_true": true
+                },
+                {
+                    "predicate": "customer_in_game",
+                    "params": ["npc1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "table_occupied",
+                    "params": ["s1"],
+                    "is_true": false
+                },
+                {
+                    "predicate": "customer_served",
+                    "params": ["npc1"],
+                    "is_true": true
+                }
+            ],
+            "sfx": [],
+            "language_description": "Leave {s1} using {npc1}"
         }
     ]
 }

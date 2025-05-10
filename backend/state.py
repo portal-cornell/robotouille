@@ -2,7 +2,6 @@ from backend.predicate import Predicate
 from backend.object import Object
 from backend.object import Object
 from utils.robotouille_utils import trim_item_ID
-from backend.movement.movement import Mode
 import itertools
 import copy
 
@@ -22,6 +21,7 @@ class State(object):
         self.objects = []
         self.predicates = {}
         self.actions = {}
+        self.npc_actions = {}
         self.goal = []
         self.special_effects = []
 
@@ -93,7 +93,7 @@ class State(object):
                 predicates[pred] = pred in true_predicates
         return predicates
     
-    def _build_actions(self, domain, objects):
+    def _build_actions(self, objects):
         """
         Builds a dictionary of all actions for the state.
 
@@ -103,30 +103,40 @@ class State(object):
         action.
 
         Args:
-            domain (Domain): The domain of the game.
             objects (List[Object]): The objects in the state.
 
         Returns:
-            actions (Dictionary[Action, Dictionary[str, Object]]): A 
+            player_actions (Dictionary[Action, Dictionary[str, Object]]): A 
                 dictionary of valid actions for the state. The keys are the 
-                actions, and the values are dictionaries whose key are
-                a parameter name and values with Object arguments.
+                actions, and the values are the arguments for the actions.
+            npc_actions (Dictionary[Action, Dictionary[str, Object]]): A
+                dictionary of valid NPC actions for the state. The keys are the
+                actions, and the values are the arguments for the actions.
         """
-        object_dict = self._build_object_dictionary(domain, objects)
+        object_dict = self._build_object_dictionary(self.domain, objects)
         actions = {}
+        npc_actions = {}
+
+        all_domain_actions = self.domain.actions + self.domain.npc_actions
         
-        for action in self.domain.actions:
+        for action in all_domain_actions:
             params = action.get_all_params()
             param_objects = [object_dict[param.object_type] for param in params]
             param_combinations = list(itertools.product(*param_objects))
-            actions[action] = []
+            if action in self.domain.actions:
+                actions[action] = []
+            else:
+                npc_actions[action] = []
             for combination in param_combinations:
                 # If combination repeats an object, skip it
                 if len(set(combination)) != len(combination):
                     continue
                 args = {param.name:combination[params.index(param)] for param in params}
-                actions[action].append(args)
-        return actions
+                if action in self.domain.actions:
+                    actions[action].append(args)
+                else:
+                    npc_actions[action].append(args)
+        return actions, npc_actions
     
     def get_players(self):
         """
@@ -137,7 +147,16 @@ class State(object):
         """
         return [obj for obj in self.objects if obj.object_type == "player"]
 
-    def initialize(self, domain, objects, true_predicates, all_goals, goal_description, movement, special_effects=[]):
+    def get_customers(self):
+        """
+        Returns the customer objects in the state.
+
+        Returns:
+            customers (List[Object]): The customer objects in the state.
+        """
+        return [obj for obj in self.objects if obj.object_type == "customer"]
+      
+    def initialize(self, domain, objects, true_predicates, all_goals, goal_description, special_effects=[]):
         """
         Initializes a state object.
 
@@ -160,8 +179,6 @@ class State(object):
                 The goal predicates of the game. 
             goal_description (str):
                 The natural language description of the goal.
-            movement (Movement): The movement object that handles the movement
-                of players in the state.
             special_effects (List[Special_effects]): The special effects that 
                 are active in the state.
 
@@ -191,10 +208,9 @@ class State(object):
         self.objects = objects
         self.current_player = self.get_players()[0]
         self.predicates = predicates
-        self.actions = self._build_actions(domain, objects)
+        self.actions, self.npc_actions = self._build_actions(objects)
         self.goal = all_goals
         self.goal_description = goal_description
-        self.movement = movement
         self.special_effects = special_effects
 
         return self
@@ -309,7 +325,7 @@ class State(object):
         # necessary predicates and actions instead of building from scratch
         true_predicates = {predicate for predicate, value in self.predicates.items() if value}
         self.predicates = self._build_predicates(self.domain, self.objects, true_predicates)
-        self.actions = self._build_actions(self.domain, self.objects)
+        self.actions, self.npc_actions = self._build_actions(self.objects)
         return new_obj
 
     def delete_object(self, obj):
@@ -328,7 +344,10 @@ class State(object):
         # necessary predicates and actions instead of building from scratch
         true_predicates = {predicate for predicate, value in self.predicates.items() if value}
         self.predicates = self._build_predicates(self.domain, self.objects, true_predicates)
-        self.actions = self._build_actions(self.domain, self.objects)
+        self.actions, self.npc_actions = self._build_actions(self.objects)
+        for special_effect in self.special_effects:
+            if special_effect.arg == obj:
+                self.special_effects.remove(special_effect)
 
     def is_goal_reached(self):
         """
@@ -439,7 +458,7 @@ class State(object):
         next_index = (current_index + 1) % len(players)
         return players[next_index]
 
-    def step(self, actions, clock):
+    def step(self, actions):
         """
         Steps the state forward by applying the effects of the action.
 
@@ -450,13 +469,12 @@ class State(object):
                 length of the list is the number of players, where actions[i] is
                 the action for player i. If player i is not performing an action,
                 actions[i] is None.
-            clock (pygame.time.Clock): The clock object to control the framerate
-                of the game.
         
         Side Effects:
             - The current state is stepped to the next state with the provided actions
         
         Returns:
+            new_state (State): The new state after the actions are performed.
             done (bool): True if the goal is reached, False otherwise.
 
         Raises:
@@ -473,19 +491,13 @@ class State(object):
         for action, param_arg_dict in actions:
             if action is None:
                 continue
-            assert action.is_valid(self, param_arg_dict)
-            if action.name != "move":
+            if action.name not in ["move", "customer_move", "customer_leave"]:
+                assert action.is_valid(self, param_arg_dict)
                 self = action.perform_action(self, param_arg_dict)
-        
-        self.movement.step(self, clock, actions)
-
 
         
         if self.is_goal_reached():
-            return True
+            return self, True
         
-        if self.movement.mode == Mode.TRAVERSE:
-            self.current_player = self.next_player()
-
-        return False
+        return self, False
     

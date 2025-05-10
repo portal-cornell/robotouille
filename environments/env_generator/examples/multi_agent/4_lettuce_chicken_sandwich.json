@@ -134,7 +134,7 @@
             "ids": [1]
         },
         {
-            "predicate": "atop",
+            "predicate": "atop_item",
             "args": ["bread", "lettuce"],
             "ids": [2, 1]
         },
@@ -144,12 +144,12 @@
             "ids": [3]
         },
         {
-            "predicate": "atop",
+            "predicate": "atop_item",
             "args": ["lettuce", "chicken"],
             "ids": [1, 3]
         },
         {
-            "predicate": "atop",
+            "predicate": "atop_item",
             "args": ["chicken", "bread"],
             "ids": [3, 4]
         },

@@ -12,6 +12,10 @@
             "default": 3
         }
     },
+    "gamemode": {
+        "name": "classic",
+        "time": 60000
+    },
     "stations": [
         {
             "name": "station",
@@ -47,7 +51,7 @@
     "goal_description": "Stack the held item on the other item",
     "goal": [
         {
-            "predicate": "atop",
+            "predicate": "atop_item",
             "args": ["item", "item"],
             "ids": ["a", "b"]
         }

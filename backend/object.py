@@ -31,6 +31,8 @@ class Object(object):
         Returns:
             bool: True if the objects are equal, False otherwise.
         """
+        if not isinstance(other, Object):
+            return False
         return self.name == other.name and self.object_type == other.object_type
     
     def __hash__(self):
