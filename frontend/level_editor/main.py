@@ -87,7 +87,7 @@ def setup() -> EditorState:
             title="Select Robotouille Config", filetypes=[("JSON files", "*.json")]
         )
         if not dev_mode
-        else "renderer/configuration/robotouille_config.json"
+        else "frontend/level_editor/robotouille_config.json"
     )
 
     if not config_file_path:
@@ -371,23 +371,21 @@ def loop(editor_state: EditorState):
                     else:
                         x = x // TILE_SIZE
                         y = y // TILE_SIZE
-                        if selected_mode == "stations":
-                            if editor_state.get_selected():
-                                new_station = StationInstance(
-                                    editor_state.get_selected(), Vec2(x, y)
-                                )
-                                test_level.put_station_at(new_station)
-                        elif selected_mode == "items":
-                            if editor_state.get_selected():
-                                new_item = ItemInstance(
-                                    editor_state.get_selected(),
-                                    set(),  # Pass a set of strings
-                                    Vec2(x, y),
-                                )
-                                try:
-                                    test_level.put_item_at(new_item)
-                                except NoStationAtLocationError:
-                                    pass
+                        if isinstance(editor_state.get_selected(), Station):
+                            new_station = StationInstance(
+                                editor_state.get_selected(), Vec2(x, y)
+                            )
+                            test_level.put_station_at(new_station)
+                        elif isinstance(editor_state.get_selected(), Item):
+                            new_item = ItemInstance(
+                                editor_state.get_selected(),
+                                set(),  # Pass a set of strings
+                                Vec2(x, y),
+                            )
+                            try:
+                                test_level.put_item_at(new_item)
+                            except NoStationAtLocationError:
+                                pass
 
             manager.process_events(event)
         manager.update(time_delta)
