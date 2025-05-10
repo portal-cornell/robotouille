@@ -276,26 +276,7 @@ def loop(editor_state: EditorState):
         except FileNotFoundError:
             print(f"Asset not found: {item_asset_path}")
 
-    run_file_button = pygame_gui.elements.UIButton(
-        relative_rect=pygame.Rect((SCREEN_WIDTH, 816), (100, 50)),
-        text="Run Saved",
-        manager=manager,
-    )
-
-    run_file_button.show()
-
     import subprocess
-
-    def run_file(file_path):
-        filename = file_path.split("/")[-1].replace(".json", "")
-        command = f"python main.py ++game.envrionment_name={filename}"
-        print(f"Running command: {command}")
-        subprocess.Popen(
-            command,
-            shell=True,
-            cwd=editor_state.get_project_root_path(),
-            env=os.environ,
-        )
 
     stations_button.show()
     items_button.show()
@@ -336,9 +317,6 @@ def loop(editor_state: EditorState):
                             json.dump(level_json, f, indent=4)
                         filename = saved_file_path.split("/")[-1].replace(".json", "")
                         print(f"Level saved to {filename}")
-                elif event.ui_element == run_file_button:
-                    if saved_file_path != None:
-                        run_file(saved_file_path)
                 else:
                     # Check if it's an item button
                     for item_name, button in item_buttons.items():
