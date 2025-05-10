@@ -26,11 +26,11 @@ class PredicateDict(dict):
         super().__init__(*args, **kwargs)
 
     def __getitem__(self, key: set):
-        frozenkey: Hashable = frozenset(key) if isinstance(key, set) else key
+        frozenkey: frozenset = frozenset(key) if isinstance(key, set) else key
         return super().__getitem__(frozenkey)
 
     def __setitem__(self, key: set, value):
-        frozenkey: Hashable = frozenset(key) if isinstance(key, set) else key
+        frozenkey: frozenset = frozenset(key) if isinstance(key, set) else key
         return super().__setitem__(frozenkey, value)
 
     def __contains__(self, key):
@@ -75,6 +75,10 @@ root.withdraw()
 
 dev_mode = True
 
+project_root_path = os.path.abspath(os.path.join(__file__, "./../../../"))
+asset_dir_path = os.path.join(project_root_path, "assets")
+print(f"[CONFIG] project root path: {project_root_path}")
+print(f"[CONFIG] asset dir path: {asset_dir_path}")
 config_file_path = (
     filedialog.askopenfilename(
         title="Select Robotouille Config", filetypes=[("JSON files", "*.json")]
@@ -83,9 +87,12 @@ config_file_path = (
     else "renderer/configuration/robotouille_config.json"
 )
 
+
 if not config_file_path:
     print("No config file selected. Exiting.")
     exit()
+else:
+    print(f"[CONFIG] config path: {config_file_path}")
 
 with open(config_file_path, "r") as f:
     config_data = json.load(f)
@@ -106,6 +113,8 @@ for item_name, item_data in item_entities.items():
         ):
             state_map.append((state_info["predicates"], state_info["asset"]))
     items[item_name] = Item(item_name, state_map)
+
+print(items)
 
 
 fried_chicken = Item(
@@ -251,21 +260,18 @@ def render_level(level: LevelState, tile_size: int) -> pygame.Surface:
 
     # Draw stations
     for station in level.get_all_stations():
-        project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-        asset_path = os.path.join(project_root, "assets", station.asset_file)
-        img = pygame.image.load(asset_path).convert_alpha()
+        station_asset_path = os.path.join(asset_dir_path, station.asset_file)
+        img = pygame.image.load(station_asset_path).convert_alpha()
         img = pygame.transform.scale(img, (tile_size, tile_size))
         surface.blit(img, (station.pos.x * tile_size, station.pos.y * tile_size))
 
     # Draw items
     for item in level.get_all_items():
-        project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-        asset_path = os.path.join(
-            project_root,
-            "assets",
+        item_asset_path = os.path.join(
+            asset_dir_path,
             item.source_item.state_map[frozenset(item.predicates)],
         )
-        img = pygame.image.load(asset_path).convert_alpha()
+        img = pygame.image.load(item_asset_path).convert_alpha()
         img = pygame.transform.scale(img, (tile_size, tile_size))
         surface.blit(img, (item.pos.x * tile_size, item.pos.y * tile_size))
 
@@ -298,7 +304,6 @@ def main():
     BEIGE = pygame.Color("#EDE8D0")
 
     test_level = LevelState(MAX_COLUMNS, ROWS)
-    project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
     saved_file_path: Optional[str] = None
 
@@ -310,7 +315,7 @@ def main():
 
     # Side Panel
     item_panel_width = 200
-    item_panel = pygame_gui.elements.UIPanel(
+    item_panel = pygame_gui.elements.UIScrollingContainer(
         relative_rect=pygame.Rect((SCREEN_WIDTH, 0), (item_panel_width, SCREEN_HEIGHT)),
         manager=manager,
         visible=False,
@@ -344,10 +349,9 @@ def main():
     button_y = 10
     for item_name, item in items.items():
         default_asset = item.state_map[frozenset()]
-        project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-        asset_path = os.path.join(project_root, "assets", default_asset)
+        item_asset_path = os.path.join(project_root_path, "assets", default_asset)
         try:
-            img = pygame.image.load(asset_path).convert_alpha()
+            img = pygame.image.load(item_asset_path).convert_alpha()
             img = pygame.transform.scale(img, (button_width, button_height))
             item_button = pygame_gui.elements.UIButton(
                 relative_rect=pygame.Rect(
@@ -355,7 +359,7 @@ def main():
                 ),
                 text="",
                 manager=manager,
-                container=item_panel,
+                container=item_panel.get_container(),
             )
             item_button.normal_image = img
             item_button.hovered_image = img
@@ -381,8 +385,7 @@ def main():
         filename = file_path.split("/")[-1].replace(".json", "")
         command = f"python main.py ++game.envrionment_name={filename}"
         print(f"Running command: {command}")
-        project_root = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-        subprocess.Popen(command, shell=True, cwd=project_root, env=os.environ)
+        subprocess.Popen(command, shell=True, cwd=project_root_path, env=os.environ)
 
     stations_button.show()
     items_button.show()
