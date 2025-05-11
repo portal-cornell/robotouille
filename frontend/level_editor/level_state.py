@@ -1,9 +1,27 @@
-from declarations import Vec2, Item, Station, ItemInstance, StationInstance
-from typing import List, Optional, Tuple
+from declarations import Vec2, ItemInstance, StationInstance
+from typing import List, Optional, Union
 
 
 class NoStationAtLocationError(Exception):
     """Raised when trying to place an item at a location without a station."""
+
+    pass
+
+
+class PlayerAtLocationError(Exception):
+    """Raised when trying to place a station at the player's position."""
+
+    pass
+
+
+class InvalidPlayerPosition(Exception):
+    """Raised when trying to set the player at an invalid location."""
+
+    pass
+
+
+class MissingPlayerPosition(Exception):
+    """Raised when trying to serialize a level without a player position."""
 
     pass
 
@@ -57,6 +75,8 @@ class LevelState:
     def __init__(self, width: int, height: int):
         self.width: int = width
         self.height: int = height
+        self._player_pos: Optional[Vec2] = None
+        self._player_direction: Vec2 = Vec2(0, 1)
         self._stations: List[List[Optional[StationInstance]]] = [
             [None for _ in range(height)] for _ in range(width)
         ]
@@ -64,6 +84,44 @@ class LevelState:
             [[] for _ in range(height)] for _ in range(width)
         ]
         self.goal: Goal = Goal()
+
+    def get_player_pos(self) -> Vec2:
+        return self._player_pos
+
+    def get_player_direction(self) -> Vec2:
+        return self._player_direction
+
+    def set_player_pos(self, pos: Vec2):
+        if self.get_station_at(pos) is not None:
+            raise InvalidPlayerPosition(
+                "Cannot place player at location with a station"
+            )
+
+        # Check for neighboring stations in top, bottom, left, and right directions
+        valid_directions = []
+        if pos.x > 0 and self.get_station_at(Vec2(pos.x - 1, pos.y)) is not None:
+            valid_directions.append(Vec2(-1, 0))  # Left
+        if (
+            pos.x < self.width - 1
+            and self.get_station_at(Vec2(pos.x + 1, pos.y)) is not None
+        ):
+            valid_directions.append(Vec2(1, 0))  # Right
+        if pos.y > 0 and self.get_station_at(Vec2(pos.x, pos.y - 1)) is not None:
+            valid_directions.append(Vec2(0, -1))  # Bottom
+        if (
+            pos.y < self.height - 1
+            and self.get_station_at(Vec2(pos.x, pos.y + 1)) is not None
+        ):
+            valid_directions.append(Vec2(0, 1))  # Top
+
+        if not valid_directions:
+            raise InvalidPlayerPosition(
+                "Cannot place player at location without neighboring stations (top, bottom, left, right)"
+            )
+
+        # Set player direction to face towards the first valid direction
+        self._player_direction = valid_directions[0]
+        self._player_pos = pos
 
     def get_station_at(self, pos: Vec2) -> Optional[StationInstance]:
         return self._stations[pos.x][pos.y]
@@ -89,8 +147,11 @@ class LevelState:
         return items
 
     def put_station_at(self, station: StationInstance):
-        pos = station.pos
-        self._stations[pos.x][pos.y] = station
+        if station.pos != self._player_pos:
+            pos = station.pos
+            self._stations[pos.x][pos.y] = station
+        else:
+            raise PlayerAtLocationError()
 
     def remove_station_at(self, pos: Vec2):
         self._stations[pos.x][pos.y] = None
@@ -109,6 +170,11 @@ class LevelState:
             self._items[pos.x][pos.y].pop()
 
     def serialize(self) -> dict:
+        if self._player_pos is None:
+            raise MissingPlayerPosition(
+                "Cannot serialize level without a player position"
+            )
+
         stations_json = []
         for station in self.get_all_stations():
             stations_json.append(
@@ -143,7 +209,14 @@ class LevelState:
             },
             "stations": stations_json,
             "items": items_json,
-            "players": [{"name": "robot", "x": 0, "y": 0, "direction": [0, 1]}],
+            "players": [
+                {
+                    "name": "robot",
+                    "x": self._player_pos.x,
+                    "y": self.height - 1 - self._player_pos.y,
+                    "direction": [self._player_direction.x, self._player_direction.y],
+                }
+            ],
             "goal_description": "Make a cheese burger with cheese on top of the patty",
             "goal": self.goal.serialize(),
         }

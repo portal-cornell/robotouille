@@ -5,7 +5,7 @@ import pygame_gui
 import os
 from typing import Optional
 import json
-from typing import Tuple, Set
+import tkinter.messagebox
 
 NEUTRAL2 = pygame.Color("#ececec")
 NEUTRAL5 = pygame.Color("#656565")
@@ -38,7 +38,12 @@ RED0 = pygame.Color("#ff5656")
 NEUTRALDARK = pygame.Color("#292929")
 
 from declarations import Vec2, Item, Station, ItemInstance, StationInstance
-from level_state import LevelState, NoStationAtLocationError, Goal
+from level_state import (
+    LevelState,
+    NoStationAtLocationError,
+    Goal,
+    MissingPlayerPosition,
+)
 from editor_state import EditorState
 
 
@@ -103,6 +108,17 @@ def render_level(
                         item.pos.y * tile_size - i * (tile_size / 4),
                     ),
                 )
+
+    # Draw player
+    player_pos = level.get_player_pos()
+    if player_pos is not None:
+        player_asset_path = os.path.join(asset_dir_path, "robot_front_1.png")
+        img = pygame.image.load(player_asset_path).convert_alpha()
+        img = pygame.transform.scale(img, (tile_size, tile_size))
+        surface.blit(
+            img,
+            (player_pos.x * tile_size, player_pos.y * tile_size),
+        )
 
     return surface
 
@@ -305,29 +321,70 @@ def loop(editor_state: EditorState):
             print(f"Asset not found: {station_asset_path}")
 
     # Buttons
-    stations_button = pygame_gui.elements.UIButton(
-        relative_rect=pygame.Rect((10, 842), (100, 50)),
-        text="Stations",
-        manager=manager,
-    )
-
-    items_button = pygame_gui.elements.UIButton(
-        relative_rect=pygame.Rect((10, 802), (100, 50)),
-        text="Items",
+    button_panel = pygame_gui.elements.UIPanel(
+        relative_rect=pygame.Rect((10, 600), (100, 250)),
         manager=manager,
     )
 
     export_button = pygame_gui.elements.UIButton(
-        relative_rect=pygame.Rect((10, 742), (100, 50)),
+        relative_rect=pygame.Rect((0, 0), (100, 50)),
         text="Save",
         manager=manager,
+        container=button_panel,
     )
 
     goal_button = pygame_gui.elements.UIButton(
-        relative_rect=pygame.Rect((10, 682), (100, 50)),
+        relative_rect=pygame.Rect((0, 50), (100, 50)),
         text="Goal",
         manager=manager,
+        container=button_panel,
     )
+
+    player_button = pygame_gui.elements.UIButton(
+        relative_rect=pygame.Rect((0, 100), (100, 50)),
+        text="Set Player Position",
+        manager=manager,
+        container=button_panel,
+    )
+
+    stations_button = pygame_gui.elements.UIButton(
+        relative_rect=pygame.Rect((0, 150), (100, 50)),
+        text="Stations",
+        manager=manager,
+        container=button_panel,
+    )
+
+    items_button = pygame_gui.elements.UIButton(
+        relative_rect=pygame.Rect((0, 200), (100, 50)),
+        text="Items",
+        manager=manager,
+        container=button_panel,
+    )
+
+    stations_button.show()
+    items_button.show()
+    export_button.show()
+    goal_button.show()
+
+    selected_mode = "stations"
+    editing_goal = False
+
+    def set_selected_mode(mode):
+        nonlocal selected_mode
+        item_panel.hide()
+        station_panel.hide()
+        selected_mode = mode
+        if mode == "items":
+            if not isinstance(editor_state.get_selected(), Item):
+                editor_state.set_selected(None)
+            item_panel.show()
+        elif mode == "stations":
+            if not isinstance(editor_state.get_selected(), Station):
+                editor_state.set_selected(None)
+            station_panel.show()
+        elif mode == "player_position":
+            editor_state.set_selected(None)
+        print(selected_mode)
 
     # Item Buttons
     item_buttons = {}
@@ -363,26 +420,6 @@ def loop(editor_state: EditorState):
         except KeyError:
             print(f"No asset found for predicates: {predicates} for item {item.name}")
 
-    stations_button.show()
-    items_button.show()
-    export_button.show()
-    goal_button.show()
-
-    selected_mode = "stations"
-    editing_goal = False
-
-    def set_selected_mode(mode):
-        item_panel.hide()
-        station_panel.hide()
-        if mode == "items":
-            if not isinstance(editor_state.get_selected(), Item):
-                editor_state.set_selected(None)
-            item_panel.show()
-        elif mode == "stations":
-            if not isinstance(editor_state.get_selected(), Station):
-                editor_state.set_selected(None)
-            station_panel.show()
-
     clock = pygame.time.Clock()
     running = True
 
@@ -391,11 +428,14 @@ def loop(editor_state: EditorState):
         root.withdraw()
         saved_file_path = filedialog.asksaveasfilename(defaultextension=".json")
         if saved_file_path:
-            level_json = test_level.serialize()
-            with open(saved_file_path, "w") as f:
-                json.dump(level_json, f, indent=4)
-            filename = saved_file_path.split("/")[-1].replace(".json", "")
-            print(f"Level saved to {filename}")
+            try:
+                level_json = test_level.serialize()
+                with open(saved_file_path, "w") as f:
+                    json.dump(level_json, f, indent=4)
+                filename = saved_file_path.split("/")[-1].replace(".json", "")
+                print(f"Level saved to {filename}")
+            except MissingPlayerPosition as e:
+                tkinter.messagebox.showerror("Error", str(e))
 
     while running:
         time_delta = clock.tick(60) / 1000.0
@@ -415,7 +455,9 @@ def loop(editor_state: EditorState):
                     save_level()
 
             if event.type == pygame_gui.UI_BUTTON_PRESSED:
-                if event.ui_element == stations_button:
+                if event.ui_element == player_button:
+                    set_selected_mode("player_position")
+                elif event.ui_element == stations_button:
                     set_selected_mode("stations")
                 elif event.ui_element == items_button:
                     set_selected_mode("items")
@@ -478,6 +520,7 @@ def loop(editor_state: EditorState):
                         x = (x - level_x) // TILE_SIZE
                         y = (y - level_y) // TILE_SIZE
                         if 0 <= x < test_level.width and 0 <= y < test_level.height:
+                            print(selected_mode)
                             if editing_goal:
                                 if isinstance(editor_state.get_selected(), tuple):
                                     item, predicates = editor_state.get_selected()
@@ -487,6 +530,12 @@ def loop(editor_state: EditorState):
                                         Vec2(x, y),
                                     )
                                     test_level.goal.push_goal(new_item)
+                            elif selected_mode == "player_position":
+                                print("dd")
+                                try:
+                                    test_level.set_player_pos(Vec2(x, y))
+                                except Exception as e:
+                                    print(e)
                             elif isinstance(editor_state.get_selected(), Station):
                                 new_station = StationInstance(
                                     editor_state.get_selected(), Vec2(x, y)

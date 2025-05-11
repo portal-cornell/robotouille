@@ -15,13 +15,38 @@
     "stations": [
         {
             "name": "table",
-            "x": 0,
-            "y": 1
+            "x": 1,
+            "y": 4
+        },
+        {
+            "name": "table",
+            "x": 1,
+            "y": 3
+        },
+        {
+            "name": "table",
+            "x": 2,
+            "y": 2
         },
         {
             "name": "table",
             "x": 2,
             "y": 1
+        },
+        {
+            "name": "table",
+            "x": 3,
+            "y": 4
+        },
+        {
+            "name": "table",
+            "x": 3,
+            "y": 3
+        },
+        {
+            "name": "table",
+            "x": 4,
+            "y": 2
         },
         {
             "name": "table",
@@ -31,28 +56,30 @@
     ],
     "items": [
         {
-            "name": "bottombun",
-            "x": 0,
-            "y": 1,
+            "name": "patty",
+            "x": 2,
+            "y": 2,
             "stack-level": 0,
             "predicates": []
         },
         {
-            "name": "bottombun",
-            "x": 2,
+            "name": "patty",
+            "x": 4,
             "y": 1,
             "stack-level": 0,
-            "predicates": []
+            "predicates": [
+                "iscooked"
+            ]
         }
     ],
     "players": [
         {
             "name": "robot",
-            "x": 0,
-            "y": 0,
+            "x": 2,
+            "y": 3,
             "direction": [
-                0,
-                1
+                -1,
+                0
             ]
         }
     ],
@@ -61,12 +88,67 @@
         {
             "predicate": "atop",
             "args": [
-                "bottombun",
-                "bottombun"
+                "chicken",
+                "chicken"
             ],
             "ids": [
                 2,
                 1
+            ]
+        },
+        {
+            "predicate": "atop",
+            "args": [
+                "chicken",
+                "chicken"
+            ],
+            "ids": [
+                3,
+                2
+            ]
+        },
+        {
+            "predicate": "atop",
+            "args": [
+                "chicken",
+                "chicken"
+            ],
+            "ids": [
+                4,
+                3
+            ]
+        },
+        {
+            "predicate": "atop",
+            "args": [
+                "chicken",
+                "chicken"
+            ],
+            "ids": [
+                5,
+                4
+            ]
+        },
+        {
+            "predicate": "atop",
+            "args": [
+                "chicken",
+                "chicken"
+            ],
+            "ids": [
+                6,
+                5
+            ]
+        },
+        {
+            "predicate": "atop",
+            "args": [
+                "chicken",
+                "chicken"
+            ],
+            "ids": [
+                7,
+                6
             ]
         }
     ]

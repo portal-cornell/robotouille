@@ -6,6 +6,11 @@ class Vec2:
         self.x: int = x
         self.y: int = y
 
+    def __eq__(self, other):
+        if not isinstance(other, Vec2):
+            return False
+        return self.x == other.x and self.y == other.y
+
 
 class Station:
     def __init__(self, name: str, asset_file: str):
