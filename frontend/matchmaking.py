@@ -1,4 +1,5 @@
 import pygame
+import asyncio
 from frontend.constants import MAIN_MENU, GAME, MAX_PLAYERS, SHARED_DIRECTORY
 from frontend.image import Image
 from frontend.textbox import Textbox
@@ -34,7 +35,11 @@ class MatchMakingScreen(ScreenInterface):
             ] 
         self.host = False
         self.count = 0
+        self.networking_manager= None
 
+    def set_networking_manager(self, manager):
+        self.networking_manager = manager
+        
     def load_assets(self):
         """Load necessary assets."""
         self.background_image = LoadingScreen.ASSET[SHARED_DIRECTORY]["background.png"]
@@ -87,5 +92,11 @@ class MatchMakingScreen(ScreenInterface):
                     # TODO this should disconnect client from server
                 # Transitions to the Game when key G is pressed.
                 elif event.key == pygame.K_g:
-                    self.set_next_screen(GAME)
+                    # self.set_next_screen(GAME)
+
+                    if not self.networking_manager: 
+                        print(' broken code !!!!!!!')
+
+                    if self.networking_manager:
+                        asyncio.run(self.networking_manager.send_message("start game"))
                     # TODO remove this functionality? Game start should now be based on server

@@ -12,6 +12,7 @@ from frontend.endgame import EndScreen
 from frontend.matchmaking import MatchMakingScreen
 
 from omegaconf import DictConfig, OmegaConf
+from networking.client_networking import NetworkManager
 
 pygame.init()
 pygame.display.init()
@@ -23,8 +24,8 @@ fps = 60
 pygame.display.set_caption('Robotouille Simulator')
 clock = pygame.time.Clock()
 
-def game():
-    global screen_size, screen, simulator_screen_size, fps, args
+def game(args):
+    global screen_size, screen, simulator_screen_size, fps
     screens = {
         LOGO: LogoScreen(screen_size),
         LOADING: LoadingScreen(screen_size),
@@ -35,9 +36,10 @@ def game():
     running = True
     simulator_instance = None
     need_update = True
+    networking_manger = None
 
     def update_screen():
-        nonlocal current_screen, need_update
+        nonlocal current_screen, need_update, args, networking_manger
         if current_screen in screens:
             screen_obj = screens[current_screen]
             screen_obj.update()
@@ -53,7 +55,19 @@ def game():
                 current_screen = screen_obj.next_screen
                 screen_obj.set_next_screen(None)
                 need_update = True
+            
+            if current_screen == MAIN_MENU:
+                networking_manger = None
 
+            if current_screen == MATCHMAKING and networking_manger == None:
+                env_name = args.environment_name
+                seed = args.seed
+                noisy = args.noisy_randomization
+                movement = args.movement_mode
+                networking_manger = NetworkManager(env_name, seed, noisy, movement)
+                networking_manger.connect()
+                screens[MATCHMAKING].set_networking_manager(networking_manger)
+                
     while running:
         screen.fill((0,0,0))
         if current_screen == GAME:
@@ -97,32 +111,6 @@ def game():
         
     pygame.quit()
 
-def main():
-    global screen_size, screen, simulator_screen_size, fps, args
-    loading = LoadingScreen(screen_size)
-    loading.load_all_assets()
-    
-    screen = pygame.display.set_mode(simulator_screen_size) # TODO: Remove when screen size can scale properly
-    simulator_instance = RobotouilleSimulator(
-        screen=screen,
-        environment_name=args.environment_name,
-        seed=args.seed,
-        noisy_randomization=args.noisy_randomization,
-        movement_mode=args.movement_mode,
-        clock=clock,
-        screen_size=simulator_screen_size,
-        render_fps=fps
-    )
-    
-    while not simulator_instance.done:
-        screen.fill((0,0,0))
-        simulator_instance.update()
-        screen.blit(simulator_instance.get_screen(), (0, 0))
-        pygame.display.flip()
-        clock.tick(fps)
-        
-    pygame.quit()
-
 if __name__ == "__main__":
     argparser = argparse.ArgumentParser()
     argparser.add_argument("--environment_name", type=str, default="original")
@@ -130,4 +118,4 @@ if __name__ == "__main__":
     argparser.add_argument("--noisy_randomization", action="store_true")
     argparser.add_argument("--movement_mode", type=str, default="traverse")
     args = argparser.parse_args()
-    game()
+    game(args)
