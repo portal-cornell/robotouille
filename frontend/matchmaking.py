@@ -93,10 +93,6 @@ class MatchMakingScreen(ScreenInterface):
                 # Transitions to the Game when key G is pressed.
                 elif event.key == pygame.K_g:
                     # self.set_next_screen(GAME)
-
-                    if not self.networking_manager: 
-                        print(' broken code !!!!!!!')
-
                     if self.networking_manager:
                         asyncio.run(self.networking_manager.send_message("start game"))
                     # TODO remove this functionality? Game start should now be based on server

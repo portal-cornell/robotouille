@@ -44,7 +44,7 @@ class NetworkManager:
         except Exception as e:
             print("[Handler] Failed to decode:", e)
 
-    def connect(self):
+    async def connect(self):
         """
         Runs the client by starting the asynchronous client loop.
 
@@ -56,7 +56,7 @@ class NetworkManager:
             host (str): The host to connect to.
         """
         print('run client')
-        asyncio.run(self.create_websocket())
+        await self.create_websocket()
 
     async def create_websocket(self):
         """
@@ -83,7 +83,7 @@ class NetworkManager:
         Args:
             payload (Any): A serializable Python object (e.g., action tuple)
         """
-        if self.websocket is None or self.websocket.close:
+        if self.websocket is None or not await self.websocket.wait_closed():
             print("[Warning] Tried to send on a closed WebSocket.")
             return
 

@@ -1,5 +1,6 @@
 import argparse
 import pygame
+import asyncio
 
 from game.simulator import RobotouilleSimulator
 
@@ -36,10 +37,10 @@ def game(args):
     running = True
     simulator_instance = None
     need_update = True
-    networking_manger = None
+    networking_manager = None
 
     def update_screen():
-        nonlocal current_screen, need_update, args, networking_manger
+        nonlocal current_screen, need_update, args, networking_manager
         if current_screen in screens:
             screen_obj = screens[current_screen]
             screen_obj.update()
@@ -57,16 +58,16 @@ def game(args):
                 need_update = True
             
             if current_screen == MAIN_MENU:
-                networking_manger = None
+                networking_manager = None
 
-            if current_screen == MATCHMAKING and networking_manger == None:
+            if current_screen == MATCHMAKING and networking_manager == None:
                 env_name = args.environment_name
                 seed = args.seed
                 noisy = args.noisy_randomization
                 movement = args.movement_mode
-                networking_manger = NetworkManager(env_name, seed, noisy, movement)
-                networking_manger.connect()
-                screens[MATCHMAKING].set_networking_manager(networking_manger)
+                networking_manager = NetworkManager(env_name, seed, noisy, movement)
+                asyncio.run(networking_manager.connect()) 
+                screens[MATCHMAKING].set_networking_manager(networking_manager)
                 
     while running:
         screen.fill((0,0,0))
