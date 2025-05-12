@@ -1,12 +1,8 @@
 import pygame
 import pygame_gui
-from pygame_gui.elements import UIPanel
 from frontend import editor_button
 import os
 import json
-import numpy as np
-
-from frontend.button import Button
 from frontend.loading import LoadingScreen
 from robotouille import robotouille_env
 from environments.env_generator import builder
@@ -17,16 +13,16 @@ pygame.init()
 pygame.display.set_caption('Level Editor')
 
 # game window
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
+SCREEN_WIDTH = 520
+SCREEN_HEIGHT = 520
 LOWER_MARGIN = 300
 SIDE_MARGIN = 300
 
 window_surface = pygame.display.set_mode((SCREEN_WIDTH + SIDE_MARGIN, SCREEN_HEIGHT + LOWER_MARGIN))
 
 # game variables
-ROWS = 12
-MAX_COLUMNS = 16
+ROWS = 6
+MAX_COLUMNS = 6
 TILE_SIZE = SCREEN_HEIGHT // ROWS
 selected_item = 0
 
@@ -48,8 +44,8 @@ caption_list = []
 button_col = 0
 button_row = 0
 
-background = pygame.Surface((SCREEN_WIDTH + SIDE_MARGIN, SCREEN_HEIGHT + LOWER_MARGIN))
-background.fill(BEIGE)
+grid = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
+grid.fill(BEIGE)
 clock = pygame.time.Clock()
 manager = pygame_gui.UIManager((SCREEN_WIDTH + SIDE_MARGIN, SCREEN_HEIGHT + LOWER_MARGIN))
 manager.set_visual_debug_mode(True)
@@ -81,23 +77,19 @@ ASSET_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file_
 CONFIG_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "renderer")
 with open(os.path.join(os.path.join(CONFIG_DIR, "configuration"), "robotouille_config.json"), "r") as f:
     config_file = json.load(f)
-environment_json = builder.load_environment("level.json")
-layout, tiling = robotouille_env._parse_renderer_layout(environment_json)
-canvas = RobotouilleCanvas(config_file, layout, tiling, environment_json["players"])
-_, environment_json = builder.build_problem(environment_json)
 DOMAIN_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "domain")
 with open(os.path.join(DOMAIN_DIR, "robotouille.json"), "r") as f:
     config_file1 = json.load(f)
-# initial_state = env.build_state(config_file1, environment_json, layout, False)
+environment_json = builder.load_environment("level.json")
 
 # draw grid
 def draw_grid():
     # vertical lines
     for col in range(MAX_COLUMNS + 1):
-        pygame.draw.line(background, WHITE, (col * TILE_SIZE, 0), (col * TILE_SIZE, SCREEN_HEIGHT))
+        pygame.draw.line(grid, BLACK, (col * TILE_SIZE, 0), (col * TILE_SIZE, SCREEN_HEIGHT))
     # horizontal lines
     for row in range(ROWS + 1):
-        pygame.draw.line(background, WHITE, (0, row * TILE_SIZE), (SCREEN_WIDTH, row * TILE_SIZE))
+        pygame.draw.line(grid, BLACK, (0, row * TILE_SIZE), (SCREEN_WIDTH, row * TILE_SIZE))
 
 # get config and asset info
 def get_config_info(config_file):
@@ -110,11 +102,10 @@ def get_config_info(config_file):
                 for image_type in config_file[object_type]["entities"][button_name]["assets"]:
                     if image_type == "default":
                         station_button_image = config_file[object_type]["entities"][button_name]["assets"]["default"]
-                        print("image name: " + station_button_image)
                     image = loading.ASSET[ASSET_DIR][station_button_image]
                     image_scale = 0.1
                     if image.get_width() != 512 and image.get_height() != 512:
-                        image_scale = 0.03
+                        image_scale = 0.025
                     font = pygame.font.SysFont(None, 20)
                     text = font.render(button_name, True, (0, 0, 0))
                     button = editor_button.Button((75 * button_col1) + 50, 75 * button_row1 + 50, image, image_scale, text, 75 * button_col1 + 55, 75 * button_row1 + 100)
@@ -135,7 +126,6 @@ def get_config_info(config_file):
                     else:
                         item_button_image = config_file[object_type]["entities"][button_name]["assets"][image_type]["asset"]
                         predicates = config_file[object_type]["entities"][button_name]["assets"][image_type]["predicates"]
-                    print("image name:" + item_button_image)
                     image = loading.ASSET[ASSET_DIR][item_button_image]
                     image_scale = 0.1
                     if image.get_width() != 512 and image.get_height() != 512:
@@ -166,7 +156,7 @@ def draw_items_grid():
             if tile >= 0:
                 font = pygame.font.SysFont(None, 24)
                 text = font.render("" + str(tile), True, (0, 0, 0))
-                background.blit(text, (x_coord * TILE_SIZE + 10, y_coord * TILE_SIZE + 15))
+                grid.blit(text, (x_coord * TILE_SIZE + 10, y_coord * TILE_SIZE + 15))
 
 # returns true if can add object onto grid, false if not
 def can_add_object(object_type, x_coord, y_coord):
@@ -189,22 +179,20 @@ selected_tab = 0
 while is_running:
     time_delta = clock.tick(60) / 1000.0
     draw_grid()
-    draw_items_grid()
-    # draw tile panel and tiles
-    # pygame.draw.rect(background, BLACK, (SCREEN_WIDTH, 0, SIDE_MARGIN, SCREEN_HEIGHT))
-    background.blit(side_panel, (SCREEN_WIDTH, 0))
 
+    # draw inventory panel
+    window_surface.blit(side_panel, (SCREEN_WIDTH, 0))
+
+    object_type = ""
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             is_running = False
         if event.type == pygame_gui.UI_BUTTON_PRESSED:
-            # for i in range(len(button_list)):
-                # if event.ui_element == button_list[i]:
-                #     selected_item = i + 1
-                #     print(f"Selected: item {selected_item}")
             for i in range(len(layer_list)):
                 if event.ui_element == layer_list[i]:
                     object_type = ""
+                    for asset in asset_list: # to reset
+                        asset["button"].set_visibility(False)
                     if i == 0:
                         object_type = "station"
                     elif i == 1:
@@ -217,41 +205,50 @@ while is_running:
 
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
-                x,y = event.pos
+                x, y = event.pos
                 if x > SCREEN_WIDTH or y > SCREEN_HEIGHT:
                     print("Clicked outside grid")
+                    for asset in asset_list:
+                        if asset['button'].is_clicked():
+                            print(f"Selected: {asset['name']}, Type: {asset['type']}")
                 else:
-                    if selected_item > 0:
-                        x = x // TILE_SIZE
-                        y = y // TILE_SIZE
-                        object = {"name": selected_item, "x": x, "y": y}
-                        if selected_tab == 1:
-                            key_name = "stations"
-                        if selected_tab == 2:
-                            key_name = "items"
-                            stack_level = 0
-                            for item in environment_json["items"]:
-                                if item["x"] is x and item["y"] is y: # increase stack level if item is under
-                                    stack_level = item["stack-level"] + 1
-                            object = {"name": selected_item, "x": x, "y": y, "stack-level": stack_level}
-                        if selected_tab == 3:
-                            key_name = "containers"
-                        object_list = environment_json[key_name]
-                        if can_add_object(key_name, x, y):
-                            object_list.append(object)
-                            grid_data[y][x] = selected_item
-                            print(f"Placed: item {selected_item} at ({x}, {y})")
-                        else:
-                            print("cannot add object")
-
-                        new_environment_json = json.dumps(environment_json)
-                        environment_json = json.loads(new_environment_json) # converts string to python object
+                    for asset in asset_list:
+                        if asset['button'].has_clicked():
+                            print(f"Selected: {asset['name']}, Type: {asset['type']}")
+                            x = x // TILE_SIZE
+                            y = (SCREEN_HEIGHT - y) // TILE_SIZE
+                            object = {"name": asset['name'], "x": x, "y": y}
+                            if asset['type'] == "station":
+                                key_name = "stations"
+                            if asset['type'] == "item":
+                                key_name = "items"
+                                stack_level = 0
+                                for item in environment_json["items"]:
+                                    if item["x"] is x and item["y"] is y: # increase stack level if item is under
+                                        stack_level = item["stack-level"] + 1
+                                object = {"name": asset['name'], "x": x, "y": y, "stack-level": stack_level, "predicates": asset['predicates']}
+                            if asset['type'] == "container":
+                                key_name = "containers"
+                            object_list = environment_json[key_name]
+                            if can_add_object(key_name, x, y):
+                                object_list.append(object)
+                                grid_data[y][x] += 1
+                                print(f"Placed: {asset['name']} at ({x}, {y})")
+                            else:
+                                print("cannot add object")
+                            new_environment_json = json.dumps(environment_json)
+                            environment_json = json.loads(new_environment_json) # converts string to python object
+                            layout, tiling = robotouille_env._parse_renderer_layout(environment_json)
+                            _, updated_environment_json = builder.build_problem(environment_json)
+                            canvas = RobotouilleCanvas(config_file, layout, tiling, environment_json["players"])
+                            initial_state = env.build_state(config_file1, updated_environment_json, layout, "immediate")
+                            canvas.draw_to_surface(grid, initial_state)
 
 
         manager.process_events(event)
     manager.update(time_delta)
 
-    window_surface.blit(background, (0, 0))
+    window_surface.blit(grid, (0, 0))
     manager.draw_ui(window_surface)
     pygame.display.update()
 
