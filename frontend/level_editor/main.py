@@ -46,10 +46,67 @@ from level_state import (
 )
 from editor_state import EditorState
 
+from pathlib import Path
+import sys
+
+# Go two levels up from current file
+sys.path.append(str(Path(__file__).resolve().parents[2]))
+
+from robotouille import robotouille_env
+from environments.env_generator import builder
+from renderer.canvas import RobotouilleCanvas
+from robotouille import env
+
+config_file_path = (
+    filedialog.askopenfilename(
+        title="Select Robotouille Config", filetypes=[("JSON files", "*.json")]
+    )
+    if False
+    else "frontend/level_editor/robotouille_config.json"
+)
+
+if not config_file_path:
+    print("No config file selected. Exiting.")
+    exit()
+else:
+    print(f"[CONFIG] config path: {config_file_path}")
+
+with open(config_file_path, "r") as f:
+    config_data = json.load(f)
+
+RENDERER_CONFIG_DIR = os.path.abspath(
+    os.path.join(
+        os.path.dirname(os.path.abspath(__file__)),  # current file's directory
+        "..",
+        "..",  # one directory up
+        "renderer",  # "domain" folder
+        "configuration",
+    )
+)
+
+with open(os.path.join(RENDERER_CONFIG_DIR, "robotouille_config.json"), "r") as f:
+    renderer_data = json.load(f)
+
+
+DOMAIN_DIR = os.path.abspath(
+    os.path.join(
+        os.path.dirname(os.path.abspath(__file__)),  # current file's directory
+        "..",
+        "..",  # one directory up
+        "domain",  # "domain" folder
+    )
+)
+
+with open(os.path.join(DOMAIN_DIR, "robotouille.json"), "r") as f:
+    domain_data = json.load(f)
+
+import json
+
 
 def render_level(
     level: LevelState, tile_size: int, asset_dir_path: str
 ) -> pygame.Surface:
+
     # colors
     WHITE = (255, 255, 255)
     width = level.width
@@ -58,67 +115,90 @@ def render_level(
 
     surface = pygame.Surface((width * tile_size, height * tile_size))
     surface.fill(BEIGE2)
+    environment_json = level.serialize()
+    new_environment_json = json.dumps(environment_json)
 
-    # Draw border
-    pygame.draw.rect(surface, NEUTRAL6, surface.get_rect(), 1)
+    print("new_environment_json:")
+    print(json.dumps(new_environment_json, indent=2))
 
-    # Draw grid
-    for x in range(width + 1):
-        pygame.draw.line(
-            surface,
-            NEUTRAL6,
-            (x * tile_size, 0),
-            (x * tile_size, height * tile_size),
-        )
-    for y in range(height + 1):
-        pygame.draw.line(
-            surface,
-            NEUTRAL6,
-            (0, y * tile_size),
-            (width * tile_size, y * tile_size),
-        )
+    print("\nrenderer_data:")
+    print(json.dumps(renderer_data, indent=2))
 
-    # Draw stations
-    for station_instance in level.get_all_stations():
-        station_asset_path = os.path.join(
-            asset_dir_path, station_instance.source_station.asset_file
-        )
-        img = pygame.image.load(station_asset_path).convert_alpha()
-        img = pygame.transform.scale(img, (tile_size, tile_size))
-        surface.blit(
-            img,
-            (station_instance.pos.x * tile_size, station_instance.pos.y * tile_size),
-        )
+    # print("\ndomain_data:")
+    # print(json.dumps(domain_data, indent=2))
+    environment_json = json.loads(
+        new_environment_json
+    )  # converts string to python object
+    layout, tiling = robotouille_env._parse_renderer_layout(environment_json)
+    _, updated_environment_json = builder.build_problem(environment_json)
+    canvas = RobotouilleCanvas(
+        renderer_data, layout, tiling, environment_json["players"]
+    )
+    initial_state = env.build_state(
+        domain_data, updated_environment_json, layout, "immediate"
+    )
+    canvas.draw_to_surface(surface, initial_state)
 
-    # Draw items
-    for x in range(level.width):
-        for y in range(level.height):
-            items = level.get_items_at(Vec2(x, y))
-            for i, item in enumerate(items):
-                item_asset_path = os.path.join(
-                    asset_dir_path,
-                    item.source_item.state_map[frozenset(item.predicates)],
-                )
-                img = pygame.image.load(item_asset_path).convert_alpha()
-                img = pygame.transform.scale(img, (tile_size, tile_size))
-                surface.blit(
-                    img,
-                    (
-                        item.pos.x * tile_size,
-                        item.pos.y * tile_size - i * (tile_size / 4),
-                    ),
-                )
+    # # Draw border
+    # pygame.draw.rect(surface, NEUTRAL6, surface.get_rect(), 1)
 
-    # Draw player
-    player_pos = level.get_player_pos()
-    if player_pos is not None:
-        player_asset_path = os.path.join(asset_dir_path, "robot_front_1.png")
-        img = pygame.image.load(player_asset_path).convert_alpha()
-        img = pygame.transform.scale(img, (tile_size, tile_size))
-        surface.blit(
-            img,
-            (player_pos.x * tile_size, player_pos.y * tile_size),
-        )
+    # # Draw grid
+    # for x in range(width + 1):
+    #     pygame.draw.line(
+    #         surface,
+    #         NEUTRAL6,
+    #         (x * tile_size, 0),
+    #         (x * tile_size, height * tile_size),
+    #     )
+    # for y in range(height + 1):
+    #     pygame.draw.line(
+    #         surface,
+    #         NEUTRAL6,
+    #         (0, y * tile_size),
+    #         (width * tile_size, y * tile_size),
+    #     )
+
+    # # Draw stations
+    # for station_instance in level.get_all_stations():
+    #     station_asset_path = os.path.join(
+    #         asset_dir_path, station_instance.source_station.asset_file
+    #     )
+    #     img = pygame.image.load(station_asset_path).convert_alpha()
+    #     img = pygame.transform.scale(img, (tile_size, tile_size))
+    #     surface.blit(
+    #         img,
+    #         (station_instance.pos.x * tile_size, station_instance.pos.y * tile_size),
+    #     )
+
+    # # Draw items
+    # for x in range(level.width):
+    #     for y in range(level.height):
+    #         items = level.get_items_at(Vec2(x, y))
+    #         for i, item in enumerate(items):
+    #             item_asset_path = os.path.join(
+    #                 asset_dir_path,
+    #                 item.source_item.state_map[frozenset(item.predicates)],
+    #             )
+    #             img = pygame.image.load(item_asset_path).convert_alpha()
+    #             img = pygame.transform.scale(img, (tile_size, tile_size))
+    #             surface.blit(
+    #                 img,
+    #                 (
+    #                     item.pos.x * tile_size,
+    #                     item.pos.y * tile_size - i * (tile_size / 4),
+    #                 ),
+    #             )
+
+    # # Draw player
+    # player_pos = level.get_player_pos()
+    # if player_pos is not None:
+    #     player_asset_path = os.path.join(asset_dir_path, "robot_front_1.png")
+    #     img = pygame.image.load(player_asset_path).convert_alpha()
+    #     img = pygame.transform.scale(img, (tile_size, tile_size))
+    #     surface.blit(
+    #         img,
+    #         (player_pos.x * tile_size, player_pos.y * tile_size),
+    #     )
 
     return surface
 
@@ -164,22 +244,6 @@ def setup() -> EditorState:
     asset_dir_path = os.path.join(project_root_path, "assets")
     print(f"[CONFIG] project root path: {project_root_path}")
     print(f"[CONFIG] asset dir path: {asset_dir_path}")
-    config_file_path = (
-        filedialog.askopenfilename(
-            title="Select Robotouille Config", filetypes=[("JSON files", "*.json")]
-        )
-        if not dev_mode
-        else "frontend/level_editor/robotouille_config.json"
-    )
-
-    if not config_file_path:
-        print("No config file selected. Exiting.")
-        exit()
-    else:
-        print(f"[CONFIG] config path: {config_file_path}")
-
-    with open(config_file_path, "r") as f:
-        config_data = json.load(f)
 
     item_entities = config_data["item"]["entities"]
     items = {}
@@ -235,6 +299,11 @@ def loop(editor_state: EditorState):
     window_surface = pygame.display.set_mode(
         (SCREEN_WIDTH + SIDE_MARGIN, SCREEN_HEIGHT + LOWER_MARGIN)
     )
+
+    from frontend.loading import LoadingScreen
+
+    loading = LoadingScreen((SCREEN_WIDTH, SCREEN_HEIGHT))
+    loading.load_all_assets()
 
     # game variables
     ROWS = 6

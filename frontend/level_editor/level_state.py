@@ -75,7 +75,7 @@ class LevelState:
     def __init__(self, width: int, height: int):
         self.width: int = width
         self.height: int = height
-        self._player_pos: Optional[Vec2] = None
+        self._player_pos: Optional[Vec2] = Vec2(0, 0)
         self._player_direction: Vec2 = Vec2(0, 1)
         self._stations: List[List[Optional[StationInstance]]] = [
             [None for _ in range(height)] for _ in range(width)
