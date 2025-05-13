@@ -1,0 +1,164 @@
+{
+    "version": "1.0.0",
+    "width": 6,
+    "height": 6,
+    "config": {
+        "num_cuts": {
+            "lettuce": 3,
+            "default": 3
+        },
+        "cook_time": {
+            "patty": 3,
+            "default": 3
+        }
+    },
+    "stations": [
+        {
+            "name": "table",
+            "x": 0,
+            "y": 1
+        }
+    ],
+    "items": [
+        {
+            "name": "bottombun",
+            "x": 0,
+            "y": 1,
+            "stack-level": 0,
+            "predicates": []
+        },
+        {
+            "name": "bottombun",
+            "x": 0,
+            "y": 1,
+            "stack-level": 1,
+            "predicates": []
+        },
+        {
+            "name": "bottombun",
+            "x": 0,
+            "y": 1,
+            "stack-level": 2,
+            "predicates": []
+        },
+        {
+            "name": "bottombun",
+            "x": 0,
+            "y": 1,
+            "stack-level": 3,
+            "predicates": []
+        },
+        {
+            "name": "bottombun",
+            "x": 0,
+            "y": 1,
+            "stack-level": 4,
+            "predicates": []
+        },
+        {
+            "name": "bottombun",
+            "x": 0,
+            "y": 1,
+            "stack-level": 5,
+            "predicates": []
+        },
+        {
+            "name": "bottombun",
+            "x": 0,
+            "y": 1,
+            "stack-level": 6,
+            "predicates": []
+        },
+        {
+            "name": "bottombun",
+            "x": 0,
+            "y": 1,
+            "stack-level": 7,
+            "predicates": []
+        },
+        {
+            "name": "bottombun",
+            "x": 0,
+            "y": 1,
+            "stack-level": 8,
+            "predicates": []
+        },
+        {
+            "name": "bottombun",
+            "x": 0,
+            "y": 1,
+            "stack-level": 9,
+            "predicates": []
+        },
+        {
+            "name": "bottombun",
+            "x": 0,
+            "y": 1,
+            "stack-level": 10,
+            "predicates": []
+        },
+        {
+            "name": "bottombun",
+            "x": 0,
+            "y": 1,
+            "stack-level": 11,
+            "predicates": []
+        }
+    ],
+    "players": [
+        {
+            "name": "robot",
+            "x": 0,
+            "y": 0,
+            "direction": [
+                0,
+                1
+            ]
+        }
+    ],
+    "goal_description": "Make a cheese burger with cheese on top of the patty",
+    "goal": [
+        {
+            "predicate": "iscooked",
+            "args": [
+                "patty"
+            ],
+            "ids": [
+                1
+            ]
+        },
+        {
+            "predicate": "atop",
+            "args": [
+                "topbun",
+                "cheese"
+            ],
+            "ids": [
+                2,
+                3
+            ]
+        },
+        {
+            "predicate": "atop",
+            "args": [
+                "cheese",
+                "patty"
+            ],
+            "ids": [
+                3,
+                1
+            ]
+        },
+        {
+            "predicate": "atop",
+            "args": [
+                "patty",
+                "bottombun"
+            ],
+            "ids": [
+                1,
+                4
+            ]
+        }
+    ]
+}
