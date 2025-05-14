@@ -215,25 +215,31 @@ def json_to_action(name: str, ws_x, ws_y, container=center_panel):
     loaded_act.parametrize()
     return loaded_act
 
-
 def populate_predicates():
     left_panel.get_container().clear()
-
     preds.clear()
     pred_buttons.clear()
+    #get dimensions from image
+    button_image_path = os.path.join(os.path.dirname(__file__), "..", "assets", "buttons", "predicate.png")
+    if os.path.exists(button_image_path):
+        button_image = pygame.image.load(button_image_path)
+        button_width = button_image.get_width()
+        button_height = button_image.get_height()
+    else:
+        button_width, button_height = 180, 40
 
     for pred in data["predicate_defs"]:
         preds.append(pred["name"])
 
     for i, text in enumerate(preds):
         button = UIButton(
-            relative_rect=pygame.Rect(10, 10 + i * 50, 180, 40),
+            relative_rect=pygame.Rect(15, 10 + i * 50, button_width, button_height),
             text=text,
             manager=manager,
             container=left_panel,
+            object_id="#new_predicate_button"
         )
         pred_buttons.append(button)
-
 
 # action defs buttons in left panel
 actions = []
@@ -512,19 +518,42 @@ while is_running:
                 )
                 all_workspaces.append(pred_workspace)
                 save_pred_button = UIButton(
-                    relative_rect=pygame.Rect(
-                        rel_rect.x + 300, rel_rect.y - 50, 100, 50
-                    ),
+                    relative_rect=pygame.Rect(400, 0, 100, 50),
                     text="Save",
                     manager=manager,
-                    container=pred_workspace.get_container(),
+                    container=pred_workspace,
                 )
                 save_pred_buttons[save_pred_button] = pred_workspace
 
                 set_new_scrollable_dims()
+            
             elif event.ui_element in save_pred_buttons:
                 pred = save_pred_buttons[event.ui_element]
                 pred_json = pred.serialize()
+                print(pred_json)
+                
+                params = pred.parametrize()
+                
+                # case for empty
+                if params:
+                    param_defs = [("obj", (130, 15), params)]
+                else:
+                    param_defs = []  
+                new_block = DraggableBlock(
+                    pygame.Rect(
+                        pred.get_relative_rect().x,
+                        pred.get_relative_rect().y,
+                        185,
+                        40,
+                    ),
+                    manager=manager,
+                    container=center_panel,
+                    text=pred.top_label.get_text(),
+                    param_defs=param_defs,  
+                )
+                
+                pred.kill()
+                blocks.append(new_block)
 
             
             elif event.ui_element == load_domain_button:
@@ -604,7 +633,7 @@ while is_running:
             right_panel.set_scrollable_area_dimensions((new_side, new_h * 2))
 
     manager.update(time_delta)
-    window_surface.fill(pygame.Color("#EDE8D0"))
+    window_surface.fill(pygame.Color("#61ACF8"))
     manager.draw_ui(window_surface)
     for ws in all_workspaces:
         if isinstance(ws, ActionWorkspace):

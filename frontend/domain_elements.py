@@ -7,6 +7,7 @@ from pygame_gui.elements import (
     UITextBox,
     UIDropDownMenu,
     UITextEntryBox,
+    UIImage
 )
 from pygame_gui.windows import UIFileDialog
 from pygame_gui.core import ObjectID
@@ -570,6 +571,8 @@ class ObjectWorkspace(UIPanel):
         self.rebuild()
         self.attached_blocks = []
         self.manager = manager
+        self.loaded_assets = []  
+        self.asset_ui_elements = []  
 
         self.slots = []
 
@@ -595,9 +598,25 @@ class ObjectWorkspace(UIPanel):
             manager=manager,
             container=self,
         )
+        #some of these are to make the assets look nicer, they're not used yet
+
+        self.assets_label = UITextBox(
+            html_text="<font color=#FFFFFF><b>Assets:</b></font>",
+            relative_rect=pygame.Rect(0, 100, 150, 50),
+            manager=manager,
+            container=self,
+        )
+
+        self.assets_container = UIScrollingContainer(
+            relative_rect=pygame.Rect(0, 150, self.relative_rect.w, 400),
+            manager=manager,
+            container=self,
+            allow_scroll_x=True,
+            allow_scroll_y=True
+        )
 
         self.upload_button = UIButton(
-            relative_rect=pygame.Rect(580, 0, 115, 50),
+            relative_rect=pygame.Rect(150, 100, 115, 50), 
             text="Upload asset",
             manager=manager,
             container=self,
@@ -611,22 +630,17 @@ class ObjectWorkspace(UIPanel):
             container=self,
             starting_height=2,
         )
-
+        self.save_button = UIButton(
+            relative_rect=pygame.Rect(580, 0, 80, 50),  
+            text="Save",
+            manager=manager,
+            container=self,
+            starting_height=2,
+        )
     def process_event(self, event):
         handled = super().process_event(event)
         if event.type == pygame_gui.UI_BUTTON_PRESSED:
-            # if event.ui_element == self.upload_button:
-            #     file_dialog = UIFileDialog(
-            #         rect=pygame.Rect(580, 0, 500, 500),
-            #         manager=self.manager,
-            #         window_title="Select a File",
-            #         initial_file_path=os.path.expanduser("~"),
-            #         allow_existing_files_only=True,
-            #     )
-            #changed from python gui to tkinter
-
             if event.ui_element == self.upload_button:
-                
                 file_path = open_file_dialog(
                     title="Select Asset File",
                     filetypes=[
@@ -637,15 +651,59 @@ class ObjectWorkspace(UIPanel):
                 
                 if file_path:
                     print(f"Selected file: {file_path}")
-                    # TODO: still need to handle the file/image/etc
+                    self.load_asset(file_path)
+                    
             elif event.ui_element == self.ex_button:
                 self.kill()
-        elif event.type == pygame_gui.UI_FILE_DIALOG_PATH_PICKED:
-            file_path = event.text
-            # TODO use this file path to display image selected
-            print(file_path)
-
+            elif event.ui_element == self.save_button:
+                object_data = self.serialize()
+                print("Object saved:", object_data)
+            
         return handled
+    
+    def parametrize():
+        pass
+    
+    # def load_asset(self, file_path):
+    #     """Load and display an asset image"""
+    #     try:
+    #         # TODO: get this actaully working.
+    #         image_surface = pygame.image.load(file_path).convert_alpha()
+            
+    #         max_size = 100
+    #         width, height = image_surface.get_size()
+    #         if width > height:
+    #             scale = max_size / width
+    #         else:
+    #             scale = max_size / height
+            
+    #         new_width = int(width * scale)
+    #         new_height = int(height * scale)
+    #         image_surface = pygame.transform.scale(image_surface, (new_width, new_height))
+            
+    #         x_offset = 10 + (len(self.asset_ui_elements) % 5) * (max_size + 10)
+    #         y_offset = 10 + (len(self.asset_ui_elements) // 5) * (max_size + 10)
+            
+    #         # create UIImage to display the asset
+    #         image_element = UIImage(
+    #             relative_rect=pygame.Rect(x_offset, y_offset, new_width, new_height),
+    #             image_surface=image_surface,
+    #             manager=self.manager,
+    #             container=self.assets_container
+    #         )
+            
+    #         self.loaded_assets.append(file_path)
+    #         self.asset_ui_elements.append(image_element)
+            
+    #         #scrolling
+    #         rows = (len(self.asset_ui_elements) + 4) // 5
+    #         self.assets_container.set_scrollable_area_dimensions(
+    #             (self.assets_container.relative_rect.width, max(400, rows * (max_size + 10) + 20))
+    #         )
+            
+    #     except Exception as e:
+    #         print(f"Error loading asset: {e}")
+    
 
     def get_snap_slot(self, block_abs_rect):
         pass
@@ -654,12 +712,29 @@ class ObjectWorkspace(UIPanel):
         if self in all_workspaces:
             all_workspaces.remove(self)
 
+        # Clean up asset UI elements
+        for asset_element in self.asset_ui_elements:
+            asset_element.kill()
+        self.asset_ui_elements.clear()
+        
         for slot in self.slots:
             if slot.occupied != None:
                 slot.occupied.kill()
 
         self.slots.clear()
         super().kill()
+
+    def get_loaded_assets(self):
+        """Return list of loaded asset file paths"""
+        return self.loaded_assets
+
+    def serialize(self):
+        """Serialize the object workspace data"""
+        return {
+            "name": self.top_label.get_text(),
+            "type": self.object_type_dd.selected_option,
+            "assets": self.loaded_assets
+        }
 
 
 class PredicateCreator(UIPanel):
@@ -710,5 +785,73 @@ class PredicateCreator(UIPanel):
             container=self.ui_container,
         )
 
-    def serialize():
-        pass
+        def serialize(self):
+            name = self.top_label.get_text()
+            param1, param2 = (
+                self.first_param.selected_option,
+                self.second_param.selected_option,
+            )
+            params = [p for p in (param1, param2) if p.lower() != "none"]
+
+            return {
+                "name": name,
+                "param_types": params,
+                "language_descriptors": {"0": ""},
+            }
+        # def get_snap_slot(self, block_abs_rect):
+        #     pass
+
+
+
+    def parametrize(self):
+        """Returns parameter list to be used for DraggableBlock creation"""
+        param1 = self.first_param.selected_option[0]
+        param2 = self.second_param.selected_option[0]
+
+        params = [p for p in [param1, param2] if p != "none"]
+        i, s, p, c, m = 1, 1, 1, 1, 1
+
+        param_list = []
+        for param_type in params:
+            if param_type[0] == "i":
+                param_list.append("i" + str(i))
+                i += 1
+            elif param_type[0] == "s":
+                param_list.append("s" + str(s))
+                s += 1
+            elif param_type[0] == "p":
+                param_list.append("p" + str(p))
+                p += 1
+            elif param_type[0] == "c":
+                param_list.append("c" + str(c))
+                c += 1
+            else:
+                param_list.append("m" + str(m))
+                m += 1
+
+        return param_list
+
+    def serialize(self):
+        name = self.top_label.get_text()
+        param1 = self.first_param.selected_option[0]
+        param2 = self.second_param.selected_option[0]
+
+        params = [p for p in [param1, param2] if p != "none"]
+
+        return {
+            "name": name,
+            "param_types": params,
+            "language_descriptors": {"0": ""},
+        }
+
+    def kill(self):
+        if self in all_workspaces:
+            all_workspaces.remove(self)
+
+        # # for asset_element in self.asset_ui_elements:
+        # #     asset_element.kill()
+        # self.asset_ui_elements.clear()
+        self.first_param.kill()
+        self.second_param.kill()
+        super().kill()
+
