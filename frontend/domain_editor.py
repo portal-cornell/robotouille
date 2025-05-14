@@ -10,64 +10,66 @@ import tkinter as tk
 from tkinter import filedialog
 
 
-#tkinter to open native file dialog and return the selected file path
+# tkinter to open native file dialog and return the selected file path
 def open_file_dialog(title="Select a file", filetypes=None, initial_dir=None):
     root = tk.Tk()
     root.withdraw()  # hides the window
-    
+
     if filetypes is None:
-        filetypes = [
-            ("JSON files", "*.json"),
-            ("All files", "*.*")
-        ]
-    
+        filetypes = [("JSON files", "*.json"), ("All files", "*.*")]
+
     if initial_dir is None:
         initial_dir = os.path.expanduser("~")
-    
+
     file_path = filedialog.askopenfilename(
-        title=title,
-        filetypes=filetypes,
-        initialdir=initial_dir
+        title=title, filetypes=filetypes, initialdir=initial_dir
     )
-    
-    root.destroy()  
+
+    root.destroy()
     return file_path
-#open native SAVE file and return selected file path
-def save_file_dialog(title="Save file", filetypes=None, initial_dir=None, default_extension=".json"):
-   
+
+
+# open native SAVE file and return selected file path
+def save_file_dialog(
+    title="Save file", filetypes=None, initial_dir=None, default_extension=".json"
+):
+
     root = tk.Tk()
     root.withdraw()
-    
+
     if filetypes is None:
-        filetypes = [
-            ("JSON files", "*.json"),
-            ("All files", "*.*")
-        ]
-    
+        filetypes = [("JSON files", "*.json"), ("All files", "*.*")]
+
     if initial_dir is None:
         initial_dir = os.path.expanduser("~")
-    
+
     file_path = filedialog.asksaveasfilename(
         title=title,
         filetypes=filetypes,
         initialdir=initial_dir,
-        defaultextension=default_extension
+        defaultextension=default_extension,
     )
-    
+
     root.destroy()
     return file_path
-#loads json from file dialog or default file path
+
+
+# loads json from file dialog or default file path
 def load_json_data():
 
     file_path = open_file_dialog(
         title="Select Domain JSON File",
-        filetypes=[("JSON files", "*.json"), ("All files", "*.*")]
+        filetypes=[("JSON files", "*.json"), ("All files", "*.*")],
     )
-    
+
     if file_path:
         with open(file_path, "r") as file:
             return json.load(file)
     return None
+
+
+root = tk.Tk()
+root.withdraw()
 pygame.init()
 pygame.display.set_caption("Domain Editor")
 
@@ -133,13 +135,15 @@ right_panel.set_scrollable_area_dimensions((RIGHT_WIDTH, SCREEN_HEIGHT * 2))
 preds = []
 pred_buttons = []
 
-save_pred_buttons = {} #dictionary for save predicate
+save_pred_buttons = {}  # dictionary for save predicate
 # json initialization
 
 data = load_json_data()
 if data is None:
     # Fallback to default path
-    json_path = os.path.join(os.path.dirname(__file__), "..", "domain", "robotouille.json")
+    json_path = os.path.join(
+        os.path.dirname(__file__), "..", "domain", "robotouille.json"
+    )
     json_path = os.path.normpath(json_path)
     try:
         with open(json_path, "r") as file:
@@ -147,6 +151,8 @@ if data is None:
     except FileNotFoundError:
         # Create empty structure if no file exists
         data = {"predicate_defs": [], "action_defs": []}
+
+
 def find_slot(
     predicate_json, workspace: ActionWorkspace, section: str, container=center_panel
 ):
@@ -164,6 +170,8 @@ def find_slot(
                 is_true=predicate_json["is_true"],
                 starting_height=workspace.get_starting_height(),
             )
+            slot.occupied = block
+            block.docked_slot = slot
             block.toggle_color()
             if predicate_json["is_true"]:
                 block.toggle_color()
@@ -215,12 +223,15 @@ def json_to_action(name: str, ws_x, ws_y, container=center_panel):
     loaded_act.parametrize()
     return loaded_act
 
+
 def populate_predicates():
     left_panel.get_container().clear()
     preds.clear()
     pred_buttons.clear()
-    #get dimensions from image
-    button_image_path = os.path.join(os.path.dirname(__file__), "..", "assets", "buttons", "predicate.png")
+    # get dimensions from image
+    button_image_path = os.path.join(
+        os.path.dirname(__file__), "..", "assets", "buttons", "predicate.png"
+    )
     if os.path.exists(button_image_path):
         button_image = pygame.image.load(button_image_path)
         button_width = button_image.get_width()
@@ -237,9 +248,10 @@ def populate_predicates():
             text=text,
             manager=manager,
             container=left_panel,
-            object_id="#new_predicate_button"
+            object_id="#new_predicate_button",
         )
         pred_buttons.append(button)
+
 
 # action defs buttons in left panel
 actions = []
@@ -279,7 +291,7 @@ def populate_actions():
 
 
 # TODO fix all this, doesn't work right now
-# MIGHT have fixed with tkinker, 
+# MIGHT have fixed with tkinker,
 # current_dir = os.path.dirname(__file__)
 # assets_dir = os.path.normpath(os.path.join(current_dir, "..", "assets"))
 
@@ -316,7 +328,6 @@ def populate_actions():
 
 
 # populate_assets()
-
 
 
 sfxs = ["conditional", "repetitive", "delayed"]
@@ -382,7 +393,7 @@ new_pred_button = UIButton(
 
 # pred_buttons = {}
 
-#buttons for loading/saving domain
+# buttons for loading/saving domain
 load_domain_button = UIButton(
     relative_rect=pygame.Rect(460, 10, 110, 40),
     text="Load Domain",
@@ -526,19 +537,19 @@ while is_running:
                 save_pred_buttons[save_pred_button] = pred_workspace
 
                 set_new_scrollable_dims()
-            
+
             elif event.ui_element in save_pred_buttons:
                 pred = save_pred_buttons[event.ui_element]
                 pred_json = pred.serialize()
                 print(pred_json)
-                
+
                 params = pred.parametrize()
-                
+
                 # case for empty
                 if params:
                     param_defs = [("obj", (130, 15), params)]
                 else:
-                    param_defs = []  
+                    param_defs = []
                 new_block = DraggableBlock(
                     pygame.Rect(
                         pred.get_relative_rect().x,
@@ -549,23 +560,22 @@ while is_running:
                     manager=manager,
                     container=center_panel,
                     text=pred.top_label.get_text(),
-                    param_defs=param_defs,  
+                    param_defs=param_defs,
                 )
-                
+
                 pred.kill()
                 blocks.append(new_block)
 
-            
             elif event.ui_element == load_domain_button:
                 new_data = load_json_data()
                 if new_data:
                     data = new_data
-                  
+
                     if left_panel.showing_predicates:
                         populate_predicates()
                     else:
                         populate_actions()
-                   #kill existing workspaces 
+                    # kill existing workspaces
                     for ws in all_workspaces[:]:
                         ws.kill()
                     all_workspaces.clear()
@@ -573,28 +583,25 @@ while is_running:
             elif event.ui_element == save_domain_button:
                 file_path = save_file_dialog(
                     title="Save Domain File",
-                    filetypes=[("JSON files", "*.json"), ("All files", "*.*")]
+                    filetypes=[("JSON files", "*.json"), ("All files", "*.*")],
                 )
-                
+
                 if file_path:
                     save_data = {
                         "predicate_defs": data.get("predicate_defs", []),
-                        "action_defs": []
+                        "action_defs": [],
                     }
-                    
+
                     # add all workspace actions
                     for ws in all_workspaces:
                         if isinstance(ws, ActionWorkspace):
                             save_data["action_defs"].append(ws.serialize())
                         # TODO: handling other workspace types
-                    
+
                     with open(file_path, "w") as f:
                         json.dump(save_data, f, indent=4)
-                    
+
                     print(f"Domain saved to: {file_path}")
-
-
-                
 
         if event.type == pygame_gui.UI_BUTTON_ON_HOVERED:
             if event.ui_element in action_buttons:

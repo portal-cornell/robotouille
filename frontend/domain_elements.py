@@ -7,7 +7,7 @@ from pygame_gui.elements import (
     UITextBox,
     UIDropDownMenu,
     UITextEntryBox,
-    UIImage
+    UIImage,
 )
 from pygame_gui.windows import UIFileDialog
 from pygame_gui.core import ObjectID
@@ -24,27 +24,26 @@ from tkinter import filedialog
 
 # out_file = open(json_path, "w")
 
+
 def open_file_dialog(title="Select a file", filetypes=None, initial_dir=None):
     """Opens a native file dialog and returns the selected file path"""
     root = tk.Tk()
     root.withdraw()
-    
+
     if filetypes is None:
-        filetypes = [
-            ("All files", "*.*")
-        ]
-    
+        filetypes = [("All files", "*.*")]
+
     if initial_dir is None:
         initial_dir = os.path.expanduser("~")
-    
+
     file_path = filedialog.askopenfilename(
-        title=title,
-        filetypes=filetypes,
-        initialdir=initial_dir
+        title=title, filetypes=filetypes, initialdir=initial_dir
     )
-    
+
     root.destroy()
     return file_path
+
+
 SNAP_TOLERANCE = 20
 all_workspaces = []
 temp_workspaces = []
@@ -404,7 +403,7 @@ class ActionWorkspace(UIPanel):
                 else:
                     section = "sfx"
 
-                self.slots.append(Slot((x, y), section=section))
+                self.slots.append(Slot((int(x), y), section=section))
 
     def process_event(self, event):
         handled = super().process_event(event)
@@ -459,11 +458,12 @@ class ActionWorkspace(UIPanel):
         self.parameters.clear()
         self.param_boxes.clear()
 
-        for slot in self.slots:
+        for i, slot in enumerate(self.slots):
             if slot.occupied is None:
                 continue
             else:
                 block = slot.occupied
+
                 for label, pos, opts in block.params:
                     self.parameters.update(opts)
 
@@ -571,8 +571,8 @@ class ObjectWorkspace(UIPanel):
         self.rebuild()
         self.attached_blocks = []
         self.manager = manager
-        self.loaded_assets = []  
-        self.asset_ui_elements = []  
+        self.loaded_assets = []
+        self.asset_ui_elements = []
 
         self.slots = []
 
@@ -598,7 +598,7 @@ class ObjectWorkspace(UIPanel):
             manager=manager,
             container=self,
         )
-        #some of these are to make the assets look nicer, they're not used yet
+        # some of these are to make the assets look nicer, they're not used yet
 
         self.assets_label = UITextBox(
             html_text="<font color=#FFFFFF><b>Assets:</b></font>",
@@ -612,11 +612,11 @@ class ObjectWorkspace(UIPanel):
             manager=manager,
             container=self,
             allow_scroll_x=True,
-            allow_scroll_y=True
+            allow_scroll_y=True,
         )
 
         self.upload_button = UIButton(
-            relative_rect=pygame.Rect(150, 100, 115, 50), 
+            relative_rect=pygame.Rect(150, 100, 115, 50),
             text="Upload asset",
             manager=manager,
             container=self,
@@ -631,12 +631,13 @@ class ObjectWorkspace(UIPanel):
             starting_height=2,
         )
         self.save_button = UIButton(
-            relative_rect=pygame.Rect(580, 0, 80, 50),  
+            relative_rect=pygame.Rect(580, 0, 80, 50),
             text="Save",
             manager=manager,
             container=self,
             starting_height=2,
         )
+
     def process_event(self, event):
         handled = super().process_event(event)
         if event.type == pygame_gui.UI_BUTTON_PRESSED:
@@ -645,45 +646,45 @@ class ObjectWorkspace(UIPanel):
                     title="Select Asset File",
                     filetypes=[
                         ("Image files", "*.png *.jpg *.jpeg *.gif *.bmp"),
-                        ("All files", "*.*")
-                    ]
+                        ("All files", "*.*"),
+                    ],
                 )
-                
+
                 if file_path:
                     print(f"Selected file: {file_path}")
                     self.load_asset(file_path)
-                    
+
             elif event.ui_element == self.ex_button:
                 self.kill()
             elif event.ui_element == self.save_button:
                 object_data = self.serialize()
                 print("Object saved:", object_data)
-            
+
         return handled
-    
+
     def parametrize():
         pass
-    
+
     # def load_asset(self, file_path):
     #     """Load and display an asset image"""
     #     try:
     #         # TODO: get this actaully working.
     #         image_surface = pygame.image.load(file_path).convert_alpha()
-            
+
     #         max_size = 100
     #         width, height = image_surface.get_size()
     #         if width > height:
     #             scale = max_size / width
     #         else:
     #             scale = max_size / height
-            
+
     #         new_width = int(width * scale)
     #         new_height = int(height * scale)
     #         image_surface = pygame.transform.scale(image_surface, (new_width, new_height))
-            
+
     #         x_offset = 10 + (len(self.asset_ui_elements) % 5) * (max_size + 10)
     #         y_offset = 10 + (len(self.asset_ui_elements) // 5) * (max_size + 10)
-            
+
     #         # create UIImage to display the asset
     #         image_element = UIImage(
     #             relative_rect=pygame.Rect(x_offset, y_offset, new_width, new_height),
@@ -691,19 +692,18 @@ class ObjectWorkspace(UIPanel):
     #             manager=self.manager,
     #             container=self.assets_container
     #         )
-            
+
     #         self.loaded_assets.append(file_path)
     #         self.asset_ui_elements.append(image_element)
-            
+
     #         #scrolling
     #         rows = (len(self.asset_ui_elements) + 4) // 5
     #         self.assets_container.set_scrollable_area_dimensions(
     #             (self.assets_container.relative_rect.width, max(400, rows * (max_size + 10) + 20))
     #         )
-            
+
     #     except Exception as e:
     #         print(f"Error loading asset: {e}")
-    
 
     def get_snap_slot(self, block_abs_rect):
         pass
@@ -716,7 +716,7 @@ class ObjectWorkspace(UIPanel):
         for asset_element in self.asset_ui_elements:
             asset_element.kill()
         self.asset_ui_elements.clear()
-        
+
         for slot in self.slots:
             if slot.occupied != None:
                 slot.occupied.kill()
@@ -733,7 +733,7 @@ class ObjectWorkspace(UIPanel):
         return {
             "name": self.top_label.get_text(),
             "type": self.object_type_dd.selected_option,
-            "assets": self.loaded_assets
+            "assets": self.loaded_assets,
         }
 
 
@@ -798,10 +798,9 @@ class PredicateCreator(UIPanel):
                 "param_types": params,
                 "language_descriptors": {"0": ""},
             }
+
         # def get_snap_slot(self, block_abs_rect):
         #     pass
-
-
 
     def parametrize(self):
         """Returns parameter list to be used for DraggableBlock creation"""
@@ -854,4 +853,3 @@ class PredicateCreator(UIPanel):
         self.first_param.kill()
         self.second_param.kill()
         super().kill()
-
