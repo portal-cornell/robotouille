@@ -2,7 +2,6 @@ import hydra
 import os
 import json
 import pygame
-
 from robotouille.robotouille_simulator import run_robotouille
 
 from omegaconf import DictConfig, OmegaConf
