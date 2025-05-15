@@ -597,9 +597,12 @@ while is_running:
                             "input_json": data.get("input_json", "domain/input.json"),
                             "object_types": data.get("object_types", ["station", "item", "player", "container", "meal"]),
                             "predicate_defs": data.get("predicate_defs", []),
-                            "action_defs": data.get("action_defs", [])
+                            "action_defs": data.get("action_defs", []),
+                            "objects" : data.get("objects", [])
                     }  
                     existing_actions = {action["name"]: i for i, action in enumerate(save_data["action_defs"])}
+                    existing_predicates = {pred["name"]: i for i, pred in enumerate(save_data["predicate_defs"])}
+                    existing_objects = {obj["name"]: i for i, obj in enumerate(save_data.get("objects", []))}
               
 
                     
@@ -615,14 +618,28 @@ while is_running:
                                         save_data["action_defs"][existing_actions[action_name]] = action_data
                                     else:
                                         save_data["action_defs"].append(action_data)
-                                # TODO: do this for predicate 
+                            
                                 elif isinstance(ws, PredicateCreator):
-                                   
-                                    pass
-                                # TODO: do this for object
-                                elif isinstance(ws, ObjectWorkspace):
                                     
-                                    pass
+                                   
+                                    pred_data = ws.serialize()
+                                    pred_name = pred_data["name"]
+                                    if pred_name in existing_predicates:
+                                        save_data["predicate_defs"][existing_predicates[pred_name]] = pred_data
+                                    else:
+                                        save_data["predicate_defs"].append(pred_data)
+                               
+                                elif isinstance(ws, ObjectWorkspace):
+                                    obj_data = ws.serialize()
+                                    obj_name = obj_data["name"]
+                                    
+                                    # If object already exists, update it; otherwise add it
+                                    if obj_name in existing_objects:
+                                        save_data["objects"][existing_objects[obj_name]] = obj_data
+                                    else:
+                                        if "objects" not in save_data:
+                                            save_data["objects"] = []
+                                        save_data["objects"].append(obj_data)
                     with open(file_path, "w") as f:
                         json.dump(save_data, f, indent=4)
 
