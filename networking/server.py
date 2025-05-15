@@ -88,6 +88,7 @@ async def server_loop(environment_name: str, seed: int, noisy_randomization: boo
                 sockets_to_playerID[socket] = i
                 player_data = base64.b64encode(pickle.dumps(i)).decode('utf-8')
                 opening_message = json.dumps({"player": player_data})
+                print(f"[Server] Assigned player ID {i} to {socket.remote_address}")
                 await socket.send(opening_message)
 
             last_update_time = time.monotonic()
@@ -199,6 +200,12 @@ async def server_loop(environment_name: str, seed: int, noisy_randomization: boo
             waiting_queue.clear()
             asyncio.create_task(simulator(connections))
         async for message in websocket:
+            print(f"[Server] Raw message: {message}")
+            try:
+                decoded = pickle.loads(base64.b64decode(json.loads(message)))
+                print(f"[Server] Decoded payload: {decoded}")
+            except Exception as e:
+                print(f"[Server] Failed to decode message: {e}")
             await q.put(message)
 
     if event == None:

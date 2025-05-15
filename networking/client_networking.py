@@ -23,14 +23,14 @@ class NetworkManager:
         Continuously listens for messages from the server in the background.
         """
         print("[Listener] Started")
-        # while True:
         try:
-            message = await self.websocket.recv()
-            print("[Listener] Received:", message)
-            await self.handle_message(message)
+            while True:
+                message = await self.websocket.recv()
+                print("[Listener] Received:", message)
+                await self.handle_message(message)
         except websockets.ConnectionClosed:
             print("[Listener] WebSocket connection closed")
-            # break
+
 
     async def handle_message(self, message):
         """
@@ -57,23 +57,14 @@ class NetworkManager:
         """
         print('run client')
         await self.create_websocket()
+        print('[Client] Connected to server')
 
     async def create_websocket(self):
         """
-        Establish Websocket + Game loop
+        Establish Websocket connection
         """
-        uri = self.host
-
-        async with websockets.connect(uri) as websocket:
-            self.websocket = websocket
-
-            print("In lobby")
-            opening_message = await websocket.recv()
-            print("In game")
-            opening_data = json.loads(opening_message)
-
-            print(opening_data)
-            await self.background_listener()
+        self.websocket = await websockets.connect(self.host)
+        asyncio.create_task(self.background_listener())  # Run listener in background
 
 
     async def send_message(self, payload):
@@ -83,9 +74,5 @@ class NetworkManager:
         Args:
             payload (Any): A serializable Python object (e.g., action tuple)
         """
-        if self.websocket is None or not await self.websocket.wait_closed():
-            print("[Warning] Tried to send on a closed WebSocket.")
-            return
-
         encoded = base64.b64encode(pickle.dumps(payload)).decode('utf-8')
         await self.websocket.send(json.dumps(encoded))
