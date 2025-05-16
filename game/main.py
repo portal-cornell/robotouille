@@ -48,8 +48,6 @@ def game(args):
             if current_screen == LOADING and screen_obj.next_screen is not None:
                 screens[MAIN_MENU] = MenuScreen(screen_size)
                 screens[SETTINGS] = SettingScreen(screen_size)
-                # screens[ENDGAME] = EndScreen(screen_size)
-                # screens[MATCHMAKING] = MatchMakingScreen(screen_size)
 
             if screen_obj.next_screen is not None:
                 current_screen = screen_obj.next_screen
@@ -57,47 +55,18 @@ def game(args):
                 need_update = True
 
             if current_screen == MATCHMAKING:
-                #TODO create networking manager, have await that will only return on disconnect/player click quit on endgame
-                pass
+                env_name = args.environment_name
+                seed = args.seed
+                noisy = args.noisy_randomization
+                movement = args.movement_mode
+                host = "ws://localhost:8765"
+                nm = NetworkManager(env_name, seed, noisy, movement, host, args, screen, fps, clock, screen_size, simulator_screen_size)
+                asyncio.run(nm.connect()) 
+                current_screen = MAIN_MENU
                 
     while running:
         screen.fill((0,0,0))
-        # if current_screen == GAME:
-        #     if simulator_instance is None:
-        #         screen = pygame.display.set_mode(simulator_screen_size) # TODO: Remove when screen size can scale properly
-        #         simulator_instance = RobotouilleSimulator(
-        #                 screen=screen,
-        #                 environment_name=args.environment_name,
-        #                 seed=args.seed,
-        #                 noisy_randomization=args.noisy_randomization,
-        #                 movement_mode=args.movement_mode,
-        #                 clock=clock,
-        #                 screen_size=simulator_screen_size,
-        #                 render_fps=fps
-        #             )
-                
-        #     simulator_instance.update()
-        #     screen.blit(simulator_instance.get_screen(), (0, 0))
-        #     if simulator_instance.next_screen is not None:
-        #         current_screen = simulator_instance.next_screen
-        #         simulator_instance.set_next_screen(None)
-        #         simulator_instance = None 
-        #         screen = pygame.display.set_mode(screen_size)
-
-        # else:
-        #     if current_screen == MATCHMAKING and need_update:
-        #         # TODO should be a packet that sends player data over network
-        #         screens[current_screen].set_players(["Player1", "Player2"]) # list of dictionary of profile + names [{name: ----, profile_image: ----.png, id: ___}]
-        #         need_update = False
-        #     if current_screen == ENDGAME and need_update:
-        #         # TODO should be a packet that sends player data over network
-        #         screens[current_screen].create_profile([(1,  "Player 1", "profile"), (2, "Player 2", "profile")]) # [{id, name, profile, status}]
-        #         screens[current_screen].set_stars(2) # 
-        #         screens[current_screen].set_coin(12)
-        #         screens[current_screen].set_bell(121)
-        #         need_update = False
         update_screen()
-
         pygame.display.flip()
         clock.tick(fps)
         

@@ -140,6 +140,7 @@ class RobotouilleSimulator:
         if self.done:
             self.renderer.render(self.env.current_state)
             self.next_screen = ENDGAME
+            print('next screen is -----------------', self.next_screen)
             return
         
         if self.pause.next_screen:

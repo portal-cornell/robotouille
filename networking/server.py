@@ -182,6 +182,7 @@ async def server_loop(environment_name: str, seed: int, noisy_randomization: boo
             recording["result"] = traceback.format_exc(e)
         finally:
             for websocket in connections.keys():
+                await websocket.send(json.dumps({"type": "game_over"}))
                 await websocket.close()
 
             if display_server:
