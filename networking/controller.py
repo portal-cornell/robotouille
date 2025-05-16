@@ -1,4 +1,6 @@
-import networking.server as robotouille_server
+from networking.server_networking import Server
+import asyncio
+from urllib.parse import urlparse
 import networking.client as robotouille_client
 import networking.utils.single_player as robotouille_single_player
 import networking.utils.replay as robotouille_replay
@@ -46,7 +48,21 @@ def run_networking(environment_name: str, role: str, seed: int, noisy_randomizat
         role = "replay"
 
     if role == "server":
-        robotouille_server.run_server(environment_name, seed, noisy_randomization, movement_mode, display_server)
+        # parse host URI like "ws://localhost:8765"
+        parsed = urlparse(host)
+        server_host = parsed.hostname or "0.0.0.0"
+        server_port = parsed.port   or 8765
+
+        srv = Server(
+            environment_name,
+            seed,
+            noisy_randomization,
+            movement_mode,
+            host=server_host,
+            port=server_port,
+            display_server=display_server,
+        )
+        asyncio.run(srv.run())
     elif role == "client":
         robotouille_client.run_client(environment_name, seed, noisy_randomization, movement_mode, host)
     elif role == "replay":
