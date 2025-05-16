@@ -35,9 +35,7 @@ class NetworkManager:
         self.screen_size = screen_size
 
     def update_screen(self):
-        print('update screen', self.current_screen, ENDGAME)
         if self.current_screen in self.screens:
-            print(self.current_screen)
             screen_obj = self.screens[self.current_screen]
             screen_obj.update()
             self.screen.blit(screen_obj.get_screen(), (0, 0))
@@ -140,8 +138,7 @@ class NetworkManager:
                 MATCHMAKING : MatchMakingScreen(self.screen_size, websocket)
             }
 
-            # Start listener and game loop concurrently
-            await asyncio.gather(
-                self.background_listener(),
-                self.game_loop()
-            )
+            receiver = asyncio.create_task(self.background_listener())
+            await self.game_loop()
+            await receiver
+            print('close connection')
