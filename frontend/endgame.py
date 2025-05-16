@@ -11,7 +11,7 @@ import os
 ASSETS_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "endgame"))
 
 class EndScreen(ScreenInterface):
-    def __init__(self, window_size):
+    def __init__(self, window_size, websocket):
         """Initialize the end screen with UI components.
 
         Args:
@@ -44,7 +44,8 @@ class EndScreen(ScreenInterface):
         self.bells_text = Textbox(self.screen, "214", self.x_percent(984), self.y_percent(430), 188, 72, font_size=40, scale_factor=self.scale_factor, anchor="center")
         self.timer_started = False
         self.timer_start_time = 0
-
+        self.websocket = websocket
+        
     def create_profile(self, players): 
         """Create UI elements for each player.
 
@@ -140,6 +141,8 @@ class EndScreen(ScreenInterface):
         """Update the screen and handle events."""
         super().update()
 
+        print('update from endgame')
+
         # Handle events
         for event in pygame.event.get():
             if self.play_again_button.handle_event(event):
@@ -160,6 +163,7 @@ class EndScreen(ScreenInterface):
             elapsed_time = (pygame.time.get_ticks() - self.timer_start_time) / 1000  # seconds
             # print(f"Timer running: {elapsed_time:.2f} seconds")
             if elapsed_time >= 5:
+                print('retry-----------------')
                 self.timer_start_time = 0
                 self.timer_started = False
                 self.set_next_screen(GAME)

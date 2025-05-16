@@ -13,7 +13,7 @@ import json
 ASSETS_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "matchmaking"))
 
 class MatchMakingScreen(ScreenInterface):
-    def __init__(self, window_size, offset_x=0, offset_y=0):
+    def __init__(self, window_size, websocket, offset_x=0, offset_y=0):
         """
         Initialize the Lobby Screen.
 
@@ -36,7 +36,7 @@ class MatchMakingScreen(ScreenInterface):
             ] 
         self.host = False
         self.count = 0
-
+        self.websocket = websocket
         
     def load_assets(self):
         """Load necessary assets."""
@@ -90,8 +90,6 @@ class MatchMakingScreen(ScreenInterface):
                     # TODO this should disconnect client from server
                 # Transitions to the Game when key G is pressed.
                 elif event.key == pygame.K_g:
-                    print('pressed g')
-                    # self.set_next_screen(GAME)
-                    # if self.networking_manager:
-                    #     asyncio.run(self.networking_manager.send_message({"type": "start_game"}))
-                    # TODO remove this functionality? Game start should now be based on server
+                     self.set_next_screen(GAME)
+                    #  asyncio.create_task(self.websocket.send(json.dumps({"type": "start_game"})))
+                    #  print("sent message")
