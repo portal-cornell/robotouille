@@ -56,13 +56,15 @@ def save_file_dialog(
 
 # loads json from file dialog or default file path
 def load_json_data():
-
+    global original_json_path
+    
     file_path = open_file_dialog(
         title="Select Domain JSON File",
         filetypes=[("JSON files", "*.json"), ("All files", "*.*")],
     )
 
     if file_path:
+        original_json_path = file_path 
         with open(file_path, "r") as file:
             return json.load(file)
     return None
@@ -130,7 +132,8 @@ left_panel.set_scrollable_area_dimensions((LEFT_WIDTH, SCREEN_HEIGHT * 3))
 center_panel.set_scrollable_area_dimensions((CENTER_WIDTH, SCREEN_HEIGHT * 2))
 right_panel.set_scrollable_area_dimensions((RIGHT_WIDTH, SCREEN_HEIGHT * 2))
 
-
+#global variable added
+orginal_json_path = None
 # predicate defs buttons in the left panel:
 preds = []
 pred_buttons = []
@@ -145,6 +148,7 @@ if data is None:
         os.path.dirname(__file__), "..", "domain", "robotouille.json"
     )
     json_path = os.path.normpath(json_path)
+    original_json_path = json_path
     try:
         with open(json_path, "r") as file:
             data = json.load(file)
@@ -290,46 +294,6 @@ def populate_actions():
         action_buttons.append(button)
 
 
-# TODO fix all this, doesn't work right now
-# MIGHT have fixed with tkinker,
-# current_dir = os.path.dirname(__file__)
-# assets_dir = os.path.normpath(os.path.join(current_dir, "..", "assets"))
-
-# ignore_list = {".DS_Store", "tileset", "frontend"}
-
-# asset_buttons = []
-# asset_paths = []
-
-# for filename in os.listdir(assets_dir):
-
-#     if filename in ignore_list:
-#         continue
-
-#     full_path = os.path.join(assets_dir, filename)
-
-#     if os.path.isfile(full_path) and filename.lower().endswith(".png"):
-#         asset_paths.append(full_path)
-
-
-# def populate_assets():
-#     right_panel.get_container().clear()
-
-#     for i, name in enumerate(asset_paths):
-
-#         image_surface = pygame.image.load(name).convert_alpha()
-#         button = UIImage(
-#             relative_rect=pygame.Rect(0, 10 + i * 50, 50, 50),
-#             image_surface=image_surface,
-#             manager=manager,
-#             container=right_panel,
-#         )
-#         button.set_image(image_surface)
-#         asset_buttons.append(button)
-
-
-# populate_assets()
-
-
 sfxs = ["conditional", "repetitive", "delayed"]
 sfx_buttons = []
 
@@ -350,23 +314,6 @@ def populate_sfx():
 
 
 populate_predicates()
-
-
-# create new action!
-spawn_workspace_button = UIButton(
-    relative_rect=pygame.Rect(680, 10, 110, 40),
-    text="New Action",
-    manager=manager,
-    container=center_panel,
-)
-
-# create new object!
-spawn_object_button = UIButton(
-    relative_rect=pygame.Rect(790, 10, 110, 40),
-    text="New Object",
-    manager=manager,
-    container=center_panel,
-)
 
 
 # buttons for toggling predicates to
@@ -391,19 +338,40 @@ new_pred_button = UIButton(
     container=center_panel,
 )
 
-# pred_buttons = {}
-
-# buttons for loading/saving domain
-load_domain_button = UIButton(
+# create new action! 
+spawn_workspace_button = UIButton(
     relative_rect=pygame.Rect(460, 10, 110, 40),
+    text="New Action",
+    manager=manager,
+    container=center_panel,
+)
+
+# create new object! 
+spawn_object_button = UIButton(
+    relative_rect=pygame.Rect(570, 10, 110, 40),
+    text="New Object",
+    manager=manager,
+    container=center_panel,
+)
+
+# buttons for loading/saving domain 
+load_domain_button = UIButton(
+    relative_rect=pygame.Rect(680, 10, 110, 40),
     text="Load Domain",
     manager=manager,
     container=center_panel,
 )
 
-save_domain_button = UIButton(
-    relative_rect=pygame.Rect(570, 10, 110, 40),
+save_to_original_button = UIButton(
+    relative_rect=pygame.Rect(790, 10, 110, 40),
     text="Save Domain",
+    manager=manager,
+    container=center_panel,
+)
+
+save_domain_button = UIButton(
+    relative_rect=pygame.Rect(900, 10, 150, 40),
+    text="Save New Domain",
     manager=manager,
     container=center_panel,
 )
@@ -600,6 +568,7 @@ while is_running:
                             "action_defs": data.get("action_defs", []),
                             "objects" : data.get("objects", [])
                     }  
+                    #i create a dictionary of preexisting items for the code to do a lookup
                     existing_actions = {action["name"]: i for i, action in enumerate(save_data["action_defs"])}
                     existing_predicates = {pred["name"]: i for i, pred in enumerate(save_data["predicate_defs"])}
                     existing_objects = {obj["name"]: i for i, obj in enumerate(save_data.get("objects", []))}
@@ -613,7 +582,7 @@ while is_running:
                                     action_data = ws.serialize()
                                     action_name = action_data["name"]
                                     
-                                    # if action already exists, update it; otherwise add it
+                                    # updat action if it already eixts othr wise add action
                                     if action_name in existing_actions:
                                         save_data["action_defs"][existing_actions[action_name]] = action_data
                                     else:
@@ -624,6 +593,7 @@ while is_running:
                                    
                                     pred_data = ws.serialize()
                                     pred_name = pred_data["name"]
+                                    #same thing
                                     if pred_name in existing_predicates:
                                         save_data["predicate_defs"][existing_predicates[pred_name]] = pred_data
                                     else:
@@ -633,7 +603,7 @@ while is_running:
                                     obj_data = ws.serialize()
                                     obj_name = obj_data["name"]
                                     
-                                    # If object already exists, update it; otherwise add it
+                                    # updat ethe object if it alreayd exists othewirse add the object
                                     if obj_name in existing_objects:
                                         save_data["objects"][existing_objects[obj_name]] = obj_data
                                     else:
@@ -644,6 +614,64 @@ while is_running:
                         json.dump(save_data, f, indent=4)
 
                     print(f"Domain saved to: {file_path}")
+            elif event.ui_element == save_to_original_button:
+                if original_json_path:
+                    #this is just the same logic for saving domain/predicate/action as a new .json file that i did, except this saves to the original robotoullie.json
+                    #TODO: i like the option to save your changes to a new .json, but might remove if unncesseary
+                    save_data = {
+                        "version": data.get("version", "1.0.0"),
+                        "name": data.get("name", "robotouille"),
+                        "input_json": data.get("input_json", "domain/input.json"),
+                        "object_types": data.get("object_types", ["station", "item", "player", "container", "meal"]),
+                        "predicate_defs": data.get("predicate_defs", []),
+                        "action_defs": data.get("action_defs", []),
+                        "objects": data.get("objects", [])  
+                    }
+                    
+                
+                    existing_actions = {action["name"]: i for i, action in enumerate(save_data["action_defs"])}
+                    existing_predicates = {pred["name"]: i for i, pred in enumerate(save_data["predicate_defs"])}
+                    existing_objects = {obj["name"]: i for i, obj in enumerate(save_data.get("objects", []))}
+                    
+                
+                    for ws in all_workspaces:
+                        if isinstance(ws, ActionWorkspace):
+                            action_data = ws.serialize()
+                            action_name = action_data["name"]
+                            
+                            if action_name in existing_actions:
+                                save_data["action_defs"][existing_actions[action_name]] = action_data
+                            else:
+                                save_data["action_defs"].append(action_data)
+                                
+                        elif isinstance(ws, PredicateCreator):
+                            pred_data = ws.serialize()
+                            pred_name = pred_data["name"]
+                            
+                            if pred_name in existing_predicates:
+                                save_data["predicate_defs"][existing_predicates[pred_name]] = pred_data
+                            else:
+                                save_data["predicate_defs"].append(pred_data)
+                                
+                        elif isinstance(ws, ObjectWorkspace):
+                            obj_data = ws.serialize()
+                            obj_name = obj_data["name"]
+                            
+                            if obj_name in existing_objects:
+                                save_data["objects"][existing_objects[obj_name]] = obj_data
+                            else:
+                                if "objects" not in save_data:
+                                    save_data["objects"] = []
+                                save_data["objects"].append(obj_data)
+
+                    # save directly to the roboutille.json
+                    with open(original_json_path, "w") as f:
+                        json.dump(save_data, f, indent=4)
+
+                    print(f"Domain saved to original file: {original_json_path}")
+                else:
+                    print("No original file loaded. Please load a file first.")
+            
 
 
                           
