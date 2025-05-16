@@ -88,7 +88,9 @@ async def server_loop(environment_name: str, seed: int, noisy_randomization: boo
                 sockets_to_playerID[socket] = i
                 player_data = base64.b64encode(pickle.dumps(i)).decode('utf-8')
                 opening_message = json.dumps({"player": player_data})
+                print(f"[Server] Assigned player ID {i} to {socket.remote_address}")
                 await socket.send(opening_message)
+                print(f"[Server] opening message: {opening_message}")
 
             last_update_time = time.monotonic()
 
@@ -120,10 +122,24 @@ async def server_loop(environment_name: str, seed: int, noisy_randomization: boo
                         actions = [(None, None)] * num_players
                         for task in finished_tasks:
                             message = task.result()
+                            print("message", message)
                             client = receive_tasks[task]
                             player_id = sockets_to_playerID[client]
                             player_obj = Player.get_player(env.current_state.get_players()[player_id].name)
                             
+                            try:
+                                parsed = json.loads(message)
+                                print(f"[Server] 'start_game' received {parsed} from player {player_id}")
+                                if isinstance(parsed, dict) and parsed.get("type") == "start_game":
+                                    for ws in connections.keys():
+                                        await ws.send(json.dumps("game"))
+                                        print(f"[Server] Sent 'game' to {ws.remote_address}")
+                                    continue 
+                            except Exception as e:
+                                print("[Server] Failed to decode message:", e)
+
+
+
                             # Only process action if player is not moving
                             if not Movement.is_player_moving(player_obj.name):
                                 encoded_action = json.loads(message)
@@ -192,13 +208,16 @@ async def server_loop(environment_name: str, seed: int, noisy_randomization: boo
         # TODO(aac77): #41
         # cannot handle disconnections
         print("Hello client", websocket)
+        await websocket.send(json.dumps({"type": "connected to server"}))
         q = asyncio.Queue()
         waiting_queue[websocket] = q
         if len(waiting_queue) == num_players:
             connections = waiting_queue.copy()
             waiting_queue.clear()
             asyncio.create_task(simulator(connections))
+        await websocket.send(json.dumps({"type": "game"}))
         async for message in websocket:
+            print(f"[Server] Raw message: {message}")
             await q.put(message)
 
     if event == None:

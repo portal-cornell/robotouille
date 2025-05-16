@@ -31,14 +31,16 @@ class SettingScreen(ScreenInterface):
         self.profile = Image(self.screen, self.profile_image, self.x_percent(746), self.y_percent(109), self.scale_factor, anchor="topleft")
 
         self.sfx_slider = Slider(self.screen, self.slider_bg_image, self.slider_fg_image, 442.01, 44.91, 390, 31.19,
-                                       self.x_percent(122), self.y_percent(437), scale_factor= self.scale_factor, anchor="topleft")
+                                self.x_percent(122), self.y_percent(437), scale_factor= self.scale_factor,
+                                foreground_padding=(15, 15, 0, 0), background_padding=(15, 15, 0, 0), anchor="topleft")
         self.music_slider = Slider(self.screen, self.slider_bg_image, self.slider_fg_image, 442.01, 44.91, 390, 31.19,
-                                          self.x_percent(122), self.y_percent(252), scale_factor= self.scale_factor, anchor="topleft")
+                                self.x_percent(122), self.y_percent(252), scale_factor= self.scale_factor,
+                                foreground_padding=(15, 15, 0, 0), background_padding=(15, 15, 0, 0), anchor="topleft")
         
-        self.music_minus_button = Button(self.screen, self.minus_image, self.x_percent(122), self.y_percent(252), self.scale_factor, anchor="topleft")
-        self.music_plus_button = Button(self.screen, self.plus_image, self.x_percent(519), self.y_percent(252), self.scale_factor, anchor="topleft")
-        self.sfx_minus_button = Button(self.screen, self.minus_image, self.x_percent(122), self.y_percent(437), self.scale_factor, anchor="topleft")
-        self.sfx_plus_button = Button(self.screen, self.plus_image, self.x_percent(519), self.y_percent(437), self.scale_factor, anchor="topleft")
+        self.music_minus_button = Button(self.screen, self.minus_image, self.x_percent(116), self.y_percent(246), self.scale_factor, anchor="topleft")
+        self.music_plus_button = Button(self.screen, self.plus_image, self.x_percent(513), self.y_percent(246), self.scale_factor, anchor="topleft")
+        self.sfx_minus_button = Button(self.screen, self.minus_image, self.x_percent(116), self.y_percent(431), self.scale_factor, anchor="topleft")
+        self.sfx_plus_button = Button(self.screen, self.plus_image, self.x_percent(513), self.y_percent(431), self.scale_factor, anchor="topleft")
 
         self.name_bg = Image(self.screen, self.name_bg_image, self.x_percent(917), self.y_percent(132), self.scale_factor, anchor="topleft")
         self.name = EditableTextbox(self.screen, "name", self.x_percent(928), self.y_percent(139) , 355, 72, align_text="left", scale_factor= self.scale_factor)

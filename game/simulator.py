@@ -2,11 +2,15 @@ import pygame
 
 from frontend.pause import PauseScreen
 from frontend.constants import ENDGAME
+from game.progress_bar import ProgressBarScreen
 
 from utils.robotouille_input import create_action_from_event
 from robotouille.robotouille_env import create_robotouille_env
 from backend.movement.player import Player
 from backend.movement.movement import Movement
+from backend.special_effects.repetitive_effect import RepetitiveEffect
+from backend.special_effects.delayed_effect import DelayedEffect
+from backend.special_effects.conditional_effect import ConditionalEffect
 
 class RobotouilleSimulator:
     def __init__(self, screen, environment_name, seed=42, noisy_randomization=False, movement_mode='traverse', clock=pygame.time.Clock(), screen_size=(512, 512), render_fps=60):
@@ -31,6 +35,7 @@ class RobotouilleSimulator:
         self.players = self.env.current_state.get_players()
         self.actions = []
         self.next_screen = None
+        self.progress_bar = ProgressBarScreen(screen_size, self.env, self.renderer)
     
     def set_next_screen(self, next_screen):
         """
@@ -58,7 +63,9 @@ class RobotouilleSimulator:
         Renders the current state of the game environment and pause screen onto the main screen.
         """
         self.renderer.render(self.env.current_state)
+        self.progress_bar.draw()
         self.screen.blit(self.renderer.screen, (0, 0))
+        self.screen.blit(self.progress_bar.screen, (0, 0))
         self.screen.blit(self.pause.get_screen(), (0, 0))
 
     def handle_pause(self, pygame_events):
@@ -74,32 +81,75 @@ class RobotouilleSimulator:
                     self.done = True
                 if event.key == pygame.K_p:
                     self.pause.toggle()
-                    print("pause toggled")
 
         if self.pause.next_screen is not None:
             current_screen = self.pause.next_screen
             self.pause.set_next_screen(None)
-            print("returning pause")
             return current_screen
 
         self.pause.update(pygame_events)
+
+ 
+    def get_object_location(self, name):
+        """"
+        name is instance of Backend.Object
+        """
+        ans = None
+        for k,v in self.env.current_state.predicates.items():
+            if ans is not None:
+                break
+            if not v or len(k.params) < 2:
+                continue
+            f, s = k.params
+            if s == name:
+                ans = self.renderer.canvas._get_station_position(f.name)
+            if f == name:
+                ans = self.renderer.canvas._get_station_position(s.name)
+        if ans is None: 
+            return -999, -999
+        return ans
+
+    def create_bar(self, effect):
+        """
+        Recursively goes through all nested effects and create/updates the progress bar
+        """
+        if isinstance(effect, RepetitiveEffect):
+            x, y = self.get_object_location(effect.arg)
+            self.renderer.update_progress_bar(effect.arg, x, y, percentage=effect.current_repetitions/effect.goal_repetitions)
+        elif isinstance(effect, DelayedEffect):
+            # TODO: in the future this needs to be synchronized to the clock
+            x, y = self.get_object_location(effect.arg)
+            self.renderer.update_progress_bar(effect.arg, x, y, increment=1/effect.goal_time)
+        elif isinstance(effect, ConditionalEffect):
+            for subeffect in effect.special_effects:
+                self.create_bar(subeffect)
+
+    def update_bars(self):
+        """
+        iterates through special effects to update special effects
+        """
+        for effect in self.env.current_state.special_effects:
+            self.create_bar(effect)
+        
 
 
     def update(self):
         """
         Main update loop for the simulation. Handles rendering, input, and game logic.
-
         """
-        
         if self.done:
             self.renderer.render(self.env.current_state)
             self.next_screen = ENDGAME
             return
         
-        if self.pause.next_screen is not None:
+        if self.pause.next_screen:
             self.next_screen = self.pause.next_screen
             self.pause.set_next_screen(None)
             self.pause.toggle()
+            return
+        
+        if self.renderer.next_screen:
+            self.next_screen = self.renderer.next_screen
             return
         
         pygame_events = pygame.event.get()
@@ -134,5 +184,7 @@ class RobotouilleSimulator:
         if len(self.actions) == len(self.players):
             self.obs, reward, self.done, self.info = self.env.step(self.actions)
             self.actions = []
+
+        self.progress_bar.update()
 
         return 
