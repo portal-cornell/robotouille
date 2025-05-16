@@ -90,6 +90,7 @@ async def server_loop(environment_name: str, seed: int, noisy_randomization: boo
                 opening_message = json.dumps({"player": player_data})
                 print(f"[Server] Assigned player ID {i} to {socket.remote_address}")
                 await socket.send(opening_message)
+                print(f"[Server] opening message: {opening_message}")
 
             last_update_time = time.monotonic()
 
@@ -121,10 +122,24 @@ async def server_loop(environment_name: str, seed: int, noisy_randomization: boo
                         actions = [(None, None)] * num_players
                         for task in finished_tasks:
                             message = task.result()
+                            print("message", message)
                             client = receive_tasks[task]
                             player_id = sockets_to_playerID[client]
                             player_obj = Player.get_player(env.current_state.get_players()[player_id].name)
                             
+                            try:
+                                parsed = json.loads(message)
+                                print(f"[Server] 'start_game' received {parsed} from player {player_id}")
+                                if isinstance(parsed, dict) and parsed.get("type") == "start_game":
+                                    for ws in connections.keys():
+                                        await ws.send(json.dumps("game"))
+                                        print(f"[Server] Sent 'game' to {ws.remote_address}")
+                                    continue 
+                            except Exception as e:
+                                print("[Server] Failed to decode message:", e)
+
+
+
                             # Only process action if player is not moving
                             if not Movement.is_player_moving(player_obj.name):
                                 encoded_action = json.loads(message)
@@ -201,11 +216,6 @@ async def server_loop(environment_name: str, seed: int, noisy_randomization: boo
             asyncio.create_task(simulator(connections))
         async for message in websocket:
             print(f"[Server] Raw message: {message}")
-            try:
-                decoded = pickle.loads(base64.b64decode(json.loads(message)))
-                print(f"[Server] Decoded payload: {decoded}")
-            except Exception as e:
-                print(f"[Server] Failed to decode message: {e}")
             await q.put(message)
 
     if event == None:

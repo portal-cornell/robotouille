@@ -6,6 +6,7 @@ from frontend.textbox import Textbox
 from frontend.screen import ScreenInterface
 from frontend.loading import LoadingScreen
 import os
+import json
 
 
 # Set up the assets directory
@@ -39,6 +40,14 @@ class MatchMakingScreen(ScreenInterface):
 
     def set_networking_manager(self, manager):
         self.networking_manager = manager
+
+        # Register handler for "game" message
+        async def start_game():
+            print("[MatchMaking] Received 'game', switching to GAME screen")
+            self.set_next_screen(GAME)
+
+        self.networking_manager.register_handler("game", start_game)
+
         
     def load_assets(self):
         """Load necessary assets."""
@@ -92,7 +101,8 @@ class MatchMakingScreen(ScreenInterface):
                     # TODO this should disconnect client from server
                 # Transitions to the Game when key G is pressed.
                 elif event.key == pygame.K_g:
+                    print('pressed g')
                     # self.set_next_screen(GAME)
                     if self.networking_manager:
-                        asyncio.run(self.networking_manager.send_message("start game"))
+                        asyncio.run(self.networking_manager.send_message({"type": "start_game"}))
                     # TODO remove this functionality? Game start should now be based on server

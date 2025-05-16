@@ -17,19 +17,47 @@ class NetworkManager:
         self.noisy_randomization = noisy_randomization
         self.movement_mode = movement_mode
         self.host = host
+        self.message_handlers = {}
 
+    def register_handler(self, message_type: str, handler_fn):
+        """Register a handler function for a specific message type."""
+        self.message_handlers[message_type] = handler_fn
+
+    def try_decode_message(self, message):
+        try:
+            parsed = json.loads(message)
+            if isinstance(parsed, str):
+                return parsed
+            elif isinstance(parsed, dict):
+                return parsed.get("type")  # optional support
+        except:
+            return None
+        
     async def background_listener(self):
         """
         Continuously listens for messages from the server in the background.
+        NEED TO DEBUG DOES NOT WORK 
         """
         print("[Listener] Started")
         try:
             while True:
                 message = await self.websocket.recv()
-                print("[Listener] Received:", message)
-                await self.handle_message(message)
+                print("[Listener] Raw message:", message)
+                decoded = self.try_decode_message(message)
+                print("[Listener] Received:", decoded)
+
+                # Dispatch by message type
+                if isinstance(decoded, str):
+                    if decoded in self.message_handlers:
+                        await self.message_handlers[decoded]()
+                        del self.message_handlers[decoded]
+                    else:
+                        print(f"[Listener] No handler for message: {decoded}")
+                else:
+                    print(f"[Listener] Ignored unrecognized message: {message}")
+
         except websockets.ConnectionClosed:
-            print("[Listener] WebSocket connection closed")
+            print("[Listener] Connection closed")
 
 
     async def handle_message(self, message):
@@ -72,7 +100,6 @@ class NetworkManager:
         Encodes and sends a message to the server.
 
         Args:
-            payload (Any): A serializable Python object (e.g., action tuple)
+            payload (dict): dictionary
         """
-        encoded = base64.b64encode(pickle.dumps(payload)).decode('utf-8')
-        await self.websocket.send(json.dumps(encoded))
+        await self.websocket.send(json.dumps(payload))
