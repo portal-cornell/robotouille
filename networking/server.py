@@ -208,12 +208,14 @@ async def server_loop(environment_name: str, seed: int, noisy_randomization: boo
         # TODO(aac77): #41
         # cannot handle disconnections
         print("Hello client", websocket)
+        await websocket.send(json.dumps({"type": "connected to server"}))
         q = asyncio.Queue()
         waiting_queue[websocket] = q
         if len(waiting_queue) == num_players:
             connections = waiting_queue.copy()
             waiting_queue.clear()
             asyncio.create_task(simulator(connections))
+        await websocket.send(json.dumps({"type": "game"}))
         async for message in websocket:
             print(f"[Server] Raw message: {message}")
             await q.put(message)

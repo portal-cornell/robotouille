@@ -22,16 +22,6 @@ class NetworkManager:
     def register_handler(self, message_type: str, handler_fn):
         """Register a handler function for a specific message type."""
         self.message_handlers[message_type] = handler_fn
-
-    def try_decode_message(self, message):
-        try:
-            parsed = json.loads(message)
-            if isinstance(parsed, str):
-                return parsed
-            elif isinstance(parsed, dict):
-                return parsed.get("type")  # optional support
-        except:
-            return None
         
     async def background_listener(self):
         """
@@ -43,9 +33,9 @@ class NetworkManager:
             while True:
                 message = await self.websocket.recv()
                 print("[Listener] Raw message:", message)
-                decoded = self.try_decode_message(message)
+                parsed = json.loads(message)
+                decoded = parsed.get("type")
                 print("[Listener] Received:", decoded)
-
                 # Dispatch by message type
                 if isinstance(decoded, str):
                     if decoded in self.message_handlers:

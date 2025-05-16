@@ -36,17 +36,6 @@ class MatchMakingScreen(ScreenInterface):
             ] 
         self.host = False
         self.count = 0
-        self.networking_manager= None
-
-    def set_networking_manager(self, manager):
-        self.networking_manager = manager
-
-        # Register handler for "game" message
-        async def start_game():
-            print("[MatchMaking] Received 'game', switching to GAME screen")
-            self.set_next_screen(GAME)
-
-        self.networking_manager.register_handler("game", start_game)
 
         
     def load_assets(self):
@@ -103,6 +92,6 @@ class MatchMakingScreen(ScreenInterface):
                 elif event.key == pygame.K_g:
                     print('pressed g')
                     # self.set_next_screen(GAME)
-                    if self.networking_manager:
-                        asyncio.run(self.networking_manager.send_message({"type": "start_game"}))
+                    # if self.networking_manager:
+                    #     asyncio.run(self.networking_manager.send_message({"type": "start_game"}))
                     # TODO remove this functionality? Game start should now be based on server
