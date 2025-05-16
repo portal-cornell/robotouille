@@ -43,9 +43,8 @@ class NetworkManager:
                 self.current_screen = screen_obj.next_screen
                 screen_obj.set_next_screen(None)
                 self.need_update = True
-            
-            if self.current_screen == MAIN_MENU:
-                self.running = False
+        if self.current_screen == MAIN_MENU:
+            self.running = False
 
     async def game_loop(self):
         while self.running:

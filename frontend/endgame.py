@@ -140,9 +140,7 @@ class EndScreen(ScreenInterface):
     def update(self):
         """Update the screen and handle events."""
         super().update()
-
-        print('update from endgame')
-
+        
         # Handle events
         for event in pygame.event.get():
             if self.play_again_button.handle_event(event):
