@@ -134,10 +134,13 @@ def open_level() -> LevelState:
     # Load items
     if "items" in level_json:
         for item_data in level_json["items"]:
+            print(item_data)
             name = item_data["name"]
             x = item_data["x"]
             y = height - 1 - item_data["y"]  # Invert y coordinate
-            predicates = set(item_data["predicates"])
+            predicates = (
+                set(item_data["predicates"]) if "predicates" in item_data else set()
+            )
             item = next((i for i in editor_state.get_items() if i.name == name), None)
             if item:
                 level.put_item_at(ItemInstance(item, predicates, Vec2(x, y)))
@@ -158,10 +161,9 @@ def render_level(
 
     width = level.width
     height = level.height
-    tile_size = 516 // 6
+    tile_size = int(516 // width)
 
     surface = pygame.Surface((width * tile_size, height * tile_size))
-    surface.fill(BEIGE2)
 
     environment_json = level.serialize()
     new_environment_json = json.dumps(environment_json)
@@ -199,7 +201,7 @@ def render_goal(tile_size: int, asset_dir_path: str, goal: Goal) -> pygame.Surfa
     for i, item in enumerate(items):
         item_asset_path = os.path.join(
             asset_dir_path,
-            item.source_item.state_map[frozenset(item.predicates)],
+            item.get_asset(),
         )
         img = pygame.image.load(item_asset_path).convert_alpha()
         img = pygame.transform.scale(img, (tile_size, tile_size))
@@ -376,46 +378,41 @@ def loop(editor_state: EditorState):
 
     # Buttons
     button_panel = pygame_gui.elements.UIPanel(
-        relative_rect=pygame.Rect((10, 500), (100, 300)),
+        relative_rect=pygame.Rect((10, 575), (200, 300)),
         manager=manager,
     )
-
     export_button = pygame_gui.elements.UIButton(
-        relative_rect=pygame.Rect((0, 0), (100, 50)),
+        relative_rect=pygame.Rect((0, 0), (200, 50)),
         text="Save",
         manager=manager,
         container=button_panel,
     )
-
     goal_button = pygame_gui.elements.UIButton(
-        relative_rect=pygame.Rect((0, 50), (100, 50)),
+        relative_rect=pygame.Rect((0, 50), (200, 50)),
         text="Goal",
         manager=manager,
         container=button_panel,
     )
-
     player_button = pygame_gui.elements.UIButton(
-        relative_rect=pygame.Rect((0, 100), (100, 50)),
+        relative_rect=pygame.Rect((0, 100), (200, 50)),
         text="Set Player Position",
         manager=manager,
         container=button_panel,
     )
-
     stations_button = pygame_gui.elements.UIButton(
-        relative_rect=pygame.Rect((0, 150), (100, 50)),
+        relative_rect=pygame.Rect((0, 150), (200, 50)),
         text="Stations",
         manager=manager,
         container=button_panel,
     )
-
     items_button = pygame_gui.elements.UIButton(
-        relative_rect=pygame.Rect((0, 200), (100, 50)),
+        relative_rect=pygame.Rect((0, 200), (200, 50)),
         text="Items",
         manager=manager,
         container=button_panel,
     )
     load_button = pygame_gui.elements.UIButton(
-        relative_rect=pygame.Rect((0, 250), (100, 50)),
+        relative_rect=pygame.Rect((0, 250), (200, 50)),
         text="Load",
         manager=manager,
         container=button_panel,
@@ -445,7 +442,6 @@ def loop(editor_state: EditorState):
             station_panel.show()
         elif mode == "player_position":
             editor_state.set_selected(None)
-        print(selected_mode)
 
     # Item Buttons
     item_buttons = {}
@@ -540,6 +536,7 @@ def loop(editor_state: EditorState):
                     loaded_level = open_level()
                     if loaded_level:
                         test_level = loaded_level
+                        TILE_SIZE = int(516 // test_level.width)
                         print("Level loaded successfully!")
                 else:
                     # Check if it's an item button

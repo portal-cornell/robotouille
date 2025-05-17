@@ -217,7 +217,7 @@ class LevelState:
                     "direction": [self._player_direction.x, self._player_direction.y],
                 }
             ],
-            "goal_description": "Make a cheese burger with cheese on top of the patty",
+            "goal_description": "",
             "goal": self.goal.serialize(),
         }
         return level_json

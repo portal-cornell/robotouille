@@ -52,7 +52,6 @@ class Item:
 class ItemInstance:
     def __init__(self, source_item: Item, predicates: set[str], pos: Vec2):
         self.source_item = source_item
-        self.state = source_item.state_map[frozenset(predicates)]
         self.predicates = predicates
         self.pos = pos
 
@@ -64,4 +63,4 @@ class ItemInstance:
         try:
             return self.source_item.state_map[frozenset(predicates)]
         except KeyError:
-            return None
+            return self.source_item.state_map[frozenset()]
