@@ -26,16 +26,38 @@ class MissingPlayerPosition(Exception):
     pass
 
 
+class GoalItem(ItemInstance):
+    def __init__(self, ignore_order, require_top, **kwargs):
+        super().__init__(**kwargs)
+        self._ignore_order: bool = ignore_order
+        self._require_top: bool = require_top
+
+
 class Goal:
     def __init__(self):
         self._goal_stack: List[ItemInstance] = []
 
     def push_goal(self, item: ItemInstance):
-        self._goal_stack.append(item)
+        goal_item = GoalItem(
+            ignore_order=False,
+            require_top=False,
+            source_item=item.source_item,
+            pos=item.pos,
+            predicates=item.predicates,
+        )
+        self._goal_stack.append(goal_item)
 
     def pop_goal(self) -> Optional[ItemInstance]:
         if self._goal_stack:
-            return self._goal_stack.pop()
+            item = self._goal_stack.pop()
+            goal_item = GoalItem(
+                ignore_order=False,
+                require_top=False,
+                source_item=item.source_item,
+                pos=item.pos,
+                predicates=item.predicates,
+            )
+            return goal_item
         return None
 
     def serialize(self) -> list:

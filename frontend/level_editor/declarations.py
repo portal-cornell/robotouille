@@ -55,12 +55,12 @@ class ItemInstance:
         self.predicates = predicates
         self.pos = pos
 
-    def get_asset(self, predicates: List[str]) -> Optional[str]:
+    def get_asset(self) -> Optional[str]:
         """
         This function takes a list of string predicates and returns an option(str)
         representing an some/none filepath.
         """
         try:
-            return self.source_item.state_map[frozenset(predicates)]
+            return self.source_item.state_map[frozenset(self.predicates)]
         except KeyError:
             return self.source_item.state_map[frozenset()]

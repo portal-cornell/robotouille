@@ -494,6 +494,59 @@ def loop(editor_state: EditorState):
             except MissingPlayerPosition as e:
                 tkinter.messagebox.showerror("Error", str(e))
 
+    goal_buttons = {}  # map index in goal state to two buttons
+
+    def redraw_goal_buttons():
+        nonlocal goal_buttons
+        # Remove old buttons
+        for buttons in goal_buttons.values():
+            for button in buttons:
+                button.kill()
+        goal_buttons = {}
+
+        button_x = 250
+        button_y = 50
+        for i, item in enumerate(test_level.goal._goal_stack):
+
+            def toggle_ignore_order(i):
+                test_level.goal._goal_stack[i]._ignore_order = (
+                    not test_level.goal._goal_stack[i]._ignore_order
+                )
+                goal_buttons[i][0].set_text(
+                    f"Ignore Order: {test_level.goal._goal_stack[i]._ignore_order}"
+                )
+
+            def toggle_require_top(i):
+                test_level.goal._goal_stack[i]._require_top = (
+                    not test_level.goal._goal_stack[i]._require_top
+                )
+                goal_buttons[i][1].set_text(
+                    f"Require Top: {test_level.goal._goal_stack[i]._require_top}"
+                )
+
+            ignore_order_button = pygame_gui.elements.UIButton(
+                relative_rect=pygame.Rect((button_x, button_y + i * 60), (100, 50)),
+                text=f"Ignore Order: {item._ignore_order}",
+                manager=manager,
+                command=lambda: (
+                    print("toggled" + str(i)),
+                    toggle_ignore_order(i=i),
+                ),
+            )
+            require_top_button = pygame_gui.elements.UIButton(
+                relative_rect=pygame.Rect(
+                    (button_x + 110, button_y + i * 60), (100, 50)
+                ),
+                text=f"Require Top: {item._require_top}",
+                manager=manager,
+                command=lambda: (
+                    print("toggled_top" + str(i)),
+                    toggle_require_top(i=i),
+                ),
+            )
+
+            goal_buttons[i] = (ignore_order_button, require_top_button)
+
     while running:
         time_delta = clock.tick(60) / 1000.0
 
@@ -593,6 +646,7 @@ def loop(editor_state: EditorState):
                                         Vec2(x, y),
                                     )
                                     test_level.goal.push_goal(new_item)
+                                    redraw_goal_buttons()
                             elif selected_mode == "player_position":
                                 try:
                                     test_level.set_player_pos(Vec2(x, y))
@@ -617,6 +671,7 @@ def loop(editor_state: EditorState):
                 elif event.button == 3:
                     if editing_goal:
                         test_level.goal.pop_goal()
+                        redraw_goal_buttons()
                     else:
                         x, y = event.pos
                         if x > SCREEN_WIDTH or y > SCREEN_HEIGHT:
