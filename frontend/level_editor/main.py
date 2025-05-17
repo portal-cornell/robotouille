@@ -107,25 +107,16 @@ def render_level(
     level: LevelState, tile_size: int, asset_dir_path: str
 ) -> pygame.Surface:
 
-    # colors
-    WHITE = (255, 255, 255)
     width = level.width
     height = level.height
-    tile_size = 64
+    tile_size = 516 // 6
 
     surface = pygame.Surface((width * tile_size, height * tile_size))
     surface.fill(BEIGE2)
+
     environment_json = level.serialize()
     new_environment_json = json.dumps(environment_json)
 
-    print("new_environment_json:")
-    print(json.dumps(new_environment_json, indent=2))
-
-    print("\nrenderer_data:")
-    print(json.dumps(renderer_data, indent=2))
-
-    # print("\ndomain_data:")
-    # print(json.dumps(domain_data, indent=2))
     environment_json = json.loads(
         new_environment_json
     )  # converts string to python object
@@ -139,66 +130,11 @@ def render_level(
     )
     canvas.draw_to_surface(surface, initial_state)
 
-    # # Draw border
-    # pygame.draw.rect(surface, NEUTRAL6, surface.get_rect(), 1)
-
-    # # Draw grid
-    # for x in range(width + 1):
-    #     pygame.draw.line(
-    #         surface,
-    #         NEUTRAL6,
-    #         (x * tile_size, 0),
-    #         (x * tile_size, height * tile_size),
-    #     )
-    # for y in range(height + 1):
-    #     pygame.draw.line(
-    #         surface,
-    #         NEUTRAL6,
-    #         (0, y * tile_size),
-    #         (width * tile_size, y * tile_size),
-    #     )
-
-    # # Draw stations
-    # for station_instance in level.get_all_stations():
-    #     station_asset_path = os.path.join(
-    #         asset_dir_path, station_instance.source_station.asset_file
-    #     )
-    #     img = pygame.image.load(station_asset_path).convert_alpha()
-    #     img = pygame.transform.scale(img, (tile_size, tile_size))
-    #     surface.blit(
-    #         img,
-    #         (station_instance.pos.x * tile_size, station_instance.pos.y * tile_size),
-    #     )
-
-    # # Draw items
-    # for x in range(level.width):
-    #     for y in range(level.height):
-    #         items = level.get_items_at(Vec2(x, y))
-    #         for i, item in enumerate(items):
-    #             item_asset_path = os.path.join(
-    #                 asset_dir_path,
-    #                 item.source_item.state_map[frozenset(item.predicates)],
-    #             )
-    #             img = pygame.image.load(item_asset_path).convert_alpha()
-    #             img = pygame.transform.scale(img, (tile_size, tile_size))
-    #             surface.blit(
-    #                 img,
-    #                 (
-    #                     item.pos.x * tile_size,
-    #                     item.pos.y * tile_size - i * (tile_size / 4),
-    #                 ),
-    #             )
-
-    # # Draw player
-    # player_pos = level.get_player_pos()
-    # if player_pos is not None:
-    #     player_asset_path = os.path.join(asset_dir_path, "robot_front_1.png")
-    #     img = pygame.image.load(player_asset_path).convert_alpha()
-    #     img = pygame.transform.scale(img, (tile_size, tile_size))
-    #     surface.blit(
-    #         img,
-    #         (player_pos.x * tile_size, player_pos.y * tile_size),
-    #     )
+    # Draw grid
+    for x in range(0, width * tile_size, tile_size):
+        pygame.draw.line(surface, NEUTRALDARK, (x, 0), (x, height * tile_size))
+    for y in range(0, height * tile_size, tile_size):
+        pygame.draw.line(surface, NEUTRALDARK, (0, y), (width * tile_size, y))
 
     return surface
 
@@ -307,10 +243,10 @@ def loop(editor_state: EditorState):
 
     # game variables
     ROWS = 6
-    MAX_COLUMNS = 6
-    TILE_SIZE = 64
+    COLS = 6
+    TILE_SIZE = 86
 
-    test_level = LevelState(MAX_COLUMNS, ROWS)
+    test_level = LevelState(COLS, ROWS)
 
     saved_file_path: Optional[str] = None
 

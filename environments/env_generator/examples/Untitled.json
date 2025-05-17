@@ -15,32 +15,27 @@
     "stations": [
         {
             "name": "table",
-            "x": 1,
-            "y": 4
+            "x": 0,
+            "y": 1
         },
         {
             "name": "table",
             "x": 1,
-            "y": 3
-        },
-        {
-            "name": "table",
-            "x": 2,
-            "y": 2
-        },
-        {
-            "name": "table",
-            "x": 2,
             "y": 1
         },
         {
             "name": "table",
             "x": 3,
+            "y": 1
+        },
+        {
+            "name": "table",
+            "x": 4,
             "y": 4
         },
         {
             "name": "table",
-            "x": 3,
+            "x": 4,
             "y": 3
         },
         {
@@ -52,104 +47,35 @@
             "name": "table",
             "x": 4,
             "y": 1
-        }
-    ],
-    "items": [
-        {
-            "name": "patty",
-            "x": 2,
-            "y": 2,
-            "stack-level": 0,
-            "predicates": []
         },
         {
-            "name": "patty",
-            "x": 4,
-            "y": 1,
-            "stack-level": 0,
-            "predicates": [
-                "iscooked"
-            ]
+            "name": "table",
+            "x": 5,
+            "y": 4
+        },
+        {
+            "name": "table",
+            "x": 5,
+            "y": 3
+        },
+        {
+            "name": "table",
+            "x": 5,
+            "y": 2
         }
     ],
+    "items": [],
     "players": [
         {
             "name": "robot",
-            "x": 2,
-            "y": 3,
+            "x": 0,
+            "y": 5,
             "direction": [
-                -1,
-                0
+                0,
+                1
             ]
         }
     ],
     "goal_description": "Make a cheese burger with cheese on top of the patty",
-    "goal": [
-        {
-            "predicate": "atop",
-            "args": [
-                "chicken",
-                "chicken"
-            ],
-            "ids": [
-                2,
-                1
-            ]
-        },
-        {
-            "predicate": "atop",
-            "args": [
-                "chicken",
-                "chicken"
-            ],
-            "ids": [
-                3,
-                2
-            ]
-        },
-        {
-            "predicate": "atop",
-            "args": [
-                "chicken",
-                "chicken"
-            ],
-            "ids": [
-                4,
-                3
-            ]
-        },
-        {
-            "predicate": "atop",
-            "args": [
-                "chicken",
-                "chicken"
-            ],
-            "ids": [
-                5,
-                4
-            ]
-        },
-        {
-            "predicate": "atop",
-            "args": [
-                "chicken",
-                "chicken"
-            ],
-            "ids": [
-                6,
-                5
-            ]
-        },
-        {
-            "predicate": "atop",
-            "args": [
-                "chicken",
-                "chicken"
-            ],
-            "ids": [
-                7,
-                6
-            ]
-        }
-    ]
+    "goal": []
 }
