@@ -525,24 +525,18 @@ def loop(editor_state: EditorState):
                 )
 
             ignore_order_button = pygame_gui.elements.UIButton(
-                relative_rect=pygame.Rect((button_x, button_y + i * 60), (100, 50)),
+                relative_rect=pygame.Rect((button_x, button_y + i * 60), (200, 50)),
                 text=f"Ignore Order: {item._ignore_order}",
                 manager=manager,
-                command=lambda: (
-                    print("toggled" + str(i)),
-                    toggle_ignore_order(i=i),
-                ),
+                command=lambda: (toggle_ignore_order(i=i),),
             )
             require_top_button = pygame_gui.elements.UIButton(
                 relative_rect=pygame.Rect(
-                    (button_x + 110, button_y + i * 60), (100, 50)
+                    (button_x + 210, button_y + i * 60), (200, 50)
                 ),
                 text=f"Require Top: {item._require_top}",
                 manager=manager,
-                command=lambda: (
-                    print("toggled_top" + str(i)),
-                    toggle_require_top(i=i),
-                ),
+                command=lambda: (toggle_require_top(i=i),),
             )
 
             goal_buttons[i] = (ignore_order_button, require_top_button)
@@ -636,8 +630,7 @@ def loop(editor_state: EditorState):
                         x = (x - level_x) // TILE_SIZE
                         y = (y - level_y) // TILE_SIZE
                         if 0 <= x < test_level.width and 0 <= y < test_level.height:
-                            print(selected_mode)
-                            if editing_goal:
+                            if editing_goal and x == 0 and y == 0:
                                 if isinstance(editor_state.get_selected(), tuple):
                                     item, predicates = editor_state.get_selected()
                                     new_item = ItemInstance(
