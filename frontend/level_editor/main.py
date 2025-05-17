@@ -103,6 +103,55 @@ with open(os.path.join(DOMAIN_DIR, "robotouille.json"), "r") as f:
 import json
 
 
+def open_level() -> LevelState:
+    root = tk.Tk()
+    root.withdraw()
+    file_path = filedialog.askopenfilename(
+        title="Select Level JSON", filetypes=[("JSON files", "*.json")]
+    )
+    if not file_path:
+        return None
+
+    with open(file_path, "r") as f:
+        level_json = json.load(f)
+
+    width = level_json["width"]
+    height = level_json["height"]
+    level = LevelState(width, height)
+
+    # Load stations
+    if "stations" in level_json:
+        for station_data in level_json["stations"]:
+            name = station_data["name"]
+            x = station_data["x"]
+            y = height - 1 - station_data["y"]  # Invert y coordinate
+            station = next(
+                (s for s in editor_state.get_stations() if s.name == name), None
+            )
+            if station:
+                level.put_station_at(StationInstance(station, Vec2(x, y)))
+
+    # Load items
+    if "items" in level_json:
+        for item_data in level_json["items"]:
+            name = item_data["name"]
+            x = item_data["x"]
+            y = height - 1 - item_data["y"]  # Invert y coordinate
+            predicates = set(item_data["predicates"])
+            item = next((i for i in editor_state.get_items() if i.name == name), None)
+            if item:
+                level.put_item_at(ItemInstance(item, predicates, Vec2(x, y)))
+
+    # Load player
+    if "players" in level_json and len(level_json["players"]) > 0:
+        player_data = level_json["players"][0]
+        x = player_data["x"]
+        y = height - 1 - player_data["y"]  # Invert y coordinate
+        level.set_player_pos(Vec2(x, y))
+
+    return level
+
+
 def render_level(
     level: LevelState, tile_size: int, asset_dir_path: str
 ) -> pygame.Surface:
@@ -327,7 +376,7 @@ def loop(editor_state: EditorState):
 
     # Buttons
     button_panel = pygame_gui.elements.UIPanel(
-        relative_rect=pygame.Rect((10, 600), (100, 250)),
+        relative_rect=pygame.Rect((10, 500), (100, 300)),
         manager=manager,
     )
 
@@ -365,11 +414,18 @@ def loop(editor_state: EditorState):
         manager=manager,
         container=button_panel,
     )
+    load_button = pygame_gui.elements.UIButton(
+        relative_rect=pygame.Rect((0, 250), (100, 50)),
+        text="Load",
+        manager=manager,
+        container=button_panel,
+    )
 
     stations_button.show()
     items_button.show()
     export_button.show()
     goal_button.show()
+    load_button.show()
 
     selected_mode = "stations"
     editing_goal = False
@@ -480,6 +536,11 @@ def loop(editor_state: EditorState):
                             json.dump(level_json, f, indent=4)
                         filename = saved_file_path.split("/")[-1].replace(".json", "")
                         print(f"Level saved to {filename}")
+                elif event.ui_element == load_button:
+                    loaded_level = open_level()
+                    if loaded_level:
+                        test_level = loaded_level
+                        print("Level loaded successfully!")
                 else:
                     # Check if it's an item button
                     for (item_name, predicates), button in item_buttons.items():
@@ -536,7 +597,6 @@ def loop(editor_state: EditorState):
                                     )
                                     test_level.goal.push_goal(new_item)
                             elif selected_mode == "player_position":
-                                print("dd")
                                 try:
                                     test_level.set_player_pos(Vec2(x, y))
                                 except Exception as e:
