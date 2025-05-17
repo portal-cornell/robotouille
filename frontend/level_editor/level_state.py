@@ -64,7 +64,26 @@ class Goal:
         goal_json = []
         item_id_map = {}
         next_id = 1
-        for i, item in enumerate(self._goal_stack):
+        new_goal_stack = []
+
+        # Remove items with _ignore_order and assign item_at: table predicate
+        for item in self._goal_stack:
+            if hasattr(item, "_ignore_order") and item._ignore_order:
+                item_id = next_id
+                next_id += 1
+                item_id_map[item] = item_id
+                goal_json.append(
+                    {
+                        "predicate": "item_at",
+                        "args": [item.source_item.name, "table"],
+                        "ids": [item_id],
+                    }
+                )
+            else:
+                new_goal_stack.append(item)
+
+        # Process remaining items
+        for i, item in enumerate(new_goal_stack):
             item_id = next_id
             next_id += 1
             item_id_map[item] = item_id
@@ -81,7 +100,7 @@ class Goal:
 
             # Add atop relation if it's not the bottom item
             if i > 0:
-                bottom_item = self._goal_stack[i - 1]
+                bottom_item = new_goal_stack[i - 1]
                 bottom_item_id = item_id_map[bottom_item]
                 goal_json.append(
                     {
@@ -90,6 +109,20 @@ class Goal:
                         "ids": [item_id, bottom_item_id],
                     }
                 )
+
+            # Add 'clear' predicate if _require_top is True
+            if hasattr(item, "_require_top") and item._require_top:
+                item_id = next_id
+                next_id += 1
+                item_id_map[item] = item_id
+                goal_json.append(
+                    {
+                        "predicate": "clear",
+                        "args": [item.source_item.name],
+                        "ids": [item_id],
+                    }
+                )
+
         return goal_json
 
 

@@ -528,7 +528,12 @@ def loop(editor_state: EditorState):
                 relative_rect=pygame.Rect((button_x, button_y + i * 60), (200, 50)),
                 text=f"Ignore Order: {item._ignore_order}",
                 manager=manager,
-                command=lambda: (toggle_ignore_order(i=i),),
+                command=(
+                    lambda i: lambda: (
+                        print(f"ignore_order lambda called with i = {i}"),
+                        toggle_ignore_order(i=i),
+                    )
+                )(i),
             )
             require_top_button = pygame_gui.elements.UIButton(
                 relative_rect=pygame.Rect(
@@ -536,7 +541,7 @@ def loop(editor_state: EditorState):
                 ),
                 text=f"Require Top: {item._require_top}",
                 manager=manager,
-                command=lambda: (toggle_require_top(i=i),),
+                command=(lambda i: lambda: toggle_require_top(i=i))(i),
             )
 
             goal_buttons[i] = (ignore_order_button, require_top_button)
