@@ -27,66 +27,53 @@ class MissingPlayerPosition(Exception):
 
 
 class GoalItem(ItemInstance):
-    def __init__(self, ignore_order, require_top, **kwargs):
+    def __init__(self, ignore_order, require_top, id=None, **kwargs):
         super().__init__(**kwargs)
         self._ignore_order: bool = ignore_order
         self._require_top: bool = require_top
+        self._id: Optional[int] = id
 
 
 class Goal:
     def __init__(self):
         self._goal_stack: List[ItemInstance] = []
+        self._next_id: int = 1
 
     def push_goal(self, item: ItemInstance):
         goal_item = GoalItem(
             ignore_order=False,
             require_top=False,
+            id=self._next_id,
             source_item=item.source_item,
             pos=item.pos,
             predicates=item.predicates,
         )
+        self._next_id += 1
         self._goal_stack.append(goal_item)
 
     def pop_goal(self) -> Optional[ItemInstance]:
         if self._goal_stack:
-            item = self._goal_stack.pop()
-            goal_item = GoalItem(
-                ignore_order=False,
-                require_top=False,
-                source_item=item.source_item,
-                pos=item.pos,
-                predicates=item.predicates,
-            )
-            return goal_item
+            item_p = self._goal_stack.pop()
+            for i, item in enumerate(self._goal_stack):
+                item._id = i + 1
+            self._next_id = len(self._goal_stack) + 1
+            return item_p
         return None
 
     def serialize(self) -> list:
         goal_json = []
-        item_id_map = {}
-        next_id = 1
-        new_goal_stack = []
 
-        # Remove items with _ignore_order and assign item_at: table predicate
-        for item in self._goal_stack:
+        # Process all items
+        for i, item in enumerate(self._goal_stack):
+            # Add item_at predicate for items with ignore_order
             if hasattr(item, "_ignore_order") and item._ignore_order:
-                item_id = next_id
-                next_id += 1
-                item_id_map[item] = item_id
                 goal_json.append(
                     {
                         "predicate": "item_at",
                         "args": [item.source_item.name, "table"],
-                        "ids": [item_id],
+                        "ids": [item._id, 1000],
                     }
                 )
-            else:
-                new_goal_stack.append(item)
-
-        # Process remaining items
-        for i, item in enumerate(new_goal_stack):
-            item_id = next_id
-            next_id += 1
-            item_id_map[item] = item_id
 
             # Add predicates for the item
             for predicate in item.predicates:
@@ -94,32 +81,32 @@ class Goal:
                     {
                         "predicate": predicate,
                         "args": [item.source_item.name],
-                        "ids": [item_id],
+                        "ids": [item._id],
                     }
                 )
 
-            # Add atop relation if it's not the bottom item
+            # Add atop relation if it's not the bottom item and ignore_order is False
             if i > 0:
-                bottom_item = new_goal_stack[i - 1]
-                bottom_item_id = item_id_map[bottom_item]
-                goal_json.append(
-                    {
-                        "predicate": "atop",
-                        "args": [item.source_item.name, bottom_item.source_item.name],
-                        "ids": [item_id, bottom_item_id],
-                    }
-                )
+                bottom_item = self._goal_stack[i - 1]
+                if not (hasattr(item, "_ignore_order") and item._ignore_order):
+                    goal_json.append(
+                        {
+                            "predicate": "atop",
+                            "args": [
+                                item.source_item.name,
+                                bottom_item.source_item.name,
+                            ],
+                            "ids": [item._id, bottom_item._id],
+                        }
+                    )
 
             # Add 'clear' predicate if _require_top is True
             if hasattr(item, "_require_top") and item._require_top:
-                item_id = next_id
-                next_id += 1
-                item_id_map[item] = item_id
                 goal_json.append(
                     {
                         "predicate": "clear",
                         "args": [item.source_item.name],
-                        "ids": [item_id],
+                        "ids": [item._id],
                     }
                 )
 

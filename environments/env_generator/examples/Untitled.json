@@ -16,7 +16,7 @@
         {
             "name": "table",
             "x": 0,
-            "y": 4
+            "y": 3
         },
         {
             "name": "table",
@@ -25,8 +25,8 @@
         },
         {
             "name": "table",
-            "x": 0,
-            "y": 0
+            "x": 1,
+            "y": 3
         },
         {
             "name": "table",
@@ -35,8 +35,8 @@
         },
         {
             "name": "table",
-            "x": 1,
-            "y": 0
+            "x": 2,
+            "y": 3
         },
         {
             "name": "table",
@@ -45,48 +45,13 @@
         },
         {
             "name": "table",
-            "x": 2,
-            "y": 0
-        },
-        {
-            "name": "table",
-            "x": 3,
-            "y": 5
-        },
-        {
-            "name": "table",
-            "x": 3,
-            "y": 4
-        },
-        {
-            "name": "table",
             "x": 3,
             "y": 3
         },
         {
             "name": "table",
             "x": 3,
-            "y": 2
-        },
-        {
-            "name": "table",
-            "x": 3,
             "y": 1
-        },
-        {
-            "name": "table",
-            "x": 3,
-            "y": 0
-        },
-        {
-            "name": "table",
-            "x": 4,
-            "y": 5
-        },
-        {
-            "name": "table",
-            "x": 4,
-            "y": 4
         },
         {
             "name": "table",
@@ -96,27 +61,7 @@
         {
             "name": "table",
             "x": 4,
-            "y": 2
-        },
-        {
-            "name": "table",
-            "x": 4,
             "y": 1
-        },
-        {
-            "name": "table",
-            "x": 4,
-            "y": 0
-        },
-        {
-            "name": "table",
-            "x": 5,
-            "y": 5
-        },
-        {
-            "name": "table",
-            "x": 5,
-            "y": 4
         },
         {
             "name": "table",
@@ -126,63 +71,39 @@
         {
             "name": "table",
             "x": 5,
-            "y": 2
-        },
-        {
-            "name": "table",
-            "x": 5,
             "y": 1
-        },
-        {
-            "name": "table",
-            "x": 5,
-            "y": 0
         }
     ],
     "items": [
         {
-            "name": "topbun",
-            "x": 1,
-            "y": 1,
-            "stack-level": 0,
-            "predicates": []
-        },
-        {
-            "name": "lettuce",
-            "x": 2,
-            "y": 1,
-            "stack-level": 0,
-            "predicates": [
-                "iscut"
-            ]
-        },
-        {
             "name": "bottombun",
-            "x": 3,
-            "y": 4,
-            "stack-level": 0,
-            "predicates": []
-        },
-        {
-            "name": "bottombun",
-            "x": 3,
+            "x": 0,
             "y": 3,
             "stack-level": 0,
             "predicates": []
         },
         {
             "name": "patty",
-            "x": 3,
-            "y": 2,
+            "x": 1,
+            "y": 3,
             "stack-level": 0,
             "predicates": [
                 "iscooked"
             ]
         },
         {
+            "name": "chicken",
+            "x": 2,
+            "y": 3,
+            "stack-level": 0,
+            "predicates": [
+                "isfried"
+            ]
+        },
+        {
             "name": "lettuce",
             "x": 3,
-            "y": 1,
+            "y": 3,
             "stack-level": 0,
             "predicates": [
                 "iscut"
@@ -190,9 +111,34 @@
         },
         {
             "name": "topbun",
-            "x": 5,
-            "y": 5,
+            "x": 4,
+            "y": 3,
             "stack-level": 0,
+            "predicates": []
+        },
+        {
+            "name": "chicken",
+            "x": 4,
+            "y": 3,
+            "stack-level": 1,
+            "predicates": [
+                "isfried"
+            ]
+        },
+        {
+            "name": "chicken",
+            "x": 4,
+            "y": 3,
+            "stack-level": 2,
+            "predicates": [
+                "iscooked"
+            ]
+        },
+        {
+            "name": "topbun",
+            "x": 4,
+            "y": 3,
+            "stack-level": 3,
             "predicates": []
         }
     ],
@@ -200,10 +146,10 @@
         {
             "name": "robot",
             "x": 0,
-            "y": 5,
+            "y": 2,
             "direction": [
                 0,
-                1
+                -1
             ]
         }
     ],
@@ -212,21 +158,41 @@
         {
             "predicate": "item_at",
             "args": [
-                "bottombun",
+                "patty",
                 "table"
             ],
             "ids": [
-                1
+                2,
+                1000
+            ]
+        },
+        {
+            "predicate": "iscooked",
+            "args": [
+                "patty"
+            ],
+            "ids": [
+                2
             ]
         },
         {
             "predicate": "item_at",
             "args": [
-                "patty",
+                "chicken",
                 "table"
             ],
             "ids": [
-                2
+                3,
+                1000
+            ]
+        },
+        {
+            "predicate": "isfried",
+            "args": [
+                "chicken"
+            ],
+            "ids": [
+                3
             ]
         },
         {
@@ -236,7 +202,28 @@
                 "table"
             ],
             "ids": [
-                3
+                4,
+                1000
+            ]
+        },
+        {
+            "predicate": "iscut",
+            "args": [
+                "lettuce"
+            ],
+            "ids": [
+                4
+            ]
+        },
+        {
+            "predicate": "item_at",
+            "args": [
+                "topbun",
+                "table"
+            ],
+            "ids": [
+                5,
+                1000
             ]
         },
         {
