@@ -642,6 +642,7 @@ class ObjectWorkspace(UIPanel):
         handled = super().process_event(event)
         if event.type == pygame_gui.UI_BUTTON_PRESSED:
             if event.ui_element == self.upload_button:
+            
                 file_path = open_file_dialog(
                     title="Select Asset File",
                     filetypes=[
@@ -650,10 +651,13 @@ class ObjectWorkspace(UIPanel):
                     ],
                 )
 
-                if file_path:
+                if file_path and os.path.exists(file_path):
                     print(f"Selected file: {file_path}")
                     self.load_asset(file_path)
-
+                elif file_path:
+                    print(f"File not found: {file_path}")
+              
+#TODO: DO SOMETHING THAT DOENS'T JUST KILL ITSELF
             elif event.ui_element == self.ex_button:
                 self.kill()
             elif event.ui_element == self.save_button:
@@ -704,7 +708,46 @@ class ObjectWorkspace(UIPanel):
 
     #     except Exception as e:
     #         print(f"Error loading asset: {e}")
-
+    def scale_img(self, image_surface, max_size):
+        
+        width, height = image_surface.get_size()
+        # scaling
+        if width > height:
+            scale = max_size / width
+        else:
+            scale = max_size / height
+            
+        new_width = max(1, int(width * scale))
+        new_height = max(1, int(height * scale))
+        return pygame.transform.scale(image_surface, (new_width, new_height))
+       
+    def load_asset(self, file_path):
+        
+        # load it and scale
+        og_image = pygame.image.load(file_path).convert_alpha()
+        max_size = 100
+        scaled_img = self.scale_img(og_image, max_size)
+        new_w, new_h = scaled_img.get_size()
+        
+        # position for the new image in the container grid
+        x_offset = 10 + (len(self.asset_ui_elements) % 5) * (max_size + 10)
+        y_offset = 10 + (len(self.asset_ui_elements) // 5) * (max_size + 10)
+        
+        # make python UIimage container to display the image
+        image_element = UIImage(
+            relative_rect=pygame.Rect(x_offset, y_offset, new_w, new_h),
+            image_surface=scaled_img,
+            manager=self.manager,
+            container=self.assets_container
+        )
+        self.loaded_assets.append(file_path)
+        self.asset_ui_elements.append(image_element)
+        
+        #TODO: a scrollable if we have an overflow
+        
+        print(f"Asset loaded: {file_path}")
+      
+       
     def get_snap_slot(self, block_abs_rect):
         pass
 
