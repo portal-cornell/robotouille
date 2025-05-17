@@ -46,7 +46,7 @@ class ScreenInterface(ABC):
            next_screen (str): Identifier for the next screen (e.g., `MAIN_MENU`, `SETTINGS`).
 
         """
-        self.next_screen = next_screen
+        self.next_screen = next_screen() if callable(next_screen) else next_screen
 
     def x_percent(self, value):
         """

@@ -2,8 +2,8 @@ import argparse
 import pygame
 
 from game.simulator import RobotouilleSimulator
-
-from frontend.constants import SETTINGS, MAIN_MENU, GAME, ENDGAME, LOADING, LOGO, MATCHMAKING, PROFILE, JOINLOBBY
+from frontend.screen import ScreenInterface
+from frontend.constants import SETTINGS, MAIN_MENU, GAME, ENDGAME, LOADING, LOGO, MATCHMAKING, PROFILE, JOINLOBBY,GUESTLOBBY , OWNLOBBY
 from frontend.main_menu import MenuScreen
 from frontend.settings import SettingScreen
 from frontend.loading import LoadingScreen
@@ -12,6 +12,8 @@ from frontend.endgame import EndScreen
 from frontend.matchmaking import MatchMakingScreen
 from frontend.profile import ProfileScreen
 from frontend.joinlobby import JoinLobbyScreen
+from frontend.guestlobby import GuestLobby
+from frontend.ownlobby import OwnLobby
 
 from omegaconf import DictConfig, OmegaConf
 
@@ -50,9 +52,20 @@ def game():
                 screens[MATCHMAKING] = MatchMakingScreen(screen_size)
                 screens[PROFILE] = ProfileScreen(screen_size)
                 screens[JOINLOBBY] = JoinLobbyScreen(screen_size)
+                screens[GUESTLOBBY] = GuestLobby(screen_size)
+                screens[OWNLOBBY] = OwnLobby(screen_size)
 
             if screen_obj.next_screen is not None:
-                current_screen = screen_obj.next_screen
+                next_screen = screen_obj.next_screen
+                print("Switching to next screen:", next_screen) #check this
+                if isinstance(next_screen, ScreenInterface):
+                    screens["__dynamic__"] = next_screen
+                    current_screen = "__dynamic__"
+                else:
+                    if next_screen == GUESTLOBBY:
+                        screens[GUESTLOBBY] = GuestLobby(screen_size)
+                    current_screen = next_screen
+                current_screen = next_screen
                 screen_obj.set_next_screen(None)
 
     while running:
@@ -94,21 +107,33 @@ def game():
                 {
                     "name": "lobby 1",
                     "id": "40956",
+                    "locked": False,
                     "players": [(1,  "Player 1", "profile"), (2, "Player 2", "profile")]
                 },
                 {
                     "name": "lobby 2",
                     "id": "40957",
+                     "locked": False,
                     "players": [(3,  "Player 1", "profile"), (4, "Player 2", "profile"),(5, "Player 2", "profile")]
                 },
                 {
                     "name": "lobby 3",
                     "id": "40958",
+                    "locked": True,
                     "players": [(6,  "Player 1", "profile"), (7, "Player 2", "profile"),(8, "Player 2", "profile"),(9, "Player 2", "profile")]
                 }
             ]
             if current_screen == JOINLOBBY:
                 screens[current_screen].set_lobbies(lobbies)
+
+            #own lobby fake data
+            created_lobby = {"name": "lobby 3", "id": "40958","locked": True,
+                    "players": [(6,  "Player 1", "profile"), (7, "Player 2", "profile"),(8, "Player 3", "profile")]
+            }
+            if current_screen == OWNLOBBY:
+                screens[current_screen].set_lobby(created_lobby)
+
+
             update_screen()
 
         pygame.display.flip()

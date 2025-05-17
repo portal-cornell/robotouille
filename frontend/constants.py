@@ -24,6 +24,8 @@ LOGO = 'logo'
 MATCHMAKING = 'matchmaking'
 PROFILE = 'profile'
 JOINLOBBY = 'joinlobby'
+GUESTLOBBY  = 'guestlobby'
+OWNLOBBY = 'ownlobby'
 
 SHARED_DIRECTORY = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "frontend", "shared"))
 

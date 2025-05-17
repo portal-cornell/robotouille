@@ -1,5 +1,5 @@
 import pygame
-from frontend.constants import MAIN_MENU, FONT_PATH, GAME, MAX_PLAYERS, SHARED_DIRECTORY, BLACK, PROFILE, SETTINGS, WHITE
+from frontend.constants import MAIN_MENU, GREY, LIGHT_GREY, FONT_PATH, GAME, MAX_PLAYERS, SHARED_DIRECTORY, BLACK, PROFILE, SETTINGS, WHITE
 from frontend.button import Button
 from frontend.image import Image
 from frontend.textbox import Textbox
@@ -43,31 +43,9 @@ class MatchMakingScreen(ScreenInterface):
             ] 
         self.host = False
         self.count = 0
+        self.status_text = Textbox(self.screen,"0/4", self.x_percent(626), self.y_percent(684), 188, 72, font_size=60, text_color= GREY, scale_factor=self.scale_factor, anchor="topleft")
 
-        #profile button 
-        self.profile_button = Button(self.screen, self.userprofile_image, self.x_percent(1289), self.y_percent(33), 
-                                      self.scale_factor, anchor="topleft")
-        self.edit_profile_button = Button(self.screen, self.edit_profile_button_image, self.x_percent(956),
-                                          self.y_percent(158),  self.scale_factor, text="   edit profile", 
-                                          font_size = 40, text_color=BLACK, anchor="topleft", align_text = "left")
-        self.setting_logo_button = Button(self.screen, self.settings_button_image, self.x_percent(956), 
-                                          self.y_percent(230),  self.scale_factor,  text="   settings", font_size = 40, 
-                                          text_color=BLACK, anchor="topleft", align_text = "left")
-        self.dropdown_visible = False
-
-        #lobby id image
-        self.lobby_id_image = Image(self.screen, self.lobby_id_image, self.x_percent(521), self.y_percent(56), self.scale_factor, anchor="topleft")
-        self.lobby_id_txt = Textbox(self.screen, '#12345', self.x_percent(584), self.y_percent(58), 271, 95, WHITE, font_size=80, scale_factor=self.scale_factor, anchor="topleft")
-
-        #kick button
-        #self.kick_button = Button(self.screen, self.kick_button_image, self.x_percent(968), self.y_percent(55),
-        #                          self.scale_factor, hover_image_source= self.kick_button_hover_image, text = "KICK", font_path = FONT_PATH,
-        #                          font_size = 60, text_color = WHITE, anchor="topleft")
-        #start button
-        self.start = Button(self.screen, self.start_button_image, self.x_percent(556), self.y_percent(686), self.scale_factor, 
-                              hover_image_source= self.start_hover_button_image, pressed_image_source= self.start_pressed_button_image, 
-                              text = "START", font_path=FONT_PATH, font_size=60, text_color=WHITE, anchor="topleft")
-
+     
 
     def load_assets(self):
         """Load necessary assets."""
@@ -80,13 +58,6 @@ class MatchMakingScreen(ScreenInterface):
         self.edit_profile_button_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["edit_profile_button.png"]
         self.settings_button_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["settings_button.png"]
 
-        self.lobby_id_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["number_box.png"]
-
-        #self.kick_button_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["kick_button.png"]
-        #self.kick_button_hover_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["kick_button_hover.png"]
-        self.start_button_image = LoadingScreen.ASSET[SHARED_DIRECTORY]["button_b.png"]
-        self.start_hover_button_image = LoadingScreen.ASSET[SHARED_DIRECTORY]["button_b_h.png"]
-        self.start_pressed_button_image = LoadingScreen.ASSET[SHARED_DIRECTORY]["button_b_p.png"]
 
     def set_players(self, existing_players):
         """
@@ -100,6 +71,7 @@ class MatchMakingScreen(ScreenInterface):
             raise Exception("Too many players")
         
         self.count = len(existing_players)
+        self.status_text.set_text(f"{self.count}/{MAX_PLAYERS}")
 
         for i in range(4):
             if i < len(existing_players):
@@ -113,24 +85,14 @@ class MatchMakingScreen(ScreenInterface):
         """Draws all the screen components."""
         self.background.draw()
         self.back_arrow.draw()
-        self.start.draw()
+        self.status_text.draw()
         for player in self.players:
             player["icon"].draw()
             if player["name"].get_text(): player["name"].draw()
 
         # draw play button if player is host
 
-        #draw top right profile button
-        self.profile_button.draw()
-        if self.dropdown_visible:
-            self.edit_profile_button.draw()
-            self.setting_logo_button.draw()
-
-        self.lobby_id_image.draw()
-        self.lobby_id_txt.draw()
-
-        #self.kick_button.draw()
-
+       
 
     def update(self):
         """Update the screen and handle events."""
@@ -156,21 +118,3 @@ class MatchMakingScreen(ScreenInterface):
                     self.set_next_screen(GAME)
         
        
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                clicked_anywhere=True
-
-            # Transitions for profile button.
-            if self.profile_button.handle_event(event):
-                self.dropdown_visible = not self.dropdown_visible
-
-            if self.dropdown_visible:
-                if self.edit_profile_button.handle_event(event):
-                    self.set_next_screen(PROFILE)
-                if self.setting_logo_button.handle_event(event):
-                    self.set_next_screen(SETTINGS)
-        
-        # Close dropdown if mouse is clicked outside of the dropdown area.
-        if clicked_anywhere and self.dropdown_visible:
-            if not (self.edit_profile_button.in_bound() or self.setting_logo_button.in_bound() or
-                     self.profile_button.in_bound()):
-                self.dropdown_visible = False

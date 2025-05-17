@@ -73,6 +73,8 @@ class Button(Node):
         else:
             self.current_image = self.normal_image
 
+        self.current_image.x = self.x
+        self.current_image.y = self.y
         self.current_image.draw()
         if self.text:
             self.text.draw()
