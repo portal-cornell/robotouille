@@ -1,0 +1,35 @@
+@keyframes fall {
+  5% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(calc(100vh + 700px));
+    opacity: 1;
+  }
+}
+.falling-zone {
+  height: calc(100vh - 100px); /* Adjust this based on your footer height */
+  overflow: hidden;
+  width: 100%;
+  z-index: 1;
+}
+
+.falling-item {
+  position: absolute;
+
+  top: -150px; /* Start below the cloud (adjust as needed) */
+  left: calc(100% * var(--random-position));
+  animation: fall linear infinite;
+  width: 70px;
+  height: auto;
+  animation-duration: calc(4s + var(--random-duration));
+  z-index: 5;
+  opacity: 0; /* Ensure they’re invisible until animation kicks in */
+}
+
+@media screen and (max-width: 768px) {
+  .falling-item {
+    top: -50px;
+  }
+}

@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Nico Moji";
+  src: url("src/fonts/NicoMoji-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.ql-container {
+  border: none !important;
+}
+.ql-editor {
+  font-family: "Roboto Slab", serif;
+  border: none !important;
+}
