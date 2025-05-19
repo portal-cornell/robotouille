@@ -69,9 +69,16 @@ class Slot:
         self.size = (185, 40)  # same size as block
         self.occupied = None  # points to DraggableBlock or None
         self.section = section
+        self.hidden = False
 
     def rect(self):
         return pygame.Rect(self.rel_pos, self.size)
+
+    def hide(self):
+        self.hidden = True
+
+    def show(self):
+        self.hidden = False
 
     # for debugging
     def show_section(self):
@@ -88,6 +95,8 @@ class DraggableBlock(UIButton):
         param_defs=None,
         is_true=False,
         starting_height=2,
+        sfx=False,
+        sfx_workspace=None,
         **kwargs,
     ):
 
@@ -103,45 +112,58 @@ class DraggableBlock(UIButton):
 
         #  create & memorise each param dropdown
         self._param_widgets = []  # list of (offset, widget)
-        for label, pos, options in param_defs or []:
-            dd_rect = pygame.Rect(
-                relative_rect.x + pos[0] + 25, relative_rect.y + pos[1] - 10, 50, 30
-            )
-            dd = UIDropDownMenu(
-                options_list=options,
-                starting_option=options[0],
-                relative_rect=dd_rect,
-                manager=manager,
-                container=self.ui_container,
-            )
-
-            # real offset = menu-topleft minus block-topleft
-            offset = pygame.Vector2(dd_rect.topleft) - pygame.Vector2(
-                relative_rect.topleft
-            )
-
-            if len(options) > 1:
-                dd2_rect = pygame.Rect(
-                    relative_rect.x + pos[0] - 25, relative_rect.y + pos[1] - 10, 50, 30
+        if not sfx:
+            for label, pos, options in param_defs or []:
+                dd_rect = pygame.Rect(
+                    relative_rect.x + pos[0] + 25, relative_rect.y + pos[1] - 10, 50, 30
                 )
-                dd2 = UIDropDownMenu(
+                dd = UIDropDownMenu(
                     options_list=options,
-                    starting_option=options[1],
-                    relative_rect=dd2_rect,
+                    starting_option=options[0],
+                    relative_rect=dd_rect,
                     manager=manager,
                     container=self.ui_container,
                 )
-                second_offset = pygame.Vector2(dd2_rect.topleft) - pygame.Vector2(
+
+                # real offset = menu-topleft minus block-topleft
+                offset = pygame.Vector2(dd_rect.topleft) - pygame.Vector2(
                     relative_rect.topleft
                 )
-                self._param_widgets.append((second_offset, dd2))
-            self._param_widgets.append((offset, dd))
+
+                if len(options) > 1:
+                    dd2_rect = pygame.Rect(
+                        relative_rect.x + pos[0] - 25,
+                        relative_rect.y + pos[1] - 10,
+                        50,
+                        30,
+                    )
+                    dd2 = UIDropDownMenu(
+                        options_list=options,
+                        starting_option=options[1],
+                        relative_rect=dd2_rect,
+                        manager=manager,
+                        container=self.ui_container,
+                    )
+                    second_offset = pygame.Vector2(dd2_rect.topleft) - pygame.Vector2(
+                        relative_rect.topleft
+                    )
+                    self._param_widgets.append((second_offset, dd2))
+                self._param_widgets.append((offset, dd))
         self.params = param_defs
         # drag state
         self.is_dragging = False
         self._drag_offset = (0, 0)
         self.docked_slot = None
         self.toggled = is_true
+
+        # for special fx case
+        self.is_sfx = sfx
+        self.sfx_workspace = sfx_workspace
+        if sfx:
+            self.colours["normal_bg"] = pygame.Color(30, 0, 93)
+            self.rebuild()
+
+        self.base_container = container
 
         self.slot_section = None
         global current_id
@@ -157,6 +179,10 @@ class DraggableBlock(UIButton):
             precon_json["params"].append(param[2])
         precon_json["is_true"] = self.toggled
         return precon_json
+
+    # in the case of special effect instead of regular predicate
+    def serialize(self):
+        return self.sfx_workspace.serialize()
 
     def _sync_params(self):
         abs_tl = self.get_abs_rect().topleft
@@ -203,24 +229,25 @@ class DraggableBlock(UIButton):
                 for ws in all_workspaces:
                     snap = ws.get_snap_slot(self.get_abs_rect())
                     if snap:
-                        # dock into the new slot
-                        if self.docked_slot:
-                            self.docked_slot.occupied = None  # clear previous slot
-                        snap.occupied = self
-                        self.docked_slot = snap
-                        block_slots[self.id] = snap
+                        if not snap.hidden:
+                            # dock into the new slot
+                            if self.docked_slot:
+                                self.docked_slot.occupied = None  # clear previous slot
+                            snap.occupied = self
+                            self.docked_slot = snap
+                            block_slots[self.id] = snap
 
-                        abs_slot_x = ws.get_abs_rect().x + snap.rel_pos[0]
-                        abs_slot_y = ws.get_abs_rect().y + snap.rel_pos[1]
+                            abs_slot_x = ws.get_abs_rect().x + snap.rel_pos[0]
+                            abs_slot_y = ws.get_abs_rect().y + snap.rel_pos[1]
 
-                        container_rect = self.ui_container.get_abs_rect()
-                        rel_x = abs_slot_x - container_rect.x
-                        rel_y = abs_slot_y - container_rect.y
+                            container_rect = self.ui_container.get_abs_rect()
+                            rel_x = abs_slot_x - container_rect.x
+                            rel_y = abs_slot_y - container_rect.y
 
-                        self.set_relative_position((rel_x, rel_y))
-                        snapped = True
-                        ws.parametrize()
-                        break
+                            self.set_relative_position((rel_x, rel_y))
+                            snapped = True
+                            ws.parametrize()
+                            break
 
                 if not snapped and self.docked_slot:
                     # undocked: clear previous slot
@@ -232,8 +259,22 @@ class DraggableBlock(UIButton):
                 # small click toggles
                 dx = abs(event.pos[0] - self.mouse_down_pos[0])
                 dy = abs(event.pos[1] - self.mouse_down_pos[1])
-                if dx < 5 and dy < 5:
+                if dx < 5 and dy < 5 and not self.is_sfx:
                     self.toggle_color()
+                if dx < 5 and dy < 5 and self.is_sfx and self.docked_slot:
+                    rel_pos = (self.get_relative_rect()[0], self.get_relative_rect()[1])
+                    self.sfx_workspace.set_relative_position((rel_pos[0], rel_pos[1]))
+                    for slot in self.sfx_workspace.slots:
+                        slot.rel_pos = (
+                            slot.rel_pos[0] + rel_pos[0],
+                            slot.rel_pos[1] + rel_pos[1],
+                        )
+
+                    if self.sfx_workspace.hidden:
+                        self.sfx_workspace.show()
+                        self.sfx_workspace.preview_layer(4)
+                    else:
+                        self.sfx_workspace.hide()
                 for ws in all_workspaces:
                     ws.parametrize()
                 return handled
@@ -451,7 +492,6 @@ class ActionWorkspace(UIPanel):
             )
 
     def parametrize(self):
-
         for box in self.param_boxes:
             box.kill()
 
@@ -642,7 +682,7 @@ class ObjectWorkspace(UIPanel):
         handled = super().process_event(event)
         if event.type == pygame_gui.UI_BUTTON_PRESSED:
             if event.ui_element == self.upload_button:
-            
+
                 file_path = open_file_dialog(
                     title="Select Asset File",
                     filetypes=[
@@ -656,8 +696,8 @@ class ObjectWorkspace(UIPanel):
                     self.load_asset(file_path)
                 elif file_path:
                     print(f"File not found: {file_path}")
-              
-#TODO: DO SOMETHING THAT DOENS'T JUST KILL ITSELF
+
+            # TODO: DO SOMETHING THAT DOENS'T JUST KILL ITSELF
             elif event.ui_element == self.ex_button:
                 self.kill()
             elif event.ui_element == self.save_button:
@@ -709,45 +749,44 @@ class ObjectWorkspace(UIPanel):
     #     except Exception as e:
     #         print(f"Error loading asset: {e}")
     def scale_img(self, image_surface, max_size):
-        
+
         width, height = image_surface.get_size()
         # scaling
         if width > height:
             scale = max_size / width
         else:
             scale = max_size / height
-            
+
         new_width = max(1, int(width * scale))
         new_height = max(1, int(height * scale))
         return pygame.transform.scale(image_surface, (new_width, new_height))
-       
+
     def load_asset(self, file_path):
-        
+
         # load it and scale
         og_image = pygame.image.load(file_path).convert_alpha()
         max_size = 100
         scaled_img = self.scale_img(og_image, max_size)
         new_w, new_h = scaled_img.get_size()
-        
+
         # position for the new image in the container grid
         x_offset = 10 + (len(self.asset_ui_elements) % 5) * (max_size + 10)
         y_offset = 10 + (len(self.asset_ui_elements) // 5) * (max_size + 10)
-        
+
         # make python UIimage container to display the image
         image_element = UIImage(
             relative_rect=pygame.Rect(x_offset, y_offset, new_w, new_h),
             image_surface=scaled_img,
             manager=self.manager,
-            container=self.assets_container
+            container=self.assets_container,
         )
         self.loaded_assets.append(file_path)
         self.asset_ui_elements.append(image_element)
-        
-        #TODO: a scrollable if we have an overflow
-        
+
+        # TODO: a scrollable if we have an overflow
+
         print(f"Asset loaded: {file_path}")
-      
-       
+
     def get_snap_slot(self, block_abs_rect):
         pass
 
@@ -896,3 +935,288 @@ class PredicateCreator(UIPanel):
         self.first_param.kill()
         self.second_param.kill()
         super().kill()
+
+
+class SFXWorkspace(UIPanel):
+    def __init__(
+        self,
+        relative_rect,
+        manager,
+        container=None,
+        bg_color=pygame.Color(30, 0, 93),
+        text="",
+        starting_height=1,
+        parameters=set(),
+        **kwargs,
+    ):
+        super().__init__(
+            relative_rect=relative_rect,
+            manager=manager,
+            container=container,
+            starting_height=starting_height,
+            **kwargs,
+        )
+        self.background_colour = bg_color
+        self.rebuild()
+        self.attached_blocks = []
+        self.name = text
+        self.parameters = parameters
+        self.param_boxes = []
+        self.manager = manager
+
+        self.hidden = False
+
+        self.precons = []
+        self.ifxs = []
+        self.sfx = []
+
+        self.type = {"conditional", "repetitive", "delayed"}
+
+        self.slots = []
+
+        self.label = UITextBox(
+            html_text="<font color=#FFFFFF><b>" + self.name + "</b></font>",
+            relative_rect=pygame.Rect(0, 0, self.relative_rect.w, 50),
+            manager=manager,
+            container=self,
+        )
+        self.ex_button = UIButton(
+            relative_rect=pygame.Rect(690, 0, 80, 50),
+            text="Close",
+            manager=manager,
+            container=self,
+            starting_height=2,
+        )
+
+        # ───── CONFIG ───── (SIMILAR TO ACTIONWORKSPACE)
+        NUM_SLOTS = 8
+        SLOT_W, SLOT_H = 185, 40
+        MARGIN_X = 20  # px on left & right
+        H_SPACING = 3  # horizontal gap
+        V_SPACING = 10  # vertical gap
+
+        # find how many fit per row
+        ws_w = self.get_relative_rect().width
+        avail = ws_w - 2 * MARGIN_X
+        slots_per_row = max(1, int((avail + H_SPACING) // (SLOT_W + H_SPACING)))
+
+        # recompute spacing so it’s evenly spread
+        if slots_per_row > 1:
+            spacing_x = (avail - slots_per_row * SLOT_W) / (slots_per_row - 1)
+        else:
+            spacing_x = 0
+
+        if text == "conditional" and text in self.type:
+            self.preconditions_label = UITextBox(
+                html_text="<font color=#FFFFFF><b>Conditions</b></font>",
+                relative_rect=pygame.Rect(0, 50, 150, 50),
+                manager=manager,
+                container=self,
+            )
+
+            self.immediateFX_label = UITextBox(
+                html_text="<font color=#FFFFFF><b>FX</b></font>",
+                relative_rect=pygame.Rect(0, 250, 150, 50),
+                manager=manager,
+                container=self,
+            )
+
+            self.specialFX_label = UITextBox(
+                html_text="<font color=#FFFFFF><b>Special FX</b></font>",
+                relative_rect=pygame.Rect(0, 450, 150, 50),
+                manager=manager,
+                container=self,
+            )
+            y_pre = self.preconditions_label.get_relative_rect().bottom + V_SPACING + 10
+            y_ifx = self.immediateFX_label.get_relative_rect().bottom + V_SPACING + 10
+            y_sfx = self.specialFX_label.get_relative_rect().bottom + V_SPACING + 10
+            counter = 0
+            for base_y in (y_pre, y_ifx, y_sfx):
+                for i in range(NUM_SLOTS):
+                    counter += 1
+                    row, col = divmod(i, slots_per_row)
+                    x = MARGIN_X + col * (SLOT_W + spacing_x)
+                    y = base_y + row * (SLOT_H + V_SPACING)
+                    if counter < 9:
+                        section = "preconditions"
+                    elif counter < 17:
+                        section = "ifx"
+                    else:
+                        section = "sfx"
+
+                    self.slots.append(Slot((int(x), y), section=section))
+
+        elif (text == "repetitive" or text == "delayed") and text in self.type:
+            self.immediateFX_label = UITextBox(
+                html_text="<font color=#FFFFFF><b>FX</b></font>",
+                relative_rect=pygame.Rect(0, 50, 150, 50),
+                manager=manager,
+                container=self,
+            )
+
+            self.specialFX_label = UITextBox(
+                html_text="<font color=#FFFFFF><b>Special FX</b></font>",
+                relative_rect=pygame.Rect(0, 250, 150, 50),
+                manager=manager,
+                container=self,
+            )
+            y_ifx = self.immediateFX_label.get_relative_rect().bottom + V_SPACING + 10
+            y_sfx = self.specialFX_label.get_relative_rect().bottom + V_SPACING + 10
+            counter = 0
+            for base_y in (y_ifx, y_sfx):
+                for i in range(NUM_SLOTS):
+                    counter += 1
+                    row, col = divmod(i, slots_per_row)
+                    x = MARGIN_X + col * (SLOT_W + spacing_x)
+                    y = base_y + row * (SLOT_H + V_SPACING)
+                    if counter < 9:
+                        section = "ifx"
+                    else:
+                        section = "sfx"
+                    self.slots.append(Slot((int(x), y), section=section))
+
+        else:
+            raise Exception("Bad label: invalid special effect")
+
+    def draw_debug_slots(self, surf):
+        for slot in self.slots:
+            abs_x = self.get_abs_rect().x + slot.rel_pos[0]
+            abs_y = self.get_abs_rect().y + slot.rel_pos[1]
+            pygame.draw.rect(
+                surf,
+                (
+                    pygame.Color("gray")
+                    if slot.occupied is None
+                    else pygame.Color("darkgreen")
+                ),
+                pygame.Rect((abs_x, abs_y), slot.size),
+                2,
+            )
+
+    def process_event(self, event: pygame.Event) -> bool:
+        handled = super().process_event(event)
+        if event.type == pygame_gui.UI_BUTTON_PRESSED:
+            if event.ui_element == self.ex_button:
+                self.kill()
+        return handled
+
+    def preview_layer(self, top_layer):
+        self.change_layer(top_layer)
+        for child in self.get_container().elements:
+            child.change_layer(top_layer + 1)
+        for slot in self.slots:
+            if slot.occupied != None:
+                slot.occupied.change_layer(top_layer + 1)
+
+    def kill(self):
+        if self in all_workspaces:
+            all_workspaces.remove(self)
+
+        for slot in self.slots:
+            if slot.occupied != None:
+                slot.occupied.kill()
+
+        self.slots.clear()
+        super().kill()
+
+    def calculate_slots(self):
+        self.precons, self.ifxs, self.sfxs = [], [], []
+
+        for block_id, slot in block_slots.items():
+            block = blocks_by_id.get(block_id)
+            if not block:  # killed block
+                continue
+
+            sect = slot.section
+            if sect == "preconditions":
+                self.precons.append(block)
+            elif sect == "ifx":
+                self.ifxs.append(block)
+            else:
+                self.sfxs.append(block)
+
+    def serialize(self):
+        self.calculate_slots()
+        if self.name == "conditional":
+            sfx = {
+                "type": self.name,
+                "param": self.parameters[0],
+                "conditions": [b.to_json() for b in self.precons],
+                "fx": [b.to_json() for b in self.ifxs],
+                "sfx": [b.to_json() for b in self.sfxs],
+            }
+        else:
+            sfx = {
+                "type": self.name,
+                "param": self.parameters[0],
+                "fx": [b.to_json() for b in self.ifxs],
+                "sfx": [b.serialize() for b in self.sfxs],
+            }
+        return sfx
+
+    def get_snap_slot(self, block_abs_rect):
+        """Return a free Slot whose (inflated) rect contains block centre, else None."""
+        cx, cy = block_abs_rect.center
+        for slot in self.slots:
+            if slot.occupied is None:
+                big = slot.rect()
+                big = big.inflate(SNAP_TOLERANCE, SNAP_TOLERANCE)
+                # convert slot rect to ABSOLUTE coords:
+                abs_slot = big.move(self.get_abs_rect().topleft)
+                if abs_slot.collidepoint(cx, cy):
+                    return slot
+        return None
+
+    def hide(self):
+        for slot in self.slots:
+            slot.hide()
+            if slot.occupied != None:
+                slot.occupied.hide()
+
+        self.hidden = True
+        super().hide()
+
+    def show(self):
+        for slot in self.slots:
+            slot.show()
+            if slot.occupied != None:
+                slot.occupied.show()
+        self.hidden = False
+        super().show()
+
+    def parametrize(self):
+        for box in self.param_boxes:
+            box.kill()
+
+        self.parameters.clear()
+        self.param_boxes.clear()
+
+        for i, slot in enumerate(self.slots):
+            if slot.occupied is None:
+                continue
+            else:
+                block = slot.occupied
+
+                for label, pos, opts in block.params:
+                    self.parameters.update(opts)
+
+        for i, param in enumerate(self.parameters):
+            if param[0] == "i":
+                obj_id = "#item"
+            elif param[0] == "s":
+                obj_id = "#station"
+            elif param[0] == "p":
+                obj_id = "#player"
+            elif param[0] == "c":
+                obj_id = "#container"
+            else:
+                obj_id = "#meal"
+
+            param_box = UITextBox(
+                html_text="<font color=#FFFFFF>" + param + "</font>",
+                relative_rect=pygame.Rect(485 - i * 50, 0, 50, 50),
+                manager=self.manager,
+                container=self,
+                object_id=ObjectID(class_id="@parameter_boxes", object_id=obj_id),
+            )
+            self.param_boxes.append(param_box)
