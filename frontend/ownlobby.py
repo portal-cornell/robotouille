@@ -68,6 +68,15 @@ class OwnLobby(ScreenInterface):
         self.player_count_icon = Image(self.screen, 
             [self.one_player_img, self.two_player_img, self.three_player_img, self.four_player_img][self.count - 1],
             self.x_percent(1060), self.y_percent(38), self.scale_factor, anchor="topleft")
+        
+        #kick screen
+        self.show_kick_popup = False
+        self.kick_target_index = None  
+        self.kick_popup_bg = Image(self.screen, self.kick_bg, self.x_percent(322), self.y_percent(314), self.scale_factor, anchor="topleft")
+        self.kick_yes_button = Button(self.screen, self.kick_yes, self.x_percent(700), self.y_percent(500),  self.scale_factor,  text = 'YES', text_color = BLACK, anchor="topleft")
+        self.kick_no_button = Button(self.screen, self.kick_no, self.x_percent(820), self.y_percent(500), self.scale_factor,text = 'NO', text_color = BLACK, anchor="topleft")
+
+
 
     def load_assets(self):
         """Load necessary assets."""
@@ -92,6 +101,10 @@ class OwnLobby(ScreenInterface):
         self.locked_img = LoadingScreen.ASSET[ASSETS_DIRECTORY]["locked.png"]
         self.unlocked_img = LoadingScreen.ASSET[ASSETS_DIRECTORY]["unlocked.png"]
 
+        self.kick_bg = LoadingScreen.ASSET[ASSETS_DIRECTORY]["kick_bg.png"]
+        self.kick_yes = LoadingScreen.ASSET[ASSETS_DIRECTORY]["yes_button.png"]
+        self.kick_no = LoadingScreen.ASSET[ASSETS_DIRECTORY]["no button.png"]
+  
     def set_lobby(self, lobby_data):
         self.party_name = lobby_data.get("name", "My Party")
         self.lobby_id = f"#{lobby_data.get('id', '00000')}"
@@ -125,38 +138,49 @@ class OwnLobby(ScreenInterface):
         self.lock_icon.draw()
         self.player_count_icon.draw()
 
+        mouse_pos = pygame.mouse.get_pos()
         for i, player in enumerate(self.players):
-          player["icon"].draw()
-          if player["name"].get_text():
-              player["name"].draw()
+            player["icon"].draw()
+            if player["name"].get_text():
+                player["name"].draw()
 
-              # Draw remove button if mouse hovers over the icon
-              mouse_pos = pygame.mouse.get_pos()
-              for i, player in enumerate(self.players):
-                  player["icon"].draw()
-                  if player["name"].get_text():
-                      player["name"].draw()
+                if player["icon"].rect.collidepoint(mouse_pos):
+                    # Dynamically position the remove button relative to the icon
+                    self.remove_buttons[i].x = player["icon"].x + self.x_percent(60)
+                    self.remove_buttons[i].y = player["icon"].y - self.y_percent(60)
+                    self.remove_buttons[i].draw()
 
-                      if player["icon"].rect.collidepoint(mouse_pos):
-                          # Dynamically position the remove button relative to the icon
-                          icon_rect = player["icon"].rect
-                          self.remove_buttons[i].x = player["icon"].x + self.x_percent(60)
-                          self.remove_buttons[i].y = player["icon"].y - self.y_percent(60)
-                          self.remove_buttons[i].draw()
         #self.kick_button.draw()
-
+        if self.show_kick_popup:
+            self.kick_popup_bg.draw()
+            self.kick_yes_button.draw()
+            self.kick_no_button.draw()
 
     def update(self):
         """Update the screen and handle events."""
         super().update()
         
-        #Handle profile button
-        clicked_anywhere = False
         for event in pygame.event.get():
+            # Handle back arrow
             if self.back_arrow.handle_event(event):
                 self.set_next_screen(JOINLOBBY)
-            for i, btn in enumerate(self.remove_buttons):
-              if btn.handle_event(event):
-                  print(f"Removed {self.players[i]['name'].get_text()}")
-                  self.players[i]["name"].set_text("")
-                  self.players[i]["icon"].set_image(self.empty_profile_image)
+        
+            # If popup is active, only handle popup buttons
+            if self.show_kick_popup:
+                if self.kick_yes_button.handle_event(event):
+                    if self.kick_target_index is not None:
+                        self.players[self.kick_target_index]["name"].set_text("")
+                        self.players[self.kick_target_index]["icon"].set_image(self.empty_profile_image)
+                    self.show_kick_popup = False
+                    self.kick_target_index = None
+
+                elif self.kick_no_button.handle_event(event):
+                    self.show_kick_popup = False
+                    self.kick_target_index = None
+
+            # If popup is NOT active, handle remove buttons
+            else:
+                for i, btn in enumerate(self.remove_buttons):
+                    if btn.handle_event(event):
+                        self.show_kick_popup = True
+                        self.kick_target_index = i

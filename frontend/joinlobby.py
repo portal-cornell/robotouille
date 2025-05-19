@@ -96,6 +96,13 @@ class JoinLobbyScreen(ScreenInterface):
         self.background = Image(self.screen, self.background_image, 0.5, 0.5, self.scale_factor, anchor="center")
         self.back_arrow = Button(self.screen, self.back_arrow_image, self.x_percent(64), self.y_percent(860), self.scale_factor, anchor="topleft")
         self.open_lobbies = Image(self.screen, self.open_lobbies_img, self.x_percent(77), self.y_percent(188), self.scale_factor, anchor="topleft")
+        #temp
+        self.open_lobbies_rect = pygame.Rect(
+            300,   # x: horizontal position from left
+            200,   # y: vertical position from top
+            1000,  # width: how wide the area is
+            350    # height: how tall the area is
+        )
         self.enterid_bg = Image(self.screen, self.enterid_button_image, self.x_percent(505), self.y_percent(64), self.scale_factor, anchor="topleft")
         self.enterid = EditableTextbox(self.screen, "   ENTER ID", self.x_percent(554), self.y_percent(83) , 331, 62, align_text="LEFT",text_color = BLUE, scale_factor= self.scale_factor)
 
@@ -250,8 +257,10 @@ class JoinLobbyScreen(ScreenInterface):
           else:
               self.public_unpressed.draw()
               self.private_pressed.draw() 
+
         
-            
+        #pygame.draw.rect(self.screen, (255, 0, 0), self.open_lobbies_rect, 4)
+
 
     def update(self):
         """Update the screen and handle events."""
@@ -259,6 +268,7 @@ class JoinLobbyScreen(ScreenInterface):
        
         # Handle events
         for event in pygame.event.get():
+            
             if self.back_arrow.handle_event(event):
                 self.show_create_lobby = False
                 self.set_next_screen(MAIN_MENU)
@@ -283,6 +293,10 @@ class JoinLobbyScreen(ScreenInterface):
                 # Only handle "create" button if modal isn't open
                 if self.create.handle_event(event):
                     self.show_create_lobby = True
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if self.open_lobbies_rect.collidepoint(event.pos):
+                    self.set_next_screen(OWNLOBBY)
+                return
 
             for btn in getattr(self, 'lobby_buttons', []):
                 btn.handle_event(event)
