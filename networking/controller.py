@@ -5,6 +5,7 @@ import networking.client as robotouille_client
 import networking.utils.single_player as robotouille_single_player
 import networking.utils.replay as robotouille_replay
 import networking.utils.render as robotouille_render
+import networking.server as robotouille_server
 
 def run_networking(environment_name: str, role: str, seed: int, noisy_randomization: bool, movement_mode: str, host: str, display_server: bool, recording: str):
     """Runs the provided Robotouille environment with the given role.
@@ -48,6 +49,8 @@ def run_networking(environment_name: str, role: str, seed: int, noisy_randomizat
         role = "replay"
 
     if role == "server":
+        robotouille_server.run_server(environment_name, seed, noisy_randomization, movement_mode, display_server)
+        return
         # parse host URI like "ws://localhost:8765"
         parsed = urlparse(host)
         server_host = parsed.hostname or "0.0.0.0"

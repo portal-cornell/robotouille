@@ -39,6 +39,9 @@ def game(args):
     need_update = True
 
     def update_screen():
+        """
+        transitions the game between different screens
+        """
         nonlocal current_screen, need_update, args
         if current_screen in screens:
             screen_obj = screens[current_screen]
@@ -46,15 +49,18 @@ def game(args):
             screen.blit(screen_obj.get_screen(), (0, 0))
 
             if current_screen == LOADING and screen_obj.next_screen is not None:
+                # init screens
                 screens[MAIN_MENU] = MenuScreen(screen_size)
                 screens[SETTINGS] = SettingScreen(screen_size)
 
             if screen_obj.next_screen is not None:
+                # screen transition
                 current_screen = screen_obj.next_screen
                 screen_obj.set_next_screen(None)
                 need_update = True
 
             if current_screen == MATCHMAKING:
+                # transfer control to async world
                 env_name = args.environment_name
                 seed = args.seed
                 noisy = args.noisy_randomization

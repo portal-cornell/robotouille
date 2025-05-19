@@ -37,6 +37,8 @@ class MatchMakingScreen(ScreenInterface):
         self.host = False
         self.count = 0
         self.websocket = websocket
+        self.send_task = None
+        self.should_start_game = False
         
     def load_assets(self):
         """Load necessary assets."""
@@ -49,7 +51,7 @@ class MatchMakingScreen(ScreenInterface):
         Set existing players.
 
         Args:
-            existing_players (list of dict): List of players to add, each with 'name' and 'icon'.
+            existing_players (lList[PlayerID, PlayerName, Status]): List of player data
         """
 
         if len(existing_players) >= MAX_PLAYERS:
@@ -59,7 +61,7 @@ class MatchMakingScreen(ScreenInterface):
 
         for i in range(4):
             if i < len(existing_players):
-                self.players[i]["name"].set_text(existing_players[i])
+                self.players[i]["name"].set_text(existing_players[i][1])
                 self.players[i]["icon"].set_image(self.profile_image)
             else:
                 self.players[i]["name"].set_text("")
@@ -74,7 +76,7 @@ class MatchMakingScreen(ScreenInterface):
 
         # draw play button if player is host
 
-    def update(self):
+    async def update(self):
         """Update the screen and handle events."""
         super().update()
         
@@ -90,6 +92,9 @@ class MatchMakingScreen(ScreenInterface):
                     # TODO this should disconnect client from server
                 # Transitions to the Game when key G is pressed.
                 elif event.key == pygame.K_g:
-                     self.set_next_screen(GAME)
-                    #  asyncio.create_task(self.websocket.send(json.dumps({"type": "start_game"})))
-                    #  print("sent message")
+                    self.should_start_game = True
+
+        if self.should_start_game:
+            print("[Client] Sending start_game message")
+            await self.websocket.send(json.dumps({"type": "connect"}))
+            self.should_start_game = False

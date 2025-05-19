@@ -45,8 +45,10 @@ async def server_loop(environment_name: str, seed: int, noisy_randomization: boo
         event (asyncio.Event): An event to signal when the server is ready.
     """
     waiting_queue = {}
+    start_game_event = asyncio.Event()
     reference_env = create_robotouille_env(environment_name, movement_mode, seed, noisy_randomization)
     num_players = len(reference_env.initial_state.get_players())
+
 
     async def simulator(connections):
         """
@@ -132,7 +134,7 @@ async def server_loop(environment_name: str, seed: int, noisy_randomization: boo
                                 print(f"[Server] 'start_game' received {parsed} from player {player_id}")
                                 if isinstance(parsed, dict) and parsed.get("type") == "start_game":
                                     for ws in connections.keys():
-                                        await ws.send(json.dumps("game"))
+                                        await ws.send(json.dumps({"type": "game"}))
                                         print(f"[Server] Sent 'game' to {ws.remote_address}")
                                     continue 
                             except Exception as e:
@@ -196,32 +198,35 @@ async def server_loop(environment_name: str, seed: int, noisy_randomization: boo
                 pickle.dump(recording, f)
     
     async def handle_connection(websocket):
-        """
-        Handles a single client connection.
-
-        Registers the client in the waiting queue and starts the simulation
-        once the required number of players have joined. Forwards all messages
-        from the client into a shared queue used by the simulator.
-
-        Args:
-            websocket: The WebSocket connection object from the client.
-        """
-        # TODO(aac77): #41
-        # cannot handle disconnections
         print("Hello client", websocket)
         await websocket.send(json.dumps({"type": "connected to server"}))
+
         q = asyncio.Queue()
         waiting_queue[websocket] = q
+
         if len(waiting_queue) == num_players:
-            connections = waiting_queue.copy()
-            waiting_queue.clear()
-            asyncio.create_task(simulator(connections))
-        await websocket.send(json.dumps({"type": "game"}))
+            print(f"[Server] All {num_players} players connected. Waiting for 'start_game'...")
+            asyncio.create_task(wait_for_start_and_begin_game())
+
         async for message in websocket:
             print(f"[Server] Raw message: {message}")
-            await q.put(message)
+            try:
+                parsed = json.loads(message)
+                print(f"[Server] Received 'start_game' from {websocket.remote_address}")
+                if isinstance(parsed, dict) and parsed.get("type") == "connect":
+                    await websocket.send(json.dumps({"type": "start_game"}))
+                await q.put(message)
+            except Exception as e:
+                print("[Server] Message handling error:", e)
 
-    if event == None:
+    async def wait_for_start_and_begin_game():
+        await start_game_event.wait()
+        print("[Server] 'start_game' signal received. Starting simulator.")
+        connections = waiting_queue.copy()
+        waiting_queue.clear()
+        asyncio.create_task(simulator(connections))
+
+    if event is None:
         event = asyncio.Event()
 
     async with websockets.serve(handle_connection, "0.0.0.0", 8765):
