@@ -199,13 +199,11 @@ def json_to_action(name: str, ws_x, ws_y, container=center_panel):
     # pull the action from the json
     action = None
     actions_json = data["action_defs"]
-    print(actions_json)
+    # print(actions_json)
     for action_json in actions_json:
-        print(action_json["name"])
+        # print(action_json["name"])
         if action_json["name"] == name:
             action = action_json
-
-    print(action)
 
     # create a new action workspace
     loaded_act = ActionWorkspace(
@@ -394,7 +392,7 @@ def calc_workspace_coords():
 
 
 def set_new_scrollable_dims():
-    new_height = len(all_workspaces) * SCREEN_HEIGHT + 100
+    new_height = len(all_workspaces) * SCREEN_HEIGHT + 300
     new_width = center_panel.scrollable_container.relative_rect.width
     center_panel.set_scrollable_area_dimensions((new_width, new_height))
 
@@ -784,6 +782,10 @@ while is_running:
     for ws in all_workspaces:
         if isinstance(ws, ActionWorkspace):
             ws.draw_debug_slots(window_surface)
+        if isinstance(ws, SFXWorkspace):
+            if not ws.hidden:
+                ws.draw_debug_slots(window_surface)
+
     pygame.display.update()
 
 pygame.quit()

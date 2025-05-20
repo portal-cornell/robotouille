@@ -109,6 +109,8 @@ class DraggableBlock(UIButton):
             starting_height=starting_height,
             **kwargs,
         )
+        self.dd = None
+        self.dd2 = None
 
         #  create & memorise each param dropdown
         self._param_widgets = []  # list of (offset, widget)
@@ -117,7 +119,7 @@ class DraggableBlock(UIButton):
                 dd_rect = pygame.Rect(
                     relative_rect.x + pos[0] + 25, relative_rect.y + pos[1] - 10, 50, 30
                 )
-                dd = UIDropDownMenu(
+                self.dd = UIDropDownMenu(
                     options_list=options,
                     starting_option=options[0],
                     relative_rect=dd_rect,
@@ -137,7 +139,7 @@ class DraggableBlock(UIButton):
                         50,
                         30,
                     )
-                    dd2 = UIDropDownMenu(
+                    self.dd2 = UIDropDownMenu(
                         options_list=options,
                         starting_option=options[1],
                         relative_rect=dd2_rect,
@@ -147,8 +149,8 @@ class DraggableBlock(UIButton):
                     second_offset = pygame.Vector2(dd2_rect.topleft) - pygame.Vector2(
                         relative_rect.topleft
                     )
-                    self._param_widgets.append((second_offset, dd2))
-                self._param_widgets.append((offset, dd))
+                    self._param_widgets.append((second_offset, self.dd2))
+                self._param_widgets.append((offset, self.dd))
         self.params = param_defs
         # drag state
         self.is_dragging = False
@@ -264,11 +266,15 @@ class DraggableBlock(UIButton):
                 if dx < 5 and dy < 5 and self.is_sfx and self.docked_slot:
                     rel_pos = (self.get_relative_rect()[0], self.get_relative_rect()[1])
                     self.sfx_workspace.set_relative_position((rel_pos[0], rel_pos[1]))
-                    for slot in self.sfx_workspace.slots:
-                        slot.rel_pos = (
-                            slot.rel_pos[0] + rel_pos[0],
-                            slot.rel_pos[1] + rel_pos[1],
-                        )
+                    # for i, slot in enumerate(self.sfx_workspace.slots):
+                    #     print("Slot " + str(i) + " moved from:")
+                    #     print(slot.rel_pos)
+                    #     slot.rel_pos = (
+                    #         slot.rel_pos[0] + rel_pos[0],
+                    #         slot.rel_pos[1] + rel_pos[1],
+                    #     )
+                    #     print("to:")
+                    #     print(slot.rel_pos)
 
                     if self.sfx_workspace.hidden:
                         self.sfx_workspace.show()
@@ -305,6 +311,20 @@ class DraggableBlock(UIButton):
         block_slots.pop(self.id, None)
         blocks_by_id.pop(self.id, None)
         super().kill()
+
+    def hide(self):
+        if self.dd:
+            self.dd.hide()
+        if self.dd2:
+            self.dd.hide()
+        super().hide()
+
+    def show(self):
+        if self.dd:
+            self.dd.show()
+        if self.dd2:
+            self.dd.show()
+        super().show()
 
 
 class EditorPanel(UIScrollingContainer):
@@ -532,7 +552,7 @@ class ActionWorkspace(UIPanel):
         """Return a free Slot whose (inflated) rect contains block centre, else None."""
         cx, cy = block_abs_rect.center
         for slot in self.slots:
-            if slot.occupied is None:
+            if slot.occupied is None and not slot.hidden:
                 big = slot.rect()
                 big = big.inflate(SNAP_TOLERANCE, SNAP_TOLERANCE)
                 # convert slot rect to ABSOLUTE coords:
@@ -965,6 +985,7 @@ class SFXWorkspace(UIPanel):
         self.manager = manager
 
         self.hidden = False
+        self.block = None
 
         self.precons = []
         self.ifxs = []
@@ -1090,15 +1111,21 @@ class SFXWorkspace(UIPanel):
                     else pygame.Color("darkgreen")
                 ),
                 pygame.Rect((abs_x, abs_y), slot.size),
-                2,
+                4,
             )
 
     def process_event(self, event: pygame.Event) -> bool:
         handled = super().process_event(event)
         if event.type == pygame_gui.UI_BUTTON_PRESSED:
             if event.ui_element == self.ex_button:
+                if self.block:
+                    self.block.kill()
                 self.kill()
+
         return handled
+
+    def associate_block(self, block: DraggableBlock):
+        self.block = block
 
     def preview_layer(self, top_layer):
         self.change_layer(top_layer)
@@ -1158,7 +1185,7 @@ class SFXWorkspace(UIPanel):
         """Return a free Slot whose (inflated) rect contains block centre, else None."""
         cx, cy = block_abs_rect.center
         for slot in self.slots:
-            if slot.occupied is None:
+            if slot.occupied is None and not slot.hidden:
                 big = slot.rect()
                 big = big.inflate(SNAP_TOLERANCE, SNAP_TOLERANCE)
                 # convert slot rect to ABSOLUTE coords:
