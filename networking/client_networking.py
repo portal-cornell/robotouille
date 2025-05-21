@@ -33,7 +33,6 @@ class NetworkManager:
         Transitions between in game screens
         """
         if self.current_screen in self.screens:
-            # screen transitions
             screen_obj = self.screens[self.current_screen]
             await screen_obj.update()
             self.screen.blit(screen_obj.get_screen(), (0, 0))
@@ -41,15 +40,15 @@ class NetworkManager:
                 self.current_screen = screen_obj.next_screen
                 screen_obj.set_next_screen(None)
         if self.current_screen == MAIN_MENU:
-            # returns back to sync world
+            print("[Client] Returning to main menu — exiting game loop")
             self.running = False
+            await self.websocket.close()
 
     async def game_loop(self):
         """
         Runs game loop
         """
         while self.running:
-            current_screen = self.current_screen
             self.screen.fill((0,0,0))
             if self.current_screen == GAME:
                 if self.simulator_instance is None:
@@ -85,7 +84,7 @@ class NetworkManager:
         try:
             while self.running:
                 message = await self.websocket.recv()
-                # print("[Listener] Raw message:", message)
+                print("[Listener] Raw message:", message)
                 parsed = json.loads(message)
                 if isinstance(parsed, dict): 
                     if parsed.get("type") == "start_game" or parsed.get("type") == "restart":
@@ -127,7 +126,7 @@ class NetworkManager:
             async with websockets.connect(self.host) as websocket:
                 print("[Client] Connected!")
                 self.websocket = websocket
-                await websocket.send(json.dumps({"type": "Connect"}))
+                await websocket.send(json.dumps({"type": "Connect to server"}))
                 print("[Client] Sent Connect message")
 
                 self.screens = {

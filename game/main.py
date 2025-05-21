@@ -35,14 +35,13 @@ def game(args):
     
     current_screen = LOGO
     running = True
-    simulator_instance = None
-    need_update = True
+
 
     def update_screen():
         """
         transitions the game between different screens
         """
-        nonlocal current_screen, need_update, args
+        nonlocal current_screen, args
         if current_screen in screens:
             screen_obj = screens[current_screen]
             screen_obj.update()
@@ -57,7 +56,6 @@ def game(args):
                 # screen transition
                 current_screen = screen_obj.next_screen
                 screen_obj.set_next_screen(None)
-                need_update = True
 
             if current_screen == MATCHMAKING:
                 # transfer control to async world
@@ -67,9 +65,16 @@ def game(args):
                 movement = args.movement_mode
                 host = "ws://localhost:8765"
                 nm = NetworkManager(env_name, seed, noisy, movement, host, args, screen, fps, clock, screen_size, simulator_screen_size)
+                print('entre async world')
                 asyncio.run(nm.connect()) 
+
+                # Reinitialize screen elements after async block exits
+                print("exit async world")
+                if MAIN_MENU not in screens:
+                    screens[MAIN_MENU] = MenuScreen(screen_size)
                 current_screen = MAIN_MENU
-                
+                print('back to main menu')
+
     while running:
         screen.fill((0,0,0))
         update_screen()
