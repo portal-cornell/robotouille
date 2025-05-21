@@ -174,12 +174,21 @@ class DraggableBlock(UIButton):
         blocks_by_id[self.id] = self
 
     def to_json(self):
-        precon_json = {}
-        precon_json["predicate"] = self.text
-        precon_json["params"] = []
-        for param in self.params:
-            precon_json["params"].append(param[2])
-        precon_json["is_true"] = self.toggled
+        if self.is_sfx:
+            return {
+                "type": self.text,
+                "param": (
+                    self.sfx_workspace.parameters[0]
+                    if self.sfx_workspace.parameters
+                    else ""
+                ),
+            }
+
+        precon_json = {
+            "predicate": self.text,
+            "params": [opt for _, _, opts in self.params for opt in opts],
+            "is_true": self.toggled,
+        }
         return precon_json
 
     # in the case of special effect instead of regular predicate
@@ -256,7 +265,7 @@ class DraggableBlock(UIButton):
                     self.docked_slot.occupied = None
                     self.docked_slot = None
                     block_slots.pop(self.id, None)
-                    print(all_workspaces)
+                    # print(all_workspaces)
 
                 # small click toggles
                 dx = abs(event.pos[0] - self.mouse_down_pos[0])
@@ -471,7 +480,7 @@ class ActionWorkspace(UIPanel):
         if event.type == pygame_gui.UI_BUTTON_PRESSED:
             if event.ui_element == self.save_button:
                 action = self.serialize()
-                print(action)
+                # print(action)
                 # json.dump(action, out_file, indent=4)
             elif event.ui_element == self.ex_button:
                 self.kill()
@@ -603,9 +612,10 @@ class ActionWorkspace(UIPanel):
             "name": self.top_label.get_text(),
             "precons": [b.to_json() for b in self.precons],
             "immediate_fx": [b.to_json() for b in self.ifxs],
-            "sfx": [b.to_json() for b in self.sfxs],
+            "sfx": [b.serialize() for b in self.sfxs],
             "language_description": "",
         }
+        print(action)
         return action
 
 
@@ -966,7 +976,7 @@ class SFXWorkspace(UIPanel):
         bg_color=pygame.Color(30, 0, 93),
         text="",
         starting_height=1,
-        parameters=set(),
+        parameters=[],
         **kwargs,
     ):
         super().__init__(
@@ -1114,6 +1124,25 @@ class SFXWorkspace(UIPanel):
                 4,
             )
 
+    def attach_block(self, block: DraggableBlock, slot: Slot):
+        # same docking logic from block process event
+        block_slots[block.id] = slot
+
+        abs_slot_x = self.get_abs_rect().x + slot.rel_pos[0]
+        abs_slot_y = self.get_abs_rect().y + slot.rel_pos[1]
+
+        # now get this block's container (still center_panel)
+        container_rect = block.ui_container.get_abs_rect()
+
+        # set rel position inside that panel, calculated from abs position
+        rel_x = abs_slot_x - container_rect.x
+        rel_y = abs_slot_y - container_rect.y
+
+        slot.occupied = block
+        block.slot_section = slot
+
+        block.set_relative_position((rel_x, rel_y))
+
     def process_event(self, event: pygame.Event) -> bool:
         handled = super().process_event(event)
         if event.type == pygame_gui.UI_BUTTON_PRESSED:
@@ -1164,10 +1193,12 @@ class SFXWorkspace(UIPanel):
 
     def serialize(self):
         self.calculate_slots()
+        self.parametrize()
+        param = self.parameters[0]
         if self.name == "conditional":
             sfx = {
                 "type": self.name,
-                "param": self.parameters[0],
+                "param": param,
                 "conditions": [b.to_json() for b in self.precons],
                 "fx": [b.to_json() for b in self.ifxs],
                 "sfx": [b.to_json() for b in self.sfxs],
@@ -1175,9 +1206,9 @@ class SFXWorkspace(UIPanel):
         else:
             sfx = {
                 "type": self.name,
-                "param": self.parameters[0],
+                "param": param,
                 "fx": [b.to_json() for b in self.ifxs],
-                "sfx": [b.serialize() for b in self.sfxs],
+                "sfx": [b.to_json() for b in self.sfxs],
             }
         return sfx
 
@@ -1225,7 +1256,9 @@ class SFXWorkspace(UIPanel):
                 block = slot.occupied
 
                 for label, pos, opts in block.params:
-                    self.parameters.update(opts)
+                    for opt in opts:
+                        if opt not in self.parameters:
+                            self.parameters.append(opt)
 
         for i, param in enumerate(self.parameters):
             if param[0] == "i":

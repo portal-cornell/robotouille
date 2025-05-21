@@ -160,9 +160,43 @@ if data is None:
 def find_slot(
     predicate_json, workspace: ActionWorkspace, section: str, container=center_panel
 ):
+
     for slot in workspace.slots:
         params = predicate_json.get("params", predicate_json.get("param"))
         if slot.occupied == None and slot.section == section:
+            if section == "sfx":
+                new_sfx = SFXWorkspace(
+                    relative_rect=pygame.Rect(mouse_pos, (850, 700)),
+                    manager=manager,
+                    container=center_panel,
+                    text=predicate_json["type"],
+                )
+                all_workspaces.append(new_sfx)
+                if "conditions" in predicate_json:
+                    for pred in predicate_json["conditions"]:
+                        find_slot(pred, new_sfx, "preconditions", new_sfx)
+                if "fx" in predicate_json:
+                    for pred in predicate_json["fx"]:
+                        find_slot(pred, new_sfx, "ifx", new_sfx)
+                if "sfx" in predicate_json:
+                    for pred in predicate_json["sfx"]:
+                        find_slot(pred, new_sfx, "sfx", new_sfx)
+
+                new_sfx.hide()
+                block = DraggableBlock(
+                    pygame.Rect((30, 30), (185, 40)),
+                    manager=manager,
+                    container=container,
+                    text=predicate_json["type"],
+                    param_defs=[],
+                    sfx=True,
+                    sfx_workspace=new_sfx,
+                )
+                slot.occupied = block
+                block.docked_slot = slot
+                workspace.attach_block(block, slot)
+                break
+
             block = DraggableBlock(
                 pygame.Rect((30, 30), (185, 40)),
                 manager=manager,
@@ -182,16 +216,16 @@ def find_slot(
             else:
                 block.toggle_color()
             workspace.attach_block(block, slot)
-            print(
-                "Added "
-                + predicate_json["predicate"]
-                + " to slot at ("
-                + str(slot.rel_pos[0])
-                + ", "
-                + str(slot.rel_pos[1])
-                + "). It is in state: "
-                + str(predicate_json["is_true"])
-            )
+            # print(
+            #     "Added "
+            #     + predicate_json["predicate"]
+            #     + " to slot at ("
+            #     + str(slot.rel_pos[0])
+            #     + ", "
+            #     + str(slot.rel_pos[1])
+            #     + "). It is in state: "
+            #     + str(predicate_json["is_true"])
+            # )
             break
 
 
@@ -220,8 +254,8 @@ def json_to_action(name: str, ws_x, ws_y, container=center_panel):
     for pred in action["immediate_fx"]:
         find_slot(pred, loaded_act, "ifx", container)
 
-    # for pred in action["sfx"]:
-    #     find_slot(pred, loaded_act, "sfx")
+    for pred in action["sfx"]:
+        find_slot(pred, loaded_act, "sfx")
     loaded_act.parametrize()
     return loaded_act
 
@@ -480,7 +514,7 @@ while is_running:
                 ws_x, ws_y = calc_workspace_coords()
                 new_action = json_to_action(event.ui_element.text, ws_x, ws_y)
                 a_blocks = new_action.attached_blocks
-                print(a_blocks)
+                # print(a_blocks)
                 all_workspaces.append(new_action)
                 set_new_scrollable_dims()
 
