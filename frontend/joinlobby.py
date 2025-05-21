@@ -295,7 +295,7 @@ class JoinLobbyScreen(ScreenInterface):
                     self.show_create_lobby = True
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if self.open_lobbies_rect.collidepoint(event.pos):
-                    self.set_next_screen(OWNLOBBY)
+                    self.set_next_screen(GUESTLOBBY)
                 return
 
             for btn in getattr(self, 'lobby_buttons', []):
