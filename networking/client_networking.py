@@ -10,6 +10,27 @@ from game.simulator import RobotouilleSimulator
 from networking.server_networking import DEBUGGING
 
 class NetworkManager:
+    """
+    NetworkManager handles all WebSocket communication and screen transitions
+    on the client side for the Robotouille game.
+
+    Responsibilities:
+    - Connect to the server and send initial connection info
+    - Listen for server messages (e.g., Start_game, Player_list, Results, etc.)
+    - Route messages to appropriate frontend components
+    - Coordinate screen updates via `game_loop()`
+    - Launch and update the RobotouilleSimulator when in-game
+
+    Attributes:
+        websocket (WebSocketClientProtocol): Current active connection.
+        shared_state (dict): Future-proofing for client state sharing across modules.
+        current_screen (int): Active screen identifier (from constants like MATCHMAKING, GAME).
+        simulator_instance (RobotouilleSimulator): Only active when in-game.
+        screen (pygame.Surface): Main display surface.
+        fps (int): Frame rate for UI rendering.
+
+    TODO: Suyean, should update game/simulator to match the states given by the server
+    """
     def __init__(self, environment_name: str, seed: int, noisy_randomization: bool, movement_mode: str, host: str = "ws://localhost:8765", args = None, screen = None, fps = None, clock = None, screen_size = (1440, 1024), simulator_screen_size = (512, 512)):
         self.websocket = None
         self.shared_state = {}
