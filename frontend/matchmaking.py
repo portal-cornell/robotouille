@@ -45,27 +45,28 @@ class MatchMakingScreen(ScreenInterface):
         self.background_image = LoadingScreen.ASSET[SHARED_DIRECTORY]["background.png"]
         self.empty_profile_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["empty.png"]
         self.profile_image = LoadingScreen.ASSET[ASSETS_DIRECTORY]["profile.png"]
-
+  
     def set_players(self, existing_players):
         """
         Set existing players.
 
         Args:
-            existing_players (lList[PlayerID, PlayerName, Status]): List of player data
+            existing_players (List[Dict]): List of player data dicts with keys 'playerID', 'name', 'status'
         """
 
-        if len(existing_players) >= MAX_PLAYERS:
-            raise Exception("To many players")
+        if len(existing_players) > MAX_PLAYERS:
+            raise Exception("Too many players")
         
         self.count = len(existing_players)
 
         for i in range(4):
             if i < len(existing_players):
-                self.players[i]["name"].set_text(existing_players[i][1])
+                self.players[i]["name"].set_text(existing_players[i]["name"])
                 self.players[i]["icon"].set_image(self.profile_image)
             else:
                 self.players[i]["name"].set_text("")
-                self.players[i]["icon"].set_image(self.empty_profile_image)  
+                self.players[i]["icon"].set_image(self.empty_profile_image)
+
 
     def draw(self):
         """Draws all the screen components."""

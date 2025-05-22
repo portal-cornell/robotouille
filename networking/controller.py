@@ -49,8 +49,8 @@ def run_networking(environment_name: str, role: str, seed: int, noisy_randomizat
         role = "replay"
 
     if role == "server":
-        robotouille_server.run_server(environment_name, seed, noisy_randomization, movement_mode, display_server)
-        return
+        # robotouille_server.run_server(environment_name, seed, noisy_randomization, movement_mode, display_server)
+        # return
         # parse host URI like "ws://localhost:8765"
         parsed = urlparse(host)
         server_host = parsed.hostname or "0.0.0.0"

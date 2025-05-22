@@ -7,6 +7,7 @@ from frontend.constants import GAME, ENDGAME, MATCHMAKING, MAIN_MENU
 from frontend.endgame import EndScreen
 from frontend.matchmaking import MatchMakingScreen
 from game.simulator import RobotouilleSimulator
+from networking.server_networking import DEBUGGING
 
 class NetworkManager:
     def __init__(self, environment_name: str, seed: int, noisy_randomization: bool, movement_mode: str, host: str = "ws://localhost:8765", args = None, screen = None, fps = None, clock = None, screen_size = (1440, 1024), simulator_screen_size = (512, 512)):
@@ -80,35 +81,36 @@ class NetworkManager:
         """
         Continuously listens for messages from the server in the background.
         """
-        print("[Listener] Started")
+        if DEBUGGING: print("[Listener] Started")
         try:
             while self.running:
                 message = await self.websocket.recv()
-                print("[Listener] Raw message:", message)
+                if DEBUGGING: print("[Listener] Raw message:", message)
                 parsed = json.loads(message)
                 if isinstance(parsed, dict): 
-                    if parsed.get("type") == "start_game" or parsed.get("type") == "restart":
+                    if parsed.get("type") == "Start_game" or parsed.get("type") == "Restart":
                         self.screens[self.current_screen].set_next_screen(None)
                         self.current_screen = GAME
-                    elif parsed.get("type") == "player_list":
+                    elif parsed.get("type") == "Player_list":
                         payload = parsed.get("payload")
                         self.screens[MATCHMAKING].set_players(payload)  
-                    elif parsed.get("type") == "player_status":
+                    elif parsed.get("type") == "Player_status":
                         payload = parsed.get("payload")
+                        print('player status,', payload)
                         self.screens[ENDGAME].create_profile(payload) 
-                    elif parsed.get("type") == "game_state":
+                    elif parsed.get("type") == "Game_state":
                         # TODO Su Yean
                         pass
-                    elif parsed.get("type") == "game_ended":
+                    elif parsed.get("type") == "Game_ended":
                         # TODO Su Yean
                         pass
-                    elif parsed.get("type") == "result":
+                    elif parsed.get("type") == "Result":
                         payload = parsed.get("payload")
                         stars, coins, bells = payload.get("stars"), payload.get("coins"), payload.get("bells")
                         self.screens[ENDGAME].set_stars(stars) 
                         self.screens[ENDGAME].set_coin(coins)
                         self.screens[ENDGAME].set_bell(bells)
-                    elif parsed.get("type") == "auto_matchmaking":
+                    elif parsed.get("type") == "Auto_matchmaking":
                         self.screens[self.current_screen].set_next_screen(None)
                         self.current_screen = MATCHMAKING
         except websockets.ConnectionClosed:
@@ -124,10 +126,15 @@ class NetworkManager:
         """
         try:
             async with websockets.connect(self.host) as websocket:
-                print("[Client] Connected!")
+                if DEBUGGING: print("[Client] Connected!")
                 self.websocket = websocket
-                await websocket.send(json.dumps({"type": "Connect to server"}))
-                print("[Client] Sent Connect message")
+                await websocket.send(json.dumps({
+                    "type": "Connect",
+                    "lobby_id": "default",       
+                    "player_name": "Alice"  
+                }))
+                # await websocket.send(json.dumps({"type": "Connect to server"}))
+                if DEBUGGING: print("[Client] Sent Connect message")
 
                 self.screens = {
                     ENDGAME : EndScreen(self.screen_size, websocket),
