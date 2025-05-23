@@ -37,6 +37,11 @@ RED2 = pygame.Color("#e72121")
 RED0 = pygame.Color("#ff5656")
 NEUTRALDARK = pygame.Color("#292929")
 
+# Add new color constants at the top with the existing colors
+BEIGE_BG = pygame.Color("#FFF1DD")
+WHITE = pygame.Color("#FFFFFF")
+GRAY_TEXT = pygame.Color("#474747")
+
 from declarations import Vec2, Item, Station, ItemInstance, StationInstance
 from level_state import (
     LevelState,
@@ -308,6 +313,7 @@ def loop(editor_state: EditorState):
     # Pygame UI setup
     manager = pygame_gui.UIManager(
         (SCREEN_WIDTH + SIDE_MARGIN, SCREEN_HEIGHT + LOWER_MARGIN),
+        os.path.join(os.path.dirname(__file__), "theme.json"),
     )
     manager.set_visual_debug_mode(True)
 
@@ -321,13 +327,108 @@ def loop(editor_state: EditorState):
         manager=manager,
         visible=False,
         container=None,
+        object_id=pygame_gui.core.ObjectID(class_id="@panel", object_id="#item_panel"),
     )
-    item_label = pygame_gui.elements.UILabel(
-        relative_rect=pygame.Rect((0, 0), (item_panel_width, 30)),
-        text="Items",
-        manager=manager,
-        container=item_panel,
-    )
+
+    # Group items by type
+    grouped_items = {}
+    item_buttons = {}
+    for item, predicates in editor_state.get_item_states():
+        if item.name not in grouped_items:
+            grouped_items[item.name] = []
+        grouped_items[item.name].append((item, predicates))
+
+    # Create item groups with headers
+    button_y = 10  # Start at top since there's no search bar
+    for item_name, states in grouped_items.items():
+        # Add group header
+        header_text = f"{item_name.upper()} • {len(states)} STATES"
+        group_header = pygame_gui.elements.UILabel(
+            relative_rect=pygame.Rect((10, button_y), (item_panel_width - 20, 30)),
+            text=header_text,
+            manager=manager,
+            container=item_panel,
+            object_id=pygame_gui.core.ObjectID(
+                class_id="@label", object_id="#group_header"
+            ),
+        )
+        button_y += 40
+
+        # Create grid of item states (4 per row)
+        button_width = 60
+        button_height = 60
+        spacing = (item_panel_width - 40 - (4 * button_width)) // 3
+
+        for i, (item, predicates) in enumerate(states):
+            row = i // 4
+            col = i % 4
+            button_x = 10 + (col * (button_width + spacing))
+
+            def make_item_callback(item_name, predicates):
+                def on_item_click():
+                    selected_item = next(
+                        (
+                            item
+                            for item in editor_state.get_items()
+                            if item.name == item_name
+                        ),
+                        None,
+                    )
+                    if selected_item:
+                        editor_state.set_selected((selected_item, set(predicates)))
+                        print(
+                            f"Selected item: {item_name} with predicates: {predicates}"
+                        )
+
+                return on_item_click
+
+            try:
+                asset = item.state_map[frozenset(predicates)]
+                item_asset_path = os.path.join(
+                    editor_state.get_project_root_path(), "assets", asset
+                )
+                img = pygame.image.load(item_asset_path).convert_alpha()
+                img = pygame.transform.scale(
+                    img, (button_width - 10, button_height - 10)
+                )
+
+                button_container = pygame_gui.elements.UIPanel(
+                    relative_rect=pygame.Rect(
+                        (button_x, button_y + (row * (button_height + 10))),
+                        (button_width + 5, button_height + 5),
+                    ),
+                    manager=manager,
+                    container=item_panel,
+                    object_id=pygame_gui.core.ObjectID(
+                        class_id="@panel", object_id="#item_button_container"
+                    ),
+                )
+
+                item_button = pygame_gui.elements.UIButton(
+                    relative_rect=pygame.Rect((0, 0), (button_width, button_height)),
+                    text="",
+                    manager=manager,
+                    container=button_container,
+                    command=make_item_callback(item.name, predicates),
+                    object_id=pygame_gui.core.ObjectID(
+                        class_id="@button", object_id="#item_button"
+                    ),
+                )
+
+                item_button.normal_image = img
+                item_button.hovered_image = img
+                item_button.pressed_image = img
+                item_button.rebuild()
+                item_buttons[(item.name, tuple(predicates))] = item_button
+
+            except FileNotFoundError:
+                print(f"Asset not found: {item_asset_path}")
+            except KeyError:
+                print(
+                    f"No asset found for predicates: {predicates} for item {item.name}"
+                )
+
+        button_y += ((len(states) - 1) // 4 + 1) * (button_height + 10) + 20
 
     station_panel = pygame_gui.elements.UIPanel(
         relative_rect=pygame.Rect(
@@ -337,21 +438,34 @@ def loop(editor_state: EditorState):
         manager=manager,
         visible=False,
         container=None,
+        object_id=pygame_gui.core.ObjectID(
+            class_id="@panel", object_id="#station_panel"
+        ),
     )
-    station_label = pygame_gui.elements.UILabel(
-        relative_rect=pygame.Rect((0, 0), (item_panel_width, 30)),
-        text="Stations",
+
+    # Station header
+    station_header = pygame_gui.elements.UILabel(
+        relative_rect=pygame.Rect((10, 10), (item_panel_width - 20, 30)),
+        text="STATIONS",
         manager=manager,
         container=station_panel,
+        object_id=pygame_gui.core.ObjectID(
+            class_id="@label", object_id="#group_header"
+        ),
     )
 
     # Station Buttons
     station_buttons = {}
-    button_width = 50
-    button_height = 50
+    button_width = 60
+    button_height = 60
     button_x = 10
-    button_y = 10
-    for station in editor_state.get_stations():
+    button_y = 50  # Adjusted since there's no search bar
+    spacing = (item_panel_width - 40 - (4 * button_width)) // 3
+
+    for i, station in enumerate(editor_state.get_stations()):
+        row = i // 4
+        col = i % 4
+        button_x = 10 + (col * (button_width + spacing))
 
         def make_station_callback(station_name):
             def on_station_click():
@@ -374,29 +488,43 @@ def loop(editor_state: EditorState):
         )
         try:
             img = pygame.image.load(station_asset_path).convert_alpha()
-            img = pygame.transform.scale(img, (button_width, button_height))
-            station_button = pygame_gui.elements.UIButton(
+            img = pygame.transform.scale(img, (button_width - 10, button_height - 10))
+
+            button_container = pygame_gui.elements.UIPanel(
                 relative_rect=pygame.Rect(
-                    (button_x, button_y), (button_width, button_height)
+                    (button_x, button_y + (row * (button_height + 10))),
+                    (button_width + 5, button_height + 5),
                 ),
-                text="",
                 manager=manager,
                 container=station_panel,
-                command=make_station_callback(station.name),
+                object_id=pygame_gui.core.ObjectID(
+                    class_id="@panel", object_id="#item_button_container"
+                ),
             )
+
+            station_button = pygame_gui.elements.UIButton(
+                relative_rect=pygame.Rect((0, 0), (button_width, button_height)),
+                text="",
+                manager=manager,
+                container=button_container,
+                command=make_station_callback(station.name),
+                object_id=pygame_gui.core.ObjectID(
+                    class_id="@button", object_id="#station_button"
+                ),
+            )
+
             station_button.normal_image = img
             station_button.hovered_image = img
             station_button.pressed_image = img
             station_button.rebuild()
             station_buttons[station.name] = station_button
 
-            button_y += button_height + 10
         except FileNotFoundError:
             print(f"Asset not found: {station_asset_path}")
 
     # Buttons
     button_panel = pygame_gui.elements.UIPanel(
-        relative_rect=pygame.Rect((10, 575), (200, 300)),
+        relative_rect=pygame.Rect((10, 575), (210, 300)),
         manager=manager,
     )
 
@@ -502,58 +630,6 @@ def loop(editor_state: EditorState):
             station_panel.show()
         elif mode == "player_position":
             editor_state.set_selected(None)
-
-    # Item Buttons
-    item_buttons = {}
-    button_width = 50
-    button_height = 50
-    button_x = 10
-    button_y = 10
-    for item, predicates in editor_state.get_item_states():
-
-        def make_item_callback(item_name, predicates):
-            def on_item_click():
-                selected_item = next(
-                    (
-                        item
-                        for item in editor_state.get_items()
-                        if item.name == item_name
-                    ),
-                    None,
-                )
-                if selected_item:
-                    editor_state.set_selected((selected_item, set(predicates)))
-                    print(f"Selected item: {item_name} with predicates: {predicates}")
-
-            return on_item_click
-
-        try:
-            asset = item.state_map[frozenset(predicates)]
-            item_asset_path = os.path.join(
-                editor_state.get_project_root_path(), "assets", asset
-            )
-            img = pygame.image.load(item_asset_path).convert_alpha()
-            img = pygame.transform.scale(img, (button_width, button_height))
-            item_button = pygame_gui.elements.UIButton(
-                relative_rect=pygame.Rect(
-                    (button_x, button_y), (button_width, button_height)
-                ),
-                text="",
-                manager=manager,
-                container=item_panel,
-                command=make_item_callback(item.name, predicates),
-            )
-            item_button.normal_image = img
-            item_button.hovered_image = img
-            item_button.pressed_image = img
-            item_button.rebuild()
-            item_buttons[(item.name, tuple(predicates))] = item_button
-
-            button_y += button_height + 10
-        except FileNotFoundError:
-            print(f"Asset not found: {item_asset_path}")
-        except KeyError:
-            print(f"No asset found for predicates: {predicates} for item {item.name}")
 
     clock = pygame.time.Clock()
     running = True
