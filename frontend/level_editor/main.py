@@ -307,7 +307,7 @@ def loop(editor_state: EditorState):
 
     # Pygame UI setup
     manager = pygame_gui.UIManager(
-        (SCREEN_WIDTH + SIDE_MARGIN, SCREEN_HEIGHT + LOWER_MARGIN),
+        (SCREEN_WIDTH + SIDE_MARGIN, SCREEN_HEIGHT + LOWER_MARGIN), "label.json"
     )
     manager.set_visual_debug_mode(True)
 
@@ -341,6 +341,22 @@ def loop(editor_state: EditorState):
     station_label = pygame_gui.elements.UILabel(
         relative_rect=pygame.Rect((0, 0), (item_panel_width, 30)),
         text="Stations",
+        manager=manager,
+        container=station_panel,
+    )
+
+    container_panel = pygame_gui.elements.UIPanel(
+        relative_rect=pygame.Rect(
+            (SCREEN_WIDTH, 0),
+            (SIDE_MARGIN, SCREEN_HEIGHT + LOWER_MARGIN),
+        ),
+        manager=manager,
+        visible=False,
+        container=None,
+    )
+    container_label = pygame_gui.elements.UILabel(
+        relative_rect=pygame.Rect((0, 0), (item_panel_width, 30)),
+        text="Containers",
         manager=manager,
         container=station_panel,
     )
@@ -426,6 +442,37 @@ def loop(editor_state: EditorState):
 
     selected_mode = "stations"
     editing_goal = False
+
+    # setting the grid size elements
+    button_panel.hide()
+    map_panel = pygame_gui.elements.UIPanel(
+        relative_rect=pygame.Rect((SCREEN_WIDTH / 2 - 100, SCREEN_HEIGHT / 2 - 200), (400, 400)), manager=manager
+    )
+    pygame_gui.elements.UILabel(
+        relative_rect=pygame.Rect((100, 50), (200, 50)),
+        text="Input Map Size", manager=manager, container=map_panel)
+    pygame_gui.elements.UILabel(
+        relative_rect=pygame.Rect((0, 200), (400, 50)),
+        text="Click Enter to Save for each dimension", manager=manager, container=map_panel)
+    pygame_gui.elements.UILabel(
+        relative_rect=pygame.Rect((0, 100), (200, 50)),
+        text="Width: ", manager=manager, container=map_panel)
+    pygame_gui.elements.UILabel(
+        relative_rect=pygame.Rect((0, 150), (200, 50)),
+        text="Height: ", manager=manager, container=map_panel)
+
+    dimension_list = []
+    width_entry = pygame_gui.elements.UITextEntryLine(
+        relative_rect=pygame.Rect((150, 100), (125, 50)), manager=manager, container=map_panel,
+        initial_text="Enter an integer")
+    dimension_list.append(width_entry)
+    height_entry = pygame_gui.elements.UITextEntryLine(
+        relative_rect=pygame.Rect((150, 150), (125, 50)), manager=manager, container=map_panel,
+        initial_text="Enter an integer")
+    dimension_list.append(height_entry)
+
+    continue_button = pygame_gui.elements.UIButton(
+        relative_rect=pygame.Rect((150, 300), (100, 50)), text="Continue", manager=manager, container=map_panel)
 
     def set_selected_mode(mode):
         nonlocal selected_mode
@@ -546,12 +593,25 @@ def loop(editor_state: EditorState):
 
             goal_buttons[i] = (ignore_order_button, require_top_button)
 
+    map_width = 0
+    map_height = 0
     while running:
         time_delta = clock.tick(60) / 1000.0
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+
+            if event.type == pygame_gui.UI_TEXT_ENTRY_FINISHED:
+                try:
+                    number = int(event.text)
+                    if event.ui_element == dimension_list[0]:
+                        map_width = number
+                    else:
+                        map_height = number
+                except ValueError:
+                    print("Error: must enter an integer!")
+                print("Width: " + str(map_width), "Height: " + str(map_height))
 
             if event.type == pygame.MOUSEWHEEL:
                 level_x -= event.x * 10
@@ -590,6 +650,14 @@ def loop(editor_state: EditorState):
                         test_level = loaded_level
                         TILE_SIZE = int(516 // test_level.width)
                         print("Level loaded successfully!")
+                elif event.ui_element == continue_button:
+                    print("Final Width: " + str(map_width), "Final Height: " + str(map_height))
+                    map_panel.hide()
+                    button_panel.show()
+                    if map_width != 0 and map_height != 0:
+                        print("modified grid")
+                        test_level = LevelState(map_width, map_height)
+                        TILE_SIZE = int(516 // map_width)
                 else:
                     # Check if it's an item button
                     for (item_name, predicates), button in item_buttons.items():
@@ -693,7 +761,7 @@ def loop(editor_state: EditorState):
                 test_level.goal,
             )
             window_surface.blit(goal_surface, (level_x, level_y))
-        else:
+        elif not map_panel.visible:
             level_surface = render_level(
                 test_level, TILE_SIZE, editor_state.get_asset_dir_path()
             )
