@@ -70,6 +70,7 @@ class Slot:
         self.occupied = None  # points to DraggableBlock or None
         self.section = section
         self.hidden = False
+        self.workspace = None
 
     def rect(self):
         return pygame.Rect(self.rel_pos, self.size)
@@ -555,11 +556,11 @@ class ActionWorkspace(UIPanel):
         for i, slot in enumerate(self.slots):
             if slot.occupied is None:
                 continue
-            else:
-                block = slot.occupied
 
-                for label, pos, opts in block.params:
-                    self.parameters.update(opts)
+            block = slot.occupied
+
+            for label, pos, opts in block.params:
+                self.parameters.update(opts)
 
         for i, param in enumerate(self.parameters):
             if param[0] == "i":
@@ -618,11 +619,10 @@ class ActionWorkspace(UIPanel):
     def calculate_slots(self):
         self.precons, self.ifxs, self.sfxs = [], [], []
 
-        for block_id, slot in block_slots.items():
-            block = blocks_by_id.get(block_id)
-            if not block:  # block was killed, ignore
+        for slot in self.slots:
+            if slot.occupied is None:
                 continue
-
+            block = slot.occupied
             sect = slot.section
             if sect == "preconditions":
                 self.precons.append(block)
@@ -1107,6 +1107,7 @@ class SFXWorkspace(UIPanel):
                         section = "sfx"
 
                     self.slots.append(Slot((int(x), y), section=section))
+                    self.slots[-1].workspace = self
 
         elif (text == "repetitive" or text == "delayed") and text in self.type:
             self.immediateFX_label = UITextBox(
@@ -1209,11 +1210,10 @@ class SFXWorkspace(UIPanel):
     def calculate_slots(self):
         self.precons, self.ifxs, self.sfxs = [], [], []
 
-        for block_id, slot in block_slots.items():
-            block = blocks_by_id.get(block_id)
-            if not block:  # killed block
+        for slot in self.slots:
+            if slot.occupied is None:
                 continue
-
+            block = slot.occupied
             sect = slot.section
             if sect == "preconditions":
                 self.precons.append(block)
@@ -1290,13 +1290,13 @@ class SFXWorkspace(UIPanel):
         for i, slot in enumerate(self.slots):
             if slot.occupied is None:
                 continue
-            else:
-                block = slot.occupied
 
-                for label, pos, opts in block.params:
-                    for opt in opts:
-                        if opt not in self.parameters:
-                            self.parameters.append(opt)
+            block = slot.occupied
+
+            for label, pos, opts in block.params:
+                for opt in opts:
+                    if opt not in self.parameters:
+                        self.parameters.append(opt)
 
         for i, param in enumerate(self.parameters):
             if param[0] == "i":
