@@ -71,8 +71,8 @@ if not config_file_path:
 else:
     print(f"[CONFIG] config path: {config_file_path}")
 
-with open(config_file_path, "r") as f:
-    config_data = json.load(f)
+# with open(config_file_path, "r") as f:
+#     config_data = json.load(f)
 
 RENDERER_CONFIG_DIR = os.path.abspath(
     os.path.join(
@@ -192,7 +192,7 @@ def render_level(
 
 def render_goal(tile_size: int, asset_dir_path: str, goal: Goal) -> pygame.Surface:
     # colors
-    surface = pygame.Surface((tile_size, tile_size))
+    surface = pygame.Surface((tile_size * 3, tile_size * 3))
     surface.fill(BEIGE2)
 
     pygame.draw.rect(surface, NEUTRAL6, surface.get_rect(), 1)
@@ -208,8 +208,8 @@ def render_goal(tile_size: int, asset_dir_path: str, goal: Goal) -> pygame.Surfa
         surface.blit(
             img,
             (
-                0,
-                0 - i * (tile_size / 4),
+                tile_size,
+                (2 * tile_size) - i * (tile_size / 4),
             ),
         )
     return surface
@@ -232,7 +232,7 @@ def setup() -> EditorState:
     print(f"[CONFIG] project root path: {project_root_path}")
     print(f"[CONFIG] asset dir path: {asset_dir_path}")
 
-    item_entities = config_data["item"]["entities"]
+    item_entities = renderer_data["item"]["entities"]
     items = {}
     for item_name, item_data in item_entities.items():
         assets = item_data["assets"]
@@ -250,7 +250,7 @@ def setup() -> EditorState:
         items[item_name] = Item(item_name, state_map)
 
     stations = {}  # stations not loaded from config, hardcoded in loop()
-    station_entities = config_data["station"]["entities"]
+    station_entities = renderer_data["station"]["entities"]
     stations = {}
     for station_name, station_data in station_entities.items():
         assets = station_data["assets"]
@@ -756,10 +756,11 @@ def loop(editor_state: EditorState):
                     print("Final Width: " + str(map_width), "Final Height: " + str(map_height))
                     map_panel.hide()
                     button_panel.show()
-                    if map_width != 0 and map_height != 0:
-                        print("modified grid")
-                        test_level = LevelState(map_width, map_height)
-                        TILE_SIZE = int(516 // map_width)
+                    # if map_width != 0 and map_height != 0:
+                    #     print("modified grid")
+                    #     test_level = LevelState(map_width, map_height)
+                    #     TILE_SIZE = int(516 // map_width)
+                    #     print(TILE_SIZE)
                 # Check if it's an item button
                 for (item_name, predicates), button in item_buttons.items():
                     if event.ui_element == button:
