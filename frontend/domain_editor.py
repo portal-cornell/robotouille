@@ -1,6 +1,6 @@
 import pygame
 import pygame_gui
-from pygame_gui.elements import UIButton, UIImage
+from pygame_gui.elements import UIButton, UIImage, UITextEntryLine
 from domain_elements import *
 import json
 import os
@@ -100,6 +100,14 @@ left_panel = EditorPanel(
     bg_color=pygame.Color("#DCEAF4"),
     allow_scroll_x=False,
 )
+search_bar = UITextEntryBox(
+    relative_rect=pygame.Rect(10, 10, LEFT_WIDTH, 100),
+    manager=manager,
+    container=left_panel,
+    initial_text="Search...",
+    placeholder_text="Search...",
+)
+search_bars = [search_bar]
 center_panel = EditorPanel(
     pygame.Rect(LEFT_WIDTH, 0, CENTER_WIDTH, SCREEN_HEIGHT), manager
 )
@@ -135,8 +143,9 @@ right_panel.set_scrollable_area_dimensions((RIGHT_WIDTH, SCREEN_HEIGHT * 2))
 # global variable added
 orginal_json_path = None
 # predicate defs buttons in the left panel:
-preds = []
+full_preds = []
 pred_buttons = []
+
 
 save_pred_buttons = {}  # dictionary for save predicate
 # json initialization
@@ -155,6 +164,9 @@ if data is None:
     except FileNotFoundError:
         # Create empty structure if no file exists
         data = {"predicate_defs": [], "action_defs": []}
+
+for pred in data["predicate_defs"]:
+    full_preds.append(pred["name"])
 
 
 def find_slot(
@@ -260,10 +272,19 @@ def json_to_action(name: str, ws_x, ws_y, container=center_panel):
     return loaded_act
 
 
-def populate_predicates():
+def populate_predicates(preds):
     left_panel.get_container().clear()
-    preds.clear()
+
     pred_buttons.clear()
+    search_bars.clear()
+    search_bar = UITextEntryLine(
+        relative_rect=pygame.Rect(10, 10, LEFT_WIDTH - 20, 40),
+        manager=manager,
+        container=left_panel,
+        # initial_text="Search...",
+        placeholder_text="Search...",
+    )
+    search_bars.append(search_bar)
     # get dimensions from image
     button_image_path = os.path.join(
         os.path.dirname(__file__), "..", "assets", "buttons", "predicate.png"
@@ -275,12 +296,9 @@ def populate_predicates():
     else:
         button_width, button_height = 180, 40
 
-    for pred in data["predicate_defs"]:
-        preds.append(pred["name"])
-
     for i, text in enumerate(preds):
         button = UIButton(
-            relative_rect=pygame.Rect(15, 10 + i * 50, button_width, button_height),
+            relative_rect=pygame.Rect(15, 50 + i * 50, button_width, button_height),
             text=text,
             manager=manager,
             container=left_panel,
@@ -290,9 +308,12 @@ def populate_predicates():
 
 
 # action defs buttons in left panel
-actions = []
+full_actions = []
 action_buttons = []
 action_hover = None
+
+for action in data["action_defs"]:
+    full_actions.append(action["name"])
 
 
 # helper func to determine an action's parameters
@@ -308,17 +329,23 @@ def identify_params(name: str):
             params.add(param)
 
 
-def populate_actions():
+def populate_actions(actions):
     left_panel.get_container().clear()
 
-    actions.clear()
     action_buttons.clear()
-    for action in data["action_defs"]:
-        actions.append(action["name"])
+    search_bars.clear()
+    search_bar = UITextEntryLine(
+        relative_rect=pygame.Rect(10, 10, LEFT_WIDTH - 20, 40),
+        manager=manager,
+        container=left_panel,
+        # initial_text="Search...",
+        placeholder_text="Search...",
+    )
+    search_bars.append(search_bar)
 
     for i, text in enumerate(actions):
         button = UIButton(
-            relative_rect=pygame.Rect(10, 10 + i * 50, 180, 40),
+            relative_rect=pygame.Rect(10, 50 + i * 50, 180, 40),
             text=text,
             manager=manager,
             container=left_panel,
@@ -326,16 +353,25 @@ def populate_actions():
         action_buttons.append(button)
 
 
-sfxs = ["conditional", "repetitive", "delayed"]
+full_sfxs = ["conditional", "repetitive", "delayed"]
 sfx_buttons = []
 
 
-def populate_sfx():
+def populate_sfx(sfxs):
     left_panel.get_container().clear()
-    sfx_buttons.clear()
+
+    search_bars.clear()
+    search_bar = UITextEntryLine(
+        relative_rect=pygame.Rect(10, 10, LEFT_WIDTH - 20, 40),
+        manager=manager,
+        container=left_panel,
+        # initial_text="Search...",
+        placeholder_text="Search...",
+    )
+    search_bars.append(search_bar)
     for i, text in enumerate(sfxs):
         button = UIButton(
-            relative_rect=pygame.Rect(10, 10 + i * 50, 180, 40),
+            relative_rect=pygame.Rect(10, 50 + i * 50, 180, 40),
             text=text,
             manager=manager,
             container=left_panel,
@@ -345,7 +381,8 @@ def populate_sfx():
         sfx_buttons.append(button)
 
 
-populate_predicates()
+populate_predicates(full_preds)
+showing = "p"
 
 
 # buttons for toggling predicates to
@@ -441,6 +478,20 @@ while is_running:
         if event.type == pygame.QUIT:
             is_running = False
         manager.process_events(event)
+        if event.type == pygame_gui.UI_TEXT_ENTRY_FINISHED:
+            print(event.text.lower())
+            if event.ui_element in search_bars:
+                text = event.text.lower()
+                if showing == "p":
+                    filtered = [p for p in full_preds if text in p.lower()]
+                    populate_predicates(filtered)
+                elif showing == "a":
+                    filtered = [a for a in full_actions if text in a.lower()]
+                    populate_actions(filtered)
+                elif showing == "s":
+                    filtered = [s for s in full_sfxs if text in s.lower()]
+                    populate_sfx(filtered)
+
         if event.type == pygame_gui.UI_BUTTON_PRESSED:
 
             if event.ui_element in pred_buttons:
@@ -543,12 +594,15 @@ while is_running:
 
                 if left_panel.showing_predicates:
                     toggle_button.set_text("Show Actions")
-                    populate_predicates()
+                    populate_predicates(full_preds)
+                    showing = "p"
                 else:
                     toggle_button.set_text("Show Predicates")
-                    populate_actions()
+                    populate_actions(full_actions)
+                    showing = "a"
             elif event.ui_element == show_sfx_button:
-                populate_sfx()
+                populate_sfx(full_sfxs)
+                showing = "s"
             elif event.ui_element == new_pred_button:
                 ws_x, ws_y = calc_workspace_coords()
                 rel_rect = pygame.Rect(ws_x - 100, ws_y, 500, 100)
@@ -813,12 +867,12 @@ while is_running:
     manager.update(time_delta)
     window_surface.fill(pygame.Color("#61ACF8"))
     manager.draw_ui(window_surface)
-    for ws in all_workspaces:
-        if isinstance(ws, ActionWorkspace):
-            ws.draw_debug_slots(window_surface)
-        if isinstance(ws, SFXWorkspace):
-            if not ws.hidden:
-                ws.draw_debug_slots(window_surface)
+    # for ws in all_workspaces:
+    #     if isinstance(ws, ActionWorkspace):
+    #         ws.draw_debug_slots(window_surface)
+    #     if isinstance(ws, SFXWorkspace):
+    #         if not ws.hidden:
+    #             ws.draw_debug_slots(window_surface)
 
     pygame.display.update()
 

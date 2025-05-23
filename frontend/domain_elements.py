@@ -356,6 +356,30 @@ class EditorPanel(UIScrollingContainer):
         self.showing_predicates = True
 
 
+def _uniq(pred_list):
+    """Return a list with duplicate predicate dicts removed."""
+    seen = set()
+    out = []
+    for pr in pred_list:
+        key = (pr["predicate"], tuple(pr["params"]), pr.get("is_true"))
+        if key not in seen:
+            seen.add(key)
+            out.append(pr)
+    return out
+
+
+def _dedup_sfx(sfx_dict):
+    """Emit each unique SFX exactly once."""
+    key = json.dumps(sfx_dict, sort_keys=True)
+    if key in _dedup_sfx._seen:
+        return None
+    _dedup_sfx._seen.add(key)
+    return sfx_dict
+
+
+_dedup_sfx._seen = set()
+
+
 class ActionWorkspace(UIPanel):
     def __init__(
         self,
@@ -484,6 +508,7 @@ class ActionWorkspace(UIPanel):
                 # json.dump(action, out_file, indent=4)
             elif event.ui_element == self.ex_button:
                 self.kill()
+
         return handled
 
     def preview_layer(self, top_layer):
@@ -608,11 +633,17 @@ class ActionWorkspace(UIPanel):
 
     def serialize(self):
         self.calculate_slots()
+        raw_sfx = [b.serialize() for b in self.sfxs]
+        unique_sfx = []
+        for entry in raw_sfx:
+            deduped = _dedup_sfx(entry)
+            if deduped is not None:
+                unique_sfx.append(deduped)
         action = {
             "name": self.top_label.get_text(),
-            "precons": [b.to_json() for b in self.precons],
-            "immediate_fx": [b.to_json() for b in self.ifxs],
-            "sfx": [b.serialize() for b in self.sfxs],
+            "precons": _uniq([b.to_json() for b in self.precons]),
+            "immediate_fx": _uniq([b.to_json() for b in self.ifxs]),
+            "sfx": unique_sfx,
             "language_description": "",
         }
         print(action)
@@ -1195,20 +1226,27 @@ class SFXWorkspace(UIPanel):
         self.calculate_slots()
         self.parametrize()
         param = self.parameters[0]
+        raw_sfx = [b.to_json() for b in self.sfxs]
+        unique_sfx = []
+        for entry in raw_sfx:
+            deduped = _dedup_sfx(entry)
+            if deduped is not None:
+                unique_sfx.append(deduped)
+
         if self.name == "conditional":
             sfx = {
                 "type": self.name,
                 "param": param,
-                "conditions": [b.to_json() for b in self.precons],
-                "fx": [b.to_json() for b in self.ifxs],
-                "sfx": [b.to_json() for b in self.sfxs],
+                "conditions": _uniq([b.to_json() for b in self.precons]),
+                "fx": _uniq([b.to_json() for b in self.ifxs]),
+                "sfx": unique_sfx,
             }
         else:
             sfx = {
                 "type": self.name,
                 "param": param,
-                "fx": [b.to_json() for b in self.ifxs],
-                "sfx": [b.to_json() for b in self.sfxs],
+                "fx": _uniq([b.to_json() for b in self.ifxs]),
+                "sfx": unique_sfx,
             }
         return sfx
 
