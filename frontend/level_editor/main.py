@@ -352,6 +352,23 @@ def loop(editor_state: EditorState):
     button_x = 10
     button_y = 10
     for station in editor_state.get_stations():
+
+        def make_station_callback(station_name):
+            def on_station_click():
+                editor_state.set_selected(
+                    next(
+                        (
+                            station
+                            for station in editor_state.get_stations()
+                            if station.name == station_name
+                        ),
+                        None,
+                    )
+                )
+                print(f"Selected station: {station_name}")
+
+            return on_station_click
+
         station_asset_path = os.path.join(
             editor_state.get_project_root_path(), "assets", station.asset_file
         )
@@ -365,6 +382,7 @@ def loop(editor_state: EditorState):
                 text="",
                 manager=manager,
                 container=station_panel,
+                command=make_station_callback(station.name),
             )
             station_button.normal_image = img
             station_button.hovered_image = img
@@ -381,41 +399,83 @@ def loop(editor_state: EditorState):
         relative_rect=pygame.Rect((10, 575), (200, 300)),
         manager=manager,
     )
+
+    def on_export_click():
+        root = tk.Tk()
+        root.withdraw()
+        saved_file_path = filedialog.asksaveasfilename(defaultextension=".json")
+        if saved_file_path:
+            try:
+                level_json = test_level.serialize()
+                with open(saved_file_path, "w") as f:
+                    json.dump(level_json, f, indent=4)
+                filename = saved_file_path.split("/")[-1].replace(".json", "")
+                print(f"Level saved to {filename}")
+            except MissingPlayerPosition as e:
+                tkinter.messagebox.showerror("Error", str(e))
+
+    def on_goal_click():
+        nonlocal editing_goal
+        editing_goal = not editing_goal
+
+    def on_player_click():
+        set_selected_mode("player_position")
+
+    def on_stations_click():
+        set_selected_mode("stations")
+
+    def on_items_click():
+        set_selected_mode("items")
+
+    def on_load_click():
+        nonlocal test_level, TILE_SIZE
+        loaded_level = open_level()
+        if loaded_level:
+            test_level = loaded_level
+            TILE_SIZE = int(516 // test_level.width)
+            print("Level loaded successfully!")
+
     export_button = pygame_gui.elements.UIButton(
         relative_rect=pygame.Rect((0, 0), (200, 50)),
         text="Save",
         manager=manager,
         container=button_panel,
+        command=on_export_click,
     )
     goal_button = pygame_gui.elements.UIButton(
         relative_rect=pygame.Rect((0, 50), (200, 50)),
         text="Goal",
         manager=manager,
         container=button_panel,
+        command=on_goal_click,
     )
     player_button = pygame_gui.elements.UIButton(
         relative_rect=pygame.Rect((0, 100), (200, 50)),
         text="Set Player Position",
         manager=manager,
         container=button_panel,
+        command=on_player_click,
     )
     stations_button = pygame_gui.elements.UIButton(
         relative_rect=pygame.Rect((0, 150), (200, 50)),
         text="Stations",
         manager=manager,
         container=button_panel,
+        command=on_stations_click,
     )
     items_button = pygame_gui.elements.UIButton(
         relative_rect=pygame.Rect((0, 200), (200, 50)),
         text="Items",
         manager=manager,
         container=button_panel,
+        command=on_items_click,
     )
     load_button = pygame_gui.elements.UIButton(
         relative_rect=pygame.Rect((0, 250), (200, 50)),
         text="Load",
         manager=manager,
         container=button_panel,
+        command=on_load_click,
     )
 
     stations_button.show()
@@ -450,6 +510,23 @@ def loop(editor_state: EditorState):
     button_x = 10
     button_y = 10
     for item, predicates in editor_state.get_item_states():
+
+        def make_item_callback(item_name, predicates):
+            def on_item_click():
+                selected_item = next(
+                    (
+                        item
+                        for item in editor_state.get_items()
+                        if item.name == item_name
+                    ),
+                    None,
+                )
+                if selected_item:
+                    editor_state.set_selected((selected_item, set(predicates)))
+                    print(f"Selected item: {item_name} with predicates: {predicates}")
+
+            return on_item_click
+
         try:
             asset = item.state_map[frozenset(predicates)]
             item_asset_path = os.path.join(
@@ -464,6 +541,7 @@ def loop(editor_state: EditorState):
                 text="",
                 manager=manager,
                 container=item_panel,
+                command=make_item_callback(item.name, predicates),
             )
             item_button.normal_image = img
             item_button.hovered_image = img
@@ -479,20 +557,6 @@ def loop(editor_state: EditorState):
 
     clock = pygame.time.Clock()
     running = True
-
-    def save_level():
-        root = tk.Tk()
-        root.withdraw()
-        saved_file_path = filedialog.asksaveasfilename(defaultextension=".json")
-        if saved_file_path:
-            try:
-                level_json = test_level.serialize()
-                with open(saved_file_path, "w") as f:
-                    json.dump(level_json, f, indent=4)
-                filename = saved_file_path.split("/")[-1].replace(".json", "")
-                print(f"Level saved to {filename}")
-            except MissingPlayerPosition as e:
-                tkinter.messagebox.showerror("Error", str(e))
 
     goal_buttons = {}  # map index in goal state to two buttons
 
@@ -561,70 +625,41 @@ def loop(editor_state: EditorState):
                 if (event.key == pygame.K_s) and (
                     event.mod & pygame.KMOD_CTRL or event.mod & pygame.KMOD_META
                 ):
-                    save_level()
+                    on_export_click()
 
             if event.type == pygame_gui.UI_BUTTON_PRESSED:
-                if event.ui_element == player_button:
-                    set_selected_mode("player_position")
-                elif event.ui_element == stations_button:
-                    set_selected_mode("stations")
-                elif event.ui_element == items_button:
-                    set_selected_mode("items")
-                elif event.ui_element == goal_button:
-                    editing_goal = not editing_goal
-                elif event.ui_element == export_button:
-                    root = tk.Tk()
-                    root.withdraw()
-                    saved_file_path = filedialog.asksaveasfilename(
-                        defaultextension=".json"
-                    )
-                    if saved_file_path:
-                        level_json = test_level.serialize()
-                        with open(saved_file_path, "w") as f:
-                            json.dump(level_json, f, indent=4)
-                        filename = saved_file_path.split("/")[-1].replace(".json", "")
-                        print(f"Level saved to {filename}")
-                elif event.ui_element == load_button:
-                    loaded_level = open_level()
-                    if loaded_level:
-                        test_level = loaded_level
-                        TILE_SIZE = int(516 // test_level.width)
-                        print("Level loaded successfully!")
-                else:
-                    # Check if it's an item button
-                    for (item_name, predicates), button in item_buttons.items():
-                        if event.ui_element == button:
-                            selected_item = next(
+                # Check if it's an item button
+                for (item_name, predicates), button in item_buttons.items():
+                    if event.ui_element == button:
+                        selected_item = next(
+                            (
+                                item
+                                for item in editor_state.get_items()
+                                if item.name == item_name
+                            ),
+                            None,
+                        )
+                        if selected_item:
+                            editor_state.set_selected((selected_item, set(predicates)))
+                            print(
+                                f"Selected item: {item_name} with predicates: {predicates}"
+                            )
+                        break
+                # Check if it's a station button
+                for station_name, button in station_buttons.items():
+                    if event.ui_element == button:
+                        editor_state.set_selected(
+                            next(
                                 (
-                                    item
-                                    for item in editor_state.get_items()
-                                    if item.name == item_name
+                                    station
+                                    for station in editor_state.get_stations()
+                                    if station.name == station_name
                                 ),
                                 None,
                             )
-                            if selected_item:
-                                editor_state.set_selected(
-                                    (selected_item, set(predicates))
-                                )
-                                print(
-                                    f"Selected item: {item_name} with predicates: {predicates}"
-                                )
-                            break
-                    # Check if it's a station button
-                    for station_name, button in station_buttons.items():
-                        if event.ui_element == button:
-                            editor_state.set_selected(
-                                next(
-                                    (
-                                        station
-                                        for station in editor_state.get_stations()
-                                        if station.name == station_name
-                                    ),
-                                    None,
-                                )
-                            )
-                            print(f"Selected station: {station_name}")
-                            break
+                        )
+                        print(f"Selected station: {station_name}")
+                        break
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
