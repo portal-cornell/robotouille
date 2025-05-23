@@ -197,7 +197,7 @@ def render_level(
 
 def render_goal(tile_size: int, asset_dir_path: str, goal: Goal) -> pygame.Surface:
     # colors
-    surface = pygame.Surface((tile_size, tile_size))
+    surface = pygame.Surface((tile_size * 3, tile_size * 3))
     surface.fill(BEIGE2)
 
     pygame.draw.rect(surface, NEUTRAL6, surface.get_rect(), 1)
@@ -213,8 +213,8 @@ def render_goal(tile_size: int, asset_dir_path: str, goal: Goal) -> pygame.Surfa
         surface.blit(
             img,
             (
-                0,
-                0 - i * (tile_size / 4),
+                tile_size,
+                (2 * tile_size) - i * (tile_size / 4),
             ),
         )
     return surface
@@ -746,7 +746,7 @@ def loop(editor_state: EditorState):
                         x = (x - level_x) // TILE_SIZE
                         y = (y - level_y) // TILE_SIZE
                         if 0 <= x < test_level.width and 0 <= y < test_level.height:
-                            if editing_goal and x == 0 and y == 0:
+                            if editing_goal and x >= 0 and x < 3 and y >= 0 and y < 3:
                                 if isinstance(editor_state.get_selected(), tuple):
                                     item, predicates = editor_state.get_selected()
                                     new_item = ItemInstance(
