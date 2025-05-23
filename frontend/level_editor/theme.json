@@ -39,6 +39,44 @@
       "white": "#ffffff"
     }
   },
+  "#item_panel": {
+    "colours": {
+      "dark_bg": "#fff1dd",
+      "normal_border": "#00000000"
+    },
+    "misc": {
+      "border_width": "0"
+    }
+  },
+  "#station_panel": {
+    "colours": {
+      "dark_bg": "#fff1dd",
+      "normal_border": "#00000000"
+    },
+    "misc": {
+      "border_width": "0"
+    }
+  },
+  "panel": {
+    "colours": {
+      "dark_bg": "#00000000",
+      "normal_border": "#00000000"
+    },
+    "misc": {
+      "border_width": "0",
+      "shadow_width": "0"
+    }
+  },
+  "label": {
+    "colours": {
+      "dark_bg": "#ffffff",
+      "normal_text": "#000000"
+    },
+    "misc": {
+      "text_horiz_alignment": "left",
+      "text_horiz_alignment_padding": "4"
+    }
+  },
   "button": {
     "colours": {
       "normal_bg": "#fff1dd",
