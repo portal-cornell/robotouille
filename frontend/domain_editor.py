@@ -54,6 +54,55 @@ def save_file_dialog(
     return file_path
 
 
+# save objects to config file
+def save_objects_to_config(object_workspaces):
+    """Save all ObjectWorkspaces to robotouille_config.json"""
+    config_path = os.path.join(
+        os.path.dirname(__file__), "..", "renderer", "configuration", "robotouille_config.json"
+    )
+    config_path = os.path.normpath(config_path)
+    
+    # load existing config?
+    try:
+        with open(config_path, 'r') as f:
+            config_data = json.load(f)
+    except FileNotFoundError:
+        config_data = {"version": "1.0.1"}
+    
+    # process each object workspace
+    for ws in object_workspaces:
+        #both string and tuple handling
+        selected_option = ws.object_type_dd.selected_option
+        if isinstance(selected_option, tuple):
+            object_type = selected_option[0].lower()
+        else:
+            object_type = selected_option.lower()
+        object_name = ws.top_label.get_text().lower()
+        
+        if not object_name:
+            print(f"Warning: Skipping object with no name")
+            continue
+            
+        # Initialize object type section if it doesn't exist
+        if object_type not in config_data:
+            config_data[object_type] = {
+                "constants": {},
+                "entities": {}
+            }
+        
+        # build the object configuration
+        object_config = ws.serialize_for_config()
+        
+        # add to config
+        config_data[object_type]["entities"][object_name] = object_config
+    
+    os.makedirs(os.path.dirname(config_path), exist_ok=True)
+    
+    # save the config
+    with open(config_path, 'w') as f:
+        json.dump(config_data, f, indent=4)
+
+
 # loads json from file dialog or default file path
 def load_json_data():
     global original_json_path
@@ -228,16 +277,6 @@ def find_slot(
             else:
                 block.toggle_color()
             workspace.attach_block(block, slot)
-            # print(
-            #     "Added "
-            #     + predicate_json["predicate"]
-            #     + " to slot at ("
-            #     + str(slot.rel_pos[0])
-            #     + ", "
-            #     + str(slot.rel_pos[1])
-            #     + "). It is in state: "
-            #     + str(predicate_json["is_true"])
-            # )
             break
 
 
@@ -245,9 +284,7 @@ def json_to_action(name: str, ws_x, ws_y, container=center_panel):
     # pull the action from the json
     action = None
     actions_json = data["action_defs"]
-    # print(actions_json)
     for action_json in actions_json:
-        # print(action_json["name"])
         if action_json["name"] == name:
             action = action_json
 
@@ -281,7 +318,6 @@ def populate_predicates(preds):
         relative_rect=pygame.Rect(10, 10, LEFT_WIDTH - 20, 40),
         manager=manager,
         container=left_panel,
-        # initial_text="Search...",
         placeholder_text="Search...",
     )
     search_bars.append(search_bar)
@@ -338,7 +374,6 @@ def populate_actions(actions):
         relative_rect=pygame.Rect(10, 10, LEFT_WIDTH - 20, 40),
         manager=manager,
         container=left_panel,
-        # initial_text="Search...",
         placeholder_text="Search...",
     )
     search_bars.append(search_bar)
@@ -365,7 +400,6 @@ def populate_sfx(sfxs):
         relative_rect=pygame.Rect(10, 10, LEFT_WIDTH - 20, 40),
         manager=manager,
         container=left_panel,
-        # initial_text="Search...",
         placeholder_text="Search...",
     )
     search_bars.append(search_bar)
@@ -478,8 +512,18 @@ while is_running:
         if event.type == pygame.QUIT:
             is_running = False
         manager.process_events(event)
+        
         if event.type == pygame_gui.UI_TEXT_ENTRY_FINISHED:
             print(event.text.lower())
+            
+            
+            for ws in all_workspaces:
+                if isinstance(ws, ObjectWorkspace):
+                    for slot in ws.slots:
+                        if hasattr(slot, 'name_entry') and event.ui_element == slot.name_entry:
+                            slot.asset_name = event.text
+            
+            #search
             if event.ui_element in search_bars:
                 text = event.text.lower()
                 if showing == "p":
@@ -493,6 +537,16 @@ while is_running:
                     populate_sfx(filtered)
 
         if event.type == pygame_gui.UI_BUTTON_PRESSED:
+            
+            # for objects 
+            for ws in all_workspaces:
+                if isinstance(ws, ObjectWorkspace):
+                    for slot in ws.slots:
+                        if hasattr(slot, 'remove_btn') and event.ui_element == slot.remove_btn:
+                            slot.cleanup()
+                            slot.occupied = False
+                            slot.asset_name = ""
+                            slot.file_path = ""
 
             if event.ui_element in pred_buttons:
 
@@ -565,7 +619,6 @@ while is_running:
                 ws_x, ws_y = calc_workspace_coords()
                 new_action = json_to_action(event.ui_element.text, ws_x, ws_y)
                 a_blocks = new_action.attached_blocks
-                # print(a_blocks)
                 all_workspaces.append(new_action)
                 set_new_scrollable_dims()
 
@@ -656,9 +709,9 @@ while is_running:
                     data = new_data
 
                     if left_panel.showing_predicates:
-                        populate_predicates()
+                        populate_predicates(full_preds)
                     else:
-                        populate_actions()
+                        populate_actions(full_actions)
                     # kill existing workspaces
                     for ws in all_workspaces[:]:
                         ws.kill()
@@ -671,10 +724,6 @@ while is_running:
                 )
 
                 if file_path:
-                    # save_data = {
-                    #     "predicate_defs": data.get("predicate_defs", []),
-                    #     "action_defs": [],
-                    # }
                     save_data = {
                         "version": data.get("version", "1.0.0"),
                         "name": data.get("name", "robotouille"),
@@ -685,9 +734,9 @@ while is_running:
                         ),
                         "predicate_defs": data.get("predicate_defs", []),
                         "action_defs": data.get("action_defs", []),
-                        "objects": data.get("objects", []),
+                        # objects are now saved separately to config file
                     }
-                    # i create a dictionary of preexisting items for the code to do a lookup
+                    
                     existing_actions = {
                         action["name"]: i
                         for i, action in enumerate(save_data["action_defs"])
@@ -696,18 +745,15 @@ while is_running:
                         pred["name"]: i
                         for i, pred in enumerate(save_data["predicate_defs"])
                     }
-                    existing_objects = {
-                        obj["name"]: i
-                        for i, obj in enumerate(save_data.get("objects", []))
-                    }
 
-                    # need to add all workspace actions
+                    # Process workspaces - save actions/predicates to domain, objects to config
+                    objects_to_save = []  # Collect ObjectWorkspaces for config saving
+                    
                     for ws in all_workspaces:
                         if isinstance(ws, ActionWorkspace):
                             action_data = ws.serialize()
                             action_name = action_data["name"]
 
-                            # updat action if it already eixts othr wise add action
                             if action_name in existing_actions:
                                 save_data["action_defs"][
                                     existing_actions[action_name]
@@ -716,10 +762,9 @@ while is_running:
                                 save_data["action_defs"].append(action_data)
 
                         elif isinstance(ws, PredicateCreator):
-
                             pred_data = ws.serialize()
                             pred_name = pred_data["name"]
-                            # same thing
+                            
                             if pred_name in existing_predicates:
                                 save_data["predicate_defs"][
                                     existing_predicates[pred_name]
@@ -728,26 +773,22 @@ while is_running:
                                 save_data["predicate_defs"].append(pred_data)
 
                         elif isinstance(ws, ObjectWorkspace):
-                            obj_data = ws.serialize()
-                            obj_name = obj_data["name"]
+                            # Collect ObjectWorkspaces to save to config file
+                            objects_to_save.append(ws)
 
-                            # updat ethe object if it alreayd exists othewirse add the object
-                            if obj_name in existing_objects:
-                                save_data["objects"][
-                                    existing_objects[obj_name]
-                                ] = obj_data
-                            else:
-                                if "objects" not in save_data:
-                                    save_data["objects"] = []
-                                save_data["objects"].append(obj_data)
+                    # save for action/predicate
                     with open(file_path, "w") as f:
                         json.dump(save_data, f, indent=4)
 
                     print(f"Domain saved to: {file_path}")
+                    
+                    # objects get saved to config
+                    if objects_to_save:
+                        save_objects_to_config(objects_to_save)
+                        print(f"Objects saved to config file")
+                    
             elif event.ui_element == save_to_original_button:
                 if original_json_path:
-                    # this is just the same logic for saving domain/predicate/action as a new .json file that i did, except this saves to the original robotoullie.json
-                    # TODO: i like the option to save your changes to a new .json, but might remove if unncesseary
                     save_data = {
                         "version": data.get("version", "1.0.0"),
                         "name": data.get("name", "robotouille"),
@@ -758,7 +799,7 @@ while is_running:
                         ),
                         "predicate_defs": data.get("predicate_defs", []),
                         "action_defs": data.get("action_defs", []),
-                        "objects": data.get("objects", []),
+                        # Objects save separately to config file
                     }
 
                     existing_actions = {
@@ -769,10 +810,9 @@ while is_running:
                         pred["name"]: i
                         for i, pred in enumerate(save_data["predicate_defs"])
                     }
-                    existing_objects = {
-                        obj["name"]: i
-                        for i, obj in enumerate(save_data.get("objects", []))
-                    }
+
+                    #save actions/predicates to domain, objects to config
+                    objects_to_save = []  # collect ObjectWorkspaces for config saving
 
                     for ws in all_workspaces:
                         if isinstance(ws, ActionWorkspace):
@@ -798,23 +838,19 @@ while is_running:
                                 save_data["predicate_defs"].append(pred_data)
 
                         elif isinstance(ws, ObjectWorkspace):
-                            obj_data = ws.serialize()
-                            obj_name = obj_data["name"]
+                            # Collect ObjectWorkspaces to save to config file
+                            objects_to_save.append(ws)
 
-                            if obj_name in existing_objects:
-                                save_data["objects"][
-                                    existing_objects[obj_name]
-                                ] = obj_data
-                            else:
-                                if "objects" not in save_data:
-                                    save_data["objects"] = []
-                                save_data["objects"].append(obj_data)
-
-                    # save directly to the roboutille.json
+                    # Save domain file (actions and predicates)
                     with open(original_json_path, "w") as f:
                         json.dump(save_data, f, indent=4)
 
                     print(f"Domain saved to original file: {original_json_path}")
+                    
+                    # Save all objects to config file
+                    if objects_to_save:
+                        save_objects_to_config(objects_to_save)
+                        print(f"Objects saved to config file")
                 else:
                     print("No original file loaded. Please load a file first.")
 
@@ -867,13 +903,14 @@ while is_running:
     manager.update(time_delta)
     window_surface.fill(pygame.Color("#61ACF8"))
     manager.draw_ui(window_surface)
-    # for ws in all_workspaces:
-    #     if isinstance(ws, ActionWorkspace):
-    #         ws.draw_debug_slots(window_surface)
-    #     if isinstance(ws, SFXWorkspace):
-    #         if not ws.hidden:
-    #             ws.draw_debug_slots(window_surface)
-
+    for ws in all_workspaces:
+        if isinstance(ws, ActionWorkspace):
+            ws.draw_debug_slots(window_surface)
+        elif isinstance(ws, SFXWorkspace):
+            if not ws.hidden:
+                ws.draw_debug_slots(window_surface)
+        elif isinstance(ws, ObjectWorkspace):
+            ws.draw_debug_slots(window_surface)
     pygame.display.update()
 
 pygame.quit()

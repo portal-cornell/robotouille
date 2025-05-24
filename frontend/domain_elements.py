@@ -65,9 +65,9 @@ class Slot:
     """A docking slot living inside an ActionWorkspace."""
 
     def __init__(self, rel_pos, section=None):
-        self.rel_pos = rel_pos  # tuple (x,y) inside the workspace
+        self.rel_pos = rel_pos  # tuple inside the workspace
         self.size = (185, 40)  # same size as block
-        self.occupied = None  # points to DraggableBlock or None
+        self.occupied = None 
         self.section = section
         self.hidden = False
         self.workspace = None
@@ -86,6 +86,26 @@ class Slot:
         print(self.section)
 
 
+class PredicateSlot:
+    """A slot specifically for predicate blocks in asset configurations"""
+    
+    def __init__(self, rel_pos, asset_slot):
+        self.rel_pos = rel_pos  
+        self.size = (120, 25)  
+        self.occupied = None  
+        self.asset_slot = asset_slot  
+        self.hidden = False
+
+    def rect(self):
+        return pygame.Rect(self.rel_pos, self.size)
+
+    def hide(self):
+        self.hidden = True
+
+    def show(self):
+        self.hidden = False
+
+
 class DraggableBlock(UIButton):
     def __init__(
         self,
@@ -101,7 +121,7 @@ class DraggableBlock(UIButton):
         **kwargs,
     ):
 
-        # the block *itself* (acts as the drag handle too)
+    
         super().__init__(
             relative_rect=relative_rect,
             text=text,
@@ -110,49 +130,10 @@ class DraggableBlock(UIButton):
             starting_height=starting_height,
             **kwargs,
         )
-        self.dd = None
-        self.dd2 = None
-
-        #  create & memorise each param dropdown
-        self._param_widgets = []  # list of (offset, widget)
-        if not sfx:
-            for label, pos, options in param_defs or []:
-                dd_rect = pygame.Rect(
-                    relative_rect.x + pos[0] + 25, relative_rect.y + pos[1] - 10, 50, 30
-                )
-                self.dd = UIDropDownMenu(
-                    options_list=options,
-                    starting_option=options[0],
-                    relative_rect=dd_rect,
-                    manager=manager,
-                    container=self.ui_container,
-                )
-
-                # real offset = menu-topleft minus block-topleft
-                offset = pygame.Vector2(dd_rect.topleft) - pygame.Vector2(
-                    relative_rect.topleft
-                )
-
-                if len(options) > 1:
-                    dd2_rect = pygame.Rect(
-                        relative_rect.x + pos[0] - 25,
-                        relative_rect.y + pos[1] - 10,
-                        50,
-                        30,
-                    )
-                    self.dd2 = UIDropDownMenu(
-                        options_list=options,
-                        starting_option=options[1],
-                        relative_rect=dd2_rect,
-                        manager=manager,
-                        container=self.ui_container,
-                    )
-                    second_offset = pygame.Vector2(dd2_rect.topleft) - pygame.Vector2(
-                        relative_rect.topleft
-                    )
-                    self._param_widgets.append((second_offset, self.dd2))
-                self._param_widgets.append((offset, self.dd))
+        
+        self._param_widgets = [] 
         self.params = param_defs
+
         # drag state
         self.is_dragging = False
         self._drag_offset = (0, 0)
@@ -197,10 +178,8 @@ class DraggableBlock(UIButton):
         return self.sfx_workspace.serialize()
 
     def _sync_params(self):
-        abs_tl = self.get_abs_rect().topleft
-        for offset, widget in self._param_widgets:
-            new_pos = (abs_tl[0] + offset.x, abs_tl[1] + offset.y)
-            widget.set_position(new_pos)
+        # No parameter widgets to sync anymore
+        pass
 
     def set_relative_position(self, pos):
         super().set_relative_position(pos)
@@ -238,6 +217,8 @@ class DraggableBlock(UIButton):
                 self.unfocus()
 
                 snapped = False
+                
+                # Check all workspaces for snap slots
                 for ws in all_workspaces:
                     snap = ws.get_snap_slot(self.get_abs_rect())
                     if snap:
@@ -260,13 +241,37 @@ class DraggableBlock(UIButton):
                             snapped = True
                             ws.parametrize()
                             break
+                
+                # Check ObjectWorkspace predicate slots
+                if not snapped:
+                    for ws in all_workspaces:
+                        if isinstance(ws, ObjectWorkspace):
+                            predicate_slot = ws.get_predicate_snap_slot(self.get_abs_rect())
+                            if predicate_slot:
+                                # dock into predicate slot
+                                if self.docked_slot:
+                                    self.docked_slot.occupied = None
+                                predicate_slot.occupied = self
+                                self.docked_slot = predicate_slot
+                                block_slots[self.id] = predicate_slot
+
+                                # position relative to asset config container
+                                abs_slot_x = ws.asset_config_container.get_abs_rect().x + predicate_slot.rel_pos[0]
+                                abs_slot_y = ws.asset_config_container.get_abs_rect().y + predicate_slot.rel_pos[1]
+
+                                container_rect = self.ui_container.get_abs_rect()
+                                rel_x = abs_slot_x - container_rect.x
+                                rel_y = abs_slot_y - container_rect.y
+
+                                self.set_relative_position((rel_x, rel_y))
+                                snapped = True
+                                break
 
                 if not snapped and self.docked_slot:
                     # undocked: clear previous slot
                     self.docked_slot.occupied = None
                     self.docked_slot = None
                     block_slots.pop(self.id, None)
-                    # print(all_workspaces)
 
                 # small click toggles
                 dx = abs(event.pos[0] - self.mouse_down_pos[0])
@@ -276,23 +281,16 @@ class DraggableBlock(UIButton):
                 if dx < 5 and dy < 5 and self.is_sfx and self.docked_slot:
                     rel_pos = (self.get_relative_rect()[0], self.get_relative_rect()[1])
                     self.sfx_workspace.set_relative_position((rel_pos[0], rel_pos[1]))
-                    # for i, slot in enumerate(self.sfx_workspace.slots):
-                    #     print("Slot " + str(i) + " moved from:")
-                    #     print(slot.rel_pos)
-                    #     slot.rel_pos = (
-                    #         slot.rel_pos[0] + rel_pos[0],
-                    #         slot.rel_pos[1] + rel_pos[1],
-                    #     )
-                    #     print("to:")
-                    #     print(slot.rel_pos)
 
                     if self.sfx_workspace.hidden:
                         self.sfx_workspace.show()
                         self.sfx_workspace.preview_layer(4)
                     else:
                         self.sfx_workspace.hide()
+                        
                 for ws in all_workspaces:
-                    ws.parametrize()
+                    if hasattr(ws, 'parametrize'):
+                        ws.parametrize()
                 return handled
 
         elif event.type == pygame.MOUSEMOTION and self.is_dragging:
@@ -316,24 +314,15 @@ class DraggableBlock(UIButton):
 
     #  tidy‑up when the block is killed
     def kill(self):
-        for _, widget in self._param_widgets:
-            widget.kill()
+       
         block_slots.pop(self.id, None)
         blocks_by_id.pop(self.id, None)
         super().kill()
 
     def hide(self):
-        if self.dd:
-            self.dd.hide()
-        if self.dd2:
-            self.dd.hide()
         super().hide()
 
     def show(self):
-        if self.dd:
-            self.dd.show()
-        if self.dd2:
-            self.dd.show()
         super().show()
 
 
@@ -472,7 +461,7 @@ class ActionWorkspace(UIPanel):
         avail = ws_w - 2 * MARGIN_X
         slots_per_row = max(1, int((avail + H_SPACING) // (SLOT_W + H_SPACING)))
 
-        # recompute spacing so it’s evenly spread
+        # recompute spacing so it's evenly spread
         if slots_per_row > 1:
             spacing_x = (avail - slots_per_row * SLOT_W) / (slots_per_row - 1)
         else:
@@ -650,6 +639,115 @@ class ActionWorkspace(UIPanel):
         return action
 
 
+class AssetConfigSlot:
+    """A slot for configuring an asset with predicates"""
+    
+    def __init__(self, rel_pos, size, manager, container, workspace):
+        self.rel_pos = rel_pos
+        self.size = size
+        self.manager = manager
+        self.container = container
+        self.workspace = workspace
+        self.occupied = False
+        
+        # asset configuration data
+        self.asset_name = ""
+        self.file_path = ""
+        self.predicate_slots = []  # list of PredicateSlot objects
+        
+        # UI elements
+        self.ui_elements = []
+        
+    def configure_asset(self, asset_name, file_path):
+        """Configure this slot with an asset"""
+        self.asset_name = asset_name
+        self.file_path = file_path
+        self.occupied = True
+        
+        #create UI elements for this slot
+        self.create_ui_elements()
+        
+    def create_ui_elements(self):
+        """Create UI elements for asset configuration"""
+        x, y = self.rel_pos
+        
+        # name the asset
+        name_entry = UITextEntryBox(
+            relative_rect=pygame.Rect(x, y, 100, 30),
+            manager=self.manager,
+            container=self.container,
+            initial_text=self.asset_name,
+            placeholder_text="Asset name..."
+        )
+        self.ui_elements.append(name_entry)
+        
+        # File path label
+        filename = os.path.basename(self.file_path) if self.file_path else "No file"
+        file_label = UITextBox(
+            html_text=f"<font color=#000000>{filename}</font>",
+            relative_rect=pygame.Rect(x + 110, y, 120, 30),
+            manager=self.manager,
+            container=self.container,
+        )
+        self.ui_elements.append(file_label)
+    
+        pred_label = UITextBox(
+            html_text="<font color=#000000>Predicates:</font>",
+            relative_rect=pygame.Rect(x, y + 35, 80, 25),
+            manager=self.manager,
+            container=self.container,
+        )
+        self.ui_elements.append(pred_label)
+        
+        # TODO: number of prediat slots: create predicate slots but it's up to 4 slots for now
+        self.predicate_slots = []
+        for i in range(4):
+            slot_x = x + 80 + (i * 125)
+            slot_y = y + 35
+            pred_slot = PredicateSlot((slot_x, slot_y), self)
+            self.predicate_slots.append(pred_slot)
+        
+        # remove button
+        remove_btn = UIButton(
+            relative_rect=pygame.Rect(x + 210, y + 5, 30, 25),
+            text="X",
+            manager=self.manager,
+            container=self.container,
+        )
+        self.ui_elements.append(remove_btn)
+        
+        # Store references for event handling
+        self.name_entry = name_entry
+        self.remove_btn = remove_btn
+        
+    def get_predicates(self):
+        """Get list of predicate names from docked blocks"""
+        predicates = []
+        for pred_slot in self.predicate_slots:
+            if pred_slot.occupied:
+                predicates.append(pred_slot.occupied.text)
+        return predicates
+        
+    def update_from_ui(self):
+        """Update slot data from UI elements"""
+        if hasattr(self, 'name_entry'):
+            self.asset_name = self.name_entry.get_text()
+    
+    def cleanup(self):
+        """Clean up UI elements and predicate blocks"""
+      
+        for pred_slot in self.predicate_slots:
+            if pred_slot.occupied:
+                pred_slot.occupied.kill()
+                pred_slot.occupied = None
+        
+       
+        for element in self.ui_elements:
+            element.kill()
+        self.ui_elements.clear()
+        self.predicate_slots.clear()
+
+
 class ObjectWorkspace(UIPanel):
     def __init__(
         self,
@@ -674,6 +772,9 @@ class ObjectWorkspace(UIPanel):
         self.manager = manager
         self.loaded_assets = []
         self.asset_ui_elements = []
+        
+        #asset configurations with predicates
+        self.asset_configs = {}  # {"asset_name": {"file": "path.png", "predicates": ["pred1", "pred2"]}}
 
         self.slots = []
 
@@ -686,43 +787,41 @@ class ObjectWorkspace(UIPanel):
         )
 
         self.type_label = UITextBox(
-            html_text="<font color=#FFFFFF><b>Object Type:</b></font>",
-            relative_rect=pygame.Rect(0, 50, 150, 50),
+            html_text="<font color=#FFFFFF><b>Object Type: item</b></font>",
+            relative_rect=pygame.Rect(0, 50, 200, 50),
             manager=manager,
             container=self,
         )
 
-        self.object_type_dd = UIDropDownMenu(
-            options_list=["Item", "Station", "Container", "Meal"],
-            starting_option="Item",
-            relative_rect=pygame.Rect(150, 50, 150, 50),
-            manager=manager,
-            container=self,
-        )
-        # some of these are to make the assets look nicer, they're not used yet
+        # default object type to "item" - no dropdown needed
+        self.object_type = "item"
 
-        self.assets_label = UITextBox(
-            html_text="<font color=#FFFFFF><b>Assets:</b></font>",
-            relative_rect=pygame.Rect(0, 100, 150, 50),
+        # aset config
+        self.asset_config_label = UITextBox(
+            html_text="<font color=#FFFFFF><b>Asset Configurations:</b></font>",
+            relative_rect=pygame.Rect(0, 100, 200, 50),
             manager=manager,
             container=self,
         )
 
-        self.assets_container = UIScrollingContainer(
+        self.asset_config_container = UIScrollingContainer(
             relative_rect=pygame.Rect(0, 150, self.relative_rect.w, 400),
             manager=manager,
             container=self,
-            allow_scroll_x=True,
+            allow_scroll_x=False,
             allow_scroll_y=True,
         )
 
-        self.upload_button = UIButton(
-            relative_rect=pygame.Rect(150, 100, 115, 50),
-            text="Upload asset",
+        self.add_asset_config_button = UIButton(
+            relative_rect=pygame.Rect(200, 100, 150, 50),
+            text="Add Asset Config",
             manager=manager,
             container=self,
             starting_height=2,
         )
+
+        
+        self.create_asset_slots()
 
         self.ex_button = UIButton(
             relative_rect=pygame.Rect(500, 0, 80, 50),
@@ -739,145 +838,189 @@ class ObjectWorkspace(UIPanel):
             starting_height=2,
         )
 
+    def create_asset_slots(self):
+        """Create slots for asset configurations"""
+        NUM_SLOTS = 10
+        SLOT_W, SLOT_H = 600, 90  
+        MARGIN_X = 10
+        V_SPACING = 10
+
+        for i in range(NUM_SLOTS):
+            y = i * (SLOT_H + V_SPACING) + 10
+            slot = AssetConfigSlot(
+                rel_pos=(MARGIN_X, y),
+                size=(SLOT_W, SLOT_H),
+                manager=self.manager,
+                container=self.asset_config_container,
+                workspace=self
+            )
+            self.slots.append(slot)
+
     def process_event(self, event):
         handled = super().process_event(event)
         if event.type == pygame_gui.UI_BUTTON_PRESSED:
-            if event.ui_element == self.upload_button:
-
-                file_path = open_file_dialog(
-                    title="Select Asset File",
-                    filetypes=[
-                        ("Image files", "*.png *.jpg *.jpeg *.gif *.bmp"),
-                        ("All files", "*.*"),
-                    ],
-                )
-
-                if file_path and os.path.exists(file_path):
-                    print(f"Selected file: {file_path}")
-                    self.load_asset(file_path)
-                elif file_path:
-                    print(f"File not found: {file_path}")
-
-            # TODO: DO SOMETHING THAT DOENS'T JUST KILL ITSELF
+            if event.ui_element == self.add_asset_config_button:
+                self.add_new_asset_config()
             elif event.ui_element == self.ex_button:
                 self.kill()
             elif event.ui_element == self.save_button:
-                object_data = self.serialize()
-                print("Object saved:", object_data)
+                self.save_to_config()
 
         return handled
 
-    def parametrize():
-        pass
-
-    # def load_asset(self, file_path):
-    #     """Load and display an asset image"""
-    #     try:
-    #         # TODO: get this actaully working.
-    #         image_surface = pygame.image.load(file_path).convert_alpha()
-
-    #         max_size = 100
-    #         width, height = image_surface.get_size()
-    #         if width > height:
-    #             scale = max_size / width
-    #         else:
-    #             scale = max_size / height
-
-    #         new_width = int(width * scale)
-    #         new_height = int(height * scale)
-    #         image_surface = pygame.transform.scale(image_surface, (new_width, new_height))
-
-    #         x_offset = 10 + (len(self.asset_ui_elements) % 5) * (max_size + 10)
-    #         y_offset = 10 + (len(self.asset_ui_elements) // 5) * (max_size + 10)
-
-    #         # create UIImage to display the asset
-    #         image_element = UIImage(
-    #             relative_rect=pygame.Rect(x_offset, y_offset, new_width, new_height),
-    #             image_surface=image_surface,
-    #             manager=self.manager,
-    #             container=self.assets_container
-    #         )
-
-    #         self.loaded_assets.append(file_path)
-    #         self.asset_ui_elements.append(image_element)
-
-    #         #scrolling
-    #         rows = (len(self.asset_ui_elements) + 4) // 5
-    #         self.assets_container.set_scrollable_area_dimensions(
-    #             (self.assets_container.relative_rect.width, max(400, rows * (max_size + 10) + 20))
-    #         )
-
-    #     except Exception as e:
-    #         print(f"Error loading asset: {e}")
-    def scale_img(self, image_surface, max_size):
-
-        width, height = image_surface.get_size()
-        # scaling
-        if width > height:
-            scale = max_size / width
-        else:
-            scale = max_size / height
-
-        new_width = max(1, int(width * scale))
-        new_height = max(1, int(height * scale))
-        return pygame.transform.scale(image_surface, (new_width, new_height))
-
-    def load_asset(self, file_path):
-
-        # load it and scale
-        og_image = pygame.image.load(file_path).convert_alpha()
-        max_size = 100
-        scaled_img = self.scale_img(og_image, max_size)
-        new_w, new_h = scaled_img.get_size()
-
-        # position for the new image in the container grid
-        x_offset = 10 + (len(self.asset_ui_elements) % 5) * (max_size + 10)
-        y_offset = 10 + (len(self.asset_ui_elements) // 5) * (max_size + 10)
-
-        # make python UIimage container to display the image
-        image_element = UIImage(
-            relative_rect=pygame.Rect(x_offset, y_offset, new_w, new_h),
-            image_surface=scaled_img,
-            manager=self.manager,
-            container=self.assets_container,
+    def add_new_asset_config(self):
+        """Add a new asset configuration"""
+        file_path = open_file_dialog(
+            title="Select Asset File",
+            filetypes=[
+                ("Image files", "*.png *.jpg *.jpeg *.gif *.bmp"),
+                ("All files", "*.*"),
+            ],
         )
-        self.loaded_assets.append(file_path)
-        self.asset_ui_elements.append(image_element)
 
-        # TODO: a scrollable if we have an overflow
+        if file_path and os.path.exists(file_path):
+            for slot in self.slots:
+                if not slot.occupied:
+                    asset_name = os.path.splitext(os.path.basename(file_path))[0]
+                    slot.configure_asset(asset_name, file_path)
+                    break
 
-        print(f"Asset loaded: {file_path}")
+    def get_predicate_snap_slot(self, block_abs_rect):
+        """Return a free PredicateSlot whose rect contains block center, else None."""
+        cx, cy = block_abs_rect.center
+        
+        for asset_slot in self.slots:
+            if asset_slot.occupied:  # Only check slots that have assets
+                for pred_slot in asset_slot.predicate_slots:
+                    if pred_slot.occupied is None and not pred_slot.hidden:
+                        big = pred_slot.rect()
+                        big = big.inflate(SNAP_TOLERANCE, SNAP_TOLERANCE)
+                        # Convert to absolute coords relative to asset config container
+                        abs_slot = big.move(self.asset_config_container.get_abs_rect().topleft)
+                        if abs_slot.collidepoint(cx, cy):
+                            return pred_slot
+        return None
+
+    def save_to_config(self):
+        """Save object to robotouille_config.json"""
+        config_path = os.path.join(
+            os.path.dirname(__file__), "..", "renderer", "configuration", "robotouille_config.json"
+        )
+        config_path = os.path.normpath(config_path)
+        
+        # load existing config or create new one
+        try:
+            with open(config_path, 'r') as f:
+                config_data = json.load(f)
+        except FileNotFoundError:
+            config_data = {"version": "1.0.1"}
+        
+        # Use hardcoded object type
+        object_type = self.object_type
+        object_name = self.top_label.get_text().lower()
+        
+        if not object_name:
+            print("Error: Object name is required")
+            return
+            
+        # Initialize object type section if it doesn't exist
+        if object_type not in config_data:
+            config_data[object_type] = {
+                "constants": {},
+                "entities": {}
+            }
+        
+        # build the object configuration!
+        object_config = self.serialize_for_config()
+        
+        # add to the config!
+        config_data[object_type]["entities"][object_name] = object_config
+
+        os.makedirs(os.path.dirname(config_path), exist_ok=True)
+        
+        # save
+        with open(config_path, 'w') as f:
+            json.dump(config_data, f, indent=4)
+        
+        print(f"Object '{object_name}' saved to config: {config_path}")
+
+    def serialize_for_config(self):
+        """Serialize object for config file format"""
+        assets = {}
+        constants = {}
+        
+        # Process asset configurations from slots
+        default_set = False
+        for slot in self.slots:
+            if slot.occupied and slot.asset_name and slot.file_path:
+                asset_filename = os.path.basename(slot.file_path)
+                predicates = slot.get_predicates()
+                
+                if slot.asset_name.lower() == "default" or not default_set:
+                    # This is the default asset
+                    assets["default"] = asset_filename
+                    default_set = True
+                else:
+                    # This is a conditional asset
+                    asset_config = {
+                        "asset": asset_filename
+                    }
+                    
+                    # add predicates if any
+                    if predicates:
+                        asset_config["predicates"] = predicates
+                    
+                    assets[slot.asset_name] = asset_config
+        
+        return {
+            "assets": assets,
+            "constants": constants
+        }
+
+    def parametrize(self):
+        pass
 
     def get_snap_slot(self, block_abs_rect):
-        pass
+        # objectWorkspace doesn't use regular snap slots, only predicate slots
+        return None
 
     def kill(self):
         if self in all_workspaces:
             all_workspaces.remove(self)
 
-        # Clean up asset UI elements
-        for asset_element in self.asset_ui_elements:
-            asset_element.kill()
-        self.asset_ui_elements.clear()
-
+        # Clean up asset config slots
         for slot in self.slots:
-            if slot.occupied != None:
-                slot.occupied.kill()
-
+            slot.cleanup()
         self.slots.clear()
+        
         super().kill()
 
-    def get_loaded_assets(self):
-        """Return list of loaded asset file paths"""
-        return self.loaded_assets
-
-    def serialize(self):
-        """Serialize the object workspace data"""
-        return {
-            "name": self.top_label.get_text(),
-            "type": self.object_type_dd.selected_option,
-            "assets": self.loaded_assets,
-        }
+    def draw_debug_slots(self, surf):
+        """Draw debug visualization for asset config slots and predicate slots"""
+        for slot in self.slots:
+            if slot.occupied:
+                # Draw asset config slot border
+                abs_x = self.asset_config_container.get_abs_rect().x + slot.rel_pos[0]
+                abs_y = self.asset_config_container.get_abs_rect().y + slot.rel_pos[1]
+                color = pygame.Color("lightblue")
+                pygame.draw.rect(
+                    surf,
+                    color,
+                    pygame.Rect((abs_x, abs_y), slot.size),
+                    2,
+                )
+                
+                # Draw predicate slots
+                for pred_slot in slot.predicate_slots:
+                    pred_abs_x = self.asset_config_container.get_abs_rect().x + pred_slot.rel_pos[0]
+                    pred_abs_y = self.asset_config_container.get_abs_rect().y + pred_slot.rel_pos[1]
+                    pred_color = pygame.Color("lightgreen") if pred_slot.occupied else pygame.Color("lightgray")
+                    pygame.draw.rect(
+                        surf,
+                        pred_color,
+                        pygame.Rect((pred_abs_x, pred_abs_y), pred_slot.size),
+                        2,
+                    )
 
 
 class PredicateCreator(UIPanel):
@@ -947,8 +1090,12 @@ class PredicateCreator(UIPanel):
 
     def parametrize(self):
         """Returns parameter list to be used for DraggableBlock creation"""
-        param1 = self.first_param.selected_option[0]
-        param2 = self.second_param.selected_option[0]
+        # Handle both string and tuple returns from dropdown
+        param1_option = self.first_param.selected_option
+        param2_option = self.second_param.selected_option
+        
+        param1 = param1_option[0] if isinstance(param1_option, tuple) else param1_option
+        param2 = param2_option[0] if isinstance(param2_option, tuple) else param2_option
 
         params = [p for p in [param1, param2] if p != "none"]
         i, s, p, c, m = 1, 1, 1, 1, 1
@@ -975,8 +1122,12 @@ class PredicateCreator(UIPanel):
 
     def serialize(self):
         name = self.top_label.get_text()
-        param1 = self.first_param.selected_option[0]
-        param2 = self.second_param.selected_option[0]
+        
+        param1_option = self.first_param.selected_option
+        param2_option = self.second_param.selected_option
+        
+        param1 = param1_option[0] if isinstance(param1_option, tuple) else param1_option
+        param2 = param2_option[0] if isinstance(param2_option, tuple) else param2_option
 
         params = [p for p in [param1, param2] if p != "none"]
 
@@ -996,6 +1147,10 @@ class PredicateCreator(UIPanel):
         self.first_param.kill()
         self.second_param.kill()
         super().kill()
+
+    def get_snap_slot(self, block_abs_rect):
+        # PredicateCreator doesn't have snap slots
+        return None
 
 
 class SFXWorkspace(UIPanel):
@@ -1062,7 +1217,7 @@ class SFXWorkspace(UIPanel):
         avail = ws_w - 2 * MARGIN_X
         slots_per_row = max(1, int((avail + H_SPACING) // (SLOT_W + H_SPACING)))
 
-        # recompute spacing so it’s evenly spread
+        # recompute spacing so it's evenly spread
         if slots_per_row > 1:
             spacing_x = (avail - slots_per_row * SLOT_W) / (slots_per_row - 1)
         else:
@@ -1163,7 +1318,7 @@ class SFXWorkspace(UIPanel):
         abs_slot_x = self.get_abs_rect().x + slot.rel_pos[0]
         abs_slot_y = self.get_abs_rect().y + slot.rel_pos[1]
 
-        # now get this block's container (still center_panel)
+        # now get this block's container
         container_rect = block.ui_container.get_abs_rect()
 
         # set rel position inside that panel, calculated from abs position
