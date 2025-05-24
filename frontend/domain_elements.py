@@ -870,20 +870,18 @@ class ObjectWorkspace(UIPanel):
         self.create_asset_slots()
 
         self.ex_button = UIButton(
-            relative_rect=pygame.Rect(500, 0, 80, 50),
+            relative_rect=pygame.Rect(relative_rect.width - 160, 0, 80, 50),  
             text="Close",
-            manager=manager,
+            manager=manager, 
             container=self,
             starting_height=2,
         )
         self.save_button = UIButton(
-            relative_rect=pygame.Rect(580, 0, 80, 50),
-            text="Save",
+            relative_rect=pygame.Rect(relative_rect.width - 80, 0, 80, 50),  
             manager=manager,
-            container=self,
+            container=self, 
             starting_height=2,
         )
-
     def create_asset_slots(self):
         """Create slots for asset configurations"""
         NUM_SLOTS = 10
