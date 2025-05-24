@@ -17,10 +17,19 @@ class Station:
         self.name = name
         self.asset_file = asset_file
 
-
 class StationInstance:
     def __init__(self, source_station: Station, pos: Vec2):
         self.source_station = source_station
+        self.pos = pos
+
+class Container:
+    def __init__(self, name: str, asset_file: str):
+        self.name = name
+        self.asset_file = asset_file
+
+class ContainerInstance:
+    def __init__(self, source_container: Container, pos: Vec2):
+        self.source_container = source_container
         self.pos = pos
 
 

@@ -75,13 +75,16 @@ def build_container_location_predicates(domain_dict, environment_dict):
     for container in environment_dict["containers"]:
         container_obj = Object(container["name"], "container")
         match = False
-        for meal in environment_dict["meals"]:
-            if meal["x"] == container["x"] and meal["y"] == container["y"]:
-                meal_obj = Object(meal["name"], "meal")
-                pred_def = list(filter(lambda x: x["name"] == "in", domain_dict["predicate_defs"]))[0]
-                pred = Predicate().initialize("in", ["meal", "container"], [meal_obj, container_obj], pred_def["language_descriptors"])
-                predicates.append(pred)
-                match = True
+        try:
+            for meal in environment_dict["meals"]:
+                if meal["x"] == container["x"] and meal["y"] == container["y"]:
+                    meal_obj = Object(meal["name"], "meal")
+                    pred_def = list(filter(lambda x: x["name"] == "in", domain_dict["predicate_defs"]))[0]
+                    pred = Predicate().initialize("in", ["meal", "container"], [meal_obj, container_obj], pred_def["language_descriptors"])
+                    predicates.append(pred)
+                    match = True
+        except KeyError:
+            continue
         if not match:
             pred_def = list(filter(lambda x: x["name"] == "container_empty", domain_dict["predicate_defs"]))[0]
             pred = Predicate().initialize("container_empty", ["container"], [container_obj], pred_def["language_descriptors"])

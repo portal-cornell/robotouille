@@ -1,9 +1,9 @@
-from declarations import Vec2, ItemInstance, StationInstance
+from declarations import Vec2, ItemInstance, StationInstance, ContainerInstance
 from typing import List, Optional, Union
 
 
 class NoStationAtLocationError(Exception):
-    """Raised when trying to place an item at a location without a station."""
+    """Raised when trying to place an item or container at a location without a station."""
 
     pass
 
@@ -122,6 +122,9 @@ class LevelState:
         self._stations: List[List[Optional[StationInstance]]] = [
             [None for _ in range(height)] for _ in range(width)
         ]
+        self._containers: List[List[Optional[ContainerInstance]]] = [
+            [None for _ in range(height)] for _ in range(width)
+        ]
         self._items: List[List[List[ItemInstance]]] = [
             [[] for _ in range(height)] for _ in range(width)
         ]
@@ -168,6 +171,9 @@ class LevelState:
     def get_station_at(self, pos: Vec2) -> Optional[StationInstance]:
         return self._stations[pos.x][pos.y]
 
+    def get_container_at(self, pos: Vec2) -> Optional[ContainerInstance]:
+        return self._containers[pos.x][pos.y]
+
     def get_items_at(self, pos: Vec2) -> List[ItemInstance]:
         return self._items[pos.x][pos.y]
 
@@ -179,6 +185,15 @@ class LevelState:
                 if station:
                     stations.append(station)
         return stations
+
+    def get_all_containers(self) -> List[ContainerInstance]:
+        containers = []
+        for x in range(self.width):
+            for y in range(self.height):
+                container = self._containers[x][y]
+                if container:
+                    containers.append(container)
+        return containers
 
     def get_all_items(self) -> List[ItemInstance]:
         items = []
@@ -197,6 +212,18 @@ class LevelState:
 
     def remove_station_at(self, pos: Vec2):
         self._stations[pos.x][pos.y] = None
+
+    def put_container_at(self, container: ContainerInstance):
+        pos = container.pos
+        existing_station = self.get_station_at(pos)
+        if existing_station is None:
+            raise NoStationAtLocationError(
+                "Cannot place item or container at location without a station"
+            )
+        self._containers[pos.x][pos.y] = container
+
+    def remove_container_at(self, pos: Vec2):
+        self._containers[pos.x][pos.y] = None
 
     def put_item_at(self, item: ItemInstance):
         pos = item.pos
@@ -224,6 +251,16 @@ class LevelState:
                     "name": station.source_station.name,
                     "x": station.pos.x,
                     "y": self.height - 1 - station.pos.y,
+                }
+            )
+
+        containers_json = []
+        for container in self.get_all_containers():
+            containers_json.append(
+                {
+                    "name": container.source_container.name,
+                    "x": container.pos.x,
+                    "y": self.height - 1 - container.pos.y,
                 }
             )
 
@@ -259,6 +296,7 @@ class LevelState:
                     "direction": [self._player_direction.x, self._player_direction.y],
                 }
             ],
+            "containers": containers_json,
             "goal_description": "",
             "goal": self.goal.serialize(),
         }

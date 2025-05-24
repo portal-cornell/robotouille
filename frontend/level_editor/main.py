@@ -37,7 +37,7 @@ RED2 = pygame.Color("#e72121")
 RED0 = pygame.Color("#ff5656")
 NEUTRALDARK = pygame.Color("#292929")
 
-from declarations import Vec2, Item, Station, ItemInstance, StationInstance
+from declarations import Vec2, Item, Station, Container, ItemInstance, StationInstance, ContainerInstance
 from level_state import (
     LevelState,
     NoStationAtLocationError,
@@ -71,8 +71,9 @@ if not config_file_path:
 else:
     print(f"[CONFIG] config path: {config_file_path}")
 
-# with open(config_file_path, "r") as f:
-#     config_data = json.load(f)
+config_file_path = "robotouille_config.json"
+with open(config_file_path, "r") as f:
+    config_data = json.load(f)
 
 RENDERER_CONFIG_DIR = os.path.abspath(
     os.path.join(
@@ -130,6 +131,18 @@ def open_level() -> LevelState:
             )
             if station:
                 level.put_station_at(StationInstance(station, Vec2(x, y)))
+
+    # Load containers
+    if "containers" in level_json:
+        for container_data in level_json["containers"]:
+            name = container_data["name"]
+            x = container_data["x"]
+            y = height - 1 - container_data["y"]  # Invert y coordinate
+            container = next(
+                (s for s in editor_state.get_containers() if s.name == name), None
+            )
+            if container:
+                level.put_container_at(ContainerInstance(container, Vec2(x, y)))
 
     # Load items
     if "items" in level_json:
@@ -232,7 +245,7 @@ def setup() -> EditorState:
     print(f"[CONFIG] project root path: {project_root_path}")
     print(f"[CONFIG] asset dir path: {asset_dir_path}")
 
-    item_entities = renderer_data["item"]["entities"]
+    item_entities = config_data["item"]["entities"]
     items = {}
     for item_name, item_data in item_entities.items():
         assets = item_data["assets"]
@@ -250,12 +263,19 @@ def setup() -> EditorState:
         items[item_name] = Item(item_name, state_map)
 
     stations = {}  # stations not loaded from config, hardcoded in loop()
-    station_entities = renderer_data["station"]["entities"]
+    station_entities = config_data["station"]["entities"]
     stations = {}
     for station_name, station_data in station_entities.items():
         assets = station_data["assets"]
         default_asset = assets.get("default", "cheese.png")
         stations[station_name] = Station(station_name, default_asset)
+
+    containers = {}
+    container_entities = config_data["container"]["entities"]
+    for container_name, container_data in container_entities.items():
+        assets = container_data["assets"]
+        default_asset = assets.get("default", "cheese.png")
+        containers[container_name] = Container(container_name, default_asset)
 
     item_states = []
     for item in items.values():
@@ -269,6 +289,7 @@ def setup() -> EditorState:
         config_file_path,
         list(items.values()),
         list(stations.values()),
+        list(containers.values()),
         item_states,
     )
 
@@ -453,9 +474,9 @@ def loop(editor_state: EditorState):
     )
     container_label = pygame_gui.elements.UILabel(
         relative_rect=pygame.Rect((0, 0), (item_panel_width, 30)),
-        text="Containers",
+        text="CONTAINERS",
         manager=manager,
-        container=station_panel,
+        container=container_panel,
     )
 
     # Station Buttons
@@ -526,9 +547,77 @@ def loop(editor_state: EditorState):
         except FileNotFoundError:
             print(f"Asset not found: {station_asset_path}")
 
+        # Container Buttons
+        container_buttons = {}
+        button_width = 60
+        button_height = 60
+        button_x = 10
+        button_y = 50  # Adjusted since there's no search bar
+        spacing = (item_panel_width - 40 - (4 * button_width)) // 3
+
+        for i, container in enumerate(editor_state.get_containers()):
+            row = i // 4
+            col = i % 4
+            button_x = 10 + (col * (button_width + spacing))
+
+            def make_container_callback(container_name):
+                def on_container_click():
+                    editor_state.set_selected(
+                        next(
+                            (
+                                container
+                                for container in editor_state.get_containers()
+                                if container.name == container_name
+                            ),
+                            None,
+                        )
+                    )
+                    print(f"Selected container: {container_name}")
+
+                return on_container_click
+
+            container_asset_path = os.path.join(
+                editor_state.get_project_root_path(), "assets", container.asset_file
+            )
+            try:
+                img = pygame.image.load(container_asset_path).convert_alpha()
+                img = pygame.transform.scale(img, (button_width - 10, button_height - 10))
+
+                button_container = pygame_gui.elements.UIPanel(
+                    relative_rect=pygame.Rect(
+                        (button_x, button_y + (row * (button_height + 10))),
+                        (button_width + 5, button_height + 5),
+                    ),
+                    manager=manager,
+                    container=container_panel,
+                    object_id=pygame_gui.core.ObjectID(
+                        class_id="@panel", object_id="#item_button_container"
+                    ),
+                )
+
+                container_button = pygame_gui.elements.UIButton(
+                    relative_rect=pygame.Rect((0, 0), (button_width, button_height)),
+                    text="",
+                    manager=manager,
+                    container=button_container,
+                    command=make_container_callback(container.name),
+                    object_id=pygame_gui.core.ObjectID(
+                        class_id="@button", object_id="#container_button"
+                    ),
+                )
+
+                container_button.normal_image = img
+                container_button.hovered_image = img
+                container_button.pressed_image = img
+                container_button.rebuild()
+                container_buttons[container.name] = container_button
+
+            except FileNotFoundError:
+                print(f"Asset not found: {container_asset_path}")
+
     # Buttons
     button_panel = pygame_gui.elements.UIPanel(
-        relative_rect=pygame.Rect((10, 575), (210, 300)),
+        relative_rect=pygame.Rect((10, 575), (420, 300)),
         manager=manager,
     )
 
@@ -556,6 +645,9 @@ def loop(editor_state: EditorState):
     def on_stations_click():
         set_selected_mode("stations")
 
+    def on_containers_click():
+        set_selected_mode("containers")
+
     def on_items_click():
         set_selected_mode("items")
 
@@ -574,9 +666,23 @@ def loop(editor_state: EditorState):
         container=button_panel,
         command=on_export_click,
     )
+    containers_button = pygame_gui.elements.UIButton(
+        relative_rect=pygame.Rect((200, 0), (200, 50)),
+        text="Containers",
+        manager=manager,
+        container=button_panel,
+        command=on_containers_click,
+    )
     goal_button = pygame_gui.elements.UIButton(
         relative_rect=pygame.Rect((0, 50), (200, 50)),
         text="Goal",
+        manager=manager,
+        container=button_panel,
+        command=on_goal_click,
+    )
+    bundles_button = pygame_gui.elements.UIButton(
+        relative_rect=pygame.Rect((200, 50), (200, 50)),
+        text="Bundles",
         manager=manager,
         container=button_panel,
         command=on_goal_click,
@@ -654,6 +760,7 @@ def loop(editor_state: EditorState):
         nonlocal selected_mode
         item_panel.hide()
         station_panel.hide()
+        container_panel.hide()
         selected_mode = mode
         if mode == "items":
             if not isinstance(editor_state.get_selected(), Item):
@@ -665,6 +772,10 @@ def loop(editor_state: EditorState):
             station_panel.show()
         elif mode == "player_position":
             editor_state.set_selected(None)
+        elif mode == "containers":
+            if not isinstance(editor_state.get_selected(), Container):
+                editor_state.set_selected(None)
+            container_panel.show()
 
     clock = pygame.time.Clock()
     running = True
@@ -756,11 +867,11 @@ def loop(editor_state: EditorState):
                     print("Final Width: " + str(map_width), "Final Height: " + str(map_height))
                     map_panel.hide()
                     button_panel.show()
-                    # if map_width != 0 and map_height != 0:
-                    #     print("modified grid")
-                    #     test_level = LevelState(map_width, map_height)
-                    #     TILE_SIZE = int(516 // map_width)
-                    #     print(TILE_SIZE)
+                    if map_width != 0 and map_height != 0:
+                        print("modified grid")
+                        test_level = LevelState(map_width, map_height)
+                        TILE_SIZE = int(516 // map_width)
+                        print(TILE_SIZE)
                 # Check if it's an item button
                 for (item_name, predicates), button in item_buttons.items():
                     if event.ui_element == button:
@@ -794,6 +905,22 @@ def loop(editor_state: EditorState):
                         print(f"Selected station: {station_name}")
                         break
 
+                # Check if it's a container button
+                for container_name, button in container_buttons.items():
+                    if event.ui_element == button:
+                        editor_state.set_selected(
+                            next(
+                                (
+                                    container
+                                    for container in editor_state.get_containers()
+                                    if container.name == container_name
+                                ),
+                                None,
+                            )
+                        )
+                        print(f"Selected container: {container_name}")
+                        break
+
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     x, y = event.pos
@@ -823,6 +950,14 @@ def loop(editor_state: EditorState):
                                     editor_state.get_selected(), Vec2(x, y)
                                 )
                                 test_level.put_station_at(new_station)
+                            elif isinstance(editor_state.get_selected(), Container):
+                                new_container = ContainerInstance(
+                                    editor_state.get_selected(), Vec2(x, y)
+                                )
+                                try:
+                                    test_level.put_container_at(new_container)
+                                except NoStationAtLocationError:
+                                    pass
                             elif isinstance(editor_state.get_selected(), tuple):
                                 item, predicates = editor_state.get_selected()
                                 new_item = ItemInstance(
@@ -847,6 +982,8 @@ def loop(editor_state: EditorState):
                             y = (y - level_y) // TILE_SIZE
                             if len(test_level.get_items_at(Vec2(x, y))) > 0:
                                 test_level.pop_item_at(Vec2(x, y))
+                            elif test_level.get_container_at(Vec2(x,y)) is not None:
+                                test_level.remove_container_at(Vec2(x,y))
                             else:
                                 test_level.remove_station_at(Vec2(x, y))
 
