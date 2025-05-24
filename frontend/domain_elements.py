@@ -65,9 +65,9 @@ class Slot:
     """A docking slot living inside an ActionWorkspace."""
 
     def __init__(self, rel_pos, section=None):
-        self.rel_pos = rel_pos  # tuple inside the workspace
+        self.rel_pos = rel_pos  # tuple (x,y) inside the workspace
         self.size = (185, 40)  # same size as block
-        self.occupied = None 
+        self.occupied = None  # points to DraggableBlock or None
         self.section = section
         self.hidden = False
         self.workspace = None
@@ -90,10 +90,10 @@ class PredicateSlot:
     """A slot specifically for predicate blocks in asset configurations"""
     
     def __init__(self, rel_pos, asset_slot):
-        self.rel_pos = rel_pos  
-        self.size = (120, 25)  
-        self.occupied = None  
-        self.asset_slot = asset_slot  
+        self.rel_pos = rel_pos  # tuple (x,y) relative to asset config container
+        self.size = (120, 25)  # smaller than regular slots
+        self.occupied = None  # points to DraggableBlock or None
+        self.asset_slot = asset_slot  # reference to parent AssetConfigSlot
         self.hidden = False
 
     def rect(self):
@@ -121,7 +121,7 @@ class DraggableBlock(UIButton):
         **kwargs,
     ):
 
-    
+        # the block *itself* (acts as the drag handle too)
         super().__init__(
             relative_rect=relative_rect,
             text=text,
@@ -130,10 +130,9 @@ class DraggableBlock(UIButton):
             starting_height=starting_height,
             **kwargs,
         )
-        
-        self._param_widgets = [] 
+        # Store param definitions but don't create dropdowns
+        self._param_widgets = []  # list of (offset, widget) - kept empty now
         self.params = param_defs
-
         # drag state
         self.is_dragging = False
         self._drag_offset = (0, 0)
@@ -166,9 +165,14 @@ class DraggableBlock(UIButton):
                 ),
             }
 
+        # Handle case where params might be empty or None
+        params = []
+        if self.params:
+            params = [opt for _, _, opts in self.params for opt in opts]
+
         precon_json = {
             "predicate": self.text,
-            "params": [opt for _, _, opts in self.params for opt in opts],
+            "params": params,
             "is_true": self.toggled,
         }
         return precon_json
@@ -248,14 +252,14 @@ class DraggableBlock(UIButton):
                         if isinstance(ws, ObjectWorkspace):
                             predicate_slot = ws.get_predicate_snap_slot(self.get_abs_rect())
                             if predicate_slot:
-                                # dock into predicate slot
+                                # Dock into predicate slot
                                 if self.docked_slot:
                                     self.docked_slot.occupied = None
                                 predicate_slot.occupied = self
                                 self.docked_slot = predicate_slot
                                 block_slots[self.id] = predicate_slot
 
-                                # position relative to asset config container
+                                # Position relative to asset config container
                                 abs_slot_x = ws.asset_config_container.get_abs_rect().x + predicate_slot.rel_pos[0]
                                 abs_slot_y = ws.asset_config_container.get_abs_rect().y + predicate_slot.rel_pos[1]
 
@@ -314,7 +318,7 @@ class DraggableBlock(UIButton):
 
     #  tidy‑up when the block is killed
     def kill(self):
-       
+        # No parameter widgets to kill anymore
         block_slots.pop(self.id, None)
         blocks_by_id.pop(self.id, None)
         super().kill()
@@ -434,7 +438,7 @@ class ActionWorkspace(UIPanel):
             container=self,
         )
         self.ex_button = UIButton(
-            relative_rect=pygame.Rect(690, 0, 80, 50),
+            relative_rect=pygame.Rect(relative_rect.width - 160, 0, 80, 50),    
             text="Close",
             manager=manager,
             container=self,
@@ -442,13 +446,12 @@ class ActionWorkspace(UIPanel):
         )
 
         self.save_button = UIButton(
-            relative_rect=pygame.Rect(770, 0, 80, 50),
-            text="Save",
+            relative_rect=pygame.Rect(relative_rect.width - 80, 0, 80, 50),   
+            text="Save", 
             manager=manager,
             container=self,
             starting_height=2,
         )
-
         # ───── CONFIG ─────
         NUM_SLOTS = 8
         SLOT_W, SLOT_H = 185, 40
@@ -548,8 +551,10 @@ class ActionWorkspace(UIPanel):
 
             block = slot.occupied
 
-            for label, pos, opts in block.params:
-                self.parameters.update(opts)
+            # Only process parameters if they exist (for backwards compatibility)
+            if block.params:
+                for label, pos, opts in block.params:
+                    self.parameters.update(opts)
 
         for i, param in enumerate(self.parameters):
             if param[0] == "i":
@@ -650,10 +655,10 @@ class AssetConfigSlot:
         self.workspace = workspace
         self.occupied = False
         
-        # asset configuration data
+        # Asset configuration data
         self.asset_name = ""
         self.file_path = ""
-        self.predicate_slots = []  # list of PredicateSlot objects
+        self.predicate_slots = []  # List of PredicateSlot objects
         
         # UI elements
         self.ui_elements = []
@@ -664,14 +669,14 @@ class AssetConfigSlot:
         self.file_path = file_path
         self.occupied = True
         
-        #create UI elements for this slot
+        # Create UI elements for this slot
         self.create_ui_elements()
         
     def create_ui_elements(self):
         """Create UI elements for asset configuration"""
         x, y = self.rel_pos
         
-        # name the asset
+        # Asset name entry
         name_entry = UITextEntryBox(
             relative_rect=pygame.Rect(x, y, 100, 30),
             manager=self.manager,
@@ -681,35 +686,76 @@ class AssetConfigSlot:
         )
         self.ui_elements.append(name_entry)
         
-        # File path label
-        filename = os.path.basename(self.file_path) if self.file_path else "No file"
-        file_label = UITextBox(
-            html_text=f"<font color=#000000>{filename}</font>",
-            relative_rect=pygame.Rect(x + 110, y, 120, 30),
-            manager=self.manager,
-            container=self.container,
-        )
-        self.ui_elements.append(file_label)
+        # Image thumbnail instead of filename
+        if self.file_path and os.path.exists(self.file_path):
+            try:
+                # Load and scale the image to thumbnail size
+                original_image = pygame.image.load(self.file_path).convert_alpha()
+                
+                # Scale to thumbnail size (e.g., 60x60)
+                thumb_size = 60
+                original_w, original_h = original_image.get_size()
+                
+                # Calculate scaling to maintain aspect ratio
+                if original_w > original_h:
+                    scale = thumb_size / original_w
+                else:
+                    scale = thumb_size / original_h
+                    
+                new_w = max(1, int(original_w * scale))
+                new_h = max(1, int(original_h * scale))
+                
+                thumbnail = pygame.transform.scale(original_image, (new_w, new_h))
+                
+                # Create UIImage with thumbnail
+                image_element = UIImage(
+                    relative_rect=pygame.Rect(x + 110, y, thumb_size, thumb_size),
+                    image_surface=thumbnail,
+                    manager=self.manager,
+                    container=self.container,
+                )
+                self.ui_elements.append(image_element)
+                
+            except Exception as e:
+                # Fallback to filename if image loading fails
+                filename = os.path.basename(self.file_path)
+                file_label = UITextBox(
+                    html_text=f"<font color=#000000>{filename}</font>",
+                    relative_rect=pygame.Rect(x + 110, y, 120, 30),
+                    manager=self.manager,
+                    container=self.container,
+                )
+                self.ui_elements.append(file_label)
+                print(f"Error loading image thumbnail: {e}")
+        else:
+            # No file or file doesn't exist
+            file_label = UITextBox(
+                html_text="<font color=#000000>No file</font>",
+                relative_rect=pygame.Rect(x + 110, y, 120, 30),
+                manager=self.manager,
+                container=self.container,
+            )
+            self.ui_elements.append(file_label)
     
         pred_label = UITextBox(
             html_text="<font color=#000000>Predicates:</font>",
-            relative_rect=pygame.Rect(x, y + 35, 80, 25),
+            relative_rect=pygame.Rect(x, y + 70, 80, 25),
             manager=self.manager,
             container=self.container,
         )
         self.ui_elements.append(pred_label)
         
-        # TODO: number of prediat slots: create predicate slots but it's up to 4 slots for now
+        # Create predicate slots (up to 4 slots per asset config)
         self.predicate_slots = []
         for i in range(4):
-            slot_x = x + 80 + (i * 125)
-            slot_y = y + 35
+            slot_x = x + 80 + (i * 125)  # Spread them out horizontally
+            slot_y = y + 70  # More space below thumbnails
             pred_slot = PredicateSlot((slot_x, slot_y), self)
             self.predicate_slots.append(pred_slot)
         
-        # remove button
+        # Remove button - positioned better relative to thumbnail
         remove_btn = UIButton(
-            relative_rect=pygame.Rect(x + 210, y + 5, 30, 25),
+            relative_rect=pygame.Rect(x + 210, y + 15, 30, 25),
             text="X",
             manager=self.manager,
             container=self.container,
@@ -735,13 +781,13 @@ class AssetConfigSlot:
     
     def cleanup(self):
         """Clean up UI elements and predicate blocks"""
-      
+        # Kill any docked predicate blocks
         for pred_slot in self.predicate_slots:
             if pred_slot.occupied:
                 pred_slot.occupied.kill()
                 pred_slot.occupied = None
         
-       
+        # Kill UI elements
         for element in self.ui_elements:
             element.kill()
         self.ui_elements.clear()
@@ -773,7 +819,7 @@ class ObjectWorkspace(UIPanel):
         self.loaded_assets = []
         self.asset_ui_elements = []
         
-        #asset configurations with predicates
+        # New: asset configurations with predicates
         self.asset_configs = {}  # {"asset_name": {"file": "path.png", "predicates": ["pred1", "pred2"]}}
 
         self.slots = []
@@ -793,10 +839,10 @@ class ObjectWorkspace(UIPanel):
             container=self,
         )
 
-        # default object type to "item" - no dropdown needed
+        # Default object type to "item" - no dropdown needed
         self.object_type = "item"
 
-        # aset config
+        # Asset configuration section
         self.asset_config_label = UITextBox(
             html_text="<font color=#FFFFFF><b>Asset Configurations:</b></font>",
             relative_rect=pygame.Rect(0, 100, 200, 50),
@@ -820,7 +866,7 @@ class ObjectWorkspace(UIPanel):
             starting_height=2,
         )
 
-        
+        # Create slots for asset configurations
         self.create_asset_slots()
 
         self.ex_button = UIButton(
@@ -841,7 +887,7 @@ class ObjectWorkspace(UIPanel):
     def create_asset_slots(self):
         """Create slots for asset configurations"""
         NUM_SLOTS = 10
-        SLOT_W, SLOT_H = 600, 90  
+        SLOT_W, SLOT_H = 600, 130  # Increased height to fit predicates properly
         MARGIN_X = 10
         V_SPACING = 10
 
@@ -879,6 +925,7 @@ class ObjectWorkspace(UIPanel):
         )
 
         if file_path and os.path.exists(file_path):
+            # Find an empty slot
             for slot in self.slots:
                 if not slot.occupied:
                     asset_name = os.path.splitext(os.path.basename(file_path))[0]
@@ -908,7 +955,7 @@ class ObjectWorkspace(UIPanel):
         )
         config_path = os.path.normpath(config_path)
         
-        # load existing config or create new one
+        # Load existing config or create new one
         try:
             with open(config_path, 'r') as f:
                 config_data = json.load(f)
@@ -930,15 +977,16 @@ class ObjectWorkspace(UIPanel):
                 "entities": {}
             }
         
-        # build the object configuration!
+        # Build the object configuration
         object_config = self.serialize_for_config()
         
-        # add to the config!
+        # Add to config
         config_data[object_type]["entities"][object_name] = object_config
-
+        
+        # Ensure directory exists
         os.makedirs(os.path.dirname(config_path), exist_ok=True)
         
-        # save
+        # Save config
         with open(config_path, 'w') as f:
             json.dump(config_data, f, indent=4)
         
@@ -966,7 +1014,7 @@ class ObjectWorkspace(UIPanel):
                         "asset": asset_filename
                     }
                     
-                    # add predicates if any
+                    # Add predicates if any
                     if predicates:
                         asset_config["predicates"] = predicates
                     
@@ -981,7 +1029,7 @@ class ObjectWorkspace(UIPanel):
         pass
 
     def get_snap_slot(self, block_abs_rect):
-        # objectWorkspace doesn't use regular snap slots, only predicate slots
+        # ObjectWorkspace doesn't use regular snap slots, only predicate slots
         return None
 
     def kill(self):
@@ -1122,7 +1170,7 @@ class PredicateCreator(UIPanel):
 
     def serialize(self):
         name = self.top_label.get_text()
-        
+        # Handle both string and tuple returns from dropdown
         param1_option = self.first_param.selected_option
         param2_option = self.second_param.selected_option
         
@@ -1318,7 +1366,7 @@ class SFXWorkspace(UIPanel):
         abs_slot_x = self.get_abs_rect().x + slot.rel_pos[0]
         abs_slot_y = self.get_abs_rect().y + slot.rel_pos[1]
 
-        # now get this block's container
+        # now get this block's container (still center_panel)
         container_rect = block.ui_container.get_abs_rect()
 
         # set rel position inside that panel, calculated from abs position
@@ -1380,7 +1428,7 @@ class SFXWorkspace(UIPanel):
     def serialize(self):
         self.calculate_slots()
         self.parametrize()
-        param = self.parameters[0]
+        param = self.parameters[0] if self.parameters else ""
         raw_sfx = [b.to_json() for b in self.sfxs]
         unique_sfx = []
         for entry in raw_sfx:
@@ -1448,10 +1496,12 @@ class SFXWorkspace(UIPanel):
 
             block = slot.occupied
 
-            for label, pos, opts in block.params:
-                for opt in opts:
-                    if opt not in self.parameters:
-                        self.parameters.append(opt)
+            
+            if block.params:
+                for label, pos, opts in block.params:
+                    for opt in opts:
+                        if opt not in self.parameters:
+                            self.parameters.append(opt)
 
         for i, param in enumerate(self.parameters):
             if param[0] == "i":
