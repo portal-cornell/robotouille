@@ -511,6 +511,70 @@ class RobotouilleCanvas:
             self.pix_square_size * y_scale_factor,
         )
 
+    def _choose_bundle_asset(self, bundle_name, obs):
+        """
+        Selects the asset for a bundle based on the current game state predicates.
+
+        Args:
+            bundle_name (str): Name of the bundle entity.
+            obs (State): Current game state predicates.
+
+        Returns:
+            str: Name of the asset for the bundle.
+        """
+        trimmed_bundle_name, bundle_ID = trim_item_ID(bundle_name)
+        bundle_config = self.config["bundle"]["entities"][trimmed_bundle_name]
+
+        # Default asset
+        chosen_asset = bundle_config["assets"]["default"]
+
+        # For each potential asset:
+        for asset, details in bundle_config["assets"].items():
+            if asset == "default":
+                continue
+
+            required_preds = details.get("predicates", [])
+
+            # Check if all required predicates are currently true for this bundle
+            # We'll do this by checking each predicate name against the literals in obs.predicates
+            if all(
+                    any(
+                        is_true
+                        and literal.name == predicate
+                        and literal.params[0].name == bundle_name
+                        for literal, is_true in obs.predicates.items()
+                    )
+                    for predicate in required_preds
+            ):
+                chosen_asset = details["default"]
+                break
+
+        return chosen_asset
+
+    def _draw_bundle_image(self, surface, bundle_name, obs, position, bundle_asset):
+        """
+        Helper to draw a bundle image on the canvas.
+        Args:
+            surface (pygame.Surface): Surface to draw on
+            bundle_name (str): Name of the bundle
+            obs (List[Literal]): Game state predicates
+            position (np.array): (x, y) position of the condiment (with pix_square_size factor accounted for)
+        """
+        trimmed_bundle_name, bundle_ID = trim_item_ID(bundle_name)
+
+        # Instead of default, use the chosen asset
+        bundle_image_name = bundle_asset
+
+        x_scale_factor = self.config["bundle"]["constants"]["X_SCALE_FACTOR"]
+        y_scale_factor = self.config["bundle"]["constants"]["Y_SCALE_FACTOR"]
+
+        self._draw_image(
+            surface,
+            f"{bundle_image_name}",
+            position + self.pix_square_size * x_scale_factor,
+            self.pix_square_size * y_scale_factor,
+        )
+
     def _draw_floor(self, surface):
         """
         Draw the floor on the canvas.
@@ -671,6 +735,7 @@ class RobotouilleCanvas:
                 robot_image_name = robot_sprite[player_obj.sprite_value]
                 held_item_name = None
                 held_container_name = None
+                held_bundle_name = None
                 # Draw the player
                 self._draw_image(
                     surface,
@@ -679,7 +744,7 @@ class RobotouilleCanvas:
                     self.pix_square_size,
                 )
 
-                # Check if the player is holding an item or container
+                # Check if the player is holding an item or container or bundle
                 for literal, is_true in obs.predicates.items():
                     if (
                         is_true
@@ -693,6 +758,12 @@ class RobotouilleCanvas:
                         and literal.params[0].name == player.name
                     ):
                         held_container_name = literal.params[1].name
+                    if (
+                            is_true
+                            and literal.name == "has_bundle"
+                            and literal.params[0].name == player.name
+                    ):
+                        held_bundle_name = literal.params[1].name
                 # Draw the item or container the player is holding
                 if held_item_name:
                     self._draw_item_image(
@@ -704,6 +775,15 @@ class RobotouilleCanvas:
                         held_container_name,
                         obs,
                         player_pos * self.pix_square_size,
+                    )
+                if held_bundle_name:
+                    bundle_asset = self._choose_bundle_asset(held_bundle_name, obs)
+                    self._draw_bundle_image(
+                        surface,
+                        held_bundle_name,
+                        obs,
+                        player_pos * self.pix_square_size,
+                        bundle_asset,
                     )
 
     def _draw_item(self, surface, obs):
@@ -799,6 +879,43 @@ class RobotouilleCanvas:
                     surface, container, obs, container_pos * self.pix_square_size
                 )
 
+    def _draw_bundle(self, surface, obs):
+        """
+        This helper draws bundles on the canvas.
+
+        Args:
+            surface (pygame.Surface): Surface to draw on
+            obs (State): Game state predicates
+
+        Side effects:
+            Draws the bundles to surface
+        """
+        station_bundle_offset = self.config["bundle"]["constants"][
+            "STATION_BUNDLE_OFFSET"
+        ]
+        for literal, is_true in obs.predicates.items():
+            station_bundle_offset = self.config["bundle"]["constants"][
+                "STATION_BUNDLE_OFFSET"
+            ]
+            if is_true and literal.name == "bundle_at":
+                bundle_name = literal.params[0].name
+                station = literal.params[1].name
+
+                bundle_pos = self._get_station_position(station)
+                name, _ = trim_item_ID(bundle_name)
+                bundle_pos[1] -= self.config["bundle"]["entities"][name][
+                    "constants"
+                ].get("STATION_BUNDLE_OFFSET", station_bundle_offset)
+
+                bundle_asset = self._choose_bundle_asset(bundle_name, obs)
+                self._draw_bundle_image(
+                    surface,
+                    bundle_name,
+                    obs,
+                    bundle_pos * self.pix_square_size,
+                    bundle_asset,  # Pass in the chosen asset
+                )
+
     def _add_platforms_underneath_stations(self, stations, abstract_tile_matrix):
         """
         This helper adds a counter or a table underneath a station.
@@ -890,3 +1007,4 @@ class RobotouilleCanvas:
         self._draw_player(surface, obs)
         self._draw_item(surface, obs)
         self._draw_container(surface, obs)
+        self._draw_bundle(surface, obs)

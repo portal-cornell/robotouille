@@ -1,4 +1,4 @@
-from declarations import Item, Station, Container
+from declarations import Item, Station, Container, Bundle
 from typing import Optional, Union, Tuple, Set
 
 
@@ -11,6 +11,7 @@ class EditorState:
         items: list[Item],
         stations: list[Station],
         containers: list[Container],
+        bundles: list[Bundle],
         item_states: list[Tuple[Item, Set[str]]],
         saved_file: Optional[str] = None,
     ):
@@ -20,6 +21,7 @@ class EditorState:
         self._items: list[Item] = items
         self._stations: list[Station] = stations
         self._containers: list[Container] = containers
+        self._bundles: list[Bundle] = bundles
         self._item_states: list[Tuple[Item, Set[str]]] = item_states
         self._saved_file: Optional[str] = saved_file
         self._selected: Optional[Union[Station, Tuple[Item, Set[str]], Container]] = None
@@ -45,17 +47,20 @@ class EditorState:
     def get_containers(self) -> Container:
         return self._containers
 
+    def get_bundles(self) -> Bundle:
+        return self._bundles
+
     def get_saved_file(self) -> Optional[str]:
         return self._saved_file
 
     def set_saved_file(self, saved_file: Optional[str]) -> None:
         self._saved_file = saved_file
 
-    def get_selected(self) -> Optional[Union[Station, Tuple[Item, Set[str]], Container]]:
+    def get_selected(self) -> Optional[Union[Station, Tuple[Item, Set[str]], Container, Bundle]]:
         return self._selected
 
     def set_selected(
-        self, selected: Optional[Union[Station, Tuple[Item, Set[str]], Container]]
+        self, selected: Optional[Union[Station, Tuple[Item, Set[str]], Container, Bundle]]
     ) -> None:
         if selected is not None:
             if isinstance(selected, tuple):
@@ -64,10 +69,10 @@ class EditorState:
                         "selected item must be None or an item from _items or a station from _stations"
                     )
             elif (
-                selected not in self._stations and selected not in self._containers
+                selected not in self._stations and selected not in self._containers and selected not in self._bundles
             ):  # if not a tuple, check if it is a station or container
                 raise ValueError(
-                    "selected must be None or an item from _items or a station from _stations or a container from _containers"
+                    "selected must be None or an item from _items or a station from _stations or a container from _containers or a bundle from _bundles"
                 )
 
         self._selected = selected

@@ -130,8 +130,13 @@ def build_station_location_predicates(domain_dict, environment_dict):
             predicates.append(pred)
         match = False
         # Check if there are any items or containers at the station
-        for field in ["items", "containers"]:
-            predicate = "item_at" if field == "items" else "container_at"
+        for field in ["items", "containers", "bundles"]:
+            if field == "items":
+                predicate = "item_at"
+            elif field == "containers":
+                predicate = "container_at"
+            else:
+                predicate = "bundle_at"
             for entity in environment_dict.get(field, []):
                 x = entity["x"]
                 y = entity["y"]

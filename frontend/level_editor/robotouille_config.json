@@ -254,5 +254,91 @@
         }
       }
     }
-  }
+  },
+  "bundle": {
+        "constants": {
+            "STATION_BUNDLE_OFFSET" : 0.25,
+            "X_SCALE_FACTOR": 0.125,
+            "Y_SCALE_FACTOR": 0.75
+        },
+        "entities": {
+            "seaweed": {
+                "assets": {
+                    "default": "seaweed.png",
+                    "sushi": {
+                        "default": "sushi.png",
+                        "predicates": ["isrolled"]
+                    }
+                },
+                "constants": {}
+            },
+            "tart": {
+                "assets": {
+                    "default": "appletartdough.png",
+                    "appletart": {
+                        "default": "appletart.png",
+                        "predicates": ["isrolled"]
+                    },
+                    "bakedappletart": {
+                        "default": "bakedappletart.png",
+                        "predicates": ["iscooked-bundle"]
+                    }
+                },
+                "constants": {}
+            },
+            "pizza": {
+                "assets": {
+                    "default": "kneadedpizzadough.png",
+                    "bakedpizza": {
+                        "default": "bakedpizza.png",
+                        "predicates": ["iscooked-bundle"]
+                    },
+                    "pizza": {
+                        "default": "doughwithsaucecheeseandpepperoni.png",
+                        "predicates": ["has_pepperoni"]
+                    },
+                    "saucecheese": {
+                        "default": "doughwithsauceandcheese.png",
+                        "predicates": ["has_cheesetri"]
+                    },
+                    "sauce": {
+                        "default": "doughwithsauce.png",
+                        "predicates": ["has_tomato_sauce_bundle"]
+                    }
+
+
+                },
+                "constants": {}
+            },
+            "burrito": {
+                "assets": {
+                    "default": "tortilla.png",
+                    "cooked": {
+                        "default": "cookedburrito.png",
+                        "predicates": ["iscooked-bundle"]
+                    },
+                    "rolled": {
+                        "default": "burrito.png",
+                        "predicates": ["isrolled"]
+                    }
+                },
+                "constants": {}
+
+            },
+            "rollsheet": {
+                  "assets": {
+                      "default": "rollsheet.png",
+                      "friedspringroll": {
+                          "default": "friedspringroll.png",
+                          "predicates": ["isfried-bundle"]
+                      },
+                      "springroll": {
+                          "default": "springroll.png",
+                          "predicates": ["isrolled"]
+                      }
+                  },
+                  "constants": {}
+            }
+        }
+    }
 }

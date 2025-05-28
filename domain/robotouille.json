@@ -4,7 +4,7 @@
 
     "input_json": "domain/input.json",
 
-    "object_types": ["station", "item", "player", "container", "meal"],
+    "object_types": ["station", "item", "player", "container", "meal", "bundle"],
 
     "predicate_defs": [
         {
@@ -223,6 +223,57 @@
             "param_types": ["meal"],
             "language_descriptors": {
                 "0": "{0} is boiling"
+            }
+        },
+        {
+            "name": "isseaweed",
+            "param_types": ["bundle"],
+            "language_descriptors": {
+                "0": "{0} is seaweed"
+            }
+        },
+        {
+            "name": "isrollsheet",
+            "param_types": ["bundle"],
+            "language_descriptors": {
+                "0": "{0} is a roll sheet"
+            }
+        },
+        {
+            "name": "istart",
+            "param_types": ["bundle"],
+            "language_descriptors": {
+                "0": "{0} is tart"
+            }
+        },
+        {
+            "name": "ispizza",
+            "param_types": ["bundle"],
+            "language_descriptors": {
+                "0": "{0} is a pizza"
+            }
+        },
+        {
+            "name": "isburrito",
+            "param_types": ["bundle"],
+            "language_descriptors": {
+                "0": "{0} is a burrito"
+            }
+        },
+        {
+            "name": "bundle_at",
+            "param_types": ["bundle", "station"],
+            "language_descriptors": {
+                "0": "{0} is at {1}",
+                "1": "{1} has {0}"
+            }
+        },
+        {
+            "name": "has_bundle",
+            "param_types": ["player", "bundle"],
+            "language_descriptors": {
+                "0": "{0} is holding {1}",
+                "1": "{1} is held by {0}"
             }
         },
         {

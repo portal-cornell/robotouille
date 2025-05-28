@@ -32,6 +32,16 @@ class ContainerInstance:
         self.source_container = source_container
         self.pos = pos
 
+class Bundle:
+    def __init__(self, name: str, asset_file: str):
+        self.name = name
+        self.asset_file = asset_file
+
+class BundleInstance:
+    def __init__(self, source_bundle: Bundle, pos: Vec2):
+        self.source_bundle = source_bundle
+        self.pos = pos
+
 
 class PredicateDict(dict):
     def __init__(self, *args, **kwargs):

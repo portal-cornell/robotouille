@@ -37,7 +37,7 @@ RED2 = pygame.Color("#e72121")
 RED0 = pygame.Color("#ff5656")
 NEUTRALDARK = pygame.Color("#292929")
 
-from declarations import Vec2, Item, Station, Container, ItemInstance, StationInstance, ContainerInstance
+from declarations import Vec2, Item, Station, Container, Bundle, ItemInstance, StationInstance, ContainerInstance, BundleInstance
 from level_state import (
     LevelState,
     NoStationAtLocationError,
@@ -144,6 +144,18 @@ def open_level() -> LevelState:
             if container:
                 level.put_container_at(ContainerInstance(container, Vec2(x, y)))
 
+    # Load bundles
+    if "bundles" in level_json:
+        for bundle_data in level_json["bundles"]:
+            name = bundle_data["name"]
+            x = bundle_data["x"]
+            y = height - 1 - bundle_data["y"]  # Invert y coordinate
+            bundle = next(
+                (s for s in editor_state.get_bundles() if s.name == name), None
+            )
+            if bundle:
+                level.put_bundle_at(BundleInstance(bundle, Vec2(x, y)))
+
     # Load items
     if "items" in level_json:
         for item_data in level_json["items"]:
@@ -186,6 +198,7 @@ def render_level(
     )  # converts string to python object
     layout, tiling = robotouille_env._parse_renderer_layout(environment_json)
     _, updated_environment_json = builder.build_problem(environment_json)
+    # print(updated_environment_json)
     canvas = RobotouilleCanvas(
         renderer_data, layout, tiling, environment_json["players"]
     )
@@ -277,6 +290,13 @@ def setup() -> EditorState:
         default_asset = assets.get("default", "cheese.png")
         containers[container_name] = Container(container_name, default_asset)
 
+    bundles = {}
+    bundle_entities = config_data["bundle"]["entities"]
+    for bundle_name, bundle_data in bundle_entities.items():
+        assets = bundle_data["assets"]
+        default_asset = assets.get("default", "cheese.png")
+        bundles[bundle_name] = Bundle(bundle_name, default_asset)
+
     item_states = []
     for item in items.values():
         for predicates_frozen in item.state_map.keys():
@@ -290,6 +310,7 @@ def setup() -> EditorState:
         list(items.values()),
         list(stations.values()),
         list(containers.values()),
+        list(bundles.values()),
         item_states,
     )
 
@@ -479,6 +500,22 @@ def loop(editor_state: EditorState):
         container=container_panel,
     )
 
+    bundle_panel = pygame_gui.elements.UIPanel(
+        relative_rect=pygame.Rect(
+            (SCREEN_WIDTH, 0),
+            (SIDE_MARGIN, SCREEN_HEIGHT + LOWER_MARGIN),
+        ),
+        manager=manager,
+        visible=False,
+        container=None,
+    )
+    bundle_label = pygame_gui.elements.UILabel(
+        relative_rect=pygame.Rect((0, 0), (item_panel_width, 30)),
+        text="BUNDLES",
+        manager=manager,
+        container=bundle_panel,
+    )
+
     # Station Buttons
     station_buttons = {}
     button_width = 60
@@ -547,73 +584,131 @@ def loop(editor_state: EditorState):
         except FileNotFoundError:
             print(f"Asset not found: {station_asset_path}")
 
-        # Container Buttons
-        container_buttons = {}
-        button_width = 60
-        button_height = 60
-        button_x = 10
-        button_y = 50  # Adjusted since there's no search bar
-        spacing = (item_panel_width - 40 - (4 * button_width)) // 3
+    # Container Buttons
+    container_buttons = {}
 
-        for i, container in enumerate(editor_state.get_containers()):
-            row = i // 4
-            col = i % 4
-            button_x = 10 + (col * (button_width + spacing))
+    for i, container in enumerate(editor_state.get_containers()):
+        row = i // 4
+        col = i % 4
+        button_x = 10 + (col * (button_width + spacing))
 
-            def make_container_callback(container_name):
-                def on_container_click():
-                    editor_state.set_selected(
-                        next(
-                            (
-                                container
-                                for container in editor_state.get_containers()
-                                if container.name == container_name
-                            ),
-                            None,
-                        )
+        def make_container_callback(container_name):
+            def on_container_click():
+                editor_state.set_selected(
+                    next(
+                        (
+                            container
+                            for container in editor_state.get_containers()
+                            if container.name == container_name
+                        ),
+                        None,
                     )
-                    print(f"Selected container: {container_name}")
+                )
+                print(f"Selected container: {container_name}")
 
-                return on_container_click
+            return on_container_click
 
-            container_asset_path = os.path.join(
-                editor_state.get_project_root_path(), "assets", container.asset_file
+        container_asset_path = os.path.join(
+            editor_state.get_project_root_path(), "assets", container.asset_file
+        )
+        try:
+            img = pygame.image.load(container_asset_path).convert_alpha()
+            img = pygame.transform.scale(img, (button_width - 10, button_height - 10))
+
+            button_container = pygame_gui.elements.UIPanel(
+                relative_rect=pygame.Rect(
+                    (button_x, button_y + (row * (button_height + 10))),
+                    (button_width + 5, button_height + 5),
+                ),
+                manager=manager,
+                container=container_panel,
+                object_id=pygame_gui.core.ObjectID(
+                    class_id="@panel", object_id="#item_button_container"
+                ),
             )
-            try:
-                img = pygame.image.load(container_asset_path).convert_alpha()
-                img = pygame.transform.scale(img, (button_width - 10, button_height - 10))
 
-                button_container = pygame_gui.elements.UIPanel(
-                    relative_rect=pygame.Rect(
-                        (button_x, button_y + (row * (button_height + 10))),
-                        (button_width + 5, button_height + 5),
-                    ),
-                    manager=manager,
-                    container=container_panel,
-                    object_id=pygame_gui.core.ObjectID(
-                        class_id="@panel", object_id="#item_button_container"
-                    ),
+            container_button = pygame_gui.elements.UIButton(
+                relative_rect=pygame.Rect((0, 0), (button_width, button_height)),
+                text="",
+                manager=manager,
+                container=button_container,
+                command=make_container_callback(container.name),
+                object_id=pygame_gui.core.ObjectID(
+                    class_id="@button", object_id="#container_button"
+                ),
+            )
+
+            container_button.normal_image = img
+            container_button.hovered_image = img
+            container_button.pressed_image = img
+            container_button.rebuild()
+            container_buttons[container.name] = container_button
+
+        except FileNotFoundError:
+            print(f"Asset not found: {container_asset_path}")
+
+    # Bundle Buttons
+    bundle_buttons = {}
+
+    for i, bundle in enumerate(editor_state.get_bundles()):
+        row = i // 4
+        col = i % 4
+        button_x = 10 + (col * (button_width + spacing))
+
+        def make_bundle_callback(bundle_name):
+            def on_bundle_click():
+                editor_state.set_selected(
+                    next(
+                        (
+                            bundle
+                            for bundle in editor_state.get_bundles()
+                            if bundle.name == bundle_name
+                        ),
+                        None,
+                    )
                 )
+                print(f"Selected bundle: {bundle_name}")
 
-                container_button = pygame_gui.elements.UIButton(
-                    relative_rect=pygame.Rect((0, 0), (button_width, button_height)),
-                    text="",
-                    manager=manager,
-                    container=button_container,
-                    command=make_container_callback(container.name),
-                    object_id=pygame_gui.core.ObjectID(
-                        class_id="@button", object_id="#container_button"
-                    ),
-                )
+            return on_bundle_click
 
-                container_button.normal_image = img
-                container_button.hovered_image = img
-                container_button.pressed_image = img
-                container_button.rebuild()
-                container_buttons[container.name] = container_button
+        bundle_asset_path = os.path.join(
+            editor_state.get_project_root_path(), "assets", bundle.asset_file
+        )
+        try:
+            img = pygame.image.load(bundle_asset_path).convert_alpha()
+            img = pygame.transform.scale(img, (button_width - 10, button_height - 10))
 
-            except FileNotFoundError:
-                print(f"Asset not found: {container_asset_path}")
+            button_container = pygame_gui.elements.UIPanel(
+                relative_rect=pygame.Rect(
+                    (button_x, button_y + (row * (button_height + 10))),
+                    (button_width + 5, button_height + 5),
+                ),
+                manager=manager,
+                container=bundle_panel,
+                object_id=pygame_gui.core.ObjectID(
+                    class_id="@panel", object_id="#item_button_container"
+                ),
+            )
+
+            bundle_button = pygame_gui.elements.UIButton(
+                relative_rect=pygame.Rect((0, 0), (button_width, button_height)),
+                text="",
+                manager=manager,
+                container=button_container,
+                command=make_bundle_callback(bundle.name),
+                object_id=pygame_gui.core.ObjectID(
+                    class_id="@button", object_id="#bundle_button"
+                ),
+            )
+
+            bundle_button.normal_image = img
+            bundle_button.hovered_image = img
+            bundle_button.pressed_image = img
+            bundle_button.rebuild()
+            bundle_buttons[bundle.name] = bundle_button
+
+        except FileNotFoundError:
+            print(f"Asset not found: {bundle_asset_path}")
 
     # Buttons
     button_panel = pygame_gui.elements.UIPanel(
@@ -647,6 +742,9 @@ def loop(editor_state: EditorState):
 
     def on_containers_click():
         set_selected_mode("containers")
+
+    def on_bundles_click():
+        set_selected_mode("bundles")
 
     def on_items_click():
         set_selected_mode("items")
@@ -685,7 +783,7 @@ def loop(editor_state: EditorState):
         text="Bundles",
         manager=manager,
         container=button_panel,
-        command=on_goal_click,
+        command=on_bundles_click,
     )
     player_button = pygame_gui.elements.UIButton(
         relative_rect=pygame.Rect((0, 100), (200, 50)),
@@ -717,6 +815,8 @@ def loop(editor_state: EditorState):
     )
 
     stations_button.show()
+    containers_button.show()
+    bundles_button.show()
     items_button.show()
     export_button.show()
     goal_button.show()
@@ -761,6 +861,7 @@ def loop(editor_state: EditorState):
         item_panel.hide()
         station_panel.hide()
         container_panel.hide()
+        bundle_panel.hide()
         selected_mode = mode
         if mode == "items":
             if not isinstance(editor_state.get_selected(), Item):
@@ -776,6 +877,10 @@ def loop(editor_state: EditorState):
             if not isinstance(editor_state.get_selected(), Container):
                 editor_state.set_selected(None)
             container_panel.show()
+        elif mode == "bundles":
+            if not isinstance(editor_state.get_selected(), Bundle):
+                editor_state.set_selected(None)
+            bundle_panel.show()
 
     clock = pygame.time.Clock()
     running = True
@@ -921,6 +1026,22 @@ def loop(editor_state: EditorState):
                         print(f"Selected container: {container_name}")
                         break
 
+                # Check if it's a bundle button
+                for bundle_name, button in bundle_buttons.items():
+                    if event.ui_element == button:
+                        editor_state.set_selected(
+                            next(
+                                (
+                                    bundle
+                                    for bundle in editor_state.get_bundles()
+                                    if bundle.name == bundle_name
+                                ),
+                                None,
+                            )
+                        )
+                        print(f"Selected bundle: {bundle_name}")
+                        break
+
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     x, y = event.pos
@@ -956,6 +1077,14 @@ def loop(editor_state: EditorState):
                                 )
                                 try:
                                     test_level.put_container_at(new_container)
+                                except NoStationAtLocationError:
+                                    pass
+                            elif isinstance(editor_state.get_selected(), Bundle):
+                                new_bundle = BundleInstance(
+                                    editor_state.get_selected(), Vec2(x, y)
+                                )
+                                try:
+                                    test_level.put_bundle_at(new_bundle)
                                 except NoStationAtLocationError:
                                     pass
                             elif isinstance(editor_state.get_selected(), tuple):

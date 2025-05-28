@@ -1,4 +1,4 @@
-from declarations import Vec2, ItemInstance, StationInstance, ContainerInstance
+from declarations import Vec2, ItemInstance, StationInstance, ContainerInstance, BundleInstance
 from typing import List, Optional, Union
 
 
@@ -125,6 +125,9 @@ class LevelState:
         self._containers: List[List[Optional[ContainerInstance]]] = [
             [None for _ in range(height)] for _ in range(width)
         ]
+        self._bundles: List[List[Optional[BundleInstance]]] = [
+            [None for _ in range(height)] for _ in range(width)
+        ]
         self._items: List[List[List[ItemInstance]]] = [
             [[] for _ in range(height)] for _ in range(width)
         ]
@@ -174,6 +177,9 @@ class LevelState:
     def get_container_at(self, pos: Vec2) -> Optional[ContainerInstance]:
         return self._containers[pos.x][pos.y]
 
+    def get_bundle_at(self, pos: Vec2) -> Optional[BundleInstance]:
+        return self._bundles[pos.x][pos.y]
+
     def get_items_at(self, pos: Vec2) -> List[ItemInstance]:
         return self._items[pos.x][pos.y]
 
@@ -194,6 +200,15 @@ class LevelState:
                 if container:
                     containers.append(container)
         return containers
+
+    def get_all_bundles(self) -> List[BundleInstance]:
+        bundles = []
+        for x in range(self.width):
+            for y in range(self.height):
+                bundle = self._bundles[x][y]
+                if bundle:
+                    bundles.append(bundle)
+        return bundles
 
     def get_all_items(self) -> List[ItemInstance]:
         items = []
@@ -224,6 +239,18 @@ class LevelState:
 
     def remove_container_at(self, pos: Vec2):
         self._containers[pos.x][pos.y] = None
+
+    def put_bundle_at(self, bundle: BundleInstance):
+        pos = bundle.pos
+        existing_station = self.get_station_at(pos)
+        if existing_station is None:
+            raise NoStationAtLocationError(
+                "Cannot place item or container or bundle at location without a station"
+            )
+        self._bundles[pos.x][pos.y] = bundle
+
+    def remove_bundle_at(self, pos: Vec2):
+        self._bundles[pos.x][pos.y] = None
 
     def put_item_at(self, item: ItemInstance):
         pos = item.pos
@@ -264,6 +291,16 @@ class LevelState:
                 }
             )
 
+        bundles_json = []
+        for bundle in self.get_all_bundles():
+            bundles_json.append(
+                {
+                    "name": bundle.source_bundle.name,
+                    "x": bundle.pos.x,
+                    "y": self.height - 1 - bundle.pos.y,
+                }
+            )
+
         items_json = []
         for x in range(self.width):
             for y in range(self.height):
@@ -297,6 +334,7 @@ class LevelState:
                 }
             ],
             "containers": containers_json,
+            "bundles": bundles_json,
             "goal_description": "",
             "goal": self.goal.serialize(),
         }
