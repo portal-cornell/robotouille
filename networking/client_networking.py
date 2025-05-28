@@ -117,7 +117,7 @@ class NetworkManager:
                         self.screens[MATCHMAKING].set_players(payload)  
                     elif parsed.get("type") == "Player_status":
                         payload = parsed.get("payload")
-                        print('player status,', payload)
+                        print('player status,', payload, 'create profile')
                         self.screens[ENDGAME].create_profile(payload) 
                     elif parsed.get("type") == "Game_state":
                         # TODO Su Yean

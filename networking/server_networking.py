@@ -4,6 +4,7 @@ import pickle
 import base64
 import websockets
 import time
+import contextlib
 import traceback
 from robotouille.robotouille_env import create_robotouille_env
 
@@ -257,6 +258,24 @@ class GameSession:
 
         return actions
 
+
+    async def broadcast_loop(self):
+        while True:
+            try:
+                status_payload = [
+                    [self.player_names[self.sockets_to_id[ws]],
+                    self.sockets_to_id[ws], 
+                    self.post_status.get(ws, "pending")]
+                    for ws in self.sockets
+                ]
+                msg = json.dumps({"type": "Player_status", "payload": status_payload})
+                await asyncio.gather(*(ws.send(msg) for ws in self.sockets), return_exceptions=True)
+                await asyncio.sleep(0.5)
+            except asyncio.CancelledError:
+                break
+            except Exception as e:
+                print(f"[Broadcast] Error during broadcast: {e}")
+
     async def _await_post_game_responses(self) -> bool:
         """
         Collects 'Post_status' responses for up to 5 seconds after the first one arrives.
@@ -264,45 +283,50 @@ class GameSession:
         """
         self.post_status = {}
         start_time = None
-
-        while True:
-            if start_time is None:
-                timeout = None 
-            else:
-                elapsed = time.monotonic() - start_time
-                if elapsed >= TIMEOUT:
-                    if DEBUGGING:
-                        print(f"[Post_status] Timeout expired after {TIMEOUT} seconds.")
-                    break
-                timeout = max(0.0, TIMEOUT - elapsed)
-
-            tasks = {
-                asyncio.create_task(self.connections[ws].get()): ws
-                for ws in self.sockets if ws not in self.post_status
-            }
-
-            if not tasks:
-                break 
-            done, _ = await asyncio.wait(tasks.keys(), timeout=timeout, return_when=asyncio.FIRST_COMPLETED)
-            if not done:
-                await asyncio.sleep(0.05)
-                continue
-
-            for task in done:
-                ws = tasks[task]
-                try:
-                    msg = json.loads(task.result())
-                    if msg.get("type") == "Post_status":
-                        _, name, decision = msg["payload"]
-                        self.post_status[ws] = decision
-                        if start_time is None:
-                            start_time = time.monotonic()
+        broadcaster = asyncio.create_task(self.broadcast_loop())
+        try: 
+            while True:
+                if start_time is None:
+                    timeout = None 
+                else:
+                    elapsed = time.monotonic() - start_time
+                    if elapsed >= TIMEOUT:
                         if DEBUGGING:
-                            print(f"[Post_status] {name} chose: {decision}")
-                except Exception as e:
-                    print(f"[Post_status] Error handling response: {e}")
-            if len(self.post_status) == self.num_players:
-                break
+                            print(f"[Post_status] Timeout expired after {TIMEOUT} seconds.")
+                        break
+                    timeout = max(0.0, TIMEOUT - elapsed)
+
+                tasks = {
+                    asyncio.create_task(self.connections[ws].get()): ws
+                    for ws in self.sockets if ws not in self.post_status
+                }
+
+                if not tasks:
+                    break 
+                done, _ = await asyncio.wait(tasks.keys(), timeout=timeout, return_when=asyncio.FIRST_COMPLETED)
+                if not done:
+                    await asyncio.sleep(0.05)
+                    continue
+
+                for task in done:
+                    ws = tasks[task]
+                    try:
+                        msg = json.loads(task.result())
+                        if msg.get("type") == "Post_status":
+                            _, name, decision = msg["payload"]
+                            self.post_status[ws] = decision
+                            if start_time is None:
+                                start_time = time.monotonic()
+                            if DEBUGGING:
+                                print(f"[Post_status] {name} chose: {decision}")
+                    except Exception as e:
+                        print(f"[Post_status] Error handling response: {e}")
+                if len(self.post_status) == self.num_players:
+                    break
+        finally:
+            broadcaster.cancel()
+            with contextlib.suppress(asyncio.CancelledError):
+                await broadcaster
 
         # Default unanswered sockets to "quit"
         for ws in self.sockets:

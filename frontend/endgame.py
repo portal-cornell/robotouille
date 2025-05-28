@@ -53,6 +53,7 @@ class EndScreen(ScreenInterface):
         Args:
             players (list of tuples): A list containing one player tuple in the format (player_id, player_name, status). Max length is 4
         """
+        print("create profile", players)
         offset = 313
         if len(players) == 1:
             x = 714
@@ -64,22 +65,23 @@ class EndScreen(ScreenInterface):
             x = 239.5  
         else:
             raise Exception("To many players")
+        
+        i = 0
+        for player in players:
+            player_name, player_id, status = player
+            image = (
+                self.no_image if status == "quit"
+                else self.yes_image if status == "again"
+                else self.pending_image
+            )
 
-        for i in range(len(players)):
-            image = None
-            if players[i][2] == "no":
-                image = self.no_image
-            elif players[i][2] == "yes":
-                image = self.yes_image
-            else:
-                iamge = self.pending_image
-
-            pos = x + (offset) * i 
-            self.profiles[players[i][0]] = {
-            "profile": Image(self.screen, self.profile_image, self.x_percent(pos), self.y_percent(616.5), self.scale_factor, anchor="center"),
-            "name": Textbox(self.screen, players[i][1], self.x_percent(pos), self.y_percent(697), 188, 72, font_size=40, scale_factor=self.scale_factor, text_color=WHITE, anchor="center"),
-            "status": Image(self.screen, image, self.x_percent(pos + 98.5), self.y_percent(503), self.scale_factor, anchor="center")
+            pos = x + offset * i
+            self.profiles[player_id] = {
+                "profile": Image(self.screen, self.profile_image, self.x_percent(pos), self.y_percent(616.5), self.scale_factor, anchor="center"),
+                "name": Textbox(self.screen, player_name, self.x_percent(pos), self.y_percent(697), 188, 72, font_size=40, scale_factor=self.scale_factor, text_color=WHITE, anchor="center"),
+                "status": Image(self.screen, image, self.x_percent(pos + 98.5), self.y_percent(503), self.scale_factor, anchor="center")
             }
+            i += 1
 
     def set_stars(self, count):
         """Set the number of stars to display as filled.
