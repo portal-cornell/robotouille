@@ -102,7 +102,11 @@ class Lobby:
         self.server_ref.active_sessions[self.lobby_id] = session
         
         # Delay added to give players time to see lobby screen before game starts
-        await session.send_opening()
+        try:
+            await session.send_opening()
+        except websockets.exceptions.ConnectionClosed as e:
+            print(f"[try_start] Session send_opening failed: {e}")
+            return  # Skip starting session
         asyncio.create_task(session.run())
 
 
@@ -146,17 +150,24 @@ class GameSession:
         """
         Sends 'Player_list' immediately and 'Start_game' after 1s delay.
         """
-        player_list = [
-            {"playerID": idx, "name": name, "status": "waiting"}
-            for idx, name in enumerate(self.player_names)
-        ]
-        pl_msg = json.dumps({"type": "Player_list", "payload": player_list})
-        await asyncio.gather(*(ws.send(pl_msg) for ws in self.sockets))
+        try:
+            player_list = [
+                {"playerID": idx, "name": name, "status": "waiting"}
+                for idx, name in enumerate(self.player_names)
+            ]
+            pl_msg = json.dumps({"type": "Player_list", "payload": player_list})
+            await asyncio.gather(*(ws.send(pl_msg) for ws in self.sockets))
 
-        await asyncio.sleep(1)  # Delay to show lobby briefly
+            await asyncio.sleep(1)  # Delay to show lobby briefly
 
-        sg_msg = json.dumps({"type": "Start_game"})
-        await asyncio.gather(*(ws.send(sg_msg) for ws in self.sockets))
+            sg_msg = json.dumps({"type": "Start_game"})
+            await asyncio.gather(*(ws.send(sg_msg) for ws in self.sockets))
+        except websockets.exceptions.ConnectionClosed as e:
+            print(f"[send_opening] A websocket disconnected: {e}")
+            # Handle disconnect immediately
+            for ws in self.sockets:
+                if ws.closed:
+                    await self._handle_disconnect(ws)
 
     async def run(self):
         """
@@ -322,6 +333,12 @@ class GameSession:
                                 start_time = time.monotonic()
                             if DEBUGGING:
                                 print(f"[Post_status] {name} chose: {decision}")
+                        elif msg.get("type") == "Disconnect":
+                            self.post_status[ws] = "quit"
+                            if DEBUGGING:
+                                print(f"[Post_status] Player {ws.remote_address} disconnected — treated as quit.")
+                            if start_time is None:
+                                start_time = time.monotonic()
                     except Exception as e:
                         print(f"[Post_status] Error handling response: {e}")
                 
@@ -470,13 +487,22 @@ class Server:
             async for message in websocket:
                 if DEBUGGING: print(f"[Server] Forwarding message to queue: {message}")
                 await q.put(message)
-
-        except websockets.ConnectionClosed:
-            print("[Server] Client disconnected")
+        except (websockets.ConnectionClosedOK, websockets.ConnectionClosedError) as e:
+            print(f"[Server] Client cleanly disconnected: {e}")
+        except Exception as e:
+            print(f"[Server] Unexpected exception in handler:")
+            traceback.print_exc()
+        finally:
+            print(f"[Server] {websocket.remote_address} Disconnected")
             if lobby:
                 lobby.remove_player(websocket)
-        except Exception:
-            traceback.print_exc()
+                
+            for session in self.active_sessions.values():
+                if websocket in session.connections:
+                    try:
+                        await session.connections[websocket].put(json.dumps({"type": "Disconnect"}))
+                    except Exception:
+                        traceback.print_exc()
 
     async def run(self):
         """
