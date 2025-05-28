@@ -260,6 +260,9 @@ class GameSession:
 
 
     async def broadcast_loop(self):
+        """
+        Continuously sends player status messages to clients in lobby
+        """
         while True:
             try:
                 status_payload = [
