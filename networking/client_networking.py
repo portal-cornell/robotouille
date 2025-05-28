@@ -149,6 +149,7 @@ class NetworkManager:
             async with websockets.connect(self.host) as websocket:
                 if DEBUGGING: print("[Client] Connected!")
                 self.websocket = websocket
+                # TODO change this to be personalized
                 await websocket.send(json.dumps({
                     "type": "Connect",
                     "lobby_id": "default",       

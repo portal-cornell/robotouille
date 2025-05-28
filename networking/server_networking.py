@@ -137,6 +137,9 @@ class GameSession:
         self.num_players = len(self.sockets)
         self.sockets_to_id = {ws: idx for idx, ws in enumerate(self.sockets)}
         self.scores = [0] * self.num_players
+        self.post_status = {}  
+        if DEBUGGING:
+            print(f"[Session {self.session_id}] Game started with players: {self.player_names}")
 
     async def send_opening(self):
         """
@@ -156,54 +159,77 @@ class GameSession:
 
     async def run(self):
         """
-        Main game loop: collects actions, steps environment, sends updated state.
+        Main game loop: collects actions, steps environment, sends state.
+        After game ends, waits for 'Post_status' messages to determine replay.
         """
-        obs, info = self.env.reset()
-        done = False
-        last_time = time.monotonic()
+        try:
+            # Game initialization
+            obs, info = self.env.reset()
+            done = False
+            last_time = time.monotonic()
 
-        while not done:
-            now = time.monotonic()
-            delay = self.update_interval - (now - last_time)
-            actions = await self._collect_actions(timeout=delay) if delay > 0 else [None] * self.num_players
+            # Game loop
+            while not done:
+                now = time.monotonic()
+                delay = self.update_interval - (now - last_time)
+                actions = await self._collect_actions(timeout=delay) if delay > 0 else [None] * self.num_players
 
-            if actions is None:
-                actions = [None] * self.num_players
+                if actions is None:
+                    actions = [None] * self.num_players
 
-            try:
-                obs, rewards, done, info = self.env.step(actions)
-            except Exception as e:
-                print(f"[Session {self.session_id}] env.step() failed: {e}")
-                break
+                try:
+                    obs, rewards, done, info = self.env.step(actions)
+                except Exception as e:
+                    print(f"[Session {self.session_id}] env.step() failed: {e}")
+                    break
 
-            for i, r in enumerate(rewards or []):
-                self.scores[i] += r
+                for i, r in enumerate(rewards or []):
+                    self.scores[i] += r
 
-            state_payload = {
-                "env": base64.b64encode(pickle.dumps(self.env.current_state)).decode(),
-                "scores": list(enumerate(self.scores))
-            }
-            state_msg = json.dumps({"type": "Game_state", "payload": state_payload})
-            await asyncio.gather(*(ws.send(state_msg) for ws in self.sockets))
+                state_payload = {
+                    "env": base64.b64encode(pickle.dumps(self.env.current_state)).decode(),
+                    "scores": list(enumerate(self.scores))
+                }
+                state_msg = json.dumps({"type": "Game_state", "payload": state_payload})
+                await asyncio.gather(*(ws.send(state_msg) for ws in self.sockets))
 
-            last_time = now
+                last_time = now
 
-        # Game over – send results
-        end_msg = json.dumps({"type": "Game_ended"})
-        results = [
-            {"playerID": i, "stars": self.env.get_stars(i), "points": self.scores[i]}
-            for i in range(self.num_players)
-        ]
-        res_msg = json.dumps({"type": "Results", "payload": results})
-        await asyncio.gather(*(ws.send(end_msg) for ws in self.sockets))
-        await asyncio.gather(*(ws.send(res_msg) for ws in self.sockets))
-        await asyncio.gather(*(ws.close() for ws in self.sockets))
+            # Send Game results
+            end_msg = json.dumps({"type": "Game_ended"})
+            # results = [
+            #     {"playerID": i, "stars": self.env.get_stars(i), "points": self.scores[i]}
+            #     for i in range(self.num_players)
+            # ]
 
-        del self.server_ref.active_sessions[self.session_id]
+            results = [
+                {"playerID": i, "stars": 0, "points": 0}
+                for i in range(self.num_players)
+            ]
+            res_msg = json.dumps({"type": "Results", "payload": results})
+            await asyncio.gather(*(ws.send(end_msg) for ws in self.sockets))
+            await asyncio.gather(*(ws.send(res_msg) for ws in self.sockets))
+
+            # Post-game status  
+            should_restart = await self._await_post_game_responses()
+            if should_restart:
+                # Re-initialize for replay
+                self.env = self.server_ref.create_environment()
+                self.scores = [0] * self.num_players
+                self.post_status.clear()
+                await self.run()
+
+        except Exception as e:
+            print(f"[Session {self.session_id}] Fatal error: {e}")
+            traceback.print_exc()
+        finally:
+            del self.server_ref.active_sessions[self.session_id]
+
 
     async def _collect_actions(self, timeout: float):
         """
         Waits for any player actions or disconnects, applies them to the environment.
+        This is only utilized while players are in game.
         """
         tasks = {asyncio.create_task(q.get()): ws for ws, q in self.connections.items()}
         done, pending = await asyncio.wait(tasks.keys(), timeout=timeout, return_when=asyncio.FIRST_COMPLETED)
@@ -225,10 +251,43 @@ class GameSession:
                     actions[pid] = act
             except Exception as e:
                 print(f"Error parsing client message: {e}")
+                await self._handle_disconnect(ws)
                 continue
 
         return actions
 
+    async def _await_post_game_responses(self) -> bool:
+        """
+        Waits for post-game 'Post_status'. Returns True if everyone chose 'again'.
+        """
+        self.post_status = {}
+        while len(self.post_status) < self.num_players:
+            tasks = {asyncio.create_task(q.get()): ws for ws, q in self.connections.items() if ws not in self.post_status}
+            done, _ = await asyncio.wait(tasks.keys(), return_when=asyncio.FIRST_COMPLETED)
+
+            for task in done:
+                ws = tasks[task]
+                try:
+                    msg = json.loads(task.result())
+                    if msg.get("type") == "Post_status":
+                        _, name, decision = msg["payload"]
+                        self.post_status[ws] = decision
+                        if DEBUGGING:
+                            print(f"[Post_status] {name} chose: {decision}")
+                except Exception as e:
+                    print(f"[Post_status] Error: {e}")
+
+        # Everyone replied
+        if all(status == "again" for status in self.post_status.values()):
+            reply = json.dumps({"type": "Restart", "desc": "All players go back to game screen", "payload": None})
+            await asyncio.gather(*(ws.send(reply) for ws in self.sockets))
+            return True
+        else:
+            reply = json.dumps({"type": "Auto-matchmaking", "desc": "All connected players go back to matchmaking screen", "payload": None})
+            await asyncio.gather(*(ws.send(reply) for ws in self.sockets))
+            await asyncio.gather(*(ws.close() for ws in self.sockets))
+            return False
+        
     async def _handle_disconnect(self, ws):
         """
         Ends the game if any player disconnects.
@@ -304,6 +363,7 @@ class Server:
                 await websocket.close()
                 return
 
+            # TODO change this part, the server should assign the lobby, the client should not need to know anything about lobby
             lobby_id = msg.get("lobby_id")
             player_name = msg.get("player_name") or str(websocket.remote_address)
 

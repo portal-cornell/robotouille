@@ -165,18 +165,21 @@ class EndScreen(ScreenInterface):
 
         # Handle events
         for event in pygame.event.get():
-            if self.play_again_button.handle_event(event) and self.pending:
-                self.pending = False
-                if not self.timer_started:
-                    self.timer_started = True
-                    self.timer_start_time = pygame.time.get_ticks()
+            # if self.play_again_button.handle_event(event) and self.pending:
+            #     self.pending = False
+            #     if not self.timer_started:
+            #         self.timer_started = True
+            #         self.timer_start_time = pygame.time.get_ticks()
                 # await self.websocket.send(json.dumps({"type": "play_again"}))
                 # self.profiles[1]["status"].set_image(self.yes_image)
 
             if self.quit_button.handle_event(event):
+                await self.websocket.send(json.dumps({"type": "Post_status", "payload": ["playerName", "playerID", "quit"]}))
                 self.set_next_screen(MAIN_MENU)
-                self.timer_started = False
-
+                # self.timer_started = False
+            if self.play_again_button.handle_event(event):
+                print("[CLIENT] sending play again to server")
+                await self.websocket.send(json.dumps({"type": "Post_status", "payload": ["playerName", "playerID", "again"]}))
 
         if self.timer_started:
             elapsed_time = (pygame.time.get_ticks() - self.timer_start_time) / 1000  # seconds
