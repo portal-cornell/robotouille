@@ -42,6 +42,7 @@ class Lobby:
         """
         Removes a player from the lobby and cancels broadcasting if empty.
         """
+        print('removing websocket', websocket, "from lobby")
         if websocket in self.waiting:
             _, name = self.waiting.pop(websocket)
             if DEBUGGING:
@@ -321,17 +322,35 @@ class GameSession:
                 print("[Post_status] Not all players chose again. Returning to matchmaking.")
             auto_msg = json.dumps({"type": "Auto_matchmaking", "payload": None})
             quit_msg = json.dumps({"type": "Quit", "payload": None})
-
             again_ws = [ws for ws, status in self.post_status.items() if status == "again"]
             quit_ws = [ws for ws in self.sockets if ws not in again_ws]
 
+ 
+            del self.server_ref.lobbies[self.session_id]
+
             if again_ws:
+                for ws in again_ws:
+                    queue = self.connections[ws]
+                    player_name = self.player_names[self.sockets_to_id[ws]]
+
+                    # Create a new lobby if needed
+                    lobby = self.server_ref.lobbies.get(self.session_id)
+                    if not lobby:
+                        lobby = Lobby(self.session_id, self.server_ref.max_players, self.server_ref)
+                        self.server_ref.lobbies[self.session_id] = lobby
+
+                    lobby.add_player(ws, queue, player_name)
+
                 await asyncio.gather(*(ws.send(auto_msg) for ws in again_ws))
+
+            # Handle players who quit
             if quit_ws:
                 await asyncio.gather(*(ws.send(quit_msg) for ws in quit_ws))
+                await asyncio.gather(*(ws.close() for ws in quit_ws))
 
-            await asyncio.gather(*(ws.close() for ws in self.sockets))
+            # Clean up session
             return False
+
                 
     async def _handle_disconnect(self, ws):
         """

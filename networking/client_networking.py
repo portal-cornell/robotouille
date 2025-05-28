@@ -134,6 +134,7 @@ class NetworkManager:
                     elif parsed.get("type") == "Auto_matchmaking":
                         self.screens[self.current_screen].set_next_screen(None)
                         self.current_screen = MATCHMAKING
+
         except websockets.ConnectionClosed:
             print("[Listener] Connection closed")
         except Exception as e:
