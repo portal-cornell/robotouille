@@ -266,30 +266,27 @@ class GameSession:
         start_time = None
 
         while True:
-            # Break if all players responded
-            if len(self.post_status) == self.num_players:
-                break
-
-            # If the timeout has started, check if it expired
-            if start_time is not None:
+            if start_time is None:
+                timeout = None 
+            else:
                 elapsed = time.monotonic() - start_time
                 if elapsed >= TIMEOUT:
                     if DEBUGGING:
                         print(f"[Post_status] Timeout expired after {TIMEOUT} seconds.")
                     break
+                timeout = max(0.0, TIMEOUT - elapsed)
 
-            timeout = TIMEOUT if start_time is None else max(0.0, TIMEOUT - (time.monotonic() - start_time))
             tasks = {
                 asyncio.create_task(self.connections[ws].get()): ws
                 for ws in self.sockets if ws not in self.post_status
             }
+
             if not tasks:
-                break  
+                break 
             done, _ = await asyncio.wait(tasks.keys(), timeout=timeout, return_when=asyncio.FIRST_COMPLETED)
             if not done:
-                if DEBUGGING:
-                    print("[Post_status] No further responses before timeout.")
-                break
+                await asyncio.sleep(0.05)
+                continue
 
             for task in done:
                 ws = tasks[task]
@@ -298,18 +295,24 @@ class GameSession:
                     if msg.get("type") == "Post_status":
                         _, name, decision = msg["payload"]
                         self.post_status[ws] = decision
-                        if not start_time:
+                        if start_time is None:
                             start_time = time.monotonic()
                         if DEBUGGING:
                             print(f"[Post_status] {name} chose: {decision}")
                 except Exception as e:
                     print(f"[Post_status] Error handling response: {e}")
+            if len(self.post_status) == self.num_players:
+                break
 
+        # Default unanswered sockets to "quit"
         for ws in self.sockets:
             if ws not in self.post_status:
                 self.post_status[ws] = "quit"
                 if DEBUGGING:
                     print(f"[Post_status] No response from {ws.remote_address}, defaulted to 'quit'.")
+
+        again_ws = [ws for ws, status in self.post_status.items() if status == "again"]
+        quit_ws = [ws for ws in self.sockets if ws not in again_ws]
 
         if all(status == "again" for status in self.post_status.values()):
             if DEBUGGING:
@@ -317,39 +320,33 @@ class GameSession:
             reply = json.dumps({"type": "Restart", "payload": None})
             await asyncio.gather(*(ws.send(reply) for ws in self.sockets))
             return True
-        else:
-            if DEBUGGING:
-                print("[Post_status] Not all players chose again. Returning to matchmaking.")
-            auto_msg = json.dumps({"type": "Auto_matchmaking", "payload": None})
-            quit_msg = json.dumps({"type": "Quit", "payload": None})
-            again_ws = [ws for ws, status in self.post_status.items() if status == "again"]
-            quit_ws = [ws for ws in self.sockets if ws not in again_ws]
 
- 
-            del self.server_ref.lobbies[self.session_id]
+        if DEBUGGING:
+            print("[Post_status] Not all players chose again. Returning to matchmaking.")
 
-            if again_ws:
-                for ws in again_ws:
-                    queue = self.connections[ws]
-                    player_name = self.player_names[self.sockets_to_id[ws]]
+        auto_msg = json.dumps({"type": "Auto_matchmaking", "payload": None})
+        quit_msg = json.dumps({"type": "Quit", "payload": None})
 
-                    # Create a new lobby if needed
-                    lobby = self.server_ref.lobbies.get(self.session_id)
-                    if not lobby:
-                        lobby = Lobby(self.session_id, self.server_ref.max_players, self.server_ref)
-                        self.server_ref.lobbies[self.session_id] = lobby
+        # Re-add players who said again to a new lobby
+        for ws in again_ws:
+            queue = self.connections[ws]
+            name = self.player_names[self.sockets_to_id[ws]]
 
-                    lobby.add_player(ws, queue, player_name)
+            lobby = self.server_ref.lobbies.get(self.session_id)
+            if not lobby:
+                lobby = Lobby(self.session_id, self.server_ref.max_players, self.server_ref)
+                self.server_ref.lobbies[self.session_id] = lobby
 
-                await asyncio.gather(*(ws.send(auto_msg) for ws in again_ws))
+            lobby.add_player(ws, queue, name)
+            await ws.send(auto_msg)
 
-            # Handle players who quit
-            if quit_ws:
-                await asyncio.gather(*(ws.send(quit_msg) for ws in quit_ws))
-                await asyncio.gather(*(ws.close() for ws in quit_ws))
+        # Close connections of players who quit
+        for ws in quit_ws:
+            await ws.send(quit_msg)
+            await ws.close()
 
-            # Clean up session
-            return False
+        return False
+
 
                 
     async def _handle_disconnect(self, ws):
