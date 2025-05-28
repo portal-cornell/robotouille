@@ -62,7 +62,7 @@ class NetworkManager:
                 self.current_screen = screen_obj.next_screen
                 screen_obj.set_next_screen(None)
         if self.current_screen == MAIN_MENU:
-            print("[Client] Returning to main menu — exiting game loop")
+            if DEBUGGING: print("[Client] Returning to main menu — exiting game loop")
             self.running = False
             await self.websocket.close()
 
@@ -117,7 +117,6 @@ class NetworkManager:
                         self.screens[MATCHMAKING].set_players(payload)  
                     elif parsed.get("type") == "Player_status":
                         payload = parsed.get("payload")
-                        print('player status,', payload, 'create profile')
                         self.screens[ENDGAME].create_profile(payload) 
                     elif parsed.get("type") == "Game_state":
                         # TODO Su Yean
@@ -134,7 +133,9 @@ class NetworkManager:
                     elif parsed.get("type") == "Auto_matchmaking":
                         self.screens[self.current_screen].set_next_screen(None)
                         self.current_screen = MATCHMAKING
-
+                    elif parsed.get("type") == "Quit":
+                        self.screens[self.current_screen].set_next_screen(None)
+                        self.current_screen = MAIN_MENU
         except websockets.ConnectionClosed:
             print("[Listener] Connection closed")
         except Exception as e:

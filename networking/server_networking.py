@@ -9,7 +9,7 @@ import traceback
 from robotouille.robotouille_env import create_robotouille_env
 
 UPDATE_INTERVAL = 1 / 60  # Game updates at 60 FPS
-DEBUGGING = True
+DEBUGGING = False
 TIMEOUT = 5
 # ========================
 # Lobby Class
@@ -43,7 +43,6 @@ class Lobby:
         """
         Removes a player from the lobby and cancels broadcasting if empty.
         """
-        print('removing websocket', websocket, "from lobby")
         if websocket in self.waiting:
             _, name = self.waiting.pop(websocket)
             if DEBUGGING:
@@ -203,7 +202,8 @@ class GameSession:
             #     {"playerID": i, "stars": self.env.get_stars(i), "points": self.scores[i]}
             #     for i in range(self.num_players)
             # ]
-
+            
+            #TODO suyean delete bot, fix top
             results = [
                 {"playerID": i, "stars": 0, "points": 0}
                 for i in range(self.num_players)
@@ -306,7 +306,7 @@ class GameSession:
 
                 if not tasks:
                     break 
-                done, _ = await asyncio.wait(tasks.keys(), timeout=timeout, return_when=asyncio.FIRST_COMPLETED)
+                done, pending = await asyncio.wait(tasks.keys(), timeout=timeout, return_when=asyncio.FIRST_COMPLETED)
                 if not done:
                     await asyncio.sleep(0.05)
                     continue
@@ -324,6 +324,10 @@ class GameSession:
                                 print(f"[Post_status] {name} chose: {decision}")
                     except Exception as e:
                         print(f"[Post_status] Error handling response: {e}")
+                
+                for task in pending:
+                    task.cancel()
+
                 if len(self.post_status) == self.num_players:
                     break
         finally:
