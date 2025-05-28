@@ -9,7 +9,7 @@ from robotouille.robotouille_env import create_robotouille_env
 
 UPDATE_INTERVAL = 1 / 60  # Game updates at 60 FPS
 DEBUGGING = True
-
+TIMEOUT = 5
 # ========================
 # Lobby Class
 # ========================
@@ -258,12 +258,37 @@ class GameSession:
 
     async def _await_post_game_responses(self) -> bool:
         """
-        Waits for post-game 'Post_status'. Returns True if everyone chose 'again'.
+        Collects 'Post_status' responses for up to 5 seconds after the first one arrives.
+        Returns True if everyone said 'again' (Restart), otherwise handles Auto-matchmaking and Quit.
         """
         self.post_status = {}
-        while len(self.post_status) < self.num_players:
-            tasks = {asyncio.create_task(q.get()): ws for ws, q in self.connections.items() if ws not in self.post_status}
-            done, _ = await asyncio.wait(tasks.keys(), return_when=asyncio.FIRST_COMPLETED)
+        start_time = None
+
+        while True:
+            # Break if all players responded
+            if len(self.post_status) == self.num_players:
+                break
+
+            # If the timeout has started, check if it expired
+            if start_time is not None:
+                elapsed = time.monotonic() - start_time
+                if elapsed >= TIMEOUT:
+                    if DEBUGGING:
+                        print(f"[Post_status] Timeout expired after {TIMEOUT} seconds.")
+                    break
+
+            timeout = TIMEOUT if start_time is None else max(0.0, TIMEOUT - (time.monotonic() - start_time))
+            tasks = {
+                asyncio.create_task(self.connections[ws].get()): ws
+                for ws in self.sockets if ws not in self.post_status
+            }
+            if not tasks:
+                break  
+            done, _ = await asyncio.wait(tasks.keys(), timeout=timeout, return_when=asyncio.FIRST_COMPLETED)
+            if not done:
+                if DEBUGGING:
+                    print("[Post_status] No further responses before timeout.")
+                break
 
             for task in done:
                 ws = tasks[task]
@@ -272,22 +297,42 @@ class GameSession:
                     if msg.get("type") == "Post_status":
                         _, name, decision = msg["payload"]
                         self.post_status[ws] = decision
+                        if not start_time:
+                            start_time = time.monotonic()
                         if DEBUGGING:
                             print(f"[Post_status] {name} chose: {decision}")
                 except Exception as e:
-                    print(f"[Post_status] Error: {e}")
+                    print(f"[Post_status] Error handling response: {e}")
 
-        # Everyone replied
+        for ws in self.sockets:
+            if ws not in self.post_status:
+                self.post_status[ws] = "quit"
+                if DEBUGGING:
+                    print(f"[Post_status] No response from {ws.remote_address}, defaulted to 'quit'.")
+
         if all(status == "again" for status in self.post_status.values()):
-            reply = json.dumps({"type": "Restart", "desc": "All players go back to game screen", "payload": None})
+            if DEBUGGING:
+                print("[Post_status] All players chose again. Restarting.")
+            reply = json.dumps({"type": "Restart", "payload": None})
             await asyncio.gather(*(ws.send(reply) for ws in self.sockets))
             return True
         else:
-            reply = json.dumps({"type": "Auto-matchmaking", "desc": "All connected players go back to matchmaking screen", "payload": None})
-            await asyncio.gather(*(ws.send(reply) for ws in self.sockets))
+            if DEBUGGING:
+                print("[Post_status] Not all players chose again. Returning to matchmaking.")
+            auto_msg = json.dumps({"type": "Auto_matchmaking", "payload": None})
+            quit_msg = json.dumps({"type": "Quit", "payload": None})
+
+            again_ws = [ws for ws, status in self.post_status.items() if status == "again"]
+            quit_ws = [ws for ws in self.sockets if ws not in again_ws]
+
+            if again_ws:
+                await asyncio.gather(*(ws.send(auto_msg) for ws in again_ws))
+            if quit_ws:
+                await asyncio.gather(*(ws.send(quit_msg) for ws in quit_ws))
+
             await asyncio.gather(*(ws.close() for ws in self.sockets))
             return False
-        
+                
     async def _handle_disconnect(self, ws):
         """
         Ends the game if any player disconnects.
