@@ -140,6 +140,9 @@ class NetworkManager:
             print("[Listener] Connection closed")
         except Exception as e:
             print(f"[Listener] ERROR: {e}")
+        finally:
+            self.screens[self.current_screen].set_next_screen(None)
+            self.current_screen = MAIN_MENU
 
 
     async def connect(self):
