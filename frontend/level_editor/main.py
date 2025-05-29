@@ -976,7 +976,7 @@ def loop(editor_state: EditorState):
                         print("modified grid")
                         test_level = LevelState(map_width, map_height)
                         TILE_SIZE = int(516 // map_width)
-                        print(TILE_SIZE)
+
                 # Check if it's an item button
                 for (item_name, predicates), button in item_buttons.items():
                     if event.ui_element == button:

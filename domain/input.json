@@ -36,13 +36,6 @@
             }
         },
         {
-            "name": "place-bundle",
-            "input_instructions": {
-                "button": "left",
-                "click_on": "s1"
-            }
-        },
-        {
             "name": "stack",
             "input_instructions": {
                 "button": "left",
