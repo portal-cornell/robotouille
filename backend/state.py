@@ -132,10 +132,15 @@ class State(object):
         """
         Returns the player objects in the state.
 
+        There should always be at least one player in the environment unless
+        building a level using the level editor. The environment *should not*
+        be stepped if the player is None.
+
         Returns:
             players (List[Object]): The player objects in the state.
         """
-        return [obj for obj in self.objects if obj.object_type == "player"]
+        players = [obj for obj in self.objects if obj.object_type == "player"]
+        return players if players else [None]
 
     def initialize(self, domain, objects, true_predicates, all_goals, goal_description, movement, special_effects=[]):
         """
@@ -485,6 +490,7 @@ class State(object):
             return True
         
         if self.movement.mode == Mode.TRAVERSE:
+            assert self.current_player is not None, "The current player is None - please check the level JSON for correctness."
             self.current_player = self.next_player()
 
         return False

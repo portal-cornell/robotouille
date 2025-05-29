@@ -3,7 +3,7 @@ import json
 import os
 import copy
 import itertools
-from .object_enums import Item, Player, Station, Container, Meal, str_to_typed_enum, TYPES
+from .object_enums import Item, Player, Station, Container, Meal, Bundle, str_to_typed_enum, TYPES
 from .procedural_generator import randomize_environment
 import random
 
@@ -15,8 +15,10 @@ ITEM_FIELD = "items"
 PLAYER_FIELD = "players"
 MEAL_FIELD = "meals"
 CONTAINER_FIELD = "containers"
+BUNDLE_FIELD = "bundles"
 
-ENTITY_FIELDS = [STATION_FIELD, ITEM_FIELD, PLAYER_FIELD, CONTAINER_FIELD, MEAL_FIELD]
+
+ENTITY_FIELDS = [STATION_FIELD, ITEM_FIELD, PLAYER_FIELD, CONTAINER_FIELD, BUNDLE_FIELD, MEAL_FIELD]
 
 def entity_to_entity_field(entity):
     """
@@ -44,6 +46,7 @@ def entity_to_entity_field(entity):
         elif isinstance(typed_enum, Player): return PLAYER_FIELD
         elif isinstance(typed_enum, Meal): return MEAL_FIELD
         elif isinstance(typed_enum, Container): return CONTAINER_FIELD
+        elif isinstance(typed_enum, Bundle): return BUNDLE_FIELD
     except ValueError:
         # Convert wild card entities into entity fields
         if entity == STATION_FIELD[:-1]: return STATION_FIELD
@@ -51,6 +54,7 @@ def entity_to_entity_field(entity):
         elif entity == PLAYER_FIELD[:-1]: return PLAYER_FIELD
         elif entity == MEAL_FIELD[:-1]: return MEAL_FIELD
         elif entity == CONTAINER_FIELD[:-1]: return CONTAINER_FIELD
+        elif entity == BUNDLE_FIELD[:-1]: return BUNDLE_FIELD
     raise ValueError(f"Cannot convert {entity} into an entity field.")
 
 def load_environment(json_filename, seed=None):
@@ -150,11 +154,18 @@ def build_station_location_predicates(environment_dict):
     """
     predicates_str = ""
     for station in environment_dict["stations"]:
-        valid_fields = [field for field in ["items", "players"] if field in environment_dict]
+        valid_fields = [field for field in ["items", "players", "bundles"] if field in environment_dict]
         for field in valid_fields:
             match = False
-            no_match_predicate = "empty" if field == "items" else "vacant"
-            predicate = "item_at" if field == "items" else "loc"
+            if field == "items":
+                no_match_predicate = "empty"
+                predicate = "item_at"
+            elif field == "players":
+                no_match_predicate = "vacant"
+                predicate = "loc"
+            elif field == "bundles":
+                # No "no match" predicate for bundles
+                predicate = "bundle_at"
             for entity in environment_dict[field]:
                 x = entity["x"] + entity["direction"][0] if field == "players" else entity["x"]
                 y = entity["y"] + entity["direction"][1] if field == "players" else entity["y"]

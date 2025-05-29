@@ -1,0 +1,133 @@
+{
+  "version": "1.0.0",
+  "width": 6,
+  "height": 6,
+  "config": {
+    "num_cuts": {
+      "lettuce": 3,
+      "default": 3
+    },
+    "cook_time": {
+      "patty": 3,
+      "default": 3
+    }
+  },
+  "stations": [
+    {
+      "name": "table",
+      "x": 0,
+      "y": 4
+    },
+    {
+      "name": "table",
+      "x": 0,
+      "y": 2
+    },
+    {
+      "name": "table",
+      "x": 1,
+      "y": 4
+    },
+    {
+      "name": "table",
+      "x": 1,
+      "y": 2
+    },
+    {
+      "name": "table",
+      "x": 2,
+      "y": 4
+    },
+    {
+      "name": "table",
+      "x": 2,
+      "y": 2
+    },
+    {
+      "name": "blender",
+      "x": 3,
+      "y": 2
+    },
+    {
+      "name": "board",
+      "x": 4,
+      "y": 2
+    },
+    {
+      "name": "stove",
+      "x": 5,
+      "y": 4
+    },
+    {
+      "name": "fryer",
+      "x": 5,
+      "y": 2
+    }
+  ],
+  "items": [
+    {
+      "name": "bottombun",
+      "x": 0,
+      "y": 4,
+      "stack-level": 0,
+      "predicates": []
+    },
+    {
+      "name": "lettuce",
+      "x": 0,
+      "y": 2,
+      "stack-level": 0,
+      "predicates": []
+    },
+    {
+      "name": "patty",
+      "x": 1,
+      "y": 4,
+      "stack-level": 0,
+      "predicates": []
+    },
+    {
+      "name": "topbun",
+      "x": 2,
+      "y": 4,
+      "stack-level": 0,
+      "predicates": []
+    }
+  ],
+  "players": [
+    {
+      "name": "robot",
+      "x": 0,
+      "y": 3,
+      "direction": [0, -1]
+    }
+  ],
+  "goal_description": "",
+  "goal": [
+    {
+      "predicate": "iscooked",
+      "args": ["patty"],
+      "ids": [2]
+    },
+    {
+      "predicate": "atop",
+      "args": ["patty", "bottombun"],
+      "ids": [2, 1]
+    },
+    {
+      "predicate": "iscut",
+      "args": ["lettuce"],
+      "ids": [3]
+    },
+    {
+      "predicate": "atop",
+      "args": ["lettuce", "patty"],
+      "ids": [3, 2]
+    },
+    {
+      "predicate": "atop",
+      "args": ["topbun", "lettuce"],
+      "ids": [4, 3]
+    }
+  ]
+}
