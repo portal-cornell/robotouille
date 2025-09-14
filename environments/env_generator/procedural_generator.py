@@ -224,8 +224,7 @@ def _randomly_add_stations(environment_json, stations, players):
                 # Force add failed, so try to replace a station
                 replaceable_stations = list(filter(lambda s: s.get(FORCE_ADD_TAG_NAME) is None, updated_environment_json["stations"]))
                 if not replaceable_stations:
-                    # Last resort: allow replacing any station (even FORCE_ADD),
-                    # or simply place this FORCE_ADD station outright if nothing exists yet.
+                    # Allow replacing any station or simply place this FORCE_ADD station outright if nothing exists yet.
                     if not updated_environment_json["stations"]:
                         updated_environment_json["stations"].append(station)
                         continue
