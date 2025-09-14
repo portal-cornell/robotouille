@@ -154,12 +154,13 @@ def _are_stations_reachable(environment_json):
     layout = _build_station_layout((width, height), stations)
     players = environment_json["players"]
     if players:
-        # Check if the player can reach all stations from their current cell
-        player = players[0] # Assumption of one player
-        player_pos = (player["x"], height - player["y"] - 1)
-        num_reachable_stations = _get_reachable_station_count(layout, player_pos)
-        if num_reachable_stations == len(stations):
-            return True
+        # Check if any player can reach all stations
+        for player in players:
+            player_pos = (player["x"], height - player["y"] - 1)
+            num_reachable_stations = _get_reachable_station_count(layout, player_pos)
+            if num_reachable_stations == len(stations):
+                return True
+        return False
     else:
         # No players found in environment
         empty_cell_pos = _find_empty_cell(layout)
@@ -222,7 +223,13 @@ def _randomly_add_stations(environment_json, stations, players):
             if not force_added:
                 # Force add failed, so try to replace a station
                 replaceable_stations = list(filter(lambda s: s.get(FORCE_ADD_TAG_NAME) is None, updated_environment_json["stations"]))
-                assert replaceable_stations, "No replaceable stations found"
+                if not replaceable_stations:
+                    # Last resort: allow replacing any station (even FORCE_ADD),
+                    # or simply place this FORCE_ADD station outright if nothing exists yet.
+                    if not updated_environment_json["stations"]:
+                        updated_environment_json["stations"].append(station)
+                        continue
+                    replaceable_stations = list(updated_environment_json["stations"])
                 replaceable_station = random.choice(replaceable_stations)
                 replaceable_station_idx = updated_environment_json["stations"].index(replaceable_station)
                 station["x"], station["y"] = replaceable_station["x"], replaceable_station["y"]
@@ -326,35 +333,39 @@ def _randomly_add_players(environment_json, players):
     Returns:
         updated_environment_json (dict): The updated environment JSON with the randomly added players.
     """
-    # Assuming one player for now
-    player = players[0].copy()
     updated_environment_json = deepcopy(environment_json)
 
     width, height = updated_environment_json["width"], updated_environment_json["height"]
-    added_player = False
-    for station in updated_environment_json["stations"]:
-        if added_player:
-            break
-        # print(f"Trying to add player to station {station['name']} at ({station['x']}, {station['y']})")
-        x, y = station["x"], station["y"]
-        other_station_pos = [(x, y + 1), (x, y - 1), (x + 1, y), (x - 1, y)]
-        for pos in other_station_pos:
-            # Check within bounds
-            if pos[0] >= 0 and pos[0] < width and pos[1] >= 0 and pos[1] < height:
-                # Check if position is not on a station
-                station_matcher = lambda s: s["x"] == pos[0] and s["y"] == pos[1]
-                has_station = len(list(filter(station_matcher, updated_environment_json["stations"]))) > 0
-                if not has_station:
-                    # Check if player can reach all other stations
-                    environment_json_copy = deepcopy(updated_environment_json)
-                    player["x"], player["y"] = pos[0], pos[1]
-                    player["direction"] = [x - pos[0], y - pos[1]]
-                    environment_json_copy["players"].append(player)
-                    reachable = _are_stations_reachable(environment_json_copy)
-                    if reachable:
-                        updated_environment_json["players"].append(player)
-                        added_player = True
-                        break
+    
+    for player in players:
+        added_player = False
+        for station in updated_environment_json["stations"]:
+            if added_player:
+                break
+            # print(f"Trying to add player to station {station['name']} at ({station['x']}, {station['y']})")
+            x, y = station["x"], station["y"]
+            other_station_pos = [(x, y + 1), (x, y - 1), (x + 1, y), (x - 1, y)]
+            for pos in other_station_pos:
+                # Check within bounds
+                if 0 <= pos[0] < width and 0 <= pos[1] < height:
+                    # Check if position is not on a station
+                    station_matcher = lambda s: s["x"] == pos[0] and s["y"] == pos[1]
+                    has_station = len(list(filter(station_matcher, updated_environment_json["stations"]))) > 0
+                    # Check if position is not on a player
+                    player_matcher = lambda p: p["x"] == pos[0] and p["y"] == pos[1]
+                    has_player = len(list(filter(player_matcher, updated_environment_json["players"]))) > 0
+                    if not has_station and not has_player:
+                        # Check if player can reach all other stations
+                        environment_json_copy = deepcopy(updated_environment_json)
+                        player_copy = deepcopy(player)
+                        player_copy["x"], player_copy["y"] = pos[0], pos[1]
+                        player_copy["direction"] = [x - pos[0], y - pos[1]]
+                        environment_json_copy["players"].append(player_copy)
+                        reachable = _are_stations_reachable(environment_json_copy)
+                        if reachable:
+                            updated_environment_json = environment_json_copy
+                            added_player = True
+                            break
     return updated_environment_json
 
 def _randomly_add_containers(environment_json, containers):
@@ -400,7 +411,7 @@ def _randomly_add_containers(environment_json, containers):
                 # Replace conflicting items with FORCE_ADD containers which are necessary to add. Exclude conflicting items that were forced added.
                 conflicting_item_index = updated_environment_json["items"].index(conflicting_item[0])
                 item = updated_environment_json["items"].pop(conflicting_item_index)
-                container["x"], container["y"] = item[0]["x"], item[0]["y"]
+                container["x"], container["y"] = item["x"], item["y"]
                 updated_environment_json["containers"].append(container)
                 # print("Item replacement: {} at ({}, {})".format(container["name"], container["x"], container["y"]))
             elif matched_candidate and conflicting_container and not conflicting_container[0].get(FORCE_ADD_TAG_NAME):
