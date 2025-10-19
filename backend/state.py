@@ -474,3 +474,48 @@ class State(object):
 
         return False
     
+    def __deepcopy__(self, memo):
+        if id(self) in memo:
+            return memo[id(self)]
+        cls = self.__class__
+        new = cls.__new__(cls)
+        memo[id(self)] = new
+
+        new.domain = self.domain
+        new.goal = self.goal
+        new.goal_description = self.goal_description
+        new.objects = list(self.objects)
+        new.current_player = self.current_player
+
+        new.predicates = dict(self.predicates)
+
+        new.actions = {act: [arg.copy() for arg in args] for act, args in self.actions.items()}
+
+        new.special_effects = copy.deepcopy(self.special_effects, memo)
+
+        return new
+    
+    def signature(self, include_player=True, include_sfx=True):
+        """
+        Returns a hashable, comparable fingerprint of the current state.
+        Used by search algorithms to detect revisits.
+
+        Args:
+            include_player (bool): include current player's turn in the key.
+            include_sfx (bool): include a lightweight fingerprint of special effects.
+
+        Returns:
+            tuple: hashable key
+        """
+        true_facts = tuple(
+            sorted(
+                (p.name, tuple(o.name for o in p.params))
+                for p, v in self.predicates.items() if v
+            )
+        )
+        parts = [true_facts]
+        if include_player:
+            parts.append(self.current_player.name)
+        if include_sfx:
+            parts.append(tuple(sorted(map(repr, self.special_effects))))
+        return tuple(parts)

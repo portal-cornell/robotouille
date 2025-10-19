@@ -50,3 +50,7 @@ class Object(object):
             string (str): The string representation of the object.
         """
         return self.name
+    
+    def __deepcopy__(self, memo):
+        memo[id(self)] = self
+        return self

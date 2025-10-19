@@ -488,12 +488,32 @@ class RobotouilleEnv(gym.Env):
         return self.renderer.render(self.current_state, render_mode, close=close)
 
     def __deepcopy__(self, memo):
-        env = RobotouilleEnv(self.domain_json, self.environment_json, self.renderer)
-        env.current_state = copy.deepcopy(self.current_state)
-        env.window = self.window
-        env.clock = self.clock
-        memo[id(self)] = env
-        return env
+        # env = RobotouilleEnv(self.domain_json, self.environment_json, self.renderer)
+        # env.current_state = copy.deepcopy(self.current_state)
+        # env.window = self.window
+        # env.clock = self.clock
+
+        cls = self.__class__
+        new = cls.__new__(cls)
+        memo[id(self)] = new
+
+        new.size = self.size
+        new.window_size = self.window_size
+        new.metadata = self.metadata
+        new.domain_json = self.domain_json
+        new.environment_json = self.environment_json
+        new.input_json = self.input_json
+        new.initial_state = self.initial_state  # read-only in planning
+        new.observation_space = self.observation_space
+        new.action_space = self.action_space
+        new.renderer = self.renderer
+        new.window = self.window
+        new.clock = self.clock
+
+        # The only thing that must be independent per branch:
+        new.current_state = copy.deepcopy(self.current_state, memo)
+        
+        return new
 
         
 

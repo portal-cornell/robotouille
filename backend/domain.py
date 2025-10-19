@@ -102,3 +102,7 @@ class Domain(object):
             object_types (List[str]): The object types of the domain.
         """
         return [object_type + "s" for object_type in self.object_types]
+    
+    def __deepcopy__(self, memo):
+        memo[id(self)] = self
+        return self

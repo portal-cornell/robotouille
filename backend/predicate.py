@@ -127,3 +127,7 @@ class Predicate(object):
         for arg in pred_args:
             new_pred_args.append(Object(arg.name, arg.object_type))
         return Predicate().initialize(self.name, self.types, new_pred_args, self.language_descriptors)
+    
+    def __deepcopy__(self, memo):
+        memo[id(self)] = self
+        return self
