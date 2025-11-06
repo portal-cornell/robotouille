@@ -337,7 +337,8 @@ def build_state(domain_json, environment_json):
     Returns:
         state (State): The state.
     """
-    domain = build_domain(domain_json)
+    env_config = environment_json.get("config", {})
+    domain = build_domain(domain_json, env_config)
 
     entity_fields = domain.get_entity_fields()
 
@@ -355,7 +356,7 @@ def build_state(domain_json, environment_json):
     goal = build_goal(domain_json, environment_json)
     goal_description = environment_json["goal_description"]
 
-    state = State().initialize(domain, objects, true_predicates, goal, goal_description)
+    state = State().initialize(domain, objects, true_predicates, goal, goal_description, config=env_config)
 
     return state
 

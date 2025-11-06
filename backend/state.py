@@ -22,6 +22,7 @@ class State(object):
         self.actions = {}
         self.goal = []
         self.special_effects = []
+        self.config = {}
 
     def _build_object_dictionary(self, domain, objects):
         """
@@ -135,7 +136,7 @@ class State(object):
         """
         return [obj for obj in self.objects if obj.object_type == "player"]
 
-    def initialize(self, domain, objects, true_predicates, all_goals, goal_description, special_effects=[]):
+    def initialize(self, domain, objects, true_predicates, all_goals, goal_description, special_effects=[], config = None):
         """
         Initializes a state object.
 
@@ -160,6 +161,8 @@ class State(object):
                 The natural language description of the goal.
             special_effects (List[Special_effects]):
                 The special effects that are active in the state.
+            config (Dict[str, Any]):
+                The configuration for the state.
 
         Returns:
             state (State): The initialized state.
@@ -191,6 +194,7 @@ class State(object):
         self.goal = all_goals
         self.goal_description = goal_description
         self.special_effects = special_effects
+        self.config = config or {}
 
         return self
         

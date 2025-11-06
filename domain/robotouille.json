@@ -616,7 +616,6 @@
                         {
                             "type": "delayed",
                             "param": "i1",
-                            "goal_time": 4, 
                             "fx": [
                                 {
                                     "predicate": "iscooked",
@@ -675,7 +674,6 @@
                 {
                     "type": "repetitive",
                     "param": "i1",
-                    "goal_repetitions": 3,
                     "fx": [
                         {
                             "predicate": "iscut",
@@ -763,7 +761,6 @@
                         {
                             "type": "delayed",
                             "param": "i1",
-                            "goal_time": 4, 
                             "fx": [
                                 {
                                     "predicate": "isfried",
@@ -829,7 +826,6 @@
                         {
                             "type": "delayed",
                             "param": "c1",
-                            "goal_time": 4,
                             "fx": [],
                             "sfx": [
                                 {
@@ -922,7 +918,6 @@
                         {
                             "type": "delayed",
                             "param": "m1",
-                            "goal_time": 4,
                             "fx": [
                                 {
                                     "predicate": "isboiling",
