@@ -87,6 +87,7 @@ class DelayedEffect(SpecialEffect):
         new_special_effects = [se.apply_sfx_on_arg(arg, param_arg_dict) for se in self.special_effects]
         return DelayedEffect(self.param, new_effects, new_special_effects,
                              self.default_goal_time, arg, config_key=self.config_key)
+    
     def _resolve_goal_time_if_needed(self, state):
         """
         Resolves the goal time for the effect if it has not already been
