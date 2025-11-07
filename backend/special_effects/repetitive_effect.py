@@ -81,7 +81,7 @@ class RepetitiveEffect(SpecialEffect):
             new_effects = {}
             for effect, value in self.effects.items():
                 new_effects[effect.replace_pred_params_with_args(param_arg_dict)] = value
-            new_special_effects = [se.apply_sfx_on_arg(arg, param_arg_dict) for se in self.special_effects]
+            new_special_effects = [sfx.apply_sfx_on_arg(arg, param_arg_dict) for sfx in self.special_effects]
             return RepetitiveEffect(self.param, new_effects, new_special_effects,
                                     self.default_goal_repetitions, arg, config_key=self.config_key)
     
