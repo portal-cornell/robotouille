@@ -1,4 +1,5 @@
 from backend.special_effect import SpecialEffect
+from utils.robotouille_utils import trim_item_ID
 
 class RepetitiveEffect(SpecialEffect):
     """
@@ -8,7 +9,7 @@ class RepetitiveEffect(SpecialEffect):
     been performed a certain number of times.
     """
     
-    def __init__(self, param, effects, special_effects, goal_repetitions=3, arg=None):
+    def __init__(self, param, effects, special_effects, default_goal_repetitions=3, arg=None, config_key=None):
         """
         Initializes a repetitive effect.
 
@@ -18,14 +19,16 @@ class RepetitiveEffect(SpecialEffect):
                 represented by a dictionary of predicates and bools.
             special_effects (List[SpecialEffect]): The nested special effects of
                 the action.
-            goal_repetitions (int): The number of times the action must be 
-                performed before the effect is applied.
+            default_goal_repetitions (int): The number of times the action must be 
+                performed before the effect is applied by default.
             arg (Object): The object that the effect is applied to. If the
                 special effect is not applied to an object, arg is None.
         """
         super().__init__(param, effects, special_effects, False, arg)
-        self.goal_repetitions = goal_repetitions
+        self.default_goal_repetitions = default_goal_repetitions
+        self.goal_repetitions = None # This is resolved locally when applying the effect to an argument
         self.current_repetitions = 0
+        self.config_key = config_key
 
     def __eq__(self, other):
         """
@@ -39,8 +42,8 @@ class RepetitiveEffect(SpecialEffect):
         """
         return self.param == other.param and self.effects == other.effects \
             and self.special_effects == other.special_effects \
-                and self.goal_repetitions == other.goal_repetitions \
-                    and self.arg == other.arg
+                and self.default_goal_repetitions == other.default_goal_repetitions \
+                    and self.arg == other.arg and self.config_key == other.config_key
     
     def __hash__(self):
         """
@@ -50,7 +53,7 @@ class RepetitiveEffect(SpecialEffect):
             hash (int): The hash of the repetitive effect.
         """
         return hash((self.param, tuple(self.effects), tuple(self.special_effects), 
-                     self.completed, self.current_repetitions, self.arg))
+                     self.completed, self.current_repetitions, self.arg, self.config_key))
     
     def __repr__(self):
         """
@@ -78,11 +81,32 @@ class RepetitiveEffect(SpecialEffect):
             new_effects = {}
             for effect, value in self.effects.items():
                 new_effects[effect.replace_pred_params_with_args(param_arg_dict)] = value
-            new_special_effects = []
-            for special_effect in self.special_effects:
-                new_special_effects.append(special_effect.apply_sfx_on_arg(arg, param_arg_dict))
-            return RepetitiveEffect(self.param, new_effects, new_special_effects, self.goal_repetitions, arg)
+            new_special_effects = [sfx.apply_sfx_on_arg(arg, param_arg_dict) for sfx in self.special_effects]
+            return RepetitiveEffect(self.param, new_effects, new_special_effects,
+                                    self.default_goal_repetitions, arg, config_key=self.config_key)
+    
+    def _resolve_goal_repetitions_if_needed(self, state):
+        """
+        Resolves the goal repetitions for the effect if it has not already been
+        resolved.
 
+        Args:
+            state (State): The current state.
+        """
+        if self.goal_repetitions is not None:
+            return
+        
+        # If there is no bound arg, just use default
+        if self.arg is None:
+            self.goal_repetitions = self.default_goal_repetitions
+            return
+
+        base_name, _ = trim_item_ID(self.arg.name)
+        # Read from config
+        table = state.config.get(self.config_key, {}) if self.config_key else {}
+        raw = table.get(base_name, table.get("default", self.default_goal_repetitions))
+        self.goal_repetitions = max(1, raw)
+    
     def increment_repetitions(self):
         """
         Increments the number of times the action has been performed.
@@ -99,6 +123,7 @@ class RepetitiveEffect(SpecialEffect):
             performed.
         """
         if not active or self.completed: return
+        self._resolve_goal_repetitions_if_needed(state)
         self.increment_repetitions()
         if self.current_repetitions == self.goal_repetitions:
             for effect, value in self.effects.items():

@@ -58,5 +58,5 @@ for test_group, tests in ALL_TESTS.items():
     print(f"Running {test_group} tests")
     for test in tests:
         print(f"Running {test} test")
-        subprocess.run(f"python main.py ++game.environment_name {test}", shell=True)
+        subprocess.run(f"python main.py ++game.environment_name={test}", shell=True)
     print(f"Finished running {test_group} tests\n")

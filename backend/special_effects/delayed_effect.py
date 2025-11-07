@@ -1,4 +1,5 @@
 from backend.special_effect import SpecialEffect
+from utils.robotouille_utils import trim_item_ID
 
 class DelayedEffect(SpecialEffect):
     """
@@ -8,7 +9,7 @@ class DelayedEffect(SpecialEffect):
     of time has passed.
     """
 
-    def __init__(self, param, effects, special_effects, goal_time=4, arg=None):
+    def __init__(self, param, effects, special_effects, default_goal_time=4, arg=None, config_key=None):
         """
         Initializes a delayed effect.
 
@@ -18,14 +19,19 @@ class DelayedEffect(SpecialEffect):
                 represented by a dictionary of predicates and bools.
             special_effects (List[SpecialEffect]): The nested special effects of
                 the action.
-            goal_time (int): The number of time steps that must pass before the
-                effect is applied.
+            sfx_config (Dict[str, Any]):
+                The environment configuration for the specific special effect.
+            default_goal_time (int): The time it takes for the effect to be applied.
             arg (Object): The object that the effect is applied to. If the
                 special effect is not applied to an object, arg is None.
+            config_key (str): The key to use when looking up the goal time in the config.
         """
         super().__init__(param, effects, special_effects, False, arg)
-        self.goal_time = goal_time
+        
+        self.default_goal_time = default_goal_time
+        self.goal_time = None
         self.current_time = 0
+        self.config_key = config_key
 
     def __eq__(self, other):
         """
@@ -39,7 +45,8 @@ class DelayedEffect(SpecialEffect):
         """
         return self.param == other.param and self.effects == other.effects \
             and self.special_effects == other.special_effects \
-                and self.goal_time == other.goal_time and self.arg == other.arg
+                and self.default_goal_time == other.default_goal_time and self.arg == other.arg \
+                    and self.config_key == other.config_key
     
     def __hash__(self):
         """
@@ -49,7 +56,7 @@ class DelayedEffect(SpecialEffect):
             hash (int): The hash of the delayed effect.
         """
         return hash((self.param, tuple(self.effects), tuple(self.special_effects), 
-                     self.completed, self.current_time, self.arg))
+                     self.completed, self.current_time, self.arg, self.config_key))
     
     def __repr__(self):
         """
@@ -77,10 +84,28 @@ class DelayedEffect(SpecialEffect):
         new_effects = {}
         for effect, value in self.effects.items():
             new_effects[effect.replace_pred_params_with_args(param_arg_dict)] = value
-        new_special_effects = []
-        for special_effect in self.special_effects:
-            new_special_effects.append(special_effect.apply_sfx_on_arg(arg, param_arg_dict))
-        return DelayedEffect(self.param, new_effects, new_special_effects, self.goal_time, arg)
+        new_special_effects = [se.apply_sfx_on_arg(arg, param_arg_dict) for se in self.special_effects]
+        return DelayedEffect(self.param, new_effects, new_special_effects,
+                             self.default_goal_time, arg, config_key=self.config_key)
+    
+    def _resolve_goal_time_if_needed(self, state):
+        """
+        Resolves the goal time for the effect if it has not already been
+        resolved.
+
+        Args:
+            state (State): The current state. 
+        """
+        if self.goal_time is not None:
+            return
+        if self.arg is None:
+            self.goal_time = self.default_goal_time
+            return
+        base_name, _ = trim_item_ID(self.arg.name)
+        table = state.config.get(self.config_key, {}) if self.config_key else {}
+        raw = table.get(base_name, table.get("default", self.default_goal_time))
+        self.goal_time = max(1, raw)
+
 
     def increment_time(self):
         """
@@ -98,6 +123,7 @@ class DelayedEffect(SpecialEffect):
             performed.
         """
         if active or self.completed: return
+        self._resolve_goal_time_if_needed(state)
         self.increment_time()
         if self.current_time == self.goal_time:
             for effect, value in self.effects.items():

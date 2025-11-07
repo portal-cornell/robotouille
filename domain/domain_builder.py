@@ -8,6 +8,13 @@ from backend.special_effects.conditional_effect import ConditionalEffect
 from backend.special_effects.creation_effect import CreationEffect
 from backend.special_effects.deletion_effect import DeletionEffect
 
+sfx_config_dict = {
+    "cut": "num_cuts",
+    "cook": "cook_time",
+    "fry": "fry_time",
+    "boil": "boil_time",
+    "fill": "fill_time"
+}
 
 def _build_predicate_defs(domain_json):
     """
@@ -64,7 +71,7 @@ def _build_pred_list(defn, param_objs, predicate_dict):
 
     return precons_or_effects
 
-def _build_special_effects(defn, param_objs, predicate_dict):
+def _build_special_effects(defn, param_objs, predicate_dict, sfx_config_key):
     """
     This function builds special effects. 
 
@@ -73,6 +80,8 @@ def _build_special_effects(defn, param_objs, predicate_dict):
         param_objs (Dictionary[str, Object]): A dictionary whose keys are
             parameter names and the values are placeholder objects. 
         predicate_dict (Dictionary[str, Predicate]): The predicate dictionary.
+        sfx_config_key (str):
+            The key to use when looking up the special effect configuration.
 
     Returns:
         special_effects (List[SpecialEffect]): The special effects of the action.
@@ -87,12 +96,11 @@ def _build_special_effects(defn, param_objs, predicate_dict):
         param_obj = param_objs[param_name]
         effects = _build_pred_list(
             special_effect["fx"], param_objs, predicate_dict)
-        nested_sfx = _build_special_effects(special_effect["sfx"], param_objs, predicate_dict)
+        nested_sfx = _build_special_effects(special_effect["sfx"], param_objs, predicate_dict, sfx_config_key)
         if special_effect["type"] == "delayed":
-            # TODO (lsuyean): The values for goal repetitions/time should be decided by the problem json
-            sfx = DelayedEffect(param_obj, effects, nested_sfx)
+            sfx = DelayedEffect(param_obj, effects, nested_sfx, config_key=sfx_config_key)
         elif special_effect["type"] == "repetitive":
-            sfx = RepetitiveEffect(param_obj, effects, nested_sfx)
+            sfx = RepetitiveEffect(param_obj, effects, nested_sfx, config_key=sfx_config_key)
         elif special_effect["type"] == "conditional":
             conditions = _build_pred_list(
                 special_effect["conditions"], param_objs, predicate_dict)
@@ -110,7 +118,7 @@ def _build_special_effects(defn, param_objs, predicate_dict):
 
     return special_effects
 
-def _build_action_defs(domain_json, predicate_defs):
+def _build_action_defs(domain_json, predicate_defs, env_config):
     """
     This function builds action definitions from a JSON input.
 
@@ -119,6 +127,8 @@ def _build_action_defs(domain_json, predicate_defs):
             The JSON representation of the domain.
         predicate_defs (List[Predicate]):
             The predicate definitions.
+        env_config (Dict[str, Any]):
+            The environment configuration for special effects.
 
     Returns:
         action_defs (List[Action]):
@@ -136,22 +146,24 @@ def _build_action_defs(domain_json, predicate_defs):
             action["precons"], param_objs, predicate_dict)
         immediate_effects = _build_pred_list(
             action["immediate_fx"], param_objs, predicate_dict)
+        sfx_config_key = sfx_config_dict.get(name, None)
         special_effects = _build_special_effects(
-            action["sfx"], param_objs, predicate_dict)
+            action["sfx"], param_objs, predicate_dict, sfx_config_key)
         language_description = action["language_description"]
         action_def = Action(name, precons, immediate_effects, special_effects, language_description=language_description)
         action_defs.append(action_def)
 
     return action_defs
         
-def build_domain(domain_json):
+def build_domain(domain_json, env_config={}):
     """
     This function builds a domain object from a JSON input.
 
     Args:
         domain_json (Dict[str, Any]):
             The JSON representation of the domain.
-
+        env_config (Dict[str, Any]):
+            The environment configuration for special effects. 
     Returns:
         domain (Domain): The domain object.
     """
@@ -161,7 +173,7 @@ def build_domain(domain_json):
 
     predicate_defs = _build_predicate_defs(domain_json)
 
-    action_defs = _build_action_defs(domain_json, predicate_defs)
+    action_defs = _build_action_defs(domain_json, predicate_defs, env_config)
 
     domain = Domain().initialize(name, object_types, predicate_defs, action_defs)
 
