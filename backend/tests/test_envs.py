@@ -1,6 +1,7 @@
 #TODO: Automate this script
 
 import subprocess
+from collections import defaultdict
 
 ALL_TESTS = {
     'base tests':[
@@ -33,7 +34,7 @@ ALL_TESTS = {
     ],
     # 'high level tests':[
     #     'cook_patties',
-    #     # 'cook_soup',
+    #     'cook_soup',
     #     'cut_lettuces',
     #     'fry_chicken',
     #     'fry_potato',
@@ -51,31 +52,67 @@ ALL_TESTS = {
     #     'kitchen',
     #     'original',
     #     'test_arena'
+    # ],
+    # "synchronous tests":[
+    #     "synchronous/0_cheese_sandwich",
+    #     "synchronous/1_lettuce_sandwich",
+    #     "synchronous/2_lettuce_tomato_sandwich",
+    #     "synchronous/3_burger",
+    #     "synchronous/4_cheeseburger",
+    #     "synchronous/5_double_cheeseburger",
+    #     "synchronous/6_lettuce_tomato_cheeseburger",
+    #     "synchronous/7_two_lettuce_chicken_sandwich",
+    #     "synchronous/8_two_lettuce_tomatao_burger",
+    #     "synchronous/9_onion_cheese_burger_and_lettuce_tomato_chicken_sandwich"
     # ]
 }
 
-total = 0
-passed = 0
-failed = []
+def run():
+    tallies = defaultdict(lambda: {"passed": 0, "failed": 0})
+    overall = {"passed": 0, "failed": 0}
+    failed_tests_detail = []
 
-for test_group, tests in ALL_TESTS.items():
-    print(f"Running {test_group} tests")
-    for test in tests:
-        total += 1
-        print(f"Running {test} test")
-        result = subprocess.run(f"python main.py ++game.environment_name={test}", shell=True)
-        if result.returncode == 0:
-            passed += 1
-            print(f"[OK] {test}\n")
-        else:
-            failed.append(test)
-            print(f"[FAIL] {test} (exit code {result.returncode})\n")
-    print(f"Finished running {test_group} tests\n")
+    try:
+        for test_group, tests in ALL_TESTS.items():
+            print(f"Running {test_group} tests")
+            for test in tests:
+                print(f"Running {test} test")
+                result = subprocess.run(
+                    f"python main.py ++game.environment_name={test}",
+                    shell=True
+                )
+                if result.returncode == 0:
+                    tallies[test_group]["passed"] += 1
+                    overall["passed"] += 1
+                else:
+                    tallies[test_group]["failed"] += 1
+                    overall["failed"] += 1
+                    failed_tests_detail.append((test_group, test))
+            print(f"Finished running {test_group} tests\n")
 
-print("=" * 60)
-print(f"Summary: {passed} passed, {len(failed)} failed, out of {total} total.")
-if failed:
-    print("Failed environments:")
-    for name in failed:
-        print(f"  - {name}")
-print("=" * 60)
+    except KeyboardInterrupt:
+        print("\nInterrupted by user. Printing partial results...\n")
+
+    # ---- Summary per group ----
+    print("\n==================== TEST SUMMARY ====================")
+    for group, t in tallies.items():
+        total = t["passed"] + t["failed"]
+        if total == 0:
+            continue
+        print(f"{group}: {t['passed']} passed, {t['failed']} failed (total {total})")
+
+    # ---- Overall summary ----
+    grand_total = overall["passed"] + overall["failed"]
+    print("------------------------------------------------------")
+    print(f"OVERALL: {overall['passed']} passed, {overall['failed']} failed (total {grand_total})")
+
+    # ---- List failed tests (if any) ----
+    if failed_tests_detail:
+        print("\nFailed tests:")
+        for grp, tst in failed_tests_detail:
+            print(f"  - [{grp}] {tst}")
+    else:
+        print("\nAll tests passed!")
+
+if __name__ == "__main__":
+    run()
