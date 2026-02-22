@@ -7,7 +7,6 @@ available goal-sets in the state (a simple, optimistic goal-count heuristic).
 """
 
 
-import time
 import heapq
 from collections import Counter
 from copy import deepcopy
@@ -54,10 +53,9 @@ class AStarAgent(Agent):
         return False
 
     @staticmethod
-    def _heuristic_zero(_state) -> int:
+    def _heuristic(_state) -> int:
         """
-        A trivial heuristic that always returns zero. 
-        This mimics the behaviour of BFS while still allowing the A* agent to function.
+        naieve heuristic that returns the number of non-satisfied predicates within environment
 
         Parameters:
             _state (State): The state to evaluate the heuristic on. Ignored in this heuristic.
@@ -65,7 +63,14 @@ class AStarAgent(Agent):
         Returns:
             int: The heuristic value, which is always zero for this heuristic.
         """
-        return 0
+
+        unsatisfied_count = 0
+        for goal_set in _state.goal:
+            for goal in goal_set:
+                if not _state.get_predicate_value(goal):
+                    unsatisfied_count += 1
+
+        return unsatisfied_count
 
     def propose_actions(self, obs, env):
         """Plans actions with A*.
@@ -94,7 +99,7 @@ class AStarAgent(Agent):
         start_env = deepcopy(env)
         start_sig = start_env.current_state.signature()
         start_g = 0
-        start_f = start_g + self._heuristic_zero(start_env.current_state)
+        start_f = start_g + self._heuristic(start_env.current_state)
         
         # Push start into OPEN
         heapq.heappush(open_heap, (start_f, tie, start_g, [], [], start_env))
@@ -147,7 +152,7 @@ class AStarAgent(Agent):
                 if is_wait:
                     if wait_used[sig] < MAX_WAIT_PER_SIG:
                         wait_used[sig] += 1
-                        next_f = next_g + self._heuristic_zero(next_env.current_state)  # == next_g
+                        next_f = next_g + self._heuristic(next_env.current_state)  # == next_g
                         heapq.heappush(open_heap, (next_f, tie, next_g, next_actions, next_str_actions, next_env))
                         tie += 1
                     # else: exceeded wait budget, drop
@@ -157,7 +162,7 @@ class AStarAgent(Agent):
                 # if g(s') > g(s) + c(s,s') then update g(s') and push to OPEN
                 if sig not in best_g or next_g < best_g[sig]:
                     best_g[sig] = next_g
-                    next_f = next_g + self._heuristic_zero(next_env.current_state)
+                    next_f = next_g + self._heuristic(next_env.current_state)
                     heapq.heappush(open_heap, (next_f, tie, next_g, next_actions, next_str_actions, next_env))
                     tie += 1
 

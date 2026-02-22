@@ -3,6 +3,7 @@ import pygame
 from omegaconf import DictConfig
 from typing import Dict, Any
 import random
+import time
 
 from agents import NAME_TO_AGENT
 
@@ -105,6 +106,8 @@ def run_robotouille(environment_name: str, agent_name: str, **kwargs: Dict[str, 
     imgs = []
     queued_actions = []
     stochastic_done = False
+
+    startTime = time.time()
     while not done and not agent_done_cond(agent) and steps < max_steps:
         img = env.render(render_mode)
         if record:
@@ -147,6 +150,9 @@ def run_robotouille(environment_name: str, agent_name: str, **kwargs: Dict[str, 
             steps = 0
             obs, info = env.reset()
             queued_actions = []
+
+    endTime = time.time()
+    print(f"Elapsed: {endTime- startTime}s")
     
     img = env.render(render_mode, close=True)
     if record:
