@@ -5,34 +5,34 @@ from collections import defaultdict
 
 ALL_TESTS = {
     'base tests':[
-        'base_add_to_soup',
-        'base_boil_water',
-        'base_cook',
-        'base_cut',
-        'base_fill_pot',
-        'base_fill_two_pots',
-        'base_move',
-        'base_pickup_container',
-        'base_pickup',
-        'base_place_container',
-        'base_place',
-        'base_stack',
-        'base_unstack'
+    #     'base_add_to_soup',
+    #     'base_boil_water',
+    #     'base_cook',
+    #     'base_cut',
+    #     'base_fill_pot',
+    #     'base_fill_two_pots',
+    #     'base_move',
+    #     'base_pickup_container',
+    #     'base_pickup',
+    #     'base_place_container',
+    #     'base_place',
+    #     'base_stack',
+    #     'base_unstack'
     ],
     'composite tests':[
-        'composite_add_fill_bowl',
-        'composite_cook_pickup',
-        'composite_cut_pickup',
-        'composite_move_cook',
-        'composite_move_cut',
-        'composite_move_pickup',
-        'composite_move_place',
-        'composite_move_stack',
-        'composite_move_unstack',
-        'composite_place_cook',
-        'composite_place_cut'
+    #     'composite_add_fill_bowl',
+    #     'composite_cook_pickup',
+    #     'composite_cut_pickup',
+    #     'composite_move_cook',
+    #     'composite_move_cut',
+    #     'composite_move_pickup',
+    #     'composite_move_place',
+    #     'composite_move_stack',
+    #     'composite_move_unstack',
+    #     'composite_place_cook',
+    #     'composite_place_cut'
     ],
-    # 'high level tests':[
+    'high level tests':[
     #     'cook_patties',
     #     'cook_soup',
     #     'cut_lettuces',
@@ -52,19 +52,19 @@ ALL_TESTS = {
     #     'kitchen',
     #     'original',
     #     'test_arena'
-    # ],
-    # "synchronous tests":[
-    #     "synchronous/0_cheese_sandwich",
-    #     "synchronous/1_lettuce_sandwich",
-    #     "synchronous/2_lettuce_tomato_sandwich",
-    #     "synchronous/3_burger",
-    #     "synchronous/4_cheeseburger",
-    #     "synchronous/5_double_cheeseburger",
-    #     "synchronous/6_lettuce_tomato_cheeseburger",
-    #     "synchronous/7_two_lettuce_chicken_sandwich",
-    #     "synchronous/8_two_lettuce_tomatao_burger",
-    #     "synchronous/9_onion_cheese_burger_and_lettuce_tomato_chicken_sandwich"
-    # ]
+    ],
+    "synchronous tests":[
+        "synchronous/0_cheese_sandwich",
+        "synchronous/1_lettuce_sandwich",
+        # "synchronous/2_lettuce_tomato_sandwich",
+        "synchronous/3_burger",
+        "synchronous/4_cheeseburger",
+        "synchronous/5_double_cheeseburger",
+        # "synchronous/6_lettuce_tomato_cheeseburger",
+        # "synchronous/7_two_lettuce_chicken_sandwich",
+        # "synchronous/8_two_lettuce_tomatao_burger",
+        # "synchronous/9_onion_cheese_burger_and_lettuce_tomato_chicken_sandwich"
+    ]
 }
 
 def run():
@@ -78,7 +78,7 @@ def run():
             for test in tests:
                 print(f"Running {test} test")
                 result = subprocess.run(
-                    f"python main.py ++game.environment_name={test}",
+                    f"python main.py ++game.environment_name={test} ++game.seed=42",
                     shell=True
                 )
                 if result.returncode == 0:

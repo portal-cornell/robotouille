@@ -62,15 +62,37 @@ class AStarAgent(Agent):
 
         Returns:
             int: The heuristic value, which is always zero for this heuristic.
+
         """
+        def _naive_heuristic(_state) -> int:
+            # check every goal set, set unsatisfied count for goal with  
 
-        unsatisfied_count = 0
-        for goal_set in _state.goal:
-            for goal in goal_set:
-                if not _state.get_predicate_value(goal):
-                    unsatisfied_count += 1
+            min_goal_count = 1000000000
+            for goal_set in _state.goal:
+                satisfied_count = 0
+                # find minimum goal, use unsatisfied
+                #print(goal_set)
+                for goal in goal_set:
+                    # make sure to count preds in order
+                    #print(goal)
+                    if _state.get_predicate_value(goal):
+                        satisfied_count += 1
+                    else:
+                        break
 
-        return unsatisfied_count
+                min_goal_count = min(min_goal_count, len(goal_set) - satisfied_count)
+
+            return min_goal_count
+
+        def _action_heuristic(_state) -> int:
+            #  
+            pass
+
+
+        return _naive_heuristic(_state) 
+
+    
+
 
     def propose_actions(self, obs, env):
         """Plans actions with A*.
