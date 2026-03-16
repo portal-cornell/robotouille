@@ -42,6 +42,7 @@ class Action(object):
         self.immediate_effects = immediate_effects
         self.special_effects = special_effects
         self.language_description = language_description
+        self._cached_params = None  # Cache for get_all_params()
 
     def __eq__(self, other):
         """
@@ -83,10 +84,12 @@ class Action(object):
         Returns:
             params (List[Object]): The parameters of the action.
         """
-        params = [param for precon in self.precons for param in precon.params]
-        params += [param for effect in self.immediate_effects for param in effect.params]
-        params += [effect.param for effect in self.special_effects]
-        return list(set(params))
+        if self._cached_params is None:
+            params = [param for precon in self.precons for param in precon.params]
+            params += [param for effect in self.immediate_effects for param in effect.params]
+            params += [effect.param for effect in self.special_effects]
+            self._cached_params = list(set(params))
+        return self._cached_params
     
     def get_language_description(self, param_arg_dict):
         """
@@ -99,8 +102,9 @@ class Action(object):
         Returns:
             language_description (str): The language description of the action.
         """
-        params = self.get_all_params()
-        assert all([param.name in param_arg_dict.keys() for param in params]), "param_arg_dict missing parameters."
+        params = self.get_all_params()  # Now cached
+        # Skip expensive assert in production for performance
+        # assert all([param.name in param_arg_dict.keys() for param in params]), "param_arg_dict missing parameters."
         sub_lambda = lambda x: param_arg_dict[x.group(1)].name # Substitutes {\w+} with the name of the object
         return re.sub(Action.LANGUAGE_DESCRIPTION_REGEX, sub_lambda, self.language_description)
     

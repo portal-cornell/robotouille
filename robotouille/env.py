@@ -472,8 +472,8 @@ class RobotouilleEnv(gym.Env):
 
         self.renderer = renderer
 
-    def step(self, action):
-        done = self.current_state.step(action) # Current state is updated in place
+    def step(self, action, skip_assert=False):
+        done = self.current_state.step(action, skip_assert=skip_assert) # Current state is updated in place
         obs = LanguageSpace.state_to_language_description(self.current_state)
         return obs, 0, done, {}
 

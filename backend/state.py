@@ -343,37 +343,46 @@ class State(object):
     
     def _get_player_location(self, player):
         """Get the current location (station) of a player."""
-        for predicate, is_true in self.predicates.items():
-            if (is_true and predicate.name == 'loc' and 
-                len(predicate.params) == 2 and predicate.params[0] == player):
-                return predicate.params[1]  # Return the station
+        # Direct predicate lookup instead of scanning all predicates
+        for obj in self.objects:
+            if obj.object_type == 'station':
+                loc_predicate = Predicate().initialize('loc', ['player', 'station'], [player, obj])
+                if self.get_predicate_value(loc_predicate):
+                    return obj
         return None
     
     def _get_items_at_location(self, station):
         """Get all items at a specific station."""
         items = set()  # Use set to avoid duplicates
-        for predicate, is_true in self.predicates.items():
-            if (is_true and predicate.name in ['item_at', 'item_on'] and 
-                len(predicate.params) == 2 and predicate.params[1] == station):
-                items.add(predicate.params[0])  # Add the item
+        # Direct predicate lookup for each item
+        for obj in self.objects:
+            if obj.object_type == 'item':
+                # Check both item_at and item_on predicates
+                for pred_name in ['item_at', 'item_on']:
+                    predicate = Predicate().initialize(pred_name, ['item', 'station'], [obj, station])
+                    if self.get_predicate_value(predicate):
+                        items.add(obj)
+                        break  # Found item at location, no need to check other predicates
         return list(items)  # Convert back to list
     
     def _get_player_held_items(self, player):
         """Get all items/containers held by a player."""
         held_items = set()  # Use set to avoid duplicates
-        for predicate, is_true in self.predicates.items():
-            if (is_true and predicate.name in ['has_item', 'has_container'] and 
-                len(predicate.params) == 2 and predicate.params[0] == player):
-                held_items.add(predicate.params[1])  # Add the held item
+        # Direct predicate lookup for each item/container
+        for obj in self.objects:
+            if obj.object_type in ['item', 'container']:
+                # Check both has_item and has_container predicates
+                pred_name = 'has_item' if obj.object_type == 'item' else 'has_container'
+                predicate = Predicate().initialize(pred_name, ['player', obj.object_type], [player, obj])
+                if self.get_predicate_value(predicate):
+                    held_items.add(obj)
         return list(held_items)  # Convert back to list
     
     def _is_player_holding_nothing(self, player):
         """Check if player is holding nothing."""
-        for predicate, is_true in self.predicates.items():
-            if (is_true and predicate.name == 'nothing' and 
-                len(predicate.params) == 1 and predicate.params[0] == player):
-                return True
-        return False
+        # Direct predicate lookup
+        nothing_predicate = Predicate().initialize('nothing', ['player'], [player])
+        return self.get_predicate_value(nothing_predicate)
     
     def _prune_actions_by_spatial_constraints(self):
         """Prune action space based on spatial constraints to reduce validity checks."""
@@ -565,7 +574,7 @@ class State(object):
         next_index = (current_index + 1) % len(players)
         return players[next_index]
 
-    def step(self, actions):
+    def step(self, actions, skip_assert=False):
         """
         Steps the state forward by applying the effects of the action.
 
@@ -576,6 +585,9 @@ class State(object):
                 length of the list is the number of players, where actions[i] is
                 the action for player i. If player i is not performing an action,
                 actions[i] is None.
+            skip_assert (bool): If True, skip the assertion that actions are valid. 
+                This is used for efficiency in search algorithms where we only call
+                step on already validated actions.
         
         Side Effects:
             - The current state is stepped to the next state with the provided actions
@@ -590,7 +602,7 @@ class State(object):
         for action, param_arg_dict in actions:
             if action is None:
                 continue
-            assert action.is_valid(self, param_arg_dict)
+            assert skip_assert or action.is_valid(self, param_arg_dict)
             self = action.perform_action(self, param_arg_dict)
         
         for special_effect in self.special_effects:

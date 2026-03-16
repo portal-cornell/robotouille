@@ -123,9 +123,9 @@ def profile_astar_expansion(env_name="synchronous/0_cheese_sandwich"):
             perf_stats['signature_calls'] += 1
             return result
         
-        def timed_step(self, actions):
+        def timed_step(self, actions, skip_assert=False):
             start = time.perf_counter()
-            result = original_step(self, actions)
+            result = original_step(self, actions, skip_assert=skip_assert)
             perf_stats['step_time'] += time.perf_counter() - start
             perf_stats['step_calls'] += 1
             return result
