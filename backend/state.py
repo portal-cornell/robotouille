@@ -341,6 +341,135 @@ class State(object):
                 return True
         return False
     
+    def _get_player_location(self, player):
+        """Get the current location (station) of a player."""
+        for predicate, is_true in self.predicates.items():
+            if (is_true and predicate.name == 'loc' and 
+                len(predicate.params) == 2 and predicate.params[0] == player):
+                return predicate.params[1]  # Return the station
+        return None
+    
+    def _get_items_at_location(self, station):
+        """Get all items at a specific station."""
+        items = set()  # Use set to avoid duplicates
+        for predicate, is_true in self.predicates.items():
+            if (is_true and predicate.name in ['item_at', 'item_on'] and 
+                len(predicate.params) == 2 and predicate.params[1] == station):
+                items.add(predicate.params[0])  # Add the item
+        return list(items)  # Convert back to list
+    
+    def _get_player_held_items(self, player):
+        """Get all items/containers held by a player."""
+        held_items = set()  # Use set to avoid duplicates
+        for predicate, is_true in self.predicates.items():
+            if (is_true and predicate.name in ['has_item', 'has_container'] and 
+                len(predicate.params) == 2 and predicate.params[0] == player):
+                held_items.add(predicate.params[1])  # Add the held item
+        return list(held_items)  # Convert back to list
+    
+    def _is_player_holding_nothing(self, player):
+        """Check if player is holding nothing."""
+        for predicate, is_true in self.predicates.items():
+            if (is_true and predicate.name == 'nothing' and 
+                len(predicate.params) == 1 and predicate.params[0] == player):
+                return True
+        return False
+    
+    def _prune_actions_by_spatial_constraints(self):
+        """Prune action space based on spatial constraints to reduce validity checks."""
+        pruned_actions = {}
+        current_player = self.current_player
+        player_location = self._get_player_location(current_player)
+        items_at_player_location = self._get_items_at_location(player_location) if player_location else []
+        held_items = self._get_player_held_items(current_player)
+        holding_nothing = self._is_player_holding_nothing(current_player)
+        
+        # print(f"DEBUG PRUNING: Player {current_player.name} at location {player_location.name if player_location else None}")
+        # print(f"DEBUG PRUNING: Items at location: {[item.name for item in items_at_player_location]}")
+        # print(f"DEBUG PRUNING: Held items: {[item.name for item in held_items]}")
+        # print(f"DEBUG PRUNING: Holding nothing: {holding_nothing}")
+        
+        total_original_actions = sum(len(args_list) for args_list in self.actions.values())
+        total_pruned_actions = 0
+        
+        for action, args_list in self.actions.items():
+            action_name = action.name.lower()
+            pruned_args = []
+            
+            # print(f"\nDEBUG PRUNING: Processing action '{action.name}' with {len(args_list)} combinations")
+            
+            for args in args_list:
+                # Get player parameter from args (usually first parameter)
+                action_player = None
+                for param_name, obj in args.items():
+                    if obj.object_type == 'player':
+                        action_player = obj
+                        break
+                
+                # Only consider actions for the current player (skip if no player found)
+                if action_player is None or action_player != current_player:
+                    continue
+                
+                # Apply action-specific spatial constraints
+                kept = False
+                if 'move' in action_name:
+                    # Move: player must start from current location
+                    # In move(p1=robot1, s1=source, s2=dest), s1 is source station
+                    source_station = args.get('s1')  # source station parameter
+                    if source_station == player_location:
+                        pruned_args.append(args)
+                        kept = True
+                        
+                elif 'pick' in action_name or 'pickup' in action_name:
+                    # Pickup: item must be at player location, player must be holding nothing
+                    if holding_nothing:
+                        item_to_pickup = args.get('i1')  # item parameter
+                        pickup_station = args.get('s1')  # station parameter
+                        # Item must be at the pickup station, and robot must be at that station
+                        if (pickup_station == player_location and 
+                            item_to_pickup in items_at_player_location):
+                            pruned_args.append(args)
+                            kept = True
+                            
+                elif ('drop' in action_name or 'place' in action_name or 
+                      'stack' in action_name or 'put' in action_name):
+                    # Drop/Place/Stack: player must be holding something
+                    if held_items:
+                        # Check if the item being dropped/placed is actually held
+                        item_to_drop = args.get('i1')  # item parameter  
+                        if item_to_drop in held_items:
+                            pruned_args.append(args)
+                            kept = True
+                            
+                elif ('use' in action_name or 'cut' in action_name or 'cook' in action_name or
+                      'wash' in action_name or 'fry' in action_name):
+                    # Tool/appliance actions: player must be at the appliance location
+                    appliance_station = args.get('s1')  # station parameter
+                    if appliance_station == player_location:
+                        pruned_args.append(args)
+                        kept = True
+                        
+                else:
+                    # For unknown action types, keep all args (conservative approach)
+                    pruned_args.append(args)
+                    kept = True
+                
+                # if not kept:
+                #     arg_str = ", ".join([f"{k}={v.name}" for k, v in args.items()])
+                #     print(f"  FILTERED OUT: {action.name}({arg_str})")
+            
+            # print(f"  KEPT: {len(pruned_args)}/{len(args_list)} combinations")
+            total_pruned_actions += len(pruned_args)
+            
+            if pruned_args:
+                pruned_actions[action] = pruned_args
+            else:
+                # Even if no args pass spatial filter, keep empty list to maintain action structure
+                pruned_actions[action] = []
+        
+        # print(f"\nDEBUG PRUNING SUMMARY: {total_pruned_actions}/{total_original_actions} actions kept ({100*total_pruned_actions/total_original_actions:.1f}%)")
+        return pruned_actions
+    
     def get_valid_actions(self):
         """
         Gets all valid actions for the state.
@@ -381,9 +510,11 @@ class State(object):
                 + param_arg dicts tuples for the current state.
             str_valid_actions (List[str]): A string list of valid actions for the state.
         """
-        valid_actions_dict = {action:[] for action in self.actions}
+        # Use spatial constraint pruning to reduce action space before validity checks
+        pruned_actions = self._prune_actions_by_spatial_constraints()
+        valid_actions_dict = {action:[] for action in pruned_actions}
 
-        for action, args in self.actions.items():
+        for action, args in pruned_actions.items():
             for arg in args:
                 if action.is_valid(self, arg):
                     valid_actions_dict[action].append(arg)
