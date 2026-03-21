@@ -52,7 +52,14 @@ def evaluate(cfg: DictConfig) -> None:
             kwargs['llm_kwargs']['log_path'] = basefile_to_subdir_lambda(kwargs['llm_kwargs']['log_path'])
             kwargs.pop('environment_name') # Unused for evaluation
             agent_name = kwargs.pop('agent_name')
-            done, steps = run_robotouille(environment_name, agent_name, **kwargs)
+            try:
+                done, steps = run_robotouille(environment_name, agent_name, **kwargs)
+            except AssertionError as e:
+                if "Player cannot reach the destination" in str(e):
+                    print(f"[WARN] Skipping failed seed={kwargs.get('seed')} env={environment_name}: {e}")
+                    done, steps = False, None
+                else:
+                    raise
             results[f"{environment_name}_{seed}"] = {'done': done, 'steps': steps, 'max_steps': kwargs['max_steps']}
     accuracy = sum([result['done'] for result in results.values()]) / len(results)
     average_steps = sum([result['steps'] for result in results.values()]) / len(results)

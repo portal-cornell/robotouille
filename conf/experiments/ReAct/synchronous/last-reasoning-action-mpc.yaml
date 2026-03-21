@@ -44,10 +44,10 @@ game:
   video_path: ${hydra:runtime.output_dir}/video_ReAct.mp4
 
 llm:
-  llm_model: gpt-4o
+  llm_model: 
   log_path: ${hydra:runtime.output_dir}/log_ReAct.txt
   num_examples: 1
-  example_dir_path: synchronous/react_examples_omitted_obs
+  example_dir_path: 
   prompts:
     action_proposal_prompt:
       experiment_name: ReAct

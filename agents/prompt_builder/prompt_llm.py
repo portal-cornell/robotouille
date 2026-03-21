@@ -226,6 +226,10 @@ def prompt_llm(user_prompt, messages, model, temperature, history=[], **kwargs):
             - If the data tag is not implemented.
     """
     debug = kwargs.get('debug', False)
+    is_no_history = kwargs.get('is_no_history', False)
+
+    if is_no_history:
+        history = []
     if debug:
         response = input("Please input the mocked LLM response: ")
     elif model in get_openai_llms():
