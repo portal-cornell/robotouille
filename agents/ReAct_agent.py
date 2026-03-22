@@ -81,6 +81,51 @@ class ReActAgent(Agent):
         # Whether the agent is done
         self.done = False
 
+        self.prev_predicates = None
+        self.explicit_state_changes = kwargs.get("explicit_state_changes", False)
+
+    def _extract_predicates(self, obs):
+        """
+        Extract predicate lines from the observation string.
+        Assumes predicates are formatted like:
+        - on(patty1, grill)
+        - iscooked(patty1)
+        """
+        lines = obs.split("\n")
+        predicates = []
+
+        for line in lines:
+            line = line.strip()
+            if line.startswith("-"):
+                predicates.append(line[1:].strip())
+
+        return predicates
+
+    def _compute_predicate_delta(self, prev, curr):
+        prev_set = set(prev)
+        curr_set = set(curr)
+
+        added = sorted(curr_set - prev_set)
+        removed = sorted(prev_set - curr_set)
+
+        return added, removed
+
+    def _format_predicate_delta(self, added, removed):
+        lines = ["Changes since previous step:"]
+
+        if added:
+            lines.append("ADDED:")
+            lines.extend(f"- {p}" for p in added)
+
+        if removed:
+            lines.append("REMOVED:")
+            lines.extend(f"- {p}" for p in removed)
+
+        if not added and not removed:
+            lines.append("- No predicate changes.")
+
+        return "\n".join(lines)
+
     def is_done(self):
         """Returns whether the policy is done.
         
@@ -231,6 +276,20 @@ class ReActAgent(Agent):
                 action_proposal_prompt += f"Error Feedback: {self.action_feedback_msg}\n"
                 self.action_feedback_msg = ""
             action_proposal_prompt += obs
+
+            if self.explicit_state_changes:
+                curr_predicates = self._extract_predicates(obs)
+
+                if self.prev_predicates is None:
+                    delta_text = "Changes since previous step:\n- None (initial state)."
+                else:
+                    added, removed = self._compute_predicate_delta(self.prev_predicates, curr_predicates)
+                    delta_text = self._format_predicate_delta(added, removed)
+
+                action_proposal_prompt += "\n\n" + delta_text
+
+                # Update for next step
+                self.prev_predicates = curr_predicates
 
             if self.prior:
                 action_proposal_prompt += f"\n\n{self.prior}"

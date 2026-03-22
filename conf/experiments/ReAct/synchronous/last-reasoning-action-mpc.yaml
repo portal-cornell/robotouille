@@ -58,4 +58,5 @@ llm:
   is_last_action: false
   is_last_reasoning_action: true
   is_last_obs_reasoning_action: false
+  explicit_state_changes: true
     
