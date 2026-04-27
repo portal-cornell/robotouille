@@ -14,7 +14,7 @@ from copy import deepcopy
 from .agent import Agent
 
 
-class AStarAgent(Agent):
+class AStarPruningAgent(Agent):
     """A* search agent)."""
 
     def __init__(self, kwargs):
@@ -152,7 +152,7 @@ class AStarAgent(Agent):
             for (act, par), desc in zip(valid_actions, str_valid_actions):
                 # Simulate one step to create successor state
                 next_env = deepcopy(curr_env)
-                _, _, done, _ = next_env.step([(act, par)])
+                _, _, done, _ = next_env.step([(act, par)], skip_assert=True)  # skip_assert since we already know these actions are valid
 
                 next_actions = actions + [(act, par)]
                 next_str_actions = str_actions + [desc]

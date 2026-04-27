@@ -1,0 +1,86 @@
+[
+  {
+    "environment": "synchronous/0_cheese_sandwich",
+    "seed": 42,
+    "trajectory": [
+      "Pick up cheese1 from table1 using robot1",
+      "Move robot1 from table1 to table3",
+      "Stack cheese1 on top of bread1 using robot1",
+      "Move robot1 from table3 to sink1",
+      "Pick up bread2 from sink1 using robot1",
+      "Move robot1 from sink1 to table3",
+      "Stack bread2 on top of cheese1 using robot1"
+    ],
+    "length": 7,
+    "elapsed_s": 7.393
+  },
+  {
+    "environment": "synchronous/0_cheese_sandwich",
+    "seed": 84,
+    "trajectory": [
+      "Move robot1 from table2 to table3",
+      "Pick up cheese1 from table3 using robot1",
+      "Move robot1 from table3 to table2",
+      "Stack cheese1 on top of bread1 using robot1",
+      "Move robot1 from table2 to sink1",
+      "Pick up bread2 from sink1 using robot1",
+      "Move robot1 from sink1 to table2",
+      "Stack bread2 on top of cheese1 using robot1"
+    ],
+    "length": 8,
+    "elapsed_s": 54.034
+  },
+  {
+    "environment": "synchronous/0_cheese_sandwich",
+    "seed": 126,
+    "trajectory": [
+      "Move robot1 from fryer1 to sink1",
+      "Place tomato1 on sink1 using robot1",
+      "Move robot1 from sink1 to stove1",
+      "Pick up cheese1 from stove1 using robot1",
+      "Move robot1 from stove1 to table5",
+      "Stack cheese1 on top of bread2 using robot1",
+      "Move robot1 from table5 to fryer1",
+      "Pick up bread1 from fryer1 using robot1",
+      "Move robot1 from fryer1 to table5",
+      "Stack bread1 on top of cheese1 using robot1"
+    ],
+    "length": 10,
+    "elapsed_s": 517.137
+  },
+  {
+    "environment": "synchronous/0_cheese_sandwich",
+    "seed": 168,
+    "trajectory": [
+      "Pick up bread1 from board1 using robot1",
+      "Move robot1 from board1 to table2",
+      "Place bread1 on table2 using robot1",
+      "Move robot1 from table2 to table1",
+      "Pick up cheese1 from table1 using robot1",
+      "Move robot1 from table1 to table2",
+      "Stack cheese1 on top of bread1 using robot1",
+      "Move robot1 from table2 to sink2",
+      "Pick up bread2 from sink2 using robot1",
+      "Move robot1 from sink2 to table2",
+      "Stack bread2 on top of cheese1 using robot1"
+    ],
+    "length": 11,
+    "elapsed_s": 270.854
+  },
+  {
+    "environment": "synchronous/0_cheese_sandwich",
+    "seed": 210,
+    "trajectory": [
+      "Move robot1 from table2 to table3",
+      "Pick up cheese1 from table3 using robot1",
+      "Move robot1 from table3 to table2",
+      "Stack cheese1 on top of bread1 using robot1",
+      "Move robot1 from table2 to table7",
+      "Pick up bread2 from table7 using robot1",
+      "Move robot1 from table7 to table2",
+      "Stack bread2 on top of cheese1 using robot1"
+    ],
+    "length": 8,
+    "elapsed_s": 16.485
+  }
+]
