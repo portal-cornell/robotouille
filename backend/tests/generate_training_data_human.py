@@ -25,9 +25,9 @@ from agents.human import Human
 from robotouille.robotouille_env import create_robotouille_env
 
 ENVIRONMENTS = [
-    "synchronous/0_cheese_sandwich",
+    # "synchronous/0_cheese_sandwich",
     # "synchronous/1_lettuce_sandwich",
-    # "synchronous/2_lettuce_tomato_sandwich",
+    "synchronous/2_lettuce_tomato_sandwich",
     # "synchronous/3_burger",
     # "synchronous/4_cheeseburger",
     # "synchronous/5_double_cheeseburger",
@@ -43,7 +43,7 @@ SEEDS = [
     # 126, 
     # 168, 
     # 210, 
-    252, 
+    # 252, 
     # 294, 
     # 336, 
     # 378, 
