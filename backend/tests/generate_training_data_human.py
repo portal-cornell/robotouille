@@ -16,17 +16,20 @@ import time
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
-# On macOS, DISPLAY is unset, which tricks the renderer into headless mode.
-# Pre-set SDL_VIDEODRIVER so the renderer's headless guard doesn't fire.
-if platform.system() == "Darwin" and os.getenv("SDL_VIDEODRIVER") is None:
-    os.environ["SDL_VIDEODRIVER"] = "cocoa"
+# DISPLAY is unset on macOS and Windows, which tricks the renderer into headless
+# mode. Pre-set SDL_VIDEODRIVER so the renderer's headless guard doesn't fire.
+if os.getenv("SDL_VIDEODRIVER") is None:
+    if platform.system() == "Darwin":
+        os.environ["SDL_VIDEODRIVER"] = "cocoa"
+    elif platform.system() == "Windows":
+        os.environ["SDL_VIDEODRIVER"] = "windows"
 
 from agents.human import Human
 from robotouille.robotouille_env import create_robotouille_env
 
 ENVIRONMENTS = [
-    "synchronous/0_cheese_sandwich",
-    # "synchronous/1_lettuce_sandwich",
+    # "synchronous/0_cheese_sandwich",
+    "synchronous/1_lettuce_sandwich",
     # "synchronous/2_lettuce_tomato_sandwich",
     # "synchronous/3_burger",
     # "synchronous/4_cheeseburger",
@@ -43,7 +46,7 @@ SEEDS = [
     # 126, 
     # 168, 
     # 210, 
-    252, 
+    # 252, 
     # 294, 
     # 336, 
     # 378, 

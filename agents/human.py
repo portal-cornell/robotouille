@@ -109,10 +109,7 @@ class Human(Agent):
             return []
         
         # Get the string representation of the action
-        valid_actions, str_valid_actions = env.current_state.get_valid_actions_and_str()
-        matching_valid_action = list(filter(lambda x: x == (action, param_arg_dict), valid_actions))
-        action_idx = valid_actions.index(matching_valid_action[0])
-        matching_str_action = str_valid_actions[action_idx]
+        matching_str_action = action.get_language_description(param_arg_dict)
 
         # Log in-context example format
         pair_num = len(self.chat_history) // 2 + 1

@@ -228,6 +228,30 @@ def _randomly_add_stations(environment_json, stations, players):
                     if not updated_environment_json["stations"]:
                         updated_environment_json["stations"].append(station)
                         continue
+                    # All existing stations are required (FORCE_ADD); find an empty cell rather
+                    # than displacing one of them, which would silently drop a necessary station.
+                    # Use only frozen players (validated positions) so an unplaced player with a
+                    # random position doesn't poison the BFS start cell.
+                    width = updated_environment_json["width"]
+                    height = updated_environment_json["height"]
+                    occupied = {(s["x"], s["y"]) for s in updated_environment_json["stations"]}
+                    frozen_players = [p for p in players if p.get(FROZEN_TAG_NAME)]
+                    placed = False
+                    for x in range(width):
+                        if placed:
+                            break
+                        for y in range(height):
+                            if (x, y) not in occupied:
+                                station["x"], station["y"] = x, y
+                                env_copy = deepcopy(updated_environment_json)
+                                env_copy["stations"].append(deepcopy(station))
+                                env_copy["players"] = frozen_players
+                                if _are_stations_reachable(env_copy):
+                                    updated_environment_json["stations"].append(station)
+                                    placed = True
+                                    break
+                    if placed:
+                        continue
                     replaceable_stations = list(updated_environment_json["stations"])
                 replaceable_station = random.choice(replaceable_stations)
                 replaceable_station_idx = updated_environment_json["stations"].index(replaceable_station)
